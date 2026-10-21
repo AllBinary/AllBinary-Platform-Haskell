@@ -7,7 +7,7 @@ This repo is used to allow developers to skip the Haskell code generation step.
 
 What are some examples game with this Haskell code?
 
-https://allbinary.itch.io (The downloads with "-ts" in the filename are Haskell only builds. Currently that only includes nothing. Also the Haskell builds are not available on Google Play or other stores.)
+https://allbinary.itch.io (The downloads with "-hs" in the filename are Haskell only builds. Currently that only includes nothing. Also the Haskell builds are not available on Google Play or other stores.)
 
 What is the License?
 
