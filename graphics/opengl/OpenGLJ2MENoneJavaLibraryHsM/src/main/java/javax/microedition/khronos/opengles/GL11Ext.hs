@@ -1,0 +1,53 @@
+{-# LANGUAGE OverloadedRecordDot, ScopedTypeVariables, DuplicateRecordFields #-}
+{-# OPTIONS_GHC -fno-cse -fno-full-laziness #-}
+-- Generated Code Do Not Modify
+-- package javax.microedition.khronos.opengles
+module GL11Ext where
+
+import AllBinaryJava
+import Data.IORef
+import Data.Bits
+import Data.Char
+import Data.Int
+import Data.Word
+import Data.List
+import Data.Function (fix)
+import Control.Monad
+import Control.Exception
+import Control.Concurrent (threadDelay)
+import Numeric (showHex)
+import System.IO
+import System.IO.Unsafe (unsafePerformIO)
+import qualified GHC.Float
+import qualified GL
+
+-- Java interface: the classes that implement it have these functions
+data GL11Ext = GL11Ext
+    { header_ :: JavaHeader
+    }
+
+instance JavaNull GL11Ext where
+    javaNull = javaNullRecord "GL11Ext"
+
+instance JavaEquals GL11Ext where
+    javaEquals object object2 = object.header_ == object2.header_
+
+instance Eq GL11Ext where
+    (==) = jrecordEquals
+
+instance JavaObjectClass GL11Ext where
+    jisNull = jrecordIsNull
+    jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
+
+fromHeader_ :: JavaHeader -> GL11Ext
+fromHeader_ header = GL11Ext header
+
+registerInterface_ :: JavaHeader -> IO ()
+registerInterface_ header = do
+    jregisterLevel header (GL11Ext header)
+    GL.registerInterface_ header
+
+toString :: (JavaObjectClass this_) => this_ -> IO (String)
+toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+

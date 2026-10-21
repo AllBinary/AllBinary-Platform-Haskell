@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>AllBinaryPersistenceLibraryPHs</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>AllBinaryPersistenceLibraryPHs</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <properties>
+        <buildLabel>${project.version}</buildLabel>
+        <assemblyPluginVersion>2.2-beta-1</assemblyPluginVersion>
+    </properties>
+
+    <modules>
+        
+        <!--
+        -->
+        <module>../allbinary_src/cache/AllBinaryCacheLibraryHsM</module>
+        <module>../allbinary_src/PermutationsJavaLibraryHsM</module>
+        <module>../allbinary_src/logic/BasePreloaderFileJavaLibraryHsM</module>
+        <module>../allbinary_src/logic/data/file/FileJavaLibraryHsM</module>
+        <module>../allbinary_src/logic/data/file/FileJ2SEJavaLibraryHsM</module>
+        <module>../allbinary_src/data/DataJavaLibraryHsM</module>
+        <module>../allbinary_src/logic/data/file/FileUnamedJavaLibraryHsM</module>
+        <module>../allbinary_src/logic/data/file/FileAdvancedJavaLibraryHsM</module>
+        <module>../allbinary_src/PreLoaderJavaLibraryHsM</module>
+        <module>../allbinary_src/FileInitInfoJavaLibraryHsM</module>
+        <module>../allbinary_src/PreLoaderFileJavaLibraryHsM</module>
+        <module>../allbinary_src/PreLoaderLicenseJavaLibraryHsM</module>
+        <module>../j2me/PCResourceLibraryHsM</module>
+        <module>../j2me/ProgressJ2MEJavaLibraryHsM</module>
+        <module>../allbinary_src/licensing/ClientInfoBaseJavaLibraryHsM</module>
+        <module>../allbinary_src/licensing/RemoteXmlRpcJavaLibraryHsM</module>
+        <module>../allbinary_src/licensing/LicenseClientJavaLibraryHsM</module>
+
+        <!--
+        <module>../allbinary_src/PreLoaderLicenseJavaLibraryHsM</module>
+        -->
+    </modules>
+
+</project>
+

@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.allbinary.animation.transition</groupId>
+  <artifactId>TransitionAnimationJavaLibraryHs</artifactId>
+  <packaging>jar</packaging>
+  <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+  <name>TransitionAnimationJavaLibraryHs</name>
+  <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- GHC install directory. The GHC Windows binary distribution is extracted to %LOCALAPPDATA%/Programs/Haskell -->
+        <ghc.home>${user.home}/AppData/Local/Programs/Haskell/ghc-9.14.1</ghc.home>
+        <ghc.executable>${ghc.home}/bin/ghc</ghc.executable>
+        <runghc.executable>${ghc.home}/bin/runghc</runghc.executable>
+        <!-- ghc -outputdir for the .hi and .o files so mvn clean clears them -->
+        <haskell.output.dir>${project.build.directory}/haskell</haskell.output.dir>
+        <!-- Hand written runtime for generated Haskell code such as the AllBinaryJava module -->
+        <haskell.runtime.source.path>G:/mnt/bc/mydev/workhaskell/j2me/J2SEForHaskellLibraryHsM/src/main/java</haskell.runtime.source.path>
+        <!-- Set to false to continue the Maven build when the generated Haskell does not compile -->
+        <haskell.fail.on.error>true</haskell.fail.on.error>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>LoggingJ2MEAllHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+
+
+
+    </dependencies>
+
+    <build>
+
+        <plugins>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <!-- The GHC version the build uses -->
+                    <execution>
+                        <id>ghc-version</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${ghc.executable}</executable>
+                            <arguments>
+                                <argument>--version</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- build.hs runs ghc make mode on every .hs file in this project and the dependency source directories -->
+                    <execution>
+                        <id>compile-haskell-sources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${runghc.executable}</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>${project.basedir}/build.hs</argument>
+                                <argument>${ghc.executable}</argument>
+                                <argument>${haskell.output.dir}</argument>
+                                <argument>${haskell.fail.on.error}</argument>
+                                <argument>${project.basedir}/src/main/java</argument>
+                                <!-- AllBinary Haskell dependency sources start. Generated by HaskellPOMsGhcBuildUpdater from the pom dependencies nearest first. -->
+                                <argument>${project.basedir}/../../../../logging/LoggingJ2MEAllHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../TempBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../../allbinary_src/LogJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../../allbinary_src/LogHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../CommonJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../J2MEExceptionLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../../replace_these_stub_projects/allbinary_src/J2MEJsInteropCompatibilityJavaLibraryHsM/src/main/java</argument>
+                                <!-- AllBinary Haskell dependency sources end -->
+                                <argument>${haskell.runtime.source.path}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Package the compiled modules with the other language outputs -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-haskell-modules</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/haskell</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${haskell.output.dir}</directory>
+                                    <includes>
+                                        <include>**/*.hi</include>
+                                        <include>**/*.o</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        
+    </build>
+
+</project>
+

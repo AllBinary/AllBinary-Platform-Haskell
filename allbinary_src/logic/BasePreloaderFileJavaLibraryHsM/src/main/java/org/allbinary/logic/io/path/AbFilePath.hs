@@ -1,0 +1,89 @@
+{-# LANGUAGE OverloadedRecordDot, ScopedTypeVariables, DuplicateRecordFields #-}
+{-# OPTIONS_GHC -fno-cse -fno-full-laziness #-}
+--
+-- AllBinary Open License Version 1
+-- Copyright (c) 2011 AllBinary
+-- 
+-- By agreeing to this license you and any business entity you represent are
+-- legally bound to the AllBinary Open License Version 1 legal agreement.
+-- 
+-- You may obtain the AllBinary Open License Version 1 legal agreement from
+-- AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+-- 
+-- Created By: Travis Berthelot
+--  
+-- Generated Code Do Not Modify
+-- package org.allbinary.logic.io.path
+module AbFilePath (module AbFilePath, module AbPath) where
+
+import AbPath hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9)
+import AllBinaryJava
+import Data.IORef
+import Data.Bits
+import Data.Char
+import Data.Int
+import Data.Word
+import Data.List
+import Data.Function (fix)
+import Control.Monad
+import Control.Exception
+import Control.Concurrent (threadDelay)
+import Numeric (showHex)
+import System.IO
+import System.IO.Unsafe (unsafePerformIO)
+import qualified GHC.Float
+import qualified AbPathData -- same package or java.lang
+import qualified PathUtil -- same package or java.lang
+import qualified StringUtil -- org.allbinary.logic.string.StringUtil
+import qualified AbPath
+
+data AbFilePath = AbFilePath
+    { header_ :: JavaHeader
+    , base :: AbPath.AbPath
+    }
+
+instance JavaNull AbFilePath where
+    javaNull = javaNullRecord "AbFilePath"
+
+instance JavaEquals AbFilePath where
+    javaEquals object object2 = object.header_ == object2.header_
+
+instance Eq AbFilePath where
+    (==) = jrecordEquals
+
+instance JavaObjectClass AbFilePath where
+    jisNull = jrecordIsNull
+    jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
+
+newRecord_ :: IO AbFilePath
+newRecord_ = do
+    base <- AbPath.newRecord_
+    let header_ = base.header_
+    let this = AbFilePath header_ base
+    jregisterLevel header_ this
+    pure this
+
+initFields_ :: AbFilePath -> IO ()
+initFields_ this = do
+    pure ()
+
+new_1 :: String -> IO AbFilePath
+new_1 aPath = do
+    this <- newRecord_
+    init_1 this aPath
+    pure this
+
+init_1 :: AbFilePath -> String -> IO ()
+init_1 this aPath = do
+        AbPath.init_2 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)
+        initFields_ this
+        pure () -- super(...) is in the record above
+        pathData <- (AbPathData.getInstance)
+        abPathUtil <- (PathUtil.getInstance)
+        assignedValue <- (AbPath.getSchema this aPath)
+        jset (this).base.schema (assignedValue)
+        Control.Monad.void (AbPath.setName this (jio (AbPathData.getNameFromPath pathData aPath)))
+        Control.Monad.void (AbPath.setPath this (jio (PathUtil.adjust abPathUtil (jio (AbPath.getPathFromPath this (jio (AbPath.toString ((jio (PathUtil.removeNameFromPath abPathUtil aPath))))))))))
+        pure ()
+
+

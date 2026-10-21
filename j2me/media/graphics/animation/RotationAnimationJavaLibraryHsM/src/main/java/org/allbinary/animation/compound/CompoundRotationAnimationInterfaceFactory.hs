@@ -1,0 +1,112 @@
+{-# LANGUAGE OverloadedRecordDot, ScopedTypeVariables, DuplicateRecordFields #-}
+{-# OPTIONS_GHC -fno-cse -fno-full-laziness #-}
+--
+-- AllBinary Open License Version 1
+-- Copyright (c) 2011 AllBinary
+-- 
+-- By agreeing to this license you and any business entity you represent are
+-- legally bound to the AllBinary Open License Version 1 legal agreement.
+-- 
+-- You may obtain the AllBinary Open License Version 1 legal agreement from
+-- AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+-- 
+-- Created By: Travis Berthelot
+--  
+-- Generated Code Do Not Modify
+-- package org.allbinary.animation.compound
+module CompoundRotationAnimationInterfaceFactory (module CompoundRotationAnimationInterfaceFactory, module CompoundAnimationInterfaceFactory) where
+
+import CompoundAnimationInterfaceFactory hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createArray, createArray_super, createArray_impl, createAnimation, createAnimation_super, createAnimation_impl)
+import AllBinaryJava
+import Data.IORef
+import Data.Bits
+import Data.Char
+import Data.Int
+import Data.Word
+import Data.List
+import Data.Function (fix)
+import Control.Monad
+import Control.Exception
+import Control.Concurrent (threadDelay)
+import Numeric (showHex)
+import System.IO
+import System.IO.Unsafe (unsafePerformIO)
+import qualified GHC.Float
+import qualified CompoundRotationAnimation -- same package or java.lang
+import qualified Animation -- org.allbinary.animation.Animation
+import qualified AnimationBehaviorFactory -- org.allbinary.animation.AnimationBehaviorFactory
+import qualified AnimationInterfaceFactoryInterface -- org.allbinary.animation.AnimationInterfaceFactoryInterface
+import qualified RotationAnimation -- org.allbinary.animation.RotationAnimation
+import qualified ForcedLogUtil -- org.allbinary.logic.communication.log.ForcedLogUtil
+import qualified CompoundAnimationInterfaceFactory
+
+data CompoundRotationAnimationInterfaceFactory = CompoundRotationAnimationInterfaceFactory
+    { header_ :: JavaHeader
+    , base :: CompoundAnimationInterfaceFactory.CompoundAnimationInterfaceFactory
+    }
+
+instance JavaNull CompoundRotationAnimationInterfaceFactory where
+    javaNull = javaNullRecord "CompoundRotationAnimationInterfaceFactory"
+
+instance JavaEquals CompoundRotationAnimationInterfaceFactory where
+    javaEquals object object2 = object.header_ == object2.header_
+
+instance Eq CompoundRotationAnimationInterfaceFactory where
+    (==) = jrecordEquals
+
+instance JavaObjectClass CompoundRotationAnimationInterfaceFactory where
+    jisNull = jrecordIsNull
+    jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
+
+newRecord_ :: IO CompoundRotationAnimationInterfaceFactory
+newRecord_ = do
+    base <- CompoundAnimationInterfaceFactory.newRecord_
+    let header_ = base.header_
+    let this = CompoundRotationAnimationInterfaceFactory header_ base
+    jregisterLevel header_ this
+    jregisterMethod header_ "createArray" (\() -> createArray_impl this)
+    jregisterMethod header_ "createAnimation" (\() -> createAnimation_impl this)
+    pure this
+
+initFields_ :: CompoundRotationAnimationInterfaceFactory -> IO ()
+initFields_ this = do
+    pure ()
+
+new_2 :: JavaArray (AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) -> AnimationBehaviorFactory.AnimationBehaviorFactory -> IO CompoundRotationAnimationInterfaceFactory
+new_2 basicAnimationInterfaceFactoryInterfaceArray animationBehaviorFactory = do
+    this <- newRecord_
+    init_2 this basicAnimationInterfaceFactoryInterfaceArray animationBehaviorFactory
+    pure this
+
+init_2 :: CompoundRotationAnimationInterfaceFactory -> JavaArray (AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) -> AnimationBehaviorFactory.AnimationBehaviorFactory -> IO ()
+init_2 this basicAnimationInterfaceFactoryInterfaceArray animationBehaviorFactory = do
+        CompoundAnimationInterfaceFactory.init_2 this.base (basicAnimationInterfaceFactoryInterfaceArray) (animationBehaviorFactory)
+        initFields_ this
+        pure () -- super(...) is in the record above
+        when (animationBehaviorFactory == (jio (AnimationBehaviorFactory.getInstance))) $ do
+            Control.Monad.void (ForcedLogUtil.log "Using default AnimationBehaviorFactory with IndexedAnimationFactory" this)
+        pure ()
+
+
+createArray :: (JavaObjectClass this_) => this_ -> Int -> IO (JavaArray (Animation.Animation))
+createArray object_ a1 = jmethod object_ "createArray" (\() -> (createArray_impl (javaCast object_ :: CompoundRotationAnimationInterfaceFactory))) () a1
+
+createArray_super :: (JavaObjectClass this_) => this_ -> Int -> IO (JavaArray (Animation.Animation))
+createArray_super object_ a1 = (createArray_impl (javaCast object_ :: CompoundRotationAnimationInterfaceFactory)) a1
+
+createArray_impl :: CompoundRotationAnimationInterfaceFactory -> Int -> IO (JavaArray (Animation.Animation))
+createArray_impl this size = do
+        pure ((jnewArray (size) javaNull))
+
+
+createAnimation :: (JavaObjectClass this_) => this_ -> JavaArray (Animation.Animation) -> IO (Animation.Animation)
+createAnimation object_ a1 = jmethod object_ "createAnimation" (\() -> (createAnimation_impl (javaCast object_ :: CompoundRotationAnimationInterfaceFactory))) () a1
+
+createAnimation_super :: (JavaObjectClass this_) => this_ -> JavaArray (Animation.Animation) -> IO (Animation.Animation)
+createAnimation_super object_ a1 = (createAnimation_impl (javaCast object_ :: CompoundRotationAnimationInterfaceFactory)) a1
+
+createAnimation_impl :: CompoundRotationAnimationInterfaceFactory -> JavaArray (Animation.Animation) -> IO (Animation.Animation)
+createAnimation_impl this animationInterfaceArray = do
+        (fmap (\value_ -> javaCast value_ :: Animation.Animation) (CompoundRotationAnimation.new_2 (javaCast animationInterfaceArray :: JavaArray (RotationAnimation.RotationAnimation)) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))
+
+

@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary.business</groupId>
+    <artifactId>BlisketJavaLibraryPHs</artifactId>
+    <packaging>pom</packaging>
+    <!-- AllBinary Platform Version Start -->
+    <version>1.0.0-SNAPSHOT</version>
+    <!-- AllBinary Platform Version End -->
+
+    <name>BlisketJavaLibraryPHs</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+    
+    <modules>
+
+        <!--
+        <module>../../j2me/AllBinaryJ2MELibraryP</module>
+        -->
+        <!--
+        <module>../data/DataJavaLibraryHsM</module>
+        -->
+
+        <module>../licensing/TestServiceClientInfoJavaLibraryHsM</module>        
+
+        <module>../data/DataTableInterfacesHsM</module>
+        
+        <module>../QueueJavaLibraryHsM</module>
+        
+        <!--
+        <module>../TokenizerJavaLibraryHsM</module>
+        -->
+
+        <module>../logging/LogConfigTypeFreeblisketJavaLibraryHsM</module>
+
+        <module>../JavaUtilLibraryHsM</module>
+        <module>../NullInitInfoJavaLibraryHsM</module>        
+        <module>../InitInfoJavaLibraryHsM</module>
+        <module>../PreLoaderHttpJavaLibraryHsM</module>
+        
+        <module>../TagsBaseJavaLibraryHsM</module>
+        <module>../CustomLoaderJavaLibraryHsM</module>
+        
+        <!--
+        <module>../logic/data/file/FileJ2SEJavaLibraryHsM</module>
+        <module>../logic/data/file/FileJavaLibraryHsM</module>
+        -->
+
+        <module>../data/SQLAllBinaryJavaLibraryHsM</module>
+
+        <!--
+        <module>../licensing/FileLicenseInitInfoJavaLibraryHsM</module>
+        -->
+
+        <module>../DocumentObjectModelJavaLibraryHsM</module>
+
+        <module>../VisualStyleJavaLibraryHsM</module>
+
+        <module>../ConfigurationJavaLibraryHsM</module>
+
+        <module>../VisualTransformBaseJavaLibraryHsM</module>
+
+        <module>../CategoryBaseJavaLibraryHsM</module>
+        <module>../CategoryJavaLibraryHsM</module>
+
+        <module>../UserJavaLibraryHsM</module>
+
+        <module>../PaymentGatewayBaseJavaLibraryHsM</module>
+
+        <module>../data/vo/EntitiesBlisketVOJavaLibraryHsM</module>
+        <module>../PaymentGatewayJavaLibraryHsM</module>
+        <module>../data/vo/EntitiesOrderHistoryVOJavaLibraryHsM</module>
+        <module>../data/vo/EntityPaymentGatewayVOJavaLibraryHsM</module>
+        <module>../data/vo/EntityStoreFrontVOJavaLibraryHsM</module>
+
+        <module>../data/EntitiesBlisketBaseInterfacesJavaLibraryHsM</module>
+        <module>../data/EntitiesBlisketBaseJavaLibraryHsM</module>
+        
+        <module>../data/EntitiesAdvertisementBaseJavaLibraryHsM</module>
+        <module>../data/EntityOrderHistoryJavaLibraryHsM</module>
+        <module>../data/EntityPaymentGatewayJavaLibraryHsM</module>
+        <module>../data/EntityVisualTransformJavaLibraryHsM</module>
+        <module>../data/EntityUserJavaLibraryHsM</module>
+        <module>../data/EntityWorkflowJavaLibraryHsM</module>
+
+        <module>../SMTPConfigurationJavaLibraryHsM</module>
+        <module>../SMTPBaseJavaLibraryHsM</module>
+
+        <module>../VisualTransformJavaLibraryHsM</module>
+
+        <module>../../replace_these_stub_projects/allbinary_src/YourRuntimeEnvironmentJavaLibraryHsM</module>
+        <module>../GatewayJavaLibraryHsM</module>
+        
+        <module>../WorkflowBaseJavaLibraryHsM</module>
+        <module>../WorkflowJavaLibraryHsM</module>
+
+        <module>../IdGeneratorUsingFilesJavaLibraryHsM</module>
+        <module>../BlisketPreVOJavaLibraryHsM</module>
+
+        <!-- 
+        EntitiesOrderHistoryVOJavaLibrary
+        UserJavaLibrary
+        -->
+        
+        <module>../BlisketVOJavaLibraryHsM</module>
+
+        <module>../UserCommerceJavaLibraryHsM</module>
+
+        <module>../CustomizerValidatorsJavaLibraryHsM</module>
+
+        <!-- 
+        AllBinaryCacheForShiftOneJavaLibrary
+        AllBinaryJSECacheJavaLibrary
+        ColorJavaLibrary
+        ImageJavaLibrary
+        -->
+        
+        <module>../logic/data/file/FileMediaJ2SEJavaLibraryHsM</module>
+        <module>../BlisketBaseJavaLibraryHsM</module>
+
+        <module>../logging/LoggingGAEAllHsM</module>
+        <module>../BlisketJavaLibraryHsM</module>
+        
+    </modules>
+
+</project>
+

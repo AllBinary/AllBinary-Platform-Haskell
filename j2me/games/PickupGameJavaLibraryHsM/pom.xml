@@ -1,0 +1,388 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.allbinary</groupId>
+    <artifactId>PickupGameJavaLibraryHs</artifactId>
+    <packaging>jar</packaging>
+    <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+    <name>PickupGameJavaLibraryHs</name>
+    <url>http://www.allbinary.com/</url>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>AllBinary Snapshots Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>AllBinary Releases Nexus</name>
+            <url>https://nexus-allbinary.rhcloud.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- GHC install directory. The GHC Windows binary distribution is extracted to %LOCALAPPDATA%/Programs/Haskell -->
+        <ghc.home>${user.home}/AppData/Local/Programs/Haskell/ghc-9.14.1</ghc.home>
+        <ghc.executable>${ghc.home}/bin/ghc</ghc.executable>
+        <runghc.executable>${ghc.home}/bin/runghc</runghc.executable>
+        <!-- ghc -outputdir for the .hi and .o files so mvn clean clears them -->
+        <haskell.output.dir>${project.build.directory}/haskell</haskell.output.dir>
+        <!-- Hand written runtime for generated Haskell code such as the AllBinaryJava module -->
+        <haskell.runtime.source.path>G:/mnt/bc/mydev/workhaskell/j2me/J2SEForHaskellLibraryHsM/src/main/java</haskell.runtime.source.path>
+        <!-- Set to false to continue the Maven build when the generated Haskell does not compile -->
+        <haskell.fail.on.error>true</haskell.fail.on.error>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>LoggingJ2MEAllHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>LogJ2MEJavaLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>OpenGLNoneJavaLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>OpenGLNoneOtherJavaLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>AnimationLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>CollisionLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>AllBinaryJ2MELibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>GroupLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>J2MEUtilJavaLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+        <dependency>
+            <groupId>org.allbinary</groupId>
+            <artifactId>BasicMathLibraryHs</artifactId>
+            <!-- AllBinary Platform Version Start -->
+            <version>1.0.0-SNAPSHOT</version>
+            <!-- AllBinary Platform Version End -->
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.microemu</groupId>
+            <artifactId>microemu-midpHs</artifactId>
+            <version>2.0.4</version>
+            <optional>true</optional>
+        </dependency>
+        <!--
+        Public microemu
+        <dependency>
+            <groupId>org.microemu</groupId>
+            <artifactId>microemu-midpHs</artifactId>
+            <version>2.0.4</version>
+            <optional>true</optional>
+        </dependency>
+        Custom microemu
+        <dependency>
+            <groupId>org.microemu</groupId>
+            <artifactId>microemu-midpHs</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+        -->
+
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <!-- The GHC version the build uses -->
+                    <execution>
+                        <id>ghc-version</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${ghc.executable}</executable>
+                            <arguments>
+                                <argument>--version</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- build.hs runs ghc make mode on every .hs file in this project and the dependency source directories -->
+                    <execution>
+                        <id>compile-haskell-sources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${runghc.executable}</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>${project.basedir}/build.hs</argument>
+                                <argument>${ghc.executable}</argument>
+                                <argument>${haskell.output.dir}</argument>
+                                <argument>${haskell.fail.on.error}</argument>
+                                <argument>${project.basedir}/src/main/java</argument>
+                                <!-- AllBinary Haskell dependency sources start. Generated by HaskellPOMsGhcBuildUpdater from the pom dependencies nearest first. -->
+                                <argument>${project.basedir}/../../logging/LoggingJ2MEAllHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/LogJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLNoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLNoneOtherJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/animation/AnimationLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../CollisionLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../AllBinaryJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../GroupLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2MEUtilJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../lib/BasicMathLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-midp/src/main/java</argument>
+                                <argument>${project.basedir}/../../TempBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/LogHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../CommonJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2MEExceptionLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/ImageCacheJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/NoSystemJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2MEColorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../PreGameJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2SEForJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameConfigurationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-extensions/microemu-jsr-135/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/layer/AllBinaryLayerJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../statistics/ApplicationStatisticsJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../NullJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/licensing/ClientInfoBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/ThreadLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/ThreadJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/sound/SoundJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/allbinary_src_designpatterns_srcHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/logic/BasePreloaderJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../lib/TrigBaseLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../time/TimeJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../statistics/ApplicationStatisticsJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../EventJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/geography/map/GraphBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../replace_these_stub_projects/allbinary_src/J2MEJsInteropCompatibilityJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/LogNoPlatformJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../lib/BaseMathLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../logging/LoggingJ2MEExceptionHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-cldc/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/FormJMEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2MEWindowingJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLESJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../workhaskell/j2me/android/AndroidToNullLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../AndroidResourceLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../J2MEForJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../replace_these_stub_projects/allbinary_src/J2MEOnlyJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/GameResourceNoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../DebugJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/ImageCacheBaseJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../PCResourceLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/NoHardwareJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/BaseHardwareJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/BaseOperatingSystemJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/NullCustomUIPreJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../ScreenCaptureJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/LogJ2SEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../TempJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLESBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameConfigurationJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../licensing/GameLicensingNullJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../business/advertisement/AdvertisementClientNoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../ScreenCaptureNoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../ProgressJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/NullCustomUIJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameScoresBaseJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameNotificationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../licensing/GameLicensingOnlyDemoJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/NoSensorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../FullScreenNoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/TouchButtonBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/NoTouchButtonJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/sound/NotDeviceSpecificNoMediaMIDP1LibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameInputPersistanceLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/AllBinaryGyroSensorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/NoSWTJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameScoresBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../lib/TrigJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../game/behavior/ArtificialIntelligenceLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameInputLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameIntermissionLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/AllBinarySensorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameConfigurationFormJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameSoundsJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/animation/AnimationResourceJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../GameResourceJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/animation/GameAnimationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/MediaDataHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/BaseSystemJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../replace_these_stub_projects/allbinary_src/NoneOnlyJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/sound/NoPlayerJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/sound/BasicPlayerJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/cache/BaseCacheJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../AllBinary-Platform-Integrationhaskell/embedded/j2me/microemulator/3.0.0/microemulator/microemu-javase/microemu-javase-null/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/FormBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/ImageCacheOpenGLESJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/TokenizerJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLESNullImageJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/Min3dForNullJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLESFileConfigurationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../AllBinary-Platform-Integrationhaskell/embedded/j2me/microemulator/custom/MicroEmulatorCustomJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/logic/BasePreloaderFileJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../android/VirtualKeyboardJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/hardware/AndroidSystemJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-midp/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/logic/data/file/FileJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/J2SEExceptionLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../business/advertisement/AllBinaryAdvertisementClientJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../replace_these_stub_projects/security/YourSecurityJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../store/NoThirdPartyStoreJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../input/NoGyroSensorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/SWTWithoutJOGLJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../lib/VectorThreeDimensionalLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/geography/map/LayerPlacementLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/animation/RotationAnimationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/FormValidationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/FormJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../graphics/opengl/OpenGLJ2MENoneJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../media/graphics/animation/image/ImageJ2MEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../AllBinary-Platform-Integrationhaskell/graphics/opengl/min3d/Min3dBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/logic/data/file/FileJ2SEJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-cldc/src/main/java</argument>
+                                <argument>${project.basedir}/../../../store/ThirdPartyStoreJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/licensing/ClientInfoLicensingJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/licensing/FileLicenseInitInfoJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/logic/BasePreloaderJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/data/BaseDataJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/security/BasicSecurityJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../allbinary_src/security/SimpleCryptLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../replace_these_stub_projects/communication/YourXmlRpcJavaLibraryHsM/src/main/java</argument>
+                                <!-- AllBinary Haskell dependency sources end -->
+                                <argument>${haskell.runtime.source.path}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Package the compiled modules with the other language outputs -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-haskell-modules</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/haskell</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${haskell.output.dir}</directory>
+                                    <includes>
+                                        <include>**/*.hi</include>
+                                        <include>**/*.o</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>
+
+
