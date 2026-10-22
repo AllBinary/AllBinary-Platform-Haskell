@@ -155,8 +155,8 @@ toXmlNode_impl this document = do
             pure (javaNull)
             ) $ do
             shippingMethodNode <- (Document.createElement document (ShippingMethodData.nAME))
-            Control.Monad.void (Node.appendChild shippingMethodNode (jio (ModDomHelper.createNameValueNodes document (ShippingMethodData.nAME) (jio (PickUpShippingModule.getName this)))))
-            Control.Monad.void (Node.appendChild shippingMethodNode (jio (ModDomHelper.createNameValueNodes document (ShippingMethodData.dESCRIPTION) (jio (PickUpShippingModule.getDescription this)))))
+            Control.Monad.void (Node.appendChild shippingMethodNode (jio (ModDomHelper.createNameValueNodes_3 document (ShippingMethodData.nAME) (jio (PickUpShippingModule.getName this)))))
+            Control.Monad.void (Node.appendChild shippingMethodNode (jio (ModDomHelper.createNameValueNodes_3 document (ShippingMethodData.dESCRIPTION) (jio (PickUpShippingModule.getDescription this)))))
             pure (shippingMethodNode)
 
 

@@ -88,7 +88,7 @@ newRecord_ = do
     jregisterMethod header_ "getAttempts" (\() -> getAttempts_impl this)
     jregisterMethod header_ "getTimeout" (\() -> getTimeout_impl this)
     jregisterMethod header_ "getStoreName" (\() -> getStoreName_impl this)
-    jregisterMethod header_ "setAuthenticated" (\() -> setAuthenticated_impl this)
+    jregisterMethod header_ "setAuthenticated_1" (\() -> setAuthenticated_1_impl this)
     jregisterMethod header_ "clear" (\() -> clear_impl this)
     jregisterMethod header_ "getCreationTime" (\() -> getCreationTime_impl this)
     jregisterMethod header_ "getLastAccessedTime" (\() -> getLastAccessedTime_impl this)
@@ -311,15 +311,14 @@ getStoreName_impl this = do
         pure ((javaCast (jio (HttpSession.getAttribute ((jget (this).session)) (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
 
 
--- Java overload of setAuthenticated with a different parameter count: give it a different name
-setAuthenticated :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
-setAuthenticated object_ a1 = jmethod object_ "setAuthenticated" (\() -> (setAuthenticated_impl (javaCast object_ :: BasicWeblisketSession))) () a1
+setAuthenticated_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setAuthenticated_1 object_ a1 = jmethod object_ "setAuthenticated_1" (\() -> (setAuthenticated_1_impl (javaCast object_ :: BasicWeblisketSession))) () a1
 
-setAuthenticated_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
-setAuthenticated_super object_ a1 = (setAuthenticated_impl (javaCast object_ :: BasicWeblisketSession)) a1
+setAuthenticated_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setAuthenticated_1_super object_ a1 = (setAuthenticated_1_impl (javaCast object_ :: BasicWeblisketSession)) a1
 
-setAuthenticated_impl :: BasicWeblisketSession -> Bool -> IO (())
-setAuthenticated_impl this value = do
+setAuthenticated_1_impl :: BasicWeblisketSession -> Bool -> IO (())
+setAuthenticated_1_impl this value = do
         Control.Monad.void (HttpSession.setAttribute ((jget (this).session)) (WeblisketSessionData.aUTHENTICATED) (jget ((jio (BooleanFactory.getInstance))).fALSE_STRING))
         pure ()
 

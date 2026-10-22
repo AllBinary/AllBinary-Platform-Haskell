@@ -131,8 +131,8 @@ processRelease_impl :: TouchButtonRecognizer -> TouchButtonInput.TouchButtonInpu
 processRelease_impl this touchButtonInput deviceId = do
         Control.Monad.void (ReleaseHelper.release ((jget (this).releaseHelper)) touchButtonInput deviceId)
         gameKeyEvent <- (TouchButtonInput.getGameKeyEvent touchButtonInput)
-        Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) gameKeyEvent)
-        Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) gameKeyEvent)
+        Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) (javaCast gameKeyEvent))
+        Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
         Control.Monad.void (CurrentlyPressedTouchButtonSingleton.remove ((jget (this).currentlyPressedTouchButtonSingleton)) touchButtonInput)
         pure ()
 
@@ -202,8 +202,8 @@ pressTouchButtonInput_impl this x y deviceId = do
                     Control.Monad.void (CurrentlyPressedTouchButtonSingleton.add ((jget (this).currentlyPressedTouchButtonSingleton)) (jget touchButtonInput))
                     assignedValue <- (TouchButtonInput.getGameKeyEvent ((jget touchButtonInput)))
                     jset gameKeyEvent (assignedValue)
-                    Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) (jget gameKeyEvent))
-                    Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) (jget gameKeyEvent))
+                    Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) (javaCast (jget gameKeyEvent)))
+                    Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) (javaCast (jget gameKeyEvent)))
                 javaReturn (True)
         pure (False)
 

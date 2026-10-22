@@ -114,7 +114,7 @@ initSpecialPaint_super object_ a1 = (initSpecialPaint_impl (javaCast object_ :: 
 
 initSpecialPaint_impl :: InGameMenuBehavior -> AllBinaryGameCanvas.AllBinaryGameCanvas -> IO (())
 initSpecialPaint_impl this allBinaryGameCanvas = do
-        Control.Monad.void (AllBinaryGameCanvas.setNonBotPaintableP allBinaryGameCanvas (jio (GameCanvasNonBotPaintable.new_1 allBinaryGameCanvas)))
+        Control.Monad.void (AllBinaryGameCanvas.setNonBotPaintableP allBinaryGameCanvas (javaCast (jio (GameCanvasNonBotPaintable.new_1 allBinaryGameCanvas))))
         pure ()
 
 

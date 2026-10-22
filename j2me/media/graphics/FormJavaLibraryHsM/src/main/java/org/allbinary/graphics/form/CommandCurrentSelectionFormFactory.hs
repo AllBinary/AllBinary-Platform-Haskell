@@ -87,7 +87,7 @@ init_ this = do
 getInstance :: String -> JavaArray (ABCustomItem.ABCustomItem) -> Rectangle.Rectangle -> FormType.FormType -> Int -> Bool -> BasicColor.BasicColor -> BasicColor.BasicColor -> IO (ScrollSelectionForm.ScrollSelectionForm)
 getInstance title items rectangle formType border moveForSmallScreen backgroundBasicColor foregroundBasicColor = do
     javaCatchReturn $ do
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (TouchFeatureFactory.getInstance))).tOUCH_ENABLED))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (TouchFeatureFactory.getInstance))).tOUCH_ENABLED)))) then do
             scrollSelectionForm <- (fmap (\value_ -> javaCast value_ :: ScrollSelectionForm.ScrollSelectionForm) (CommandCurrentSelectionForm.new_6 title items border moveForSmallScreen backgroundBasicColor foregroundBasicColor))
             Control.Monad.void (ScrollSelectionForm.init scrollSelectionForm rectangle formType)
             javaReturn (scrollSelectionForm)

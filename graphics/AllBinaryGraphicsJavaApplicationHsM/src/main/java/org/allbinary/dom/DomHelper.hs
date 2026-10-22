@@ -74,7 +74,7 @@ newRecord_ = do
     let this = DomHelper header_ logUtil
     jregisterLevel header_ this
     jregisterMethod header_ "createDocument" (\() -> createDocument_impl this)
-    jregisterMethod header_ "createDocument" (\() -> createDocument_impl this)
+    jregisterMethod header_ "createDocument_1" (\() -> createDocument_1_impl this)
     jregisterMethod header_ "toString" (\() -> toString_impl this)
     jregisterMethod header_ "save" (\() -> save_impl this)
     jregisterMethod header_ "getChildNodeList" (\() -> getChildNodeList_impl this)
@@ -125,15 +125,14 @@ createDocument_impl this = do
 
 
 -- throws Exception
--- Java overload of createDocument with a different parameter count: give it a different name
-createDocument :: (JavaObjectClass this_) => this_ -> File.File -> IO (Document.Document)
-createDocument object_ a1 = jmethod object_ "createDocument" (\() -> (createDocument_impl (javaCast object_ :: DomHelper))) () a1
+createDocument_1 :: (JavaObjectClass this_) => this_ -> File.File -> IO (Document.Document)
+createDocument_1 object_ a1 = jmethod object_ "createDocument_1" (\() -> (createDocument_1_impl (javaCast object_ :: DomHelper))) () a1
 
-createDocument_super :: (JavaObjectClass this_) => this_ -> File.File -> IO (Document.Document)
-createDocument_super object_ a1 = (createDocument_impl (javaCast object_ :: DomHelper)) a1
+createDocument_1_super :: (JavaObjectClass this_) => this_ -> File.File -> IO (Document.Document)
+createDocument_1_super object_ a1 = (createDocument_1_impl (javaCast object_ :: DomHelper)) a1
 
-createDocument_impl :: DomHelper -> File.File -> IO (Document.Document)
-createDocument_impl this xmlFile = do
+createDocument_1_impl :: DomHelper -> File.File -> IO (Document.Document)
+createDocument_1_impl this xmlFile = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do

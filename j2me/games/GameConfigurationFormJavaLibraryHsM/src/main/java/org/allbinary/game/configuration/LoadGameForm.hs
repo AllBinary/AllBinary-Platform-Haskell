@@ -141,7 +141,7 @@ update_impl this = do
             Control.Monad.void (LoadGameForm.add this list "Select A Saved Game" (Choice.eXCLUSIVE))
             jset (this).areChoices (True)
         else do
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this (jio (StringItem.new_3 "No Saved Games" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Item.pLAIN))))
+            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (StringItem.new_3 "No Saved Games" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Item.pLAIN)))))
             jset (this).areChoices (False)
         Control.Monad.void (CommandForm.update_super this.base)
         pure ()
@@ -158,7 +158,7 @@ add_impl this list name option = do
         choiceGroup <- (LoadGameForm.getChoiceGroup this list name option)
         when ((jio (BasicArrayList.size list)) > 0) $ do
             Control.Monad.void (ChoiceGroup.setSelectedIndex choiceGroup 0 True)
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this choiceGroup)
+        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
         pure ()
 
 

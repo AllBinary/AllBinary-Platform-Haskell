@@ -77,7 +77,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = StylesValidationFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
+    jregisterMethod header_ "getInstance_1_overload1" (\() -> getInstance_1_overload1_impl this)
     pure this
 
 initFields_ :: StylesValidationFactory -> IO ()
@@ -104,22 +104,21 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (BasicArrayList.BasicArrayList)
-getInstance this a1
-    | jisInstanceOf a1 (javaNull :: Document.Document) = getInstance_overload1 this (javaCast a1 :: Document.Document)
-    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = getInstance_overload2 this (javaCast a1 :: HashMap.HashMap)
-    | otherwise = getInstance_overload2 this (javaCast a1 :: HashMap.HashMap)
+getInstance_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (BasicArrayList.BasicArrayList)
+getInstance_1 this a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = getInstance_1_overload1 this (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = getInstance_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = getInstance_1_overload2 this (javaCast a1 :: HashMap.HashMap)
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload1 object_ a1 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: StylesValidationFactory))) () a1
+getInstance_1_overload1 :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (BasicArrayList.BasicArrayList)
+getInstance_1_overload1 object_ a1 = jmethod object_ "getInstance_1_overload1" (\() -> (getInstance_1_overload1_impl (javaCast object_ :: StylesValidationFactory))) () a1
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload1_super object_ a1 = (getInstance_overload1_impl (javaCast object_ :: StylesValidationFactory)) a1
+getInstance_1_overload1_super :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (BasicArrayList.BasicArrayList)
+getInstance_1_overload1_super object_ a1 = (getInstance_1_overload1_impl (javaCast object_ :: StylesValidationFactory)) a1
 
-getInstance_overload1_impl :: StylesValidationFactory -> Document.Document -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload1_impl this document = do
+getInstance_1_overload1_impl :: StylesValidationFactory -> Document.Document -> IO (BasicArrayList.BasicArrayList)
+getInstance_1_overload1_impl this document = do
     javaCatchReturn $ do
         commonStrings <- (CommonStrings.getInstance)
         nodeList <- (Document.getElementsByTagName document (jget ((jio (StylesData.getInstance))).nAME))
@@ -144,10 +143,9 @@ getInstance_overload1_impl this document = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: HashMap.HashMap -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload2 hashMap = do
+getInstance_1_overload2 :: HashMap.HashMap -> IO (BasicArrayList.BasicArrayList)
+getInstance_1_overload2 hashMap = do
         let stylesDocument = (javaCast (jio (HashMap.get hashMap (NameSpaceRequestParamData.dOCUMENT))) :: Document.Document)
-        (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (StylesValidationFactory.getInstance ((jio (StylesValidationFactory.getInstance))) stylesDocument))
+        (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (StylesValidationFactory.getInstance_1 ((jio (StylesValidationFactory.getInstance))) stylesDocument))
 
 

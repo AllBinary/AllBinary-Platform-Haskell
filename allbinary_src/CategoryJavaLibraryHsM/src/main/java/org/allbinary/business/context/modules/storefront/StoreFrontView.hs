@@ -114,7 +114,7 @@ toXmlNode_impl this document = do
         Control.Monad.void (HashMap.put hashMap (jget (storeFrontData).cURRENTHOSTNAME) (jio (StoreFrontInterface.getCurrentHostName ((jget (this).storeFrontInterface)))))
         Control.Monad.void (HashMap.put hashMap (jget (storeFrontData).cURRENTHOSTNAMEPATH) (jio (StoreFrontInterface.getCurrentHostNamePath ((jget (this).storeFrontInterface)))))
         Control.Monad.void (HashMap.put hashMap (BasketData.nAME) (jio (StoreFrontInterface.getBasketName ((jget (this).storeFrontInterface)))))
-        node <- (ModDomHelper.createNameValueNodes document (jget (storeFrontData).nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget (storeFrontData).nAME) hashMap)
         pure (node)
 
 

@@ -145,7 +145,7 @@ put_impl :: LogUtil -> String -> JavaObject -> String -> JavaObject -> IO (())
 put_impl this specialMessage anyTypeObject_ functionName exceptionObject_ = do
         let anyType = jtoObject anyTypeObject_
         let exception = jtoObject exceptionObject_
-        Control.Monad.void (FileLog.put specialMessage anyType functionName (javaCast exception :: JavaException))
+        Control.Monad.void (FileLog.put_4 specialMessage anyType functionName (javaCast exception :: JavaException))
         pure ()
 
 

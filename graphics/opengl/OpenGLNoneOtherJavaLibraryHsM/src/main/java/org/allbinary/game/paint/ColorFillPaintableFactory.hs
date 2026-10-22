@@ -66,7 +66,7 @@ newRecord_ = do
     header_ <- newJavaHeader
     let this = ColorFillPaintableFactory header_
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: ColorFillPaintableFactory -> IO ()
@@ -89,20 +89,19 @@ getInstance = do
         pure (ColorFillPaintableFactory.instance_)
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: ColorFillPaintableFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: ColorFillPaintableFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: ColorFillPaintableFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: ColorFillPaintableFactory)) a1 a2
 
-getInstance_impl :: ColorFillPaintableFactory -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
-getInstance_impl this basicColor forThreedCanvas = do
+getInstance_2_impl :: ColorFillPaintableFactory -> BasicColor.BasicColor -> Bool -> IO (ColorFillBasePaintable.ColorFillBasePaintable)
+getInstance_2_impl this basicColor forThreedCanvas = do
     javaCatchReturn $ do
         operatingSystem <- (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance))))
         if (jio (GenericOperatingSystem.isOverScan operatingSystem)) then do
-            javaReturn =<< (OverScanColorFillPaintable.new_1 basicColor)
+            javaReturn =<< (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (OverScanColorFillPaintable.new_1 basicColor))
         else do
-            javaReturn =<< (ColorFillPaintable.new_1 basicColor)
+            javaReturn =<< (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintable.new_1 basicColor))
 
 

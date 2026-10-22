@@ -65,7 +65,7 @@ newRecord_ = do
     sINGLETON <- newIORef javaNull
     let this = HardwareFactory header_ sINGLETON
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: HardwareFactory -> IO ()
@@ -92,15 +92,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: HardwareFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: HardwareFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: HardwareFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: HardwareFactory)) a1
 
-getInstance_impl :: HardwareFactory -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
-getInstance_impl this os = do
+getInstance_1_impl :: HardwareFactory -> OperatingSystemInterface.OperatingSystemInterface -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_impl this os = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do

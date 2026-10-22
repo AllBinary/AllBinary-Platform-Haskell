@@ -145,7 +145,7 @@ write_impl :: RegistrationConfiguration -> IO (())
 write_impl this = do
         dataOutputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Write Configuration: "))) (jio (RegistrationConfiguration.toString this))))))) this "write")
             fileInputStreamFactory <- (FileStreamFactory.getInstance)

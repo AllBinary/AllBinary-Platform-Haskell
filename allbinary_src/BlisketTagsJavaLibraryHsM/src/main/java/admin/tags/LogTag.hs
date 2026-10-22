@@ -75,8 +75,8 @@ init_ :: LogTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (LogHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (LogHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (LogHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (LogHelperFactory.new_))))
         pure ()
 
 

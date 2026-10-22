@@ -97,7 +97,7 @@ toXmlNode_impl :: UrlGlobalsView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put hashMap (UrlGlobalsData.wEBAPPPATH) (jio (getWebappPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))))
-        node <- (ModDomHelper.createNameValueNodes document (UrlGlobalsData.nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (UrlGlobalsData.nAME) hashMap)
         pure (node)
 
 

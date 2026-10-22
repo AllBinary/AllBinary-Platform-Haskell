@@ -147,8 +147,8 @@ get_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer templateNameOverride)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (RootTransformInfoData.nAME))
-        rootComponentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) (jget this.base.abeClientInformation) (jio (StringMaker.toString stringBuffer)) (jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this))))
-        viewVector <- (GenericStoreTransformInfoObjectConfig.getTransformDomNodes this)
+        rootComponentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget this.base.abeClientInformation) (jio (StringMaker.toString stringBuffer)) (jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this))))
+        viewVector <- (GenericStoreTransformInfoObjectConfig.getTransformDomNodes_0 this)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Root View Called with: " ++ javaToString (jio (BasicArrayList.size viewVector))) this "get(transformInfoInterface)")
         rootView <- newIORef =<< (TransformInterface.view rootComponentInterface)
@@ -158,7 +158,7 @@ get_impl this = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let objectConfigTransformInfoDomNode = (javaCast (jio (BasicArrayList.get viewVector index)) :: TransformInfoDomNode.TransformInfoDomNode)
             templateKey <- (TransformInfoDomNode.getReplaceKey objectConfigTransformInfoDomNode)
-            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) (jget this.base.abeClientInformation) (jio (TransformInfoInterface.getName ((jio (TransformInfoDomNode.getTransformInfoInterface objectConfigTransformInfoDomNode))))) (jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this))))
+            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget this.base.abeClientInformation) (jio (TransformInfoInterface.getName ((jio (TransformInfoDomNode.getTransformInfoInterface objectConfigTransformInfoDomNode))))) (jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this))))
             replacementViewString <- newIORef =<< (TransformInterface.view componentInterface)
             assignedValue <- (DocumentToNode.convertDocumentToNodeString (jget replacementViewString))
             jset replacementViewString (assignedValue)

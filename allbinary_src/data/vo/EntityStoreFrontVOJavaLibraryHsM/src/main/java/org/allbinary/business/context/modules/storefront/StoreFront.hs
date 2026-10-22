@@ -177,7 +177,7 @@ newRecord_ = do
     StoreFrontInterface.registerInterface_ header_
     jregisterMethod header_ "isColumn" (\() -> isColumn_impl this)
     jregisterMethod header_ "createPath" (\() -> createPath_impl this)
-    jregisterMethod header_ "createPath" (\() -> createPath_impl this)
+    jregisterMethod header_ "createPath_3" (\() -> createPath_3_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
     jregisterMethod header_ "create" (\() -> create_impl this)
     jregisterMethod header_ "getFormData" (\() -> getFormData_impl this)
@@ -233,7 +233,7 @@ newRecord_ = do
     jregisterMethod header_ "setTagLocation" (\() -> setTagLocation_impl this)
     jregisterMethod header_ "setPackageLocation" (\() -> setPackageLocation_impl this)
     jregisterMethod header_ "setInventoryControl" (\() -> setInventoryControl_impl this)
-    jregisterMethod header_ "getPackageLocation" (\() -> getPackageLocation_impl this)
+    jregisterMethod header_ "getPackageLocation_1" (\() -> getPackageLocation_1_impl this)
     jregisterMethod header_ "setFtp" (\() -> setFtp_impl this)
     jregisterMethod header_ "setFtpUserName" (\() -> setFtpUserName_impl this)
     jregisterMethod header_ "setFtpPassword" (\() -> setFtpPassword_impl this)
@@ -323,7 +323,7 @@ init_1 this request = do
         Control.Monad.void (StoreFront.getFormData this (jio (RequestParams.toHashMap ((jio (RequestParams.new_1 request))))))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "TWB- needs update for adding and updating context configuration - currently defaults to admin context config" this "StoreFront")
-        Control.Monad.void (StoreFront.setContextConfigurationInterface this (jio (ContextConfigurationInterfaceFactory.getInstance ((jio (ContextConfigurationInterfaceFactory.getInstance))) "Admin")))
+        Control.Monad.void (StoreFront.setContextConfigurationInterface this (javaCast (jio (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) "Admin"))))
         pure ()
 
 -- Java overloaded constructor with the same parameter count: give it a different name
@@ -339,8 +339,8 @@ init_1 this hashMap = do
         Control.Monad.void (StoreFront.getFormData this hashMap)
         let domDocumentString = (javaCast (jio (HashMap.get hashMap (jget ((jio (StoreFrontData.getInstance))).cONFIGURATION))) :: String)
         when (domDocumentString == javaNull) $ do
-            document <- (DomDocumentHelper.create domDocumentString)
-            Control.Monad.void (StoreFront.setContextConfigurationInterface this (jio (ContextConfigurationInterfaceFactory.getInstance ((jio (ContextConfigurationInterfaceFactory.getInstance))) document)))
+            document <- (DomDocumentHelper.create_1 domDocumentString)
+            Control.Monad.void (StoreFront.setContextConfigurationInterface this (javaCast (jio (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) document))))
         pure ()
 
 
@@ -372,15 +372,14 @@ createPath_impl this key hashMap = do
 
 
 -- throws Exception
--- Java overload of createPath with a different parameter count: give it a different name
-createPath :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
-createPath object_ a1 a2 a3 = jmethod object_ "createPath" (\() -> (createPath_impl (javaCast object_ :: StoreFront))) () a1 a2 a3
+createPath_3 :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
+createPath_3 object_ a1 a2 a3 = jmethod object_ "createPath_3" (\() -> (createPath_3_impl (javaCast object_ :: StoreFront))) () a1 a2 a3
 
-createPath_super :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
-createPath_super object_ a1 a2 a3 = (createPath_impl (javaCast object_ :: StoreFront)) a1 a2 a3
+createPath_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
+createPath_3_super object_ a1 a2 a3 = (createPath_3_impl (javaCast object_ :: StoreFront)) a1 a2 a3
 
-createPath_impl :: StoreFront -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
-createPath_impl this append key hashMap = do
+createPath_3_impl :: StoreFront -> String -> String -> HashMap.HashMap -> IO (AbPath.AbPath)
+createPath_3_impl this append key hashMap = do
         (AbPath.new_2 (jio (StoreFront.create this append key hashMap)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
 
 
@@ -438,11 +437,11 @@ getFormData_impl this storeHashMap = do
         jset (this).testHostName ((javaCast (jio (HashMap.get storeHashMap (jget (storeFrontData).tESTHOSTNAME))) :: String))
         assignedValue <- (StoreFront.createPath this (jget (storeFrontData).tESTHOSTNAMEPATH) storeHashMap)
         jset (this).testHostNamePath (assignedValue)
-        assignedValue <- (StoreFront.createPath this (StoreFront.rESOURCES) (jget (storeFrontData).iMAGEPATH) storeHashMap)
+        assignedValue <- (StoreFront.createPath_3 this (StoreFront.rESOURCES) (jget (storeFrontData).iMAGEPATH) storeHashMap)
         jset (this).imagePath (assignedValue)
-        assignedValue <- (StoreFront.createPath this (" Products" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) (jget (storeFrontData).sTATICPATH) storeHashMap)
+        assignedValue <- (StoreFront.createPath_3 this (" Products" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) (jget (storeFrontData).sTATICPATH) storeHashMap)
         jset (this).staticPath (assignedValue)
-        assignedValue <- (StoreFront.createPath this (StoreFront.rESOURCES) (jget (storeFrontData).cATEGORYPATH) storeHashMap)
+        assignedValue <- (StoreFront.createPath_3 this (StoreFront.rESOURCES) (jget (storeFrontData).cATEGORYPATH) storeHashMap)
         jset (this).categoryPath (assignedValue)
         jset (this).inventoryControl ((javaCast (jio (HashMap.get storeHashMap (jget (storeFrontData).iNVENTORYCONTROL))) :: String))
         jset (this).subStores ((javaCast (jio (HashMap.get storeHashMap (jget (storeFrontData).sUBSTORES))) :: String))
@@ -893,7 +892,7 @@ getSubStores_impl this = do
             javaThrow (e)
             ) $ do
             tokenizer <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).sEMICOLON))
-            subStoreVector <- (Tokenizer.getTokensFromString tokenizer (jget (this).subStores) (jio (BasicArrayListD.new_)))
+            subStoreVector <- (Tokenizer.getTokensFromString tokenizer (jget (this).subStores) (javaCast (jio (BasicArrayListD.new_))))
             pure (subStoreVector)
 
 
@@ -1247,15 +1246,14 @@ setInventoryControl_impl this value = do
         pure ()
 
 
--- Java overload of getPackageLocation with a different parameter count: give it a different name
-getPackageLocation :: (JavaObjectClass this_) => this_ -> String -> IO (())
-getPackageLocation object_ a1 = jmethod object_ "getPackageLocation" (\() -> (getPackageLocation_impl (javaCast object_ :: StoreFront))) () a1
+getPackageLocation_1 :: (JavaObjectClass this_) => this_ -> String -> IO (())
+getPackageLocation_1 object_ a1 = jmethod object_ "getPackageLocation_1" (\() -> (getPackageLocation_1_impl (javaCast object_ :: StoreFront))) () a1
 
-getPackageLocation_super :: (JavaObjectClass this_) => this_ -> String -> IO (())
-getPackageLocation_super object_ a1 = (getPackageLocation_impl (javaCast object_ :: StoreFront)) a1
+getPackageLocation_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (())
+getPackageLocation_1_super object_ a1 = (getPackageLocation_1_impl (javaCast object_ :: StoreFront)) a1
 
-getPackageLocation_impl :: StoreFront -> String -> IO (())
-getPackageLocation_impl this value = do
+getPackageLocation_1_impl :: StoreFront -> String -> IO (())
+getPackageLocation_1_impl this value = do
         jset (this).packageLocation (value)
         pure ()
 

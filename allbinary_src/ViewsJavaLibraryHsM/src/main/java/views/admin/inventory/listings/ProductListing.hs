@@ -118,7 +118,7 @@ newRecord_ = do
     jregisterMethod header_ "create" (\() -> create_impl this)
     jregisterMethod header_ "addStaticPageInfoToDatabase" (\() -> addStaticPageInfoToDatabase_impl this)
     jregisterMethod header_ "generateAll" (\() -> generateAll_impl this)
-    jregisterMethod header_ "generateAll" (\() -> generateAll_impl this)
+    jregisterMethod header_ "generateAll_1" (\() -> generateAll_1_impl this)
     pure this
 
 initFields_ :: ProductListing -> IO ()
@@ -193,7 +193,7 @@ savePage_impl this file data_ = do
             idOutData <- (DataOutputStreamFactory.getInstanceForAbFile ((jio (DataOutputStreamFactory.getInstance))) newFile)
             Control.Monad.void (AbDataOutputStream.writeBytes idOutData data_)
             Control.Monad.void (AbDataOutputStream.flush idOutData)
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) idOutData)
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast idOutData))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sTATICPAGEGENERATIONLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Wrote Total Bytes: " ++ javaToString (jio (AbFile.length newFile))) this "generateAll()")
         else do
@@ -315,15 +315,14 @@ generateAll_impl this = do
 
 
 -- throws Exception
--- Java overload of generateAll with a different parameter count: give it a different name
-generateAll :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-generateAll object_ a1 = jmethod object_ "generateAll" (\() -> (generateAll_impl (javaCast object_ :: ProductListing))) () a1
+generateAll_1 :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+generateAll_1 object_ a1 = jmethod object_ "generateAll_1" (\() -> (generateAll_1_impl (javaCast object_ :: ProductListing))) () a1
 
-generateAll_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-generateAll_super object_ a1 = (generateAll_impl (javaCast object_ :: ProductListing)) a1
+generateAll_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+generateAll_1_super object_ a1 = (generateAll_1_impl (javaCast object_ :: ProductListing)) a1
 
-generateAll_impl :: ProductListing -> String -> IO (String)
-generateAll_impl this storeName = do
+generateAll_1_impl :: ProductListing -> String -> IO (String)
+generateAll_1_impl this storeName = do
     storeName <- newIORef storeName
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
@@ -332,7 +331,7 @@ generateAll_impl this storeName = do
             stringBuffer <- (StringMaker.new_)
             if ((jget storeName) /= javaNull) then do
                 if ((Prelude.fromEnum (Prelude.compare (jget storeName) (GLOBALS2.gENERATEALLSTORES)) - 1) /= 0) then do
-                    Control.Monad.void (SearchRequest.setStoreFront ((jget (this).searchRequest)) (jio (StoreFrontsEntity.getStoreFrontInterface ((jget (this).storeFronts)) (jget storeName))))
+                    Control.Monad.void (SearchRequest.setStoreFront ((jget (this).searchRequest)) (javaCast (jio (StoreFrontsEntity.getStoreFrontInterface ((jget (this).storeFronts)) (jget storeName)))))
                     Control.Monad.void (StringMaker.append stringBuffer (jio (ProductListing.generateAll this)))
                     Control.Monad.void (StringMaker.append stringBuffer "<br />")
                 else do
@@ -340,7 +339,7 @@ generateAll_impl this storeName = do
                     size <- (BasicArrayList.size storeFrontVector)
                     forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                         jset storeName ((javaCast (jio (BasicArrayList.get storeFrontVector index)) :: String))
-                        Control.Monad.void (SearchRequest.setStoreFront ((jget (this).searchRequest)) (jio (StoreFrontsEntity.getStoreFrontInterface ((jget (this).storeFronts)) (jget storeName))))
+                        Control.Monad.void (SearchRequest.setStoreFront ((jget (this).searchRequest)) (javaCast (jio (StoreFrontsEntity.getStoreFrontInterface ((jget (this).storeFronts)) (jget storeName)))))
                         Control.Monad.void (StringMaker.append stringBuffer (jio (ProductListing.generateAll this)))
                         Control.Monad.void (StringMaker.append stringBuffer "<br />")
             else do

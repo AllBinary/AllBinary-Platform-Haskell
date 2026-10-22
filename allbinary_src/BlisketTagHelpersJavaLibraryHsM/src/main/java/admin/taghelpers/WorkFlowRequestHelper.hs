@@ -97,7 +97,7 @@ init_2 :: WorkFlowRequestHelper -> HashMap.HashMap -> PageContext.PageContext ->
 init_2 this hashMap pageContext = do
         ModifyTable.init_ this.base
         initFields_ this
-        assignedValue <- (NewWorkFlowFactory.getInstance ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
+        assignedValue <- (NewWorkFlowFactory.getInstance_3 ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
         jset (this).workFlowInterface (assignedValue)
         pure ()
 

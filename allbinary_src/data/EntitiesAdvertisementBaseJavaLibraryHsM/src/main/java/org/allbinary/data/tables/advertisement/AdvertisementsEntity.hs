@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.advertisement
 module AdvertisementsEntity (module AdvertisementsEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, delete, delete_super, delete_impl, get, get_super, get_impl, get, get_super, get_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, _INDEX)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, delete, delete_super, delete_impl, get, get_super, get_impl, get_2, get_2_super, get_2_impl, get, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, _INDEX)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -84,7 +84,7 @@ newRecord_ = do
     AdvertisementsEntityInterface.registerInterface_ header_
     jregisterMethod header_ "delete" (\() -> delete_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "get" (\() -> get_impl this)
+    jregisterMethod header_ "get_2" (\() -> get_2_impl this)
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
@@ -149,15 +149,14 @@ get_impl this storeName = do
         pure (vector)
 
 
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_) => this_ -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
-get object_ a1 a2 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: AdvertisementsEntity))) () a1 a2
+get_2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
+get_2 object_ a1 a2 = jmethod object_ "get_2" (\() -> (get_2_impl (javaCast object_ :: AdvertisementsEntity))) () a1 a2
 
-get_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
-get_super object_ a1 a2 = (get_impl (javaCast object_ :: AdvertisementsEntity)) a1 a2
+get_2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
+get_2_super object_ a1 a2 = (get_2_impl (javaCast object_ :: AdvertisementsEntity)) a1 a2
 
-get_impl :: AdvertisementsEntity -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
-get_impl this storeName advertismentName = do
+get_2_impl :: AdvertisementsEntity -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
+get_2_impl this storeName advertismentName = do
         keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (AdvertisementData.getInstance))).nAME) advertismentName)

@@ -88,7 +88,7 @@ friction_super object_ a1 a2 = (friction_impl (javaCast object_ :: FrictionPrope
 
 friction_impl :: FrictionProperties -> VelocityProperties.VelocityProperties -> Int -> IO (())
 friction_impl this velocityProperties nominator = do
-        Control.Monad.void (DragVelocityBehavior.reduce DragVelocityBehavior.instance_ velocityProperties nominator (jio (FrictionData.getFrictionDenominator)))
+        Control.Monad.void (DragVelocityBehavior.reduce DragVelocityBehavior.instance_ (javaCast velocityProperties) nominator (jio (FrictionData.getFrictionDenominator)))
         pure ()
 
 

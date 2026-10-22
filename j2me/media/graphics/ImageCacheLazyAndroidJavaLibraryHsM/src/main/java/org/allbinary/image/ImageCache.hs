@@ -16,7 +16,7 @@
 -- package org.allbinary.image
 module ImageCache (module ImageCache, module ImageCacheBase) where
 
-import ImageCacheBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, get, get_super, get_impl, getIndex, getIndex_super, getIndex_impl, createImage, createImage_super, createImage_impl, isLazy, isLazy_super, isLazy_impl, nULL_IMAGE_CACHE, logUtil, commonStrings, systemWrapper, tsUtil)
+import ImageCacheBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, get_1, get_1_super, get_1_impl, get, getIndex, getIndex_super, getIndex_impl, createImage, createImage_super, createImage_impl, isLazy, isLazy_super, isLazy_impl, nULL_IMAGE_CACHE, logUtil, commonStrings, systemWrapper, tsUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -85,7 +85,7 @@ newRecord_ = do
     let this = ImageCache header_ base logUtil commonStrings systemWrapper tsUtil
     jregisterLevel header_ this
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "get" (\() -> get_impl this)
+    jregisterMethod header_ "get_1" (\() -> get_1_impl this)
     jregisterMethod header_ "getIndex" (\() -> getIndex_impl this)
     jregisterMethod header_ "createImage" (\() -> createImage_impl this)
     jregisterMethod header_ "isLazy" (\() -> isLazy_impl this)
@@ -141,15 +141,14 @@ get_impl this caller width height = do
 
 
 -- throws Exception
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Image.Image)
-get object_ a1 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: ImageCache))) () (jtoObject a1)
+get_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Image.Image)
+get_1 object_ a1 = jmethod object_ "get_1" (\() -> (get_1_impl (javaCast object_ :: ImageCache))) () (jtoObject a1)
 
-get_super :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Image.Image)
-get_super object_ a1 = (get_impl (javaCast object_ :: ImageCache)) (jtoObject a1)
+get_1_super :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Image.Image)
+get_1_super object_ a1 = (get_1_impl (javaCast object_ :: ImageCache)) (jtoObject a1)
 
-get_impl :: ImageCache -> JavaObject -> IO (Image.Image)
-get_impl this keyObject_ = do
+get_1_impl :: ImageCache -> JavaObject -> IO (Image.Image)
+get_1_impl this keyObject_ = do
         let key = jtoObject keyObject_
         resourceUtil <- (ResourceUtil.getInstance)
         resourceId <- (ResourceUtil.getResourceId resourceUtil (javaCast key :: String))

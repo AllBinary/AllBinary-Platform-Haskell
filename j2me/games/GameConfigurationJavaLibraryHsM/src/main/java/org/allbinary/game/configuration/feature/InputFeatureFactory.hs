@@ -112,7 +112,7 @@ isSingleKeyProcessing_impl :: InputFeatureFactory -> IO (Bool)
 isSingleKeyProcessing_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
-        if ((jio (Features.isFeature features (jget (this).sINGLE_KEY_REPEAT_PRESS))) || (jio (Features.isFeature features (jget (this).sINGLE_KEY_PRESS)))) then do
+        if ((jio (Features.isFeature features (javaCast (jget (this).sINGLE_KEY_REPEAT_PRESS)))) || (jio (Features.isFeature features (javaCast (jget (this).sINGLE_KEY_PRESS))))) then do
             javaReturn (True)
         else do
             javaReturn (False)

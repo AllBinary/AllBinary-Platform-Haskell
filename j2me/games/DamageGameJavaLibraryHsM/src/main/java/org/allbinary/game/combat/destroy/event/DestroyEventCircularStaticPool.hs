@@ -102,7 +102,7 @@ init_super object_ a1 = (init_impl (javaCast object_ :: DestroyEventCircularStat
 
 init_impl :: DestroyEventCircularStaticPool -> AllBinaryGameCanvas.AllBinaryGameCanvas -> IO (())
 init_impl this combatGameCanvas = do
-        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (jio (DestroyEventFactory.new_1 combatGameCanvas)))
+        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (javaCast (jio (DestroyEventFactory.new_1 combatGameCanvas))))
         pure ()
 
 

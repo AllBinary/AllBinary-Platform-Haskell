@@ -85,7 +85,7 @@ newRecord_ = do
     let this = InitInfo header_ tESTING mAINPATH tESTHTMLPATH testing mainPath testHtmlPath hasRead
     jregisterLevel header_ this
     jregisterMethod header_ "set" (\() -> set_impl this)
-    jregisterMethod header_ "set" (\() -> set_impl this)
+    jregisterMethod header_ "set_1" (\() -> set_1_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
     jregisterMethod header_ "setHasRead" (\() -> setHasRead_impl this)
     jregisterMethod header_ "updateIfNeeded" (\() -> updateIfNeeded_impl this)
@@ -159,15 +159,14 @@ set_impl this = do
         pure ()
 
 
--- Java overload of set with a different parameter count: give it a different name
-set :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-set object_ a1 = jmethod object_ "set" (\() -> (set_impl (javaCast object_ :: InitInfo))) () a1
+set_1 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+set_1 object_ a1 = jmethod object_ "set_1" (\() -> (set_1_impl (javaCast object_ :: InitInfo))) () a1
 
-set_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-set_super object_ a1 = (set_impl (javaCast object_ :: InitInfo)) a1
+set_1_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+set_1_super object_ a1 = (set_1_impl (javaCast object_ :: InitInfo)) a1
 
-set_impl :: InitInfo -> HashMap.HashMap -> IO (())
-set_impl this hashMap = do
+set_1_impl :: InitInfo -> HashMap.HashMap -> IO (())
+set_1_impl this hashMap = do
         handle (\(e :: JavaException) -> do
             when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADERERROR))) $ do
                 Control.Monad.void (PreLogUtil.putOE "error" "InitInfo" "set()" e)

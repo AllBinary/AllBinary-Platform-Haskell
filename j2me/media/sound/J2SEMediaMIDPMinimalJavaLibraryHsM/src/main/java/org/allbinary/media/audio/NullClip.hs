@@ -76,7 +76,7 @@ newRecord_ = do
     jregisterLevel header_ this
     Clip.registerInterface_ header_
     jregisterMethod header_ "open" (\() -> open_impl this)
-    jregisterMethod header_ "open" (\() -> open_impl this)
+    jregisterMethod header_ "open_1" (\() -> open_1_impl this)
     jregisterMethod header_ "getFrameLength" (\() -> getFrameLength_impl this)
     jregisterMethod header_ "getMicrosecondLength" (\() -> getMicrosecondLength_impl this)
     jregisterMethod header_ "setFramePosition" (\() -> setFramePosition_impl this)
@@ -97,7 +97,7 @@ newRecord_ = do
     jregisterMethod header_ "getMicrosecondPosition" (\() -> getMicrosecondPosition_impl this)
     jregisterMethod header_ "getLevel" (\() -> getLevel_impl this)
     jregisterMethod header_ "getLineInfo" (\() -> getLineInfo_impl this)
-    jregisterMethod header_ "open" (\() -> open_impl this)
+    jregisterMethod header_ "open_0" (\() -> open_0_impl this)
     jregisterMethod header_ "close" (\() -> close_impl this)
     jregisterMethod header_ "isOpen" (\() -> isOpen_impl this)
     jregisterMethod header_ "getControls" (\() -> getControls_impl this)
@@ -135,15 +135,14 @@ open_impl this format data_ offset bufferSize = do
 
 
 -- throws LineUnavailableException, IOException
--- Java overload of open with a different parameter count: give it a different name
-open :: (JavaObjectClass this_) => this_ -> AudioInputStream.AudioInputStream -> IO (())
-open object_ a1 = jmethod object_ "open" (\() -> (open_impl (javaCast object_ :: NullClip))) () a1
+open_1 :: (JavaObjectClass this_) => this_ -> AudioInputStream.AudioInputStream -> IO (())
+open_1 object_ a1 = jmethod object_ "open_1" (\() -> (open_1_impl (javaCast object_ :: NullClip))) () a1
 
-open_super :: (JavaObjectClass this_) => this_ -> AudioInputStream.AudioInputStream -> IO (())
-open_super object_ a1 = (open_impl (javaCast object_ :: NullClip)) a1
+open_1_super :: (JavaObjectClass this_) => this_ -> AudioInputStream.AudioInputStream -> IO (())
+open_1_super object_ a1 = (open_1_impl (javaCast object_ :: NullClip)) a1
 
-open_impl :: NullClip -> AudioInputStream.AudioInputStream -> IO (())
-open_impl this stream = do
+open_1_impl :: NullClip -> AudioInputStream.AudioInputStream -> IO (())
+open_1_impl this stream = do
         pure ()
 
 
@@ -368,15 +367,14 @@ getLineInfo_impl this = do
 
 
 -- throws LineUnavailableException
--- Java overload of open with a different parameter count: give it a different name
-open :: (JavaObjectClass this_) => this_ -> IO (())
-open object_ = jmethod object_ "open" (\() -> (open_impl (javaCast object_ :: NullClip))) ()
+open_0 :: (JavaObjectClass this_) => this_ -> IO (())
+open_0 object_ = jmethod object_ "open_0" (\() -> (open_0_impl (javaCast object_ :: NullClip))) ()
 
-open_super :: (JavaObjectClass this_) => this_ -> IO (())
-open_super object_ = (open_impl (javaCast object_ :: NullClip))
+open_0_super :: (JavaObjectClass this_) => this_ -> IO (())
+open_0_super object_ = (open_0_impl (javaCast object_ :: NullClip))
 
-open_impl :: NullClip -> IO (())
-open_impl this = do
+open_0_impl :: NullClip -> IO (())
+open_0_impl this = do
         pure ()
 
 

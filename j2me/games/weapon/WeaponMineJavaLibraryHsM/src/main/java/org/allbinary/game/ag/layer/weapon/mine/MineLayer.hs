@@ -146,7 +146,7 @@ setDestroyed_impl :: MineLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         Control.Monad.void (SimpleWeaponLayer.setDestroyed_super this.base destroyed)
         when (jio (SimpleWeaponLayer.isDestroyed this)) $ do
-            Control.Monad.void (ViewPositionEventHandler.removeListener ((jget (this).viewPositionEventHandler)) this)
+            Control.Monad.void (ViewPositionEventHandler.removeListener ((jget (this).viewPositionEventHandler)) (javaCast this))
         pure ()
 
 

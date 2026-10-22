@@ -348,7 +348,7 @@ init_ this = do
         Control.Monad.void (JTabbedPane.setSize ((jget (this).jTabbedPane)) (jio (Dimension.new_2 550 400)))
         assignedValue <- (FileJDialog.new_)
         jset (this).fileJDialog (assignedValue)
-        Control.Monad.void (FileJDialog.addFinishedListener ((jget (this).fileJDialog)) this)
+        Control.Monad.void (FileJDialog.addFinishedListener ((jget (this).fileJDialog)) (javaCast this))
         assignedValue <- (RotateJDialog.new_2 this False)
         jset (this).rotateJDialog (assignedValue)
         pure ()
@@ -905,7 +905,7 @@ onFiles_impl this files = do
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Reading: " ++ javaToString files) this "onFiles")
             forM_ [0 .. (jlength files) - 1] $ \index -> javaIteration (pure ()) $ do
-                document <- (DomHelper.createDocument ((jio (DomHelper.getInstance))) (jindex files (index)))
+                document <- (DomHelper.createDocument_1 ((jio (DomHelper.getInstance))) (jindex files (index)))
                 workAreaJPanel <- (WorkAreaJPanel.new_2 (jio (WorkAreaDom.new_1 document)) (jio (JFrame.getSize this)))
                 Control.Monad.void (WorkAreaJPanel.setLayout workAreaJPanel (jio (GridLayout.new_2 1 1)))
                 Control.Monad.void (MyFrame.add this (javaCast workAreaJPanel :: WorkAreaJPanelInterface.WorkAreaJPanelInterface))
@@ -923,7 +923,7 @@ newGraphics_impl :: MyFrame -> IO (())
 newGraphics_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.mENUEVENT))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "newJMenuItemActionPerformed" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "newJMenuItemActionPerformed" e)
             ) $ do
             let newName = ("graphic" ++ javaToString (jget MyFrame.numberOfWorkAreas))
             dim <- (JFrame.getSize this)
@@ -941,7 +941,7 @@ openGraphics_impl :: MyFrame -> IO (())
 openGraphics_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.mENUEVENT))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "open" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "open" e)
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Starting" this "openImageJMenuItemActionPerformed")
             Control.Monad.void (FileJDialog.setVisible ((jget (this).fileJDialog)) True)
@@ -958,7 +958,7 @@ export_impl :: MyFrame -> IO (())
 export_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.mENUEVENT))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "export" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "export" e)
             ) $ do
             let workAreaJPanel = (javaCast (jio (JTabbedPane.getSelectedComponent ((jget (this).jTabbedPane)))) :: WorkAreaJPanelInterface.WorkAreaJPanelInterface)
             file <- (File.new_1 (((sAVE_PATH ++ "/") ++ (jio (WorkAreaJPanelInterface.getName workAreaJPanel))) ++ (jget (this).jAVAEXTENSION)))
@@ -978,7 +978,7 @@ save_impl :: MyFrame -> IO (())
 save_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.mENUEVENT))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).sAVE) e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).sAVE) e)
             ) $ do
             let workAreaJPanel = (javaCast (jio (JTabbedPane.getSelectedComponent ((jget (this).jTabbedPane)))) :: WorkAreaJPanelInterface.WorkAreaJPanelInterface)
             Control.Monad.void (DomHelper.save ((jio (DomHelper.getInstance))) (jio (File.new_1 (((sAVE_PATH ++ "/") ++ (jio (WorkAreaJPanelInterface.getName workAreaJPanel))) ++ (jget (this).sAVEEXTENSION)))) (jio (WorkAreaJPanelInterface.toDocument workAreaJPanel)))
@@ -1040,7 +1040,7 @@ add_impl :: MyFrame -> WorkAreaJPanelInterface.WorkAreaJPanelInterface -> IO (()
 add_impl this newCanvasInterface = do
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.gRAPHICSCREATION))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "addNewCanvas" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) (jget ((jget (this).commonStrings)).eXCEPTION) this "addNewCanvas" e)
             ) $ do
             numberOfWorkAreas <- pure (numberOfWorkAreas + 1)
             when (numberOfWorkAreas == MyFrame.mAXWORKAREAS) $ do

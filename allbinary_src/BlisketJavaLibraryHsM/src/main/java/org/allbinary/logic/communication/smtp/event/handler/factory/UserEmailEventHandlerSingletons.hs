@@ -78,7 +78,7 @@ newRecord_ = do
     userEmailEventHandlerHashMap <- newIORef javaNull
     let this = UserEmailEventHandlerSingletons header_ logUtil commonStrings userEmailEventHandlerHashMap
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3" (\() -> getInstance_3_impl this)
     pure this
 
 initFields_ :: UserEmailEventHandlerSingletons -> IO ()
@@ -108,15 +108,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance object_ a1 a2 a3 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: UserEmailEventHandlerSingletons))) () a1 a2 a3
+getInstance_3 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_3 object_ a1 a2 a3 = jmethod object_ "getInstance_3" (\() -> (getInstance_3_impl (javaCast object_ :: UserEmailEventHandlerSingletons))) () a1 a2 a3
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: UserEmailEventHandlerSingletons)) a1 a2 a3
+getInstance_3_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_3_super object_ a1 a2 a3 = (getInstance_3_impl (javaCast object_ :: UserEmailEventHandlerSingletons)) a1 a2 a3
 
-getInstance_impl :: UserEmailEventHandlerSingletons -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance_impl this abeClientInformation userEmailEventNameData userInterface = do
+getInstance_3_impl :: UserEmailEventHandlerSingletons -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> UserInterface.UserInterface -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_3_impl this abeClientInformation userEmailEventNameData userInterface = do
     javaCatchReturn $ do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).gET_INSTANCE))

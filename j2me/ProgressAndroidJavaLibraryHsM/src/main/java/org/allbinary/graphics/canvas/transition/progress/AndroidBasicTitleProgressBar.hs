@@ -167,7 +167,7 @@ init_3 this title backgroundBasicColor foregroundBasicColor = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AndroidBasicTitleProgressBar.init this)
-        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) this)
+        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         let size = (jlength (jget (this).iMAGE))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jsetIndex ((jget (this).iMAGE)) (index) (NullImage.nULL_IMAGE)

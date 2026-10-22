@@ -91,7 +91,7 @@ init_4 this mainDemoStatePaintable ownershipPaintable helpPaintableInterface bas
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (GameScrollMenuPaintable.setColor this basicColor)
-        Control.Monad.void (ColorChangeEventHandler.addListenerInterface ((jio (ColorChangeEventHandler.getInstance))) this)
+        Control.Monad.void (ColorChangeEventHandler.addListenerInterface ((jio (ColorChangeEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

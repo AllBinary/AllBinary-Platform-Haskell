@@ -208,10 +208,10 @@ processAtPoint_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager
                 Control.Monad.void (WaypointRTSFormInput.processCellPosition this rtsPlayerLayerInterface layerManager geographicMapCellPosition)
             else do
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).dragToSpotGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).dragToSpotGameNotificationEvent)))
         else do
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).spotTakenGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).spotTakenGameNotificationEvent)))
         pure ()
 
 
@@ -276,7 +276,7 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
         when ((jio (DropCellPositionHistory.anyCellPositionWithDrop ((jio (DropCellPositionHistory.getInstance))) list)) || (jio (WaypointCellPositionHistory.anyCellPositionWithDrop ((jio (WaypointCellPositionHistory.getInstance))) list))) $ do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).buildingCollisionGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).buildingCollisionGameNotificationEvent)))
             javaReturn (False)
         let geographicMapCompositeInterface = (javaCast layerManager :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
         let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
@@ -289,7 +289,7 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
             when (jio (RaceTrackGeographicMapCellTypeFactory.isPath raceTrackGeographicMapCellTypeFactory (jget geographicMapCellType))) $ do
                 Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).roadCollisionGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).roadCollisionGameNotificationEvent)))
                 javaReturn (False)
         cost <- (RTSLayer.getCost layerInterface)
         capital <- (RTSPlayerLayerInterface.getCapital rtsPlayerLayerInterface)
@@ -306,24 +306,24 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
             assignedValue <- (CollidableDestroyableDamageableLayer.getNullInstance)
             jsetIndex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex) (assignedValue)
             Control.Monad.void (Capital.removeMoney capital cost)
-            Control.Monad.void (WaypointCellPositionHistory.addList ((jio (WaypointCellPositionHistory.getInstance))) list layerInterface)
+            Control.Monad.void (WaypointCellPositionHistory.addList ((jio (WaypointCellPositionHistory.getInstance))) list (javaCast layerInterface))
             geographicMapCellPosition <- (BasicGeographicMap.getCellPositionAtXY geographicMapInterface (jio (RTSLayer.getXP layerInterface)) (jio (RTSLayer.getYP layerInterface)))
             let waypointLayer = (javaCast layerInterface :: WaypointLayer.WaypointLayer)
             Control.Monad.void (WaypointRTSFormInput.addWayPoint this waypointLayer)
             let rtsPlayerGameInput = (javaCast (jio (RTSPlayerLayerInterface.getPlayerGameInput rtsPlayerLayerInterface)) :: RTSPlayerGameInput.RTSPlayerGameInput)
-            Control.Monad.void (RTSPlayerGameInput.setSelectedRTSLayer rtsPlayerGameInput layerInterface geographicMapCellPosition)
+            Control.Monad.void (RTSPlayerGameInput.setSelectedRTSLayer rtsPlayerGameInput (javaCast layerInterface) geographicMapCellPosition)
             let advancedRTSPlayerLayerInterface = (javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface)
             Control.Monad.void (AdvancedRTSPlayerLayerInterface.addWaypoint ((jio (AdvancedRTSPlayerLayerInterface.getAdvancedPlayerOwnedRTSLayers advancedRTSPlayerLayerInterface))) layerInterface)
-            Control.Monad.void (AllBinaryLayerManager.append layerManager layerInterface)
+            Control.Monad.void (AllBinaryLayerManager.append layerManager (javaCast layerInterface))
             let waypointAvancedRTSGameLayer = (javaCast waypointLayer :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (WaypointBase.getSound ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior waypointAvancedRTSGameLayer)))))))))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).newWaypointGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).newWaypointGameNotificationEvent)))
             javaReturn (True)
         else do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).noMoneyGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).noMoneyGameNotificationEvent)))
             javaReturn (False)
 
 
@@ -342,8 +342,8 @@ addWayPoint_impl this layerInterface = do
         Control.Monad.void (BasicArrayList.add list layerInterface)
         when (jget (this).isPrimaryWaypointCreator) $ do
             Control.Monad.void (PrimaryWaypointHelper.setWaypointLayer ((jio (PrimaryWaypointHelper.getInstance))) layerInterface)
-        Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) layerInterface)
-        Control.Monad.void (WaypointEventHandler.fireEvent ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (WaypointLayer.getGroupInterface layerInterface))) (0))))) (jget (this).wAYPOINT_EVENT))
+        Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) (javaCast layerInterface))
+        Control.Monad.void (WaypointEventHandler.fireEvent ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (WaypointLayer.getGroupInterface layerInterface))) (0))))) (javaCast (jget (this).wAYPOINT_EVENT)))
         pure ()
 
 

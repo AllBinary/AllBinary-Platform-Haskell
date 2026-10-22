@@ -248,7 +248,7 @@ fileInit_impl this fileInputStream = do
         length <- (FileInputStream.read fileInputStream bytes)
         data_ <- (jnewString bytes)
         let endIndex = (jstringLastIndexOf data_ '>')
-        document <- (DomDocumentHelper.create (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
+        document <- (DomDocumentHelper.create_1 (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
         nameNodeList <- (Document.getElementsByTagName document (jget GenericProfileActionsData.nAME))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Number Of Profiles Specified: " ++ javaToString (jio (NodeList.getLength nameNodeList))) this "Contructor")
         forM_ [0 .. (jio (NodeList.getLength nameNodeList)) - 1] $ \index -> javaIteration (pure ()) $ do

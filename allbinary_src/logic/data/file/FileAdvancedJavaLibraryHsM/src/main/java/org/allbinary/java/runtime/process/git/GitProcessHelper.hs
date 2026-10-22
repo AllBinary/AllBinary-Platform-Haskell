@@ -76,7 +76,7 @@ newRecord_ = do
     let this = GitProcessHelper header_ trackedStrings
     jregisterLevel header_ this
     jregisterMethod header_ "trackedFiles" (\() -> trackedFiles_impl this)
-    jregisterMethod header_ "trackedFiles" (\() -> trackedFiles_impl this)
+    jregisterMethod header_ "trackedFiles_3" (\() -> trackedFiles_3_impl this)
     jregisterMethod header_ "isTracked" (\() -> isTracked_impl this)
     pure this
 
@@ -115,19 +115,18 @@ trackedFiles_super object_ a1 a2 = (trackedFiles_impl (javaCast object_ :: GitPr
 
 trackedFiles_impl :: GitProcessHelper -> String -> String -> IO (List.List)
 trackedFiles_impl this rootAsString pathspec = do
-        (GitProcessHelper.trackedFiles this rootAsString pathspec ".java")
+        (GitProcessHelper.trackedFiles_3 this rootAsString pathspec ".java")
 
 
 -- throws IOException, InterruptedException
--- Java overload of trackedFiles with a different parameter count: give it a different name
-trackedFiles :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (List.List)
-trackedFiles object_ a1 a2 a3 = jmethod object_ "trackedFiles" (\() -> (trackedFiles_impl (javaCast object_ :: GitProcessHelper))) () a1 a2 a3
+trackedFiles_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (List.List)
+trackedFiles_3 object_ a1 a2 a3 = jmethod object_ "trackedFiles_3" (\() -> (trackedFiles_3_impl (javaCast object_ :: GitProcessHelper))) () a1 a2 a3
 
-trackedFiles_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (List.List)
-trackedFiles_super object_ a1 a2 a3 = (trackedFiles_impl (javaCast object_ :: GitProcessHelper)) a1 a2 a3
+trackedFiles_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (List.List)
+trackedFiles_3_super object_ a1 a2 a3 = (trackedFiles_3_impl (javaCast object_ :: GitProcessHelper)) a1 a2 a3
 
-trackedFiles_impl :: GitProcessHelper -> String -> String -> String -> IO (List.List)
-trackedFiles_impl this rootAsString pathspec suffix = do
+trackedFiles_3_impl :: GitProcessHelper -> String -> String -> String -> IO (List.List)
+trackedFiles_3_impl this rootAsString pathspec suffix = do
         process <- (ProcessBuilder.start ((jio (ProcessBuilder.redirectError ((jio (ProcessBuilder.new_7 (jget ((jget (this).trackedStrings)).gIT_COMMAND) (jget ((jget (this).trackedStrings)).cHANGE_DIRECTORY_OPTION) rootAsString (jget ((jget (this).trackedStrings)).lIST_FILES_COMMAND) (jget ((jget (this).trackedStrings)).sEP_BY_NULL_CHAR_INSTEAD_OF_NEW_LINE) (jget ((jget (this).trackedStrings)).pATHSPEC_SEPARATOR) pathspec))) (jget (ProcessBuilder.redirect).iNHERIT)))))
         output <- (Process.readAllBytes ((jio (Process.getInputStream process))))
         exitCode <- (Process.waitFor process)

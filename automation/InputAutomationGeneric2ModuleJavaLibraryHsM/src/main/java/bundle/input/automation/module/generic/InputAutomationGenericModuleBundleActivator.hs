@@ -91,7 +91,7 @@ init_impl :: InputAutomationGenericModuleBundleActivator -> IO (())
 init_impl this = do
         inputAutomationGenericModuleServiceFactory <- (InputAutomationGenericModuleServiceFactory.getInstance)
         Control.Monad.void (InputAutomationModuleBundleActivator.setInputAutomationModuleInterface this (jio (InputAutomationGenericModuleServiceFactory.getInputAutomationModuleInterfaceArray inputAutomationGenericModuleServiceFactory)))
-        Control.Monad.void (InputAutomationModuleBundleActivator.setServiceFactory this inputAutomationGenericModuleServiceFactory)
+        Control.Monad.void (InputAutomationModuleBundleActivator.setServiceFactory this (javaCast inputAutomationGenericModuleServiceFactory))
         pure ()
 
 

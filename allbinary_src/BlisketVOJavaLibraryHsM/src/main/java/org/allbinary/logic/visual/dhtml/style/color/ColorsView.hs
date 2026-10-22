@@ -119,7 +119,7 @@ getColorNode_impl this document redIndex greenIndex blueIndex = do
         when (blueIndex < (jget (this).hEXRADIX)) $ do
             Control.Monad.void (StringMaker.append hexColorStringBuffer (jget ((jget (this).commonPhoneStrings)).zERO))
         Control.Monad.void (StringMaker.append hexColorStringBuffer (jio (Integer.toString blueIndex (jget this.hEXRADIX))))
-        colorNode <- (ModDomHelper.createNameValueNodes document (jget ((jio (ColorData.getInstance))).nAME) (jio (StringMaker.toString hexColorStringBuffer)))
+        colorNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ColorData.getInstance))).nAME) (jio (StringMaker.toString hexColorStringBuffer)))
         pure (colorNode)
 
 
@@ -132,8 +132,8 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: ColorsView)) a
 
 toXmlNode_impl :: ColorsView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (ColorsData.getInstance))).nAME) "RGB Colors In Hex")
-        blackNode <- (ModDomHelper.createNameValueNodes document (jget ((jio (ColorData.getInstance))).nAME) "000000")
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ColorsData.getInstance))).nAME) "RGB Colors In Hex")
+        blackNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ColorData.getInstance))).nAME) "000000")
         Control.Monad.void (Node.appendChild node blackNode)
         forM_ [0, 0 + ((jget (this).delta)) .. (jget (this).mAX) - 1] $ \index -> javaIteration (pure ()) $ do
             hexColorStringBuffer <- (StringMaker.new_)
@@ -146,9 +146,9 @@ toXmlNode_impl this document = do
             when (index < (jget (this).hEXRADIX)) $ do
                 Control.Monad.void (StringMaker.append hexColorStringBuffer (jget ((jget (this).commonPhoneStrings)).zERO))
             Control.Monad.void (StringMaker.append hexColorStringBuffer (jio (Integer.toString index (jget this.hEXRADIX))))
-            colorNode <- (ModDomHelper.createNameValueNodes document (jget ((jio (ColorData.getInstance))).nAME) (jio (StringMaker.toString hexColorStringBuffer)))
+            colorNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ColorData.getInstance))).nAME) (jio (StringMaker.toString hexColorStringBuffer)))
             Control.Monad.void (Node.appendChild node colorNode)
-        whiteNode <- (ModDomHelper.createNameValueNodes document (jget ((jio (ColorData.getInstance))).nAME) "FFFFFF")
+        whiteNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ColorData.getInstance))).nAME) "FFFFFF")
         Control.Monad.void (Node.appendChild node whiteNode)
         forM_ [((jget (this).mAX) `quot` 2), ((jget (this).mAX) `quot` 2) + ((jget (this).delta)) .. (jget (this).mAX) - 1] $ \blueIndex -> javaIteration (pure ()) $ do
             forM_ [0, 0 + ((jget (this).delta)) .. ((jget (this).mAX) `quot` 2) - 1] $ \greenIndex -> javaIteration (pure ()) $ do

@@ -181,7 +181,7 @@ appendProcessors_super object_ a1 = (appendProcessors_impl (javaCast object_ :: 
 appendProcessors_impl :: AllBinaryLayerManager -> AllBinaryLayer.AllBinaryLayer -> IO (())
 appendProcessors_impl this layerInterface = do
         Control.Monad.void (LayerManagerEvent.setLayerInterface ((jget (this).createLayerManagerEvent)) layerInterface)
-        Control.Monad.void (LayerManagerEventHandler.fireEvent ((jget (this).layerManagerEventHandler)) (jget (this).createLayerManagerEvent))
+        Control.Monad.void (LayerManagerEventHandler.fireEvent ((jget (this).layerManagerEventHandler)) (javaCast (jget (this).createLayerManagerEvent)))
         layerProcessorInterface <- newIORef (javaNull)
         index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
@@ -201,7 +201,7 @@ remove_super object_ a1 = (remove_impl (javaCast object_ :: AllBinaryLayerManage
 remove_impl :: AllBinaryLayerManager -> AllBinaryLayer.AllBinaryLayer -> IO (())
 remove_impl this layerInterface = do
         Control.Monad.void (LayerManagerEvent.setLayerInterface ((jget (this).deleteLayerManagerEvent)) layerInterface)
-        Control.Monad.void (LayerManagerEventHandler.fireDeleteEvent ((jget (this).layerManagerEventHandler)) (jget (this).deleteLayerManagerEvent))
+        Control.Monad.void (LayerManagerEventHandler.fireDeleteEvent ((jget (this).layerManagerEventHandler)) (javaCast (jget (this).deleteLayerManagerEvent)))
         layerProcessorInterface <- newIORef (javaNull)
         index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do

@@ -198,7 +198,7 @@ run_impl this = do
                     frame <- (getFrame ((jindex capturedImageWorkerResultsEvent (1))))
                     imageComparisonResultFrameCacheable <- (ImageComparisonResultFrameCacheable.new_2 imageComparisonResult frame)
                     Control.Monad.void (CacheInterface.add ((jio (ImageComparisonResultCacheSingleton.getInstance))) imageComparisonResultFrameCacheable)
-                    Control.Monad.void (BasicEventHandler.fireEvent this (jio (ImageComparisonResultsEvent.new_2 this imageComparisonResult)))
+                    Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jio (ImageComparisonResultsEvent.new_2 this imageComparisonResult))))
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendlong ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Image Comparison Result: "))) (jio (ImageComparisonResult.toString imageComparisonResult))))) " for frame: "))) frame))))) this (jget ((jget (this).commonStrings)).rUN))
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "An Image Was Not Valid: Image Worker Event Processing terminated" this (jget ((jget (this).commonStrings)).rUN))

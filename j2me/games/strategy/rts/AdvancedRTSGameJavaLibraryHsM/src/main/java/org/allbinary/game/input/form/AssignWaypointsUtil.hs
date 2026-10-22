@@ -116,11 +116,11 @@ set_impl this unitLayer ownerAdvancedRTSGameLayer = do
             let unitWaypointBehavior = (javaCast (jio (UnitLayer.getWaypointBehavior unitLayer)) :: UnitWaypointBehavior.UnitWaypointBehavior)
             forM_ [((jio (BasicArrayList.size list)) - 1), ((jio (BasicArrayList.size list)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
                 let waypointLayer = (javaCast (jio (BasicArrayList.get list index)) :: RTSLayer.RTSLayer)
-                Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) waypointLayer)
+                Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) (javaCast waypointLayer))
                 Control.Monad.void (UnitWaypointBehavior.onWaypointEvent unitWaypointBehavior (jget (this).wAYPOINT_EVENT))
             waypointLayer <- (PrimaryWaypointHelper.getWaypointLayer ((jio (PrimaryWaypointHelper.getInstance))))
             when ((jtoObject waypointLayer) /= (jtoObject NullPathFindingLayer.nULL_PATH_FINDING_LAYER)) $ do
-                Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) waypointLayer)
+                Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).wAYPOINT_EVENT)) (javaCast waypointLayer))
                 Control.Monad.void (UnitWaypointBehavior.onWaypointEvent unitWaypointBehavior (jget (this).wAYPOINT_EVENT))
         pure ()
 

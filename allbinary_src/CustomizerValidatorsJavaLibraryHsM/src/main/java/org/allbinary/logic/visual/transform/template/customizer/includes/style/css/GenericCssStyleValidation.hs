@@ -209,7 +209,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: GenericCssStyl
 
 toXmlNode_impl :: GenericCssStyleValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (BodyData.getInstance))).nAME) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (BodyData.getInstance))).nAME) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         pure (node)
 
 

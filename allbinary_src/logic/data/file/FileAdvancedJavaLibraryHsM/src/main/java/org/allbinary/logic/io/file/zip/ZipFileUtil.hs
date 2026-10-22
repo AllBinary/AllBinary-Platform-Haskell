@@ -142,11 +142,11 @@ create_impl this outFilename fileBasicArrayList = do
                         assignedValue <- (AbFileInputStream.new_1 file)
                         jset fileInputStream (assignedValue)
                         Control.Monad.void (ZipOutputStream.putNextEntry outputStream (jio (ZipEntry.new_1 (jio (AbFile.getPath file)))))
-                        Control.Monad.void (StreamUtil.get streamUtil (jget fileInputStream) outputStream byteArray)
+                        Control.Monad.void (StreamUtil.get streamUtil (javaCast (jget fileInputStream)) (javaCast outputStream) byteArray)
                         Control.Monad.void (ZipOutputStream.closeEntry outputStream)
-                        Control.Monad.void (StreamUtil.close streamUtil (jget fileInputStream))
+                        Control.Monad.void (StreamUtil.close streamUtil (javaCast (jget fileInputStream)))
                 jset current ((jget current) + 1)
-            Control.Monad.void (StreamUtil.close streamUtil outputStream)
+            Control.Monad.void (StreamUtil.close streamUtil (javaCast outputStream))
         pure ()
 
 
@@ -162,7 +162,7 @@ unzip_impl this path zipFile fileName = do
         let buffer = (jnewArray (16384) 0)
         inputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget inputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget inputStream)))
             ) $ do
             assignedValue <- (ZipInputStream.new_1 (jio (AbFileInputStream.new_1 zipFile)))
             jset inputStream (assignedValue)
@@ -186,7 +186,7 @@ unzip_impl this path zipFile fileName = do
                     Control.Monad.void (StringMaker.append stringBuffer (jio (AbFile.getParent entryFile)))
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "unzip")
                     dataOutputStream <- (DataOutputStreamFactory.getInstanceForAbFile ((jio (DataOutputStreamFactory.getInstance))) entryFile)
-                    Control.Monad.void (FileUtil.write fileUtil (jget inputStream) dataOutputStream buffer)
+                    Control.Monad.void (FileUtil.write_3 fileUtil (javaCast (jget inputStream)) dataOutputStream buffer)
                 Control.Monad.void (ZipInputStream.closeEntry ((jget inputStream)))
         pure ()
 

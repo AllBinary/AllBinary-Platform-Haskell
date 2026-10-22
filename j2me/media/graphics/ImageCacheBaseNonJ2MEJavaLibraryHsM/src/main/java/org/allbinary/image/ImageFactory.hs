@@ -66,7 +66,7 @@ newRecord_ = do
     jregisterMethod header_ "createImageUrl" (\() -> createImageUrl_impl this)
     jregisterMethod header_ "createImage" (\() -> createImage_impl this)
     jregisterMethod header_ "createImageFromInputStream" (\() -> createImageFromInputStream_impl this)
-    jregisterMethod header_ "createImageFromInputStream" (\() -> createImageFromInputStream_impl this)
+    jregisterMethod header_ "createImageFromInputStream_1" (\() -> createImageFromInputStream_1_impl this)
     pure this
 
 initFields_ :: ImageFactory -> IO ()
@@ -128,15 +128,14 @@ createImageFromInputStream_impl this keyObject_ inputStream = do
 
 
 -- throws Exception
--- Java overload of createImageFromInputStream with a different parameter count: give it a different name
-createImageFromInputStream :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> IO (Image.Image)
-createImageFromInputStream object_ a1 = jmethod object_ "createImageFromInputStream" (\() -> (createImageFromInputStream_impl (javaCast object_ :: ImageFactory))) () a1
+createImageFromInputStream_1 :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> IO (Image.Image)
+createImageFromInputStream_1 object_ a1 = jmethod object_ "createImageFromInputStream_1" (\() -> (createImageFromInputStream_1_impl (javaCast object_ :: ImageFactory))) () a1
 
-createImageFromInputStream_super :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> IO (Image.Image)
-createImageFromInputStream_super object_ a1 = (createImageFromInputStream_impl (javaCast object_ :: ImageFactory)) a1
+createImageFromInputStream_1_super :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> IO (Image.Image)
+createImageFromInputStream_1_super object_ a1 = (createImageFromInputStream_1_impl (javaCast object_ :: ImageFactory)) a1
 
-createImageFromInputStream_impl :: ImageFactory -> InputStream.InputStream -> IO (Image.Image)
-createImageFromInputStream_impl this inputStream = do
+createImageFromInputStream_1_impl :: ImageFactory -> InputStream.InputStream -> IO (Image.Image)
+createImageFromInputStream_1_impl this inputStream = do
         (Image.createImageFromInputStream inputStream)
 
 

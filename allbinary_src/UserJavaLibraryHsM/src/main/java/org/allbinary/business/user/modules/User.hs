@@ -234,7 +234,7 @@ new_ = do
 init_ :: User -> IO ()
 init_ this = do
         initFields_ this
-        assignedValue <- (UserConfigurationInterfaceFactory.getInstance)
+        assignedValue <- (UserConfigurationInterfaceFactory.getInstance_0)
         jset (this).userConfigurationInterface (assignedValue)
         assignedValue <- (Password.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         jset (this).password (assignedValue)
@@ -352,7 +352,7 @@ isValid_impl this = do
             pure (False)
             ) $ do
             valid <- newIORef (True)
-            when (Prelude.not (jio (UserName.isValid ((jio (UserName.getInstance))) (jget (this).userName)))) $ do
+            when (Prelude.not (jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jget (this).userName)))) $ do
                 jset valid (False)
             when (Prelude.not (jio (Password.isValid ((jget (this).password))))) $ do
                 jset valid (False)

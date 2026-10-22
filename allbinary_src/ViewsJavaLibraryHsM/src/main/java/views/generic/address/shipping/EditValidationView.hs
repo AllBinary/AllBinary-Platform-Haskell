@@ -110,7 +110,7 @@ isValid_impl this = do
         when ((jio (WeblisketSession.getUserName ((jio (ShippingAddressView.getWeblisketSession this))))) /= javaNull) $ do
             javaReturn (False)
         billingAddressesEntity <- (ShippingAddressesEntity.new_1 (jio (WeblisketSession.getUserName ((jio (ShippingAddressView.getWeblisketSession this))))))
-        assignedValue <- (ShippingAddressesEntity.get billingAddressesEntity (Prelude.fromIntegral ((jget (this).value)) :: Int))
+        assignedValue <- (ShippingAddressesEntity.get_1 billingAddressesEntity (Prelude.fromIntegral ((jget (this).value)) :: Int))
         jset (this).base.streetAddress (assignedValue)
         when ((jget (this).base.streetAddress) == javaNull) $ do
             javaReturn (False)

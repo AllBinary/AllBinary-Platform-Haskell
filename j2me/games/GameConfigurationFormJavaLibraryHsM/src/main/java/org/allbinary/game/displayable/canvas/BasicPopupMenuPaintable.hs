@@ -155,7 +155,7 @@ updateMeasurement_impl :: BasicPopupMenuPaintable -> Graphics.Graphics -> IO (()
 updateMeasurement_impl this graphics = do
         font <- (Graphics.getFont graphics)
         features <- (Features.getInstance)
-        isOpenGL <- (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))
+        isOpenGL <- (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
         Control.Monad.void (DrawVerticalStringUtil.updateMeasurement ((jget (this).drawStringUtil)) graphics (jget (this).label))
         bORDER <- newIORef (0)
         if ((jio (J2MEUtil.isHTML)) || isOpenGL) then do

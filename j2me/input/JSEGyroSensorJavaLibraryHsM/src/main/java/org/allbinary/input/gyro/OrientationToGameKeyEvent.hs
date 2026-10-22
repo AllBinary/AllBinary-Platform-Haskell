@@ -87,7 +87,7 @@ new_ = do
 init_ :: OrientationToGameKeyEvent -> IO ()
 init_ this = do
         initFields_ this
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (SensorFeatureFactory.getInstance))).nO_ORIENTATION))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (SensorFeatureFactory.getInstance))).nO_ORIENTATION)))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: AllBinaryOrientationSensor.AllBinaryOrientationSensor) (NoGyroSensor.new_))
             jset (this).allBinaryGyroSensor (assignedValue)
         else do

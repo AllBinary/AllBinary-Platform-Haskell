@@ -155,7 +155,7 @@ fire_super object_ a1 = (fire_impl (javaCast object_ :: TextNotificationUtil)) a
 fire_impl :: TextNotificationUtil -> String -> IO (())
 fire_impl this message = do
         gameNotificationEvent <- (GameNotificationEvent.new_5 this message (jget (this).tWO) (jget ((jio (BasicColorFactory.getInstance))).rED) (jget (this).fALSE))
-        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jget (this).gameNotificationEventHandler)) gameNotificationEvent)
+        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jget (this).gameNotificationEventHandler)) (javaCast gameNotificationEvent))
         pure ()
 
 

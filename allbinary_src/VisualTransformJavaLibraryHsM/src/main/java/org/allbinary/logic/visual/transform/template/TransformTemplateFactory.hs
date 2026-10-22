@@ -71,7 +71,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = TransformTemplateFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_4" (\() -> getInstance_4_impl this)
     pure this
 
 initFields_ :: TransformTemplateFactory -> IO ()
@@ -98,15 +98,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
-getInstance object_ a1 a2 a3 a4 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformTemplateFactory))) () a1 a2 a3 a4
+getInstance_4 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
+getInstance_4 object_ a1 a2 a3 a4 = jmethod object_ "getInstance_4" (\() -> (getInstance_4_impl (javaCast object_ :: TransformTemplateFactory))) () a1 a2 a3 a4
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
-getInstance_super object_ a1 a2 a3 a4 = (getInstance_impl (javaCast object_ :: TransformTemplateFactory)) a1 a2 a3 a4
+getInstance_4_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
+getInstance_4_super object_ a1 a2 a3 a4 = (getInstance_4_impl (javaCast object_ :: TransformTemplateFactory)) a1 a2 a3 a4
 
-getInstance_impl :: TransformTemplateFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
-getInstance_impl this abeClientInformation templateName propertiesHashMap pageContext = do
+getInstance_4_impl :: TransformTemplateFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformTemplateInterface.TransformTemplateInterface)
+getInstance_4_impl this abeClientInformation templateName propertiesHashMap pageContext = do
         handle (\(e :: JavaException) -> do
             let error = "Failed To Get Instance"
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
@@ -115,6 +114,6 @@ getInstance_impl this abeClientInformation templateName propertiesHashMap pageCo
             ) $ do
             transformInfoEntity <- (TransformInfoEntityBuilder.getInstance)
             transformInfoInterface <- (TransformInfoEntity.get transformInfoEntity templateName propertiesHashMap pageContext)
-            pure ((javaCast (jio (TransformInfoObjectFactory.getInstance ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)) :: TransformTemplateInterface.TransformTemplateInterface))
+            pure ((javaCast (jio (TransformInfoObjectFactory.getInstance_2 ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)) :: TransformTemplateInterface.TransformTemplateInterface))
 
 

@@ -127,7 +127,7 @@ init_1 this result = do
             ) $ do
             jset (this).result (result)
             tokenizer <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).aMPERSAND))
-            tokens <- (Tokenizer.getTokensFromString tokenizer result (jio (BasicArrayListD.new_)))
+            tokens <- (Tokenizer.getTokensFromString tokenizer result (javaCast (jio (BasicArrayListD.new_))))
             tokenizer2 <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).eQUALS))
             hashtable <- (Tokenizer.getTokens tokenizer2 tokens)
             Control.Monad.void (HashMap.putAll ((jget (this).keyValuePairs)) hashtable)

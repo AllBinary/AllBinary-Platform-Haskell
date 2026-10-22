@@ -74,7 +74,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = StoreTagWorkFlowFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3" (\() -> getInstance_3_impl this)
     pure this
 
 initFields_ :: StoreTagWorkFlowFactory -> IO ()
@@ -101,15 +101,14 @@ init_ this = do
 
 
 -- throws Exception, LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
-getInstance object_ a1 a2 a3 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: StoreTagWorkFlowFactory))) () a1 a2 a3
+getInstance_3 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
+getInstance_3 object_ a1 a2 a3 = jmethod object_ "getInstance_3" (\() -> (getInstance_3_impl (javaCast object_ :: StoreTagWorkFlowFactory))) () a1 a2 a3
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
-getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: StoreTagWorkFlowFactory)) a1 a2 a3
+getInstance_3_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
+getInstance_3_super object_ a1 a2 a3 = (getInstance_3_impl (javaCast object_ :: StoreTagWorkFlowFactory)) a1 a2 a3
 
-getInstance_impl :: StoreTagWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
-getInstance_impl this abeClientInformation propertiesHashMap pageContext = do
+getInstance_3_impl :: StoreTagWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (StoreWorkFlowInterface.StoreWorkFlowInterface)
+getInstance_3_impl this abeClientInformation propertiesHashMap pageContext = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 let workFlowClassName = (javaCast (jio (HashMap.get propertiesHashMap (DynamicObjectData.nAME))) :: String)
@@ -139,6 +138,6 @@ getInstance_impl this abeClientInformation propertiesHashMap pageContext = do
             jsetIndex classes (1) (assignedValue)
             jsetIndex params (0) ((jtoObject (javaCast propertiesHashMap :: Any.Any)))
             jsetIndex params (1) ((jtoObject (javaCast pageContext :: Any.Any)))
-            pure ((javaCast (jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation workFlowClassName classes params)) :: StoreWorkFlowInterface.StoreWorkFlowInterface))
+            pure ((javaCast (jio (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation workFlowClassName classes params)) :: StoreWorkFlowInterface.StoreWorkFlowInterface))
 
 

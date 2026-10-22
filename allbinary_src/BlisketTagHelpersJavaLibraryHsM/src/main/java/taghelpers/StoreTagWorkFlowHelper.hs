@@ -94,7 +94,7 @@ init_2 this hashMap pageContext = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Properties: " ++ (jio (HashMap.toString hashMap))) this "StoreTagWorkFlowHelper()")
-        assignedValue <- (StoreTagWorkFlowFactory.getInstance ((jio (StoreTagWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
+        assignedValue <- (StoreTagWorkFlowFactory.getInstance_3 ((jio (StoreTagWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
         jset (this).storeWorkFlowInterface (assignedValue)
         pure ()
 

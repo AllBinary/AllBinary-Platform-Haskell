@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.workflow
 module WorkFlowEntity (module WorkFlowEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, get, get_super, get_impl, get, get_super, get_impl, update, update_super, update_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, abeClientInformation, tableName, mETHOD_GET, mETHOD_UPDATE)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, get, get_super, get_impl, get_1, get_1_super, get_1_impl, get, update, update_super, update_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, abeClientInformation, tableName, mETHOD_GET, mETHOD_UPDATE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -93,7 +93,7 @@ newRecord_ = do
     jregisterMethod header_ "insert" (\() -> insert_impl this)
     jregisterMethod header_ "delete" (\() -> delete_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "get" (\() -> get_impl this)
+    jregisterMethod header_ "get_1" (\() -> get_1_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
@@ -181,18 +181,17 @@ get_impl this name storeName = do
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (WorkFlowData.getInstance))).nAME) name)
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
             hashMap <- (AbSqlBean.getRow_super this.base keysAndValues)
-            pure ((javaCast (jio (DbWorkFlowFactory.getInstance ((jio (DbWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap)) :: WorkFlowInterface.WorkFlowInterface))
+            pure ((javaCast (jio (DbWorkFlowFactory.getInstance_2 ((jio (DbWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap)) :: WorkFlowInterface.WorkFlowInterface))
 
 
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_) => this_ -> String -> IO (BasicArrayList.BasicArrayList)
-get object_ a1 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: WorkFlowEntity))) () a1
+get_1 :: (JavaObjectClass this_) => this_ -> String -> IO (BasicArrayList.BasicArrayList)
+get_1 object_ a1 = jmethod object_ "get_1" (\() -> (get_1_impl (javaCast object_ :: WorkFlowEntity))) () a1
 
-get_super :: (JavaObjectClass this_) => this_ -> String -> IO (BasicArrayList.BasicArrayList)
-get_super object_ a1 = (get_impl (javaCast object_ :: WorkFlowEntity)) a1
+get_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (BasicArrayList.BasicArrayList)
+get_1_super object_ a1 = (get_1_impl (javaCast object_ :: WorkFlowEntity)) a1
 
-get_impl :: WorkFlowEntity -> String -> IO (BasicArrayList.BasicArrayList)
-get_impl this storeName = do
+get_1_impl :: WorkFlowEntity -> String -> IO (BasicArrayList.BasicArrayList)
+get_1_impl this storeName = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget (this).mETHOD_GET) e)
@@ -206,7 +205,7 @@ get_impl this storeName = do
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
                 let workFlowHashMap = (javaCast (jio (BasicArrayList.get hashMapVector i)) :: HashMap.HashMap)
                 when (workFlowHashMap /= javaNull) $ do
-                    Control.Monad.void (BasicArrayList.add workFlowsVector (jio (DbWorkFlowFactory.getInstance ((jio (DbWorkFlowFactory.getInstance))) (jget this.abeClientInformation) workFlowHashMap)))
+                    Control.Monad.void (BasicArrayList.add workFlowsVector (jio (DbWorkFlowFactory.getInstance_2 ((jio (DbWorkFlowFactory.getInstance))) (jget this.abeClientInformation) workFlowHashMap)))
             pure (workFlowsVector)
 
 

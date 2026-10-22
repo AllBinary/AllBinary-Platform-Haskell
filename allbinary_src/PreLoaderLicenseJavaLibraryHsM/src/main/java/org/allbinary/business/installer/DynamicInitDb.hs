@@ -78,7 +78,7 @@ init_1 :: DynamicInitDb -> AbeClientInformationInterface.AbeClientInformationInt
 init_1 this abeClientInformation = do
         InitDb.init_ this.base
         initFields_ this
-        Control.Monad.void (InitDb.setHelper this (jio (InitDbHelperFactory.getInstance abeClientInformation)))
+        Control.Monad.void (InitDb.setHelper this (jio (InitDbHelperFactory.getInstance_1 abeClientInformation)))
         pure ()
 
 new_2 :: AbeClientInformationInterface.AbeClientInformationInterface -> DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface -> IO DynamicInitDb

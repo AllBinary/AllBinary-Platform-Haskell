@@ -99,8 +99,8 @@ init_ :: PaymentTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (PaymentHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (PaymentHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (PaymentHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (PaymentHelperFactory.new_))))
         pure ()
 
 

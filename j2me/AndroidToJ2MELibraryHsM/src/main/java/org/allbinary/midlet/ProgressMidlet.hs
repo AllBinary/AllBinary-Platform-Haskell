@@ -118,7 +118,7 @@ exitProgress_super object_ a1 = (exitProgress_impl (javaCast object_ :: Progress
 
 exitProgress_impl :: ProgressMidlet -> Bool -> IO (())
 exitProgress_impl this isProgress = do
-        processor <- (MidletExitProcessorFactory.getExitInstance ((jio (MidletExitProcessorFactory.getInstance))) this)
+        processor <- (MidletExitProcessorFactory.getExitInstance ((jio (MidletExitProcessorFactory.getInstance))) (javaCast this))
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "exit" e)
             handle (\(e2 :: JavaException) -> do

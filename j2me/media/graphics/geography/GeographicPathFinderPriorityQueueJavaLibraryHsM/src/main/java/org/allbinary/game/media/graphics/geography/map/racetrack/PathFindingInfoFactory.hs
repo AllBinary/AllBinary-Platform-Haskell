@@ -130,7 +130,7 @@ getInstancePathFindingInfo_impl this geographicMapInterface mapArray = do
         Control.Monad.void (GeographicMapCellHistory.init ((jio (RaceTrackRoadsGeographicMapCellHistoryFactory.getInstance))))
         Control.Monad.void (PathFindingInfoFactory.init this geographicMapInterface pathFindingInfo mapArray)
         Control.Monad.void (PathFinder.init ((jget (this).pathFinder)) geographicMapInterface)
-        Control.Monad.void (PathFindingInfo.setPathFinder pathFindingInfo (jget (this).pathFinder))
+        Control.Monad.void (PathFindingInfo.setPathFinder pathFindingInfo (javaCast (jget (this).pathFinder)))
         pure (pathFindingInfo)
 
 

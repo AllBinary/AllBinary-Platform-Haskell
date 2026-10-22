@@ -125,7 +125,7 @@ fetchHighScoresPreload_impl this gameInfo highScoresResultsListener preload = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget (this).fETCH) e)
             ) $ do
-            assignedValue <- (RecordStoreHighScores.getInstance (jget (this).abeClientInformation) gameInfo (jget (this).tOP) (jget (this).pERSONAL_HIGH_SCORES) (jget (this).sCORES) (jio (ScoreComparator.new_1 True)))
+            assignedValue <- (RecordStoreHighScores.getInstance (jget (this).abeClientInformation) gameInfo (jget (this).tOP) (jget (this).pERSONAL_HIGH_SCORES) (jget (this).sCORES) (javaCast (jio (ScoreComparator.new_1 True))))
             jsetIndex ((jget (this).highScoresArray)) (0) (assignedValue)
             Control.Monad.void (HighScoresResultsListener.setHighScoresArray highScoresResultsListener (jget (this).highScoresArray))
         pure ()

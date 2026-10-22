@@ -119,7 +119,7 @@ run_impl this = do
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART_RUNNABLE) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (AllBinaryMidlet.destroyAppInRunnable ((jget (this).midlet)) False (jget (this).isProgress))
-            Control.Monad.void (AllBinaryMidlet.setDisplay ((jget (this).midlet)) (NullCanvas.nULL_CANVAS))
+            Control.Monad.void (AllBinaryMidlet.setDisplay ((jget (this).midlet)) (javaCast NullCanvas.nULL_CANVAS))
             Control.Monad.void (AllBinaryMidlet.notifyDestroyed ((jget (this).midlet)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND_RUNNABLE) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (Processor.process ((jget (this).processor)))

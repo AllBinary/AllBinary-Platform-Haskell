@@ -156,7 +156,7 @@ processMultipartRequest_impl this request = do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Special Request Data: " ++ (jio (HashMap.toString specialRequest))) this "processMultipartRequest()")
                 Control.Monad.void (MultipartRequestParams.setSpecial this)
-                Control.Monad.void (RequestParams.setMap this specialRequest)
+                Control.Monad.void (RequestParams.setMap this (javaCast specialRequest))
         pure ()
 
 

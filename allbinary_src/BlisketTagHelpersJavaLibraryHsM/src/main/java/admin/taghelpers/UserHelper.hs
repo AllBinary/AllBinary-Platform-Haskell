@@ -172,7 +172,7 @@ insert_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "add()" e)
             pure (error)
             ) $ do
-            userInterface <- (NewUserFactory.getInstance (jget (this).request) (jget this.hashMap))
+            userInterface <- (NewUserFactory.getInstance_2 (jget (this).request) (jget this.hashMap))
             let enable = (javaCast (jio (HashMap.get ((jget (this).hashMap)) (jget ((jio (EntryData.getInstance))).eNABLE))) :: String)
             when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) enable))) $ do
                 Control.Monad.void (UserInterface.setEnable userInterface enable)
@@ -198,7 +198,7 @@ update_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "update()" e)
             pure (error)
             ) $ do
-            user <- (NewUserFactory.getInstance (jget (this).request) (jget this.hashMap))
+            user <- (NewUserFactory.getInstance_2 (jget (this).request) (jget this.hashMap))
             values <- (UserInterface.toHashMap user)
             Control.Monad.void (UserEntity.update ((jio (UserEntityFactory.getInstance))) (jio (UserInterface.getUserName user)) values)
             let success = "New User Successfully added to the Users Table"
@@ -262,7 +262,7 @@ restore_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (jio (UserEntityFactory.getInstance)) (jget (this).portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (UserEntityFactory.getInstance))) (jget (this).portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -283,7 +283,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (UserEntityFactory.getInstance)))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (UserEntityFactory.getInstance))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)

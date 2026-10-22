@@ -145,7 +145,7 @@ isValid_impl this = do
         let downloadable = (Prelude.read (jio (ItemInterface.getDownloads ((jget (this).base.itemInterface)))))
         if (downloadable /= 0) then do
             downloadItemsEntity <- (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance))))
-            vector <- (DownloadItemsEntity.getForItem downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
+            vector <- (DownloadItemsEntity.getForItem_2 downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
             when ((jio (BasicArrayList.size vector)) /= 1) $ do
                 javaReturn (False)
             jset (this).base.downloadableItem ((javaCast (jio (BasicArrayList.get vector 0)) :: DownloadableItem.DownloadableItem))

@@ -85,7 +85,7 @@ staticInit_ = do
             Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) instance_ sTATIC_BLOCK e)
             ) $ do
             Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).sTART) instance_ sTATIC_BLOCK)
-            assignedValue <- (PoolInterfaceFactory.getInstance (jio (BufferedImageCacheableFactory.new_)) (jget ((jio (PoolTypeFactory.getInstance))).vECTOR_POOL) (jget ((jio (CachePolicyFactory.getInstance))).mAX_TIME_THOUSAND_MAX))
+            assignedValue <- (PoolInterfaceFactory.getInstance (javaCast (jio (BufferedImageCacheableFactory.new_))) (jget ((jio (PoolTypeFactory.getInstance))).vECTOR_POOL) (jget ((jio (CachePolicyFactory.getInstance))).mAX_TIME_THOUSAND_MAX))
             jset BufferedImagePoolSingleton.poolInterface (assignedValue)
             Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).eND) instance_ sTATIC_BLOCK)
         pure ()

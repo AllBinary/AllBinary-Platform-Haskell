@@ -353,11 +353,11 @@ init_25 this remoteInfo parentLayer advancedRTSProperties groupInterface rootNam
         AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (jio (WaypointRTSFormInput.new_2 groupInterface True)) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (viewPosition)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (jio (CollidableUnitBehavior.new_1 True)))
+        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableUnitBehavior.new_1 True))))
         jset (this).waypointLayerInterfaceFactoryInterface (waypointLayerInterfaceFactoryInterface)
         jset (this).maxResourceLoad ((Prelude.fromIntegral maxResourceLoad))
         jset (this).moveSoundInterface (moveSoundInterface)
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS)))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 this))
             jset (this).damageFloaters (assignedValue)
             jset (this).damageFloatersPaintableInterface ((jget (this).damageFloaters))
@@ -366,7 +366,7 @@ init_25 this remoteInfo parentLayer advancedRTSProperties groupInterface rootNam
             jset (this).damageFloatersPaintableInterface (assignedValue)
             assignedValue <- (DamageFloaters.new_)
             jset (this).damageFloaters (assignedValue)
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS)))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 this (jio (AdvancedRTSGameLayer.getHealthInterface this)) (jio (HealthBarTwodAnimation.new_2 (javaCast this :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT))) (Prelude.negate 1)))
             jset (this).healthBar (assignedValue)
         else do
@@ -414,7 +414,7 @@ updateWaypointBehavior_impl this geographicMapInterface = do
         Control.Monad.void (ABHashtable.put hashtable (jget ((jget (this).groupCommonFactory)).iD) (jio (AdvancedRTSGameLayer.getGroupInterface this)))
         Control.Monad.void (ABHashtable.put hashtable (Layer.iD) this)
         Control.Monad.void (ABHashtable.put hashtable (AllBinaryGameLayerManager.iD) (jget (this).base.base.base.base.allBinaryGameLayerManagerP))
-        Control.Monad.void (AdvancedRTSGameLayer.setWaypointBehavior this (jio (UnitWaypointBehavior2.new_2 this (javaCast (jio (LayerInterfaceFactoryInterface.getNextInstance ((jget (this).waypointLayerInterfaceFactoryInterface)) hashtable (jget (this).base.base.base.base.base.base.base.base.x) (jget (this).base.base.base.base.base.base.base.base.y) (jget (this).base.base.base.base.base.base.base.base.z))) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer))))
+        Control.Monad.void (AdvancedRTSGameLayer.setWaypointBehavior this (javaCast (jio (UnitWaypointBehavior2.new_2 this (javaCast (jio (LayerInterfaceFactoryInterface.getNextInstance ((jget (this).waypointLayerInterfaceFactoryInterface)) hashtable (jget (this).base.base.base.base.base.base.base.base.x) (jget (this).base.base.base.base.base.base.base.base.y) (jget (this).base.base.base.base.base.base.base.base.z))) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)))))
         features <- (Features.getInstance)
         let waypoint = (if (jio (J2MEUtil.isHTML)) then (jio (MultipassNoCacheWaypoint.new_2 this (jio (AttackSound.getInstance)))) else (jio (NoCacheWaypoint.new_2 this (jio (AttackSound.getInstance)))))
         Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) waypoint)
@@ -433,9 +433,9 @@ construct_super object_ a1 = (construct_impl (javaCast object_ :: UnitLayer)) a1
 construct_impl :: UnitLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> IO (())
 construct_impl this rtsPlayerLayerInterface = do
         Control.Monad.void (AdvancedRTSGameLayer.construct_super this.base rtsPlayerLayerInterface)
-        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) this)
-        Control.Monad.void (WaypointEventHandler.addListenerInterface ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (AdvancedRTSGameLayer.getGroupInterface this))) (0))))) (jio (UnitLayer.getUnitWaypointBehavior this)))
-        Control.Monad.void (BuildingEventHandler.addListenerInterface ((jio (BuildingEventHandler.getInstance))) this)
+        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) (javaCast this))
+        Control.Monad.void (WaypointEventHandler.addListenerInterface ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (AdvancedRTSGameLayer.getGroupInterface this))) (0))))) (javaCast (jio (UnitLayer.getUnitWaypointBehavior this))))
+        Control.Monad.void (BuildingEventHandler.addListenerInterface ((jio (BuildingEventHandler.getInstance))) (javaCast this))
         Control.Monad.void (UnitWaypointBehavior.setCurrentPathGeographicMapCellPosition ((jio (UnitLayer.getUnitWaypointBehavior this))) (jio (UnitLayer.getCurrentGeographicMapCellPosition this)))
         Control.Monad.void (UnitLayer.updateSensorGeographicMapCellPositionList this)
         Control.Monad.void (UnitWaypointBehavior.setLastPathGeographicMapCellPosition ((jio (UnitLayer.getUnitWaypointBehavior this))) (jio (UnitWaypointBehavior.getCurrentPathGeographicMapCellPosition ((jio (UnitLayer.getUnitWaypointBehavior this))))))
@@ -556,14 +556,14 @@ setClosestGeographicMapCellHistory_super object_ a1 = (setClosestGeographicMapCe
 
 setClosestGeographicMapCellHistory_impl :: UnitLayer -> BasicArrayList.BasicArrayList -> IO (())
 setClosestGeographicMapCellHistory_impl this pathsList = do
-        Control.Monad.void (RTSLayerLogHelper.setClosestGeographicMapCellHistory ((jget (this).rtsLogHelper)) this pathsList)
+        Control.Monad.void (RTSLayerLogHelper.setClosestGeographicMapCellHistory ((jget (this).rtsLogHelper)) (javaCast this) pathsList)
         closestIndex <- newIORef ((Prelude.negate 1))
         shortestDistance <- newIORef ((2147483647 :: Int))
         currentDistance <- newIORef ((2147483647 :: Int))
         forM_ [((jio (BasicArrayList.size pathsList)) - 1), ((jio (BasicArrayList.size pathsList)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             let geographicMapCellPositionBasicArrayList = (javaCast (jio (BasicArrayList.get pathsList index)) :: BasicArrayList.BasicArrayList)
             let geographicMapCellPosition = (javaCast (jio (BasicArrayList.get geographicMapCellPositionBasicArrayList ((jio (BasicArrayList.size geographicMapCellPositionBasicArrayList)) - 1))) :: GeographicMapCellPosition.GeographicMapCellPosition)
-            assignedValue <- (LayerDistanceUtil.getDistanceAt ((jget (this).layerDistanceUtil)) this (jio (GeographicMapCellPosition.getMidPoint geographicMapCellPosition)))
+            assignedValue <- (LayerDistanceUtil.getDistanceAt ((jget (this).layerDistanceUtil)) (javaCast this) (jio (GeographicMapCellPosition.getMidPoint geographicMapCellPosition)))
             jset currentDistance (assignedValue)
             when ((jget currentDistance) < (jget shortestDistance)) $ do
                 jset shortestDistance ((jget currentDistance))
@@ -662,7 +662,7 @@ processBuiltTick_impl this allBinaryLayerManager = do
                 else do
                     Control.Monad.void (IndexedAnimation.nextFrame ((jget (this).base.base.destroyAnimationInterface)))
             else do
-                Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (jget (this).base.base.destroyAnimationInterface))
+                Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (javaCast (jget (this).base.base.destroyAnimationInterface)))
                 Control.Monad.void (PlayerQueue.add ((jio (SecondaryPlayerQueueFactory.getInstance))) (jio (ExplosionBasicSound.getInstance)))
                 Control.Monad.void (ShakeAnimationListener.onSmallShakeEvent ((jget (this).base.shakeListener)))
                 Control.Monad.void (AllBinaryVibrationME.vibrate ((jget (this).base.vibration)) (jget (this).base.duration) 0 0)
@@ -905,7 +905,7 @@ trackTo_impl this reason = do
         point <- (GeographicMapCellPosition.getMidPoint nextUnvisitedPathGeographicMapCellPosition)
         let dx = ((((jio (AdvancedRTSGameLayer.getXP this)) + (jio (AdvancedRTSGameLayer.getHalfWidth this)))) - (jio (GPoint.getX point)))
         let dy = ((((jio (AdvancedRTSGameLayer.getYP this)) + (jio (AdvancedRTSGameLayer.getHalfHeight this)))) - (jio (GPoint.getY point)))
-        Control.Monad.void (RTSLayerLogHelper.trackTo ((jget (this).rtsLogHelper)) this nextUnvisitedPathGeographicMapCellPosition dx dy reason)
+        Control.Monad.void (RTSLayerLogHelper.trackTo ((jget (this).rtsLogHelper)) (javaCast this) nextUnvisitedPathGeographicMapCellPosition dx dy reason)
         Control.Monad.void (UnitLayer.trackToDXY this dx dy)
         pure ()
 
@@ -939,30 +939,30 @@ turnTo_impl this dx dy targetAngle = do
         nextUnvisitedPathGeographicMapCellPosition <- (WaypointBehaviorBase.getNextUnvisitedPathGeographicMapCellPosition waypointBehaviorBase)
         evading <- newIORef (False)
         when ((jio (UnitWaypointBehavior.getSensorAction ((jio (UnitLayer.getUnitWaypointBehavior this))))) == (jget ((jio (SensorActionFactory.getInstance))).eVADE)) $ do
-            Control.Monad.void (RTSLayerLogHelper.evade ((jget (this).rtsLogHelper)) this)
+            Control.Monad.void (RTSLayerLogHelper.evade ((jget (this).rtsLogHelper)) (javaCast this))
             jset evading (True)
             jset targetAngle (((jget targetAngle) + 180))
         angleInfo <- (RotationAnimation.getAngleInfoP ((jget (this).rotationAnimationInterfaceP)))
         angle <- (FrameUtil.adjustAngleToFrameAngle ((jio (FrameUtil.getInstance))) ((Prelude.fromIntegral (jio (AngleInfo.getAngle angleInfo))) - 270))
-        Control.Monad.void (RTSLayerLogHelper.turnTo ((jget (this).rtsLogHelper)) this dx dy angleInfo angle (jget (this).movementAngle) (jget evading) (jget targetAngle))
+        Control.Monad.void (RTSLayerLogHelper.turnTo ((jget (this).rtsLogHelper)) (javaCast this) dx dy angleInfo angle (jget (this).movementAngle) (jget evading) (jget targetAngle))
         gameKeyEventFactory <- (GameKeyEventFactory.getInstance)
         if ((dx == 0) && (dy == 0)) then do
-            Control.Monad.void (RTSLayerLogHelper.doneMoving ((jget (this).rtsLogHelper)) this)
+            Control.Monad.void (RTSLayerLogHelper.doneMoving ((jget (this).rtsLogHelper)) (javaCast this))
             javaReturn (True)
         else if (((Prelude.fromIntegral (jio (NamedAngle.getValue ((jget (this).movementAngle)))))) == angle) then do
             when ((dx > 0) && ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).lEFT))) $ do
-                Control.Monad.void (RTSLayerLogHelper.movingLeft ((jget (this).rtsLogHelper)) this)
+                Control.Monad.void (RTSLayerLogHelper.movingLeft ((jget (this).rtsLogHelper)) (javaCast this))
                 javaReturn (False)
             when ((dx < 0) && ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).rIGHT))) $ do
-                Control.Monad.void (RTSLayerLogHelper.movingRight ((jget (this).rtsLogHelper)) this)
+                Control.Monad.void (RTSLayerLogHelper.movingRight ((jget (this).rtsLogHelper)) (javaCast this))
                 javaReturn (False)
             when ((dy > 0) && ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).uP))) $ do
-                Control.Monad.void (RTSLayerLogHelper.movingUp ((jget (this).rtsLogHelper)) this)
+                Control.Monad.void (RTSLayerLogHelper.movingUp ((jget (this).rtsLogHelper)) (javaCast this))
                 javaReturn (False)
             when ((dy < 0) && ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).dOWN))) $ do
-                Control.Monad.void (RTSLayerLogHelper.movingDown ((jget (this).rtsLogHelper)) this)
+                Control.Monad.void (RTSLayerLogHelper.movingDown ((jget (this).rtsLogHelper)) (javaCast this))
                 javaReturn (False)
-            Control.Monad.void (RTSLayerLogHelper.currentMoveEnded ((jget (this).rtsLogHelper)) this)
+            Control.Monad.void (RTSLayerLogHelper.currentMoveEnded ((jget (this).rtsLogHelper)) (javaCast this))
             if (((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).lEFT)) || ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).rIGHT))) then do
                 Control.Monad.void (UnitLayer.handleDeltalY this dx dy)
             else when (((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).uP)) || ((jget (this).movementAngle) == (jget ((jget (this).angleFactory)).dOWN))) $ do
@@ -979,14 +979,14 @@ turnTo_impl this dx dy targetAngle = do
                         Control.Monad.void (UnitLayer.handleDeltalY this dx dy)
                 let deltaAngle2 = ((Prelude.fromIntegral (jio (NamedAngle.getValue ((jget (this).movementAngle))))) - angle)
                 if (deltaAngle2 > 0) then do
-                    Control.Monad.void (RTSLayerLogHelper.rotateRight ((jget (this).rtsLogHelper)) this)
-                    Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.rIGHT))))
+                    Control.Monad.void (RTSLayerLogHelper.rotateRight ((jget (this).rtsLogHelper)) (javaCast this))
+                    Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.rIGHT))))
                 else do
-                    Control.Monad.void (RTSLayerLogHelper.rotateLeft ((jget (this).rtsLogHelper)) this)
-                    Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.lEFT))))
+                    Control.Monad.void (RTSLayerLogHelper.rotateLeft ((jget (this).rtsLogHelper)) (javaCast this))
+                    Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.lEFT))))
                 javaReturn (True)
             else do
-                Control.Monad.void (RTSLayerLogHelper.noRotation ((jget (this).rtsLogHelper)) this)
+                Control.Monad.void (RTSLayerLogHelper.noRotation ((jget (this).rtsLogHelper)) (javaCast this))
             javaReturn (False)
 
 
@@ -1006,7 +1006,7 @@ handleDeltalX_impl this dx dy = do
         else do
             jset (this).movementAngle ((jget ((jget (this).angleFactory)).rIGHT))
             jset (this).steeringInsideGeographicMapCellPosition (nextUnvisitedPathGeographicMapCellPosition)
-        Control.Monad.void (RTSLayerLogHelper.handle ((jget (this).rtsLogHelper)) this (jget (this).movementAngle))
+        Control.Monad.void (RTSLayerLogHelper.handle ((jget (this).rtsLogHelper)) (javaCast this) (jget (this).movementAngle))
         pure ()
 
 
@@ -1026,7 +1026,7 @@ handleDeltalY_impl this dx dy = do
         else do
             jset (this).movementAngle ((jget ((jget (this).angleFactory)).dOWN))
             jset (this).steeringInsideGeographicMapCellPosition (nextUnvisitedPathGeographicMapCellPosition)
-        Control.Monad.void (RTSLayerLogHelper.handle ((jget (this).rtsLogHelper)) this (jget (this).movementAngle))
+        Control.Monad.void (RTSLayerLogHelper.handle ((jget (this).rtsLogHelper)) (javaCast this) (jget (this).movementAngle))
         pure ()
 
 
@@ -1063,16 +1063,16 @@ fireOrMove_impl :: UnitLayer -> IO (())
 fireOrMove_impl this = do
         gameKeyEventFactory <- (GameKeyEventFactory.getInstance)
         if (jio (UnitWaypointBehavior.needToMove ((jio (UnitLayer.getUnitWaypointBehavior this))))) then do
-            Control.Monad.void (RTSLayer2LogHelper.steeringUp ((jget (this).base.base.rtsLayer2LogHelper)) this)
+            Control.Monad.void (RTSLayer2LogHelper.steeringUp ((jget (this).base.base.rtsLayer2LogHelper)) (javaCast this))
             when ((jget (this).base.base.showMoreCaptionStates) && (Prelude.not (jio (CaptionAnimationHelperBase.isShowing ((jget (this).captionAnimationHelper)))))) $ do
                 Control.Monad.void (CaptionAnimationHelperBase.update ((jget (this).captionAnimationHelper)) (UnitLayer.mOVE) (jget ((jget (this).basicColorFactory)).gREEN))
-            Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.uP))))
+            Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.uP))))
         else do
             Control.Monad.void (CaptionAnimationHelperBase.update ((jget (this).captionAnimationHelper)) (jget ((jio (CommonPhoneStrings.getInstance))).fIRE) (jget ((jget (this).basicColorFactory)).rED))
-            Control.Monad.void (RTSLayer2LogHelper.steeringFireOrStop ((jget (this).base.base.rtsLayer2LogHelper)) this)
+            Control.Monad.void (RTSLayer2LogHelper.steeringFireOrStop ((jget (this).base.base.rtsLayer2LogHelper)) (javaCast this))
             Control.Monad.void (UnitLayer.allStop this)
-            Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.kEY_NUM0))))
-            Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (jio (UnitLayer.getTrackingEvent this)))
+            Control.Monad.void (BasicArrayList.add ((jio (AdvancedRTSGameLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.kEY_NUM0))))
+            Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (javaCast (jio (UnitLayer.getTrackingEvent this))))
         pure ()
 
 
@@ -1095,7 +1095,7 @@ move_impl this = do
                 Control.Monad.void (UnitWaypointBehavior.setMoving ((jio (UnitLayer.getUnitWaypointBehavior this))) True)
                 let geographicMapCompositeInterface = (javaCast (jget (this).base.base.base.base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
                 let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
-                Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) geographicMapInterface this (Prelude.fromIntegral velocityXScaled) (Prelude.fromIntegral velocityYScaled) (jio (UnitLayer.getPartialpositionlist)))
+                Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) geographicMapInterface (javaCast this) (Prelude.fromIntegral velocityXScaled) (Prelude.fromIntegral velocityYScaled) (jio (UnitLayer.getPartialpositionlist)))
                 let cellPosition = (javaCast (jio (DropCellPositionHistory.getCellPositionWithDrop ((jio (DropCellPositionHistory.getInstance))) (jio (UnitLayer.getPartialpositionlist)))) :: GeographicMapCellPosition.GeographicMapCellPosition)
                 if ((jtoObject cellPosition) == (jtoObject (jget ((jget (this).cellPositionFactory)).nONE))) then do
                     tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
@@ -1108,11 +1108,11 @@ move_impl this = do
                     jset y (assignedValue)
                     Control.Monad.void (AdvancedRTSGameLayer.setPosition this (jget x) (jget y) (jget (this).base.base.base.base.base.base.base.base.z))
                 else do
-                    allbinaryLayer <- (DropCellPositionHistory.getLayerInterface ((jio (DropCellPositionHistory.getInstance))) cellPosition)
+                    allbinaryLayer <- (DropCellPositionHistory.getLayerInterface ((jio (DropCellPositionHistory.getInstance))) (javaCast cellPosition))
                     Control.Monad.void (UnitWaypointBehavior.setMovingFromStopped ((jio (UnitLayer.getUnitWaypointBehavior this))) False)
                     Control.Monad.void (UnitWaypointBehavior.addBuildingChase ((jio (UnitLayer.getUnitWaypointBehavior this))) allbinaryLayer cellPosition)
             if (jio (UnitWaypointBehavior.isMoving ((jio (UnitLayer.getUnitWaypointBehavior this))))) then do
-                Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (jio (UnitLayer.getTrackingEvent this)))
+                Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (javaCast (jio (UnitLayer.getTrackingEvent this))))
             else do
                 Control.Monad.void (UnitWaypointBehavior.setMovingFromStopped ((jio (UnitLayer.getUnitWaypointBehavior this))) False)
             when ((jio (UnitWaypointBehavior.isMovingFromStopped ((jio (UnitLayer.getUnitWaypointBehavior this))))) && (jio (AdvancedRTSGameLayer.isVisible this))) $ do
@@ -1223,9 +1223,9 @@ setDestroyed_impl this destroyed = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.base.base.base.base.base.logUtil)) (jget ((jget (this).base.base.base.base.base.base.commonStrings)).sTART) this "setDestroyed")
         Control.Monad.void (AdvancedRTSGameLayer.setDestroyed_super this.base destroyed)
         when (jio (AdvancedRTSGameLayer.isDestroyed this)) $ do
-            Control.Monad.void (WaypointEventHandler.removeListener ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (AdvancedRTSGameLayer.getGroupInterface this))) (0))))) (jio (UnitLayer.getUnitWaypointBehavior this)))
-            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) this)
-            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) this)
+            Control.Monad.void (WaypointEventHandler.removeListener ((jio (WaypointEventHandlerFactory.getInstance (jindex ((jio (AdvancedRTSGameLayer.getGroupInterface this))) (0))))) (javaCast (jio (UnitLayer.getUnitWaypointBehavior this))))
+            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) (javaCast this))
+            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) (javaCast this))
             when (Prelude.not (jio (Health.isAlive ((jio (AdvancedRTSGameLayer.getHealthInterface this)))))) $ do
                 damage <- (Health.getMaxHealth ((jio (AdvancedRTSGameLayer.getHealthInterface this))))
                 when (damage > 10) $ do
@@ -1306,7 +1306,7 @@ handleCost_impl :: UnitLayer -> PathFindingLayerInterface.PathFindingLayerInterf
 handleCost_impl this ownerLayer = do
         when ((jio (UnitLayer.getLoad this)) > 0) $ do
             Control.Monad.void (CapitalEvent.setValue ((jget (this).cAPITAL_EVENT)) (jio (UnitLayer.getLoad this)))
-            Control.Monad.void (CapitalEventHandler.fireEvent ((jio (CapitalEventHandlerFactory.getInstance (jindex ((jio (PathFindingLayerInterface.getGroupInterface ownerLayer))) (0))))) (jget (this).cAPITAL_EVENT))
+            Control.Monad.void (CapitalEventHandler.fireEvent ((jio (CapitalEventHandlerFactory.getInstance (jindex ((jio (PathFindingLayerInterface.getGroupInterface ownerLayer))) (0))))) (javaCast (jget (this).cAPITAL_EVENT)))
             Control.Monad.void (UnitLayer.setLoad this 0)
         pure ()
 
@@ -1321,7 +1321,7 @@ createHudPaintable_impl :: UnitLayer -> IO (SelectionHudPaintable.SelectionHudPa
 createHudPaintable_impl this = do
         rtsLayerHudPaintable <- (RTSLayerHudPaintable.getInstance)
         Control.Monad.void (RTSLayerHudPaintable.setBasicColorP rtsLayerHudPaintable (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).base.base.base.base.allBinaryGameLayerManagerP)))))
-        Control.Monad.void (RTSLayerHudPaintable.setRtsLayer rtsLayerHudPaintable this)
+        Control.Monad.void (RTSLayerHudPaintable.setRtsLayer rtsLayerHudPaintable (javaCast this))
         pure ((javaCast rtsLayerHudPaintable :: SelectionHudPaintable.SelectionHudPaintable))
 
 

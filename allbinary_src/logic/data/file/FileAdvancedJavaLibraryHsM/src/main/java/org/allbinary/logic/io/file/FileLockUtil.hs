@@ -193,7 +193,7 @@ getLock_overload2_impl :: FileLockUtil -> AbFileOutputStream.AbFileOutputStream 
 getLock_overload2_impl this fileOutputStream = do
         flip finally (do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Finally - Closing FileOutputStream" this "getLock")
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) fileOutputStream)
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast fileOutputStream))
             ) $ handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Exception returns null" this "getLock" e)
             pure (javaNull)

@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.workflow
 module WorkFlowEntityInterface (module WorkFlowEntityInterface, module BasicDataTableInterface) where
 
-import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, get, get_super, get_impl, delete, delete_super, delete_impl, insert, insert_super, insert_impl, update, update_super, update_impl, toString)
+import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, get_2, get_2_super, get_2_impl, get, delete, delete_super, delete_impl, insert, insert_super, insert_impl, update, update_super, update_impl, toString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -80,15 +80,14 @@ get_impl this storeName = javaAbstractMethod "get"
 
 
 -- throws Exception, LicensingException
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_) => this_ -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-get object_ a1 a2 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: WorkFlowEntityInterface))) () a1 a2
+get_2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+get_2 object_ a1 a2 = jmethod object_ "get_2" (\() -> (get_2_impl (javaCast object_ :: WorkFlowEntityInterface))) () a1 a2
 
-get_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-get_super object_ a1 a2 = (get_impl (javaCast object_ :: WorkFlowEntityInterface)) a1 a2
+get_2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+get_2_super object_ a1 a2 = (get_2_impl (javaCast object_ :: WorkFlowEntityInterface)) a1 a2
 
-get_impl :: WorkFlowEntityInterface -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-get_impl this name storeName = javaAbstractMethod "get"
+get_2_impl :: WorkFlowEntityInterface -> String -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+get_2_impl this name storeName = javaAbstractMethod "get"
 
 
 delete :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())

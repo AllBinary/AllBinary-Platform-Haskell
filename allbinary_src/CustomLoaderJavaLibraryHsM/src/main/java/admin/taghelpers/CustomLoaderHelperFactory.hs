@@ -72,7 +72,7 @@ newRecord_ = do
     jregisterLevel header_ this
     TagHelperFactoryInterface.registerInterface_ header_
     jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: CustomLoaderHelperFactory -> IO ()
@@ -106,15 +106,14 @@ getInstance_impl this hashMap pageContext = do
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: CustomLoaderHelperFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: CustomLoaderHelperFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: CustomLoaderHelperFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: CustomLoaderHelperFactory)) a1
 
-getInstance_impl :: CustomLoaderHelperFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
-getInstance_impl this abeClientInformation = do
-        (fmap jtoObject (HelperFactory.getInstance abeClientInformation fACTORYNAME (CustomLoaderHelperFactory.cLASSNAME)))
+getInstance_1_impl :: CustomLoaderHelperFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
+getInstance_1_impl this abeClientInformation = do
+        (fmap jtoObject (HelperFactory.getInstance_3 abeClientInformation fACTORYNAME (CustomLoaderHelperFactory.cLASSNAME)))
 
 

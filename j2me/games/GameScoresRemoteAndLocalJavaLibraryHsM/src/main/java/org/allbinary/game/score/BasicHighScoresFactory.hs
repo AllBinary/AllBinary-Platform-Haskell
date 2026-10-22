@@ -149,9 +149,9 @@ fetchHighScoresPreload_super object_ a1 a2 a3 = (fetchHighScoresPreload_impl (ja
 
 fetchHighScoresPreload_impl :: BasicHighScoresFactory -> GameInfo.GameInfo -> HighScoresResultsListener.HighScoresResultsListener -> Bool -> IO (())
 fetchHighScoresPreload_impl this gameInfo highScoresResultsListener preload = do
-        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
+        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
             -- run
--}))
+-})))
         pure ()
 
 

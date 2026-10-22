@@ -133,8 +133,8 @@ getBytes_impl this fileItem = do
         inputStream <- newIORef (javaNull)
         outputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close streamUtil (jget outputStream))
-            Control.Monad.void (StreamUtil.close streamUtil (jget inputStream))
+            Control.Monad.void (StreamUtil.close streamUtil (javaCast (jget outputStream)))
+            Control.Monad.void (StreamUtil.close streamUtil (javaCast (jget inputStream)))
             ) $ do
             assignedValue <- (FileItemStream.openStream fileItem)
             jset inputStream (assignedValue)
@@ -149,7 +149,7 @@ getBytes_impl this fileItem = do
                 Control.Monad.void (StringMaker.append stringBuffer " name = ")
                 Control.Monad.void (StringMaker.append stringBuffer (jio (FileItemStream.getName fileItem)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "write()")
-            jset outputStream ((javaCast (jio (StreamUtil.get streamUtil (jget inputStream) (jget outputStream) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
+            jset outputStream ((javaCast (jio (StreamUtil.get streamUtil (jget inputStream) (javaCast (jget outputStream)) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
             (ByteArrayOutputStream.toByteArray ((jget outputStream)))
 
 

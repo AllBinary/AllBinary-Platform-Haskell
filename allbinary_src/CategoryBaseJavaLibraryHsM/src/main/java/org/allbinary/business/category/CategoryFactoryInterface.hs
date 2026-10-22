@@ -75,15 +75,14 @@ getRootInstance_impl :: CategoryFactoryInterface -> IO (CategoryInterface.Catego
 getRootInstance_impl this = javaAbstractMethod "getRootInstance"
 
 
--- Java overload of getRootInstance with a different parameter count: give it a different name
-getRootInstance :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance object_ a1 = jmethod object_ "getRootInstance" (\() -> (getRootInstance_impl (javaCast object_ :: CategoryFactoryInterface))) () a1
+getRootInstance_1 :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1 object_ a1 = jmethod object_ "getRootInstance_1" (\() -> (getRootInstance_1_impl (javaCast object_ :: CategoryFactoryInterface))) () a1
 
-getRootInstance_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_super object_ a1 = (getRootInstance_impl (javaCast object_ :: CategoryFactoryInterface)) a1
+getRootInstance_1_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_super object_ a1 = (getRootInstance_1_impl (javaCast object_ :: CategoryFactoryInterface)) a1
 
-getRootInstance_impl :: CategoryFactoryInterface -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_impl this categoryPath = javaAbstractMethod "getRootInstance"
+getRootInstance_1_impl :: CategoryFactoryInterface -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_impl this categoryPath = javaAbstractMethod "getRootInstance"
 
 
 getRootInstanceFromNode :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (CategoryInterface.CategoryInterface)

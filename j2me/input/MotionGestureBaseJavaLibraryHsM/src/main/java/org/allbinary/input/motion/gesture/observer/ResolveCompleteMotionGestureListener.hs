@@ -90,7 +90,7 @@ init_ this = do
         initFields_ this
         commonStrings <- (CommonStrings.getInstance)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "MotionGesture to CompleteMotionGesture Reciever" this (jget (commonStrings).cONSTRUCTOR))
-        Control.Monad.void (CompleteMotionGestureInputEventHandler.addListener ((jio (CompleteMotionGestureInputEventHandler.getInstance))) (jio (GameKeyFromMotionGestureEventListener.new_)))
+        Control.Monad.void (CompleteMotionGestureInputEventHandler.addListener ((jio (CompleteMotionGestureInputEventHandler.getInstance))) (javaCast (jio (GameKeyFromMotionGestureEventListener.new_))))
         pure ()
 
 
@@ -110,7 +110,7 @@ onMotionGestureCompleted_impl this list = do
             let association = (javaCast (jindex ((jget (commandActionsList).objectArray)) (index)) :: MotionGestureToMotionGestureActionAssociation.MotionGestureToMotionGestureActionAssociation)
             when ((jio (MotionGestureToMotionGestureActionAssociation.isMotionGestureArrayEquals association list)) == True) $ do
                 let completeMotionGestureInputEvent = (javaCast (jio (MotionGestureToMotionGestureActionAssociation.getCommandAction association)) :: GameKeyCompleteMotionGestureInputEvent.GameKeyCompleteMotionGestureInputEvent)
-                Control.Monad.void (CompleteMotionGestureInputEventHandler.fireEvent ((jio (CompleteMotionGestureInputEventHandler.getInstance))) completeMotionGestureInputEvent)
+                Control.Monad.void (CompleteMotionGestureInputEventHandler.fireEvent ((jio (CompleteMotionGestureInputEventHandler.getInstance))) (javaCast completeMotionGestureInputEvent))
                 throwIO JavaBreak
         pure ()
 

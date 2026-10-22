@@ -131,10 +131,10 @@ initFields_ this = do
 
 getInstance :: IO (OpenGLConfiguration)
 getInstance = do
-        when (OpenGLConfiguration.instance_ == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
+        when ((jget OpenGLConfiguration.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
             assignedValue <- (new_)
-            OpenGLConfiguration.instance_ <- pure (assignedValue)
-        pure ((javaCast OpenGLConfiguration.instance_ :: OpenGLConfiguration))
+            jset OpenGLConfiguration.instance_ (assignedValue)
+        pure ((javaCast (jget OpenGLConfiguration.instance_) :: OpenGLConfiguration))
 
 new_ :: IO OpenGLConfiguration
 new_ = do
@@ -166,7 +166,7 @@ read_impl :: OpenGLConfiguration -> IO (())
 read_impl this = do
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
         fileInputStreamFactory <- (FileStreamFactory.getInstance)
-        fileInputStream <- (FileStreamFactory.getFileInputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE))
+        fileInputStream <- (fmap (\value_ -> javaCast value_ :: InputStream.InputStream) (FileStreamFactory.getFileInputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE)))
         dataInputStream <- (DataInputStream.new_1 fileInputStream)
         openGLValue <- (DataInputStream.readInt dataInputStream)
         if (openGLValue == 0) then do
@@ -197,7 +197,7 @@ read_impl this = do
         else if ((jio (TsUtil.compareTo ((jget (this).tsUtil)) imageColor (jio (OpenGLFeature.getName ((jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444)))))) == 0) then do
             Control.Monad.void (OpenGLConfiguration.setImageColor this (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444))
         else do
-            javaThrow ((JavaException "Exception" ("OpenGLConfiguration: Error reading image color: " ++ javaToString imageColor)))
+            javaThrow ((JavaException "Exception" ("OpenGLConfiguration: Error reading image color: " ++ imageColor)))
         color <- (DataInputStream.readUTF dataInputStream)
         if ((jio (TsUtil.compareTo ((jget (this).tsUtil)) color (jio (OpenGLFeature.getName ((jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_4444)))))) == 0) then do
             Control.Monad.void (OpenGLConfiguration.setColor this (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_4444))
@@ -206,7 +206,7 @@ read_impl this = do
         else if ((jio (TsUtil.compareTo ((jget (this).tsUtil)) color (jio (OpenGLFeature.getName ((jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_8888)))))) == 0) then do
             Control.Monad.void (OpenGLConfiguration.setColor this (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_8888))
         else do
-            javaThrow ((JavaException "Exception" ("OpenGLConfiguration: Error reading color: " ++ javaToString color)))
+            javaThrow ((JavaException "Exception" ("OpenGLConfiguration: Error reading color: " ++ color)))
         Control.Monad.void (PreLogUtil.put ("Read Configuration: " ++ (jio (OpenGLConfiguration.toString this))) this "read")
         pure ()
 
@@ -220,7 +220,7 @@ write_super object_ = (write_impl (javaCast object_ :: OpenGLConfiguration))
 
 write_impl :: OpenGLConfiguration -> IO (())
 write_impl this = do
-        closeable <- newIORef (NullCloseable.nULL_CLOSEABLE)
+        closeable <- newIORef ((javaCast NullCloseable.nULL_CLOSEABLE :: Closeable.Closeable))
         flip finally (do
             Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget closeable))
             ) $ handle (\(e :: JavaException) -> do
@@ -228,17 +228,17 @@ write_impl this = do
             ) $ do
             Control.Monad.void (PreLogUtil.put ("Write Configuration: " ++ (jio (OpenGLConfiguration.toString this))) this "write")
             fileInputStreamFactory <- (FileStreamFactory.getInstance)
-            fileOutputStream <- (FileStreamFactory.getFileOutputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE))
+            fileOutputStream <- (fmap (\value_ -> javaCast value_ :: OutputStream.OutputStream) (FileStreamFactory.getFileOutputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE)))
             dataOutputStream <- (AbDataOutputStream.new_1 fileOutputStream)
             jset closeable (dataOutputStream)
             if (jio (OpenGLConfiguration.isOpenGL this)) then do
                 Control.Monad.void (AbDataOutputStream.writeInt dataOutputStream 1)
             else do
                 Control.Monad.void (AbDataOutputStream.writeInt dataOutputStream 0)
-            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLConfiguration.getName ((jio (OpenGLConfiguration.getVersionSelector this))))))
-            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLConfiguration.getName ((jio (OpenGLConfiguration.getType this))))))
-            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLConfiguration.getName ((jio (OpenGLConfiguration.getImageColor this))))))
-            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLConfiguration.getName ((jio (OpenGLConfiguration.getColor this))))))
+            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLFeature.getName ((jio (OpenGLConfiguration.getVersionSelector this))))))
+            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLFeature.getName ((jio (OpenGLConfiguration.getType this))))))
+            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLFeature.getName ((jio (OpenGLConfiguration.getImageColor this))))))
+            Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (OpenGLFeature.getName ((jio (OpenGLConfiguration.getColor this))))))
             Control.Monad.void (AbDataOutputStream.flush dataOutputStream)
         pure ()
 
@@ -256,24 +256,24 @@ init_impl this = do
         if (jio (ChangedGameFeatureListener.isChangedFeature ((jio (ChangedGameFeatureListener.getInstance))) (jget ((jio (MainFeatureFactory.getInstance))).sTATIC))) then do
             openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
             if (jio (OpenGLConfiguration.isOpenGL this)) then do
-                if (((jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL_2D))) || (jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL_3D)))) || (jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL_2D_AND_3D)))) then do
-                    when (Prelude.not (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
+                if (((jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL_2D)))) || (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL_3D))))) || (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL_2D_AND_3D))))) then do
+                    when (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) $ do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Turning on OpenGL as Default" this (jget ((jget (this).commonStrings)).iNIT))
-                        Control.Monad.void (Features.addDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))
+                        Control.Monad.void (Features.addDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Type Feature: " ++ javaToString (jio (OpenGLConfiguration.getType this))) this (jget ((jget (this).commonStrings)).iNIT))
-                        Control.Monad.void (Features.addDefault features (jio (OpenGLConfiguration.getType this)))
+                        Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getType this))))
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL ImageColor Feature: " ++ javaToString (jio (OpenGLConfiguration.getImageColor this))) this (jget ((jget (this).commonStrings)).iNIT))
-                        Control.Monad.void (Features.addDefault features (jio (OpenGLConfiguration.getImageColor this)))
+                        Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getImageColor this))))
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Color Feature: " ++ javaToString (jio (OpenGLConfiguration.getColor this))) this (jget ((jget (this).commonStrings)).iNIT))
-                        Control.Monad.void (Features.addDefault features (jio (OpenGLConfiguration.getColor this)))
+                        Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getColor this))))
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Version Selector Feature: " ++ javaToString (jio (OpenGLConfiguration.getVersionSelector this))) this (jget ((jget (this).commonStrings)).iNIT))
-                        Control.Monad.void (Features.addDefault features (jio (OpenGLConfiguration.getVersionSelector this)))
+                        Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getVersionSelector this))))
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "OpenGL is enabled, but this game does not support OpenGL (Probably from installing with the same package name from a game that had OpenGL available)" this (jget ((jget (this).commonStrings)).iNIT))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "OpenGL is Off" this (jget ((jget (this).commonStrings)).iNIT))
         else do
-            when ((jio (OpenGLConfiguration.isOpenGL this)) && (Prelude.not (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) $ do
+            when ((jio (OpenGLConfiguration.isOpenGL this)) && (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))))) $ do
                 Control.Monad.void (PreLogUtil.put "OpenGL is set but not Enabled since statics where not cleared (Reboot or Complete exit is Required)" this (jget ((jget (this).commonStrings)).iNIT))
         Control.Monad.void (PreLogUtil.put (jio (OpenGLConfiguration.toString this)) this (jget ((jget (this).commonStrings)).iNIT))
         pure ()
@@ -291,7 +291,7 @@ update_impl this gameFeature colorLocked = do
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
         modified <- newIORef (False)
-        when (gameFeature == (jget (openGLFeatureFactory).oPENGL)) $ do
+        when ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL))) $ do
             if (jio (Features.isFeature features gameFeature)) then do
                 when (Prelude.not (jio (OpenGLConfiguration.isOpenGL this))) $ do
                     Control.Monad.void (OpenGLConfiguration.setOpenGL this True)
@@ -300,29 +300,29 @@ update_impl this gameFeature colorLocked = do
                 when (jio (OpenGLConfiguration.isOpenGL this)) $ do
                     Control.Monad.void (OpenGLConfiguration.setOpenGL this False)
                     jset modified (True)
-        when ((gameFeature == (jget (openGLFeatureFactory).oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS)) || (gameFeature == (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD))) $ do
+        when (((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD)))) $ do
             when (jio (Features.isFeature features gameFeature)) $ do
-                when (gameFeature /= (jio (OpenGLConfiguration.getType this))) $ do
+                when ((jtoObject gameFeature) /= (jtoObject (jio (OpenGLConfiguration.getType this)))) $ do
                     Control.Monad.void (OpenGLConfiguration.setType this (javaCast gameFeature :: OpenGLFeature.OpenGLFeature))
                     jset modified (True)
-        when (((gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444)) || (gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_565))) || (gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_8888))) $ do
+        when ((((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_565)))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_8888)))) $ do
             when (jio (Features.isFeature features gameFeature)) $ do
-                when ((jio (OpenGLConfiguration.getImageColor this)) /= gameFeature) $ do
+                when ((jtoObject (jio (OpenGLConfiguration.getImageColor this))) /= (jtoObject gameFeature)) $ do
                     Control.Monad.void (OpenGLConfiguration.setImageColor this (javaCast gameFeature :: OpenGLFeature.OpenGLFeature))
                     when colorLocked $ do
-                        if (gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444)) then do
+                        if ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_4444))) then do
                             Control.Monad.void (OpenGLConfiguration.setColor this (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_4444))
-                        else if (gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_565)) then do
+                        else if ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_565))) then do
                             Control.Monad.void (OpenGLConfiguration.setColor this (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_565))
-                        else when (gameFeature == (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_8888)) $ do
+                        else when ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).iMAGE_COLOR_DEPTH_8888))) $ do
                             Control.Monad.void (OpenGLConfiguration.setColor this (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_8888))
                     jset modified (True)
-        when (((gameFeature == (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_4444)) || (gameFeature == (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_565))) || (gameFeature == (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_8888))) $ do
+        when ((((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_4444))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_565)))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_COLOR_DEPTH_8888)))) $ do
             when (jio (Features.isFeature features gameFeature)) $ do
-                when ((jio (OpenGLConfiguration.getColor this)) /= gameFeature) $ do
+                when ((jtoObject (jio (OpenGLConfiguration.getColor this))) /= (jtoObject gameFeature)) $ do
                     Control.Monad.void (OpenGLConfiguration.setColor this (javaCast gameFeature :: OpenGLFeature.OpenGLFeature))
                     jset modified (True)
-        when ((gameFeature == (jget (openGLFeatureFactory).oPENGL_AUTO_SELECT)) || (gameFeature == (jget (openGLFeatureFactory).oPENGL_MINIMUM))) $ do
+        when (((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_AUTO_SELECT))) || ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL_MINIMUM)))) $ do
             when (jio (Features.isFeature features gameFeature)) $ do
                 Control.Monad.void (OpenGLConfiguration.setVersionSelector this (javaCast gameFeature :: OpenGLFeature.OpenGLFeature))
             jset modified (True)

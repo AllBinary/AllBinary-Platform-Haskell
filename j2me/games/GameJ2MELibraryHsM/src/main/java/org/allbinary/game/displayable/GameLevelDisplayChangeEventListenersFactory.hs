@@ -101,7 +101,7 @@ add_super object_ a1 = (add_impl (javaCast object_ :: GameLevelDisplayChangeEven
 add_impl :: GameLevelDisplayChangeEventListenersFactory -> DisplayChangeEventListener.DisplayChangeEventListener -> IO (())
 add_impl this displayChangeEventListener = do
         Control.Monad.void (BasicArrayList.add ((jget (this).list)) displayChangeEventListener)
-        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) displayChangeEventListener)
+        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) (javaCast displayChangeEventListener))
         pure ()
 
 
@@ -118,7 +118,7 @@ clear_impl this = do
         index <- newIORef =<< (BasicArrayList.size ((jget (this).list)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset displayChangeEventListener ((javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget index))) :: DisplayChangeEventListener.DisplayChangeEventListener))
-            Control.Monad.void (BasicEventHandler.removeListener displayChangeEventHandler (jget displayChangeEventListener))
+            Control.Monad.void (BasicEventHandler.removeListener displayChangeEventHandler (javaCast (jget displayChangeEventListener)))
         Control.Monad.void (BasicArrayList.clear ((jget (this).list)))
         pure ()
 

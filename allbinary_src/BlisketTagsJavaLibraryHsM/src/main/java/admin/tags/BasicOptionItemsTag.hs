@@ -80,8 +80,8 @@ init_ :: BasicOptionItemsTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (BasicOptionItemsHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (BasicOptionItemsRequestHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (BasicOptionItemsHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (BasicOptionItemsRequestHelperFactory.new_))))
         pure ()
 
 

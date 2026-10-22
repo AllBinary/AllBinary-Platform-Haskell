@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tree.category
 module CategoryLoader (module CategoryLoader, module CategoryModifierTree) where
 
-import CategoryModifierTree hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getDoc, getDoc_super, getDoc_impl, get_overload1, get_overload1_super, get_overload1_impl, get, get_overload2, get_overload2_super, get_overload2_impl, get, getAll_overload1, getAll_overload1_super, getAll_overload1_impl, getAll, getAll_overload2, getAll_overload2_super, getAll_overload2_impl, getAll, getAll, getAll_super, getAll_impl, addProperties, addProperties_super, addProperties_impl, logUtil)
+import CategoryModifierTree hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getDoc, getDoc_super, getDoc_impl, get_overload1, get_overload1_super, get_overload1_impl, get, get_overload2, get_overload2_super, get_overload2_impl, get, getAll_overload1, getAll_overload1_super, getAll_overload1_impl, getAll, getAll_overload2, getAll_overload2_super, getAll_overload2_impl, getAll, getAll_2, getAll_2_super, getAll_2_impl, getAll, addProperties, addProperties_super, addProperties_impl, logUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -83,7 +83,7 @@ newRecord_ = do
     jregisterMethod header_ "get_overload2" (\() -> get_overload2_impl this)
     jregisterMethod header_ "getAll_overload1" (\() -> getAll_overload1_impl this)
     jregisterMethod header_ "getAll_overload2" (\() -> getAll_overload2_impl this)
-    jregisterMethod header_ "getAll" (\() -> getAll_impl this)
+    jregisterMethod header_ "getAll_2" (\() -> getAll_2_impl this)
     jregisterMethod header_ "addProperties" (\() -> addProperties_impl this)
     pure this
 
@@ -136,7 +136,7 @@ getDoc_impl this categoryInterface = do
                         Control.Monad.void (CategoryModifierTree.save this categoryInterface)
                 fileAbPath <- (CategoryInterface.getFilePath categoryInterface)
                 cryptFileReader <- (CryptFileReader.new_2 (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (CategoryData.getInstance))).eNCRYPTED_EXTENSION))
-                document <- (DomDocumentHelper.create (jio (CryptFileReader.get cryptFileReader fileAbPath)))
+                document <- (DomDocumentHelper.create_1 (jio (CryptFileReader.get cryptFileReader fileAbPath)))
                 javaReturn (document)
             else do
                 javaThrow ((JavaException "Exception" "Null Category"))
@@ -227,15 +227,14 @@ getAll_overload2_impl this document = do
             (CategoryLoader.addProperties this loadedCategoryInterface (jio (Node.getChildNodes categoryNode)))
 
 
--- Java overload of getAll with a different parameter count: give it a different name
-getAll :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
-getAll object_ a1 a2 = jmethod object_ "getAll" (\() -> (getAll_impl (javaCast object_ :: CategoryLoader))) () a1 a2
+getAll_2 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
+getAll_2 object_ a1 a2 = jmethod object_ "getAll_2" (\() -> (getAll_2_impl (javaCast object_ :: CategoryLoader))) () a1 a2
 
-getAll_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
-getAll_super object_ a1 a2 = (getAll_impl (javaCast object_ :: CategoryLoader)) a1 a2
+getAll_2_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
+getAll_2_super object_ a1 a2 = (getAll_2_impl (javaCast object_ :: CategoryLoader)) a1 a2
 
-getAll_impl :: CategoryLoader -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
-getAll_impl this parentCategoryInterface categoryNodeList = do
+getAll_2_impl :: CategoryLoader -> CategoryInterface.CategoryInterface -> NodeList.NodeList -> IO (CategoryInterface.CategoryInterface)
+getAll_2_impl this parentCategoryInterface categoryNodeList = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).fAILURE) this (jget ((jget (this).base.commonStrings)).gET) e)

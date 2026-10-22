@@ -139,7 +139,7 @@ setCustomLoaderWebappPath_impl this = do
             ) $ do
             urlGlobals <- (AppUrlGlobals.new_)
             Control.Monad.void (AppUrlGlobals.setWebappPath urlGlobals (jget (this).webappPath))
-            Control.Monad.void (URLGLOBALS.init urlGlobals)
+            Control.Monad.void (URLGLOBALS.init (javaCast urlGlobals))
         pure ()
 
 

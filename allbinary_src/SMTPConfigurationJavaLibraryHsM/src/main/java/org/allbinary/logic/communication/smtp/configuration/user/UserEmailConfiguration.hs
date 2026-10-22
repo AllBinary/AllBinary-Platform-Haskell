@@ -93,7 +93,7 @@ init_ this = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
-        Control.Monad.void (UserEmailConfiguration.setUserEmailEventsConfigurationInterface this (jio (UserEmailEventsConfiguration.new_)))
+        Control.Monad.void (UserEmailConfiguration.setUserEmailEventsConfigurationInterface this (javaCast (jio (UserEmailEventsConfiguration.new_))))
         pure ()
 
 new_1 :: HashMap.HashMap -> IO UserEmailConfiguration
@@ -107,7 +107,7 @@ init_1 this hashMap = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
-        Control.Monad.void (UserEmailConfiguration.setUserEmailEventsConfigurationInterface this (jio (UserEmailEventsConfiguration.new_1 hashMap)))
+        Control.Monad.void (UserEmailConfiguration.setUserEmailEventsConfigurationInterface this (javaCast (jio (UserEmailEventsConfiguration.new_1 hashMap))))
         pure ()
 
 

@@ -16,7 +16,7 @@
 -- package org.allbinary.graphics.j2me.workarea.canvas
 module CanvasJPanel (module CanvasJPanel, module JPanel) where
 
-import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getTreeNode, getTreeNode_super, getTreeNode_impl, initComponents, initComponents_super, initComponents_impl, setCanvasSize, setCanvasSize_super, setCanvasSize_impl, setGrid, setGrid_super, setGrid_impl, setGrid, setGrid_super, setGrid_impl, setDefaultGrid, setDefaultGrid_super, setDefaultGrid_impl, getAngle, getAngle_super, getAngle_impl, setAngle, setAngle_super, setAngle_impl, addAngle, addAngle_super, addAngle_impl, explodeAll, explodeAll_super, explodeAll_impl, explode, explode_super, explode_impl, mirror, mirror_super, mirror_impl, center, center_super, center_impl, setNewTool, setNewTool_super, setNewTool_impl, duplicateGraphicItem, duplicateGraphicItem_super, duplicateGraphicItem_impl, duplicateGraphicItemHashMap, duplicateGraphicItemHashMap_super, duplicateGraphicItemHashMap_impl, getGraphicItemHashMap, getGraphicItemHashMap_super, getGraphicItemHashMap_impl, getXPixelsPerWorkAreaPixel, getXPixelsPerWorkAreaPixel_super, getXPixelsPerWorkAreaPixel_impl, getYPixelsPerWorkAreaPixel, getYPixelsPerWorkAreaPixel_super, getYPixelsPerWorkAreaPixel_impl, getSelectedTool, getSelectedTool_super, getSelectedTool_impl, drawItems, drawItems_super, drawItems_impl, drawGrid, drawGrid_super, drawGrid_impl, paint, paint_super, paint_impl, repaint, repaint_super, repaint_impl, toDom, toDom_super, toDom_impl, changed, changed_super, changed_impl, mouseClicked, mouseClicked_super, mouseClicked_impl, mouseEntered, mouseEntered_super, mouseEntered_impl, mouseExited, mouseExited_super, mouseExited_impl, mousePressed, mousePressed_super, mousePressed_impl, mouseReleased, mouseReleased_super, mouseReleased_impl, mouseDragged, mouseDragged_super, mouseDragged_impl, mouseMoved, mouseMoved_super, mouseMoved_impl, logMouseEvent, logMouseEvent_super, logMouseEvent_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, deselect, deselect_super, deselect_impl, highlight, highlight_super, highlight_impl, duplicate, duplicate_super, duplicate_impl, duplicate, duplicate_super, duplicate_impl, rotate, rotate_super, rotate_impl, getCanvasDimension, getCanvasDimension_super, getCanvasDimension_impl, setCanvasDimension, setCanvasDimension_super, setCanvasDimension_impl, getGrid, getGrid_super, getGrid_impl, logUtil, frame, guiLog, gameInputStrings, selectedTool, graphicItemHashMap, canvasDimension, angle, canvasTreeNode, frameLabel, workAreaJTreeJPanel, gridColor, backgroundColor, grid)
+import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getTreeNode, getTreeNode_super, getTreeNode_impl, initComponents, initComponents_super, initComponents_impl, setCanvasSize, setCanvasSize_super, setCanvasSize_impl, setGrid, setGrid_super, setGrid_impl, setGrid_2, setGrid_2_super, setGrid_2_impl, setGrid, setDefaultGrid, setDefaultGrid_super, setDefaultGrid_impl, getAngle, getAngle_super, getAngle_impl, setAngle, setAngle_super, setAngle_impl, addAngle, addAngle_super, addAngle_impl, explodeAll, explodeAll_super, explodeAll_impl, explode, explode_super, explode_impl, mirror, mirror_super, mirror_impl, center, center_super, center_impl, setNewTool, setNewTool_super, setNewTool_impl, duplicateGraphicItem, duplicateGraphicItem_super, duplicateGraphicItem_impl, duplicateGraphicItemHashMap, duplicateGraphicItemHashMap_super, duplicateGraphicItemHashMap_impl, getGraphicItemHashMap, getGraphicItemHashMap_super, getGraphicItemHashMap_impl, getXPixelsPerWorkAreaPixel, getXPixelsPerWorkAreaPixel_super, getXPixelsPerWorkAreaPixel_impl, getYPixelsPerWorkAreaPixel, getYPixelsPerWorkAreaPixel_super, getYPixelsPerWorkAreaPixel_impl, getSelectedTool, getSelectedTool_super, getSelectedTool_impl, drawItems, drawItems_super, drawItems_impl, drawGrid, drawGrid_super, drawGrid_impl, paint, paint_super, paint_impl, repaint, repaint_super, repaint_impl, toDom, toDom_super, toDom_impl, changed, changed_super, changed_impl, mouseClicked, mouseClicked_super, mouseClicked_impl, mouseEntered, mouseEntered_super, mouseEntered_impl, mouseExited, mouseExited_super, mouseExited_impl, mousePressed, mousePressed_super, mousePressed_impl, mouseReleased, mouseReleased_super, mouseReleased_impl, mouseDragged, mouseDragged_super, mouseDragged_impl, mouseMoved, mouseMoved_super, mouseMoved_impl, logMouseEvent, logMouseEvent_super, logMouseEvent_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, deselect, deselect_super, deselect_impl, highlight, highlight_super, highlight_impl, duplicate, duplicate_super, duplicate_impl, duplicate_1, duplicate_1_super, duplicate_1_impl, duplicate, rotate, rotate_super, rotate_impl, getCanvasDimension, getCanvasDimension_super, getCanvasDimension_impl, setCanvasDimension, setCanvasDimension_super, setCanvasDimension_impl, getGrid, getGrid_super, getGrid_impl, logUtil, frame, guiLog, gameInputStrings, selectedTool, graphicItemHashMap, canvasDimension, angle, canvasTreeNode, frameLabel, workAreaJTreeJPanel, gridColor, backgroundColor, grid)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -152,7 +152,7 @@ newRecord_ = do
     jregisterMethod header_ "initComponents" (\() -> initComponents_impl this)
     jregisterMethod header_ "setCanvasSize" (\() -> setCanvasSize_impl this)
     jregisterMethod header_ "setGrid" (\() -> setGrid_impl this)
-    jregisterMethod header_ "setGrid" (\() -> setGrid_impl this)
+    jregisterMethod header_ "setGrid_2" (\() -> setGrid_2_impl this)
     jregisterMethod header_ "setDefaultGrid" (\() -> setDefaultGrid_impl this)
     jregisterMethod header_ "getAngle" (\() -> getAngle_impl this)
     jregisterMethod header_ "setAngle" (\() -> setAngle_impl this)
@@ -189,7 +189,7 @@ newRecord_ = do
     jregisterMethod header_ "deselect" (\() -> deselect_impl this)
     jregisterMethod header_ "highlight" (\() -> highlight_impl this)
     jregisterMethod header_ "duplicate" (\() -> duplicate_impl this)
-    jregisterMethod header_ "duplicate" (\() -> duplicate_impl this)
+    jregisterMethod header_ "duplicate_1" (\() -> duplicate_1_impl this)
     jregisterMethod header_ "rotate" (\() -> rotate_impl this)
     jregisterMethod header_ "getCanvasDimension" (\() -> getCanvasDimension_impl this)
     jregisterMethod header_ "setCanvasDimension" (\() -> setCanvasDimension_impl this)
@@ -225,7 +225,7 @@ init_4 this workAreaJTreeJPanel dimension x y = do
         jset (this).grid (assignedValue)
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.gRAPHICSCREATION))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) "Constructor Error" this "contructor" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) "Constructor Error" this "contructor" e)
             ) $ do
             jset (this).workAreaJTreeJPanel (workAreaJTreeJPanel)
             Control.Monad.void (CanvasJPanel.initComponents this)
@@ -248,7 +248,7 @@ init_3 this workAreaJTreeJPanel dimension canvasDom = do
         jset (this).grid (assignedValue)
         handle (\(e :: JavaException) -> do
             when (jio (LOGGING.contains (LOGGING.gRAPHICSCREATION))) $ do
-                Control.Monad.void (GuiLog.put ((jget (this).guiLog)) "Constructor Error" this "contructor" e)
+                Control.Monad.void (GuiLog.put_4 ((jget (this).guiLog)) "Constructor Error" this "contructor" e)
             ) $ do
             jset (this).workAreaJTreeJPanel (workAreaJTreeJPanel)
             Control.Monad.void (CanvasJPanel.initComponents this)
@@ -294,7 +294,7 @@ initMyComponents_impl this = do
         Control.Monad.void (JPanel.addKeyListener this this)
         Control.Monad.void (JPanel.addMouseListener this this)
         Control.Monad.void (JPanel.addMouseMotionListener this this)
-        Control.Monad.void (MyGraphicItemEventService.addListener this)
+        Control.Monad.void (MyGraphicItemEventService.addListener (javaCast this))
         pure ()
 
 
@@ -354,19 +354,18 @@ setGrid_super object_ a1 = (setGrid_impl (javaCast object_ :: CanvasJPanel)) a1
 
 setGrid_impl :: CanvasJPanel -> GPoint.GPoint -> IO (())
 setGrid_impl this point = do
-        Control.Monad.void (CanvasJPanel.setGrid this (jio (GPoint.getX point)) (jio (GPoint.getY point)))
+        Control.Monad.void (CanvasJPanel.setGrid_2 this (jio (GPoint.getX point)) (jio (GPoint.getY point)))
         pure ()
 
 
--- Java overload of setGrid with a different parameter count: give it a different name
-setGrid :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-setGrid object_ a1 a2 = jmethod object_ "setGrid" (\() -> (setGrid_impl (javaCast object_ :: CanvasJPanel))) () a1 a2
+setGrid_2 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+setGrid_2 object_ a1 a2 = jmethod object_ "setGrid_2" (\() -> (setGrid_2_impl (javaCast object_ :: CanvasJPanel))) () a1 a2
 
-setGrid_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-setGrid_super object_ a1 a2 = (setGrid_impl (javaCast object_ :: CanvasJPanel)) a1 a2
+setGrid_2_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+setGrid_2_super object_ a1 a2 = (setGrid_2_impl (javaCast object_ :: CanvasJPanel)) a1 a2
 
-setGrid_impl :: CanvasJPanel -> Int -> Int -> IO (())
-setGrid_impl this xSize ySize = do
+setGrid_2_impl :: CanvasJPanel -> Int -> Int -> IO (())
+setGrid_2_impl this xSize ySize = do
         handle (\(e :: JavaException) -> do
             pure ()
             ) $ do
@@ -391,7 +390,7 @@ setDefaultGrid_impl :: CanvasJPanel -> IO (())
 setDefaultGrid_impl this = do
         let xPixelsPerWorkAreaPixel = ((jio (JPanel.getWidth this)) / (jio (IntegerDimension.getWidth ((jio (CanvasJPanel.getCanvasDimension this))))))
         let yPixelsPerWorkAreaPixel = ((jio (JPanel.getHeight this)) / (jio (IntegerDimension.getHeight ((jio (CanvasJPanel.getCanvasDimension this))))))
-        Control.Monad.void (CanvasJPanel.setGrid this 1 1)
+        Control.Monad.void (CanvasJPanel.setGrid_2 this 1 1)
         jset ((jget (this).grid)).isChanged (True)
         pure ()
 
@@ -447,7 +446,7 @@ explodeAll_impl this = do
             let graphicItem = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) graphicItemNode)) :: GraphicItemInterface.GraphicItemInterface)
             when ((jio (GraphicItemInterface.getName graphicItem)) == (jio (LinesGraphicItem.getStaticName))) $ do
                 fix $ \loop -> when ((jio (GraphicItemInterface.getSize ((jio (GraphicItemInterface.getPointsInterface graphicItem))))) > 2) $ javaIteration (loop) $ do
-                    newGraphicItem <- (fmap (\value_ -> javaCast value_ :: GraphicItemInterface.GraphicItemInterface) (GraphicItemFactory.getInstance ((jio (GraphicItemFactory.getInstance ((jio (GraphicItemFactory.getInstance))) (jio (GraphicItemInterface.getName graphicItem))))) this))
+                    newGraphicItem <- (fmap (\value_ -> javaCast value_ :: GraphicItemInterface.GraphicItemInterface) (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) (jio (GraphicItemInterface.getName graphicItem))))) this))
                     pointOne <- (GPoint.getInstance (jio (GraphicItemInterface.removePoint graphicItem)))
                     pointTwo <- (GPoint.getInstance (jio (GraphicItemInterface.removePoint graphicItem)))
                     when ((pointOne /= javaNull) && (pointTwo /= javaNull)) $ do
@@ -502,7 +501,7 @@ mirror_impl this = do
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
-            basicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (VectorMirrorGenerator.getInstance ((jio (VectorMirrorGenerator.getInstance))) (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) width))
+            basicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (VectorMirrorGenerator.getInstance_2 ((jio (VectorMirrorGenerator.getInstance))) (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) width))
             newPoints <- (Points.new_)
             Control.Monad.void (Points.addPoints newPoints basicArrayList)
             Control.Monad.void (GraphicItemInterface.setPointsInterface item newPoints)
@@ -998,15 +997,14 @@ duplicate_impl this = do
 
 
 -- throws Exception
--- Java overload of duplicate with a different parameter count: give it a different name
-duplicate :: (JavaObjectClass this_) => this_ -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
-duplicate object_ a1 = jmethod object_ "duplicate" (\() -> (duplicate_impl (javaCast object_ :: CanvasJPanel))) () a1
+duplicate_1 :: (JavaObjectClass this_) => this_ -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
+duplicate_1 object_ a1 = jmethod object_ "duplicate_1" (\() -> (duplicate_1_impl (javaCast object_ :: CanvasJPanel))) () a1
 
-duplicate_super :: (JavaObjectClass this_) => this_ -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
-duplicate_super object_ a1 = (duplicate_impl (javaCast object_ :: CanvasJPanel)) a1
+duplicate_1_super :: (JavaObjectClass this_) => this_ -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
+duplicate_1_super object_ a1 = (duplicate_1_impl (javaCast object_ :: CanvasJPanel)) a1
 
-duplicate_impl :: CanvasJPanel -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
-duplicate_impl this event = do
+duplicate_1_impl :: CanvasJPanel -> MyGraphicItemEvent.MyGraphicItemEvent -> IO (())
+duplicate_1_impl this event = do
         treeNode <- (MyGraphicItemEvent.getTreeNode event)
         let graphicItem = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) treeNode)) :: GraphicItemInterface.GraphicItemInterface)
         when (graphicItem /= javaNull) $ do

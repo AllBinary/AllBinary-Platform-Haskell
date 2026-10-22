@@ -116,7 +116,7 @@ onCompleteMotionGestureInputEvent_impl this completeMotionGestureInputEvent = do
             ) $ do
             let gameKeyCompleteMotionGestureInputEvent = (javaCast completeMotionGestureInputEvent :: GameKeyCompleteMotionGestureInputEvent.GameKeyCompleteMotionGestureInputEvent)
             gameKeyEvent <- (GameKeyCompleteMotionGestureInputEvent.getGameKeyEvent gameKeyCompleteMotionGestureInputEvent)
-            Control.Monad.void (PressGameKeyEventHandler.fireEvent ((jio (PressGameKeyEventHandler.getInstance))) gameKeyEvent)
+            Control.Monad.void (PressGameKeyEventHandler.fireEvent ((jio (PressGameKeyEventHandler.getInstance))) (javaCast gameKeyEvent))
         pure ()
 
 

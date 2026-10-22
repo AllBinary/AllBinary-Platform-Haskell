@@ -75,7 +75,7 @@ newRecord_ = do
     jregisterMethod header_ "setDisplayInBrowserContraints" (\() -> setDisplayInBrowserContraints_impl this)
     jregisterMethod header_ "getTwoDimensionContraints" (\() -> getTwoDimensionContraints_impl this)
     jregisterMethod header_ "getDisplayInBrowserContraints" (\() -> getDisplayInBrowserContraints_impl this)
-    jregisterMethod header_ "getTwoDimensionContraints" (\() -> getTwoDimensionContraints_impl this)
+    jregisterMethod header_ "getTwoDimensionContraints_0" (\() -> getTwoDimensionContraints_0_impl this)
     pure this
 
 initFields_ :: AdvertisementAreaConstraints -> IO ()
@@ -136,15 +136,14 @@ getDisplayInBrowserContraints_impl this = do
         pure ((jget (this).displayInBrowserContraintsInterface))
 
 
--- Java overload of getTwoDimensionContraints with a different parameter count: give it a different name
-getTwoDimensionContraints :: (JavaObjectClass this_) => this_ -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
-getTwoDimensionContraints object_ = jmethod object_ "getTwoDimensionContraints" (\() -> (getTwoDimensionContraints_impl (javaCast object_ :: AdvertisementAreaConstraints))) ()
+getTwoDimensionContraints_0 :: (JavaObjectClass this_) => this_ -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
+getTwoDimensionContraints_0 object_ = jmethod object_ "getTwoDimensionContraints_0" (\() -> (getTwoDimensionContraints_0_impl (javaCast object_ :: AdvertisementAreaConstraints))) ()
 
-getTwoDimensionContraints_super :: (JavaObjectClass this_) => this_ -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
-getTwoDimensionContraints_super object_ = (getTwoDimensionContraints_impl (javaCast object_ :: AdvertisementAreaConstraints))
+getTwoDimensionContraints_0_super :: (JavaObjectClass this_) => this_ -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
+getTwoDimensionContraints_0_super object_ = (getTwoDimensionContraints_0_impl (javaCast object_ :: AdvertisementAreaConstraints))
 
-getTwoDimensionContraints_impl :: AdvertisementAreaConstraints -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
-getTwoDimensionContraints_impl this = do
+getTwoDimensionContraints_0_impl :: AdvertisementAreaConstraints -> IO (TwoDimensionalConstraintInterface.TwoDimensionalConstraintInterface)
+getTwoDimensionContraints_0_impl this = do
         pure ((jget (this).twoDimensionConstraintsInterface))
 
 

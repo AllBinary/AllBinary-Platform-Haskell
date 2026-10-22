@@ -72,7 +72,7 @@ newRecord_ = do
     let this = StoreCustomizerComponentUtil header_ logUtil
     jregisterLevel header_ this
     jregisterMethod header_ "generate" (\() -> generate_impl this)
-    jregisterMethod header_ "generate" (\() -> generate_impl this)
+    jregisterMethod header_ "generate_3" (\() -> generate_3_impl this)
     pure this
 
 initFields_ :: StoreCustomizerComponentUtil -> IO ()
@@ -114,28 +114,27 @@ generate_impl this abeClientInformation transformInfoInterface = do
         size <- (BasicArrayList.size allCustomizedViews)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let nextTransformInfoInterface = (javaCast (jio (BasicArrayList.get allCustomizedViews index)) :: TransformInfo.TransformInfo)
-            allViewsToBeModified <- (CustomizerUtil.getTransformInfoObjectConfigComponentNodesToCustomize customizerUtil transformInfoInterface nextTransformInfoInterface)
+            allViewsToBeModified <- (CustomizerUtil.getTransformInfoObjectConfigComponentNodesToCustomize customizerUtil transformInfoInterface (javaCast nextTransformInfoInterface))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("View or component that was modified by a Customizer: " ++ (jio (TransformInfo.getName nextTransformInfoInterface))) this "generateModifiedViews()")
-            Control.Monad.void (StoreCustomizerComponentUtil.generate this abeClientInformation transformInfoInterface allViewsToBeModified)
+            Control.Monad.void (StoreCustomizerComponentUtil.generate_3 this abeClientInformation transformInfoInterface allViewsToBeModified)
         pure ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
 
 
 -- throws Exception
--- Java overload of generate with a different parameter count: give it a different name
-generate :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
-generate object_ a1 a2 a3 = jmethod object_ "generate" (\() -> (generate_impl (javaCast object_ :: StoreCustomizerComponentUtil))) () a1 a2 a3
+generate_3 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
+generate_3 object_ a1 a2 a3 = jmethod object_ "generate_3" (\() -> (generate_3_impl (javaCast object_ :: StoreCustomizerComponentUtil))) () a1 a2 a3
 
-generate_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
-generate_super object_ a1 a2 a3 = (generate_impl (javaCast object_ :: StoreCustomizerComponentUtil)) a1 a2 a3
+generate_3_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
+generate_3_super object_ a1 a2 a3 = (generate_3_impl (javaCast object_ :: StoreCustomizerComponentUtil)) a1 a2 a3
 
-generate_impl :: StoreCustomizerComponentUtil -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
-generate_impl this abeClientInformation transformInfoInterface allViewsToBeModifiedVector = do
+generate_3_impl :: StoreCustomizerComponentUtil -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> BasicArrayList.BasicArrayList -> IO (())
+generate_3_impl this abeClientInformation transformInfoInterface allViewsToBeModifiedVector = do
         customizerUtil <- (CustomizerUtil.getInstance)
         size <- (BasicArrayList.size allViewsToBeModifiedVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let nextTransformInfoInterface = (javaCast (jio (BasicArrayList.get allViewsToBeModifiedVector index)) :: TransformInfo.TransformInfo)
-            specifiedTransformInfoInterface <- (CustomizerUtil.getTransformInfoInterfaceToCustomize customizerUtil transformInfoInterface nextTransformInfoInterface)
+            specifiedTransformInfoInterface <- (CustomizerUtil.getTransformInfoInterfaceToCustomize customizerUtil transformInfoInterface (javaCast nextTransformInfoInterface))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Retrieved: " ++ (jio (TransformInfoInterface.getName specifiedTransformInfoInterface))) this "generateModifiedViews()")
             Control.Monad.void (TransformGeneratorUtil.generate ((jio (TransformGeneratorUtil.getInstance))) abeClientInformation nextTransformInfoInterface specifiedTransformInfoInterface)

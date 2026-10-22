@@ -150,7 +150,7 @@ createNewLicenseInitInfo_impl this licenceServerVector = do
 main :: JavaArray (String) -> IO (())
 main args = do
         initInfo <- (new_1 args)
-        Control.Monad.void (SetLicenseInitInfo.createNewLicenseInitInfo initInfo (jio (BasicArrayListD.new_)))
+        Control.Monad.void (SetLicenseInitInfo.createNewLicenseInitInfo initInfo (javaCast (jio (BasicArrayListD.new_))))
         pure ()
 
 

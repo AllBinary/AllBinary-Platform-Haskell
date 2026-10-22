@@ -158,7 +158,7 @@ setNoSensors_super object_ = (setNoSensors_impl (javaCast object_ :: SensorGameU
 
 setNoSensors_impl :: SensorGameUpdateProcessor -> IO (())
 setNoSensors_impl this = do
-        Control.Monad.void (SensorGameUpdateProcessor.setInputSensor this (jio (NoAllBinarySensor.getInstance)))
+        Control.Monad.void (SensorGameUpdateProcessor.setInputSensor this (javaCast (jio (NoAllBinarySensor.getInstance))))
         pure ()
 
 

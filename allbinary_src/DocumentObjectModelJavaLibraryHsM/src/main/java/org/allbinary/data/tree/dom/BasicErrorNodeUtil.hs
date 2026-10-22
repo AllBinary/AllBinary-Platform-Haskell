@@ -87,7 +87,7 @@ get document errorText = do
             javaThrow ((JavaException "Exception" "Error Node Creation Failure"))
             ) $ do
             node <- (Document.createElement document (jget ((jio (ErrorData.getInstance))).nAME))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (jget ((jio (ErrorData.getInstance))).tEXT) errorText)))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ErrorData.getInstance))).tEXT) errorText)))
             pure (node)
 
 

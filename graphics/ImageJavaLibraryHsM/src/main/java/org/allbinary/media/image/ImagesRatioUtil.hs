@@ -74,7 +74,7 @@ newRecord_ = do
     jregisterMethod header_ "isEqual" (\() -> isEqual_impl this)
     jregisterMethod header_ "getAverage" (\() -> getAverage_impl this)
     jregisterMethod header_ "fudge" (\() -> fudge_impl this)
-    jregisterMethod header_ "fudge" (\() -> fudge_impl this)
+    jregisterMethod header_ "fudge_3" (\() -> fudge_3_impl this)
     pure this
 
 initFields_ :: ImagesRatioUtil -> IO ()
@@ -179,15 +179,14 @@ fudge_impl this bufferedImage ratio = do
 
 
 -- throws Exception
--- Java overload of fudge with a different parameter count: give it a different name
-fudge :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
-fudge object_ a1 a2 a3 = jmethod object_ "fudge" (\() -> (fudge_impl (javaCast object_ :: ImagesRatioUtil))) () a1 a2 a3
+fudge_3 :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
+fudge_3 object_ a1 a2 a3 = jmethod object_ "fudge_3" (\() -> (fudge_3_impl (javaCast object_ :: ImagesRatioUtil))) () a1 a2 a3
 
-fudge_super :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
-fudge_super object_ a1 a2 a3 = (fudge_impl (javaCast object_ :: ImagesRatioUtil)) a1 a2 a3
+fudge_3_super :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
+fudge_3_super object_ a1 a2 a3 = (fudge_3_impl (javaCast object_ :: ImagesRatioUtil)) a1 a2 a3
 
-fudge_impl :: ImagesRatioUtil -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
-fudge_impl this bufferedImageArray totalImages ratio = do
+fudge_3_impl :: ImagesRatioUtil -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
+fudge_3_impl this bufferedImageArray totalImages ratio = do
         end <- newIORef (totalImages)
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))

@@ -104,7 +104,7 @@ new_1 file = do
 init_1 :: DirectoryDataModel -> AbFile.AbFile -> IO ()
 init_1 this file = do
         initFields_ this
-        assignedValue <- (Directory.search ((jio (Directory.getInstance))) file)
+        assignedValue <- (Directory.search_1 ((jio (Directory.getInstance))) file)
         jset (this).fileBasicArrayList (assignedValue)
         jset (this).transformDocumentInterface ((javaCast (jio (TransformDocumentFactory.getInstance)) :: TransformDocumentInterface.TransformDocumentInterface))
         pure ()

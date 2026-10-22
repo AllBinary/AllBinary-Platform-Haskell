@@ -268,7 +268,7 @@ override_impl this hashMap = do
         let type_ = (javaCast (jio (HashMap.get hashMap (jget ((jio (OutputTypeData.getInstance))).nAME))) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil type_))) $ do
             when ((jio (TransformInfo.getObjectConfigInterface this)) == javaNull) $ do
-                Control.Monad.void (TransformInfo.setObjectConfigInterface this (jio (TransformInfoObjectConfig.new_1 this)))
+                Control.Monad.void (TransformInfo.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfig.new_1 this))))
             Control.Monad.void (TransformInfoObjectConfigInterface.setOutputTypeName ((jio (TransformInfo.getObjectConfigInterface this))) type_)
         let aTemplateFileName = (javaCast (jio (HashMap.get hashMap (jget (transformInfoData).tEMPLATEFILENAME))) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil aTemplateFileName))) $ do
@@ -449,7 +449,7 @@ setObjectConfigFile_super object_ a1 = (setObjectConfigFile_impl (javaCast objec
 setObjectConfigFile_impl :: TransformInfo -> String -> IO (())
 setObjectConfigFile_impl this value = do
         jset (this).objectConfigFileName (value)
-        Control.Monad.void (TransformInfo.setObjectConfigInterface this (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) (jget (this).abeClientInformation) this (jio (TransformInfo.getObjectConfigFilePath this)))))
+        Control.Monad.void (TransformInfo.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance_3 ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) (jget (this).abeClientInformation) this (jio (TransformInfo.getObjectConfigFilePath this))))))
         pure ()
 
 
@@ -462,8 +462,8 @@ setObjectConfig_super object_ a1 = (setObjectConfig_impl (javaCast object_ :: Tr
 
 setObjectConfig_impl :: TransformInfo -> String -> IO (())
 setObjectConfig_impl this value = do
-        document <- (DomDocumentHelper.create value)
-        Control.Monad.void (TransformInfo.setObjectConfigInterface this (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) (jget (this).abeClientInformation) this document)))
+        document <- (DomDocumentHelper.create_1 value)
+        Control.Monad.void (TransformInfo.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance_3 ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) (jget (this).abeClientInformation) this document))))
         pure ()
 
 
@@ -619,7 +619,7 @@ getData_impl this = do
             ) $ do
             if (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil (jget (this).data_)))) then do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
-                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Data: " ++ (jio (XmlDocumentHelper.toString (jio (DomDocumentHelper.create (jget this.data_)))))) this "getData()")
+                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Data: " ++ (jio (XmlDocumentHelper.toString (jio (DomDocumentHelper.create_1 (jget this.data_)))))) this "getData()")
             else do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
                     stringBuffer <- (StringMaker.new_)
@@ -651,7 +651,7 @@ getDataDocument_impl this = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "No Data So Creating New Document" this "getDataDocument()")
             javaReturn =<< (DomDocumentHelper.create)
         else do
-            document <- (DomDocumentHelper.create localData)
+            document <- (DomDocumentHelper.create_1 localData)
             javaReturn (document)
 
 

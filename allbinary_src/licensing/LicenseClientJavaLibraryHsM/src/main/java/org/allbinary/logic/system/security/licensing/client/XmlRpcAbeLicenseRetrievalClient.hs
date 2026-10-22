@@ -132,7 +132,7 @@ get_impl this anyTypeObject_ cryptInterface = do
             hashtable <- (AbeClientInformationInterface.toHashtable ((jio (XmlRpcAbeClient.getClientInfo this))))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (cLIENT_INFO ++ (jio (ABHashtable.toString hashtable))) this (jget ((jget (this).base.commonStrings)).gET))
             Control.Monad.void (BasicArrayList.add param hashtable)
-            result <- (XmlRpcClient.execute xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param cryptInterface)
+            result <- (XmlRpcClient.execute_3 xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param cryptInterface)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (rESULT ++ (jio (Any.toString result))) this (jget ((jget (this).base.commonStrings)).gET))
             let resultHashtable = (javaCast result :: ABHashtable.ABHashtable)
             when (Prelude.not (jio (AbeClientLicense.hasRequiredKeys resultHashtable))) $ do

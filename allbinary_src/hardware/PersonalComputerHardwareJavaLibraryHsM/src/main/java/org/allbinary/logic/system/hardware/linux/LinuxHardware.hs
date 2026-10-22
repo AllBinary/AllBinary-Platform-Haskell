@@ -122,7 +122,7 @@ newRecord_ = do
     jregisterLevel header_ this
     HardwareInterface.registerInterface_ header_
     jregisterMethod header_ "init" (\() -> init_impl this)
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "init_2" (\() -> init_2_impl this)
     jregisterMethod header_ "getMultimedia" (\() -> getMultimedia_impl this)
     jregisterMethod header_ "getBridge" (\() -> getBridge_impl this)
     jregisterMethod header_ "getCpu" (\() -> getCpu_impl this)
@@ -209,20 +209,19 @@ init_impl this filePath = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Hardware Data: " ++ (jio (LinuxHardware.toString this))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR) e)
             javaThrow (e)
             ) $ do
-            Control.Monad.void (LinuxHardware.init this lineNumberReader filePath)
+            Control.Monad.void (LinuxHardware.init_2 this lineNumberReader filePath)
         pure ()
 
 
 -- throws Exception
--- Java overload of init with a different parameter count: give it a different name
-init :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
-init object_ a1 a2 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: LinuxHardware))) () a1 a2
+init_2 :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2 object_ a1 a2 = jmethod object_ "init_2" (\() -> (init_2_impl (javaCast object_ :: LinuxHardware))) () a1 a2
 
-init_super :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
-init_super object_ a1 a2 = (init_impl (javaCast object_ :: LinuxHardware)) a1 a2
+init_2_super :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2_super object_ a1 a2 = (init_2_impl (javaCast object_ :: LinuxHardware)) a1 a2
 
-init_impl :: LinuxHardware -> LineNumberReader.LineNumberReader -> String -> IO (())
-init_impl this lineNumberReader filePath = do
+init_2_impl :: LinuxHardware -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2_impl this lineNumberReader filePath = do
         lineNumberReader <- newIORef lineNumberReader
         flip finally (do
             when ((jget lineNumberReader) /= javaNull) $ do
@@ -288,7 +287,7 @@ init_impl this lineNumberReader filePath = do
                         jset nextLine (assignedValue)
                         when (((jget nextLine) == javaNull) || (jio (LinuxHardware.isNextHardware this (jget nextLine)))) $ do
                             throwIO JavaBreak
-                    componentInterface <- (fmap (\value_ -> javaCast value_ :: HardwareComponentInterface.HardwareComponentInterface) (PCComponentFactory.getInstance ((jio (PCComponentFactory.getInstance))) componentType (jio (StringMaker.toString componentData))))
+                    componentInterface <- (fmap (\value_ -> javaCast value_ :: HardwareComponentInterface.HardwareComponentInterface) (PCComponentFactory.getInstance_2 ((jio (PCComponentFactory.getInstance))) componentType (jio (StringMaker.toString componentData))))
                     when (componentInterface /= javaNull) $ do
                         Control.Monad.void (BasicArrayList.add ((jget (this).componentInterfaceVector)) componentInterface)
             else do

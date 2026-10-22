@@ -210,7 +210,7 @@ remove_impl :: InputToGameKeyMapping -> Input.Input -> Input.Input -> IO (())
 remove_impl this input mappedToInput = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jio (CommonLabels.getInstance))).sTART_LABEL)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) input))))) " == "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) mappedToInput))))))) this "InputToGameKeyMapping::remove")
         Control.Monad.void (InputMapping.remove_super this.base input mappedToInput)
-        Control.Monad.void (InputToGameKeyMapping.set this input (jget ((jget (this).gameKeyFactory)).nONE))
+        Control.Monad.void (InputToGameKeyMapping.set this input (javaCast (jget ((jget (this).gameKeyFactory)).nONE)))
         pure ()
 
 

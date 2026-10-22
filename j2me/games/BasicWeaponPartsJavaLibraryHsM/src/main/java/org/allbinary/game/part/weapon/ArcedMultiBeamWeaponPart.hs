@@ -115,7 +115,7 @@ processScore_impl this allbinaryLayerManager angle otherAngle weaponProperties s
         forM_ [0 .. (jget (this).total) - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (WeaponLayerCircularPool.getInstanceWeaponLayer ((jget (this).weaponLayerCircularStaticPool)) (jio (BasicWeaponPart.getOwnerLayerInterface this)) (jio (RelativeRelationship.getX ((jget (this).base.relativeRelationship)))) (jio (RelativeRelationship.getY ((jget (this).base.relativeRelationship)))) 0 ((((Prelude.fromIntegral minAngle) + (Prelude.fromIntegral increment)) :: Int)) (Prelude.fromIntegral otherAngle) weaponProperties scoreableInterface)
             jset weaponLayer (assignedValue)
-            Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager (jget weaponLayer))
+            Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager (javaCast (jget weaponLayer)))
             jset next (((jget next) + (Prelude.fromIntegral increment)))
         pure ()
 

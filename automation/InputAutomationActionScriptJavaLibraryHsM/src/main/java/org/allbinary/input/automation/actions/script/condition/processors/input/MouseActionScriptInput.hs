@@ -267,7 +267,7 @@ process_super object_ a1 = (process_impl (javaCast object_ :: MouseActionScriptI
 
 process_impl :: MouseActionScriptInput -> Int64 -> IO (())
 process_impl this frame = do
-        Control.Monad.void (MouseInputAutomationProcessor.process this)
+        Control.Monad.void (MouseInputAutomationProcessor.process (javaCast this))
         pure ()
 
 

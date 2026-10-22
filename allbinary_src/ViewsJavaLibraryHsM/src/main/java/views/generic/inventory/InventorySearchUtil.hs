@@ -164,8 +164,8 @@ getNoResults_super object_ a1 a2 = (getNoResults_impl (javaCast object_ :: Inven
 
 getNoResults_impl :: InventorySearchUtil -> TransformDocumentInterface.TransformDocumentInterface -> Node.Node -> IO (String)
 getNoResults_impl this viewDocumentInterface inventoryNode = do
-        Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc viewDocumentInterface)) (SearchData.tOTAL_NUMBER_PAGES) (jget ((jget (this).commonPhoneStrings)).zERO))))
-        Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc viewDocumentInterface)) (SearchData.tOTAL_NUMBER_ITEMS) (jget ((jget (this).commonPhoneStrings)).zERO))))
+        Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc viewDocumentInterface)) (SearchData.tOTAL_NUMBER_PAGES) (jget ((jget (this).commonPhoneStrings)).zERO))))
+        Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc viewDocumentInterface)) (SearchData.tOTAL_NUMBER_ITEMS) (jget ((jget (this).commonPhoneStrings)).zERO))))
         success <- (XmlDocumentHelper.toString (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pRODUCTSEARCHLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No Results Xml: " ++ success) this "search")
@@ -208,10 +208,10 @@ search_impl this abeClientInformation searchRequest column = do
                 lastPage <- newIORef ((Prelude.negate 1))
                 numberOfResultsOnCurrentPage <- newIORef (0)
                 numberOfResults <- newIORef (0)
-                viewDocumentInterface <- newIORef =<< (TransformStoreDocumentFactory.getInstance searchRequest)
+                viewDocumentInterface <- newIORef =<< (TransformStoreDocumentFactory.getInstance_1 searchRequest)
                 inventoryNode <- newIORef =<< (TransformDocumentInterface.createElement ((jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface))))) (InventoryData.iNVENTORY))
                 Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jget viewDocumentInterface))))) (jget inventoryNode))
-                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.pAGE) (javaToString (Prelude.fromIntegral (startPage) :: Int)))))
+                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.pAGE) (javaToString (Prelude.fromIntegral (startPage) :: Int)))))
                 when ((jio (SearchRequest.getFileBaseName searchRequest)) /= javaNull) $ do
                     Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (SearchRequest.getFileBaseNameNode searchRequest (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))))))
                 currentPage <- newIORef ((Prelude.negate 1))
@@ -224,23 +224,23 @@ search_impl this abeClientInformation searchRequest column = do
                     when ((jstringIndexOf (jget keywords) (jget keyword) 0) /= (Prelude.negate 1)) $ do
                         when ((((jget currentPage) + 1) >= startPage) && (((jget currentPage) + 1) <= (jget endPage))) $ do
                             itemNode <- (BasicItemView.toXmlNode ((jio (BasicItemView.new_2 itemInterface (jio (BasicArrayListD.new_))))) (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))))
-                            Control.Monad.void (Node.appendChild itemNode (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (BasketData.iTEMTOTALINBASKET) (jget ((jget (this).commonPhoneStrings)).oNE))))
+                            Control.Monad.void (Node.appendChild itemNode (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (BasketData.iTEMTOTALINBASKET) (jget ((jget (this).commonPhoneStrings)).oNE))))
                             Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (Node.cloneNode itemNode True)))
                         jset currentPage (((((((jget numberOfResults) + 1)) `quot` (jget pageLength))) - 1))
                         jset numberOfResultsOnCurrentPage ((jget numberOfResultsOnCurrentPage) + 1)
                         when ((jget lastPage) < (jget currentPage)) $ do
                             when (((jget currentPage) >= startPage) && ((jget currentPage) <= (jget endPage))) $ do
-                                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral ((jget numberOfResultsOnCurrentPage)) :: Int)))))
+                                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral ((jget numberOfResultsOnCurrentPage)) :: Int)))))
                                 assignedValue <- (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))
                                 jsetIndex documents ((jget currentPage)) (assignedValue)
                                 jsetIndex inventoryNodes ((jget currentPage)) ((jget inventoryNode))
                                 jset savedPagesInRange ((jget savedPagesInRange) + 1)
-                                assignedValue <- (TransformStoreDocumentFactory.getInstance searchRequest)
+                                assignedValue <- (TransformStoreDocumentFactory.getInstance_1 searchRequest)
                                 jset viewDocumentInterface (assignedValue)
                                 assignedValue <- (TransformDocumentInterface.createElement ((jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface))))) (InventoryData.iNVENTORY))
                                 jset inventoryNode (assignedValue)
                                 Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jget viewDocumentInterface))))) (jget inventoryNode))
-                                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.pAGE) (javaToString (Prelude.fromIntegral (((jget currentPage) + 1)) :: Int)))))
+                                Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.pAGE) (javaToString (Prelude.fromIntegral (((jget currentPage) + 1)) :: Int)))))
                                 when ((jio (SearchRequest.getFileBaseName searchRequest)) /= javaNull) $ do
                                     Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (SearchRequest.getFileBaseNameNode searchRequest (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))))))
                             jset lastPage ((jget currentPage))
@@ -249,7 +249,7 @@ search_impl this abeClientInformation searchRequest column = do
                         when ((jget lastPage) >= (mAXPAGES - 1)) $ do
                             throwIO JavaBreak
                 when (((jget numberOfResultsOnCurrentPage) > 0) && (((((jget currentPage) + 1) >= startPage) && (((jget currentPage) + 1) <= (jget endPage))))) $ do
-                    Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral (((jget numberOfResultsOnCurrentPage) - 1)) :: Int)))))
+                    Control.Monad.void (Node.appendChild ((jget inventoryNode)) (jio (ModDomHelper.createNameValueNodes_3 (jio (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))) (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral (((jget numberOfResultsOnCurrentPage) - 1)) :: Int)))))
                     assignedValue <- (TransformDocumentInterface.getDoc ((jget viewDocumentInterface)))
                     jsetIndex documents (((jget lastPage) + 1)) (assignedValue)
                     jsetIndex inventoryNodes (((jget lastPage) + 1)) ((jget inventoryNode))
@@ -261,8 +261,8 @@ search_impl this abeClientInformation searchRequest column = do
                 forM_ [startPage .. (jget endPage)] $ \index -> javaIteration (pure ()) $ do
                     when (index <= (jget lastPage)) $ do
                         let tempDocument = (jindex documents (index))
-                        Control.Monad.void (appendChild ((jindex inventoryNodes (index))) (jio (ModDomHelper.createNameValueNodes tempDocument (SearchData.tOTAL_NUMBER_PAGES) (javaToString (Prelude.fromIntegral (((jget lastPage) + 1)) :: Int)))))
-                        Control.Monad.void (appendChild ((jindex inventoryNodes (index))) (jio (ModDomHelper.createNameValueNodes tempDocument (SearchData.tOTAL_NUMBER_ITEMS) (javaToString (Prelude.fromIntegral ((jget numberOfResults)) :: Int)))))
+                        Control.Monad.void (appendChild ((jindex inventoryNodes (index))) (jio (ModDomHelper.createNameValueNodes_3 tempDocument (SearchData.tOTAL_NUMBER_PAGES) (javaToString (Prelude.fromIntegral (((jget lastPage) + 1)) :: Int)))))
+                        Control.Monad.void (appendChild ((jindex inventoryNodes (index))) (jio (ModDomHelper.createNameValueNodes_3 tempDocument (SearchData.tOTAL_NUMBER_ITEMS) (javaToString (Prelude.fromIntegral ((jget numberOfResults)) :: Int)))))
                         forM_ [0 .. (jget lastPage)] $ \pageIndex -> javaIteration (pure ()) $ do
                             Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
                             Control.Monad.void (StringMaker.append stringBuffer (jio (SearchRequest.getFileBaseName searchRequest)))

@@ -94,7 +94,7 @@ init_2 this name imageComparisonResult = do
         initFields_ this
         jset (this).name (name)
         Control.Monad.void (MotionRectangles.setImageComparisonResult this imageComparisonResult)
-        Control.Monad.void (MotionRectangles.setVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (MotionRectangles.setVector this (javaCast (jio (BasicArrayListD.new_))))
         pure ()
 
 

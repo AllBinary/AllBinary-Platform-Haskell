@@ -175,10 +175,10 @@ processCommand_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jio (Command.toString command)) this (jget (this).pROCESS_COMMAND))
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        if (((jget SWTUtil.isSWT) && (jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL)))) && (command /= (jget ((jio (GameCommandsFactory.getInstance))).eXIT_COMMAND))) then do
+        if (((jget SWTUtil.isSWT) && (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL))))) && (command /= (jget ((jio (GameCommandsFactory.getInstance))).eXIT_COMMAND))) then do
             Control.Monad.void (CommandRunnable.run ((jio (CommandRunnable.new_2 this command))))
         else do
-            Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (jio (CommandRunnable.new_2 this command)))
+            Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (javaCast (jio (CommandRunnable.new_2 this command))))
         if (command == (jget ((jio (GameCommandsFactory.getInstance))).qUIT_COMMAND)) then do
             javaReturn ((Prelude.negate 1))
         else do

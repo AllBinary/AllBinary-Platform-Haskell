@@ -200,7 +200,7 @@ getDoc_super object_ = (getDoc_impl (javaCast object_ :: HttpComponentView))
 getDoc_impl :: HttpComponentView -> IO (Document.Document)
 getDoc_impl this = do
         document <- (TransformInfoInterface.getDataDocument ((jio (TransformInfoHttpComposite.getTransformInfoInterface this))))
-        node <- (DomNodeHelper.getFirstChildElement document)
+        node <- (DomNodeHelper.getFirstChildElement (javaCast document))
         when (node /= javaNull) $ do
             dataNode <- (TransformDocumentInterface.importNode ((jio (TransformDocumentInterface.getDoc ((jio (HttpComponentView.getTransformDocumentInterface this)))))) node True)
             when (dataNode /= javaNull) $ do

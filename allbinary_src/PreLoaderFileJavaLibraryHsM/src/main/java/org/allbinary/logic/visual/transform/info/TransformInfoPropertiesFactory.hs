@@ -72,7 +72,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = TransformInfoPropertiesFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: TransformInfoPropertiesFactory -> IO ()
@@ -99,15 +99,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoPropertiesFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: TransformInfoPropertiesFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: TransformInfoPropertiesFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: TransformInfoPropertiesFactory)) a1
 
-getInstance_impl :: TransformInfoPropertiesFactory -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
-getInstance_impl this node = do
+getInstance_1_impl :: TransformInfoPropertiesFactory -> Node.Node -> IO (TransformInfoProperties.TransformInfoProperties)
+getInstance_1_impl this node = do
         transformInfoChildNodeList <- (Node.getChildNodes node)
         transformInfoData <- (TransformInfoData.getInstance)
         attributes <- (Node.getAttributes node)

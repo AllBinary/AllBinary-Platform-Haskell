@@ -76,8 +76,8 @@ init_ :: AdminConfigurationTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (AdminConfigurationHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (AdminConfigurationRequestHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (AdminConfigurationHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (AdminConfigurationRequestHelperFactory.new_))))
         pure ()
 
 

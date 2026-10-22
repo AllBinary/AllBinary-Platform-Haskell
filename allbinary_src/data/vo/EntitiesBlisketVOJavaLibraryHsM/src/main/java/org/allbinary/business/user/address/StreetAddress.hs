@@ -578,7 +578,7 @@ toXmlNode_impl this document = do
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             let name = (javaCast (jindex keyArray (i)) :: String)
             value <- (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get hashMap name)) :: String))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name value)))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name value)))
         pure (node)
 
 

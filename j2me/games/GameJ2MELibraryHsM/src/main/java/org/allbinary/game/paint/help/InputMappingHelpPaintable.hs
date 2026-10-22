@@ -146,7 +146,7 @@ init_3 this gameInputMappingArray backgroundBasicColor basicColor = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).gameInputMappingArray (gameInputMappingArray)
-        Control.Monad.void (InputMappingHelpPaintable.update this (jget (this).nONE) (jget (this).nONE))
+        Control.Monad.void (InputMappingHelpPaintable.update this (jget (this).nONE) (javaCast (jget (this).nONE)))
         if ((backgroundBasicColor == (jget ((jget (this).basicColorFactory)).wHITE)) || (basicColor == (jget ((jget (this).basicColorFactory)).wHITE))) then do
             jset (this).selectedBasicColor ((jget ((jget (this).basicColorFactory)).rED))
         else do
@@ -241,7 +241,7 @@ update_impl this selectedGameKey selectedInput = do
             jset gameInputMapping ((jindex ((jget (this).gameInputMappingArray)) (index)))
             assignedValue <- (GameInputMapping.getGameKey ((jget gameInputMapping)))
             jset gameKey (assignedValue)
-            assignedValue <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping gameKeyMapping))) (jget gameKey))
+            assignedValue <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping gameKeyMapping))) (javaCast (jget gameKey)))
             jset list (assignedValue)
             size2 <- (BasicArrayList.size ((jget list)))
             jsetIndex inputBasicColorArray (index) ((jnewArray (size2) javaNull))

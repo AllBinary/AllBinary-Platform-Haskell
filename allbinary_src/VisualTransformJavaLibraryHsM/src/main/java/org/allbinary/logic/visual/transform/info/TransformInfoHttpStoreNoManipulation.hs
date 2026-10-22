@@ -93,7 +93,7 @@ setObjectConfigFile_super object_ a1 = (setObjectConfigFile_impl (javaCast objec
 setObjectConfigFile_impl :: TransformInfoHttpStoreNoManipulation -> String -> IO (())
 setObjectConfigFile_impl this value = do
         Control.Monad.void (TransformInfoHttpStore.setObjectConfigFileName this value)
-        Control.Monad.void (TransformInfoHttpStore.setObjectConfigInterface this (jio (TransformInfoObjectConfigNoManipulationFactory.getInstance ((jio (TransformInfoObjectConfigNoManipulationFactory.getInstance))) this (jio (TransformInfoHttpStore.getObjectConfigFilePath this)))))
+        Control.Monad.void (TransformInfoHttpStore.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfigNoManipulationFactory.getInstance_2 ((jio (TransformInfoObjectConfigNoManipulationFactory.getInstance))) (javaCast this) (jio (TransformInfoHttpStore.getObjectConfigFilePath this))))))
         pure ()
 
 

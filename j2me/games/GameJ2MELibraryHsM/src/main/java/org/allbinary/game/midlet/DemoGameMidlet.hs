@@ -201,7 +201,7 @@ setDemo_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).sTART) this "setDemo")
         progressCanvas <- (ProgressCanvasFactory.getInstance)
         Control.Monad.void (ProgressCanvas.start progressCanvas)
-        Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (jio (DemoRunnable.new_1 this)))
+        Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (javaCast (jio (DemoRunnable.new_1 this))))
         pure ()
 
 
@@ -220,7 +220,7 @@ createGame_impl this = do
         Control.Monad.void (ProgressCanvas.start progressCanvas)
         hashtable <- (GameMidlet.getStartStateHashtable this)
         Control.Monad.void (GameMidlet.setStartStateHashtable this (jget ((jio (StdUtil.getInstance))).nULL_TABLE))
-        Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (jio (CreateGameRunnable.new_2 this hashtable)))
+        Control.Monad.void (ThreadPool.runTask ((jio (PrimaryThreadPool.getInstance))) (javaCast (jio (CreateGameRunnable.new_2 this hashtable))))
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).eND) this cREATE_GAME)
         pure ()
 

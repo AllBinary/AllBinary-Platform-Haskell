@@ -87,14 +87,13 @@ init_ this = do
 registerAsService :: (JavaObjectClass o2) => BundleContext.BundleContext -> o2 -> String -> IO (())
 registerAsService bundleContext anyTypeObject_ serviceName = do
         let anyType = jtoObject anyTypeObject_
-        Control.Monad.void (OSGIActivatorUtil.registerAsService bundleContext anyType serviceName (jio (StdUtil.createHashtable ((jio (StdUtil.getInstance))))))
+        Control.Monad.void (OSGIActivatorUtil.registerAsService_4 bundleContext anyType serviceName (jio (StdUtil.createHashtable ((jio (StdUtil.getInstance))))))
         pure ()
 
 
 -- throws Exception
--- Java overload of registerAsService with a different parameter count: give it a different name
-registerAsService :: (JavaObjectClass o2) => BundleContext.BundleContext -> o2 -> String -> ABHashtable.ABHashtable -> IO (())
-registerAsService bundleContext anyTypeObject_ serviceName properties = do
+registerAsService_4 :: (JavaObjectClass o2) => BundleContext.BundleContext -> o2 -> String -> ABHashtable.ABHashtable -> IO (())
+registerAsService_4 bundleContext anyTypeObject_ serviceName properties = do
         let anyType = jtoObject anyTypeObject_
         serviceRegistration <- (BundleContext.registerService bundleContext serviceName anyType properties)
         serviceReference <- newIORef =<< (ServiceRegistration.getReference serviceRegistration)

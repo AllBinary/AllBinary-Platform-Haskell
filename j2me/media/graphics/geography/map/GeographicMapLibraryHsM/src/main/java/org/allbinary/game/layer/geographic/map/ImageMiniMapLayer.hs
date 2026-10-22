@@ -105,7 +105,7 @@ init_impl :: ImageMiniMapLayer -> IO (())
 init_impl this = do
         aWidth <- (AllBinaryTiledLayer.getWidth ((jget (this).base.allBinaryTiledLayer)))
         aHeight <- (AllBinaryTiledLayer.getHeight ((jget (this).base.allBinaryTiledLayer)))
-        assignedValue <- (PaintableToImageUtil.getImage (jget (this).base.allBinaryTiledLayer) aWidth aHeight)
+        assignedValue <- (PaintableToImageUtil.getImage (javaCast (jget (this).base.allBinaryTiledLayer)) aWidth aHeight)
         jset (this).image (assignedValue)
         pure ()
 

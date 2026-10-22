@@ -100,7 +100,7 @@ processAI_impl this allBinaryLayerManager = do
         layerInterface <- (SequenceAI.getOwnerLayerInterface this)
         index <- (SequenceAI.getIndex this)
         when ((jlength (jget (this).numberOnSameTeam)) > index) $ do
-            size <- (GroupLayerManagerListener.getGroupSizeFromInterface ((jio (GroupLayerManagerListener.getInstance))) layerInterface)
+            size <- (GroupLayerManagerListener.getGroupSizeFromInterface ((jio (GroupLayerManagerListener.getInstance))) (javaCast layerInterface))
             when ((jio (intValue ((jindex ((jget (this).numberOnSameTeam)) (index))))) > size) $ do
                 Control.Monad.void (SequenceAI.next this)
         Control.Monad.void (SequenceAI.processAI_super this.base allBinaryLayerManager)

@@ -222,7 +222,7 @@ isPositionBlocked_super object_ = (isPositionBlocked_impl (javaCast object_ :: B
 
 isPositionBlocked_impl :: BuildingRTSFormInput -> IO (Bool)
 isPositionBlocked_impl this = do
-        (DropCellPositionHistory.isCellPositionWithDrop ((jget (this).dropCellPositionHistory)) (jio (RTSFormInput.getSelectedGeographicCellPosition this)))
+        (DropCellPositionHistory.isCellPositionWithDrop ((jget (this).dropCellPositionHistory)) (javaCast (jio (RTSFormInput.getSelectedGeographicCellPosition this))))
 
 
 isDemoLocked :: (JavaObjectClass this_) => this_ -> ABCustomItem.ABCustomItem -> IO (Bool)
@@ -281,15 +281,15 @@ buildFromMotionInput_impl this rtsPlayerLayerInterface layerManager item itemInd
                 else do
                     Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
                     when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).buildOnPathGameNotificationEvent))
+                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).buildOnPathGameNotificationEvent)))
             else do
                 Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).spotTakenGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).spotTakenGameNotificationEvent)))
         else do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).selectBuildSpotGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).selectBuildSpotGameNotificationEvent)))
     pure ()
 
 
@@ -318,7 +318,7 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
             when (jio (RaceTrackGeographicMapCellTypeFactory.isPath raceTrackGeographicMapCellTypeFactory (jget geographicMapCellType))) $ do
                 Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).roadCollisionGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).roadCollisionGameNotificationEvent)))
                 javaReturn (False)
         cost <- (RTSLayer.getCost layerInterface)
         capital <- (RTSPlayerLayerInterface.getCapital rtsPlayerLayerInterface)
@@ -340,7 +340,7 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
         else do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).noMoneyGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).noMoneyGameNotificationEvent)))
             javaReturn (False)
 
 
@@ -359,18 +359,18 @@ isBuildAttemptValid_impl this rtsPlayerLayerInterface layerInterface = do
         when (jio (DropCellPositionHistory.anyCellPositionWithDrop ((jget (this).dropCellPositionHistory)) occupyList)) $ do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).buildingCollisionGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).buildingCollisionGameNotificationEvent)))
             javaReturn (False)
         if ((jget (this).isUnitProducer) && (jio (DropCellPositionHistory.anyCellPositionWithDrop ((jget (this).dropCellPositionHistory)) (jio (GeographicMapCellPositionAreaBase.getSurroundingGeographicMapCellPositionList geographicMapCellPositionArea))))) then do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).structureToCloseCollisionGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).structureToCloseCollisionGameNotificationEvent)))
             javaReturn (False)
         else do
             when (jio (BuildingRTSFormInput.isSurroundingCellsOffMap this layerInterface)) $ do
                 Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).mapEdgeGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).mapEdgeGameNotificationEvent)))
                 javaReturn (False)
         pure (True)
 
@@ -386,13 +386,13 @@ add_impl :: BuildingRTSFormInput -> RTSPlayerLayerInterface.RTSPlayerLayerInterf
 add_impl this rtsPlayerLayerInterface layerManager layerInterface = do
         let geographicMapCellPositionArea = (jget (layerInterface).geographicMapCellPositionAreaBase)
         occupyList <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList geographicMapCellPositionArea)
-        Control.Monad.void (DropCellPositionHistory.addAll ((jget (this).dropCellPositionHistory)) occupyList layerInterface)
+        Control.Monad.void (DropCellPositionHistory.addAll ((jget (this).dropCellPositionHistory)) occupyList (javaCast layerInterface))
         let rtsPlayerGameInput = (javaCast (jio (RTSPlayerLayerInterface.getPlayerGameInput rtsPlayerLayerInterface)) :: RTSPlayerGameInput.RTSPlayerGameInput)
-        Control.Monad.void (RTSPlayerGameInput.setSelectedRTSLayer rtsPlayerGameInput layerInterface (jio (RTSFormInput.getSelectedGeographicCellPosition this)))
-        Control.Monad.void (AllBinaryLayerManager.append layerManager layerInterface)
+        Control.Monad.void (RTSPlayerGameInput.setSelectedRTSLayer rtsPlayerGameInput (javaCast layerInterface) (jio (RTSFormInput.getSelectedGeographicCellPosition this)))
+        Control.Monad.void (AllBinaryLayerManager.append layerManager (javaCast layerInterface))
         Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (BuildingSound.getInstance)))
         when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-            Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).buildingGameNotificationEvent))
+            Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).buildingGameNotificationEvent)))
         pure ()
 
 

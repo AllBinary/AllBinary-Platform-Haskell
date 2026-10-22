@@ -104,7 +104,7 @@ init_ this = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).cONSTRUCTOR) e)
             ) $ do
             Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKey this (jget (this).nONE))
-            Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKeyEvent this (jio (GameKeyEventFactory.getInstanceForInput ((jio (GameKeyEventFactory.getInstance))) this (jget (this).nONE))))
+            Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKeyEvent this (jio (GameKeyEventFactory.getInstanceForInput ((jio (GameKeyEventFactory.getInstance))) (javaCast this) (javaCast (jget (this).nONE)))))
         pure ()
 
 

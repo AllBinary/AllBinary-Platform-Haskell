@@ -625,7 +625,7 @@ initFields_ this = do
     jset this.openMenuPaintable =<< (NullPaintable.getInstance)
     jset this.menuPaintable =<< (NullPaintable.getInstance)
     jset this.currentTouchInputFactory =<< (NoButtonsTouchInputFactory.getInstance)
-    jset this.colorFillPaintable =<< (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance ((jio (ColorFillPaintableFactory.getInstance))) (jget ((jget (this).basicColorFactory)).bLACK) True))
+    jset this.colorFillPaintable =<< (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jget ((jget (this).basicColorFactory)).bLACK) True))
     jset this.baseGameStatistics =<< (fmap (\value_ -> javaCast value_ :: BaseGameStatistics.BaseGameStatistics) (GameStatisticsFactory.getInstance))
     jset this.primaryPlayerQueue =<< (PrimaryPlayerQueueFactory.getInstance)
     jset this.secondaryPlayerQueue =<< (SecondaryPlayerQueueFactory.getInstance)
@@ -674,7 +674,7 @@ init_5 this commandListener gameLayerManager highScoresFactoryInterface gameInit
         Control.Monad.void (AllBinaryGameCanvas.initPopupMenu this)
         Control.Monad.void (AllBinaryGameCanvas.initMenu this)
         Control.Monad.void (AllBinaryGameCanvas.initSpecialPaint this)
-        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) this)
+        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -808,9 +808,9 @@ initPopupMenu_impl this = do
         if ((jtoObject (jget (this).popupMenuInputProcessor)) == (jtoObject (jio (NoMenuInputProcessor.getInstance)))) then do
             features <- (Features.getInstance)
             popupMenuRectangle <- (MyFormUtil.getPopupMenuRectangle ((jget (this).myFormUtil)))
-            when (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED))) $ do
-                Control.Monad.void (AllBinaryGameCanvas.setOpenMenuPaintable this (jio (BasicPopupMenuPaintable.new_3 popupMenuRectangle (jio (AllBinaryGameLayerManager.getBackgroundBasicColor ((jget (this).gameLayerManager)))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).gameLayerManager)))))))
-                Control.Monad.void (AllBinaryGameCanvas.setPopupMenuInputProcessor this (jio (PopupMenuInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this popupMenuRectangle)))
+            when (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED)))) $ do
+                Control.Monad.void (AllBinaryGameCanvas.setOpenMenuPaintable this (javaCast (jio (BasicPopupMenuPaintable.new_3 popupMenuRectangle (jio (AllBinaryGameLayerManager.getBackgroundBasicColor ((jget (this).gameLayerManager)))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).gameLayerManager))))))))
+                Control.Monad.void (AllBinaryGameCanvas.setPopupMenuInputProcessor this (javaCast (jio (PopupMenuInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this popupMenuRectangle))))
         else do
             pure ()
         pure ()
@@ -849,14 +849,14 @@ initMenu2_impl this = do
         Control.Monad.void (AllBinaryGameCanvas.setMenuForm this (jio (CommandCurrentSelectionFormFactory.getInstance (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) items rectangle formType 25 False (jio (AllBinaryGameLayerManager.getBackgroundBasicColor ((jget (this).gameLayerManager)))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).gameLayerManager)))))))
         scrollSelectionForm <- (AllBinaryGameCanvas.getMenuForm this)
         features <- (Features.getInstance)
-        if (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED))) then do
+        if (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED)))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicMenuInputProcessor.BasicMenuInputProcessor) (PopupCommandFormInputProcessor.new_5 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this scrollSelectionForm (javaCast (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)) :: PopupMenuInputProcessor.PopupMenuInputProcessor)))
             jset (this).mainMenuInputProcessor (assignedValue)
         else do
             pure ()
         Control.Monad.void (AllBinaryGameCanvas.setMenuInputProcessor this (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)))
         if (scrollSelectionForm /= (jio (ScrollSelectionFormNoneFactory.getInstance))) then do
-            Control.Monad.void (AllBinaryGameCanvas.setFormPaintable this (jio (FormPaintable.new_1 scrollSelectionForm)))
+            Control.Monad.void (AllBinaryGameCanvas.setFormPaintable this (javaCast (jio (FormPaintable.new_1 scrollSelectionForm))))
         else do
             pure ()
         Control.Monad.void (AllBinaryGameCanvas.closeMenu this)
@@ -974,8 +974,8 @@ popupMenu2_impl this = do
         Control.Monad.void (PlayerQueue.add ((jget (this).primaryPlayerQueue)) (jio (SelectSound.getInstance)))
         Control.Monad.void (AllBinaryGameCanvas.setMenuPaintable this (jio (AllBinaryGameCanvas.getFormPaintable this)))
         Control.Monad.void (AllBinaryGameCanvas.setMenuInputProcessor this (jget (this).mainMenuInputProcessor))
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jget (this).basicMotionGesturesHandler)) (jget (this).mainMenuInputProcessor))
-        Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (jget (this).mainMenuInputProcessor))
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jget (this).basicMotionGesturesHandler)) (javaCast (jget (this).mainMenuInputProcessor)))
+        Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).mainMenuInputProcessor)))
         pure ()
 
 
@@ -1020,8 +1020,8 @@ closeMenu2_super object_ = (closeMenu2_impl (javaCast object_ :: AllBinaryGameCa
 closeMenu2_impl :: AllBinaryGameCanvas -> IO (())
 closeMenu2_impl this = do
         Control.Monad.void (AllBinaryGameCanvas.setMenuPaintable this (jio (AllBinaryGameCanvas.getOpenMenuPaintable this)))
-        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jget (this).basicMotionGesturesHandler)) (jget (this).mainMenuInputProcessor))
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (jget (this).mainMenuInputProcessor))
+        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jget (this).basicMotionGesturesHandler)) (javaCast (jget (this).mainMenuInputProcessor)))
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).mainMenuInputProcessor)))
         Control.Monad.void (AllBinaryGameCanvas.setMenuInputProcessor this (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)))
         pure ()
 
@@ -1034,8 +1034,8 @@ open_super object_ = (open_impl (javaCast object_ :: AllBinaryGameCanvas))
 
 open_impl :: AllBinaryGameCanvas -> IO (())
 open_impl this = do
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jget (this).basicMotionGesturesHandler)) (jget (this).menuInputProcessor))
-        Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (jget (this).menuInputProcessor))
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jget (this).basicMotionGesturesHandler)) (javaCast (jget (this).menuInputProcessor)))
+        Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).menuInputProcessor)))
         pure ()
 
 
@@ -1047,8 +1047,8 @@ close_super object_ = (close_impl (javaCast object_ :: AllBinaryGameCanvas))
 
 close_impl :: AllBinaryGameCanvas -> IO (())
 close_impl this = do
-        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jget (this).basicMotionGesturesHandler)) (jget (this).menuInputProcessor))
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (jget (this).menuInputProcessor))
+        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jget (this).basicMotionGesturesHandler)) (javaCast (jget (this).menuInputProcessor)))
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).menuInputProcessor)))
         Control.Monad.void (PlayerQueue.clear ((jget (this).primaryPlayerQueue)))
         Control.Monad.void (PlayerQueue.clear ((jget (this).secondaryPlayerQueue)))
         pure ()
@@ -1076,7 +1076,7 @@ setProcessGameProcessorInit_super object_ = (setProcessGameProcessorInit_impl (j
 
 setProcessGameProcessorInit_impl :: AllBinaryGameCanvas -> IO (())
 setProcessGameProcessorInit_impl this = do
-        Control.Monad.void (AllBinaryGameCanvas.setProcessGameProcessor this (jio (GameProcessor.new_1 this)))
+        Control.Monad.void (AllBinaryGameCanvas.setProcessGameProcessor this (javaCast (jio (GameProcessor.new_1 this))))
         pure ()
 
 
@@ -1111,11 +1111,11 @@ init_impl this gameLayerManager buffered = do
             javaThrow ((JavaException "Exception" "Buffering is disabled"))
         Control.Monad.void (AllBinaryGameCanvas.setGameInputProcessor this (jio (Processor.getInstance)))
         features <- (Features.getInstance)
-        if (jio (Features.isFeature features (jget ((jio (GameFeatureFactory.getInstance))).cHEATING))) then do
+        if (jio (Features.isFeature features (javaCast (jget ((jio (GameFeatureFactory.getInstance))).cHEATING)))) then do
             jset (this).isCheating (True)
             assignedValue <- (fmap (\value_ -> javaCast value_ :: PlayerGameInput.PlayerGameInput) (CheatGameInputProcessor.new_1 this))
             jset (this).cheatProcessor (assignedValue)
-            Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (jget (this).cheatProcessor))
+            Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).cheatProcessor)))
         else do
             jset (this).isCheating (False)
             assignedValue <- (NoPlayerGameInput.getInstance)
@@ -1127,7 +1127,7 @@ init_impl this gameLayerManager buffered = do
         jset (this).realStartIntermissionProcessor (assignedValue)
         assignedValue <- (Processor.getInstance)
         jset (this).startIntermissionProcessor (assignedValue)
-        Control.Monad.void (AllBinaryGameCanvas.setEndGameStatePaintable this (jio (EndGamePaintable.new_1 this)))
+        Control.Monad.void (AllBinaryGameCanvas.setEndGameStatePaintable this (javaCast (jio (EndGamePaintable.new_1 this))))
         Control.Monad.void (AllBinaryGameCanvas.setEndGamePaintable this (jio (NullPaintable.getInstance)))
         Control.Monad.void (AllBinaryGameCanvas.setIntermissionPaintable this (jio (NullPaintable.getInstance)))
         Control.Monad.void (IntermissionInterface.setListener ((jio (AllBinaryGameCanvas.getStartIntermissionInterface this))) this)
@@ -1148,7 +1148,7 @@ notifyIntermission_impl this enable = do
             assignedValue <- (Processor.getInstance)
             jset (this).startIntermissionProcessor (assignedValue)
         if enable then do
-            Control.Monad.void (AllBinaryGameCanvas.setIntermissionPaintable this (jio (AllBinaryGameCanvas.getStartIntermissionPaintable this)))
+            Control.Monad.void (AllBinaryGameCanvas.setIntermissionPaintable this (javaCast (jio (AllBinaryGameCanvas.getStartIntermissionPaintable this))))
         else do
             Control.Monad.void (AllBinaryGameCanvas.setIntermissionPaintable this (jio (NullPaintable.getInstance)))
         pure ()
@@ -1178,19 +1178,19 @@ initConfigurable_impl :: AllBinaryGameCanvas -> AbeClientInformationInterface.Ab
 initConfigurable_impl this abeClientInformation = do
         progressCanvas <- (ProgressCanvasFactory.getInstance)
         Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas 50 "Setting Configurables")
-        Control.Monad.void (GameInitializationUtil.initGame ((jio (GameInitializationUtil.getInstance))) abeClientInformation this (jget (this).gameInitializationInterfaceFactoryInterface))
+        Control.Monad.void (GameInitializationUtil.initGame ((jio (GameInitializationUtil.getInstance))) abeClientInformation (javaCast this) (jget (this).gameInitializationInterfaceFactoryInterface))
         gameFeatureFactory <- (GameFeatureFactory.getInstance)
         changedGameFeatureListener <- (ChangedGameFeatureListener.getInstance)
-        when (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (jget (gameFeatureFactory).sOUND))) $ do
+        when (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (javaCast (jget (gameFeatureFactory).sOUND)))) $ do
             features <- (Features.getInstance)
-            Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendboolean ((jio (StringMaker.append ((jio (StringMaker.new_))) "Sound Changing To: "))) (jio (Features.isFeature features (jget (gameFeatureFactory).sOUND)))))))) this "initConfigurable")
+            Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendboolean ((jio (StringMaker.append ((jio (StringMaker.new_))) "Sound Changing To: "))) (jio (Features.isFeature features (javaCast (jget (gameFeatureFactory).sOUND))))))))) this "initConfigurable")
             Control.Monad.void (AllBinaryGameCanvas.mediaInit this)
-            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (jget (gameFeatureFactory).sOUND))
+            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (javaCast (jget (gameFeatureFactory).sOUND)))
         sensorFeatureFactory <- (SensorFeatureFactory.getInstance)
-        when (((jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (jget (sensorFeatureFactory).oRIENTATION_SENSORS))) || (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (jget (sensorFeatureFactory).nO_ORIENTATION)))) || (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS)))) $ do
-            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (jget (sensorFeatureFactory).nO_ORIENTATION))
-            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (jget (sensorFeatureFactory).oRIENTATION_SENSORS))
-            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS))
+        when (((jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).oRIENTATION_SENSORS)))) || (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION))))) || (jio (ChangedGameFeatureListener.isChangedFeature changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS))))) $ do
+            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION)))
+            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).oRIENTATION_SENSORS)))
+            Control.Monad.void (ChangedGameFeatureListener.remove changedGameFeatureListener (javaCast (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS)))
         resourceLoadingLevelFactory <- (ResourceLoadingLevelFactory.getInstance)
         Control.Monad.void (AllBinaryGameCanvas.loadResourceLoadingLevel this (jget (resourceLoadingLevelFactory).lOAD_GAME))
         pure ()
@@ -1225,7 +1225,7 @@ initTouch_impl this = do
         let gameInitializedEvent = (jget ((jio (GameInitializationUtil.getInstance))).eVENT)
         resourceLoadingLevelFactory <- (ResourceLoadingLevelFactory.getInstance)
         Control.Monad.void (GameInitializedEvent.setResourceLoadingLevel gameInitializedEvent (jget (resourceLoadingLevelFactory).lOAD_TOUCH))
-        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) gameInitializedEvent)
+        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (javaCast gameInitializedEvent))
         Control.Monad.void (TouchButtonFactory.defaultList ((jget (this).touchButtonFactory)))
         Control.Monad.void (AllBinaryGameCanvas.updateTouch this)
         Control.Monad.void (AllBinaryGameCanvas.postInitTouch this)
@@ -1271,7 +1271,7 @@ updateTouch2_super object_ = (updateTouch2_impl (javaCast object_ :: AllBinaryGa
 updateTouch2_impl :: AllBinaryGameCanvas -> IO (())
 updateTouch2_impl this = do
         features <- (Features.getInstance)
-        when (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).aUTO_HIDE_SHOW_SCREEN_BUTTONS))) $ do
+        when (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).aUTO_HIDE_SHOW_SCREEN_BUTTONS)))) $ do
             when (((jio (GameInfo.getCurrentLevel ((jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager))))))) - (jio (AllBinaryGameCanvas.getStartLevel this))) == 1) $ do
                 Control.Monad.void (AllBinaryGameCanvas.setTouchPaintableP this (jio (NullPaintable.getInstance)))
         pure ()
@@ -1381,12 +1381,12 @@ updateScreenButtonPaintable2_super object_ = (updateScreenButtonPaintable2_impl 
 updateScreenButtonPaintable2_impl :: AllBinaryGameCanvas -> IO (())
 updateScreenButtonPaintable2_impl this = do
         features <- (Features.getInstance)
-        if (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).aUTO_HIDE_SHOW_SCREEN_BUTTONS))) then do
+        if (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).aUTO_HIDE_SHOW_SCREEN_BUTTONS)))) then do
             Control.Monad.void (AllBinaryGameCanvas.setTouchPaintableP this (jio (AllBinaryGameCanvas.getTouchButtonsPaintable this)))
             Control.Monad.void (AllBinaryGameCanvas.setStartLevel this (jio (GameInfo.getCurrentLevel ((jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager))))))))
-        else if (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).sHOW_SCREEN_BUTTONS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).sHOW_SCREEN_BUTTONS)))) then do
             Control.Monad.void (AllBinaryGameCanvas.setTouchPaintableP this (jio (AllBinaryGameCanvas.getTouchButtonsPaintable this)))
-        else if (jio (Features.isFeature features (jget ((jget (this).touchFeatureFactory)).hIDE_SCREEN_BUTTONS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).hIDE_SCREEN_BUTTONS)))) then do
             Control.Monad.void (AllBinaryGameCanvas.setTouchPaintableP this (jio (NullPaintable.getInstance)))
         else do
             Control.Monad.void (AllBinaryGameCanvas.setTouchPaintableP this (jio (NullPaintable.getInstance)))
@@ -1591,7 +1591,7 @@ removeKeyInputListener_super object_ a1 = (removeKeyInputListener_impl (javaCast
 
 removeKeyInputListener_impl :: AllBinaryGameCanvas -> PlayerGameInput.PlayerGameInput -> IO (())
 removeKeyInputListener_impl this playerGameInput = do
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) playerGameInput)
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (javaCast playerGameInput))
         pure ()
 
 
@@ -1665,7 +1665,7 @@ loadResourceLoadingLevel_impl :: AllBinaryGameCanvas -> ResourceLoadingLevel.Res
 loadResourceLoadingLevel_impl this resourceLoadingLevel = do
         let gameInitializedEvent = (jget ((jio (GameInitializationUtil.getInstance))).eVENT)
         Control.Monad.void (GameInitializedEvent.setResourceLoadingLevel gameInitializedEvent resourceLoadingLevel)
-        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) gameInitializedEvent)
+        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (javaCast gameInitializedEvent))
         pure ()
 
 
@@ -1680,7 +1680,7 @@ loadResources_impl :: AllBinaryGameCanvas -> Int -> IO (())
 loadResources_impl this level = do
         let gameInitializedEvent = (jget ((jio (GameInitializationUtil.getInstance))).eVENT)
         Control.Monad.void (GameInitializedEvent.setLevel gameInitializedEvent level)
-        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) gameInitializedEvent)
+        Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (javaCast gameInitializedEvent))
         pure ()
 
 
@@ -1717,8 +1717,8 @@ buildGame_impl this portion = do
         Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager)))) (jget (this).highScoresHelper))
         Control.Monad.void (AllBinaryGameCanvas.setHighScoresPaintable this (jio (NullPaintable.getInstance)))
         Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas portion "Finishing.")
-        Control.Monad.void (EndGameInfo.update ((jio (AllBinaryGameCanvas.getEndGameInfoP this))) (jio (AllBinaryGameLayerManager.getGameInfo ((jio (AllBinaryGameCanvas.getLayerManager this))))) this)
-        assignedValue <- (Features.isFeature features (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))
+        Control.Monad.void (EndGameInfo.update ((jio (AllBinaryGameCanvas.getEndGameInfoP this))) (jio (AllBinaryGameLayerManager.getGameInfo ((jio (AllBinaryGameCanvas.getLayerManager this))))) (javaCast this))
+        assignedValue <- (Features.isFeature features (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))
         jset (this).isSingleKeyRepeatableProcessing (assignedValue)
         Control.Monad.void (AllBinaryGameCanvas.setGameOver this False)
         Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas portion "Finishing..")
@@ -1770,7 +1770,7 @@ addKeyInputListener_super object_ a1 = (addKeyInputListener_impl (javaCast objec
 
 addKeyInputListener_impl :: AllBinaryGameCanvas -> PlayerGameInput.PlayerGameInput -> IO (())
 addKeyInputListener_impl this playerGameInput = do
-        Control.Monad.void (GameKeyEventHandler.addListenerForPlayer ((jio (GameKeyEventHandler.getInstance))) playerGameInput (jio (PlayerGameInput.getPlayerInputId playerGameInput)))
+        Control.Monad.void (GameKeyEventHandler.addListenerForPlayer ((jio (GameKeyEventHandler.getInstance))) (javaCast playerGameInput) (jio (PlayerGameInput.getPlayerInputId playerGameInput)))
         pure ()
 
 
@@ -2018,7 +2018,7 @@ keyReleasedByDevice_super object_ a1 a2 = (keyReleasedByDevice_impl (javaCast ob
 
 keyReleasedByDevice_impl :: AllBinaryGameCanvas -> Int -> Int -> IO (())
 keyReleasedByDevice_impl this keyCode deviceId = do
-        Control.Monad.void (InputProcessor.keyReleasedByDevice ((jget (this).inputProcessor)) this keyCode deviceId)
+        Control.Monad.void (InputProcessor.keyReleasedByDevice ((jget (this).inputProcessor)) (javaCast this) keyCode deviceId)
         pure ()
 
 
@@ -2126,10 +2126,10 @@ shouldWait_impl this = do
         features <- (Features.getInstance)
         if (jio (AndroidUtil.isAndroid)) then do
             pure ()
-        else if (jio (Features.isFeature features (jget ((jget (this).openGLFeatureFactory)).oPENGL_2D))) then do
+        else if (jio (Features.isFeature features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_2D)))) then do
             pure ()
         else do
-            when (jio (Features.isDefault features (jget ((jget (this).openGLFeatureFactory)).oPENGL))) $ do
+            when (jio (Features.isDefault features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) $ do
                 openGLImageSpecificFactory <- (OpenGLImageSpecificFactory.getInstance)
                 fix $ \loop -> when (jget (openGLImageSpecificFactory).updating) $ javaIteration (loop) $ do
                     Control.Monad.void (threadDelay (Prelude.fromIntegral (jget (this).yIELD_SLEEP) * 1000))
@@ -2177,16 +2177,16 @@ run2_super object_ = (run2_impl (javaCast object_ :: AllBinaryGameCanvas))
 run2_impl :: AllBinaryGameCanvas -> IO (())
 run2_impl this = do
         features <- (Features.getInstance)
-        if ((jio (Features.isDefault features (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD))) || (jio (J2MEUtil.isHTML))) then do
-            when (jio (Features.isDefault features (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD))) $ do
+        if ((jio (Features.isDefault features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD)))) || (jio (J2MEUtil.isHTML))) then do
+            when (jio (Features.isDefault features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD)))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (OpenGLFeature.getName ((jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD)))) this (jget ((jget (this).base.base.commonStrings)).rUN))
             when (jio (J2MEUtil.isHTML)) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jget ((jio (GraphicsStrings.getInstance))).hTML) this (jget ((jget (this).base.base.commonStrings)).rUN))
             currentDisplayableFactory <- (CurrentDisplayableFactory.getInstance)
-            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (jget (this).gameRunnable))
-            Control.Monad.void (CurrentDisplayableFactory.setDisplayable currentDisplayableFactory this)
+            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (javaCast (jget (this).gameRunnable)))
+            Control.Monad.void (CurrentDisplayableFactory.setDisplayable currentDisplayableFactory (javaCast this))
             Control.Monad.void (OpenGLThreadUtil.onResume ((jio (OpenGLThreadUtil.getInstance))))
-        else if (jio (Features.isDefault features (jget ((jget (this).openGLFeatureFactory)).oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS))) then do
+        else if (jio (Features.isDefault features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS)))) then do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (OpenGLFeature.getName ((jget ((jget (this).openGLFeatureFactory)).oPENGL_AND_GAME_HAVE_DIFFERENT_THREADS)))) this (jget ((jget (this).base.base.commonStrings)).rUN))
             Control.Monad.void (OpenGLThreadUtil.onResume ((jio (OpenGLThreadUtil.getInstance))))
             fix $ \loop -> when (jio (RunnableCanvas.isRunning this)) $ javaIteration (loop) $ do
@@ -2232,7 +2232,7 @@ setRunning_impl this running = do
             if running then do
                 pure ()
             else do
-                when ((jio (Features.isDefault features (jget ((jget (this).openGLFeatureFactory)).oPENGL))) || (jget SWTUtil.isSWT)) $ do
+                when ((jio (Features.isDefault features (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) || (jget SWTUtil.isSWT)) $ do
                     when ((jio (GameInfo.getGameType ((jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager))))))) /= (jget ((jget (this).gameTypeFactory)).bOT)) $ do
                         currentDisplayableFactory <- (CurrentDisplayableFactory.getInstance)
                         Control.Monad.void (CurrentDisplayableFactory.clearRunnable currentDisplayableFactory)
@@ -2252,7 +2252,7 @@ end_impl this = do
         Control.Monad.void (ScreenCapture.endRecording ((jget (this).screenCapture)))
         Control.Monad.void (BaseGameStatistics.add ((jget (this).baseGameStatistics)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (BaseGameStatistics.toString ((jget (this).baseGameStatistics))))))) (jget ((jio (CommonSeps.getInstance))).nEW_LINE)))))))
         Control.Monad.void (BaseGameStatistics.init ((jget (this).baseGameStatistics)))
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (jget (this).cheatProcessor))
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).cheatProcessor)))
         Control.Monad.void (AllBinaryGameCanvas.close this)
         Control.Monad.void (AllBinaryGameCanvas.removeAllGameKeyInputListeners this)
         Control.Monad.void (AllBinaryGameCanvas.endGameThread this)
@@ -2268,7 +2268,7 @@ endGameThread_super object_ = (endGameThread_impl (javaCast object_ :: AllBinary
 
 endGameThread_impl :: AllBinaryGameCanvas -> IO (())
 endGameThread_impl this = do
-        Control.Monad.void (DisplayChangeEventHandler.removeListener ((jio (DisplayChangeEventHandler.getInstance))) this)
+        Control.Monad.void (DisplayChangeEventHandler.removeListener ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         Control.Monad.void (GameLevelDisplayChangeEventListenersFactory.clear ((jio (GameLevelDisplayChangeEventListenersFactory.getInstance))))
         gameAdState <- (GameAdStateFactory.getCurrentInstance ((jget (this).gameAdStateFactory)))
         Control.Monad.void (GameAdState.notPlayingAdState gameAdState)
@@ -2316,7 +2316,7 @@ setHighScore2_impl this abeClientInformation name score autoSubmit isLast = do
         when autoSubmit $ do
             -- Java nested class SaveHighScoreRunnable: move it to its own module
 
-            Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (jio (SaveHighScoreRunnable.new_)))
+            Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (SaveHighScoreRunnable.new_))))
         pure ()
 
 
@@ -2524,7 +2524,7 @@ clearPlayerGameInputList_impl this = do
         playerGameInput <- newIORef (javaNull)
         forM_ [((jio (BasicArrayList.size ((jget (this).localPlayerGameInputList)))) - 1), ((jio (BasicArrayList.size ((jget (this).localPlayerGameInputList)))) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset playerGameInput ((javaCast (jio (BasicArrayList.get ((jget (this).localPlayerGameInputList)) index)) :: PlayerGameInput.PlayerGameInput))
-            Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (jget playerGameInput))
+            Control.Monad.void (GameKeyEventHandler.removeListener ((jget (this).gameKeyEventHandler)) (javaCast (jget playerGameInput)))
         Control.Monad.void (BasicArrayList.clear ((jget (this).localPlayerGameInputList)))
         pure ()
 
@@ -2987,7 +2987,7 @@ isRunningInAnotherThread_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        if (jio (Features.isDefault features (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD))) then do
+        if (jio (Features.isDefault features (javaCast (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD)))) then do
             javaReturn (True)
         else do
             javaReturn =<< (RunnableCanvas.isRunning this)

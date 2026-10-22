@@ -104,7 +104,7 @@ init_impl :: BasePathFindingInfoFactory -> BasicGeographicMap.BasicGeographicMap
 init_impl this geographicMapInterface pathFindingInfo mapArray = do
         -- Java nested class RaceTrackGeographicMapCellPositionFactoryInitVisitor: move it to its own module
 
-        Control.Monad.void (BasicGeographicMapCellPositionFactory.visit ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface))) (jio (RaceTrackGeographicMapCellPositionFactoryInitVisitor.new_)))
+        Control.Monad.void (BasicGeographicMapCellPositionFactory.visit ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface))) (javaCast (jio (RaceTrackGeographicMapCellPositionFactoryInitVisitor.new_))))
         pure ()
 
 

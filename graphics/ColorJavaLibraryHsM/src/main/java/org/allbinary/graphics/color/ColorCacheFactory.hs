@@ -84,7 +84,7 @@ staticInit_ = do
             Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) ("ColorCacheFactory") sTATIC_BLOCK e)
             ) $ do
             Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).sTART) ("ColorCacheFactory") sTATIC_BLOCK)
-            assignedValue <- (AutomaticCacheInterfaceFactory.getInstance (jio (ColorCacheableFactory.new_)) (jget ((jio (CacheTypeFactory.getInstance))).cACHE) (jget ((jio (CachePolicyFactory.getInstance))).tHIRTY_MINUTES_TEN_THOUSAND_MAX))
+            assignedValue <- (AutomaticCacheInterfaceFactory.getInstance (javaCast (jio (ColorCacheableFactory.new_))) (jget ((jio (CacheTypeFactory.getInstance))).cACHE) (jget ((jio (CachePolicyFactory.getInstance))).tHIRTY_MINUTES_TEN_THOUSAND_MAX))
             jset ColorCacheFactory.cacheInterface (assignedValue)
             Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).eND) ("ColorCacheFactory") sTATIC_BLOCK)
         pure ()

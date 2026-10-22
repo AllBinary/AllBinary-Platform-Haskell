@@ -106,7 +106,7 @@ init_1 :: ImageComparatorConstraints -> Int -> IO ()
 init_1 this doImageComparisonEveryNthFrame = do
         initFields_ this
         jset (this).doImageComparisonEveryNthFrame (doImageComparisonEveryNthFrame)
-        Control.Monad.void (ImageComparatorConstraints.setAvoidVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (ImageComparatorConstraints.setAvoidVector this (javaCast (jio (BasicArrayListD.new_))))
         pure ()
 
 

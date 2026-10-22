@@ -88,7 +88,7 @@ newRecord_ = do
     let this = InputAutomationModuleConfiguration header_ logUtil commonStrings className name inputAutomationModuleInterface
     jregisterLevel header_ this
     jregisterMethod header_ "init" (\() -> init_impl this)
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "init_1" (\() -> init_1_impl this)
     jregisterMethod header_ "toDomNode" (\() -> toDomNode_impl this)
     jregisterMethod header_ "getName" (\() -> getName_impl this)
     jregisterMethod header_ "setName" (\() -> setName_impl this)
@@ -142,7 +142,7 @@ init_3 this abeClientInformation name className = do
         initFields_ this
         Control.Monad.void (InputAutomationModuleConfiguration.setName this name)
         Control.Monad.void (InputAutomationModuleConfiguration.setClassName this className)
-        Control.Monad.void (InputAutomationModuleConfiguration.init this abeClientInformation)
+        Control.Monad.void (InputAutomationModuleConfiguration.init_1 this abeClientInformation)
         pure ()
 
 new_1 :: InputAutomationModuleFactoryInterface.InputAutomationModuleFactoryInterface -> IO InputAutomationModuleConfiguration
@@ -173,7 +173,7 @@ init_impl this abeClientInformation node = do
             classNameNode <- (DomSearchHelper.getNode (DynamicObjectData.nAME) nodeList)
             if (classNameNode /= javaNull) then do
                 Control.Monad.void (InputAutomationModuleConfiguration.setClassName this (jio (DomNodeHelper.getTextNodeValue classNameNode)))
-                Control.Monad.void (InputAutomationModuleConfiguration.init this abeClientInformation)
+                Control.Monad.void (InputAutomationModuleConfiguration.init_1 this abeClientInformation)
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Class Node Null" this (jget ((jget (this).commonStrings)).iNIT))
         else do
@@ -181,22 +181,21 @@ init_impl this abeClientInformation node = do
         pure ()
 
 
--- Java overload of init with a different parameter count: give it a different name
-init :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
-init object_ a1 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: InputAutomationModuleConfiguration))) () a1
+init_1 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
+init_1 object_ a1 = jmethod object_ "init_1" (\() -> (init_1_impl (javaCast object_ :: InputAutomationModuleConfiguration))) () a1
 
-init_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
-init_super object_ a1 = (init_impl (javaCast object_ :: InputAutomationModuleConfiguration)) a1
+init_1_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
+init_1_super object_ a1 = (init_1_impl (javaCast object_ :: InputAutomationModuleConfiguration)) a1
 
-init_impl :: InputAutomationModuleConfiguration -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
-init_impl this abeClientInformation = do
+init_1_impl :: InputAutomationModuleConfiguration -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
+init_1_impl this abeClientInformation = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).iNIT) e)
             javaThrow ((JavaException "RuntimeException" ""))
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Name: " ++ (jio (InputAutomationModuleConfiguration.getName this))) this (jget ((jget (this).commonStrings)).iNIT))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("ClassName: " ++ (jget this.className)) this (jget ((jget (this).commonStrings)).iNIT))
-            Control.Monad.void (InputAutomationModuleConfiguration.setInputAutomationModuleInterface this (javaCast (jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance)))))) abeClientInformation (jio (InputAutomationModuleConfiguration.getClassName this)))) :: InputAutomationModuleFactoryInterface.InputAutomationModuleFactoryInterface))
+            Control.Monad.void (InputAutomationModuleConfiguration.setInputAutomationModuleInterface this (javaCast (jio (AbeFactory.getInstance_2 ((jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance)))))) abeClientInformation (jio (InputAutomationModuleConfiguration.getClassName this)))) :: InputAutomationModuleFactoryInterface.InputAutomationModuleFactoryInterface))
         pure ()
 
 

@@ -287,7 +287,7 @@ toXmlNode_impl this document = do
             when (((jget (this).preprocessing) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jget (this).preprocessing) (jget (this).oN)) - 1) == 0)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Adding Preprocessing Orders" this "toXmlNode")
-                orderHistoryVector <- (OrderHistoryEntity.getOrders ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pREPROCESSING) (jget this.fromDate) (jget this.toDate))
+                orderHistoryVector <- (OrderHistoryEntity.getOrders_3 ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pREPROCESSING) (jget this.fromDate) (jget this.toDate))
                 size <- (BasicArrayList.size orderHistoryVector)
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     let orderHistory = (javaCast (jio (BasicArrayList.get orderHistoryVector index)) :: OrderHistory.OrderHistory)
@@ -295,7 +295,7 @@ toXmlNode_impl this document = do
             when (((jget (this).shipped) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jget (this).shipped) (jget (this).oN)) - 1) == 0)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Adding Shipped Orders" this "toXmlNode")
-                orderHistoryVector <- (OrderHistoryEntity.getOrders ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.sHIPPED) (jget this.fromDate) (jget this.toDate))
+                orderHistoryVector <- (OrderHistoryEntity.getOrders_3 ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.sHIPPED) (jget this.fromDate) (jget this.toDate))
                 size <- (BasicArrayList.size orderHistoryVector)
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     let orderHistory = (javaCast (jio (BasicArrayList.get orderHistoryVector index)) :: OrderHistory.OrderHistory)
@@ -303,7 +303,7 @@ toXmlNode_impl this document = do
             when (((jget (this).partiallyShipped) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jget (this).partiallyShipped) (jget (this).oN)) - 1) == 0)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Adding Partially Shipped Orders" this "toDomNode")
-                orderHistoryVector <- (OrderHistoryEntity.getOrders ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pARTIALLYSHIPPED) (jget this.fromDate) (jget this.toDate))
+                orderHistoryVector <- (OrderHistoryEntity.getOrders_3 ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pARTIALLYSHIPPED) (jget this.fromDate) (jget this.toDate))
                 size <- (BasicArrayList.size orderHistoryVector)
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     let orderHistory = (javaCast (jio (BasicArrayList.get orderHistoryVector index)) :: OrderHistory.OrderHistory)
@@ -311,7 +311,7 @@ toXmlNode_impl this document = do
             when (((jget (this).processing) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jget (this).processing) (jget (this).oN)) - 1) == 0)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Adding Processing Orders" this "toXmlNode")
-                orderHistoryVector <- (OrderHistoryEntity.getOrders ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pROCESSING) (jget this.fromDate) (jget this.toDate))
+                orderHistoryVector <- (OrderHistoryEntity.getOrders_3 ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.pROCESSING) (jget this.fromDate) (jget this.toDate))
                 size <- (BasicArrayList.size orderHistoryVector)
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     let orderHistory = (javaCast (jio (BasicArrayList.get orderHistoryVector index)) :: OrderHistory.OrderHistory)
@@ -319,17 +319,17 @@ toXmlNode_impl this document = do
             when (((jget (this).cancelled) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jget (this).cancelled) (jget (this).oN)) - 1) == 0)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Adding Cancelled Orders" this "view")
-                orderHistoryVector <- (OrderHistoryEntity.getOrders ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.cANCELLED) (jget this.fromDate) (jget this.toDate))
+                orderHistoryVector <- (OrderHistoryEntity.getOrders_3 ((jio (OrderHistoryEntityFactory.getInstance))) (OrderHistoryData.cANCELLED) (jget this.fromDate) (jget this.toDate))
                 size <- (BasicArrayList.size orderHistoryVector)
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     let orderHistory = (javaCast (jio (BasicArrayList.get orderHistoryVector index)) :: OrderHistory.OrderHistory)
                     Control.Monad.void (Node.appendChild node (jio (OrderHistory.toXmlNode orderHistory document)))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pREPROCESSINGNAME) (OrderHistoryData.pREPROCESSING))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pROCESSINGNAME) (OrderHistoryData.pROCESSING))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.cANCELLEDNAME) (OrderHistoryData.cANCELLED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pARTIALLYSHIPPEDNAME) (OrderHistoryData.pARTIALLYSHIPPED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.sHIPPEDNAME) (OrderHistoryData.sHIPPED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (GLOBALS2.vIEWNAME) (GLOBALS2.vIEW))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pREPROCESSINGNAME) (OrderHistoryData.pREPROCESSING))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pROCESSINGNAME) (OrderHistoryData.pROCESSING))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.cANCELLEDNAME) (OrderHistoryData.cANCELLED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pARTIALLYSHIPPEDNAME) (OrderHistoryData.pARTIALLYSHIPPED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.sHIPPEDNAME) (OrderHistoryData.sHIPPED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (GLOBALS2.vIEWNAME) (GLOBALS2.vIEW))))
             pure (node)
 
 

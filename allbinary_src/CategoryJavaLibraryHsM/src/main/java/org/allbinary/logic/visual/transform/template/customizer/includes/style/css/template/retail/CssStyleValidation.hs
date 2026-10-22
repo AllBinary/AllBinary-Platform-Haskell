@@ -115,7 +115,7 @@ init_1 :: CssStyleValidation -> Document.Document -> IO ()
 init_1 this document = do
         Validation.init_ this.base
         initFields_ this
-        assignedValue <- (StylesValidationFactory.getInstance ((jio (StylesValidationFactory.getInstance))) document)
+        assignedValue <- (StylesValidationFactory.getInstance_1 ((jio (StylesValidationFactory.getInstance))) document)
         jset (this).cssStyleElementVector (assignedValue)
         pure ()
 
@@ -130,7 +130,7 @@ init_1 :: CssStyleValidation -> HashMap.HashMap -> IO ()
 init_1 this hashMap = do
         Validation.init_ this.base
         initFields_ this
-        assignedValue <- (StylesValidationFactory.getInstance hashMap)
+        assignedValue <- (StylesValidationFactory.getInstance_1 hashMap)
         jset (this).cssStyleElementVector (assignedValue)
         pure ()
 

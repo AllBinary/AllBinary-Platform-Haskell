@@ -121,7 +121,7 @@ init_2 this label node = do
             Control.Monad.void (BasicProfileActionScriptInput.setTime this (javaToString delayString))
         else do
             Control.Monad.void (BasicProfileActionScriptInput.setTime this 0)
-        Control.Monad.void (BasicProfileActionScriptInput.setInputRobotInterface this (jio (InputRobotFactory.get ((jio (InputRobotFactory.getInstance))) inputTypeString)))
+        Control.Monad.void (BasicProfileActionScriptInput.setInputRobotInterface this (javaCast (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) inputTypeString))))
         pure ()
 
 new_1 :: String -> IO BasicProfileActionScriptInput
@@ -140,7 +140,7 @@ init_1 this label = do
         let hashtable = (javaCast (jio (InputRobotFactory.get inputRobotFactory)) :: ABHashtable.ABHashtable)
         set <- (ABHashtable.keySet hashtable)
         iterator <- (Set.iterator set)
-        Control.Monad.void (BasicProfileActionScriptInput.setInputRobotInterface this (jio (InputRobotFactory.get inputRobotFactory (javaCast (jio (Iterator.next iterator)) :: String))))
+        Control.Monad.void (BasicProfileActionScriptInput.setInputRobotInterface this (javaCast (jio (InputRobotFactory.get_1 inputRobotFactory (javaCast (jio (Iterator.next iterator)) :: String)))))
         Control.Monad.void (BasicProfileActionScriptInput.setTime this 0)
         pure ()
 

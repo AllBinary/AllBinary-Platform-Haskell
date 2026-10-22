@@ -73,7 +73,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "isValid" (\() -> isValid_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "isValid" (\() -> isValid_impl this)
+    jregisterMethod header_ "isValid_1" (\() -> isValid_1_impl this)
     pure this
 
 initFields_ :: UserName -> IO ()
@@ -125,7 +125,7 @@ isValid_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to validate form" this "isUserNameValid()" e)
             pure (False)
             ) $ do
-            (UserName.isValid this (jget (this).userName))
+            (UserName.isValid_1 this (jget (this).userName))
 
 
 get :: (JavaObjectClass this_) => this_ -> IO (String)
@@ -139,15 +139,14 @@ get_impl this = do
         pure ((jget (this).userName))
 
 
--- Java overload of isValid with a different parameter count: give it a different name
-isValid :: (JavaObjectClass this_) => this_ -> String -> IO (Bool)
-isValid object_ a1 = jmethod object_ "isValid" (\() -> (isValid_impl (javaCast object_ :: UserName))) () a1
+isValid_1 :: (JavaObjectClass this_) => this_ -> String -> IO (Bool)
+isValid_1 object_ a1 = jmethod object_ "isValid_1" (\() -> (isValid_1_impl (javaCast object_ :: UserName))) () a1
 
-isValid_super :: (JavaObjectClass this_) => this_ -> String -> IO (Bool)
-isValid_super object_ a1 = (isValid_impl (javaCast object_ :: UserName)) a1
+isValid_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (Bool)
+isValid_1_super object_ a1 = (isValid_1_impl (javaCast object_ :: UserName)) a1
 
-isValid_impl :: UserName -> String -> IO (Bool)
-isValid_impl this aUserName = do
+isValid_1_impl :: UserName -> String -> IO (Bool)
+isValid_1_impl this aUserName = do
         commonStrings <- (CommonStrings.getInstance)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do

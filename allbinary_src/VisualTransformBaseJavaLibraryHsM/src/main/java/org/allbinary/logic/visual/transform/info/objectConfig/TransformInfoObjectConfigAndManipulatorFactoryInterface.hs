@@ -85,19 +85,17 @@ getInstance_overload1_impl this abeClientInformation transformInfoInterface obje
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigAndManipulatorFactoryInterface))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: TransformInfoObjectConfigAndManipulatorFactoryInterface))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigAndManipulatorFactoryInterface)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: TransformInfoObjectConfigAndManipulatorFactoryInterface)) a1 a2
 
-getInstance_impl :: TransformInfoObjectConfigAndManipulatorFactoryInterface -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance_impl this abeClientInformation transformInfoInterface = javaAbstractMethod "getInstance"
+getInstance_2_impl :: TransformInfoObjectConfigAndManipulatorFactoryInterface -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2_impl this abeClientInformation transformInfoInterface = javaAbstractMethod "getInstance"
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
 getInstance_overload2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> Document.Document -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
 getInstance_overload2 object_ a1 a2 a3 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: TransformInfoObjectConfigAndManipulatorFactoryInterface))) () a1 a2 a3
 

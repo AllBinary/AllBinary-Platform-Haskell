@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -fno-cse -fno-full-laziness #-}
 -- Generated Code Do Not Modify
 -- package javax.microedition.khronos.opengles
-module GL11Ext where
+module GL11Ext (module GL11Ext, module GL) where
 
+import GL hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, glTexParameterfv, glTexParameterfv_super, glTexParameterfv_impl, glCurrentPaletteMatrixOES, glCurrentPaletteMatrixOES_super, glCurrentPaletteMatrixOES_impl, glDrawTexfOES, glDrawTexfOES_super, glDrawTexfOES_impl, glDrawTexfvOES, glDrawTexfvOES_super, glDrawTexfvOES_impl, glDrawTexfvOES_1, glDrawTexfvOES_1_super, glDrawTexfvOES_1_impl, glDrawTexfvOES, glDrawTexiOES, glDrawTexiOES_super, glDrawTexiOES_impl, glDrawTexivOES, glDrawTexivOES_super, glDrawTexivOES_impl, glDrawTexivOES_1, glDrawTexivOES_1_super, glDrawTexivOES_1_impl, glDrawTexivOES, glDrawTexsOES, glDrawTexsOES_super, glDrawTexsOES_impl, glDrawTexsvOES, glDrawTexsvOES_super, glDrawTexsvOES_impl, glDrawTexsvOES_1, glDrawTexsvOES_1_super, glDrawTexsvOES_1_impl, glDrawTexsvOES, glDrawTexxOES, glDrawTexxOES_super, glDrawTexxOES_impl, glDrawTexxvOES, glDrawTexxvOES_super, glDrawTexxvOES_impl, glDrawTexxvOES_1, glDrawTexxvOES_1_super, glDrawTexxvOES_1_impl, glDrawTexxvOES, glEnable, glEnable_super, glEnable_impl, glEnableClientState, glEnableClientState_super, glEnableClientState_impl, glLoadPaletteFromModelViewMatrixOES, glLoadPaletteFromModelViewMatrixOES_super, glLoadPaletteFromModelViewMatrixOES_impl, glMatrixIndexPointerOES_overload1, glMatrixIndexPointerOES_overload1_super, glMatrixIndexPointerOES_overload1_impl, glMatrixIndexPointerOES, glMatrixIndexPointerOES_overload2, glMatrixIndexPointerOES_overload2_super, glMatrixIndexPointerOES_overload2_impl, glMatrixIndexPointerOES, glWeightPointerOES_overload1, glWeightPointerOES_overload1_super, glWeightPointerOES_overload1_impl, glWeightPointerOES, glWeightPointerOES_overload2, glWeightPointerOES_overload2_super, glWeightPointerOES_overload2_impl, glWeightPointerOES, gL_MATRIX_INDEX_ARRAY_BUFFER_BINDING_OES, gL_MATRIX_INDEX_ARRAY_OES, gL_MATRIX_INDEX_ARRAY_POINTER_OES, gL_MATRIX_INDEX_ARRAY_SIZE_OES, gL_MATRIX_INDEX_ARRAY_STRIDE_OES, gL_MATRIX_INDEX_ARRAY_TYPE_OES, gL_MATRIX_PALETTE_OES, gL_MAX_PALETTE_MATRICES_OES, gL_MAX_VERTEX_UNITS_OES, gL_TEXTURE_CROP_RECT_OES, gL_WEIGHT_ARRAY_BUFFER_BINDING_OES, gL_WEIGHT_ARRAY_OES, gL_WEIGHT_ARRAY_POINTER_OES, gL_WEIGHT_ARRAY_SIZE_OES, gL_WEIGHT_ARRAY_STRIDE_OES, gL_WEIGHT_ARRAY_TYPE_OES, toString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -127,15 +128,14 @@ glDrawTexfvOES_impl :: GL11Ext -> JavaArray (Float) -> Int -> IO (())
 glDrawTexfvOES_impl this coords offset = javaAbstractMethod "glDrawTexfvOES"
 
 
--- Java overload of glDrawTexfvOES with a different parameter count: give it a different name
-glDrawTexfvOES :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glDrawTexfvOES object_ a1 = jmethod object_ "glDrawTexfvOES" (\() -> (glDrawTexfvOES_impl (javaCast object_ :: GL11Ext))) () a1
+glDrawTexfvOES_1 :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glDrawTexfvOES_1 object_ a1 = jmethod object_ "glDrawTexfvOES_1" (\() -> (glDrawTexfvOES_1_impl (javaCast object_ :: GL11Ext))) () a1
 
-glDrawTexfvOES_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glDrawTexfvOES_super object_ a1 = (glDrawTexfvOES_impl (javaCast object_ :: GL11Ext)) a1
+glDrawTexfvOES_1_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glDrawTexfvOES_1_super object_ a1 = (glDrawTexfvOES_1_impl (javaCast object_ :: GL11Ext)) a1
 
-glDrawTexfvOES_impl :: GL11Ext -> FloatBuffer.FloatBuffer -> IO (())
-glDrawTexfvOES_impl this coords = javaAbstractMethod "glDrawTexfvOES"
+glDrawTexfvOES_1_impl :: GL11Ext -> FloatBuffer.FloatBuffer -> IO (())
+glDrawTexfvOES_1_impl this coords = javaAbstractMethod "glDrawTexfvOES"
 
 
 glDrawTexiOES :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> Int -> Int -> IO (())
@@ -158,15 +158,14 @@ glDrawTexivOES_impl :: GL11Ext -> JavaArray (Int) -> Int -> IO (())
 glDrawTexivOES_impl this coords offset = javaAbstractMethod "glDrawTexivOES"
 
 
--- Java overload of glDrawTexivOES with a different parameter count: give it a different name
-glDrawTexivOES :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
-glDrawTexivOES object_ a1 = jmethod object_ "glDrawTexivOES" (\() -> (glDrawTexivOES_impl (javaCast object_ :: GL11Ext))) () a1
+glDrawTexivOES_1 :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
+glDrawTexivOES_1 object_ a1 = jmethod object_ "glDrawTexivOES_1" (\() -> (glDrawTexivOES_1_impl (javaCast object_ :: GL11Ext))) () a1
 
-glDrawTexivOES_super :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
-glDrawTexivOES_super object_ a1 = (glDrawTexivOES_impl (javaCast object_ :: GL11Ext)) a1
+glDrawTexivOES_1_super :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
+glDrawTexivOES_1_super object_ a1 = (glDrawTexivOES_1_impl (javaCast object_ :: GL11Ext)) a1
 
-glDrawTexivOES_impl :: GL11Ext -> IntBuffer.IntBuffer -> IO (())
-glDrawTexivOES_impl this coords = javaAbstractMethod "glDrawTexivOES"
+glDrawTexivOES_1_impl :: GL11Ext -> IntBuffer.IntBuffer -> IO (())
+glDrawTexivOES_1_impl this coords = javaAbstractMethod "glDrawTexivOES"
 
 
 glDrawTexsOES :: (JavaObjectClass this_) => this_ -> Int16 -> Int16 -> Int16 -> Int16 -> Int16 -> IO (())
@@ -189,15 +188,14 @@ glDrawTexsvOES_impl :: GL11Ext -> JavaArray (Int16) -> Int -> IO (())
 glDrawTexsvOES_impl this coords offset = javaAbstractMethod "glDrawTexsvOES"
 
 
--- Java overload of glDrawTexsvOES with a different parameter count: give it a different name
-glDrawTexsvOES :: (JavaObjectClass this_) => this_ -> ShortBuffer.ShortBuffer -> IO (())
-glDrawTexsvOES object_ a1 = jmethod object_ "glDrawTexsvOES" (\() -> (glDrawTexsvOES_impl (javaCast object_ :: GL11Ext))) () a1
+glDrawTexsvOES_1 :: (JavaObjectClass this_) => this_ -> ShortBuffer.ShortBuffer -> IO (())
+glDrawTexsvOES_1 object_ a1 = jmethod object_ "glDrawTexsvOES_1" (\() -> (glDrawTexsvOES_1_impl (javaCast object_ :: GL11Ext))) () a1
 
-glDrawTexsvOES_super :: (JavaObjectClass this_) => this_ -> ShortBuffer.ShortBuffer -> IO (())
-glDrawTexsvOES_super object_ a1 = (glDrawTexsvOES_impl (javaCast object_ :: GL11Ext)) a1
+glDrawTexsvOES_1_super :: (JavaObjectClass this_) => this_ -> ShortBuffer.ShortBuffer -> IO (())
+glDrawTexsvOES_1_super object_ a1 = (glDrawTexsvOES_1_impl (javaCast object_ :: GL11Ext)) a1
 
-glDrawTexsvOES_impl :: GL11Ext -> ShortBuffer.ShortBuffer -> IO (())
-glDrawTexsvOES_impl this coords = javaAbstractMethod "glDrawTexsvOES"
+glDrawTexsvOES_1_impl :: GL11Ext -> ShortBuffer.ShortBuffer -> IO (())
+glDrawTexsvOES_1_impl this coords = javaAbstractMethod "glDrawTexsvOES"
 
 
 glDrawTexxOES :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> Int -> Int -> IO (())
@@ -220,15 +218,14 @@ glDrawTexxvOES_impl :: GL11Ext -> JavaArray (Int) -> Int -> IO (())
 glDrawTexxvOES_impl this coords offset = javaAbstractMethod "glDrawTexxvOES"
 
 
--- Java overload of glDrawTexxvOES with a different parameter count: give it a different name
-glDrawTexxvOES :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
-glDrawTexxvOES object_ a1 = jmethod object_ "glDrawTexxvOES" (\() -> (glDrawTexxvOES_impl (javaCast object_ :: GL11Ext))) () a1
+glDrawTexxvOES_1 :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
+glDrawTexxvOES_1 object_ a1 = jmethod object_ "glDrawTexxvOES_1" (\() -> (glDrawTexxvOES_1_impl (javaCast object_ :: GL11Ext))) () a1
 
-glDrawTexxvOES_super :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
-glDrawTexxvOES_super object_ a1 = (glDrawTexxvOES_impl (javaCast object_ :: GL11Ext)) a1
+glDrawTexxvOES_1_super :: (JavaObjectClass this_) => this_ -> IntBuffer.IntBuffer -> IO (())
+glDrawTexxvOES_1_super object_ a1 = (glDrawTexxvOES_1_impl (javaCast object_ :: GL11Ext)) a1
 
-glDrawTexxvOES_impl :: GL11Ext -> IntBuffer.IntBuffer -> IO (())
-glDrawTexxvOES_impl this coords = javaAbstractMethod "glDrawTexxvOES"
+glDrawTexxvOES_1_impl :: GL11Ext -> IntBuffer.IntBuffer -> IO (())
+glDrawTexxvOES_1_impl this coords = javaAbstractMethod "glDrawTexxvOES"
 
 
 glEnable :: (JavaObjectClass this_) => this_ -> Int -> IO (())

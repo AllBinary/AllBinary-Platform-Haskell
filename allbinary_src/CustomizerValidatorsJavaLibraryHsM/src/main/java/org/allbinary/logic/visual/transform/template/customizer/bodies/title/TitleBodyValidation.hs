@@ -255,7 +255,7 @@ toXmlNode_impl :: TitleBodyValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Title Body: " ++ (jget (this).body)) this "toXmlNode(document)")
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (BodyData.getInstance))).nAME) (jget (this).body))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (BodyData.getInstance))).nAME) (jget (this).body))
         Control.Monad.void (Node.appendChild node (jio (TitleNotRequiredValidation.toXmlNode ((jget (this).titleValidation)) document)))
         pure (node)
 

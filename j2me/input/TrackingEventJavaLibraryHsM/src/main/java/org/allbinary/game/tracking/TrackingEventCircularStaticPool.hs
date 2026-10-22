@@ -99,7 +99,7 @@ init_super object_ = (init_impl (javaCast object_ :: TrackingEventCircularStatic
 
 init_impl :: TrackingEventCircularStaticPool -> IO (())
 init_impl this = do
-        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (jio (TrackingEventFactory.new_)))
+        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (javaCast (jio (TrackingEventFactory.new_))))
         pure ()
 
 

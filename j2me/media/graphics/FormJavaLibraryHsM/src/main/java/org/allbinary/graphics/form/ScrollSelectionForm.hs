@@ -192,7 +192,7 @@ init_7 this title items formPaintableFactory border adjustedExtraBorder backgrou
         jset (this).buttonBasicColor (foregroundBasicColor)
         jset (this).border (border)
         jset (this).halfBorder (((border `Data.Bits.shiftR` 1)))
-        assignedValue <- (ItemPaintableFactory.getInstanceItemPaintable formPaintableFactory this)
+        assignedValue <- (ItemPaintableFactory.getInstanceItemPaintable formPaintableFactory (javaCast this))
         jset (this).paintable (assignedValue)
         pure ()
 

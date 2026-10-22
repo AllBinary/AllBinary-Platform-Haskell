@@ -141,7 +141,7 @@ showLicenseDialog_impl this abeClientInformation e = do
                 when ((jtoObject abeLicenseInterface) /= (jtoObject (jio (AbeNoLicense.getInstance)))) $ do
                     when (jio (AbeLicenseInterface.isValid abeLicenseInterface)) $ do
                         Control.Monad.void (BasicTextJDialog.setText basicTextJDialog "Subscription Invalid")
-            Control.Monad.void (BasicTextJDialog.addCloseListener basicTextJDialog (jio (ExitCloseListener.new_)))
+            Control.Monad.void (BasicTextJDialog.addCloseListener basicTextJDialog (javaCast (jio (ExitCloseListener.new_))))
             Control.Monad.void (BasicTextJDialog.setVisible basicTextJDialog True)
         pure ()
 

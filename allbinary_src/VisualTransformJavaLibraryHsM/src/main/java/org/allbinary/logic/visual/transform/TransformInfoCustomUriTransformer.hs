@@ -82,7 +82,7 @@ init_2 this abeClientInformation transformInfoInterface = do
         BasicTransformer.init_2 this.base (abeClientInformation) (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        let transformInfoObjectConfigInterface = (javaCast (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) abeClientInformation transformInfoInterface)) :: TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+        let transformInfoObjectConfigInterface = (javaCast (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance_2 ((jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) abeClientInformation transformInfoInterface)) :: TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
         Control.Monad.void (BasicTransformer.setURIResolver this (javaCast (jio (CustomUriResolver.new_2 (jio (TransformInfoObjectConfigInterface.getImportUriPath transformInfoObjectConfigInterface)) (javaCast (jio (BasicTransformer.getURIResolver this)) :: BasicUriResolver.BasicUriResolver))) :: URIResolver.URIResolver))
         pure ()
 

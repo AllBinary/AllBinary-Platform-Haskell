@@ -133,7 +133,7 @@ shutdown soundsFactoryInterface = do
 createPlayer :: String -> IO (Player.Player)
 createPlayer resource = do
     javaCatchReturn $ do
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).sOUND))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).sOUND)))) then do
             if ((jio (TsUtil.compareTo ((jio (TsUtil.getInstance))) resource (Manager.tONE_DEVICE_LOCATOR))) == 0) then do
                 javaReturn =<< (Manager.createPlayer resource)
             else do
@@ -146,7 +146,7 @@ createPlayer resource = do
 -- throws MediaException
 playTone :: Int -> Int -> Int -> IO (())
 playTone frequency time volume = do
-        when (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).sOUND))) $ do
+        when (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).sOUND)))) $ do
             Control.Monad.void (Manager.playTone frequency time volume)
         pure ()
 

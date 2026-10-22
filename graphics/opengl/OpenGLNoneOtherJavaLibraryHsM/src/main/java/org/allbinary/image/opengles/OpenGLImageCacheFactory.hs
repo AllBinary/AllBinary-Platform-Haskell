@@ -80,12 +80,12 @@ init_ this = do
 
 getInstance :: IO (ImageCache.ImageCache)
 getInstance = do
-        pure (OpenGLImageCacheFactory.iMAGE_CACHE)
+        pure ((jget OpenGLImageCacheFactory.iMAGE_CACHE))
 
 
 init :: IO (())
 init = do
-        when (OpenGLImageCacheFactory.iMAGE_CACHE == javaNull) $ do
+        when ((jget OpenGLImageCacheFactory.iMAGE_CACHE) == javaNull) $ do
             pure ()
         pure ()
 

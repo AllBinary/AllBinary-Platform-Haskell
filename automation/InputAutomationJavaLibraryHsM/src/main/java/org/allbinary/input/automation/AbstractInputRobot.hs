@@ -70,8 +70,8 @@ newRecord_ = do
     jregisterMethod header_ "getHelpSet" (\() -> getHelpSet_impl this)
     jregisterMethod header_ "mouseMove" (\() -> mouseMove_impl this)
     jregisterMethod header_ "mouseMoveToTarget" (\() -> mouseMoveToTarget_impl this)
-    jregisterMethod header_ "mouseMoveToTarget" (\() -> mouseMoveToTarget_impl this)
-    jregisterMethod header_ "mouseMove" (\() -> mouseMove_impl this)
+    jregisterMethod header_ "mouseMoveToTarget_1" (\() -> mouseMoveToTarget_1_impl this)
+    jregisterMethod header_ "mouseMove_2" (\() -> mouseMove_2_impl this)
     jregisterMethod header_ "setHelpSet" (\() -> setHelpSet_impl this)
     pure this
 
@@ -113,7 +113,7 @@ mouseMove_super object_ a1 = (mouseMove_impl (javaCast object_ :: AbstractInputR
 
 mouseMove_impl :: AbstractInputRobot -> Point.Point -> IO (())
 mouseMove_impl this point = do
-        Control.Monad.void (AbstractInputRobot.mouseMove this (jget (point).x) (jget (point).y))
+        Control.Monad.void (AbstractInputRobot.mouseMove_2 this (jget (point).x) (jget (point).y))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Moved Mouse To: x: " ++ javaToString (jget (point).x)) ++ " y: ") ++ javaToString (jget (point).y)) this "moveMouse")
         pure ()
 
@@ -128,34 +128,32 @@ mouseMoveToTarget_super object_ a1 a2 a3 = (mouseMoveToTarget_impl (javaCast obj
 mouseMoveToTarget_impl :: AbstractInputRobot -> Rectangle.Rectangle -> Int -> Int -> IO (())
 mouseMoveToTarget_impl this rectangle x y = do
         point <- (PointHelper.getCenterPoint rectangle)
-        Control.Monad.void (AbstractInputRobot.mouseMove this ((jget (point).x) + x) ((jget (point).y) + y))
+        Control.Monad.void (AbstractInputRobot.mouseMove_2 this ((jget (point).x) + x) ((jget (point).y) + y))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("Moved Mouse To: x: " ++ javaToString (jget (point).x)) ++ " y: ") ++ javaToString (jget (point).y)) ++ " in the middle of: ") ++ javaToString rectangle) this "moveMouseToTarget")
         pure ()
 
 
 -- throws Exception
--- Java overload of mouseMoveToTarget with a different parameter count: give it a different name
-mouseMoveToTarget :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget object_ a1 = jmethod object_ "mouseMoveToTarget" (\() -> (mouseMoveToTarget_impl (javaCast object_ :: AbstractInputRobot))) () a1
+mouseMoveToTarget_1 :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1 object_ a1 = jmethod object_ "mouseMoveToTarget_1" (\() -> (mouseMoveToTarget_1_impl (javaCast object_ :: AbstractInputRobot))) () a1
 
-mouseMoveToTarget_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget_super object_ a1 = (mouseMoveToTarget_impl (javaCast object_ :: AbstractInputRobot)) a1
+mouseMoveToTarget_1_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1_super object_ a1 = (mouseMoveToTarget_1_impl (javaCast object_ :: AbstractInputRobot)) a1
 
-mouseMoveToTarget_impl :: AbstractInputRobot -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget_impl this rectangle = do
+mouseMoveToTarget_1_impl :: AbstractInputRobot -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1_impl this rectangle = do
         Control.Monad.void (AbstractInputRobot.mouseMoveToTarget this rectangle 0 0)
         pure ()
 
 
--- Java overload of mouseMove with a different parameter count: give it a different name
-mouseMove :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove object_ a1 a2 = jmethod object_ "mouseMove" (\() -> (mouseMove_impl (javaCast object_ :: AbstractInputRobot))) () a1 a2
+mouseMove_2 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2 object_ a1 a2 = jmethod object_ "mouseMove_2" (\() -> (mouseMove_2_impl (javaCast object_ :: AbstractInputRobot))) () a1 a2
 
-mouseMove_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove_super object_ a1 a2 = (mouseMove_impl (javaCast object_ :: AbstractInputRobot)) a1 a2
+mouseMove_2_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2_super object_ a1 a2 = (mouseMove_2_impl (javaCast object_ :: AbstractInputRobot)) a1 a2
 
-mouseMove_impl :: AbstractInputRobot -> Int -> Int -> IO (())
-mouseMove_impl this x y = do
+mouseMove_2_impl :: AbstractInputRobot -> Int -> Int -> IO (())
+mouseMove_2_impl this x y = do
         javaThrow ((JavaException "RuntimeException" ""))
         pure ()
 

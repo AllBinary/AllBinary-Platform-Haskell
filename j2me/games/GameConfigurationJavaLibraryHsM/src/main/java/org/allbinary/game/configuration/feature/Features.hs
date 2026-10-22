@@ -157,7 +157,7 @@ add_impl this gameFeature = do
         when (Prelude.not (jio (BasicArrayList.contains ((jget (this).list)) gameFeature))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jio (CommonLabels.getInstance))).sTART_LABEL)))) (jio (Feature.toString gameFeature))))))) this (jget ((jget (this).commonStrings)).aDD))
             Control.Monad.void (BasicArrayList.add ((jget (this).list)) gameFeature)
-            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (jio (GameFeatureEvent.new_2 gameFeature (jio (Feature.toString gameFeature)))))
+            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (javaCast (jio (GameFeatureEvent.new_2 gameFeature (jio (Feature.toString gameFeature))))))
         pure ()
 
 
@@ -188,7 +188,7 @@ remove_impl this gameFeature = do
         when (jio (BasicArrayList.contains ((jget (this).list)) gameFeature)) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).rEMOVE))
             Control.Monad.void (BasicArrayList.remove ((jget (this).list)) gameFeature)
-            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (jio (GameFeatureEvent.new_2 gameFeature (jio (Feature.toString gameFeature)))))
+            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (javaCast (jio (GameFeatureEvent.new_2 gameFeature (jio (Feature.toString gameFeature))))))
         pure ()
 
 
@@ -207,22 +207,22 @@ init_impl this = do
             inputFeatureFactory <- (InputFeatureFactory.getInstance)
             sensorFeatureFactory <- (SensorFeatureFactory.getInstance)
             touchFeatureFactory <- (TouchFeatureFactory.getInstance)
-            Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).aRTIFICIAL_INTELLEGENCE_PROCESSOR))
-            Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).cOLLIDABLE_INTERFACE_LAYER_PROCESSOR))
-            Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).gAME_INPUT_LAYER_PROCESSOR))
-            Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).tICKABLE_LAYER_PROCESSOR))
-            Control.Monad.void (Features.addDefault this (jget (inputFeatureFactory).mULTI_KEY_PRESS))
-            Control.Monad.void (Features.addDefault this (jget (inputFeatureFactory).rEMOVE_DUPLICATE_KEY_PRESSES))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (gameFeatureFactory).aRTIFICIAL_INTELLEGENCE_PROCESSOR)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (gameFeatureFactory).cOLLIDABLE_INTERFACE_LAYER_PROCESSOR)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (gameFeatureFactory).gAME_INPUT_LAYER_PROCESSOR)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (gameFeatureFactory).tICKABLE_LAYER_PROCESSOR)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (inputFeatureFactory).mULTI_KEY_PRESS)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (inputFeatureFactory).rEMOVE_DUPLICATE_KEY_PRESSES)))
             Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).sCREEN_SHAKE))
             Control.Monad.void (Features.addDefault this (jget (gameFeatureFactory).pOST_IMAGE_LOADING_MODIFICATION))
             operatingSystemInterface <- (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance))))
             if (jio (GenericOperatingSystem.isOverScan operatingSystemInterface)) then do
-                Control.Monad.void (Features.addDefault this (jget (sensorFeatureFactory).nO_ORIENTATION))
-                Control.Monad.void (Features.addDefault this (jget (touchFeatureFactory).hIDE_SCREEN_BUTTONS))
+                Control.Monad.void (Features.addDefault this (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION)))
+                Control.Monad.void (Features.addDefault this (javaCast (jget (touchFeatureFactory).hIDE_SCREEN_BUTTONS)))
             else do
-                Control.Monad.void (Features.addDefault this (jget (sensorFeatureFactory).oRIENTATION_SENSORS))
-                Control.Monad.void (Features.addDefault this (jget (touchFeatureFactory).aUTO_HIDE_SHOW_SCREEN_BUTTONS))
-            Control.Monad.void (Features.addDefault this (jget (touchFeatureFactory).tOUCH_ENABLED))
+                Control.Monad.void (Features.addDefault this (javaCast (jget (sensorFeatureFactory).oRIENTATION_SENSORS)))
+                Control.Monad.void (Features.addDefault this (javaCast (jget (touchFeatureFactory).aUTO_HIDE_SHOW_SCREEN_BUTTONS)))
+            Control.Monad.void (Features.addDefault this (javaCast (jget (touchFeatureFactory).tOUCH_ENABLED)))
             Control.Monad.void (Features.addDefault this (jget ((jio (MainFeatureFactory.getInstance))).fULL_SCREEN))
             Control.Monad.void (Features.addDefault this (jget ((jio (MainFeatureFactory.getInstance))).lOAD_ONDEMAND))
         pure ()

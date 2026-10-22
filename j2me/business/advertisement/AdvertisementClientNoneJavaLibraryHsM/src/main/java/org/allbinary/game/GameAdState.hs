@@ -82,7 +82,7 @@ init_1 this adConfiguration = do
         GameAdStateBase.init_1 this.base (adConfiguration)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (VirtualKeyboardEventHandler.addListenerInterface ((jio (VirtualKeyboardEventHandler.getInstance))) this)
+        Control.Monad.void (VirtualKeyboardEventHandler.addListenerInterface ((jio (VirtualKeyboardEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

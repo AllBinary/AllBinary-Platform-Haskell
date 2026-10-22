@@ -149,7 +149,7 @@ write_impl this initData = do
             javaThrow (e)
             ) $ do
             tsUtil <- (TsUtil.getInstance)
-            dataOutputStream <- (fmap (\value_ -> javaCast value_ :: AbDataOutputStream.AbDataOutputStream) (DataOutputStreamFactory.getInstance ((jio (DataOutputStreamFactory.getInstance))) (jget (this).filePath) (jget (this).iNITFILENAME)))
+            dataOutputStream <- (fmap (\value_ -> javaCast value_ :: AbDataOutputStream.AbDataOutputStream) (DataOutputStreamFactory.getInstance_2 ((jio (DataOutputStreamFactory.getInstance))) (jget (this).filePath) (jget (this).iNITFILENAME)))
             licenseIdCrypted <- (TsUtil.getByteArray tsUtil (jio (WeakCrypt.encrypt ((jio (WeakCrypt.new_1 1))) (jio (LicenseInitInfo.getLicenseId initData)))))
             Control.Monad.void (AbDataOutputStream.writeUTF dataOutputStream (jio (DatabaseEncoder.encode licenseIdCrypted)))
             numberOfLicenseServers <- (LicenseInitInfo.getNumberOfServers initData)

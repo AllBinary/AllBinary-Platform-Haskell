@@ -73,14 +73,13 @@ generateAll_impl this = javaAbstractMethod "generateAll"
 
 
 -- throws Exception
--- Java overload of generateAll with a different parameter count: give it a different name
-generateAll :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-generateAll object_ a1 = jmethod object_ "generateAll" (\() -> (generateAll_impl (javaCast object_ :: ProductListingInterface))) () a1
+generateAll_1 :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+generateAll_1 object_ a1 = jmethod object_ "generateAll_1" (\() -> (generateAll_1_impl (javaCast object_ :: ProductListingInterface))) () a1
 
-generateAll_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-generateAll_super object_ a1 = (generateAll_impl (javaCast object_ :: ProductListingInterface)) a1
+generateAll_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+generateAll_1_super object_ a1 = (generateAll_1_impl (javaCast object_ :: ProductListingInterface)) a1
 
-generateAll_impl :: ProductListingInterface -> String -> IO (String)
-generateAll_impl this storeName = javaAbstractMethod "generateAll"
+generateAll_1_impl :: ProductListingInterface -> String -> IO (String)
+generateAll_1_impl this storeName = javaAbstractMethod "generateAll"
 
 

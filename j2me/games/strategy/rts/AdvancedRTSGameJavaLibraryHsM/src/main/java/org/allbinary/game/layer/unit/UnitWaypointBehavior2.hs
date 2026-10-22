@@ -212,7 +212,7 @@ initRange_impl this weaponRange = do
         Control.Monad.void (UnitWaypointBehavior.initRange_super this.base weaponRange)
         jset (this).closeRange (weaponRange)
         jset (this).sensorRange ((weaponRange * 4))
-        Control.Monad.void (Waypoint2LogHelper.initRange ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) (jget (this).closeRange) (jget (this).sensorRange))
+        Control.Monad.void (Waypoint2LogHelper.initRange ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (jget (this).closeRange) (jget (this).sensorRange))
         pure ()
 
 
@@ -288,7 +288,7 @@ onEnemyMovement_super object_ a1 = (onEnemyMovement_impl (javaCast object_ :: Un
 
 onEnemyMovement_impl :: UnitWaypointBehavior2 -> AdvancedRTSGameLayer.AdvancedRTSGameLayer -> IO (())
 onEnemyMovement_impl this layerInterface = do
-        anotherTargetDistance <- (LayerDistanceUtil.getDistance ((jget (this).layerDistanceUtil)) (jget (this).base.associatedAdvancedRTSGameLayer) layerInterface)
+        anotherTargetDistance <- (LayerDistanceUtil.getDistance ((jget (this).layerDistanceUtil)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast layerInterface))
         if ((jtoObject layerInterface) == (jtoObject (jget (this).base.currentTargetLayerInterfaceP))) then do
             Control.Monad.void (UnitWaypointBehavior.setCurrentTargetDistance this anotherTargetDistance)
         else do
@@ -307,12 +307,12 @@ processPossibleTarget_impl :: UnitWaypointBehavior2 -> AdvancedRTSGameLayer.Adva
 processPossibleTarget_impl this layerInterface anotherTargetDistance = do
         let isShorterThanCurrentTargetDistance = ((jio (UnitWaypointBehavior.getCurrentTargetDistance this)) > anotherTargetDistance)
         let isCurrentTargetDestroyed = (((jget (this).base.currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) && (jio (CollidableDestroyableDamageableLayer.isDestroyed ((jget (this).base.currentTargetLayerInterfaceP)))))
-        Control.Monad.void (Waypoint2LogHelper.processPossibleTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this layerInterface anotherTargetDistance isShorterThanCurrentTargetDistance isCurrentTargetDestroyed)
-        if (((jio (UnitWaypointBehavior2.isWaypointListEmptyOrOnlyTargets this)) && (jio (UnitWaypointBehavior2.isInSensorRange this layerInterface anotherTargetDistance))) && ((isShorterThanCurrentTargetDistance || isCurrentTargetDestroyed))) then do
-            Control.Monad.void (Waypoint2LogHelper.processSetTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this layerInterface anotherTargetDistance)
+        Control.Monad.void (Waypoint2LogHelper.processPossibleTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast layerInterface) anotherTargetDistance isShorterThanCurrentTargetDistance isCurrentTargetDestroyed)
+        if (((jio (UnitWaypointBehavior2.isWaypointListEmptyOrOnlyTargets this)) && (jio (UnitWaypointBehavior2.isInSensorRange this (javaCast layerInterface) anotherTargetDistance))) && ((isShorterThanCurrentTargetDistance || isCurrentTargetDestroyed))) then do
+            Control.Monad.void (Waypoint2LogHelper.processSetTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast layerInterface) anotherTargetDistance)
             Control.Monad.void (UnitWaypointBehavior2.setTarget this layerInterface anotherTargetDistance)
         else when ((jio (UnitWaypointBehavior2.isCloseRange this layerInterface anotherTargetDistance)) && ((isShorterThanCurrentTargetDistance || isCurrentTargetDestroyed))) $ do
-            Control.Monad.void (Waypoint2LogHelper.processPossibleTargetCloser ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this layerInterface anotherTargetDistance)
+            Control.Monad.void (Waypoint2LogHelper.processPossibleTargetCloser ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast layerInterface) anotherTargetDistance)
             Control.Monad.void (UnitWaypointBehavior2.setTarget this layerInterface anotherTargetDistance)
         pure ()
 
@@ -344,11 +344,11 @@ setTarget_super object_ a1 a2 = (setTarget_impl (javaCast object_ :: UnitWaypoin
 
 setTarget_impl :: UnitWaypointBehavior2 -> AdvancedRTSGameLayer.AdvancedRTSGameLayer -> Int -> IO (())
 setTarget_impl this layerInterface anotherTargetDistance = do
-        Control.Monad.void (Waypoint2LogHelper.setTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this layerInterface anotherTargetDistance)
+        Control.Monad.void (Waypoint2LogHelper.setTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast layerInterface) anotherTargetDistance)
         Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).tARGET) (jget ((jio (BasicColorFactory.getInstance))).gREEN))
         Control.Monad.void (UnitLayer.setLoad ((jget (this).base.associatedAdvancedRTSGameLayer)) 0)
         Control.Monad.void (UnitWaypointBehavior.setCurrentTargetDistance this anotherTargetDistance)
-        Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this layerInterface)
+        Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this (javaCast layerInterface))
         Control.Monad.void (UnitWaypointBehavior.setTrackingWaypoint this False)
         Control.Monad.void (BasicArrayList.clear ((jget (this).base.targetList)))
         when ((Prelude.not (jio (UnitWaypointBehavior2.isCloseRange this layerInterface anotherTargetDistance))) && (jio (UnitWaypointBehavior.canInsertWaypoint this 0 (jget (this).base.currentTargetLayerInterfaceP)))) $ do
@@ -376,12 +376,12 @@ setTargetPath_impl this = do
     javaCatchReturn $ do
         when ((jget (this).base.currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) $ do
             when (jio (CollidableDestroyableDamageableLayer.isDestroyed ((jget (this).base.currentTargetLayerInterfaceP)))) $ do
-                Control.Monad.void (Waypoint2LogHelper.setTargetPath ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer))
+                Control.Monad.void (Waypoint2LogHelper.setTargetPath ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
                 Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).kILL) (jget ((jget (this).basicColorFactory)).oRANGE))
                 Control.Monad.void (UnitWaypointBehavior2.clearTarget this)
                 javaReturn (())
             when ((jtoObject (jget (this).base.currentTargetLayerInterfaceP)) == (jtoObject (jio (WaypointPathRunnableBase.getTargetLayer ((jget (this).waypointPathRunnable)))))) $ do
-                Control.Monad.void (Waypoint2LogHelper.setTargetPathIgnoreNewPath ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this)
+                Control.Monad.void (Waypoint2LogHelper.setTargetPathIgnoreNewPath ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this))
                 Control.Monad.void (UnitWaypointBehavior.insertWaypoint this 0 (jget (this).base.currentTargetLayerInterfaceP))
                 Control.Monad.void (UnitWaypointBehavior.setRandomGeographicMapCellHistory this (jget (this).base.waypointPathsListP))
     pure ()
@@ -415,19 +415,19 @@ processWaypoint_impl this = do
         size <- (BasicArrayList.size ((jget (this).base.targetList)))
         when (size > 0) $ do
             let targetLayer = (javaCast (jio (BasicArrayList.get ((jget (this).base.targetList)) 0)) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
-            Control.Monad.void (Waypoint2LogHelper.processWaypoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this targetLayer size)
+            Control.Monad.void (Waypoint2LogHelper.processWaypoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast targetLayer) size)
             if (jio (AdvancedRTSGameLayer.isDestroyed targetLayer)) then do
                 Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).wAYPOINT_DESTROYED_SHORT) (jget ((jget (this).basicColorFactory)).yELLOW))
-                Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this targetLayer (jget ((jget (this).unitWaypointStrings)).wAYPOINT_DESTROYED))
+                Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this (javaCast targetLayer) (jget ((jget (this).unitWaypointStrings)).wAYPOINT_DESTROYED))
             else do
                 geographicMapCellPosition <- (UnitLayer.getCurrentGeographicMapCellPosition ((jget (this).base.associatedAdvancedRTSGameLayer)))
                 if (jio (UnitWaypointBehavior.isTrackingWaypoint this)) then do
-                    Control.Monad.void (Waypoint2LogHelper.processWaypointTracked ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this)
+                    Control.Monad.void (Waypoint2LogHelper.processWaypointTracked ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this))
                     when (jio (UnitWaypointBehavior2.visitIfAtMidPoint this geographicMapCellPosition)) $ do
-                        Control.Monad.void (Waypoint2LogHelper.processWaypointTrackedVisit ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) geographicMapCellPosition)
+                        Control.Monad.void (Waypoint2LogHelper.processWaypointTrackedVisit ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) geographicMapCellPosition)
                     when ((jio (GeographicMapCellHistory.isAllVisited2 ((jget (this).base.currentGeographicMapCellHistoryP)))) && ((jget (this).base.currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance)))) $ do
                         let oldWaypointLayer = (javaCast (jget (this).base.currentTargetLayerInterfaceP) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
-                        Control.Monad.void (WaypointBase.visit ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior oldWaypointLayer)))))) (jget (this).base.associatedAdvancedRTSGameLayer))
+                        Control.Monad.void (WaypointBase.visit ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior oldWaypointLayer)))))) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
                         Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).aLL_VISITED_SHORT) (jget ((jget (this).basicColorFactory)).gREEN))
                         Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this (javaCast (jget (this).base.currentTargetLayerInterfaceP) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer) (jget ((jget (this).unitWaypointStrings)).aLL_VISITED))
                 else when (((jget (this).base.currentTargetLayerInterfaceP) == javaNull) || (jget (this).base.base.waypointOverridesAttacking)) $ do
@@ -452,7 +452,7 @@ wander_super object_ = (wander_impl (javaCast object_ :: UnitWaypointBehavior2))
 wander_impl :: UnitWaypointBehavior2 -> IO (())
 wander_impl this = do
         when (jio (GeographicMapCellHistory.isAllVisited2 ((jget (this).base.currentGeographicMapCellHistoryP)))) $ do
-            Control.Monad.void (Waypoint2LogHelper.wander ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer))
+            Control.Monad.void (Waypoint2LogHelper.wander ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
             Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).wANDERING) (jget ((jget (this).basicColorFactory)).rED))
             Control.Monad.void (BasicArrayList.clear ((jget (this).wanderPathsList)))
             Control.Monad.void (BasicArrayList.add ((jget (this).wanderPathsList)) (jio (UnitLayer.getSurroundingGeographicMapCellPositionList ((jget (this).base.associatedAdvancedRTSGameLayer)))))
@@ -535,7 +535,7 @@ processTargeting_impl this = do
     javaCatchReturn $ do
         if (((jget (this).base.currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) && (((jio (UnitWaypointBehavior2.isInSensorRange this (jget (this).base.currentTargetLayerInterfaceP) (jio (UnitWaypointBehavior.getCurrentTargetDistance this)))) || (jio (UnitWaypointBehavior.isTrackingWaypoint this))))) then do
             when (jio (CollidableDestroyableDamageableLayer.isDestroyed ((jget (this).base.currentTargetLayerInterfaceP)))) $ do
-                Control.Monad.void (Waypoint2LogHelper.targetDestroyed ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer))
+                Control.Monad.void (Waypoint2LogHelper.targetDestroyed ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
                 Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).kILL) (jget ((jget (this).basicColorFactory)).oRANGE))
                 Control.Monad.void (UnitWaypointBehavior2.clearTarget this)
                 javaReturn (())
@@ -546,9 +546,9 @@ processTargeting_impl this = do
                 point <- (GeographicMapCellPosition.getMidPoint ((jget (this).nextUnvisitedPathGeographicMapCellPosition)))
                 jset dx ((((jio (UnitLayer.getXP ((jget (this).base.associatedAdvancedRTSGameLayer)))) + (jio (UnitLayer.getHalfWidth ((jget (this).base.associatedAdvancedRTSGameLayer))))) - (jio (GPoint.getX point))))
                 jset dy ((((jio (UnitLayer.getYP ((jget (this).base.associatedAdvancedRTSGameLayer)))) + (jio (UnitLayer.getHalfHeight ((jget (this).base.associatedAdvancedRTSGameLayer))))) - (jio (GPoint.getY point))))
-                Control.Monad.void (Waypoint2LogHelper.processTargeting ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) (jget dx) (jget dy))
+                Control.Monad.void (Waypoint2LogHelper.processTargeting ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (jget dx) (jget dy))
             else do
-                Control.Monad.void (Waypoint2LogHelper.processTargetingNonWayPoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) (jget dx) (jget dy))
+                Control.Monad.void (Waypoint2LogHelper.processTargetingNonWayPoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (jget dx) (jget dy))
                 jset dx (((((jio (UnitLayer.getXP ((jget (this).base.associatedAdvancedRTSGameLayer)))) + (jio (UnitLayer.getHalfWidth ((jget (this).base.associatedAdvancedRTSGameLayer)))))) - (((jio (CollidableDestroyableDamageableLayer.getXP ((jget (this).base.currentTargetLayerInterfaceP)))) + (jio (CollidableDestroyableDamageableLayer.getHalfWidth ((jget (this).base.currentTargetLayerInterfaceP))))))))
                 jset dy (((((jio (UnitLayer.getYP ((jget (this).base.associatedAdvancedRTSGameLayer)))) + (jio (UnitLayer.getHalfHeight ((jget (this).base.associatedAdvancedRTSGameLayer)))))) - (((jio (CollidableDestroyableDamageableLayer.getYP ((jget (this).base.currentTargetLayerInterfaceP)))) + (jio (CollidableDestroyableDamageableLayer.getHalfHeight ((jget (this).base.currentTargetLayerInterfaceP))))))))
             Control.Monad.void (UnitLayer.trackToDXY ((jget (this).base.associatedAdvancedRTSGameLayer)) (jget dx) (jget dy))
@@ -591,14 +591,14 @@ setWaypointPath_super object_ a1 = (setWaypointPath_impl (javaCast object_ :: Un
 setWaypointPath_impl :: UnitWaypointBehavior2 -> AdvancedRTSGameLayer.AdvancedRTSGameLayer -> IO (())
 setWaypointPath_impl this waypointLayer = do
         if ((jio (BasicArrayList.size ((jget (this).base.waypointPathsListP)))) /= 0) then do
-            Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this waypointLayer)
+            Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this (javaCast waypointLayer))
             let mAX = (2147483647 :: Int)
             Control.Monad.void (UnitWaypointBehavior.setCurrentTargetDistance this mAX)
             Control.Monad.void (UnitWaypointBehavior.setRandomGeographicMapCellHistory this (jget (this).base.waypointPathsListP))
         else do
-            Control.Monad.void (WaypointBase.visit ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior waypointLayer)))))) (jget (this).base.associatedAdvancedRTSGameLayer))
+            Control.Monad.void (WaypointBase.visit ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior waypointLayer)))))) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
             Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).aLREADY_THERE_SHORT) (jget ((jget (this).basicColorFactory)).yELLOW))
-            Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this waypointLayer (jget ((jget (this).unitWaypointStrings)).aLREADY_THERE))
+            Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this (javaCast waypointLayer) (jget ((jget (this).unitWaypointStrings)).aLREADY_THERE))
         pure ()
 
 
@@ -615,9 +615,9 @@ runWaypointPathTask_impl this waypointLayer = do
         when (jio (WaypointPathRunnableBase.isRunning ((jget (this).waypointPathRunnable)))) $ do
             javaThrow ((JavaException "Exception" "Should never be running here"))
         Control.Monad.void (WaypointPathRunnableBase.setRunning ((jget (this).waypointPathRunnable)) True)
-        Control.Monad.void (WaypointPathRunnableBase.setUnitLayer ((jget (this).waypointPathRunnable)) (jget (this).base.associatedAdvancedRTSGameLayer))
-        Control.Monad.void (WaypointPathRunnableBase.setTargetLayer ((jget (this).waypointPathRunnable)) waypointLayer)
-        Control.Monad.void (ThreadPool.runTask ((jget (this).pathFindingThreadPool)) (jget (this).waypointPathRunnable))
+        Control.Monad.void (WaypointPathRunnableBase.setUnitLayer ((jget (this).waypointPathRunnable)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
+        Control.Monad.void (WaypointPathRunnableBase.setTargetLayer ((jget (this).waypointPathRunnable)) (javaCast waypointLayer))
+        Control.Monad.void (ThreadPool.runTask ((jget (this).pathFindingThreadPool)) (javaCast (jget (this).waypointPathRunnable)))
         pure ()
 
 
@@ -630,11 +630,11 @@ removeWaypoint_super object_ a1 a2 = (removeWaypoint_impl (javaCast object_ :: U
 
 removeWaypoint_impl :: UnitWaypointBehavior2 -> RTSLayer.RTSLayer -> String -> IO (())
 removeWaypoint_impl this waypointLayer reason = do
-        Control.Monad.void (Waypoint2LogHelper.removeWaypoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this waypointLayer reason)
+        Control.Monad.void (Waypoint2LogHelper.removeWaypoint ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (javaCast waypointLayer) reason)
         Control.Monad.void (BasicArrayList.remove ((jget (this).base.targetList)) waypointLayer)
-        Control.Monad.void (Waypoint2LogHelper.removeWaypointList ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) this (jget (this).base.targetList))
+        Control.Monad.void (Waypoint2LogHelper.removeWaypointList ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast this) (jget (this).base.targetList))
         when ((jtoObject (jget (this).base.currentTargetLayerInterfaceP)) == (jtoObject waypointLayer)) $ do
-            Control.Monad.void (Waypoint2LogHelper.removeWaypointClear ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer))
+            Control.Monad.void (Waypoint2LogHelper.removeWaypointClear ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
             Control.Monad.void (UnitWaypointBehavior2.clearTarget this)
         pure ()
 
@@ -648,12 +648,12 @@ clearTarget_super object_ = (clearTarget_impl (javaCast object_ :: UnitWaypointB
 
 clearTarget_impl :: UnitWaypointBehavior2 -> IO (())
 clearTarget_impl this = do
-        Control.Monad.void (Waypoint2LogHelper.clearTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer))
+        Control.Monad.void (Waypoint2LogHelper.clearTarget ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
         Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this (jio (CollidableDestroyableDamageableLayer.getNullInstance)))
         Control.Monad.void (UnitWaypointBehavior.setTrackingWaypoint this False)
         let mAX = (2147483647 :: Int)
         Control.Monad.void (UnitWaypointBehavior.setCurrentTargetDistance this mAX)
-        Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (jio (UnitLayer.getTrackingEvent ((jget (this).base.associatedAdvancedRTSGameLayer)))))
+        Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (javaCast (jio (UnitLayer.getTrackingEvent ((jget (this).base.associatedAdvancedRTSGameLayer))))))
         pure ()
 
 
@@ -729,7 +729,7 @@ addWaypointFromUser_impl :: UnitWaypointBehavior2 -> AdvancedRTSGameLayer.Advanc
 addWaypointFromUser_impl this advancedRTSGameLayer = do
         when (jio (AdvancedRTSGameLayer.isDestroyed advancedRTSGameLayer)) $ do
             javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ javaToString advancedRTSGameLayer)))
-        Control.Monad.void (Waypoint2LogHelper.addWaypointFromUser ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (jget (this).base.associatedAdvancedRTSGameLayer) advancedRTSGameLayer)
+        Control.Monad.void (Waypoint2LogHelper.addWaypointFromUser ((jget ((jget (this).base.associatedAdvancedRTSGameLayer)).waypoint2LogHelperP)) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
         Control.Monad.void (BasicArrayList.clear ((jget (this).base.targetList)))
         Control.Monad.void (BasicArrayList.add ((jget (this).base.targetList)) advancedRTSGameLayer)
         Control.Monad.void (UnitWaypointBehavior2.clearTarget this)

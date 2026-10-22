@@ -133,7 +133,7 @@ processScore_impl this allbinaryLayerManager angle otherAngle weaponProperties s
             jset beamY ((Prelude.negate (Prelude.fromIntegral (((jget cosine) `quot` (Prelude.fromIntegral (jget ((jget (this).noDecimalTrigTable)).sCALE)))))))
             assignedValue <- (WeaponLayerCircularPool.getInstanceWeaponLayer ((jget (this).weaponLayerCircularStaticPool)) sourceLayerInterface (x + (jget beamX)) (y + (jget beamY)) 0 (Prelude.fromIntegral angle) (Prelude.fromIntegral otherAngle) weaponProperties scoreableInterface)
             jset weaponLayer (assignedValue)
-            Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager (jget weaponLayer))
+            Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager (javaCast (jget weaponLayer)))
             jset next (((jget next) + increment))
         pure ()
 

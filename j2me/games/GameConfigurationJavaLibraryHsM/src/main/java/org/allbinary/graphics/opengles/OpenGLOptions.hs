@@ -89,7 +89,7 @@ init_super object_ = (init_impl (javaCast object_ :: OpenGLOptions))
 init_impl :: OpenGLOptions -> IO (())
 init_impl this = do
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        when (jio (Features.isFeature ((jio (Features.getInstance))) (jget (openGLFeatureFactory).oPENGL_OPTIONS))) $ do
+        when (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget (openGLFeatureFactory).oPENGL_OPTIONS)))) $ do
             openGLMultipleList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             Control.Monad.void (BasicArrayList.add openGLMultipleList (jget (openGLFeatureFactory).oPENGL))
             Control.Monad.void (GameFeatureChoiceGroups.add ((jio (GameFeatureChoiceGroups.getMultipleInstance))) "OpenGL (Complete Restart)" openGLMultipleList)

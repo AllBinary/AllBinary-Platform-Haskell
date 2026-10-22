@@ -117,7 +117,7 @@ processLoopSleep_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).rUN) e)
             ) $ do
             features <- (Features.getInstance)
-            isOpenGL <- (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))
+            isOpenGL <- (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
             when isOpenGL $ do
                 Control.Monad.void (AllBinaryGameCanvas.processSleep ((jget (this).allBinaryGameCanvas)))
         pure ()

@@ -100,7 +100,7 @@ createHudPaintable_impl :: ResourceWaypointLayer -> IO (SelectionHudPaintable.Se
 createHudPaintable_impl this = do
         rtsLayerHudPaintable <- (GeologicalResourceInfoHudPaintableSingleton.getInstance)
         Control.Monad.void (GeologicalResourceInfoHudPaintable.setBasicColorP rtsLayerHudPaintable (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).base.base.base.base.base.allBinaryGameLayerManagerP)))))
-        Control.Monad.void (GeologicalResourceInfoHudPaintable.setRtsLayer rtsLayerHudPaintable this)
+        Control.Monad.void (GeologicalResourceInfoHudPaintable.setRtsLayer rtsLayerHudPaintable (javaCast this))
         pure ((javaCast rtsLayerHudPaintable :: SelectionHudPaintable.SelectionHudPaintable))
 
 

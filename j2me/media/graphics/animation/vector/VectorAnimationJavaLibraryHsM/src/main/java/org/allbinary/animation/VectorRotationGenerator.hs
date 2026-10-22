@@ -77,7 +77,7 @@ newRecord_ = do
     angleFactory <- newIORef javaNull
     let this = VectorRotationGenerator header_ logUtil vectorAnimationUtil angleFactory
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     jregisterMethod header_ "getInstanceFrames" (\() -> getInstanceFrames_impl this)
     jregisterMethod header_ "getListAtAngle" (\() -> getListAtAngle_impl this)
     pure this
@@ -107,15 +107,14 @@ init_ this = do
         pure ()
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: VectorRotationGenerator))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: VectorRotationGenerator))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: VectorRotationGenerator)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: VectorRotationGenerator)) a1
 
-getInstance_impl :: VectorRotationGenerator -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_impl this vectorRotationInfo = do
+getInstance_1_impl :: VectorRotationGenerator -> VectorInfo.VectorInfo -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_1_impl this vectorRotationInfo = do
         (VectorRotationGenerator.getInstanceFrames this (jio (VectorInfo.getWidth vectorRotationInfo)) (jio (VectorInfo.getHeight vectorRotationInfo)) (jio (VectorInfo.getPoints vectorRotationInfo)) (jio (VectorInfo.getTotalFrames vectorRotationInfo)))
 
 

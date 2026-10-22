@@ -113,14 +113,14 @@ init_2 this genericProfileActionJPanel node = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).genericProfileActionJPanel (genericProfileActionJPanel)
-        Control.Monad.void (GenericProfileActionScript.setProfileActionConditionInterfaceVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (GenericProfileActionScript.setProfileActionConditionInterfaceVector this (javaCast (jio (BasicArrayListD.new_))))
         actionScriptNode <- (DomSearchHelper.getNode (jget GenericProfileActionData.sCRIPT) (jio (Node.getChildNodes node)))
         if (actionScriptNode /= javaNull) then do
             nodeList <- (Node.getChildNodes actionScriptNode)
             forM_ [0 .. (jio (NodeList.getLength nodeList)) - 1] $ \index -> javaIteration (pure ()) $ do
                 actionConditionNode <- (NodeList.item nodeList index)
                 when ((jio (Node.getNodeType actionConditionNode)) == Node.eLEMENT_NODE) $ do
-                    Control.Monad.void (GenericProfileActionScript.addCondition this (jio (ProfileActionScriptConditionFactory.getInstance actionConditionNode)))
+                    Control.Monad.void (GenericProfileActionScript.addCondition this (javaCast (jio (ProfileActionScriptConditionFactory.getInstance actionConditionNode))))
         else do
             javaThrow ((JavaException "Exception" "Profile Action Script Node Null"))
         pure ()
@@ -136,7 +136,7 @@ init_1 this genericProfileActionJPanel = do
         DefaultMutableTreeNode.init_ this.base
         initFields_ this
         jset (this).genericProfileActionJPanel (genericProfileActionJPanel)
-        Control.Monad.void (GenericProfileActionScript.setProfileActionConditionInterfaceVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (GenericProfileActionScript.setProfileActionConditionInterfaceVector this (javaCast (jio (BasicArrayListD.new_))))
         pure ()
 
 

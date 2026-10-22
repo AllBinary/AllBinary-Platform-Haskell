@@ -16,7 +16,7 @@
 -- package org.allbinary.graphics.j2me.workarea
 module WorkAreaJTreeJPanel (module WorkAreaJTreeJPanel, module JPanel) where
 
-import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, add, add_super, add_impl, updateTree, updateTree_super, updateTree_impl, getNode_overload1, getNode_overload1_super, getNode_overload1_impl, getNode, getNode_overload2, getNode_overload2_super, getNode_overload2_impl, getNode, deselectAll, deselectAll_super, deselectAll_impl, selectGraphicItem, selectGraphicItem_super, selectGraphicItem_impl, removeGraphicItem, removeGraphicItem_super, removeGraphicItem_impl, removeCanvas, removeCanvas_super, removeCanvas_impl, remove, remove_super, remove_impl, copy, copy_super, copy_impl, copy, copy_super, copy_impl, rotate, rotate_super, rotate_impl, getRootTreeNode, getRootTreeNode_super, getRootTreeNode_impl, expand, expand_super, expand_impl, expand, expand_super, expand_impl, initComponents, initComponents_super, initComponents_impl, rotateJMenuItemMousePressed, rotateJMenuItemMousePressed_super, rotateJMenuItemMousePressed_impl, workAreaJTreeMousePressed, workAreaJTreeMousePressed_super, workAreaJTreeMousePressed_impl, itemJPopupMenuPopupMenuWillBecomeInvisible, itemJPopupMenuPopupMenuWillBecomeInvisible_super, itemJPopupMenuPopupMenuWillBecomeInvisible_impl, itemJPopupMenuPopupMenuWillBecomeVisible, itemJPopupMenuPopupMenuWillBecomeVisible_super, itemJPopupMenuPopupMenuWillBecomeVisible_impl, copyJMenuItemMousePressed, copyJMenuItemMousePressed_super, copyJMenuItemMousePressed_impl, deleteJMenuItemMousePressed, deleteJMenuItemMousePressed_super, deleteJMenuItemMousePressed_impl, workAreaPropertiesJPanelMousePressed, workAreaPropertiesJPanelMousePressed_super, workAreaPropertiesJPanelMousePressed_impl, logUtil, commonStrings, rootTreeNode, workAreaJTree, highlightedBasicArrayList, copyJMenuItem, deleteJMenuItem, itemJPopupMenu, itemJScrollPane1, rotateJMenuItem, workAreaPropertiesJPanel)
+import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, add, add_super, add_impl, updateTree, updateTree_super, updateTree_impl, getNode_overload1, getNode_overload1_super, getNode_overload1_impl, getNode, getNode_overload2, getNode_overload2_super, getNode_overload2_impl, getNode, deselectAll, deselectAll_super, deselectAll_impl, selectGraphicItem, selectGraphicItem_super, selectGraphicItem_impl, removeGraphicItem, removeGraphicItem_super, removeGraphicItem_impl, removeCanvas, removeCanvas_super, removeCanvas_impl, remove, remove_super, remove_impl, copy, copy_super, copy_impl, copy_1, copy_1_super, copy_1_impl, copy, rotate, rotate_super, rotate_impl, getRootTreeNode, getRootTreeNode_super, getRootTreeNode_impl, expand, expand_super, expand_impl, expand_1, expand_1_super, expand_1_impl, expand, initComponents, initComponents_super, initComponents_impl, rotateJMenuItemMousePressed, rotateJMenuItemMousePressed_super, rotateJMenuItemMousePressed_impl, workAreaJTreeMousePressed, workAreaJTreeMousePressed_super, workAreaJTreeMousePressed_impl, itemJPopupMenuPopupMenuWillBecomeInvisible, itemJPopupMenuPopupMenuWillBecomeInvisible_super, itemJPopupMenuPopupMenuWillBecomeInvisible_impl, itemJPopupMenuPopupMenuWillBecomeVisible, itemJPopupMenuPopupMenuWillBecomeVisible_super, itemJPopupMenuPopupMenuWillBecomeVisible_impl, copyJMenuItemMousePressed, copyJMenuItemMousePressed_super, copyJMenuItemMousePressed_impl, deleteJMenuItemMousePressed, deleteJMenuItemMousePressed_super, deleteJMenuItemMousePressed_impl, workAreaPropertiesJPanelMousePressed, workAreaPropertiesJPanelMousePressed_super, workAreaPropertiesJPanelMousePressed_impl, logUtil, commonStrings, rootTreeNode, workAreaJTree, highlightedBasicArrayList, copyJMenuItem, deleteJMenuItem, itemJPopupMenu, itemJScrollPane1, rotateJMenuItem, workAreaPropertiesJPanel)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -115,11 +115,11 @@ newRecord_ = do
     jregisterMethod header_ "removeCanvas" (\() -> removeCanvas_impl this)
     jregisterMethod header_ "remove" (\() -> remove_impl this)
     jregisterMethod header_ "copy" (\() -> copy_impl this)
-    jregisterMethod header_ "copy" (\() -> copy_impl this)
+    jregisterMethod header_ "copy_1" (\() -> copy_1_impl this)
     jregisterMethod header_ "rotate" (\() -> rotate_impl this)
     jregisterMethod header_ "getRootTreeNode" (\() -> getRootTreeNode_impl this)
     jregisterMethod header_ "expand" (\() -> expand_impl this)
-    jregisterMethod header_ "expand" (\() -> expand_impl this)
+    jregisterMethod header_ "expand_1" (\() -> expand_1_impl this)
     jregisterMethod header_ "initComponents" (\() -> initComponents_impl this)
     jregisterMethod header_ "rotateJMenuItemMousePressed" (\() -> rotateJMenuItemMousePressed_impl this)
     jregisterMethod header_ "workAreaJTreeMousePressed" (\() -> workAreaJTreeMousePressed_impl this)
@@ -322,7 +322,7 @@ copy_super object_ = (copy_impl (javaCast object_ :: WorkAreaJTreeJPanel))
 copy_impl :: WorkAreaJTreeJPanel -> IO (())
 copy_impl this = do
         treePath <- (JTree.getSelectionPath ((jget (this).workAreaJTree)))
-        Control.Monad.void (WorkAreaJTreeJPanel.copy this treePath)
+        Control.Monad.void (WorkAreaJTreeJPanel.copy_1 this treePath)
         Control.Monad.void (WorkAreaJTreeJPanel.updateTree this)
         Control.Monad.void (WorkAreaJTreeJPanel.expand this)
         Control.Monad.void (JPanel.repaint this)
@@ -330,15 +330,14 @@ copy_impl this = do
 
 
 -- throws Exception
--- Java overload of copy with a different parameter count: give it a different name
-copy :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
-copy object_ a1 = jmethod object_ "copy" (\() -> (copy_impl (javaCast object_ :: WorkAreaJTreeJPanel))) () a1
+copy_1 :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
+copy_1 object_ a1 = jmethod object_ "copy_1" (\() -> (copy_1_impl (javaCast object_ :: WorkAreaJTreeJPanel))) () a1
 
-copy_super :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
-copy_super object_ a1 = (copy_impl (javaCast object_ :: WorkAreaJTreeJPanel)) a1
+copy_1_super :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
+copy_1_super object_ a1 = (copy_1_impl (javaCast object_ :: WorkAreaJTreeJPanel)) a1
 
-copy_impl :: WorkAreaJTreeJPanel -> TreePath.TreePath -> IO (())
-copy_impl this treePath = do
+copy_1_impl :: WorkAreaJTreeJPanel -> TreePath.TreePath -> IO (())
+copy_1_impl this treePath = do
         node <- (fmap (\value_ -> javaCast value_ :: DefaultMutableTreeNode.DefaultMutableTreeNode) (WorkAreaJTreeJPanel.getNode this treePath))
         when (node /= javaNull) $ do
             if (javaInstanceOf (jio (DefaultMutableTreeNode.getUserObject node)) "CanvasTreeLabel") then do
@@ -390,15 +389,14 @@ expand_impl this = do
         pure ()
 
 
--- Java overload of expand with a different parameter count: give it a different name
-expand :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
-expand object_ a1 = jmethod object_ "expand" (\() -> (expand_impl (javaCast object_ :: WorkAreaJTreeJPanel))) () a1
+expand_1 :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
+expand_1 object_ a1 = jmethod object_ "expand_1" (\() -> (expand_1_impl (javaCast object_ :: WorkAreaJTreeJPanel))) () a1
 
-expand_super :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
-expand_super object_ a1 = (expand_impl (javaCast object_ :: WorkAreaJTreeJPanel)) a1
+expand_1_super :: (JavaObjectClass this_) => this_ -> TreePath.TreePath -> IO (())
+expand_1_super object_ a1 = (expand_1_impl (javaCast object_ :: WorkAreaJTreeJPanel)) a1
 
-expand_impl :: WorkAreaJTreeJPanel -> TreePath.TreePath -> IO (())
-expand_impl this treePath = do
+expand_1_impl :: WorkAreaJTreeJPanel -> TreePath.TreePath -> IO (())
+expand_1_impl this treePath = do
         Control.Monad.void (JTree.expandPath ((jget (this).workAreaJTree)) treePath)
         pure ()
 
@@ -449,7 +447,7 @@ initComponents_impl this = do
 -}))
         Control.Monad.void (JPanel.setLayout ((jget (this).workAreaPropertiesJPanel)) (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).itemJScrollPane1)) (jget (this).workAreaPropertiesJPanel))
-        Control.Monad.void (WorkAreaJTreeJPanel.add this (jget (this).itemJScrollPane1))
+        Control.Monad.void (WorkAreaJTreeJPanel.add this (javaCast (jget (this).itemJScrollPane1)))
         pure ()
 
 

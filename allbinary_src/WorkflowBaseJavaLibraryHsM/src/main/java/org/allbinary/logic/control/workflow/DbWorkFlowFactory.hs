@@ -73,7 +73,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = DbWorkFlowFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: DbWorkFlowFactory -> IO ()
@@ -100,15 +100,14 @@ init_ this = do
 
 
 -- throws Exception, LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: DbWorkFlowFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: DbWorkFlowFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: DbWorkFlowFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: DbWorkFlowFactory)) a1 a2
 
-getInstance_impl :: DbWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_impl this abeClientInformation hashMap = do
+getInstance_2_impl :: DbWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2_impl this abeClientInformation hashMap = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 commonStrings <- (CommonStrings.getInstance)
@@ -121,7 +120,7 @@ getInstance_impl this abeClientInformation hashMap = do
             assignedValue <- (jobjectGetClass hashMap)
             jsetIndex classes (0) (assignedValue)
             jsetIndex params (0) ((jtoObject (javaCast hashMap :: Any.Any)))
-            anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation className classes params)
+            anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation className classes params)
             pure ((javaCast (jio (WorkFlowWrapper.new_1 anyType)) :: WorkFlowInterface.WorkFlowInterface))
 
 

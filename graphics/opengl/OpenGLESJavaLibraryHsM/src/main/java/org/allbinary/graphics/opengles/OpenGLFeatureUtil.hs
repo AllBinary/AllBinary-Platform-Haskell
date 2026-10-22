@@ -90,7 +90,7 @@ init_ this = do
         openGLConfiguration <- (OpenGLConfiguration.getInstance)
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        jset (this).anyThreed (((jio (OpenGLConfiguration.isOpenGL openGLConfiguration)) && (((jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL_2D_AND_3D))) || (jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL_3D)))))))
+        jset (this).anyThreed (((jio (OpenGLConfiguration.isOpenGL openGLConfiguration)) && (((jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL_2D_AND_3D)))) || (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL_3D))))))))
         pure ()
 
 

@@ -90,7 +90,7 @@ init_8 this name remoteInfo multiPlayerType movement animationInterface destroye
         WeaponLayer.init_8 this.base (name) (remoteInfo) (multiPlayerType) (movement) (animationInterface) (destroyedAnimationInterface) (rectangle) (viewPosition)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (WeaponLayer.setCollidableInferface this (jio (CollidableWeaponBehavior.new_1 True)))
+        Control.Monad.void (WeaponLayer.setCollidableInferface this (javaCast (jio (CollidableWeaponBehavior.new_1 True))))
         pure ()
 
 

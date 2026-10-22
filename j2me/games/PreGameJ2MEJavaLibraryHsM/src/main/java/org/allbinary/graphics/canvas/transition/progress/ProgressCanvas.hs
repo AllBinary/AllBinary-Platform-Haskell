@@ -313,7 +313,7 @@ endActual_super object_ = (endActual_impl (javaCast object_ :: ProgressCanvas))
 
 endActual_impl :: ProgressCanvas -> IO (())
 endActual_impl this = do
-        Control.Monad.void (AllBinaryMidlet.commandAction ((jget (this).allbinaryMidlet)) (jget ((jio (GameCommandsFactory.getInstance))).sHOW_GAME_CANVAS) (NullCanvas.nULL_CANVAS))
+        Control.Monad.void (AllBinaryMidlet.commandAction ((jget (this).allbinaryMidlet)) (jget ((jio (GameCommandsFactory.getInstance))).sHOW_GAME_CANVAS) (javaCast NullCanvas.nULL_CANVAS))
         jset (this).inProgress (False)
         Control.Monad.void (ProgressCanvas.inGame this)
         pure ()

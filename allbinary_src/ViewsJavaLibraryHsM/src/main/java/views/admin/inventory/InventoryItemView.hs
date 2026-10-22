@@ -217,7 +217,7 @@ addDomNodeInterfaces_impl this = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset downloadableItem ((javaCast (jio (BasicArrayList.get ((jget (this).downloadableItemVector)) index)) :: DownloadableItem.DownloadableItem))
             Control.Monad.void (BasicArrayList.add vector (jio (DownloadableItemView.new_1 (jget downloadableItem))))
-        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (jio (BasicItemView.new_2 (jget (this).itemInterface) vector)))
+        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (javaCast (jio (BasicItemView.new_2 (jget (this).itemInterface) vector))))
         pure ()
 
 

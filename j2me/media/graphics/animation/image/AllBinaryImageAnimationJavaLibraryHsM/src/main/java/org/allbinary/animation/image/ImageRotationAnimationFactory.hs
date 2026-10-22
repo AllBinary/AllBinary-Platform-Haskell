@@ -108,7 +108,7 @@ getInstance_impl :: ImageRotationAnimationFactory -> Int -> IO (Animation.Animat
 getInstance_impl this instanceId = do
     javaCatchReturn $ do
         if (((jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) /= 0) || ((jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) /= 0)) then do
-            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) this)
+            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) (javaCast this))
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AdjustedImageBaseRotationAnimation.new_6 (jio (BaseImageAnimationFactory.getImage this)) (jio (AngleInfo.getInstance (jget (this).angleIncrement))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))
         else do
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (ImageBaseRotationAnimation.new_4 (jio (BaseImageAnimationFactory.getImage this)) (jio (AngleInfo.getInstance (jget (this).angleIncrement))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))

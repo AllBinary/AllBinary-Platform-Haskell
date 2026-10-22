@@ -115,7 +115,7 @@ initDemo_impl this abeClientInformation canvas gameInitializationInterfaceFactor
                 Control.Monad.void (GameInitializedEvent.setResourceLoadingLevel ((jget (this).eVENT)) (jget (resourceLoadingLevelFactory).lOAD_EARLY))
             else do
                 javaThrow ((JavaException "Exception" "No Loading Feature Available"))
-            Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (jget (this).eVENT))
+            Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (javaCast (jget (this).eVENT)))
         pure ()
 
 
@@ -133,7 +133,7 @@ initGame_impl this abeClientInformation canvas gameInitializationInterfaceFactor
             resourceLoadingLevelFactory <- (ResourceLoadingLevelFactory.getInstance)
             Control.Monad.void (GameInitializationInterface.init gameInitializationInterface abeClientInformation (jio (MyCanvas.getCustomCommandListener canvas)) (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_ALL)))))
             Control.Monad.void (GameInitializedEvent.setResourceLoadingLevel ((jget (this).eVENT)) (jget (resourceLoadingLevelFactory).lOAD_ALL))
-            Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (jget (this).eVENT))
+            Control.Monad.void (GameInitializedEventHandler.fireEvent ((jio (GameInitializedEventHandler.getInstance))) (javaCast (jget (this).eVENT)))
             Control.Monad.void (ChangedGameFeatureListener.remove ((jio (ChangedGameFeatureListener.getInstance))) (jget ((jio (MainFeatureFactory.getInstance))).sTATIC))
         pure ()
 

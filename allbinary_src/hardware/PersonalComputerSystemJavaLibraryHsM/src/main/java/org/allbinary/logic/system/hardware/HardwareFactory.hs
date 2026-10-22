@@ -90,9 +90,8 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance os = do
+getInstance_1 :: GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1 os = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             javaThrow (e)

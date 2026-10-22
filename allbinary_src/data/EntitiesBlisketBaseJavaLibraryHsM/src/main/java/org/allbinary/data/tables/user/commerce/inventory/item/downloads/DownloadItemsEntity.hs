@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.item.downloads
 module DownloadItemsEntity (module DownloadItemsEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, getForItem, getForItem_super, getForItem_impl, getForItem, getForItem_super, getForItem_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, basicItemData, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, getForItem, getForItem_super, getForItem_impl, getForItem_2, getForItem_2_super, getForItem_2_impl, getForItem, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, basicItemData, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -85,7 +85,7 @@ newRecord_ = do
     jregisterMethod header_ "delete" (\() -> delete_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
     jregisterMethod header_ "getForItem" (\() -> getForItem_impl this)
-    jregisterMethod header_ "getForItem" (\() -> getForItem_impl this)
+    jregisterMethod header_ "getForItem_2" (\() -> getForItem_2_impl this)
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
@@ -182,15 +182,14 @@ getForItem_impl this id = do
         pure (returnVector)
 
 
--- Java overload of getForItem with a different parameter count: give it a different name
-getForItem :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getForItem object_ a1 a2 = jmethod object_ "getForItem" (\() -> (getForItem_impl (javaCast object_ :: DownloadItemsEntity))) () a1 a2
+getForItem_2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getForItem_2 object_ a1 a2 = jmethod object_ "getForItem_2" (\() -> (getForItem_2_impl (javaCast object_ :: DownloadItemsEntity))) () a1 a2
 
-getForItem_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getForItem_super object_ a1 a2 = (getForItem_impl (javaCast object_ :: DownloadItemsEntity)) a1 a2
+getForItem_2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getForItem_2_super object_ a1 a2 = (getForItem_2_impl (javaCast object_ :: DownloadItemsEntity)) a1 a2
 
-getForItem_impl :: DownloadItemsEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getForItem_impl this id downloadItemId = do
+getForItem_2_impl :: DownloadItemsEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getForItem_2_impl this id downloadItemId = do
         returnVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jget this.basicItemData)).iD) id)

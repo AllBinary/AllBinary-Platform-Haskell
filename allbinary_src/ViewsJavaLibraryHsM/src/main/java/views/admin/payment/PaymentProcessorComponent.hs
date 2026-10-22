@@ -99,7 +99,7 @@ addDomNodeInterfaces_super object_ = (addDomNodeInterfaces_impl (javaCast object
 
 addDomNodeInterfaces_impl :: PaymentProcessorComponent -> IO (())
 addDomNodeInterfaces_impl this = do
-        paymentProcessorInterface <- (fmap (\value_ -> javaCast value_ :: PaymentProcessorInterface.PaymentProcessorInterface) (PaymentProcessorInterfaceFactory.getInstance ((jio (PaymentProcessorInterfaceFactory.getInstance))) (jio (HttpStoreComponentView.getTransformInfoInterface this))))
+        paymentProcessorInterface <- (fmap (\value_ -> javaCast value_ :: PaymentProcessorInterface.PaymentProcessorInterface) (PaymentProcessorInterfaceFactory.getInstance_1 ((jio (PaymentProcessorInterfaceFactory.getInstance))) (jio (HttpStoreComponentView.getTransformInfoInterface this))))
         Control.Monad.void (PaymentProcessorInterface.process paymentProcessorInterface)
         let httpTransformInfoInterface = (javaCast (jio (HttpStoreComponentView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
         Control.Monad.void (TransformInfoHttpInterface.removeBasket ((jio (TransformInfoHttpInterface.getWeblisketSession httpTransformInfoInterface))))

@@ -93,7 +93,7 @@ newRecord_ = do
     jregisterLevel header_ this
     ImageIOInterface.registerInterface_ header_
     jregisterMethod header_ "save" (\() -> save_impl this)
-    jregisterMethod header_ "save" (\() -> save_impl this)
+    jregisterMethod header_ "save_2" (\() -> save_2_impl this)
     pure this
 
 initFields_ :: MotionRectanglesImageInputOutput -> IO ()
@@ -128,30 +128,29 @@ save_impl this frame = do
         motionRectanglesResultsFrameCacheable <- newIORef ((javaCast (jio (get (((javaCast (jio (AllMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
         if ((jget motionRectanglesResultsFrameCacheable) /= javaNull) then do
             motionRectangles <- newIORef =<< (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
-            Control.Monad.void (MotionRectanglesImageInputOutput.save this (jget motionRectangles) frame)
+            Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
             jset motionRectanglesResultsFrameCacheable ((javaCast (jio (get (((javaCast (jio (ConsolidatedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
             assignedValue <- (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
             jset motionRectangles (assignedValue)
-            Control.Monad.void (MotionRectanglesImageInputOutput.save this (jget motionRectangles) frame)
+            Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
             jset motionRectanglesResultsFrameCacheable ((javaCast (jio (get (((javaCast (jio (ConstrainedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
             assignedValue <- (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
             jset motionRectangles (assignedValue)
-            Control.Monad.void (MotionRectanglesImageInputOutput.save this (jget motionRectangles) frame)
+            Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No Motion Rectangle Results for Frame: " ++ javaToString frame) this (jget (commonStrings).sAVE))
         pure ()
 
 
 -- throws Exception
--- Java overload of save with a different parameter count: give it a different name
-save :: (JavaObjectClass this_) => this_ -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
-save object_ a1 a2 = jmethod object_ "save" (\() -> (save_impl (javaCast object_ :: MotionRectanglesImageInputOutput))) () a1 a2
+save_2 :: (JavaObjectClass this_) => this_ -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
+save_2 object_ a1 a2 = jmethod object_ "save_2" (\() -> (save_2_impl (javaCast object_ :: MotionRectanglesImageInputOutput))) () a1 a2
 
-save_super :: (JavaObjectClass this_) => this_ -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
-save_super object_ a1 a2 = (save_impl (javaCast object_ :: MotionRectanglesImageInputOutput)) a1 a2
+save_2_super :: (JavaObjectClass this_) => this_ -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
+save_2_super object_ a1 a2 = (save_2_impl (javaCast object_ :: MotionRectanglesImageInputOutput)) a1 a2
 
-save_impl :: MotionRectanglesImageInputOutput -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
-save_impl this motionRectangles frame = do
+save_2_impl :: MotionRectanglesImageInputOutput -> MotionRectangles.MotionRectangles -> Int64 -> IO (())
+save_2_impl this motionRectangles frame = do
         commonStrings <- (CommonStrings.getInstance)
         filePathStringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append filePathStringBuffer (ImageOutputData.sAVE_PATH))

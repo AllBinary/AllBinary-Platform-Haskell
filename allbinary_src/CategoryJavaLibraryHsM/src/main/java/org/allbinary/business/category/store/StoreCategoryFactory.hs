@@ -16,7 +16,7 @@
 -- package org.allbinary.business.category.store
 module StoreCategoryFactory (module StoreCategoryFactory, module CategoryAbstractFactory) where
 
-import CategoryAbstractFactory hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getRootInstance, getRootInstance_super, getRootInstance_impl, getRootInstance, getRootInstance_super, getRootInstance_impl, getRootInstanceFromNode, getRootInstanceFromNode_super, getRootInstanceFromNode_impl, logUtil, transformInfoInterface)
+import CategoryAbstractFactory hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getRootInstance, getRootInstance_super, getRootInstance_impl, getRootInstance_1, getRootInstance_1_super, getRootInstance_1_impl, getRootInstance, getRootInstanceFromNode, getRootInstanceFromNode_super, getRootInstanceFromNode_impl, logUtil, transformInfoInterface)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -77,7 +77,7 @@ newRecord_ = do
     jregisterLevel header_ this
     CategoryFactoryInterface.registerInterface_ header_
     jregisterMethod header_ "getRootInstance" (\() -> getRootInstance_impl this)
-    jregisterMethod header_ "getRootInstance" (\() -> getRootInstance_impl this)
+    jregisterMethod header_ "getRootInstance_1" (\() -> getRootInstance_1_impl this)
     jregisterMethod header_ "getRootInstanceFromNode" (\() -> getRootInstanceFromNode_impl this)
     pure this
 
@@ -120,15 +120,14 @@ getRootInstance_impl this = do
             pure ((javaCast (jio (Category.new_1 categoryPropertiesFactoryInterface)) :: CategoryInterface.CategoryInterface))
 
 
--- Java overload of getRootInstance with a different parameter count: give it a different name
-getRootInstance :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance object_ a1 = jmethod object_ "getRootInstance" (\() -> (getRootInstance_impl (javaCast object_ :: StoreCategoryFactory))) () a1
+getRootInstance_1 :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1 object_ a1 = jmethod object_ "getRootInstance_1" (\() -> (getRootInstance_1_impl (javaCast object_ :: StoreCategoryFactory))) () a1
 
-getRootInstance_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_super object_ a1 = (getRootInstance_impl (javaCast object_ :: StoreCategoryFactory)) a1
+getRootInstance_1_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_super object_ a1 = (getRootInstance_1_impl (javaCast object_ :: StoreCategoryFactory)) a1
 
-getRootInstance_impl :: StoreCategoryFactory -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_impl this categoryPath = do
+getRootInstance_1_impl :: StoreCategoryFactory -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_impl this categoryPath = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eNTITYFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.base.commonStrings)).eXCEPTION) this "getInstance(String, int)" e)

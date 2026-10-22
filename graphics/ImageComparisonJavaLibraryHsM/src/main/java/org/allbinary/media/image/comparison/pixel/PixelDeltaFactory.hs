@@ -114,7 +114,7 @@ getInstance :: Int -> Int -> Int -> Int -> IO (PixelDelta.PixelDelta)
 getInstance x y rgb1 rgb2 = do
         point <- (PointFactory.createXY ((jio (PointFactory.getInstance))) x y)
         colorDelta <- (ColorDeltaFactory.getInstance rgb1 rgb2)
-        pixelDelta <- newIORef ((javaCast (jio (get ((jget PixelDeltaFactory.cacheInterface)) (jio (PixelDelta.getKey point colorDelta)))) :: PixelDelta.PixelDelta))
+        pixelDelta <- newIORef ((javaCast (jio (get ((jget PixelDeltaFactory.cacheInterface)) (jio (PixelDelta.getKey_2 point colorDelta)))) :: PixelDelta.PixelDelta))
         when ((jget pixelDelta) == javaNull) $ do
             assignedValue <- (PixelDelta.new_2 point colorDelta)
             jset pixelDelta (assignedValue)

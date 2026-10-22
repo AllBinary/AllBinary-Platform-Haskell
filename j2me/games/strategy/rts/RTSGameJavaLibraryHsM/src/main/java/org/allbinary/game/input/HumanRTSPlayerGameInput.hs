@@ -195,7 +195,7 @@ init_8 this gameCanvas inputList playerInputId towerInfoPaintable rtsPlayerLayer
         basicColorFactory <- (BasicColorFactory.getInstance)
         assignedValue <- (GameNotificationEvent.new_5 this (jget ((jio (RTSGameStrings.getInstance))).nOT_YOURS) (jio (SmallIntegerSingletonFactory.getAt ((jio (SmallIntegerSingletonFactory.getInstance))) 2)) (jget (basicColorFactory).pINK) (jget ((jio (BooleanFactory.getInstance))).fALSE))
         jset (this).notYoursGameNotificationEvent (assignedValue)
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jio (BasicMotionGesturesHandler.getInstance))) this)
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jio (BasicMotionGesturesHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -304,7 +304,7 @@ makeSelection_impl this = do
             let lastRTSLayer = (javaCast gameLayer :: RTSLayer.RTSLayer)
             when ((jio (RTSLayer.getScrollSelectionForm lastRTSLayer)) /= (jio (ScrollSelectionForm.getNullScrollSelectionForm))) $ do
                 Control.Monad.void (HumanRTSPlayerGameInput.updateForm this (jio (RTSLayer.getScrollSelectionForm lastRTSLayer)) (jio (RTSLayer.getRTSFormInput lastRTSLayer)))
-                Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsLayer this lastRTSLayer)
+                Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsLayer this (javaCast lastRTSLayer))
         Control.Monad.void (HumanRTSPlayerGameInput.updatePaintable this)
         pure ()
 
@@ -381,7 +381,7 @@ updateFormForLayer_impl this rtsLayer = do
         if ((scrollSelectionForm /= (jio (ScrollSelectionForm.getNullScrollSelectionForm))) && ((jindex ((jio (RTSPlayerLayerInterface.getGroupInterface ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this)))))) (0)) == (jindex ((jio (RTSLayer.getGroupInterface rtsLayer))) (0)))) then do
             Control.Monad.void (HumanRTSPlayerGameInput.updateForm this scrollSelectionForm (jio (RTSLayer.getRTSFormInput rtsLayer)))
             Control.Monad.void (SelectedRTSLayersPlayerGameInput.setSelectedRTSLayer ((jio (RTSPlayerGameInput.getSelectedBuildingPlayerGameInput this))) (jio (CollidableDestroyableDamageableLayer.getNullInstance)))
-            Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsLayer this rtsLayer)
+            Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsLayer this (javaCast rtsLayer))
         else do
             Control.Monad.void (RTSPlayerLayerInterface.setCurrentScrollSelectionForm ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))) (jio (RTSPlayerLayerInterface.getBuildingScrollSelectionForm ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))))))
             Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsFormInput this (jio (RTSPlayerLayerInterface.getRTSFormInput ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))))))
@@ -414,7 +414,7 @@ setSelectedRTSLayer_impl this rtSLayer geographicMapCellPosition = do
     javaCatchReturn $ do
         when ((rtSLayer /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) && ((jindex ((jio (RTSPlayerLayerInterface.getGroupInterface ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this)))))) (0)) /= (jindex ((jio (CollidableDestroyableDamageableLayer.getGroupInterface rtSLayer))) (0)))) $ do
             Control.Monad.void (RTSPlayerLayerInterface.add ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))) (jio (ErrorSound.getInstance)))
-            Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).notYoursGameNotificationEvent))
+            Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).notYoursGameNotificationEvent)))
             javaReturn (())
         gameCanvas <- (RTSPlayerGameInput.getGameCanvas this)
         if (rtSLayer /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) then do
@@ -424,26 +424,26 @@ setSelectedRTSLayer_impl this rtSLayer geographicMapCellPosition = do
             Control.Monad.void (HumanRTSPlayerGameInput.updateFormForLayer this rtsLayer)
             if ((jio (AllBinaryGameCanvas.getGameState gameCanvas)) == (jget ((jget (this).gameStateFactory)).pLAYING_GAME_STATE)) then do
                 if (jio (RTSLayer.isSelfUpgradeable rtsLayer)) then do
-                    Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (jio (RTSTouchButtonsBuilder.new_)))
+                    Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (javaCast (jio (RTSTouchButtonsBuilder.new_))))
                 else do
-                    Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (jio (NoBuildingSelectedTouchButtonsBuilder.new_)))
+                    Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (javaCast (jio (NoBuildingSelectedTouchButtonsBuilder.new_))))
             else do
                 endLevelTouchButtonsBuilder <- (EndLevelTouchButtonsBuilder.new_)
                 when ((jget (this).touchButtonsBuilderFactory) /= javaNull) $ do
                     Control.Monad.void (EndLevelTouchButtonsBuilder.add endLevelTouchButtonsBuilder (jio (TouchButtonsBuilderFactory.getInstance ((jget (this).touchButtonsBuilderFactory)))))
-                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas endLevelTouchButtonsBuilder)
+                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (javaCast endLevelTouchButtonsBuilder))
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) "Set Player Default Form" this "setSelectedRTSLayer")
             Control.Monad.void (RTSPlayerLayerInterface.setCurrentScrollSelectionForm ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))) (jio (RTSPlayerLayerInterface.getBuildingScrollSelectionForm ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))))))
             Control.Monad.void (HumanRTSPlayerGameInput.setSelectedRtsFormInput this (jio (RTSPlayerLayerInterface.getRTSFormInput ((jio (RTSPlayerGameInput.getRtsPlayerLayerInterface this))))))
             Control.Monad.void (SelectedRTSLayersPlayerGameInput.setSelectedRTSLayer ((jio (RTSPlayerGameInput.getSelectedBuildingPlayerGameInput this))) (jio (CollidableDestroyableDamageableLayer.getNullInstance)))
             if ((jio (AllBinaryGameCanvas.getGameState gameCanvas)) == (jget ((jget (this).gameStateFactory)).pLAYING_GAME_STATE)) then do
-                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (jio (NoBuildingSelectedTouchButtonsBuilder.new_)))
+                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (javaCast (jio (NoBuildingSelectedTouchButtonsBuilder.new_))))
             else do
                 endLevelNoBuildingSelectedTouchButtonsBuilder <- (EndLevelNoBuildingSelectedTouchButtonsBuilder.new_)
                 when ((jget (this).touchButtonsBuilderFactory) /= javaNull) $ do
                     Control.Monad.void (EndLevelNoBuildingSelectedTouchButtonsBuilder.add endLevelNoBuildingSelectedTouchButtonsBuilder (jio (TouchButtonsBuilderFactory.getInstance ((jget (this).touchButtonsBuilderFactory)))))
-                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas endLevelNoBuildingSelectedTouchButtonsBuilder)
+                Control.Monad.void (AllBinaryGameCanvas.updateCurrentTouchInputFactory gameCanvas (javaCast endLevelNoBuildingSelectedTouchButtonsBuilder))
         Control.Monad.void (RTSFormInput.setSelectedGeographicCellPosition ((jio (RTSPlayerGameInput.getSelectedRtsFormInput this))) geographicMapCellPosition)
         Control.Monad.void (SelectedRTSLayersPlayerGameInput.setSelectedRTSLayer ((jio (RTSPlayerGameInput.getSelectedBuildingPlayerGameInput this))) rtSLayer)
         Control.Monad.void (HumanRTSPlayerGameInput.updatePaintable this)
@@ -464,7 +464,7 @@ updatePaintable_impl this = do
             let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
             Control.Monad.void (MultiSelectPaintable.setBasicColorP ((jget (this).multiSelectPaintable)) (jio (BasicGeographicMap.getForegroundBasicColor geographicMapInterface)))
             Control.Monad.void (MultiSelectPaintable.update ((jget (this).multiSelectPaintable)) list)
-            Control.Monad.void (RTSLayerInfoPaintable.updateRTSLayerInfoSelection ((jio (RTSPlayerGameInput.getRTSLayerInfoPaintable this))) (jget (this).multiSelectPaintable))
+            Control.Monad.void (RTSLayerInfoPaintable.updateRTSLayerInfoSelection ((jio (RTSPlayerGameInput.getRTSLayerInfoPaintable this))) (javaCast (jget (this).multiSelectPaintable)))
         else if ((jio (BasicArrayList.size list)) == 1) then do
             let rtsLayer = (javaCast (jio (BasicArrayList.get list 0)) :: RTSLayer.RTSLayer)
             Control.Monad.void (RTSLayerInfoPaintable.updateRTSLayerInfoSelection ((jio (RTSPlayerGameInput.getRTSLayerInfoPaintable this))) (jio (RTSLayer.createHudPaintable rtsLayer)))

@@ -103,7 +103,7 @@ init_impl this = do
         features <- (Features.getInstance)
         choiceGroupFactory <- (ChoiceGroupImageFactory.getInstance)
         imageArray <- (ChoiceGroupImageFactory.getImageArray choiceGroupFactory)
-        when (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             preResourceImageUtil <- (PreResourceImageUtil.getInstance)
             let size = (jlength imageArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -131,7 +131,7 @@ update_overload1_impl this gl = do
         features <- (Features.getInstance)
         choiceGroupFactory <- (ChoiceGroupImageFactory.getInstance)
         imageArray <- (ChoiceGroupImageFactory.getImageArray choiceGroupFactory)
-        when (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             preResourceImageUtil <- (PreResourceImageUtil.getInstance)
             let size = (jlength imageArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -151,7 +151,7 @@ update_overload2_impl this graphics = do
         features <- (Features.getInstance)
         choiceGroupFactory <- (ChoiceGroupImageFactory.getInstance)
         imageArray <- (ChoiceGroupImageFactory.getImageArray choiceGroupFactory)
-        when (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             preResourceImageUtil <- (PreResourceImageUtil.getInstance)
             let size = (jlength imageArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

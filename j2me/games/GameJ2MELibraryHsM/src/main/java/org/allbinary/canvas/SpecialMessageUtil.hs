@@ -104,7 +104,7 @@ get_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (GameStatisticsFactory.toString ((jio (GameStatisticsFactory.getInstance))))))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer " Option: ")
-        if (jio (Features.isDefault ((jio (Features.getInstance))) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AUTO_SELECT))) then do
+        if (jio (Features.isDefault ((jio (Features.getInstance))) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AUTO_SELECT)))) then do
             Control.Monad.void (StringMaker.append stringBuffer (jio (OpenGLFeature.getName ((jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AUTO_SELECT)))))
         else do
             Control.Monad.void (StringMaker.append stringBuffer (jio (OpenGLFeature.getName ((jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_MINIMUM)))))

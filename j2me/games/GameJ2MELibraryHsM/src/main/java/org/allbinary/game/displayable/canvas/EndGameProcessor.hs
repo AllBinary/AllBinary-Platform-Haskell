@@ -112,7 +112,7 @@ process_impl this = do
                         Control.Monad.void (HighScoresHelperBase.selectHighScores highScoresBase)
                         Control.Monad.void (HighScoresPaintable.setHighScores ((jio (AllBinaryGameCanvas.getRealHighScoresPaintable ((jget (this).gameCanvas))))) highScores)
                         Control.Monad.void (AllBinaryGameCanvas.setGameState ((jget (this).gameCanvas)) (jget ((jget (this).gameStateFactory)).sHOW_HIGH_SCORE_GAME_STATE))
-                        Control.Monad.void (AllBinaryGameCanvas.setHighScoresPaintable ((jget (this).gameCanvas)) (jio (AllBinaryGameCanvas.getRealHighScoresPaintable ((jget (this).gameCanvas)))))
+                        Control.Monad.void (AllBinaryGameCanvas.setHighScoresPaintable ((jget (this).gameCanvas)) (javaCast (jio (AllBinaryGameCanvas.getRealHighScoresPaintable ((jget (this).gameCanvas))))))
                 else when ((jio (AllBinaryGameCanvas.getGameState ((jget (this).gameCanvas)))) == (jget ((jget (this).gameStateFactory)).sHOW_HIGH_SCORE_GAME_STATE)) $ do
                     Control.Monad.void (AllBinaryGameCanvas.setGameState ((jget (this).gameCanvas)) (jget ((jget (this).gameStateFactory)).sHOW_END_RESULT_GAME_STATE))
                     Control.Monad.void (AllBinaryGameCanvas.setHighScoresPaintable ((jget (this).gameCanvas)) (jio (NullPaintable.getInstance)))

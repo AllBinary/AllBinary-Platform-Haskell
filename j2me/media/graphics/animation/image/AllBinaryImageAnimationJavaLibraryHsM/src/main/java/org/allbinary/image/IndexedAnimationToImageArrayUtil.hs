@@ -84,7 +84,7 @@ getInstance width height sequentialAnimationInterface = do
         let imageArray = (jnewArray (size) javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (IndexedAnimation.setFrame sequentialAnimationInterface index)
-            assignedValue <- (AnimationFrameToImageUtil.getInstanceWH ((jio (AnimationFrameToImageUtil.getInstance))) width height sequentialAnimationInterface)
+            assignedValue <- (AnimationFrameToImageUtil.getInstanceWH ((jio (AnimationFrameToImageUtil.getInstance))) width height (javaCast sequentialAnimationInterface))
             jsetIndex imageArray (index) (assignedValue)
         pure (imageArray)
 

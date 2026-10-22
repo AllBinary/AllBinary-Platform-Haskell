@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.system.loader
 module AbeClassLoader (module AbeClassLoader, module ClassLoader) where
 
-import ClassLoader hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, findLoadedClass1, findLoadedClass1_super, findLoadedClass1_impl, loadClass, loadClass_super, loadClass_impl, loadClass, loadClass_super, loadClass_impl, loadClassBytesFromFile, loadClassBytesFromFile_super, loadClassBytesFromFile_impl, oldLoadClass, oldLoadClass_super, oldLoadClass_impl, logUtil, abCryptUtil, lOAD_CLASS, classes, eNCRYPTED_EXTENSION, pATH, key)
+import ClassLoader hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, findLoadedClass1, findLoadedClass1_super, findLoadedClass1_impl, loadClass, loadClass_super, loadClass_impl, loadClass_2, loadClass_2_super, loadClass_2_impl, loadClass, loadClassBytesFromFile, loadClassBytesFromFile_super, loadClassBytesFromFile_impl, oldLoadClass, oldLoadClass_super, oldLoadClass_impl, logUtil, abCryptUtil, lOAD_CLASS, classes, eNCRYPTED_EXTENSION, pATH, key)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -89,7 +89,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "findLoadedClass1" (\() -> findLoadedClass1_impl this)
     jregisterMethod header_ "loadClass" (\() -> loadClass_impl this)
-    jregisterMethod header_ "loadClass" (\() -> loadClass_impl this)
+    jregisterMethod header_ "loadClass_2" (\() -> loadClass_2_impl this)
     jregisterMethod header_ "loadClassBytesFromFile" (\() -> loadClassBytesFromFile_impl this)
     jregisterMethod header_ "oldLoadClass" (\() -> oldLoadClass_impl this)
     pure this
@@ -139,19 +139,18 @@ loadClass_super object_ a1 = (loadClass_impl (javaCast object_ :: AbeClassLoader
 
 loadClass_impl :: AbeClassLoader -> String -> IO (Class.Class)
 loadClass_impl this name = do
-        (AbeClassLoader.loadClass this name False)
+        (AbeClassLoader.loadClass_2 this name False)
 
 
 -- throws ClassNotFoundException
--- Java overload of loadClass with a different parameter count: give it a different name
-loadClass :: (JavaObjectClass this_) => this_ -> String -> Bool -> IO (Class.Class)
-loadClass object_ a1 a2 = jmethod object_ "loadClass" (\() -> (loadClass_impl (javaCast object_ :: AbeClassLoader))) () a1 a2
+loadClass_2 :: (JavaObjectClass this_) => this_ -> String -> Bool -> IO (Class.Class)
+loadClass_2 object_ a1 a2 = jmethod object_ "loadClass_2" (\() -> (loadClass_2_impl (javaCast object_ :: AbeClassLoader))) () a1 a2
 
-loadClass_super :: (JavaObjectClass this_) => this_ -> String -> Bool -> IO (Class.Class)
-loadClass_super object_ a1 a2 = (loadClass_impl (javaCast object_ :: AbeClassLoader)) a1 a2
+loadClass_2_super :: (JavaObjectClass this_) => this_ -> String -> Bool -> IO (Class.Class)
+loadClass_2_super object_ a1 a2 = (loadClass_2_impl (javaCast object_ :: AbeClassLoader)) a1 a2
 
-loadClass_impl :: AbeClassLoader -> String -> Bool -> IO (Class.Class)
-loadClass_impl this name resolve = do
+loadClass_2_impl :: AbeClassLoader -> String -> Bool -> IO (Class.Class)
+loadClass_2_impl this name resolve = do
     javaCatchReturn $ do
         loadedWith <- newIORef ("findLoadedClass1")
         logBuffer <- (LogBuffer.new_)
@@ -197,12 +196,12 @@ loadClassBytesFromFile_impl this name = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).lOADERERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((("(Before LogBuffer Output) Failure loading Encrypted: " ++ name) ++ " File: ") ++ (jget cname)) "AbeClassLoader" "loadClassBytes" e)
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget in_))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget in_)))
             ) $ do
             jset cname (((javaToString (jget AbeClassLoader.pATH) ++ (jstringReplace name '.' (jget ((jio (AbPathData.getInstance))).sEPARATORCHAR))) ++ (jget (this).eNCRYPTED_EXTENSION)))
             assignedValue <- (FileInputStream.new_1 (jget cname))
             jset in_ (assignedValue)
-            decrypted <- (AbCryptUtil.decrypt ((jget (this).abCryptUtil)) (jget in_) (jget (this).key))
+            decrypted <- (AbCryptUtil.decrypt ((jget (this).abCryptUtil)) (javaCast (jget in_)) (jget (this).key))
             pure (decrypted)
         pure (javaNull)
 

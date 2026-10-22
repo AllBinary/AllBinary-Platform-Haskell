@@ -203,7 +203,7 @@ restore_impl this = do
             ) $ do
             let success = "Restore Successful"
             billingAddressesEntity <- (BillingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) billingAddressesEntity (jget (this).portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast billingAddressesEntity) (jget (this).portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -224,7 +224,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Backup Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (BillingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (BillingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)
@@ -245,7 +245,7 @@ insert_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Added Billing Address"
-            Control.Monad.void (BillingAddressesEntityFactory.add ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
+            Control.Monad.void (BillingAddressesEntityFactory.add ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "add()")
             pure (success)
@@ -266,7 +266,7 @@ update_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Updated Billing Address"
-            Control.Monad.void (BillingAddressesEntityFactory.update ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
+            Control.Monad.void (BillingAddressesEntityFactory.update ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Successfull update of a user Billing Address table" this "update()")
             pure (success)
@@ -288,9 +288,9 @@ setToShippingAddress_impl this = do
             pure (error)
             ) $ do
             shippingAddressesEntityFactory <- (ShippingAddressesEntityFactory.getInstance)
-            streetAddress <- (ShippingAddressesEntityFactory.getDefault ((jio (ShippingAddressesEntityFactory.getInstance shippingAddressesEntityFactory (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))))
+            streetAddress <- (ShippingAddressesEntityFactory.getDefault ((jio (ShippingAddressesEntityFactory.getInstance_1 shippingAddressesEntityFactory (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))))
             if (streetAddress /= javaNull) then do
-                Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance shippingAddressesEntityFactory (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) streetAddress)
+                Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance_1 shippingAddressesEntityFactory (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) streetAddress)
             else do
                 javaReturn ("No Shipping Address")
             pure ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
@@ -311,7 +311,7 @@ delete_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Removed Billing Address"
-            Control.Monad.void (BillingAddressesEntityFactory.remove ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (Prelude.fromIntegral ((jio (StreetAddress.getId ((jget (this).streetAddress))))) :: Int))
+            Control.Monad.void (BillingAddressesEntityFactory.remove ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (Prelude.fromIntegral ((jio (StreetAddress.getId ((jget (this).streetAddress))))) :: Int))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "delete()")
             pure (success)
@@ -332,7 +332,7 @@ set_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Set Billing Address"
-            Control.Monad.void (BillingAddressesEntityFactory.setDefault ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jio (StreetAddress.getId ((jget (this).streetAddress)))))
+            Control.Monad.void (BillingAddressesEntityFactory.setDefault ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jio (StreetAddress.getId ((jget (this).streetAddress)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "set()")
             pure (success)

@@ -307,20 +307,20 @@ initCapabilities_impl this gl = do
                     else do
                         Control.Monad.void (PreLogUtil.put "VBO implementation was detected, but disabled for now" this mETHOD_NAME)
             stringUtil <- (StringUtil.getInstance)
-            if (jio (Features.isDefault features (jget (openGLFeatureFactory).oPENGL_AUTO_SELECT))) then do
+            if (jio (Features.isDefault features (javaCast (jget (openGLFeatureFactory).oPENGL_AUTO_SELECT)))) then do
                 if (jget (this).vertexBufferObjectSupport) then do
-                    Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (jio (OpenGLESGL11VBOImageFactory.new_)))
+                    Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (javaCast (jio (OpenGLESGL11VBOImageFactory.new_))))
                 else do
                     Control.Monad.void (StringMaker.append stringBuffer "OpenGL is on but ")
                     Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString stringUtil (jget (openGLFeatureFactory).oPENGL_DRAW_TEXTURE))))
                     Control.Monad.void (StringMaker.append stringBuffer " was not available")
                     Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this mETHOD_NAME)
-                    Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (jio (OpenGLESGL10ImageFactory.new_)))
+                    Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (javaCast (jio (OpenGLESGL10ImageFactory.new_))))
             else do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString stringUtil (jget (openGLFeatureFactory).oPENGL_AUTO_SELECT))))
                 Control.Monad.void (StringMaker.append stringBuffer " is not on")
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this mETHOD_NAME)
-                Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (jio (OpenGLESGL10ImageFactory.new_)))
+                Control.Monad.void (OpenGLImageSpecificFactory.setImageFactory openGLImageSpecificFactory (javaCast (jio (OpenGLESGL10ImageFactory.new_))))
             let maxTextureSizeArray = (jnewArray (1) 0)
             Control.Monad.void (GL10.glGetIntegerv gl (GL10.gL_MAX_TEXTURE_SIZE) maxTextureSizeArray 0)
             jset (this).maxTextureSize ((jindex maxTextureSizeArray (0)))
@@ -500,7 +500,7 @@ toString_impl this = do
             Control.Monad.void (PreLogUtil.putOE (jget (commonStrings).eXCEPTION) this (jget (commonStrings).tOSTRING) e)
             ) $ do
             tokenizer <- (Tokenizer.new_1 (jget (commonSeps).sPACE))
-            list <- (Tokenizer.getTokensFromString tokenizer (jget (this).glExtensions) (jio (BasicArrayListD.new_)))
+            list <- (Tokenizer.getTokensFromString tokenizer (jget (this).glExtensions) (javaCast (jio (BasicArrayListD.new_))))
             size <- (BasicArrayList.size list)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).nEW_LINE))

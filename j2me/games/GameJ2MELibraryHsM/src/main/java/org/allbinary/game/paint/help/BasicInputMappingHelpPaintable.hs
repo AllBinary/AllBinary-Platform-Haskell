@@ -95,7 +95,7 @@ init_2 this gameInputMappingArray basicColor = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).gameInputMappingArray (gameInputMappingArray)
-        Control.Monad.void (BasicInputMappingHelpPaintable.update this (jget (this).nONE) (jget (this).nONE))
+        Control.Monad.void (BasicInputMappingHelpPaintable.update this (jget (this).nONE) (javaCast (jget (this).nONE)))
         pure ()
 
 
@@ -119,7 +119,7 @@ update_impl this selectedGameKey selectedInput = do
             jset gameInputMapping ((jindex ((jget (this).gameInputMappingArray)) (index)))
             assignedValue <- (GameInputMapping.getGameKey ((jget gameInputMapping)))
             jset gameKey (assignedValue)
-            assignedValue <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping gameKeyMapping))) (jget gameKey))
+            assignedValue <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping gameKeyMapping))) (javaCast (jget gameKey)))
             jset list (assignedValue)
             Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
             assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jio (GameInputMapping.getName ((jget gameInputMapping))))))) eQUAL))) (jio (BasicInputMappingHelpPaintable.get this (jget list)))))))

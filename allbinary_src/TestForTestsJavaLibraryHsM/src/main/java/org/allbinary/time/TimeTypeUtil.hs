@@ -57,9 +57,9 @@ newRecord_ = do
     jregisterMethod header_ "isNight" (\() -> isNight_impl this)
     jregisterMethod header_ "getHourOfDay" (\() -> getHourOfDay_impl this)
     jregisterMethod header_ "getNightOrDay" (\() -> getNightOrDay_impl this)
-    jregisterMethod header_ "getHourOfDay" (\() -> getHourOfDay_impl this)
-    jregisterMethod header_ "isNight" (\() -> isNight_impl this)
-    jregisterMethod header_ "getNightOrDay" (\() -> getNightOrDay_impl this)
+    jregisterMethod header_ "getHourOfDay_1" (\() -> getHourOfDay_1_impl this)
+    jregisterMethod header_ "isNight_1" (\() -> isNight_1_impl this)
+    jregisterMethod header_ "getNightOrDay_1" (\() -> getNightOrDay_1_impl this)
     pure this
 
 initFields_ :: TimeTypeUtil -> IO ()
@@ -119,42 +119,39 @@ getNightOrDay_impl this = do
         pure ((if (jio (TimeTypeUtil.isNight this)) then (jget (this).nIGHT) else (jget (this).dAY)))
 
 
--- Java overload of getHourOfDay with a different parameter count: give it a different name
-getHourOfDay :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Int)
-getHourOfDay object_ a1 = jmethod object_ "getHourOfDay" (\() -> (getHourOfDay_impl (javaCast object_ :: TimeTypeUtil))) () a1
+getHourOfDay_1 :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Int)
+getHourOfDay_1 object_ a1 = jmethod object_ "getHourOfDay_1" (\() -> (getHourOfDay_1_impl (javaCast object_ :: TimeTypeUtil))) () a1
 
-getHourOfDay_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Int)
-getHourOfDay_super object_ a1 = (getHourOfDay_impl (javaCast object_ :: TimeTypeUtil)) a1
+getHourOfDay_1_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Int)
+getHourOfDay_1_super object_ a1 = (getHourOfDay_1_impl (javaCast object_ :: TimeTypeUtil)) a1
 
-getHourOfDay_impl :: TimeTypeUtil -> Int64 -> IO (Int)
-getHourOfDay_impl this timeInMillis = do
+getHourOfDay_1_impl :: TimeTypeUtil -> Int64 -> IO (Int)
+getHourOfDay_1_impl this timeInMillis = do
         calendar <- (Calendar.getInstance)
         Control.Monad.void (Calendar.setTimeInMillis calendar timeInMillis)
         (Calendar.get calendar (Calendar.hOUR_OF_DAY))
 
 
--- Java overload of isNight with a different parameter count: give it a different name
-isNight :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Bool)
-isNight object_ a1 = jmethod object_ "isNight" (\() -> (isNight_impl (javaCast object_ :: TimeTypeUtil))) () a1
+isNight_1 :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Bool)
+isNight_1 object_ a1 = jmethod object_ "isNight_1" (\() -> (isNight_1_impl (javaCast object_ :: TimeTypeUtil))) () a1
 
-isNight_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Bool)
-isNight_super object_ a1 = (isNight_impl (javaCast object_ :: TimeTypeUtil)) a1
+isNight_1_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (Bool)
+isNight_1_super object_ a1 = (isNight_1_impl (javaCast object_ :: TimeTypeUtil)) a1
 
-isNight_impl :: TimeTypeUtil -> Int64 -> IO (Bool)
-isNight_impl this timeInMillis = do
-        hoursOfDay <- (TimeTypeUtil.getHourOfDay this timeInMillis)
+isNight_1_impl :: TimeTypeUtil -> Int64 -> IO (Bool)
+isNight_1_impl this timeInMillis = do
+        hoursOfDay <- (TimeTypeUtil.getHourOfDay_1 this timeInMillis)
         pure (((hoursOfDay < 6) || (hoursOfDay > 18)))
 
 
--- Java overload of getNightOrDay with a different parameter count: give it a different name
-getNightOrDay :: (JavaObjectClass this_) => this_ -> Int64 -> IO (String)
-getNightOrDay object_ a1 = jmethod object_ "getNightOrDay" (\() -> (getNightOrDay_impl (javaCast object_ :: TimeTypeUtil))) () a1
+getNightOrDay_1 :: (JavaObjectClass this_) => this_ -> Int64 -> IO (String)
+getNightOrDay_1 object_ a1 = jmethod object_ "getNightOrDay_1" (\() -> (getNightOrDay_1_impl (javaCast object_ :: TimeTypeUtil))) () a1
 
-getNightOrDay_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (String)
-getNightOrDay_super object_ a1 = (getNightOrDay_impl (javaCast object_ :: TimeTypeUtil)) a1
+getNightOrDay_1_super :: (JavaObjectClass this_) => this_ -> Int64 -> IO (String)
+getNightOrDay_1_super object_ a1 = (getNightOrDay_1_impl (javaCast object_ :: TimeTypeUtil)) a1
 
-getNightOrDay_impl :: TimeTypeUtil -> Int64 -> IO (String)
-getNightOrDay_impl this timeInMillis = do
-        pure ((if (jio (TimeTypeUtil.isNight this timeInMillis)) then (jget (this).nIGHT) else (jget (this).dAY)))
+getNightOrDay_1_impl :: TimeTypeUtil -> Int64 -> IO (String)
+getNightOrDay_1_impl this timeInMillis = do
+        pure ((if (jio (TimeTypeUtil.isNight_1 this timeInMillis)) then (jget (this).nIGHT) else (jget (this).dAY)))
 
 

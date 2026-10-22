@@ -147,9 +147,9 @@ close_super object_ = (close_impl (javaCast object_ :: PCClipWavPlayer))
 
 close_impl :: PCClipWavPlayer -> IO (())
 close_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
             -- run
--}))
+-})))
         pure ()
 
 
@@ -188,9 +188,9 @@ start_super object_ = (start_impl (javaCast object_ :: PCClipWavPlayer))
 
 start_impl :: PCClipWavPlayer -> IO (())
 start_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
             -- run
--}))
+-})))
         pure ()
 
 
@@ -234,9 +234,9 @@ stop_super object_ = (stop_impl (javaCast object_ :: PCClipWavPlayer))
 
 stop_impl :: PCClipWavPlayer -> IO (())
 stop_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
             -- run
--}))
+-})))
         pure ()
 
 

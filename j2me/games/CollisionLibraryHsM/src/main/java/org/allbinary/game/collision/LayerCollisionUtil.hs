@@ -93,7 +93,7 @@ init_ this = do
         initFields_ this
         features <- (Features.getInstance)
         gameFeatureFactory <- (GameFeatureFactory.getInstance)
-        if ((jio (OpenGLFeatureUtil.isAnyThreed ((jio (OpenGLFeatureUtil.getInstance))))) && (Prelude.not (jio (Features.isFeature features (jget (gameFeatureFactory).cOLLISIONS_FORCED_TWO_DIMENSIONAL))))) then do
+        if ((jio (OpenGLFeatureUtil.isAnyThreed ((jio (OpenGLFeatureUtil.getInstance))))) && (Prelude.not (jio (Features.isFeature features (javaCast (jget (gameFeatureFactory).cOLLISIONS_FORCED_TWO_DIMENSIONAL)))))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: CollisionProcessor.CollisionProcessor) (CollisionThreedProcessor.new_))
             jset (this).collisionProcessor (assignedValue)
         else do

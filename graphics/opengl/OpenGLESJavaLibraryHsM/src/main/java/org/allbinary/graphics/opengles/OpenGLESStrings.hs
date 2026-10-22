@@ -70,7 +70,7 @@ newRecord_ = do
     jregisterMethod header_ "charWidth" (\() -> charWidth_impl this)
     jregisterMethod header_ "charsWidth" (\() -> charsWidth_impl this)
     jregisterMethod header_ "stringWidth" (\() -> stringWidth_impl this)
-    jregisterMethod header_ "stringWidth" (\() -> stringWidth_impl this)
+    jregisterMethod header_ "stringWidth_3" (\() -> stringWidth_3_impl this)
     pure this
 
 initFields_ :: OpenGLESStrings -> IO ()
@@ -207,15 +207,14 @@ stringWidth_impl this string = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 
--- Java overload of stringWidth with a different parameter count: give it a different name
-stringWidth :: (JavaObjectClass this_) => this_ -> String -> Int -> Int -> IO (Int)
-stringWidth object_ a1 a2 a3 = jmethod object_ "stringWidth" (\() -> (stringWidth_impl (javaCast object_ :: OpenGLESStrings))) () a1 a2 a3
+stringWidth_3 :: (JavaObjectClass this_) => this_ -> String -> Int -> Int -> IO (Int)
+stringWidth_3 object_ a1 a2 a3 = jmethod object_ "stringWidth_3" (\() -> (stringWidth_3_impl (javaCast object_ :: OpenGLESStrings))) () a1 a2 a3
 
-stringWidth_super :: (JavaObjectClass this_) => this_ -> String -> Int -> Int -> IO (Int)
-stringWidth_super object_ a1 a2 a3 = (stringWidth_impl (javaCast object_ :: OpenGLESStrings)) a1 a2 a3
+stringWidth_3_super :: (JavaObjectClass this_) => this_ -> String -> Int -> Int -> IO (Int)
+stringWidth_3_super object_ a1 a2 a3 = (stringWidth_3_impl (javaCast object_ :: OpenGLESStrings)) a1 a2 a3
 
-stringWidth_impl :: OpenGLESStrings -> String -> Int -> Int -> IO (Int)
-stringWidth_impl this string offset len = do
+stringWidth_3_impl :: OpenGLESStrings -> String -> Int -> Int -> IO (Int)
+stringWidth_3_impl this string offset len = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 

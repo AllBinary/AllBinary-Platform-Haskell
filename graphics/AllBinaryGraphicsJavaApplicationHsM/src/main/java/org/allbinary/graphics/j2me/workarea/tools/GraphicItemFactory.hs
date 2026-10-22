@@ -75,8 +75,8 @@ newRecord_ = do
     dEFAULT <- newIORef javaNull
     let this = GraphicItemFactory header_ graphicItems dEFAULT
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
-    jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
+    jregisterMethod header_ "getInstance_1_overload1" (\() -> getInstance_1_overload1_impl this)
+    jregisterMethod header_ "getInstance_1_overload2" (\() -> getInstance_1_overload2_impl this)
     pure this
 
 initFields_ :: GraphicItemFactory -> IO ()
@@ -106,21 +106,20 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
-getInstance this a1
-    | jisInstanceOf a1 (javaNull :: String) = getInstance_overload1 this (javaCast a1 :: String)
-    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
-    | otherwise = getInstance_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
+getInstance_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
+getInstance_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = getInstance_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
+    | otherwise = getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
-getInstance_overload1 object_ a1 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: GraphicItemFactory))) () a1
+getInstance_1_overload1 :: (JavaObjectClass this_) => this_ -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
+getInstance_1_overload1 object_ a1 = jmethod object_ "getInstance_1_overload1" (\() -> (getInstance_1_overload1_impl (javaCast object_ :: GraphicItemFactory))) () a1
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
-getInstance_overload1_super object_ a1 = (getInstance_overload1_impl (javaCast object_ :: GraphicItemFactory)) a1
+getInstance_1_overload1_super :: (JavaObjectClass this_) => this_ -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
+getInstance_1_overload1_super object_ a1 = (getInstance_1_overload1_impl (javaCast object_ :: GraphicItemFactory)) a1
 
-getInstance_overload1_impl :: GraphicItemFactory -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
-getInstance_overload1_impl this itemName = do
+getInstance_1_overload1_impl :: GraphicItemFactory -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
+getInstance_1_overload1_impl this itemName = do
         graphicsItemInterfaceFactoryInterface <- newIORef ((javaCast (jio (HashMap.get ((jget (this).graphicItems)) itemName)) :: GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface))
         when ((jget graphicsItemInterfaceFactoryInterface) == javaNull) $ do
             jset graphicsItemInterfaceFactoryInterface ((jget this.dEFAULT))
@@ -128,15 +127,14 @@ getInstance_overload1_impl this itemName = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
-getInstance_overload2 object_ a1 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: GraphicItemFactory))) () a1
+getInstance_1_overload2 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
+getInstance_1_overload2 object_ a1 = jmethod object_ "getInstance_1_overload2" (\() -> (getInstance_1_overload2_impl (javaCast object_ :: GraphicItemFactory))) () a1
 
-getInstance_overload2_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
-getInstance_overload2_super object_ a1 = (getInstance_overload2_impl (javaCast object_ :: GraphicItemFactory)) a1
+getInstance_1_overload2_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
+getInstance_1_overload2_super object_ a1 = (getInstance_1_overload2_impl (javaCast object_ :: GraphicItemFactory)) a1
 
-getInstance_overload2_impl :: GraphicItemFactory -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
-getInstance_overload2_impl this graphicItemNodeList = do
+getInstance_1_overload2_impl :: GraphicItemFactory -> BasicArrayList.BasicArrayList -> IO (HashMap.HashMap)
+getInstance_1_overload2_impl this graphicItemNodeList = do
         numberOfItems <- (BasicArrayList.size graphicItemNodeList)
         graphicItemHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         when (jio (LOGGING.contains (LOGGING.mENUEVENT))) $ do

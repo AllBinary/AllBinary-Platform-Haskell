@@ -108,7 +108,7 @@ newRecord_ = do
     jregisterLevel header_ this
     EmailInterface.registerInterface_ header_
     jregisterMethod header_ "init" (\() -> init_impl this)
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "init_8" (\() -> init_8_impl this)
     jregisterMethod header_ "getMimeMessage" (\() -> getMimeMessage_impl this)
     jregisterMethod header_ "getDebugInfo" (\() -> getDebugInfo_impl this)
     jregisterMethod header_ "log" (\() -> log_impl this)
@@ -181,20 +181,19 @@ init_impl this from to subject server textBody htmlAttachment contentBase = do
                     Control.Monad.void (InternetHeaders.addHeader internetHeaders "Content-Base" contentBase)
                 assignedValue <- (MimeBodyPart.new_2 internetHeaders (jgetBytes htmlAttachment))
                 jsetIndex mimeBodyParts (1) (assignedValue)
-            Control.Monad.void (Email.init this server (javaCast javaNull :: Authenticator.Authenticator) (jarrayFromList [(jio (InternetAddress.new_1 from))]) (jarrayFromList [(jio (InternetAddress.new_1 to))]) (javaCast javaNull :: JavaArray (InternetAddress.InternetAddress)) (javaCast javaNull :: JavaArray (InternetAddress.InternetAddress)) subject mimeBodyParts)
+            Control.Monad.void (Email.init_8 this server (javaCast javaNull :: Authenticator.Authenticator) (jarrayFromList [(jio (InternetAddress.new_1 from))]) (jarrayFromList [(jio (InternetAddress.new_1 to))]) (javaCast javaNull :: JavaArray (InternetAddress.InternetAddress)) (javaCast javaNull :: JavaArray (InternetAddress.InternetAddress)) subject mimeBodyParts)
         pure ()
 
 
 -- throws MessagingException
--- Java overload of init with a different parameter count: give it a different name
-init :: (JavaObjectClass this_) => this_ -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
-init object_ a1 a2 a3 a4 a5 a6 a7 a8 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: Email))) () a1 a2 a3 a4 a5 a6 a7 a8
+init_8 :: (JavaObjectClass this_) => this_ -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
+init_8 object_ a1 a2 a3 a4 a5 a6 a7 a8 = jmethod object_ "init_8" (\() -> (init_8_impl (javaCast object_ :: Email))) () a1 a2 a3 a4 a5 a6 a7 a8
 
-init_super :: (JavaObjectClass this_) => this_ -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
-init_super object_ a1 a2 a3 a4 a5 a6 a7 a8 = (init_impl (javaCast object_ :: Email)) a1 a2 a3 a4 a5 a6 a7 a8
+init_8_super :: (JavaObjectClass this_) => this_ -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
+init_8_super object_ a1 a2 a3 a4 a5 a6 a7 a8 = (init_8_impl (javaCast object_ :: Email)) a1 a2 a3 a4 a5 a6 a7 a8
 
-init_impl :: Email -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
-init_impl this server authenticator addresses_from addresses_to addresses_cc addresses_bcc subject mimeBodyParts = do
+init_8_impl :: Email -> String -> Authenticator.Authenticator -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> JavaArray (InternetAddress.InternetAddress) -> String -> JavaArray (MimeBodyPart.MimeBodyPart) -> IO (())
+init_8_impl this server authenticator addresses_from addresses_to addresses_cc addresses_bcc subject mimeBodyParts = do
         assignedValue <- (Properties.new_)
         jset (this).properties (assignedValue)
         Control.Monad.void (Properties.put ((jget (this).properties)) (Email.sMTP_HOST) server)
@@ -322,7 +321,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: Email)) a1
 
 toXmlNode_impl :: Email -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (EmailData.nAME) (jio (Email.toHashMap this)))
+        node <- (ModDomHelper.createNameValueNodes_3 document (EmailData.nAME) (jio (Email.toHashMap this)))
         pure (node)
 
 

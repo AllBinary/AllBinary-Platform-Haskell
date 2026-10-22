@@ -94,8 +94,8 @@ init_ :: QuoteRequestTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (QuoteHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (QuoteRequestHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (QuoteHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (QuoteRequestHelperFactory.new_))))
         pure ()
 
 

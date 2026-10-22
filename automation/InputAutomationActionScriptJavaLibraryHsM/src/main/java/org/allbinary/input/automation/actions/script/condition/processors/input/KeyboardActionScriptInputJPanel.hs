@@ -246,7 +246,7 @@ updateInputType_impl this = do
         comboBoxModel <- (JComboBox.getModel ((jget (this).inputAutomationTypeJComboBox)))
         let selectedItem = (javaCast (jio (ComboBoxModel.getSelectedItem comboBoxModel)) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) selectedItem))) $ do
-            Control.Monad.void (KeyboardActionScriptInputInterface.setInputRobotInterface ((jget (this).keyActionScriptInputInterface)) (jio (InputRobotFactory.get ((jio (InputRobotFactory.getInstance))) selectedItem)))
+            Control.Monad.void (KeyboardActionScriptInputInterface.setInputRobotInterface ((jget (this).keyActionScriptInputInterface)) (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) selectedItem)))
         pure ()
 
 

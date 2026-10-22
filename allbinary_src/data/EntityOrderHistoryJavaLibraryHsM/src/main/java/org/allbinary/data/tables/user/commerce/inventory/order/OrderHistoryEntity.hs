@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.order
 module OrderHistoryEntity (module OrderHistoryEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, insert, insert_super, insert_impl, setStatus, setStatus_super, setStatus_impl, setPaymentMethod, setPaymentMethod_super, setPaymentMethod_impl, getStoreOrders, getStoreOrders_super, getStoreOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrder, getOrder_super, getOrder_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, update, update_super, update_impl, logUtil, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, insert_1, insert_1_super, insert_1_impl, insert, setStatus, setStatus_super, setStatus_impl, setPaymentMethod, setPaymentMethod_super, setPaymentMethod_impl, getStoreOrders, getStoreOrders_super, getStoreOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrders_3, getOrders_3_super, getOrders_3_impl, getOrders, getOrders_2, getOrders_2_super, getOrders_2_impl, getOrders, getOrder, getOrder_super, getOrder_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, update, update_super, update_impl, logUtil, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -107,13 +107,13 @@ newRecord_ = do
     jregisterLevel header_ this
     OrderHistoryEntityInterface.registerInterface_ header_
     jregisterMethod header_ "insert" (\() -> insert_impl this)
-    jregisterMethod header_ "insert" (\() -> insert_impl this)
+    jregisterMethod header_ "insert_1" (\() -> insert_1_impl this)
     jregisterMethod header_ "setStatus" (\() -> setStatus_impl this)
     jregisterMethod header_ "setPaymentMethod" (\() -> setPaymentMethod_impl this)
     jregisterMethod header_ "getStoreOrders" (\() -> getStoreOrders_impl this)
     jregisterMethod header_ "getOrders" (\() -> getOrders_impl this)
-    jregisterMethod header_ "getOrders" (\() -> getOrders_impl this)
-    jregisterMethod header_ "getOrders" (\() -> getOrders_impl this)
+    jregisterMethod header_ "getOrders_3" (\() -> getOrders_3_impl this)
+    jregisterMethod header_ "getOrders_2" (\() -> getOrders_2_impl this)
     jregisterMethod header_ "getOrder" (\() -> getOrder_impl this)
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
@@ -164,7 +164,7 @@ insert_impl this userName order = do
             shippingCost <- (ShippingInterface.getCost shippingInterface order)
             basketInterface <- (Order.getBasket order)
             subTotal <- (BasketInterface.getSubTotal basketInterface)
-            taxRate <- (TaxFactory.getTaxRate ((jio (TaxFactory.getInstance ((jio (TaxFactory.getInstance))) abeClientInformation storeFrontInterface))) shippingAddress storeFrontInterface)
+            taxRate <- (TaxFactory.getTaxRate ((jio (TaxFactory.getInstance_2 ((jio (TaxFactory.getInstance))) abeClientInformation storeFrontInterface))) shippingAddress storeFrontInterface)
             tax <- (Money.new_)
             total <- (Money.new_)
             Control.Monad.void (Money.add total (jio (Money.toString shippingCost)))
@@ -237,21 +237,20 @@ insert_impl this userName order = do
             Control.Monad.void (BasicArrayList.add vector (jio (Order.getUserCancelComments order)))
             Control.Monad.void (BasicArrayList.add vector (jio (Order.getStoreComments order)))
             Control.Monad.void (BasicArrayList.add vector (jio (Order.getStoreCancelComments order)))
-            Control.Monad.void (OrderHistoryEntity.insert this vector)
+            Control.Monad.void (OrderHistoryEntity.insert_1 this vector)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this iNSERT)
         pure ()
 
 
--- Java overload of insert with a different parameter count: give it a different name
-insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
-insert object_ a1 = jmethod object_ "insert" (\() -> (insert_impl (javaCast object_ :: OrderHistoryEntity))) () a1
+insert_1 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1 object_ a1 = jmethod object_ "insert_1" (\() -> (insert_1_impl (javaCast object_ :: OrderHistoryEntity))) () a1
 
-insert_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
-insert_super object_ a1 = (insert_impl (javaCast object_ :: OrderHistoryEntity)) a1
+insert_1_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_super object_ a1 = (insert_1_impl (javaCast object_ :: OrderHistoryEntity)) a1
 
-insert_impl :: OrderHistoryEntity -> BasicArrayList.BasicArrayList -> IO (())
-insert_impl this values = do
+insert_1_impl :: OrderHistoryEntity -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_impl this values = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this iNSERT e)
@@ -350,15 +349,14 @@ getOrders_impl this userName = do
 
 
 -- throws Exception
--- Java overload of getOrders with a different parameter count: give it a different name
-getOrders :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders object_ a1 a2 a3 = jmethod object_ "getOrders" (\() -> (getOrders_impl (javaCast object_ :: OrderHistoryEntity))) () a1 a2 a3
+getOrders_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3 object_ a1 a2 a3 = jmethod object_ "getOrders_3" (\() -> (getOrders_3_impl (javaCast object_ :: OrderHistoryEntity))) () a1 a2 a3
 
-getOrders_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_super object_ a1 a2 a3 = (getOrders_impl (javaCast object_ :: OrderHistoryEntity)) a1 a2 a3
+getOrders_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3_super object_ a1 a2 a3 = (getOrders_3_impl (javaCast object_ :: OrderHistoryEntity)) a1 a2 a3
 
-getOrders_impl :: OrderHistoryEntity -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_impl this status fromDate toDate = do
+getOrders_3_impl :: OrderHistoryEntity -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3_impl this status fromDate toDate = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
         Control.Monad.void (HashMap.put whereHashMap (OrderHistoryData.sTATUS) status)
@@ -372,15 +370,14 @@ getOrders_impl this status fromDate toDate = do
 
 
 -- throws Exception
--- Java overload of getOrders with a different parameter count: give it a different name
-getOrders :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders object_ a1 a2 = jmethod object_ "getOrders" (\() -> (getOrders_impl (javaCast object_ :: OrderHistoryEntity))) () a1 a2
+getOrders_2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_2 object_ a1 a2 = jmethod object_ "getOrders_2" (\() -> (getOrders_2_impl (javaCast object_ :: OrderHistoryEntity))) () a1 a2
 
-getOrders_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_super object_ a1 a2 = (getOrders_impl (javaCast object_ :: OrderHistoryEntity)) a1 a2
+getOrders_2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_2_super object_ a1 a2 = (getOrders_2_impl (javaCast object_ :: OrderHistoryEntity)) a1 a2
 
-getOrders_impl :: OrderHistoryEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_impl this fromDate toDate = do
+getOrders_2_impl :: OrderHistoryEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_2_impl this fromDate toDate = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         orderHashMapVector <- (AbSqlBean.getRowsWhereBetween_super this.base (OrderHistoryData.oRDERDATE) fromDate toDate)
         size <- (BasicArrayList.size orderHashMapVector)
@@ -538,7 +535,7 @@ update_impl this whereHashMap orderHashMap = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
-            Control.Monad.void (AbSqlBean.updateWhere this whereHashMap orderHashMap)
+            Control.Monad.void (AbSqlBean.updateWhere_2 this whereHashMap orderHashMap)
         pure ()
 
 

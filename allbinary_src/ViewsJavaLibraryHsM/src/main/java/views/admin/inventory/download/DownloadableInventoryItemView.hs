@@ -191,7 +191,7 @@ addDomNodeInterfaces_impl this = do
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         when ((jget (this).downloadableItem) /= javaNull) $ do
             Control.Monad.void (BasicArrayList.add vector (jio (DownloadableItemView.new_1 (jget (this).downloadableItem))))
-        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (jio (BasicItemView.new_2 (jget (this).itemInterface) vector)))
+        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (javaCast (jio (BasicItemView.new_2 (jget (this).itemInterface) vector))))
         pure ()
 
 

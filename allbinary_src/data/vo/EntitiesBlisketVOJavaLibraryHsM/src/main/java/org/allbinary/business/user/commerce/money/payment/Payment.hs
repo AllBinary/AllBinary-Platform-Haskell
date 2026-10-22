@@ -675,7 +675,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: Payment)) a1
 toXmlNode_impl :: Payment -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         hashMap <- (Payment.toHashMap this)
-        node <- (ModDomHelper.createNameValueNodes document (PaymentData.pAYMENT) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (PaymentData.pAYMENT) hashMap)
         pure (node)
 
 

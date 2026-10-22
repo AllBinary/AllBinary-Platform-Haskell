@@ -71,14 +71,13 @@ start_impl this = javaAbstractMethod "start"
 
 
 -- throws BundleException
--- Java overload of start with a different parameter count: give it a different name
-start :: (JavaObjectClass this_) => this_ -> Int -> IO (())
-start object_ a1 = jmethod object_ "start" (\() -> (start_impl (javaCast object_ :: Bundle))) () a1
+start_1 :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+start_1 object_ a1 = jmethod object_ "start_1" (\() -> (start_1_impl (javaCast object_ :: Bundle))) () a1
 
-start_super :: (JavaObjectClass this_) => this_ -> Int -> IO (())
-start_super object_ a1 = (start_impl (javaCast object_ :: Bundle)) a1
+start_1_super :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+start_1_super object_ a1 = (start_1_impl (javaCast object_ :: Bundle)) a1
 
-start_impl :: Bundle -> Int -> IO (())
-start_impl this options = javaAbstractMethod "start"
+start_1_impl :: Bundle -> Int -> IO (())
+start_1_impl this options = javaAbstractMethod "start"
 
 

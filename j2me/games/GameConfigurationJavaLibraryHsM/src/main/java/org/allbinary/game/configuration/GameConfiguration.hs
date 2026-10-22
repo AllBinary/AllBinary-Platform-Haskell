@@ -132,7 +132,7 @@ setValue_impl this value = do
         when ((jget (this).value) /= value) $ do
             let oldValue = (jget (this).value)
             jset (this).value (value)
-            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (jio (GameFeatureEvent.new_2 this (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).name)))) " value: from: "))) (oldValue)))) " to "))) (jget (this).value)))))))))
+            Control.Monad.void (GameFeatureEventHandler.fireEvent ((jio (GameFeatureEventHandler.getInstance))) (javaCast (jio (GameFeatureEvent.new_2 this (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).name)))) " value: from: "))) (oldValue)))) " to "))) (jget (this).value))))))))))
         pure ()
 
 

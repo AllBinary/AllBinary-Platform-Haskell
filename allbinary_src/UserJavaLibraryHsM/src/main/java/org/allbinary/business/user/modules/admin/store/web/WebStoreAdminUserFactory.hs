@@ -64,7 +64,7 @@ newRecord_ = do
     jregisterLevel header_ this
     UserFactoryInterface.registerInterface_ header_
     jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: WebStoreAdminUserFactory -> IO ()
@@ -97,15 +97,14 @@ getInstance_impl this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (UserInterface.UserInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: WebStoreAdminUserFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (UserInterface.UserInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: WebStoreAdminUserFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (UserInterface.UserInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: WebStoreAdminUserFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (UserInterface.UserInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: WebStoreAdminUserFactory)) a1
 
-getInstance_impl :: WebStoreAdminUserFactory -> HashMap.HashMap -> IO (UserInterface.UserInterface)
-getInstance_impl this hashMap = do
+getInstance_1_impl :: WebStoreAdminUserFactory -> HashMap.HashMap -> IO (UserInterface.UserInterface)
+getInstance_1_impl this hashMap = do
         (fmap (\value_ -> javaCast value_ :: UserInterface.UserInterface) (WebStoreAdminUser.new_1 hashMap))
 
 

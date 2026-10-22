@@ -268,7 +268,7 @@ load_impl this = do
             ) $ do
             assignedValue <- (RecordStore.openRecordStore (jio (RecordStoreHighScores.getRecordId this (jget (this).abeClientInformation))) True)
             jset recordStore (assignedValue)
-            Control.Monad.void (HighScores.setList this (jio (BasicArrayListD.new_)))
+            Control.Monad.void (HighScores.setList this (javaCast (jio (BasicArrayListD.new_))))
             recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
             recordAsBytes <- newIORef (javaNull)
             byteArrayInputStream <- newIORef (javaNull)

@@ -126,7 +126,7 @@ process_impl this allBinaryLayerManager = do
                 Control.Monad.void (AllBinaryLayerManager.remove allBinaryLayerManager (jget layerInterface))
                 assignedValue <- (DestroyEventCircularStaticPool.getInstanceForLayer destroyEventCircularStaticPool (jget layerInterface))
                 jset destroyedEvent (assignedValue)
-                Control.Monad.void (DestroyedEventHandler.fireEvent destroyedEventHandler (jget destroyedEvent))
+                Control.Monad.void (DestroyedEventHandler.fireEvent destroyedEventHandler (javaCast (jget destroyedEvent)))
             else do
                 commonStrings <- (CommonStrings.getInstance)
         Control.Monad.void (BasicArrayList.clear list)

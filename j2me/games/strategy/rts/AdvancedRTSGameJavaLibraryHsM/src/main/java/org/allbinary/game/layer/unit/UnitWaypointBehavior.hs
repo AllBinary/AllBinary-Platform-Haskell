@@ -242,7 +242,7 @@ onWaypointEvent_super object_ a1 = (onWaypointEvent_impl (javaCast object_ :: Un
 onWaypointEvent_impl :: UnitWaypointBehavior -> RTSLayerEvent.RTSLayerEvent -> IO (())
 onWaypointEvent_impl this event = do
         let advancedRTSGameLayer = (javaCast (jio (RTSLayerEvent.getRtsLayer event)) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
-        Control.Monad.void (WaypointLogHelper.onWaypointEvent ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) advancedRTSGameLayer)
+        Control.Monad.void (WaypointLogHelper.onWaypointEvent ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
         if (jio (UnitLayer.isSelected ((jget (this).associatedAdvancedRTSGameLayer)))) then do
             Control.Monad.void (UnitWaypointBehavior.addWaypointFromUser this advancedRTSGameLayer)
         else when (jio (AdvancedRTSGameLayer.shouldAddWaypointFromBuilding advancedRTSGameLayer)) $ do
@@ -273,11 +273,11 @@ addWaypointFromBuilding_impl :: UnitWaypointBehavior -> AdvancedRTSGameLayer.Adv
 addWaypointFromBuilding_impl this advancedRTSGameLayer = do
         when (((jtoObject advancedRTSGameLayer) == (jtoObject (jio (PrimaryWaypointHelper.getWaypointLayer ((jio (PrimaryWaypointHelper.getInstance))))))) || ((jio (AdvancedRTSGameLayer.getParentLayer advancedRTSGameLayer)) == (jio (UnitLayer.getParentLayer ((jget (this).associatedAdvancedRTSGameLayer)))))) $ do
             when (Prelude.not (jio (BasicArrayList.contains ((jget (this).targetList)) advancedRTSGameLayer))) $ do
-                Control.Monad.void (WaypointLogHelper.addWaypointFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) advancedRTSGameLayer)
+                Control.Monad.void (WaypointLogHelper.addWaypointFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
                 when (jio (AdvancedRTSGameLayer.isDestroyed advancedRTSGameLayer)) $ do
                     javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ javaToString advancedRTSGameLayer)))
                 Control.Monad.void (BasicArrayList.add ((jget (this).targetList)) advancedRTSGameLayer)
-                Control.Monad.void (WaypointLogHelper.addWaypointFromBuildingList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) advancedRTSGameLayer (jget (this).targetList))
+                Control.Monad.void (WaypointLogHelper.addWaypointFromBuildingList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer) (jget (this).targetList))
         pure ()
 
 
@@ -303,11 +303,11 @@ insertWaypoint_impl :: UnitWaypointBehavior -> Int -> CollidableDestroyableDamag
 insertWaypoint_impl this index rtsLayer = do
     javaCatchReturn $ do
         when (jio (UnitWaypointBehavior.canInsertWaypoint this index rtsLayer)) $ do
-            Control.Monad.void (WaypointLogHelper.insertWaypoint ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) index rtsLayer (jio (WaypointBehaviorBase.getName this)))
+            Control.Monad.void (WaypointLogHelper.insertWaypoint ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)))
             when (jio (CollidableDestroyableDamageableLayer.isDestroyed rtsLayer)) $ do
                 javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ javaToString rtsLayer)))
             Control.Monad.void (BasicArrayList.addAt ((jget (this).targetList)) index rtsLayer)
-            Control.Monad.void (WaypointLogHelper.insertWaypointList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) index rtsLayer (jio (WaypointBehaviorBase.getName this)) (jget (this).targetList))
+            Control.Monad.void (WaypointLogHelper.insertWaypointList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)) (jget (this).targetList))
             javaReturn (True)
         pure (False)
 
@@ -338,7 +338,7 @@ setRandomGeographicMapCellHistory_super object_ a1 = (setRandomGeographicMapCell
 setRandomGeographicMapCellHistory_impl :: UnitWaypointBehavior -> BasicArrayList.BasicArrayList -> IO (())
 setRandomGeographicMapCellHistory_impl this pathsList = do
         size <- (BasicArrayList.size pathsList)
-        Control.Monad.void (WaypointLogHelper.setRandomGeographicMapCellHistoryList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) pathsList)
+        Control.Monad.void (WaypointLogHelper.setRandomGeographicMapCellHistoryList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) pathsList)
         when (size > 0) $ do
             let geographicMapCellPositionBasicArrayList = (javaCast (jio (BasicArrayListUtil.getRandom ((jio (BasicArrayListUtil.getInstance))) pathsList)) :: BasicArrayList.BasicArrayList)
             Control.Monad.void (UnitWaypointBehavior.setGeographicMapCellHistoryPath this geographicMapCellPositionBasicArrayList)
@@ -407,7 +407,7 @@ moveAwayFromBuilding_impl this buildingLayer = do
         list <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jget (buildingLayer).geographicMapCellPositionAreaBase)))
         when (jio (BasicArrayList.contains list geographicMapCellPosition)) $ do
             when (jio (UnitWaypointBehavior.insertWaypoint this 0 (jget (this).fAKE_WAYPOINT_LAYER))) $ do
-                Control.Monad.void (WaypointLogHelper.moveAwayFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer))
+                Control.Monad.void (WaypointLogHelper.moveAwayFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)))
                 Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this (javaCast (jget (this).fAKE_WAYPOINT_LAYER) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer))
                 pathsList <- (BuildingLayer.getMoveOutOfBuildAreaPath buildingLayer geographicMapCellPosition)
                 Control.Monad.void (UnitLayer.setClosestGeographicMapCellHistory ((jget (this).associatedAdvancedRTSGameLayer)) pathsList)
@@ -423,7 +423,7 @@ needToMove_super object_ = (needToMove_impl (javaCast object_ :: UnitWaypointBeh
 needToMove_impl :: UnitWaypointBehavior -> IO (Bool)
 needToMove_impl this = do
     javaCatchReturn $ do
-        Control.Monad.void (WaypointLogHelper.needToMove ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (jget (this).associatedAdvancedRTSGameLayer) this)
+        Control.Monad.void (WaypointLogHelper.needToMove ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast this))
         when (((jio (UnitWaypointBehavior.isTrackingWaypoint this)) || ((jget (this).sensorAction) == (jget ((jio (SensorActionFactory.getInstance))).eVADE))) || ((((jget (this).currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) && ((jio (UnitWaypointBehavior.getCurrentTargetDistance this)) >= ((jget (this).longWeaponRange) + (jio (CollidableDestroyableDamageableLayer.getHalfHeight ((jget (this).currentTargetLayerInterfaceP))))))))) $ do
             Control.Monad.void (TimeDelayHelper.setStartTimeTNT ((jget (this).repeatedToLong)))
             javaReturn (True)

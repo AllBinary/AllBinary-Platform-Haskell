@@ -72,9 +72,9 @@ newRecord_ = do
     let this = XslHelper header_
     jregisterLevel header_ this
     jregisterMethod header_ "translate_overload1" (\() -> translate_overload1_impl this)
-    jregisterMethod header_ "translate" (\() -> translate_impl this)
-    jregisterMethod header_ "translate_overload1" (\() -> translate_overload1_impl this)
-    jregisterMethod header_ "translate_overload2" (\() -> translate_overload2_impl this)
+    jregisterMethod header_ "translate_4" (\() -> translate_4_impl this)
+    jregisterMethod header_ "translate_2_overload1" (\() -> translate_2_overload1_impl this)
+    jregisterMethod header_ "translate_2_overload2" (\() -> translate_2_overload2_impl this)
     jregisterMethod header_ "translate_overload2" (\() -> translate_overload2_impl this)
     jregisterMethod header_ "export" (\() -> export_impl this)
     pure this
@@ -127,15 +127,14 @@ translate_overload1_impl this xsltStreamSource xmlStreamSource streamResult = do
 
 
 -- throws Exception
--- Java overload of translate with a different parameter count: give it a different name
-translate :: (JavaObjectClass this_) => this_ -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
-translate object_ a1 a2 a3 a4 = jmethod object_ "translate" (\() -> (translate_impl (javaCast object_ :: XslHelper))) () a1 a2 a3 a4
+translate_4 :: (JavaObjectClass this_) => this_ -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
+translate_4 object_ a1 a2 a3 a4 = jmethod object_ "translate_4" (\() -> (translate_4_impl (javaCast object_ :: XslHelper))) () a1 a2 a3 a4
 
-translate_super :: (JavaObjectClass this_) => this_ -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
-translate_super object_ a1 a2 a3 a4 = (translate_impl (javaCast object_ :: XslHelper)) a1 a2 a3 a4
+translate_4_super :: (JavaObjectClass this_) => this_ -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
+translate_4_super object_ a1 a2 a3 a4 = (translate_4_impl (javaCast object_ :: XslHelper)) a1 a2 a3 a4
 
-translate_impl :: XslHelper -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
-translate_impl this resolver xsltStreamSource xmlStreamSource streamResult = do
+translate_4_impl :: XslHelper -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)
+translate_4_impl this resolver xsltStreamSource xmlStreamSource streamResult = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
@@ -147,22 +146,21 @@ translate_impl this resolver xsltStreamSource xmlStreamSource streamResult = do
 
 
 -- Java overloads of translate: calls the overload for the types of the arguments
-translate :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> StreamSource.StreamSource -> o2 -> IO (String)
-translate this a1 a2
-    | jisInstanceOf a2 (javaNull :: Document.Document) = translate_overload1 this a1 (javaCast a2 :: Document.Document)
-    | jisInstanceOf a2 (javaNull :: StreamSource.StreamSource) = translate_overload2 this a1 (javaCast a2 :: StreamSource.StreamSource)
-    | otherwise = translate_overload2 this a1 (javaCast a2 :: StreamSource.StreamSource)
+translate_2 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> StreamSource.StreamSource -> o2 -> IO (String)
+translate_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: Document.Document) = translate_2_overload1 this a1 (javaCast a2 :: Document.Document)
+    | jisInstanceOf a2 (javaNull :: StreamSource.StreamSource) = translate_2_overload2 this a1 (javaCast a2 :: StreamSource.StreamSource)
+    | otherwise = translate_2_overload2 this a1 (javaCast a2 :: StreamSource.StreamSource)
 
 -- throws Exception
--- Java overload of translate with a different parameter count: give it a different name
-translate_overload1 :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> Document.Document -> IO (String)
-translate_overload1 object_ a1 a2 = jmethod object_ "translate_overload1" (\() -> (translate_overload1_impl (javaCast object_ :: XslHelper))) () a1 a2
+translate_2_overload1 :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> Document.Document -> IO (String)
+translate_2_overload1 object_ a1 a2 = jmethod object_ "translate_2_overload1" (\() -> (translate_2_overload1_impl (javaCast object_ :: XslHelper))) () a1 a2
 
-translate_overload1_super :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> Document.Document -> IO (String)
-translate_overload1_super object_ a1 a2 = (translate_overload1_impl (javaCast object_ :: XslHelper)) a1 a2
+translate_2_overload1_super :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> Document.Document -> IO (String)
+translate_2_overload1_super object_ a1 a2 = (translate_2_overload1_impl (javaCast object_ :: XslHelper)) a1 a2
 
-translate_overload1_impl :: XslHelper -> StreamSource.StreamSource -> Document.Document -> IO (String)
-translate_overload1_impl this xsltStreamSource xmlDocument = do
+translate_2_overload1_impl :: XslHelper -> StreamSource.StreamSource -> Document.Document -> IO (String)
+translate_2_overload1_impl this xsltStreamSource xmlDocument = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
@@ -171,15 +169,14 @@ translate_overload1_impl this xsltStreamSource xmlDocument = do
 
 
 -- throws Exception
--- Java overload of translate with a different parameter count: give it a different name
-translate_overload2 :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
-translate_overload2 object_ a1 a2 = jmethod object_ "translate_overload2" (\() -> (translate_overload2_impl (javaCast object_ :: XslHelper))) () a1 a2
+translate_2_overload2 :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
+translate_2_overload2 object_ a1 a2 = jmethod object_ "translate_2_overload2" (\() -> (translate_2_overload2_impl (javaCast object_ :: XslHelper))) () a1 a2
 
-translate_overload2_super :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
-translate_overload2_super object_ a1 a2 = (translate_overload2_impl (javaCast object_ :: XslHelper)) a1 a2
+translate_2_overload2_super :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
+translate_2_overload2_super object_ a1 a2 = (translate_2_overload2_impl (javaCast object_ :: XslHelper)) a1 a2
 
-translate_overload2_impl :: XslHelper -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
-translate_overload2_impl this xsltStreamSource xmlStreamSource = do
+translate_2_overload2_impl :: XslHelper -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
+translate_2_overload2_impl this xsltStreamSource xmlStreamSource = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
@@ -188,7 +185,6 @@ translate_overload2_impl this xsltStreamSource xmlStreamSource = do
 
 
 -- throws Exception
--- Java overload of translate with a different parameter count: give it a different name
 translate_overload2 :: (JavaObjectClass this_) => this_ -> URIResolver.URIResolver -> StreamSource.StreamSource -> StreamSource.StreamSource -> IO (String)
 translate_overload2 object_ a1 a2 a3 = jmethod object_ "translate_overload2" (\() -> (translate_overload2_impl (javaCast object_ :: XslHelper))) () a1 a2 a3
 
@@ -201,7 +197,7 @@ translate_overload2_impl this resolver xsltStreamSource xmlStreamSource = do
             javaThrow (e)
             ) $ do
             outputStream <- (ByteArrayOutputStream.new_)
-            (OutputStream.toString ((jio (XslHelper.translate this resolver xsltStreamSource xmlStreamSource (jio (StreamResult.new_1 outputStream))))))
+            (OutputStream.toString ((jio (XslHelper.translate_4 this resolver xsltStreamSource xmlStreamSource (jio (StreamResult.new_1 outputStream))))))
 
 
 -- throws Exception

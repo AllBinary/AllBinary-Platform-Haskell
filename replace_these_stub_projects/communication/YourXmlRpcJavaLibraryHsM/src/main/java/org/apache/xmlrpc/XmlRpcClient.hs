@@ -61,7 +61,7 @@ newRecord_ = do
     jregisterMethod header_ "getURL" (\() -> getURL_impl this)
     jregisterMethod header_ "setBasicAuthentication" (\() -> setBasicAuthentication_impl this)
     jregisterMethod header_ "execute" (\() -> execute_impl this)
-    jregisterMethod header_ "execute" (\() -> execute_impl this)
+    jregisterMethod header_ "execute_3" (\() -> execute_3_impl this)
     pure this
 
 initFields_ :: XmlRpcClient -> IO ()
@@ -118,15 +118,14 @@ execute_impl this method params = do
 
 
 -- throws XmlRpcException, IOException
--- Java overload of execute with a different parameter count: give it a different name
-execute :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute object_ a1 a2 a3 = jmethod object_ "execute" (\() -> (execute_impl (javaCast object_ :: XmlRpcClient))) () a1 a2 a3
+execute_3 :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+execute_3 object_ a1 a2 a3 = jmethod object_ "execute_3" (\() -> (execute_3_impl (javaCast object_ :: XmlRpcClient))) () a1 a2 a3
 
-execute_super :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute_super object_ a1 a2 a3 = (execute_impl (javaCast object_ :: XmlRpcClient)) a1 a2 a3
+execute_3_super :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+execute_3_super object_ a1 a2 a3 = (execute_3_impl (javaCast object_ :: XmlRpcClient)) a1 a2 a3
 
-execute_impl :: XmlRpcClient -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute_impl this method params cryptInterface = do
+execute_3_impl :: XmlRpcClient -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+execute_3_impl this method params cryptInterface = do
         pure ((jtoObject (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
 

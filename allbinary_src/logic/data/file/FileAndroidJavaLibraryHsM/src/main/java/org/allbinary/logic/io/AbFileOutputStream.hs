@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.io
 module AbFileOutputStream (module AbFileOutputStream, module OutputStream) where
 
-import OutputStream hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createFromAbFile, createFromAbFile_super, createFromAbFile_impl, createFromAbFileAppend, createFromAbFileAppend_super, createFromAbFileAppend_impl, createFromFilePath, createFromFilePath_super, createFromFilePath_impl, createFromFilePathAppend, createFromFilePathAppend_super, createFromFilePathAppend_impl, close, close_super, close_impl, getChannel, getChannel_super, getChannel_impl, write_overload1, write_overload1_super, write_overload1_impl, write, write, write_super, write_impl, write_overload2, write_overload2_super, write_overload2_impl, write, fileOutputStream)
+import OutputStream hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createFromAbFile, createFromAbFile_super, createFromAbFile_impl, createFromAbFileAppend, createFromAbFileAppend_super, createFromAbFileAppend_impl, createFromFilePath, createFromFilePath_super, createFromFilePath_impl, createFromFilePathAppend, createFromFilePathAppend_super, createFromFilePathAppend_impl, close, close_super, close_impl, getChannel, getChannel_super, getChannel_impl, write_overload1, write_overload1_super, write_overload1_impl, write, write_3, write_3_super, write_3_impl, write, write_overload2, write_overload2_super, write_overload2_impl, write, fileOutputStream)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -69,7 +69,7 @@ newRecord_ = do
     jregisterMethod header_ "close" (\() -> close_impl this)
     jregisterMethod header_ "getChannel" (\() -> getChannel_impl this)
     jregisterMethod header_ "write_overload1" (\() -> write_overload1_impl this)
-    jregisterMethod header_ "write" (\() -> write_impl this)
+    jregisterMethod header_ "write_3" (\() -> write_3_impl this)
     jregisterMethod header_ "write_overload2" (\() -> write_overload2_impl this)
     pure this
 
@@ -161,21 +161,19 @@ write_overload1_impl this buffer = do
 
 
 -- throws IOException
--- Java overload of write with a different parameter count: give it a different name
-write :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (())
-write object_ a1 a2 a3 = jmethod object_ "write" (\() -> (write_impl (javaCast object_ :: AbFileOutputStream))) () a1 a2 a3
+write_3 :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (())
+write_3 object_ a1 a2 a3 = jmethod object_ "write_3" (\() -> (write_3_impl (javaCast object_ :: AbFileOutputStream))) () a1 a2 a3
 
-write_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (())
-write_super object_ a1 a2 a3 = (write_impl (javaCast object_ :: AbFileOutputStream)) a1 a2 a3
+write_3_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (())
+write_3_super object_ a1 a2 a3 = (write_3_impl (javaCast object_ :: AbFileOutputStream)) a1 a2 a3
 
-write_impl :: AbFileOutputStream -> JavaArray (Int8) -> Int -> Int -> IO (())
-write_impl this buffer offset count = do
+write_3_impl :: AbFileOutputStream -> JavaArray (Int8) -> Int -> Int -> IO (())
+write_3_impl this buffer offset count = do
         Control.Monad.void (FileOutputStream.write ((jget (this).fileOutputStream)) buffer offset count)
         pure ()
 
 
 -- throws IOException
--- Java overload of write with a different parameter count: give it a different name
 write_overload2 :: (JavaObjectClass this_) => this_ -> Int -> IO (())
 write_overload2 object_ a1 = jmethod object_ "write_overload2" (\() -> (write_overload2_impl (javaCast object_ :: AbFileOutputStream))) () a1
 

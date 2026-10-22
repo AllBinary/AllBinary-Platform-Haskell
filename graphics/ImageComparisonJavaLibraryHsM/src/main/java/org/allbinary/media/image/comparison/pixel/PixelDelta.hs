@@ -95,7 +95,7 @@ init_2 this point colorDelta = do
         initFields_ this
         Control.Monad.void (PixelDelta.setPoint this point)
         Control.Monad.void (PixelDelta.setColorDelta this colorDelta)
-        assignedValue <- (PixelDelta.getKey (jio (PixelDelta.getPoint this)) (jio (PixelDelta.getColorDelta this)))
+        assignedValue <- (PixelDelta.getKey_2 (jio (PixelDelta.getPoint this)) (jio (PixelDelta.getColorDelta this)))
         jset (this).key (assignedValue)
         pure ()
 
@@ -111,9 +111,8 @@ getKey_impl this = do
         pure ((jtoObject (jget (this).key)))
 
 
--- Java overload of getKey with a different parameter count: give it a different name
-getKey :: GPoint.GPoint -> ColorDelta.ColorDelta -> IO (Any.Any)
-getKey point colorDelta = do
+getKey_2 :: GPoint.GPoint -> ColorDelta.ColorDelta -> IO (Any.Any)
+getKey_2 point colorDelta = do
         (fmap jtoObject (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.new_))) (jio (TsUtil.hashCode ((jio (TsUtil.getInstance))) point))))) (jget ((jio (CommonSeps.getInstance))).uNDERSCORE)))) (jio (Any.toString ((jio (ColorDelta.getKey colorDelta))))))))))
 
 

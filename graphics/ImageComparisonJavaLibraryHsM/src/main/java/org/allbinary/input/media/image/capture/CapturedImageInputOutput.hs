@@ -76,7 +76,7 @@ newRecord_ = do
     jregisterLevel header_ this
     ImageIOInterface.registerInterface_ header_
     jregisterMethod header_ "save" (\() -> save_impl this)
-    jregisterMethod header_ "save" (\() -> save_impl this)
+    jregisterMethod header_ "save_2" (\() -> save_2_impl this)
     pure this
 
 initFields_ :: CapturedImageInputOutput -> IO ()
@@ -107,19 +107,18 @@ save_impl this frame = do
         commonStrings <- (CommonStrings.getInstance)
         let capturedBufferedImageCacheable = ((javaCast (jio (get (((javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: BufferedImageFrameCacheable.BufferedImageFrameCacheable))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Saving: " ++ (jio (BufferedImageFrameCacheable.toString capturedBufferedImageCacheable)))) this (jget (commonStrings).sAVE))
-        Control.Monad.void (CapturedImageInputOutput.save this (jio (BufferedImageFrameCacheable.getBufferedImage capturedBufferedImageCacheable)) frame)
+        Control.Monad.void (CapturedImageInputOutput.save_2 this (jio (BufferedImageFrameCacheable.getBufferedImage capturedBufferedImageCacheable)) frame)
         pure ()
 
 
--- Java overload of save with a different parameter count: give it a different name
-save :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> Int64 -> IO (())
-save object_ a1 a2 = jmethod object_ "save" (\() -> (save_impl (javaCast object_ :: CapturedImageInputOutput))) () a1 a2
+save_2 :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> Int64 -> IO (())
+save_2 object_ a1 a2 = jmethod object_ "save_2" (\() -> (save_2_impl (javaCast object_ :: CapturedImageInputOutput))) () a1 a2
 
-save_super :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> Int64 -> IO (())
-save_super object_ a1 a2 = (save_impl (javaCast object_ :: CapturedImageInputOutput)) a1 a2
+save_2_super :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> Int64 -> IO (())
+save_2_super object_ a1 a2 = (save_2_impl (javaCast object_ :: CapturedImageInputOutput)) a1 a2
 
-save_impl :: CapturedImageInputOutput -> BufferedImage.BufferedImage -> Int64 -> IO (())
-save_impl this bufferedImage frame = do
+save_2_impl :: CapturedImageInputOutput -> BufferedImage.BufferedImage -> Int64 -> IO (())
+save_2_impl this bufferedImage frame = do
         commonStrings <- (CommonStrings.getInstance)
         imageUtil <- (ImageUtil.getInstance)
         filePathStringBuffer <- (StringMaker.new_)

@@ -160,31 +160,31 @@ addUsers_impl this = do
             cUSTOMERDB <- (UserDbInitInfo.getName ((jget (this).userDbInitInfo)))
             cUSTOMERDBUSER <- (UserDbInitInfo.getUserName ((jget (this).userDbInitInfo)))
             cUSTOMERDBPASSWORD <- (UserDbInitInfo.getPassword ((jget (this).userDbInitInfo)))
-            when (Prelude.not (jio (AbDatabaseManagement.addDbUser this cUSTOMERDB cUSTOMERDBUSER cUSTOMERDBPASSWORD))) $ do
+            when (Prelude.not (jio (AbDatabaseManagement.addDbUser_3 this cUSTOMERDB cUSTOMERDBUSER cUSTOMERDBPASSWORD))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_USER) ++ cUSTOMERDBUSER) this (jget (this).base.mETHOD_ADD_USERS))
                 javaReturn (False)
             iNVENTORYDB <- (InventoryDbInitInfo.getName ((jget (this).inventoryDbInitInfo)))
             iNVENTORYDBUSER <- (InventoryDbInitInfo.getUserName ((jget (this).inventoryDbInitInfo)))
             iNVENTORYDBPASSWORD <- (InventoryDbInitInfo.getPassword ((jget (this).inventoryDbInitInfo)))
-            when (Prelude.not (jio (AbDatabaseManagement.addDbUser this iNVENTORYDB iNVENTORYDBUSER iNVENTORYDBPASSWORD))) $ do
+            when (Prelude.not (jio (AbDatabaseManagement.addDbUser_3 this iNVENTORYDB iNVENTORYDBUSER iNVENTORYDBPASSWORD))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_USER) ++ iNVENTORYDBUSER) this (jget (this).base.mETHOD_ADD_USERS))
                 javaReturn (False)
             hISTORYDB <- (HistoryDbInitInfo.getName ((jget (this).historyDbInitInfo)))
             hISTORYDBUSER <- (HistoryDbInitInfo.getUserName ((jget (this).historyDbInitInfo)))
             hISTORYDBPASSWORD <- (HistoryDbInitInfo.getPassword ((jget (this).historyDbInitInfo)))
-            when (Prelude.not (jio (AbDatabaseManagement.addDbUser this hISTORYDB hISTORYDBUSER hISTORYDBPASSWORD))) $ do
+            when (Prelude.not (jio (AbDatabaseManagement.addDbUser_3 this hISTORYDB hISTORYDBUSER hISTORYDBPASSWORD))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_USER) ++ hISTORYDBUSER) this (jget (this).base.mETHOD_ADD_USERS))
                 javaReturn (False)
             sTATICPAGESDB <- (StaticPagesDbInitInfo.getName ((jget (this).staticpagesDbInitInfo)))
             sTATICPAGESDBUSER <- (StaticPagesDbInitInfo.getUserName ((jget (this).staticpagesDbInitInfo)))
             sTATICPAGESDBPASSWORD <- (StaticPagesDbInitInfo.getPassword ((jget (this).staticpagesDbInitInfo)))
-            when (Prelude.not (jio (AbDatabaseManagement.addDbUser this sTATICPAGESDB sTATICPAGESDBUSER sTATICPAGESDBPASSWORD))) $ do
+            when (Prelude.not (jio (AbDatabaseManagement.addDbUser_3 this sTATICPAGESDB sTATICPAGESDBUSER sTATICPAGESDBPASSWORD))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_USER) ++ sTATICPAGESDBUSER) this (jget (this).base.mETHOD_ADD_USERS))
                 javaReturn (False)
             lOGDB <- (LogDbInitInfo.getName ((jget (this).logDbInitInfo)))
             lOGDBUSER <- (LogDbInitInfo.getUserName ((jget (this).logDbInitInfo)))
             lOGDBPASSWORD <- (LogDbInitInfo.getPassword ((jget (this).logDbInitInfo)))
-            when (Prelude.not (jio (AbDatabaseManagement.addDbUser this lOGDB lOGDBUSER lOGDBPASSWORD))) $ do
+            when (Prelude.not (jio (AbDatabaseManagement.addDbUser_3 this lOGDB lOGDBUSER lOGDBPASSWORD))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_USER) ++ lOGDBUSER) this (jget (this).base.mETHOD_ADD_USERS))
                 javaReturn (False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eND) this (jget (this).base.mETHOD_ADD_USERS))
@@ -235,7 +235,7 @@ addDatabases_impl this = do
             when (Prelude.not (jio (AbDatabaseManagement.addDb this lOGDB))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).base.uNABLE_TO_CREATE_DATABASE) ++ lOGDB) this (jget (this).base.mETHOD_ADD_DATABASES))
                 javaReturn (False)
-            file <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance ((jio (FileFactory.getInstance))) (jget (this).sQL_FILE)))
+            file <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance_1 ((jio (FileFactory.getInstance))) (jget (this).sQL_FILE)))
             Control.Monad.void (AbFile.createNewFile file)
             idOutData <- (DataOutputStreamFactory.getInstanceForAbFile ((jio (DataOutputStreamFactory.getInstance))) file)
             Control.Monad.void (AbDataOutputStream.writeBytes idOutData (jio (StringMaker.toString ((jget (this).base.sqlCommandLog)))))
@@ -258,8 +258,8 @@ addTables_impl this = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget (this).base.mETHOD_ADD_TABLES))
             Control.Monad.void (StringMaker.append stringBuffer (jio (UserEntity.createTable ((jio (UserEntityFactory.getInstance))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (StoreFrontsEntity.createTable ((jio (StoreFrontsEntityFactory.getStoreFrontsEntityInstance ((jio (StoreFrontsEntityFactory.getInstance)))))))))
-            Control.Monad.void (StringMaker.append stringBuffer (jio (BillingAddressesEntityFactory.createTable ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jget ((jget (this).base.base.base.base.base.base.stringUtil)).eMPTY_STRING)))))))
-            Control.Monad.void (StringMaker.append stringBuffer (jio (ShippingAddressesEntityFactory.createTable ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jget ((jget (this).base.base.base.base.base.base.stringUtil)).eMPTY_STRING)))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (BillingAddressesEntityFactory.createTable ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jget ((jget (this).base.base.base.base.base.base.stringUtil)).eMPTY_STRING)))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (ShippingAddressesEntityFactory.createTable ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jget ((jget (this).base.base.base.base.base.base.stringUtil)).eMPTY_STRING)))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (PaymentEntity.createTable ((jio (PaymentEntityFactory.getPaymentEntityInstance ((jio (PaymentEntityFactory.getInstance)))))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (QuoteRequestEntity.createTable ((jio (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance)))))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (OrderHistoryEntity.createTable ((jio (OrderHistoryEntityFactory.getInstance))))))

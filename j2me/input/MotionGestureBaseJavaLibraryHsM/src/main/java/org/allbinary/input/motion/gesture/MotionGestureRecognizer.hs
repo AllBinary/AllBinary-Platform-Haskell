@@ -159,7 +159,7 @@ processPressedMotionEvent_impl this current deviceId button = do
         event <- (MotionEventCircularPool.getInstance ((jget (this).motionEventCircularPool)) (jget ((jio (TouchMotionGestureFactory.getInstance))).pRESSED))
         Control.Monad.void (MotionGestureEvent.setPreviousPoint event (jget (this).previous))
         Control.Monad.void (MotionGestureEvent.setCurrentPoint event current)
-        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) event)
+        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) (javaCast event))
         pure (True)
 
 
@@ -175,7 +175,7 @@ processReleasedMotionEvent_impl this current deviceId button = do
         event <- (MotionEventCircularPool.getInstance ((jget (this).motionEventCircularPool)) (jget ((jio (TouchMotionGestureFactory.getInstance))).rELEASED))
         Control.Monad.void (MotionGestureEvent.setPreviousPoint event (jget (this).previous))
         Control.Monad.void (MotionGestureEvent.setCurrentPoint event current)
-        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) event)
+        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) (javaCast event))
         pure (True)
 
 
@@ -236,7 +236,7 @@ processDraggedMotionEvent_impl this current deviceId buttonMask = do
         event <- (MotionEventCircularPool.getInstance ((jget (this).motionEventCircularPool)) (jget newMotionGesture))
         Control.Monad.void (MotionGestureEvent.setPreviousPoint event (jget (this).previous))
         Control.Monad.void (MotionGestureEvent.setCurrentPoint event current)
-        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) event)
+        Control.Monad.void (BasicMotionGesturesHandler.fireEvent ((jget (this).motionGesturesHandler)) (javaCast event))
         pure (())
 
 
@@ -252,7 +252,7 @@ processMovedMotionEvent_impl this current deviceId button = do
         event <- (MotionEventCircularPool.getInstance ((jget (this).motionEventCircularPool)) (jget ((jio (TouchMotionGestureFactory.getInstance))).nO_MOTION))
         Control.Monad.void (MotionGestureEvent.setPreviousPoint event (jget (this).previous))
         Control.Monad.void (MotionGestureEvent.setCurrentPoint event current)
-        Control.Monad.void (BasicEventHandler.fireEvent ((jget (this).movedMotionGesturesHandler)) event)
+        Control.Monad.void (BasicEventHandler.fireEvent ((jget (this).movedMotionGesturesHandler)) (javaCast event))
         pure (True)
 
 
@@ -274,7 +274,7 @@ processScrolledMotionEvent_impl this current deviceId button = do
         event <- (MotionEventCircularPool.getInstance ((jget (this).motionEventCircularPool)) (jget newMotionGesture))
         Control.Monad.void (MotionGestureEvent.setPreviousPoint event (jget (this).previous))
         Control.Monad.void (MotionGestureEvent.setCurrentPoint event current)
-        Control.Monad.void (BasicEventHandler.fireEvent ((jget (this).scrolledMotionGesturesHandler)) event)
+        Control.Monad.void (BasicEventHandler.fireEvent ((jget (this).scrolledMotionGesturesHandler)) (javaCast event))
         pure (True)
 
 

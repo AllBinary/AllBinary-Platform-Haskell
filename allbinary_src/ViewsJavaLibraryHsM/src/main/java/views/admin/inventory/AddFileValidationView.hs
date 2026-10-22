@@ -16,7 +16,7 @@
 -- package views.admin.inventory
 module AddFileValidationView (module AddFileValidationView, module InventoryItemView) where
 
-import InventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, logUtil, basicItemData, aDDPRODUCT, nEXTSTEP)
+import InventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid_2, isValid_2_super, isValid_2_impl, isValid, validationInfo_4, validationInfo_4_super, validationInfo_4_impl, validationInfo, logUtil, basicItemData, aDDPRODUCT, nEXTSTEP)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -98,8 +98,8 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
-    jregisterMethod header_ "isValid" (\() -> isValid_impl this)
-    jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
+    jregisterMethod header_ "isValid_2" (\() -> isValid_2_impl this)
+    jregisterMethod header_ "validationInfo_4" (\() -> validationInfo_4_impl this)
     pure this
 
 initFields_ :: AddFileValidationView -> IO ()
@@ -171,7 +171,7 @@ isValid_impl this = do
                 fileName <- (FileItem.getName fileItem)
                 size <- (FileItem.getSize fileItem)
                 Control.Monad.void (HttpFileUploadUtil.log fileItem)
-                when ((jio (AddFileValidationView.isValid this fileName size)) == False) $ do
+                when ((jio (AddFileValidationView.isValid_2 this fileName size)) == False) $ do
                     javaReturn (False)
             pure (True)
 
@@ -241,20 +241,19 @@ validationInfo_impl this = do
                 fileName <- (FileItem.getName fileItem)
                 fileItemFieldName <- (FileItem.getFieldName fileItem)
                 size <- (FileItem.getSize fileItem)
-                Control.Monad.void (AddFileValidationView.validationInfo this stringBuffer fileName fileItemFieldName size)
+                Control.Monad.void (AddFileValidationView.validationInfo_4 this stringBuffer fileName fileItemFieldName size)
             (StringMaker.toString stringBuffer)
 
 
 -- throws Exception
--- Java overload of isValid with a different parameter count: give it a different name
-isValid :: (JavaObjectClass this_) => this_ -> String -> Int64 -> IO (Bool)
-isValid object_ a1 a2 = jmethod object_ "isValid" (\() -> (isValid_impl (javaCast object_ :: AddFileValidationView))) () a1 a2
+isValid_2 :: (JavaObjectClass this_) => this_ -> String -> Int64 -> IO (Bool)
+isValid_2 object_ a1 a2 = jmethod object_ "isValid_2" (\() -> (isValid_2_impl (javaCast object_ :: AddFileValidationView))) () a1 a2
 
-isValid_super :: (JavaObjectClass this_) => this_ -> String -> Int64 -> IO (Bool)
-isValid_super object_ a1 a2 = (isValid_impl (javaCast object_ :: AddFileValidationView)) a1 a2
+isValid_2_super :: (JavaObjectClass this_) => this_ -> String -> Int64 -> IO (Bool)
+isValid_2_super object_ a1 a2 = (isValid_2_impl (javaCast object_ :: AddFileValidationView)) a1 a2
 
-isValid_impl :: AddFileValidationView -> String -> Int64 -> IO (Bool)
-isValid_impl this fileName size = do
+isValid_2_impl :: AddFileValidationView -> String -> Int64 -> IO (Bool)
+isValid_2_impl this fileName size = do
     javaCatchReturn $ do
         fileData <- (FileData.getInstance)
         if (size > (Prelude.fromIntegral (jget (fileData).mINIMAGEFILESIZE))) then do
@@ -289,15 +288,14 @@ isValid_impl this fileName size = do
         pure (True)
 
 
--- Java overload of validationInfo with a different parameter count: give it a different name
-validationInfo :: (JavaObjectClass this_) => this_ -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
-validationInfo object_ a1 a2 a3 a4 = jmethod object_ "validationInfo" (\() -> (validationInfo_impl (javaCast object_ :: AddFileValidationView))) () a1 a2 a3 a4
+validationInfo_4 :: (JavaObjectClass this_) => this_ -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
+validationInfo_4 object_ a1 a2 a3 a4 = jmethod object_ "validationInfo_4" (\() -> (validationInfo_4_impl (javaCast object_ :: AddFileValidationView))) () a1 a2 a3 a4
 
-validationInfo_super :: (JavaObjectClass this_) => this_ -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
-validationInfo_super object_ a1 a2 a3 a4 = (validationInfo_impl (javaCast object_ :: AddFileValidationView)) a1 a2 a3 a4
+validationInfo_4_super :: (JavaObjectClass this_) => this_ -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
+validationInfo_4_super object_ a1 a2 a3 a4 = (validationInfo_4_impl (javaCast object_ :: AddFileValidationView)) a1 a2 a3 a4
 
-validationInfo_impl :: AddFileValidationView -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
-validationInfo_impl this stringBuffer fileName fileItemFieldName size = do
+validationInfo_4_impl :: AddFileValidationView -> StringMaker.StringMaker -> String -> String -> Int64 -> IO (())
+validationInfo_4_impl this stringBuffer fileName fileItemFieldName size = do
         fileData <- (FileData.getInstance)
         if (size > (Prelude.fromIntegral (jget (fileData).mINIMAGEFILESIZE))) then do
             when ((Prelude.fromEnum (Prelude.compare fileItemFieldName (jget ((jget this.basicItemData)).iMAGE)) - 1) == 0) $ do

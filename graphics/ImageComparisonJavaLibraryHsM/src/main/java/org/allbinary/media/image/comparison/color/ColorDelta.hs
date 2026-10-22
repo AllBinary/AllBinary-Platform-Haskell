@@ -93,7 +93,7 @@ init_2 this rgb1 rgb2 = do
         initFields_ this
         Control.Monad.void (ColorDelta.setRgb1 this rgb1)
         Control.Monad.void (ColorDelta.setRgb2 this rgb2)
-        assignedValue <- (ColorDelta.getKey rgb1 rgb2)
+        assignedValue <- (ColorDelta.getKey_2 rgb1 rgb2)
         jset (this).key (assignedValue)
         pure ()
 
@@ -109,9 +109,8 @@ getKey_impl this = do
         pure ((jtoObject (jget (this).key)))
 
 
--- Java overload of getKey with a different parameter count: give it a different name
-getKey :: Int -> Int -> IO (Any.Any)
-getKey rgb1 rgb2 = do
+getKey_2 :: Int -> Int -> IO (Any.Any)
+getKey_2 rgb1 rgb2 = do
         (fmap jtoObject (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (javaToString rgb1)))) (jget ((jio (CommonSeps.getInstance))).uNDERSCORE)))) (javaToString rgb2))))))
 
 

@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.order
 module OrderHistoryEntityInterface (module OrderHistoryEntityInterface, module BasicDataTableInterface) where
 
-import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, setStatus, setStatus_super, setStatus_impl, setPaymentMethod, setPaymentMethod_super, setPaymentMethod_impl, getStoreOrders, getStoreOrders_super, getStoreOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrder, getOrder_super, getOrder_impl, update, update_super, update_impl, toString)
+import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, setStatus, setStatus_super, setStatus_impl, setPaymentMethod, setPaymentMethod_super, setPaymentMethod_impl, getStoreOrders, getStoreOrders_super, getStoreOrders_impl, getOrders, getOrders_super, getOrders_impl, getOrders_3, getOrders_3_super, getOrders_3_impl, getOrders, getOrder, getOrder_super, getOrder_impl, update, update_super, update_impl, toString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -123,15 +123,14 @@ getOrders_impl this userName = javaAbstractMethod "getOrders"
 
 
 -- throws Exception
--- Java overload of getOrders with a different parameter count: give it a different name
-getOrders :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders object_ a1 a2 a3 = jmethod object_ "getOrders" (\() -> (getOrders_impl (javaCast object_ :: OrderHistoryEntityInterface))) () a1 a2 a3
+getOrders_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3 object_ a1 a2 a3 = jmethod object_ "getOrders_3" (\() -> (getOrders_3_impl (javaCast object_ :: OrderHistoryEntityInterface))) () a1 a2 a3
 
-getOrders_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_super object_ a1 a2 a3 = (getOrders_impl (javaCast object_ :: OrderHistoryEntityInterface)) a1 a2 a3
+getOrders_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3_super object_ a1 a2 a3 = (getOrders_3_impl (javaCast object_ :: OrderHistoryEntityInterface)) a1 a2 a3
 
-getOrders_impl :: OrderHistoryEntityInterface -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getOrders_impl this status fromDate toDate = javaAbstractMethod "getOrders"
+getOrders_3_impl :: OrderHistoryEntityInterface -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getOrders_3_impl this status fromDate toDate = javaAbstractMethod "getOrders"
 
 
 -- throws Exception

@@ -90,7 +90,7 @@ init_super object_ = (init_impl (javaCast object_ :: CompositeSound))
 
 init_impl :: CompositeSound -> IO (())
 init_impl this = do
-        Control.Monad.void (Sound.setPlayerP this (jio (PlayerComposite.new_2 (jio (AllBinaryMediaManager.createPlayer (jio (Sound.getResource this)))) 570)))
+        Control.Monad.void (Sound.setPlayerP this (javaCast (jio (PlayerComposite.new_2 (jio (AllBinaryMediaManager.createPlayer (jio (Sound.getResource this)))) 570))))
         pure ()
 
 

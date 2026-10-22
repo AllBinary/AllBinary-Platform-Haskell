@@ -106,7 +106,7 @@ fire_super object_ = (fire_impl (javaCast object_ :: LockedFeatureNotificationUt
 fire_impl :: LockedFeatureNotificationUtil -> IO (())
 fire_impl this = do
         Control.Monad.void (PlayerQueue.add ((jio (PrimaryPlayerQueueFactory.getInstance))) (jio (ErrorSound.getInstance)))
-        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).gameNotificationEvent))
+        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).gameNotificationEvent)))
         pure ()
 
 
@@ -121,7 +121,7 @@ fireWithColor_impl :: LockedFeatureNotificationUtil -> BasicColor.BasicColor -> 
 fireWithColor_impl this basicColor = do
         Control.Monad.void (PlayerQueue.add ((jio (PrimaryPlayerQueueFactory.getInstance))) (jio (ErrorSound.getInstance)))
         Control.Monad.void (GameNotificationEvent.setBasicColorP ((jget (this).gameNotificationEvent)) basicColor)
-        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).gameNotificationEvent))
+        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).gameNotificationEvent)))
         pure ()
 
 

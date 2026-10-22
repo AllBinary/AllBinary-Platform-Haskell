@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.order
 module OrderItemsEntityInterface (module OrderItemsEntityInterface, module BasicDataTableInterface) where
 
-import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setStatus, setStatus_super, setStatus_impl, isEverythingShipped, isEverythingShipped_super, isEverythingShipped_impl, getBasketReview, getBasketReview_super, getBasketReview_impl, insert, insert_super, insert_impl, insert, insert_super, insert_impl, toString)
+import BasicDataTableInterface hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setStatus, setStatus_super, setStatus_impl, isEverythingShipped, isEverythingShipped_super, isEverythingShipped_impl, getBasketReview, getBasketReview_super, getBasketReview_impl, insert, insert_super, insert_impl, insert_1, insert_1_super, insert_1_impl, insert, toString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -108,14 +108,13 @@ insert_impl :: OrderItemsEntityInterface -> String -> OrderInterface.OrderInterf
 insert_impl this userName order = javaAbstractMethod "insert"
 
 
--- Java overload of insert with a different parameter count: give it a different name
-insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
-insert object_ a1 = jmethod object_ "insert" (\() -> (insert_impl (javaCast object_ :: OrderItemsEntityInterface))) () a1
+insert_1 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1 object_ a1 = jmethod object_ "insert_1" (\() -> (insert_1_impl (javaCast object_ :: OrderItemsEntityInterface))) () a1
 
-insert_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
-insert_super object_ a1 = (insert_impl (javaCast object_ :: OrderItemsEntityInterface)) a1
+insert_1_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_super object_ a1 = (insert_1_impl (javaCast object_ :: OrderItemsEntityInterface)) a1
 
-insert_impl :: OrderItemsEntityInterface -> BasicArrayList.BasicArrayList -> IO (())
-insert_impl this values = javaAbstractMethod "insert"
+insert_1_impl :: OrderItemsEntityInterface -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_impl this values = javaAbstractMethod "insert"
 
 

@@ -506,7 +506,7 @@ toXmlNode_impl this document = do
             value <- newIORef ((javaCast (jio (HashMap.get hashMap name)) :: String))
             assignedValue <- (StringUtil.getNonNull ((jio (StringUtil.getInstance))) (jget value))
             jset value (assignedValue)
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name (jget value))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name (jget value))))
         pure (node)
 
 

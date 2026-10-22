@@ -223,7 +223,7 @@ construct_impl :: AdvancedRTSGameLayer -> RTSPlayerLayerInterface.RTSPlayerLayer
 construct_impl this rtsPlayerLayerInterface = do
         Control.Monad.void (RTSLayer.construct_super this.base rtsPlayerLayerInterface)
         Control.Monad.void (AdvancedRTSGameLayer.initVisibility this rtsPlayerLayerInterface)
-        Control.Monad.void (BuildingEventHandler.addListenerInterface ((jio (BuildingEventHandler.getInstance))) (jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))))))
+        Control.Monad.void (BuildingEventHandler.addListenerInterface ((jio (BuildingEventHandler.getInstance))) (javaCast (jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this)))))))
         pure ()
 
 
@@ -238,9 +238,9 @@ setDestroyed_impl :: AdvancedRTSGameLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         Control.Monad.void (RTSLayer.setDestroyed_super this.base destroyed)
         when (jio (RTSLayer.isDestroyed this)) $ do
-            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) (jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))))))
-            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) this)
-            Control.Monad.void (DestroyedEventHandler.addListener ((jio (DestroyedEventHandler.getInstance))) this)
+            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) (javaCast (jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this)))))))
+            Control.Monad.void (BuildingEventHandler.removeListener ((jio (BuildingEventHandler.getInstance))) (javaCast this))
+            Control.Monad.void (DestroyedEventHandler.addListener ((jio (DestroyedEventHandler.getInstance))) (javaCast this))
             Control.Monad.void (RTSLayerUtil.destroyAndClear ((jio (RTSLayerUtil.getInstance))) (jio (WaypointBehaviorBase.getOwnedWaypointList ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))))))
         pure ()
 
@@ -370,51 +370,51 @@ buildingChase_impl this allbinaryLayer cellPosition = do
         angle <- (FrameUtil.adjustAngleToFrameAngle ((jio (FrameUtil.getInstance))) ((Prelude.fromIntegral (jio (AngleInfo.getAngle angleInfo))) + 90))
         gameKeyEventFactory <- (GameKeyEventFactory.getInstance)
         if (buildingDirection == (jget ((jio (DirectionFactory.getInstance))).uP)) then do
-            Control.Monad.void (RTSLayer2LogHelper.buildingAbove ((jget (this).base.rtsLayer2LogHelper)) this)
+            Control.Monad.void (RTSLayer2LogHelper.buildingAbove ((jget (this).base.rtsLayer2LogHelper)) (javaCast this))
             if ((angle > 180) && (angle < 360)) then do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseLeft ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.lEFT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseLeft ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.lEFT))))
                 when (angle <= 190) $ do
                     javaReturn (True)
             else do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseRight ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.rIGHT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseRight ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.rIGHT))))
                 when (angle >= 170) $ do
                     javaReturn (True)
         else if (buildingDirection == (jget ((jio (DirectionFactory.getInstance))).dOWN)) then do
-            Control.Monad.void (RTSLayer2LogHelper.buildingDown ((jget (this).base.rtsLayer2LogHelper)) this)
+            Control.Monad.void (RTSLayer2LogHelper.buildingDown ((jget (this).base.rtsLayer2LogHelper)) (javaCast this))
             if ((angle > 180) && (angle < 360)) then do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseLeft ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.rIGHT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseLeft ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.rIGHT))))
                 when (angle > 315) $ do
                     javaReturn (True)
             else do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseRight ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.lEFT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseRight ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.lEFT))))
                 when (angle < 45) $ do
                     javaReturn (True)
         else if (buildingDirection == (jget ((jio (DirectionFactory.getInstance))).lEFT)) then do
             Control.Monad.void (RTSLayer2LogHelper.buildingLeft ((jget (this).base.rtsLayer2LogHelper)))
             if ((angle > 90) && (angle < 270)) then do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseDown ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.lEFT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseDown ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.lEFT))))
                 when (angle < 135) $ do
                     javaReturn (True)
             else do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseUp ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.rIGHT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseUp ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.rIGHT))))
                 when (angle > 45) $ do
                     javaReturn (True)
         else if (buildingDirection == (jget ((jio (DirectionFactory.getInstance))).rIGHT)) then do
             Control.Monad.void (RTSLayer2LogHelper.buildingRight ((jget (this).base.rtsLayer2LogHelper)))
             if ((angle > 90) && (angle < 270)) then do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseDown ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.rIGHT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseDown ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.rIGHT))))
                 when (angle > 225) $ do
                     javaReturn (True)
             else do
-                Control.Monad.void (RTSLayer2LogHelper.buildingChaseUp ((jget (this).base.rtsLayer2LogHelper)) this angle)
-                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory this (Canvas.lEFT))))
+                Control.Monad.void (RTSLayer2LogHelper.buildingChaseUp ((jget (this).base.rtsLayer2LogHelper)) (javaCast this) angle)
+                Control.Monad.void (BasicArrayList.add ((jio (RTSLayer.getGameKeyEventList this))) (jio (GameKeyEventFactory.getInstanceForKey gameKeyEventFactory (javaCast this) (Canvas.lEFT))))
                 when ((angle < 315) && (angle > 180)) $ do
                     javaReturn (True)
         else do
@@ -477,7 +477,7 @@ onDestroyed_impl this destroyedEvent = do
             ) $ do
             layerInterface <- (DestroyedEvent.getLayerInterface destroyedEvent)
             when ((jtoObject layerInterface) == (jtoObject this)) $ do
-                Control.Monad.void (DestroyedEventHandler.removeListener ((jio (DestroyedEventHandler.getInstance))) this)
+                Control.Monad.void (DestroyedEventHandler.removeListener ((jio (DestroyedEventHandler.getInstance))) (javaCast this))
                 let waypoint = (javaCast (jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))))) :: WaypointBase.WaypointBase)
                 Control.Monad.void (WaypointBase.reset waypoint)
         pure ()

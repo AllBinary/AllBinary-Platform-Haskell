@@ -79,9 +79,9 @@ newRecord_ = do
     commonStrings <- newIORef javaNull
     let this = TransformFactory header_ logUtil commonStrings
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
-    jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3_overload1" (\() -> getInstance_3_overload1_impl this)
+    jregisterMethod header_ "getInstance_3_overload2" (\() -> getInstance_3_overload2_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: TransformFactory -> IO ()
@@ -109,22 +109,21 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o2, JavaObjectClass o3) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> o3 -> IO (TransformInterface.TransformInterface)
-getInstance this a1 a2 a3
-    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: TransformInfoInterface.TransformInfoInterface) = getInstance_overload1 this a1 (javaCast a2 :: String) (javaCast a3 :: TransformInfoInterface.TransformInfoInterface)
-    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = getInstance_overload2 this a1 (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
-    | otherwise = getInstance_overload2 this a1 (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+getInstance_3 :: (JavaObjectClass this_, JavaObjectClass o2, JavaObjectClass o3) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> o3 -> IO (TransformInterface.TransformInterface)
+getInstance_3 this a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: TransformInfoInterface.TransformInfoInterface) = getInstance_3_overload1 this a1 (javaCast a2 :: String) (javaCast a3 :: TransformInfoInterface.TransformInfoInterface)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = getInstance_3_overload2 this a1 (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+    | otherwise = getInstance_3_overload2 this a1 (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_overload1 object_ a1 a2 a3 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: TransformFactory))) () a1 a2 a3
+getInstance_3_overload1 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload1 object_ a1 a2 a3 = jmethod object_ "getInstance_3_overload1" (\() -> (getInstance_3_overload1_impl (javaCast object_ :: TransformFactory))) () a1 a2 a3
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_overload1_super object_ a1 a2 a3 = (getInstance_overload1_impl (javaCast object_ :: TransformFactory)) a1 a2 a3
+getInstance_3_overload1_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload1_super object_ a1 a2 a3 = (getInstance_3_overload1_impl (javaCast object_ :: TransformFactory)) a1 a2 a3
 
-getInstance_overload1_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_overload1_impl this abeClientInformation viewName ownerTransformInfoInterface = do
+getInstance_3_overload1_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload1_impl this abeClientInformation viewName ownerTransformInfoInterface = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).gET_INSTANCE) e)
@@ -138,22 +137,21 @@ getInstance_overload1_impl this abeClientInformation viewName ownerTransformInfo
             when (transformInfoInterface == javaNull) $ do
                 javaThrow ((JavaException "Exception" ("No Such View In DB: " ++ viewName)))
             Control.Monad.void (TransformInfoInterface.setChild transformInfoInterface)
-            anyType <- (TransformInfoObjectFactory.getInstance ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)
+            anyType <- (TransformInfoObjectFactory.getInstance_2 ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created Transform: " ++ viewName) this (jget ((jget (this).commonStrings)).gET_INSTANCE))
             pure ((javaCast anyType :: TransformInterface.TransformInterface))
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
-getInstance_overload2 object_ a1 a2 a3 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: TransformFactory))) () a1 a2 a3
+getInstance_3_overload2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload2 object_ a1 a2 a3 = jmethod object_ "getInstance_3_overload2" (\() -> (getInstance_3_overload2_impl (javaCast object_ :: TransformFactory))) () a1 a2 a3
 
-getInstance_overload2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
-getInstance_overload2_super object_ a1 a2 a3 = (getInstance_overload2_impl (javaCast object_ :: TransformFactory)) a1 a2 a3
+getInstance_3_overload2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload2_super object_ a1 a2 a3 = (getInstance_3_overload2_impl (javaCast object_ :: TransformFactory)) a1 a2 a3
 
-getInstance_overload2_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
-getInstance_overload2_impl this abeClientInformation propertiesHashMap pageContext = do
+getInstance_3_overload2_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInterface.TransformInterface)
+getInstance_3_overload2_impl this abeClientInformation propertiesHashMap pageContext = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 stringBuffer <- (StringMaker.new_)
@@ -172,22 +170,21 @@ getInstance_overload2_impl this abeClientInformation propertiesHashMap pageConte
                 Control.Monad.void (TransformInfoInterface.override ((jget transformInfoInterface)) propertiesHashMap)
             else do
                 jset transformInfoInterface ((javaCast (jio (TransformInfoHttpFactory.getInstance propertiesHashMap pageContext)) :: TransformInfoInterface.TransformInfoInterface))
-            anyType <- (TransformInfoObjectFactory.getInstance ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation (jget transformInfoInterface))
+            anyType <- (TransformInfoObjectFactory.getInstance_2 ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation (jget transformInfoInterface))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created Transform: " ++ javaToString (jio (HashMap.get propertiesHashMap (jget (transformInfoData).nAME)))) this (jget ((jget (this).commonStrings)).gET_INSTANCE))
             pure ((javaCast anyType :: TransformInterface.TransformInterface))
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: TransformFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: TransformFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: TransformFactory)) a1 a2
 
-getInstance_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_impl this abeClientInformation transformInfoInterface = do
+getInstance_2_impl :: TransformFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2_impl this abeClientInformation transformInfoInterface = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.commonStrings)).eXCEPTION) this "getInstance(TransformInfoInterface)" e)
@@ -195,7 +192,7 @@ getInstance_impl this abeClientInformation transformInfoInterface = do
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Creating Transform: " ++ (jio (TransformInfoInterface.getName transformInfoInterface))) this "getInstance(TransformInfoInterface)")
-            anyType <- (TransformInfoObjectFactory.getInstance ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)
+            anyType <- (TransformInfoObjectFactory.getInstance_2 ((jio (TransformInfoObjectFactory.getInstance))) abeClientInformation transformInfoInterface)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created Transform: " ++ (jio (TransformInfoInterface.getName transformInfoInterface))) this "getInstance(TransformInfoInterface)")
             pure ((javaCast anyType :: TransformInterface.TransformInterface))

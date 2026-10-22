@@ -116,7 +116,7 @@ isValid_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to validate form" this (jget ((jget (this).base.base.commonStrings)).iS_VALID) e)
             pure (False)
             ) $ do
-            if ((jio (UserName.isValid ((jio (UserName.getInstance))) (jget (this).userName))) == True) then do
+            if ((jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jget (this).userName))) == True) then do
                 assignedValue <- (UserEntity.getUser ((jio (UserEntityFactory.getInstance))) (jget (this).userName))
                 jset (this).base.user (assignedValue)
                 when ((jget (this).base.user) == javaNull) $ do
@@ -141,7 +141,7 @@ validationInfo_impl this = do
             pure ("Error Validating Form")
             ) $ do
             stringBuffer <- (StringMaker.new_)
-            if (jio (UserName.isValid ((jio (UserName.getInstance))) (jget (this).userName))) then do
+            if (jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jget (this).userName))) then do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "User Name is valid" this "validationInfo()")
                 assignedValue <- (UserEntity.getUser ((jio (UserEntityFactory.getInstance))) (jget (this).userName))

@@ -140,7 +140,7 @@ notifyStoreAdmin_impl this = do
             let emailBody = ("New Password: " ++ (jget (this).newPassword))
             let basicEmailInfo = (javaCast (jio (AdminEmailInfo.new_2 emailSubject emailBody)) :: BasicEmailInfo.BasicEmailInfo)
             emailInfo <- (EmailInfo.new_1 basicEmailInfo)
-            adminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (AdminUserEmailEventHandlerSingletons.getInstance ((jio (AdminUserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.nEWPASSWORD)))
+            adminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (AdminUserEmailEventHandlerSingletons.getInstance_2 ((jio (AdminUserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.nEWPASSWORD)))
             Control.Monad.void (UserEmailEventHandler.receiveEmailInfo adminUserEmailEventHandler (UserEmailEventNameData.nEWPASSWORD) emailInfo)
         pure ()
 
@@ -165,7 +165,7 @@ notifyUser_impl this = do
             let body = ("New Password: " ++ (jget (this).newPassword))
             let basicEmailInfo = (javaCast (jio (AdminEmailInfo.new_2 subject body)) :: BasicEmailInfo.BasicEmailInfo)
             emailInfo <- (EmailInfo.new_1 basicEmailInfo)
-            userEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (UserEmailEventHandlerSingletons.getInstance ((jio (UserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.nEWPASSWORD) (jget (this).userInterface)))
+            userEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (UserEmailEventHandlerSingletons.getInstance_3 ((jio (UserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.nEWPASSWORD) (jget (this).userInterface)))
             Control.Monad.void (UserEmailEventHandler.receiveEmailInfo userEmailEventHandler (UserEmailEventNameData.nEWPASSWORD) emailInfo)
         pure ()
 

@@ -62,7 +62,7 @@ newRecord_ = do
     let this = OpenGLImageUtilBase header_
     jregisterLevel header_ this
     jregisterMethod header_ "paint" (\() -> paint_impl this)
-    jregisterMethod header_ "paint" (\() -> paint_impl this)
+    jregisterMethod header_ "paint_4" (\() -> paint_4_impl this)
     jregisterMethod header_ "createImage" (\() -> createImage_impl this)
     jregisterMethod header_ "createImageFromInputStream" (\() -> createImageFromInputStream_impl this)
     pure this
@@ -93,15 +93,14 @@ paint_impl this alphaBitmap originalBitmap index = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 
--- Java overload of paint with a different parameter count: give it a different name
-paint :: (JavaObjectClass this_) => this_ -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
-paint object_ a1 a2 a3 a4 = jmethod object_ "paint" (\() -> (paint_impl (javaCast object_ :: OpenGLImageUtilBase))) () a1 a2 a3 a4
+paint_4 :: (JavaObjectClass this_) => this_ -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
+paint_4 object_ a1 a2 a3 a4 = jmethod object_ "paint_4" (\() -> (paint_4_impl (javaCast object_ :: OpenGLImageUtilBase))) () a1 a2 a3 a4
 
-paint_super :: (JavaObjectClass this_) => this_ -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
-paint_super object_ a1 a2 a3 a4 = (paint_impl (javaCast object_ :: OpenGLImageUtilBase)) a1 a2 a3 a4
+paint_4_super :: (JavaObjectClass this_) => this_ -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
+paint_4_super object_ a1 a2 a3 a4 = (paint_4_impl (javaCast object_ :: OpenGLImageUtilBase)) a1 a2 a3 a4
 
-paint_impl :: OpenGLImageUtilBase -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
-paint_impl this colorBitmap originalBitmap alpha basicColor = do
+paint_4_impl :: OpenGLImageUtilBase -> OpenGLBitmap.OpenGLBitmap -> OpenGLBitmap.OpenGLBitmap -> Int -> BasicColor.BasicColor -> IO (OpenGLBitmap.OpenGLBitmap)
+paint_4_impl this colorBitmap originalBitmap alpha basicColor = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 

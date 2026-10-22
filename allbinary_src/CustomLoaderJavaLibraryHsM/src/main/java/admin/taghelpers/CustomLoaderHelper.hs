@@ -132,7 +132,7 @@ setWebappPath_impl this path = do
             ) $ do
             urlGlobals <- (AppUrlGlobals.new_)
             Control.Monad.void (AppUrlGlobals.setWebappPath urlGlobals path)
-            Control.Monad.void (URLGLOBALS.init urlGlobals)
+            Control.Monad.void (URLGLOBALS.init (javaCast urlGlobals))
         pure ()
 
 

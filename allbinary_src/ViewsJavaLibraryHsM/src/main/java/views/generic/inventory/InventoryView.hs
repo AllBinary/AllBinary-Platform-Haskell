@@ -120,8 +120,8 @@ toXmlNode_impl this document = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Starting" this "toXmlNode")
             inventoryEntityInterface <- (InventoryEntityFactory.getInventoryEntityInstance ((jio (InventoryEntityFactory.getInstance))))
             inventoryNode <- (Document.createElement document (InventoryData.iNVENTORY))
-            itemVector <- (InventoryEntity.getItems inventoryEntityInterface (jio (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))))))
-            Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes document (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral ((jio (BasicArrayList.size itemVector))) :: Int)))))
+            itemVector <- (InventoryEntity.getItems inventoryEntityInterface (javaCast (jio (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))))
+            Control.Monad.void (Node.appendChild inventoryNode (jio (ModDomHelper.createNameValueNodes_3 document (SearchData.tOTAL_NUMBER_ITEMS_ON_THIS_PAGE) (javaToString (Prelude.fromIntegral ((jio (BasicArrayList.size itemVector))) :: Int)))))
             size <- (BasicArrayList.size itemVector)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let itemInterface = (javaCast (jio (BasicArrayList.get itemVector index)) :: ItemInterface.ItemInterface)

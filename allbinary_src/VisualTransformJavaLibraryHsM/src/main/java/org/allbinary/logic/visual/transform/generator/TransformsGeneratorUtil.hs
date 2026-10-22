@@ -72,7 +72,7 @@ newRecord_ = do
     let this = TransformsGeneratorUtil header_ logUtil
     jregisterLevel header_ this
     jregisterMethod header_ "generateComponentsFromObjectConfig" (\() -> generateComponentsFromObjectConfig_impl this)
-    jregisterMethod header_ "generateComponentsFromObjectConfig" (\() -> generateComponentsFromObjectConfig_impl this)
+    jregisterMethod header_ "generateComponentsFromObjectConfig_4" (\() -> generateComponentsFromObjectConfig_4_impl this)
     pure this
 
 initFields_ :: TransformsGeneratorUtil -> IO ()
@@ -110,22 +110,21 @@ generateComponentsFromObjectConfig_impl this abeClientInformation transformInfoI
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Started Group: " ++ group) this "generateComponentsFromObjectConfig(2)")
         transformInfoObjectConfigInterface <- (TransformInfoInterface.getObjectConfigInterface transformInfoInterface)
-        result <- (TransformsGeneratorUtil.generateComponentsFromObjectConfig this abeClientInformation transformInfoObjectConfigInterface transformInfoInterface group)
+        result <- (TransformsGeneratorUtil.generateComponentsFromObjectConfig_4 this abeClientInformation transformInfoObjectConfigInterface transformInfoInterface group)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("End Group: " ++ group) this "generateComponentsFromObjectConfig(2)")
         pure (result)
 
 
 -- throws Exception
--- Java overload of generateComponentsFromObjectConfig with a different parameter count: give it a different name
-generateComponentsFromObjectConfig :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
-generateComponentsFromObjectConfig object_ a1 a2 a3 a4 = jmethod object_ "generateComponentsFromObjectConfig" (\() -> (generateComponentsFromObjectConfig_impl (javaCast object_ :: TransformsGeneratorUtil))) () a1 a2 a3 a4
+generateComponentsFromObjectConfig_4 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
+generateComponentsFromObjectConfig_4 object_ a1 a2 a3 a4 = jmethod object_ "generateComponentsFromObjectConfig_4" (\() -> (generateComponentsFromObjectConfig_4_impl (javaCast object_ :: TransformsGeneratorUtil))) () a1 a2 a3 a4
 
-generateComponentsFromObjectConfig_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
-generateComponentsFromObjectConfig_super object_ a1 a2 a3 a4 = (generateComponentsFromObjectConfig_impl (javaCast object_ :: TransformsGeneratorUtil)) a1 a2 a3 a4
+generateComponentsFromObjectConfig_4_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
+generateComponentsFromObjectConfig_4_super object_ a1 a2 a3 a4 = (generateComponentsFromObjectConfig_4_impl (javaCast object_ :: TransformsGeneratorUtil)) a1 a2 a3 a4
 
-generateComponentsFromObjectConfig_impl :: TransformsGeneratorUtil -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
-generateComponentsFromObjectConfig_impl this abeClientInformation transformInfoObjectConfigInterface transformInfoInterface group = do
+generateComponentsFromObjectConfig_4_impl :: TransformsGeneratorUtil -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface -> TransformInfoInterface.TransformInfoInterface -> String -> IO (String)
+generateComponentsFromObjectConfig_4_impl this abeClientInformation transformInfoObjectConfigInterface transformInfoInterface group = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Started Group: " ++ group) this "generateComponentsFromObjectConfig()")
         transformInfoObjectConfigComponentVector <- (TransformInfoObjectConfigInterface.getTransformsGroup transformInfoObjectConfigInterface group)

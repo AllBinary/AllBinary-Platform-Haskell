@@ -229,7 +229,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: GenericBodyVal
 
 toXmlNode_impl :: GenericBodyValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (BodyData.getInstance))).nAME) (jget (this).body))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (BodyData.getInstance))).nAME) (jget (this).body))
         pure (node)
 
 

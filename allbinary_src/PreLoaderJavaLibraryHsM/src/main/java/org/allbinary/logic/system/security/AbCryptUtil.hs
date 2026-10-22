@@ -104,10 +104,10 @@ decrypt_impl :: AbCryptUtil -> InputStream.InputStream -> String -> IO (JavaArra
 decrypt_impl this inputStream key = do
         outputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget outputStream))
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) inputStream)
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget outputStream)))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast inputStream))
             ) $ do
-            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) inputStream (jio (ByteArrayOutputStream.new_)) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
+            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) inputStream (javaCast (jio (ByteArrayOutputStream.new_))) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
             abCrypt <- (AbCrypt.new_1 (jget ((jio (KeySpecFactory.getInstance))).dESEDE))
             Control.Monad.void (AbCrypt.init abCrypt key)
             (AbCrypt.decrypt abCrypt (jio (ByteArrayOutputStream.toByteArray ((jget outputStream)))))

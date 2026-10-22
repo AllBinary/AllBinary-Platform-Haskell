@@ -461,8 +461,8 @@ processForced_impl this = do
             ) $ do
             swtJOGLProcessor <- (SWTJOGLProcessor.getInstance)
             Control.Monad.void (SWTJOGLProcessor.clear swtJOGLProcessor)
-            Control.Monad.void (DisplayChangeEventHandler.fireEvent ((jio (DisplayChangeEventHandler.getInstance))) (jget (this).displayChangeEvent))
-            Control.Monad.void (LastDisplayChangeEventHandler.fireEvent ((jio (LastDisplayChangeEventHandler.getInstance))) (jget (this).displayChangeEvent))
+            Control.Monad.void (DisplayChangeEventHandler.fireEvent ((jio (DisplayChangeEventHandler.getInstance))) (javaCast (jget (this).displayChangeEvent)))
+            Control.Monad.void (LastDisplayChangeEventHandler.fireEvent ((jio (LastDisplayChangeEventHandler.getInstance))) (javaCast (jget (this).displayChangeEvent)))
             Control.Monad.void (SWTJOGLProcessor.onSurfaceChanged swtJOGLProcessor)
         pure ()
 
@@ -484,7 +484,7 @@ update_impl this displayable reason = do
         when (((jget aLastWidth) > 0) && ((jget aLastHeight) > 0)) $ do
             features <- (Features.getInstance)
             openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-            when (((Prelude.not (jio (Features.isDefault features (jget (openGLFeatureFactory).oPENGL)))) || ((jindex ((jget (this).last)) ((jget (this).wIDTH))) /= (jget aLastWidth))) || ((jindex ((jget (this).last)) ((jget (this).hEIGHT))) /= (jget aLastHeight))) $ do
+            when (((Prelude.not (jio (Features.isDefault features (javaCast (jget (openGLFeatureFactory).oPENGL))))) || ((jindex ((jget (this).last)) ((jget (this).wIDTH))) /= (jget aLastWidth))) || ((jindex ((jget (this).last)) ((jget (this).hEIGHT))) /= (jget aLastHeight))) $ do
                 Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append stringMaker (jget (this).uPDATE_FROM_ORIENTATION_CHANGE)))))) this (jget ((jget (this).commonStrings)).uPDATE))
                 operatingSystemInterface <- (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance))))

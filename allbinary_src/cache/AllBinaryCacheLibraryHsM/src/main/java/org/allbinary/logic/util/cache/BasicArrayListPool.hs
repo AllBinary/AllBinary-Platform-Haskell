@@ -148,7 +148,7 @@ releaseUsedBackToPool_impl this usedList = do
             let list = (javaCast (jindex ((jget (usedList).objectArray)) ((jget index))) :: BasicArrayListCacheable.BasicArrayListCacheable)
             when ((jio (BasicArrayListCacheable.size list)) == 0) $ do
                 Control.Monad.void (BasicArrayList.removeAt usedList (jget index))
-                Control.Monad.void (AbstractArrayListPool.add this list)
+                Control.Monad.void (AbstractArrayListPool.add this (javaCast list))
         pure ()
 
 

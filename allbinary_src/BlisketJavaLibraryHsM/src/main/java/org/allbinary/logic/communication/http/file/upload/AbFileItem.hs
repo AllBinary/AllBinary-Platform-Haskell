@@ -90,7 +90,7 @@ newRecord_ = do
     jregisterMethod header_ "getSize" (\() -> getSize_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
     jregisterMethod header_ "getString" (\() -> getString_impl this)
-    jregisterMethod header_ "getString" (\() -> getString_impl this)
+    jregisterMethod header_ "getString_0" (\() -> getString_0_impl this)
     jregisterMethod header_ "write_overload1" (\() -> write_overload1_impl this)
     jregisterMethod header_ "write_overload2" (\() -> write_overload2_impl this)
     jregisterMethod header_ "delete" (\() -> delete_impl this)
@@ -206,15 +206,14 @@ getString_impl this encoding = do
         (jnewString (jget (this).byteArray) encoding)
 
 
--- Java overload of getString with a different parameter count: give it a different name
-getString :: (JavaObjectClass this_) => this_ -> IO (String)
-getString object_ = jmethod object_ "getString" (\() -> (getString_impl (javaCast object_ :: AbFileItem))) ()
+getString_0 :: (JavaObjectClass this_) => this_ -> IO (String)
+getString_0 object_ = jmethod object_ "getString_0" (\() -> (getString_0_impl (javaCast object_ :: AbFileItem))) ()
 
-getString_super :: (JavaObjectClass this_) => this_ -> IO (String)
-getString_super object_ = (getString_impl (javaCast object_ :: AbFileItem))
+getString_0_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getString_0_super object_ = (getString_0_impl (javaCast object_ :: AbFileItem))
 
-getString_impl :: AbFileItem -> IO (String)
-getString_impl this = do
+getString_0_impl :: AbFileItem -> IO (String)
+getString_0_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "getString" e)

@@ -148,10 +148,10 @@ set_impl :: OpenGLESGL10Image -> GL.GL -> IO (())
 set_impl this gl = do
         let gl10 = (javaCast gl :: GL10.GL10)
         when (jio (OpenGLESImage.initTexture_super this.base gl10)) $ do
-            Control.Monad.void (PlatformTextureBaseFactory.load ((jget (this).base.textureFactory)) gl10 (GL10.gL_TEXTURE_2D) 0 this 0 True)
+            Control.Monad.void (PlatformTextureBaseFactory.load ((jget (this).base.textureFactory)) gl10 (GL10.gL_TEXTURE_2D) 0 (javaCast this) 0 True)
             Control.Monad.void (GL10.glDisable gl10 (GL10.gL_TEXTURE_2D))
             jset (this).openGLESImageDraw ((jget (this).realOpenGLESImageDraw))
-            Control.Monad.void (OpenGLLogUtil.logError ((jio (OpenGLLogUtil.getInstance))) gl10 this)
+            Control.Monad.void (OpenGLLogUtil.logError_2 ((jio (OpenGLLogUtil.getInstance))) gl10 (javaCast this))
         pure ()
 
 

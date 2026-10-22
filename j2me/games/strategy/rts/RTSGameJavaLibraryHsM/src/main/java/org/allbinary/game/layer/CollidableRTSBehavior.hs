@@ -94,7 +94,7 @@ isCollision_impl :: CollidableRTSBehavior -> CollidableCompositeLayer.Collidable
 isCollision_impl this ownerLayer collidableInterfaceCompositeInterface = do
     javaCatchReturn $ do
         collisionTypeFactory <- (CollisionTypeFactory.getInstance)
-        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) ownerLayer)
+        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) (javaCast ownerLayer))
         if (collisionType == (jget (collisionTypeFactory).pICKUP)) then do
             pure ()
         else if (collisionType == (jget (collisionTypeFactory).cOLLISION)) then do
@@ -117,7 +117,7 @@ collide_super object_ a1 a2 = (collide_impl (javaCast object_ :: CollidableRTSBe
 collide_impl :: CollidableRTSBehavior -> CollidableCompositeLayer.CollidableCompositeLayer -> CollidableCompositeLayer.CollidableCompositeLayer -> IO (())
 collide_impl this ownerLayer collidableInterfaceCompositeInterface = do
         collisionTypeFactory <- (CollisionTypeFactory.getInstance)
-        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) ownerLayer)
+        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) (javaCast ownerLayer))
         if (collisionType == (jget (collisionTypeFactory).pICKUP)) then do
             pure ()
         else if (collisionType == (jget (collisionTypeFactory).cOLLISION)) then do

@@ -96,7 +96,7 @@ newRecord_ = do
     let this = OpenGLUtil header_ logUtil commonStrings renderStrings canvasStrings displayInfoSingleton preResourceImageUtil lockObject anyType list runnableList created surfaceCreatedAndInitialized
     jregisterLevel header_ this
     jregisterMethod header_ "onSurfaceCreated" (\() -> onSurfaceCreated_impl this)
-    jregisterMethod header_ "onSurfaceCreated" (\() -> onSurfaceCreated_impl this)
+    jregisterMethod header_ "onSurfaceCreated_2" (\() -> onSurfaceCreated_2_impl this)
     jregisterMethod header_ "onSurfaceChanged" (\() -> onSurfaceChanged_impl this)
     jregisterMethod header_ "addImage" (\() -> addImage_impl this)
     jregisterMethod header_ "clear" (\() -> clear_impl this)
@@ -154,15 +154,14 @@ onSurfaceCreated_impl this gl = do
         pure ()
 
 
--- Java overload of onSurfaceCreated with a different parameter count: give it a different name
-onSurfaceCreated :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
-onSurfaceCreated object_ a1 a2 = jmethod object_ "onSurfaceCreated" (\() -> (onSurfaceCreated_impl (javaCast object_ :: OpenGLUtil))) () a1 a2
+onSurfaceCreated_2 :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
+onSurfaceCreated_2 object_ a1 a2 = jmethod object_ "onSurfaceCreated_2" (\() -> (onSurfaceCreated_2_impl (javaCast object_ :: OpenGLUtil))) () a1 a2
 
-onSurfaceCreated_super :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
-onSurfaceCreated_super object_ a1 a2 = (onSurfaceCreated_impl (javaCast object_ :: OpenGLUtil)) a1 a2
+onSurfaceCreated_2_super :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
+onSurfaceCreated_2_super object_ a1 a2 = (onSurfaceCreated_2_impl (javaCast object_ :: OpenGLUtil)) a1 a2
 
-onSurfaceCreated_impl :: OpenGLUtil -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
-onSurfaceCreated_impl this gl loadTextures = do
+onSurfaceCreated_2_impl :: OpenGLUtil -> GL10.GL10 -> LoadTextures.LoadTextures -> IO (())
+onSurfaceCreated_2_impl this gl loadTextures = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).renderStrings)).oN_SURFACE_CREATED) e)
             ) $ do
@@ -185,7 +184,7 @@ onSurfaceChanged_impl this gl graphics = do
             jset (this).surfaceCreatedAndInitialized (True)
         Control.Monad.void (OpenGLESGraphics.update graphics)
         progressCanvas <- (ProgressCanvasFactory.getInstance)
-        Control.Monad.void (ProgressCanvas.update progressCanvas graphics)
+        Control.Monad.void (ProgressCanvas.update progressCanvas (javaCast graphics))
         Control.Monad.void (update (((javaCast (jio (OpenGLImageCacheFactory.getInstance)) :: OpenGLImageCache.OpenGLImageCache))) gl)
         Control.Monad.void (OpenGLUtil.processRunnables this)
         Control.Monad.void (OpenGLUtil.set this gl)
@@ -268,7 +267,7 @@ set_impl this gl = do
         image <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index2 -> javaIteration (pure ()) $ do
             jset image ((javaCast (jio (BasicArrayList.get ((jget (this).list)) index2)) :: OpenGLESImage.OpenGLESImage))
-            Control.Monad.void (Image.set ((jget image)) gl)
+            Control.Monad.void (OpenGLESImage.set ((jget image)) (javaCast gl))
         pure ()
 
 

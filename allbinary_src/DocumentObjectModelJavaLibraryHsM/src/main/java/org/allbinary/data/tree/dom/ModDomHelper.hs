@@ -131,17 +131,16 @@ createNameValueNodes_overload1 document elementName nameText valueText = do
 
 
 -- Java overloads of createNameValueNodes: calls the overload for the types of the arguments
-createNameValueNodes :: (JavaObjectClass o2, JavaObjectClass o3) => Document.Document -> o2 -> o3 -> IO (Node.Node)
-createNameValueNodes a1 a2 a3
-    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: String) = createNameValueNodes_overload1 a1 (javaCast a2 :: String) (javaCast a3 :: String)
-    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: HashMap.HashMap) = createNameValueNodes_overload2 a1 (javaCast a2 :: String) (javaCast a3 :: HashMap.HashMap)
-    | jisInstanceOf a2 (javaNull :: Node.Node) && jisInstanceOf a3 (javaNull :: HashMap.HashMap) = createNameValueNodes_overload3 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: HashMap.HashMap)
-    | otherwise = createNameValueNodes_overload3 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: HashMap.HashMap)
+createNameValueNodes_3 :: (JavaObjectClass o2, JavaObjectClass o3) => Document.Document -> o2 -> o3 -> IO (Node.Node)
+createNameValueNodes_3 a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: String) = createNameValueNodes_3_overload1 a1 (javaCast a2 :: String) (javaCast a3 :: String)
+    | jisInstanceOf a2 (javaNull :: String) && jisInstanceOf a3 (javaNull :: HashMap.HashMap) = createNameValueNodes_3_overload2 a1 (javaCast a2 :: String) (javaCast a3 :: HashMap.HashMap)
+    | jisInstanceOf a2 (javaNull :: Node.Node) && jisInstanceOf a3 (javaNull :: HashMap.HashMap) = createNameValueNodes_3_overload3 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: HashMap.HashMap)
+    | otherwise = createNameValueNodes_3_overload3 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: HashMap.HashMap)
 
 -- throws Exception
--- Java overload of createNameValueNodes with a different parameter count: give it a different name
-createNameValueNodes_overload1 :: Document.Document -> String -> String -> IO (Node.Node)
-createNameValueNodes_overload1 document elementNameAndNameText valueText = do
+createNameValueNodes_3_overload1 :: Document.Document -> String -> String -> IO (Node.Node)
+createNameValueNodes_3_overload1 document elementNameAndNameText valueText = do
         newNode <- (ModDomHelper.createNameValueNodes document elementNameAndNameText elementNameAndNameText valueText)
         pure (newNode)
 
@@ -156,23 +155,21 @@ createNameValueIndexNodes a1 a2 a3 a4
 -- throws Exception
 createNameValueIndexNodes_overload1 :: Document.Document -> String -> Int -> String -> IO (Node.Node)
 createNameValueIndexNodes_overload1 document elementNameAndNameText index valueText = do
-        newNode <- (ModDomHelper.createNameValueNodes document elementNameAndNameText valueText)
+        newNode <- (ModDomHelper.createNameValueNodes_3 document elementNameAndNameText valueText)
         Control.Monad.void (Node.appendChild newNode (jio (ModDomHelper.createIndexNode document index)))
         pure (newNode)
 
 
 -- throws Exception
--- Java overload of createNameValueNodes with a different parameter count: give it a different name
-createNameValueNodes_overload2 :: Document.Document -> String -> HashMap.HashMap -> IO (Node.Node)
-createNameValueNodes_overload2 document rootNode hashMap = do
+createNameValueNodes_3_overload2 :: Document.Document -> String -> HashMap.HashMap -> IO (Node.Node)
+createNameValueNodes_3_overload2 document rootNode hashMap = do
         node <- (Document.createElement document rootNode)
-        (ModDomHelper.createNameValueNodes document node hashMap)
+        (ModDomHelper.createNameValueNodes_3 document node hashMap)
 
 
 -- throws Exception
--- Java overload of createNameValueNodes with a different parameter count: give it a different name
-createNameValueNodes_overload3 :: Document.Document -> Node.Node -> HashMap.HashMap -> IO (Node.Node)
-createNameValueNodes_overload3 document node hashMap = do
+createNameValueNodes_3_overload3 :: Document.Document -> Node.Node -> HashMap.HashMap -> IO (Node.Node)
+createNameValueNodes_3_overload3 document node hashMap = do
         stringUtil <- (StringUtil.getInstance)
         keySet <- (HashMap.keySet hashMap)
         keyArray <- (Set.toArray keySet)
@@ -183,19 +180,18 @@ createNameValueNodes_overload3 document node hashMap = do
             let anyType = (javaCast (jio (HashMap.get hashMap objectKey)) :: Any.Any)
             if (anyType == javaNull) then do
                 let value = (jget (stringUtil).eMPTY_STRING)
-                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name value)))
+                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name value)))
             else if (javaInstanceOf anyType "String") then do
                 value <- (StringUtil.getNonNull stringUtil (javaCast anyType :: String))
-                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name value)))
+                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name value)))
             else if (javaInstanceOf anyType "HashMap") then do
-                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name hashMap)))
+                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name hashMap)))
             else do
                 javaThrow ((JavaException "Exception" ("HashMap value is the wrong instance and is: " ++ javaToString (jio (ClassUtil.viewAll anyType (jget ((jio (CommonSeps.getInstance))).nEW_LINE))))))
         pure (node)
 
 
 -- throws Exception
--- Java overload of createNameValueNodes with a different parameter count: give it a different name
 createNameValueNodes_overload2 :: Document.Document -> String -> String -> BasicArrayList.BasicArrayList -> IO (Node.Node)
 createNameValueNodes_overload2 document rootNodeName duplicateNodeName valueVector = do
         stringUtil <- (StringUtil.getInstance)
@@ -203,7 +199,7 @@ createNameValueNodes_overload2 document rootNodeName duplicateNodeName valueVect
         size <- (BasicArrayList.size valueVector)
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             value <- (StringUtil.getNonNull stringUtil (javaCast (jio (BasicArrayList.get valueVector i)) :: String))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document duplicateNodeName value)))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document duplicateNodeName value)))
         pure (node)
 
 

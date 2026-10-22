@@ -86,11 +86,11 @@ init :: IO (())
 init = do
         features <- (Features.getInstance)
         sensorFeatureFactory <- (SensorFeatureFactory.getInstance)
-        if (jio (Features.isFeature features (jget (sensorFeatureFactory).oRIENTATION_SENSORS))) then do
+        if (jio (Features.isFeature features (javaCast (jget (sensorFeatureFactory).oRIENTATION_SENSORS)))) then do
             javaThrow ((JavaException "Exception" "No Orientation Sensors"))
-        else if (jio (Features.isFeature features (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS)))) then do
             javaThrow ((JavaException "Exception" "No Simulation Sensors"))
-        else if (jio (Features.isFeature features (jget (sensorFeatureFactory).nO_ORIENTATION))) then do
+        else if (jio (Features.isFeature features (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION)))) then do
             assignedValue <- (NoAccelerometerSensor.new_)
             jset AccelerometerSensorFactory.allBinaryAccelerometerSensor (assignedValue)
         else do

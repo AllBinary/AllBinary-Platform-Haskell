@@ -80,7 +80,7 @@ initFields_ this = do
 
 getInstance :: IO (ShaderComposite.ShaderComposite)
 getInstance = do
-        pure (NullShaderComposite.instance_)
+        pure ((javaCast NullShaderComposite.instance_ :: ShaderComposite.ShaderComposite))
 
 new_8 :: String -> JavaArray (Shader.Shader) -> CompositeShaderUpdater.CompositeShaderUpdater -> ShaderInitializer.ShaderInitializer -> ModelViewProjection.ModelViewProjection -> OpenGLProcessor.OpenGLProcessor -> OpenGLProcessor.OpenGLProcessor -> OpenGLProcessor.OpenGLProcessor -> IO NullShaderComposite
 new_8 requiresOpenGLVersion shaderArray compositeShaderUpdater shaderInitializer modelViewProjection colorOpenGLProcessor vertexOpenGLProcessor disableProgramShaderOpenGLProcessor = do

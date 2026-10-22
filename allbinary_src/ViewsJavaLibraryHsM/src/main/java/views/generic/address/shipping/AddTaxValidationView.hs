@@ -122,7 +122,7 @@ isValid_impl this = do
             assignedValue <- (StreetAddress.new_1 (jio (ShippingAddressView.getRequest this)))
             jset (this).base.streetAddress (assignedValue)
             storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (ShippingAddressView.getTransformInfoInterface this)))))))
-            taxInterface <- (fmap (\value_ -> javaCast value_ :: TaxModuleInterface.TaxModuleInterface) (TaxFactory.getInstance ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))
+            taxInterface <- (fmap (\value_ -> javaCast value_ :: TaxModuleInterface.TaxModuleInterface) (TaxFactory.getInstance_2 ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))
             when (taxInterface == javaNull) $ do
                 javaReturn (False)
             when ((jio (TaxModuleInterface.isValid taxInterface (jget (this).base.streetAddress) storeFrontInterface)) == False) $ do
@@ -155,7 +155,7 @@ validationInfo_impl this = do
             ) $ do
             stringBuffer <- (StringMaker.new_)
             storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (ShippingAddressView.getTransformInfoInterface this)))))))
-            taxInterface <- (fmap (\value_ -> javaCast value_ :: TaxModuleInterface.TaxModuleInterface) (TaxFactory.getInstance ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))
+            taxInterface <- (fmap (\value_ -> javaCast value_ :: TaxModuleInterface.TaxModuleInterface) (TaxFactory.getInstance_2 ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))
             if (taxInterface == javaNull) then do
                 Control.Monad.void (StringMaker.append stringBuffer "Unable to Load Tax Component<br/>")
             else do

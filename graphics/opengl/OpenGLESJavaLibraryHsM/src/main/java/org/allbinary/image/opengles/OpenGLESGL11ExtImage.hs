@@ -132,10 +132,10 @@ set_impl this gl = do
         Control.Monad.void (OpenGLESGL11ExtImage.onDisplayChangeEvent this (jget ((jio (DisplayInfoSingleton.getInstance))).displayChangeEvent))
         let gl11 = (javaCast gl :: GL11.GL11)
         when (jio (OpenGLESImage.initTexture_super this.base gl11)) $ do
-            Control.Monad.void (PlatformTextureBaseFactory.load ((jget (this).base.textureFactory)) gl11 (GL10.gL_TEXTURE_2D) 0 this 0 True)
+            Control.Monad.void (PlatformTextureBaseFactory.load ((jget (this).base.textureFactory)) (javaCast gl11) (GL10.gL_TEXTURE_2D) 0 (javaCast this) 0 True)
             Control.Monad.void (GL11.glTexParameteriv gl11 (GL10.gL_TEXTURE_2D) (GL11Ext.gL_TEXTURE_CROP_RECT_OES) (jget (this).rectangle) 0)
             Control.Monad.void (GL11.glDisable gl11 (GL10.gL_TEXTURE_2D))
-            Control.Monad.void (OpenGLLogUtil.logError ((jio (OpenGLLogUtil.getInstance))) gl11 this)
+            Control.Monad.void (OpenGLLogUtil.logError_2 ((jio (OpenGLLogUtil.getInstance))) (javaCast gl11) (javaCast this))
         pure ()
 
 
@@ -147,11 +147,11 @@ draw_super object_ a1 a2 a3 a4 = (draw_impl (javaCast object_ :: OpenGLESGL11Ext
 
 draw_impl :: OpenGLESGL11ExtImage -> GL10.GL10 -> Int -> Int -> Int -> IO (())
 draw_impl this gl x y z = do
-        Control.Monad.void (GL.glEnable gl (GL10.gL_TEXTURE_2D))
-        Control.Monad.void (GL.glBindTexture gl (GL10.gL_TEXTURE_2D) (jget ((jget (this).base.openGLESImageProperties)).textureID))
+        Control.Monad.void (GL10.glEnable gl (GL10.gL_TEXTURE_2D))
+        Control.Monad.void (GL10.glBindTexture gl (GL10.gL_TEXTURE_2D) (jget ((jget (this).base.openGLESImageProperties)).textureID))
         let gl11Ext = (javaCast gl :: GL11Ext.GL11Ext)
         Control.Monad.void (GL11Ext.glDrawTexfOES gl11Ext (Prelude.fromIntegral x) (Prelude.fromIntegral (((jget (this).a) - y))) (Prelude.fromIntegral z) (Prelude.realToFrac (jnumericDouble (jio (OpenGLESImage.getWidth this)))) (Prelude.realToFrac (jnumericDouble (jio (OpenGLESImage.getHeight this)))))
-        Control.Monad.void (GL.glDisable gl (GL10.gL_TEXTURE_2D))
+        Control.Monad.void (GL10.glDisable gl (GL10.gL_TEXTURE_2D))
         pure ()
 
 

@@ -102,7 +102,7 @@ initFields_ :: CommandForm -> IO ()
 initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
     jset this.commonStrings =<< (CommonStrings.getInstance)
-    jset this.repaintProcessor =<< (ScreenRepaintProcessorFactory.create ((jio (ScreenRepaintProcessorFactory.getInstance))) this)
+    jset this.repaintProcessor =<< (ScreenRepaintProcessorFactory.create ((jio (ScreenRepaintProcessorFactory.getInstance))) (javaCast this))
     jset this.commandStack (javaNull)
     pure ()
 

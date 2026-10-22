@@ -130,7 +130,7 @@ init_impl this abeClientInformation = do
                 forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                     assignedValue <- (List.get inputAutomationModuleConfigurationList index)
                     jset inputAutomationModuleConfiguration (assignedValue)
-                    Control.Monad.void (InputAutomationModuleConfiguration.init ((jget inputAutomationModuleConfiguration)) abeClientInformation)
+                    Control.Monad.void (InputAutomationModuleConfiguration.init_1 ((jget inputAutomationModuleConfiguration)) abeClientInformation)
             Control.Monad.void (LogUtil.putF logUtil "LoadedConfiguration" iNPUT_AUTOMATION_CONFIGURATION (jget (commonStrings).iNIT))
         else do
             Control.Monad.void (LogUtil.putF logUtil "New Configuration" iNPUT_AUTOMATION_CONFIGURATION (jget (commonStrings).iNIT))

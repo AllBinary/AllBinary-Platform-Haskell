@@ -102,7 +102,7 @@ process_impl this userName order = do
         orderItems <- (OrderItemsEntity.new_)
         orderHistory <- (OrderHistoryEntity.new_)
         Control.Monad.void (Order.setId order (jio (OrderIdGenerator.getNext ((jio (OrderIdGenerator.new_))))))
-        Control.Monad.void (OrderItemsEntity.insert orderItems userName order)
+        Control.Monad.void (OrderItemsEntity.insert orderItems userName (javaCast order))
         Control.Monad.void (OrderHistoryEntity.insert orderHistory userName order)
         pure ((jget (this).oRDER_PROCESSED))
 

@@ -77,7 +77,7 @@ init_2 this id name = do
         initFields_ this
         pure () -- super(...) is in the record above
         inputFactory <- (InputFactory.getInstance)
-        Control.Monad.void (InputFactory.add inputFactory (jio (Input.getId this)) this)
+        Control.Monad.void (InputFactory.add inputFactory (jio (Input.getId this)) (javaCast this))
         pure ()
 
 

@@ -70,7 +70,7 @@ newRecord_ = do
 
 initFields_ :: SWTProcessor -> IO ()
 initFields_ this = do
-    jset this.runnable =<< (NullRunnable.getInstance)
+    jset this.runnable =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (NullRunnable.getInstance))
     pure ()
 
 new_ :: IO SWTProcessor

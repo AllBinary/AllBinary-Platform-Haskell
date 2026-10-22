@@ -119,7 +119,7 @@ newRecord_ = do
     DomNodeInterface.registerInterface_ header_
     CompositeTransformInfoInterface.registerInterface_ header_
     jregisterMethod header_ "init" (\() -> init_impl this)
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "init_1" (\() -> init_1_impl this)
     jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     jregisterMethod header_ "getName" (\() -> getName_impl this)
     jregisterMethod header_ "getPreviewImageName" (\() -> getPreviewImageName_impl this)
@@ -222,7 +222,7 @@ init_2 this storeThemeCategoryInterface node = do
         jset (this).themePreviewImageName (assignedValue)
         assignedValue <- (StoreThemeCategoryInterface.getWebAppPath storeThemeCategoryInterface)
         jset (this).webAppAbPath (assignedValue)
-        Control.Monad.void (ThemeValidation.init this storeThemeCategoryInterface)
+        Control.Monad.void (ThemeValidation.init_1 this storeThemeCategoryInterface)
         pure ()
 
 
@@ -238,20 +238,19 @@ init_impl this = do
         categoryFactoryInterface <- (fmap (\value_ -> javaCast value_ :: CategoryFactoryInterface.CategoryFactoryInterface) (StoreThemeCategoryFactory.new_1 (jio (ThemeValidation.getTransformInfoInterface this))))
         categoryLoaderInterface <- (CategoryLoaderFactory.getInstance categoryFactoryInterface)
         let rootStoreThemeCategoryInterface = (javaCast (jio (CategoryFactoryInterface.getRootInstance categoryFactoryInterface)) :: StoreThemeCategoryInterface.StoreThemeCategoryInterface)
-        Control.Monad.void (ThemeValidation.init this rootStoreThemeCategoryInterface)
+        Control.Monad.void (ThemeValidation.init_1 this rootStoreThemeCategoryInterface)
         pure ()
 
 
 -- throws Exception
--- Java overload of init with a different parameter count: give it a different name
-init :: (JavaObjectClass this_) => this_ -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
-init object_ a1 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: ThemeValidation))) () a1
+init_1 :: (JavaObjectClass this_) => this_ -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
+init_1 object_ a1 = jmethod object_ "init_1" (\() -> (init_1_impl (javaCast object_ :: ThemeValidation))) () a1
 
-init_super :: (JavaObjectClass this_) => this_ -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
-init_super object_ a1 = (init_impl (javaCast object_ :: ThemeValidation)) a1
+init_1_super :: (JavaObjectClass this_) => this_ -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
+init_1_super object_ a1 = (init_1_impl (javaCast object_ :: ThemeValidation)) a1
 
-init_impl :: ThemeValidation -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
-init_impl this storeThemeCategoryInterface = do
+init_1_impl :: ThemeValidation -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
+init_1_impl this storeThemeCategoryInterface = do
         assignedValue <- (AbPath.new_2 ((jio (StoreThemeCategoryInterface.toString ((jio (StoreThemeCategoryInterface.getRootFilePath storeThemeCategoryInterface))))) ++ (jio (AbPath.toString ((jget (this).categoryAbPath))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         jset (this).fileAbPath (assignedValue)
         assignedValue <- (StoreThemeCategoryInterface.getWebAppPath storeThemeCategoryInterface)
@@ -327,7 +326,7 @@ getCssStyleValidation_impl this = do
         when ((jget (this).styleValidationInterface) == javaNull) $ do
             cssStyleFileAbPath <- (AbPath.new_2 (jio (AbPath.toString ((jget (this).fileAbPath)))) (((jget (this).themeName) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
             cryptFileReader <- (CryptFileReader.new_2 (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (CategoryData.getInstance))).eNCRYPTED_EXTENSION))
-            document <- (DomDocumentHelper.create (jio (CryptFileReader.get cryptFileReader cssStyleFileAbPath)))
+            document <- (DomDocumentHelper.create_1 (jio (CryptFileReader.get cryptFileReader cssStyleFileAbPath)))
             assignedValue <- (fmap (\value_ -> javaCast value_ :: ValidationInterface.ValidationInterface) (CssStyleValidation.new_1 document))
             jset (this).styleValidationInterface (assignedValue)
         pure ((javaCast (jget (this).styleValidationInterface) :: CssStyleValidation.CssStyleValidation))
@@ -453,7 +452,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: ThemeValidatio
 
 toXmlNode_impl :: ThemeValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (ThemeData.getInstance))).nAME) (jio (ThemeValidation.toHashMap this)))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (ThemeData.getInstance))).nAME) (jio (ThemeValidation.toHashMap this)))
         let domNodeInterface = (javaCast (jio (ThemeValidation.getCssStyleValidation this)) :: DomNodeInterface.DomNodeInterface)
         Control.Monad.void (Node.appendChild node (jio (DomNodeInterface.toXmlNode domNodeInterface document)))
         pure (node)

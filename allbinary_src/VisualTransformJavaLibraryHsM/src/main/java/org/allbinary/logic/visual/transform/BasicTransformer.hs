@@ -122,8 +122,8 @@ setEncryptedTemplateFileAsInputStream_impl this file = do
         outputStream <- newIORef (javaNull)
         inputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget outputStream))
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget inputStream))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget outputStream)))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget inputStream)))
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 stringBuffer <- (StringMaker.new_)
@@ -138,7 +138,7 @@ setEncryptedTemplateFileAsInputStream_impl this file = do
             jset outputStream (assignedValue)
             assignedValue <- (AbFileInputStream.new_1 file)
             jset inputStream (assignedValue)
-            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (jget inputStream) (jget outputStream) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
+            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (javaCast (jget inputStream)) (javaCast (jget outputStream)) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
             abCrypt <- (AbCrypt.new_2 (KeySpecFactory.dESEDE) (jio (AbKeys.getKey ((jio (AbKeys.getInstance))) (jget (this).abeClientInformation) (jio (AbFile.getAbsolutePath file)))))
             decrypted <- (AbCrypt.decrypt abCrypt (jio (ByteArrayOutputStream.toByteArray ((jget outputStream)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
@@ -160,8 +160,8 @@ setEncryptedTemplateAsInputStream_impl this = do
         outputStream <- newIORef (javaNull)
         inputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget outputStream))
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget inputStream))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget outputStream)))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget inputStream)))
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Failed to set with template: " ++ javaToString (jio (TransformInfoInterface.getTemplateFilePath ((jio (AbTransformer.getTransformInfoInterface this)))))) this "setEncryptedTemplateFileAsInputStream()" e)
@@ -171,7 +171,7 @@ setEncryptedTemplateAsInputStream_impl this = do
             jset outputStream (assignedValue)
             assignedValue <- (ByteArrayInputStream.new_1 (jio (TransformInfoInterface.getBytes ((jio (TransformInfoInterface.getTemplate ((jio (AbTransformer.getTransformInfoInterface this)))))))))
             jset inputStream (assignedValue)
-            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (jget inputStream) (jget outputStream) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
+            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (javaCast (jget inputStream)) (javaCast (jget outputStream)) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
             abCrypt <- (AbCrypt.new_2 (KeySpecFactory.dESEDE) (jio (AbKeys.getKey ((jio (AbKeys.getInstance))) (jget (this).abeClientInformation) (jio (TransformInfoInterface.getName ((jio (AbTransformer.getTransformInfoInterface this))))))))
             decrypted <- (AbCrypt.decrypt abCrypt (jio (ByteArrayOutputStream.toByteArray ((jget outputStream)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
@@ -194,8 +194,8 @@ setTemplateAsInputStream_impl this = do
         inputStream <- newIORef (javaNull)
         outputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget outputStream))
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (jget inputStream))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget outputStream)))
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast (jget inputStream)))
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to get Template Data" this "setTemplateAsInputStream()" e)
@@ -240,7 +240,7 @@ setTemplateAsInputStream_impl this = do
                             jset inputStream (assignedValue)
                             assignedValue <- (ByteArrayOutputStream.new_)
                             jset outputStream (assignedValue)
-                            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (jget inputStream) (jget outputStream) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
+                            jset outputStream ((javaCast (jio (StreamUtil.get ((jget (this).streamUtil)) (javaCast (jget inputStream)) (javaCast (jget outputStream)) (jnewArray (16384) 0))) :: ByteArrayOutputStream.ByteArrayOutputStream))
                             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORY))) $ do
                                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Template: " ++ (jio (ByteArrayOutputStream.toString ((jget outputStream))))) this "getTemplateAsInputStream()")
                             Control.Monad.void (AbTransformer.setInputStream this (javaCast (jio (ByteArrayInputStream.new_1 (jio (ByteArrayOutputStream.toByteArray ((jget outputStream)))))) :: InputStream.InputStream))

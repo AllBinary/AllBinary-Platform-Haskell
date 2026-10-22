@@ -84,7 +84,7 @@ newRecord_ = do
     jregisterMethod header_ "isMedia" (\() -> isMedia_impl this)
     jregisterMethod header_ "isReaderMedia" (\() -> isReaderMedia_impl this)
     jregisterMethod header_ "isWriterMedia" (\() -> isWriterMedia_impl this)
-    jregisterMethod header_ "isMedia" (\() -> isMedia_impl this)
+    jregisterMethod header_ "isMedia_3" (\() -> isMedia_3_impl this)
     pure this
 
 initFields_ :: UploadMediaSingleton -> IO ()
@@ -194,7 +194,7 @@ isReaderMedia_super object_ a1 a2 = (isReaderMedia_impl (javaCast object_ :: Upl
 
 isReaderMedia_impl :: UploadMediaSingleton -> String -> String -> IO (Bool)
 isReaderMedia_impl this mediaFileType aMediaType = do
-        (UploadMediaSingleton.isMedia this mediaFileType aMediaType (jget (this).readerFileTypesHashMap))
+        (UploadMediaSingleton.isMedia_3 this mediaFileType aMediaType (jget (this).readerFileTypesHashMap))
 
 
 isWriterMedia :: (JavaObjectClass this_) => this_ -> String -> String -> IO (Bool)
@@ -205,18 +205,17 @@ isWriterMedia_super object_ a1 a2 = (isWriterMedia_impl (javaCast object_ :: Upl
 
 isWriterMedia_impl :: UploadMediaSingleton -> String -> String -> IO (Bool)
 isWriterMedia_impl this mediaFileType aMediaType = do
-        (UploadMediaSingleton.isMedia this mediaFileType aMediaType (jget (this).writerFileTypesHashMap))
+        (UploadMediaSingleton.isMedia_3 this mediaFileType aMediaType (jget (this).writerFileTypesHashMap))
 
 
--- Java overload of isMedia with a different parameter count: give it a different name
-isMedia :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (Bool)
-isMedia object_ a1 a2 a3 = jmethod object_ "isMedia" (\() -> (isMedia_impl (javaCast object_ :: UploadMediaSingleton))) () a1 a2 a3
+isMedia_3 :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (Bool)
+isMedia_3 object_ a1 a2 a3 = jmethod object_ "isMedia_3" (\() -> (isMedia_3_impl (javaCast object_ :: UploadMediaSingleton))) () a1 a2 a3
 
-isMedia_super :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (Bool)
-isMedia_super object_ a1 a2 a3 = (isMedia_impl (javaCast object_ :: UploadMediaSingleton)) a1 a2 a3
+isMedia_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> HashMap.HashMap -> IO (Bool)
+isMedia_3_super object_ a1 a2 a3 = (isMedia_3_impl (javaCast object_ :: UploadMediaSingleton)) a1 a2 a3
 
-isMedia_impl :: UploadMediaSingleton -> String -> String -> HashMap.HashMap -> IO (Bool)
-isMedia_impl this mediaFileType aMediaType hashMap = do
+isMedia_3_impl :: UploadMediaSingleton -> String -> String -> HashMap.HashMap -> IO (Bool)
+isMedia_3_impl this mediaFileType aMediaType hashMap = do
     javaCatchReturn $ do
         if (jio (HashMap.containsKey hashMap mediaFileType)) then do
             let mediaType = (javaCast (jio (HashMap.get hashMap mediaFileType)) :: String)

@@ -151,7 +151,7 @@ addChoiceGroup_impl this form hashtable option = do
             jset name ((javaCast (jindex objectArray (index)) :: String))
             Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append stringMaker aDDING_CHOICE_GROUP))) (jget name)))))) this aDD_CHOICE_GROUP)
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) form (jio (GameFeatureFormUtil.getChoiceGroup this hashtable (jget name) option)))
+            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) form (javaCast (jio (GameFeatureFormUtil.getChoiceGroup this hashtable (jget name) option))))
         pure ()
 
 

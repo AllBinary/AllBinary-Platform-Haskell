@@ -71,9 +71,9 @@ newRecord_ = do
     let this = FileListFetcher header_ subDirectory
     jregisterLevel header_ this
     jregisterMethod header_ "getFiles" (\() -> getFiles_impl this)
-    jregisterMethod header_ "getFiles_overload1" (\() -> getFiles_overload1_impl this)
-    jregisterMethod header_ "getFiles_overload2" (\() -> getFiles_overload2_impl this)
-    jregisterMethod header_ "getFiles" (\() -> getFiles_impl this)
+    jregisterMethod header_ "getFiles_2_overload1" (\() -> getFiles_2_overload1_impl this)
+    jregisterMethod header_ "getFiles_2_overload2" (\() -> getFiles_2_overload2_impl this)
+    jregisterMethod header_ "getFiles_3" (\() -> getFiles_3_impl this)
     jregisterMethod header_ "getTrackedFiles_overload1" (\() -> getTrackedFiles_overload1_impl this)
     jregisterMethod header_ "getTrackedFiles_overload2" (\() -> getTrackedFiles_overload2_impl this)
     jregisterMethod header_ "getDirectories" (\() -> getDirectories_impl this)
@@ -112,27 +112,26 @@ getFiles_impl this path = do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             Control.Monad.void (putStrLn (javaToString ((("Error: " ++ javaToString e) ++ "\nMsg: ") ++ (Control.Exception.displayException e))))
             ) $ do
-            files <- (SubDirectory.search ((jget (this).subDirectory)) (jio (AbFile.createAbFile path)))
+            files <- (SubDirectory.search_1 ((jget (this).subDirectory)) (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
 
 
 -- Java overloads of getFiles: calls the overload for the types of the arguments
-getFiles :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> IO (BasicArrayList.BasicArrayList)
-getFiles this a1 a2
-    | jisInstanceOf a2 (javaNull :: JavaArray (String)) = getFiles_overload1 this a1 (javaCast a2 :: JavaArray (String))
-    | jisInstanceOf a2 (javaNull :: String) = getFiles_overload2 this a1 (javaCast a2 :: String)
-    | otherwise = getFiles_overload2 this a1 (javaCast a2 :: String)
+getFiles_2 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> IO (BasicArrayList.BasicArrayList)
+getFiles_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: JavaArray (String)) = getFiles_2_overload1 this a1 (javaCast a2 :: JavaArray (String))
+    | jisInstanceOf a2 (javaNull :: String) = getFiles_2_overload2 this a1 (javaCast a2 :: String)
+    | otherwise = getFiles_2_overload2 this a1 (javaCast a2 :: String)
 
--- Java overload of getFiles with a different parameter count: give it a different name
-getFiles_overload1 :: (JavaObjectClass this_) => this_ -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload1 object_ a1 a2 = jmethod object_ "getFiles_overload1" (\() -> (getFiles_overload1_impl (javaCast object_ :: FileListFetcher))) () a1 a2
+getFiles_2_overload1 :: (JavaObjectClass this_) => this_ -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload1 object_ a1 a2 = jmethod object_ "getFiles_2_overload1" (\() -> (getFiles_2_overload1_impl (javaCast object_ :: FileListFetcher))) () a1 a2
 
-getFiles_overload1_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload1_super object_ a1 a2 = (getFiles_overload1_impl (javaCast object_ :: FileListFetcher)) a1 a2
+getFiles_2_overload1_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload1_super object_ a1 a2 = (getFiles_2_overload1_impl (javaCast object_ :: FileListFetcher)) a1 a2
 
-getFiles_overload1_impl :: FileListFetcher -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload1_impl this path includeExtensions = do
+getFiles_2_overload1_impl :: FileListFetcher -> String -> JavaArray (String) -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload1_impl this path includeExtensions = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             Control.Monad.void (putStrLn (javaToString ((("Error: " ++ javaToString e) ++ "\nMsg: ") ++ (Control.Exception.displayException e))))
@@ -147,15 +146,14 @@ getFiles_overload1_impl this path includeExtensions = do
         pure (javaNull)
 
 
--- Java overload of getFiles with a different parameter count: give it a different name
-getFiles_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload2 object_ a1 a2 = jmethod object_ "getFiles_overload2" (\() -> (getFiles_overload2_impl (javaCast object_ :: FileListFetcher))) () a1 a2
+getFiles_2_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload2 object_ a1 a2 = jmethod object_ "getFiles_2_overload2" (\() -> (getFiles_2_overload2_impl (javaCast object_ :: FileListFetcher))) () a1 a2
 
-getFiles_overload2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload2_super object_ a1 a2 = (getFiles_overload2_impl (javaCast object_ :: FileListFetcher)) a1 a2
+getFiles_2_overload2_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload2_super object_ a1 a2 = (getFiles_2_overload2_impl (javaCast object_ :: FileListFetcher)) a1 a2
 
-getFiles_overload2_impl :: FileListFetcher -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles_overload2_impl this path includeExtension = do
+getFiles_2_overload2_impl :: FileListFetcher -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_2_overload2_impl this path includeExtension = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             Control.Monad.void (putStrLn (javaToString ((("Error: " ++ javaToString e) ++ "\nMsg: ") ++ (Control.Exception.displayException e))))
@@ -168,15 +166,14 @@ getFiles_overload2_impl this path includeExtension = do
         pure (javaNull)
 
 
--- Java overload of getFiles with a different parameter count: give it a different name
-getFiles :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles object_ a1 a2 a3 = jmethod object_ "getFiles" (\() -> (getFiles_impl (javaCast object_ :: FileListFetcher))) () a1 a2 a3
+getFiles_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_3 object_ a1 a2 a3 = jmethod object_ "getFiles_3" (\() -> (getFiles_3_impl (javaCast object_ :: FileListFetcher))) () a1 a2 a3
 
-getFiles_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles_super object_ a1 a2 a3 = (getFiles_impl (javaCast object_ :: FileListFetcher)) a1 a2 a3
+getFiles_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_3_super object_ a1 a2 a3 = (getFiles_3_impl (javaCast object_ :: FileListFetcher)) a1 a2 a3
 
-getFiles_impl :: FileListFetcher -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getFiles_impl this path pathIncludes includeExtension = do
+getFiles_3_impl :: FileListFetcher -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getFiles_3_impl this path pathIncludes includeExtension = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             Control.Monad.void (putStrLn (javaToString ((("Error: " ++ javaToString e) ++ "\nMsg: ") ++ (Control.Exception.displayException e))))

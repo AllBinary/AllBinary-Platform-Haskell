@@ -89,7 +89,7 @@ init_4 this cmdListener name allBinaryGameLayerManager paintableArray = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).paintableArray (paintableArray)
-        assignedValue <- (ColorFillPaintableFactory.getInstance ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
         jset (this).colorFillPaintable (assignedValue)
         pure ()
 

@@ -136,7 +136,7 @@ isPositionBlocked_super object_ = (isPositionBlocked_impl (javaCast object_ :: B
 isPositionBlocked_impl :: BuildingAdvancedRTSFormInput -> IO (Bool)
 isPositionBlocked_impl this = do
     javaCatchReturn $ do
-        if ((jio (DropCellPositionHistory.isCellPositionWithDrop ((jio (DropCellPositionHistory.getInstance))) (jio (BuildingRTSFormInput.getSelectedGeographicCellPosition this)))) || (jio (WaypointCellPositionHistory.isCellPositionWithDrop ((jio (WaypointCellPositionHistory.getInstance))) (jio (BuildingRTSFormInput.getSelectedGeographicCellPosition this))))) then do
+        if ((jio (DropCellPositionHistory.isCellPositionWithDrop ((jio (DropCellPositionHistory.getInstance))) (javaCast (jio (BuildingRTSFormInput.getSelectedGeographicCellPosition this))))) || (jio (WaypointCellPositionHistory.isCellPositionWithDrop ((jio (WaypointCellPositionHistory.getInstance))) (javaCast (jio (BuildingRTSFormInput.getSelectedGeographicCellPosition this)))))) then do
             javaReturn (True)
         else do
             javaReturn (False)
@@ -158,7 +158,7 @@ isBuildAttemptValid_impl this rtsPlayerLayerInterface layerInterface = do
         when ((totalHouses < 1) && ((jstringIndexOf (jio (RTSLayer.getName layerInterface)) " House" 0) < 0)) $ do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).atLeastOneHouseGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).atLeastOneHouseGameNotificationEvent)))
             javaReturn (False)
         (BuildingRTSFormInput.isBuildAttemptValid_super this.base rtsPlayerLayerInterface layerInterface)
 
@@ -172,10 +172,10 @@ add_super object_ a1 a2 a3 = (add_impl (javaCast object_ :: BuildingAdvancedRTSF
 
 add_impl :: BuildingAdvancedRTSFormInput -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> RTSLayer.RTSLayer -> IO (())
 add_impl this rtsPlayerLayerInterface layerManager layerInterface = do
-        Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)) layerInterface)
-        Control.Monad.void (BuildingEventHandler.fireEvent ((jio (BuildingEventHandler.getInstance))) (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT))
+        Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)) (javaCast layerInterface))
+        Control.Monad.void (BuildingEventHandler.fireEvent ((jio (BuildingEventHandler.getInstance))) (javaCast (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)))
         when (jio (isLocalPlayer (((javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface))))) $ do
-            Control.Monad.void (LocalPlayerBuildingEventHandler.fireEvent ((jio (LocalPlayerBuildingEventHandler.getInstance))) (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT))
+            Control.Monad.void (LocalPlayerBuildingEventHandler.fireEvent ((jio (LocalPlayerBuildingEventHandler.getInstance))) (javaCast (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)))
         Control.Monad.void (BuildingRTSFormInput.add_super this.base rtsPlayerLayerInterface layerManager layerInterface)
         pure ()
 

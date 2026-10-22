@@ -16,7 +16,7 @@
 -- package org.allbinary.util
 module ABVector (module ABVector, module Vector) where
 
-import Vector hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, ensureCapacity, ensureCapacity_super, ensureCapacity_impl, capacity, capacity_super, capacity_impl, size, size_super, size_impl, isEmpty, isEmpty_super, isEmpty_impl, contains, contains_super, contains_impl, indexOf, indexOf_super, indexOf_impl, lastIndexOf, lastIndexOf_super, lastIndexOf_impl, elementAt, elementAt_super, elementAt_impl, firstElement, firstElement_super, firstElement_impl, lastElement, lastElement_super, lastElement_impl, setElementAt, setElementAt_super, setElementAt_impl, removeElementAt, removeElementAt_super, removeElementAt_impl, addElement, addElement_super, addElement_impl, insertElementAt, insertElementAt_super, insertElementAt_impl, removeElement, removeElement_super, removeElement_impl, removeAllElements, removeAllElements_super, removeAllElements_impl, clone, clone_super, clone_impl, toArray, toArray_super, toArray_impl, set, set_super, set_impl, add, add_super, add_impl, remove_overload1, remove_overload1_super, remove_overload1_impl, remove, add, add_super, add_impl, remove_overload2, remove_overload2_super, remove_overload2_impl, remove, clear, clear_super, clear_impl, equals, equals_super, equals_impl, hashCode, hashCode_super, hashCode_impl, toString, toString_super, toString_impl, removeRange, removeRange_super, removeRange_impl)
+import Vector hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, ensureCapacity, ensureCapacity_super, ensureCapacity_impl, capacity, capacity_super, capacity_impl, size, size_super, size_impl, isEmpty, isEmpty_super, isEmpty_impl, contains, contains_super, contains_impl, indexOf, indexOf_super, indexOf_impl, lastIndexOf, lastIndexOf_super, lastIndexOf_impl, elementAt, elementAt_super, elementAt_impl, firstElement, firstElement_super, firstElement_impl, lastElement, lastElement_super, lastElement_impl, setElementAt, setElementAt_super, setElementAt_impl, removeElementAt, removeElementAt_super, removeElementAt_impl, addElement, addElement_super, addElement_impl, insertElementAt, insertElementAt_super, insertElementAt_impl, removeElement, removeElement_super, removeElement_impl, removeAllElements, removeAllElements_super, removeAllElements_impl, clone, clone_super, clone_impl, toArray, toArray_super, toArray_impl, set, set_super, set_impl, add, add_super, add_impl, remove_overload1, remove_overload1_super, remove_overload1_impl, remove, add_2, add_2_super, add_2_impl, add, remove_overload2, remove_overload2_super, remove_overload2_impl, remove, clear, clear_super, clear_impl, equals, equals_super, equals_impl, hashCode, hashCode_super, hashCode_impl, toString, toString_super, toString_impl, removeRange, removeRange_super, removeRange_impl)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -82,7 +82,7 @@ newRecord_ = do
     jregisterMethod header_ "set" (\() -> set_impl this)
     jregisterMethod header_ "add" (\() -> add_impl this)
     jregisterMethod header_ "remove_overload1" (\() -> remove_overload1_impl this)
-    jregisterMethod header_ "add" (\() -> add_impl this)
+    jregisterMethod header_ "add_2" (\() -> add_2_impl this)
     jregisterMethod header_ "remove_overload2" (\() -> remove_overload2_impl this)
     jregisterMethod header_ "clear" (\() -> clear_impl this)
     jregisterMethod header_ "equals" (\() -> equals_impl this)
@@ -355,15 +355,14 @@ remove_overload1_impl this objObject_ = do
         (Vector.remove this.base obj)
 
 
--- Java overload of add with a different parameter count: give it a different name
-add :: (JavaObjectClass this_) => this_ -> Int -> e -> IO (())
-add object_ a1 a2 = jmethod object_ "add" (\() -> (add_impl (javaCast object_ :: ABVector))) () a1 a2
+add_2 :: (JavaObjectClass this_) => this_ -> Int -> e -> IO (())
+add_2 object_ a1 a2 = jmethod object_ "add_2" (\() -> (add_2_impl (javaCast object_ :: ABVector))) () a1 a2
 
-add_super :: (JavaObjectClass this_) => this_ -> Int -> e -> IO (())
-add_super object_ a1 a2 = (add_impl (javaCast object_ :: ABVector)) a1 a2
+add_2_super :: (JavaObjectClass this_) => this_ -> Int -> e -> IO (())
+add_2_super object_ a1 a2 = (add_2_impl (javaCast object_ :: ABVector)) a1 a2
 
-add_impl :: ABVector -> Int -> e -> IO (())
-add_impl this index element = do
+add_2_impl :: ABVector -> Int -> e -> IO (())
+add_2_impl this index element = do
         Control.Monad.void (Vector.add this.base index element)
         pure ()
 

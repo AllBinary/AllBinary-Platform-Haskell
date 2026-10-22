@@ -72,8 +72,8 @@ newRecord_ = do
     vectorAnimationUtil <- newIORef javaNull
     let this = VectorMirrorGenerator header_ logUtil vectorAnimationUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
-    jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
+    jregisterMethod header_ "getInstance_2_overload1" (\() -> getInstance_2_overload1_impl this)
+    jregisterMethod header_ "getInstance_2_overload2" (\() -> getInstance_2_overload2_impl this)
     pure this
 
 initFields_ :: VectorMirrorGenerator -> IO ()
@@ -101,21 +101,20 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance this a1 a2
-    | jisInstanceOf a1 (javaNull :: JavaArray (JavaArray (JavaArray (Int)))) = getInstance_overload1 this (javaCast a1 :: JavaArray (JavaArray (JavaArray (Int)))) a2
-    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
-    | otherwise = getInstance_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
+getInstance_2 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_2 this a1 a2
+    | jisInstanceOf a1 (javaNull :: JavaArray (JavaArray (JavaArray (Int)))) = getInstance_2_overload1 this (javaCast a1 :: JavaArray (JavaArray (JavaArray (Int)))) a2
+    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
+    | otherwise = getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_overload1 object_ a1 a2 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: VectorMirrorGenerator))) () a1 a2
+getInstance_2_overload1 :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_2_overload1 object_ a1 a2 = jmethod object_ "getInstance_2_overload1" (\() -> (getInstance_2_overload1_impl (javaCast object_ :: VectorMirrorGenerator))) () a1 a2
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_overload1_super object_ a1 a2 = (getInstance_overload1_impl (javaCast object_ :: VectorMirrorGenerator)) a1 a2
+getInstance_2_overload1_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_2_overload1_super object_ a1 a2 = (getInstance_2_overload1_impl (javaCast object_ :: VectorMirrorGenerator)) a1 a2
 
-getInstance_overload1_impl :: VectorMirrorGenerator -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_overload1_impl this points width = do
+getInstance_2_overload1_impl :: VectorMirrorGenerator -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_2_overload1_impl this points width = do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).gET_INSTANCE) e)
@@ -136,21 +135,20 @@ getInstance_overload1_impl this points width = do
                     Control.Monad.void (BasicArrayList.add ((jget pointBasicArrayList)) (jio (PointFactory.createXY pointFactory (jindex ((jindex ((jget nextPoints)) (index))) (0)) (jindex ((jindex ((jget nextPoints)) (index))) (1)))))
                 Control.Monad.void (BasicArrayList.add pointsBasicArrayList (jget pointBasicArrayList))
             forM_ [0 .. (jlength points) - 1] $ \index -> javaIteration (pure ()) $ do
-                Control.Monad.void (BasicArrayList.add pointsBasicArrayList (jio (VectorMirrorGenerator.getInstance this (javaCast (jindex ((jget (pointsBasicArrayList).objectArray)) (index)) :: BasicArrayList.BasicArrayList) width)))
+                Control.Monad.void (BasicArrayList.add pointsBasicArrayList (jio (VectorMirrorGenerator.getInstance_2 this (javaCast (jindex ((jget (pointsBasicArrayList).objectArray)) (index)) :: BasicArrayList.BasicArrayList) width)))
             newPoints <- (VectorAnimationUtil.toAnimationArrayFromListOfPointList ((jget (this).vectorAnimationUtil)) pointsBasicArrayList)
             pure (newPoints)
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload2 object_ a1 a2 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: VectorMirrorGenerator))) () a1 a2
+getInstance_2_overload2 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
+getInstance_2_overload2 object_ a1 a2 = jmethod object_ "getInstance_2_overload2" (\() -> (getInstance_2_overload2_impl (javaCast object_ :: VectorMirrorGenerator))) () a1 a2
 
-getInstance_overload2_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload2_super object_ a1 a2 = (getInstance_overload2_impl (javaCast object_ :: VectorMirrorGenerator)) a1 a2
+getInstance_2_overload2_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
+getInstance_2_overload2_super object_ a1 a2 = (getInstance_2_overload2_impl (javaCast object_ :: VectorMirrorGenerator)) a1 a2
 
-getInstance_overload2_impl :: VectorMirrorGenerator -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
-getInstance_overload2_impl this pointBasicArrayList width = do
+getInstance_2_overload2_impl :: VectorMirrorGenerator -> BasicArrayList.BasicArrayList -> Int -> IO (BasicArrayList.BasicArrayList)
+getInstance_2_overload2_impl this pointBasicArrayList width = do
         graphicsPipe <- (BasicGraphicsPipeline.new_1 pointBasicArrayList)
         Control.Monad.void (BasicGraphicsPipeline.createMatrix graphicsPipe)
         Control.Monad.void (BasicGraphicsPipeline.mirror graphicsPipe width)

@@ -244,15 +244,14 @@ waitForIdle_impl :: InputRobotInterface -> IO (())
 waitForIdle_impl this = javaAbstractMethod "waitForIdle"
 
 
--- Java overload of mouseMove with a different parameter count: give it a different name
-mouseMove :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
-mouseMove object_ a1 = jmethod object_ "mouseMove" (\() -> (mouseMove_impl (javaCast object_ :: InputRobotInterface))) () a1
+mouseMove_1 :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
+mouseMove_1 object_ a1 = jmethod object_ "mouseMove_1" (\() -> (mouseMove_1_impl (javaCast object_ :: InputRobotInterface))) () a1
 
-mouseMove_super :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
-mouseMove_super object_ a1 = (mouseMove_impl (javaCast object_ :: InputRobotInterface)) a1
+mouseMove_1_super :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
+mouseMove_1_super object_ a1 = (mouseMove_1_impl (javaCast object_ :: InputRobotInterface)) a1
 
-mouseMove_impl :: InputRobotInterface -> Point.Point -> IO (())
-mouseMove_impl this point = javaAbstractMethod "mouseMove"
+mouseMove_1_impl :: InputRobotInterface -> Point.Point -> IO (())
+mouseMove_1_impl this point = javaAbstractMethod "mouseMove"
 
 
 -- throws Exception
@@ -267,14 +266,13 @@ mouseMoveToTarget_impl this rectangle = javaAbstractMethod "mouseMoveToTarget"
 
 
 -- throws Exception
--- Java overload of mouseMoveToTarget with a different parameter count: give it a different name
-mouseMoveToTarget :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
-mouseMoveToTarget object_ a1 a2 a3 = jmethod object_ "mouseMoveToTarget" (\() -> (mouseMoveToTarget_impl (javaCast object_ :: InputRobotInterface))) () a1 a2 a3
+mouseMoveToTarget_3 :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3 object_ a1 a2 a3 = jmethod object_ "mouseMoveToTarget_3" (\() -> (mouseMoveToTarget_3_impl (javaCast object_ :: InputRobotInterface))) () a1 a2 a3
 
-mouseMoveToTarget_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
-mouseMoveToTarget_super object_ a1 a2 a3 = (mouseMoveToTarget_impl (javaCast object_ :: InputRobotInterface)) a1 a2 a3
+mouseMoveToTarget_3_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3_super object_ a1 a2 a3 = (mouseMoveToTarget_3_impl (javaCast object_ :: InputRobotInterface)) a1 a2 a3
 
-mouseMoveToTarget_impl :: InputRobotInterface -> Rectangle.Rectangle -> Int -> Int -> IO (())
-mouseMoveToTarget_impl this rectangle x y = javaAbstractMethod "mouseMoveToTarget"
+mouseMoveToTarget_3_impl :: InputRobotInterface -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3_impl this rectangle x y = javaAbstractMethod "mouseMoveToTarget"
 
 

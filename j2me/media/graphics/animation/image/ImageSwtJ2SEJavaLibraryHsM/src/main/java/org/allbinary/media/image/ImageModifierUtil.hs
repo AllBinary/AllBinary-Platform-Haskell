@@ -171,7 +171,7 @@ changeColor_super object_ a1 a2 a3 a4 = (changeColor_impl (javaCast object_ :: I
 changeColor_impl :: ImageModifierUtil -> Image.Image -> Image.Image -> Int -> BasicColor.BasicColor -> IO (())
 changeColor_impl this unusedOriginalImage image imageIndex basicColor = do
     javaCatchReturn $ do
-        when (jio (Features.isFeature ((jget (this).features)) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             when ((jio (Image.getType image)) >= OpenGLESImage.tYPE) $ do
                 let openGLESImage = ((javaCast image :: OpenGLESImage.OpenGLESImage))
                 assignedValue <- (ModifierOpenGLESImageProcessor.getInstance)
@@ -222,7 +222,7 @@ setAlpha_super object_ a1 a2 a3 a4 = (setAlpha_impl (javaCast object_ :: ImageMo
 setAlpha_impl :: ImageModifierUtil -> Image.Image -> Image.Image -> Int -> Int -> IO (())
 setAlpha_impl this unusedOriginalImage image imageIndex alphaInt = do
     javaCatchReturn $ do
-        when (jio (Features.isFeature ((jget (this).features)) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             when ((jio (Image.getType image)) >= OpenGLESImage.tYPE) $ do
                 let openGLESImage = ((javaCast image :: OpenGLESImage.OpenGLESImage))
                 assignedValue <- (ModifierOpenGLESImageProcessor.getInstance)

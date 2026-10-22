@@ -140,7 +140,7 @@ getTaxRate_impl this streetAddress storeFrontInterface = do
         jset (this).storeFrontInterface (storeFrontInterface)
         fileAbPath <- (AbPath.new_2 ((javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
         data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
-        assignedValue <- (DomDocumentHelper.create data_)
+        assignedValue <- (DomDocumentHelper.create_1 data_)
         jset (this).document (assignedValue)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAX))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Tax Doc: " ++ (jio (XmlDocumentHelper.toString (jget (this).document)))) this "getTaxRate")
@@ -181,7 +181,7 @@ isValid_impl this streetAddress storeFrontInterface = do
             jset (this).storeFrontInterface (storeFrontInterface)
             fileAbPath <- (AbPath.new_2 ((javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
             data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
-            assignedValue <- (DomDocumentHelper.create data_)
+            assignedValue <- (DomDocumentHelper.create_1 data_)
             jset (this).document (assignedValue)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAX))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Tax Doc: " ++ (jio (XmlDocumentHelper.toString (jget (this).document)))) this (jget ((jget (this).commonStrings)).iS_VALID))

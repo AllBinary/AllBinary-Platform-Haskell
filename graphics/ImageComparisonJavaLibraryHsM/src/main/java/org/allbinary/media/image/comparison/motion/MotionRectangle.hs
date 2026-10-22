@@ -92,7 +92,7 @@ init_1 :: MotionRectangle -> Rectangle.Rectangle -> IO ()
 init_1 this rectangle = do
         initFields_ this
         Control.Monad.void (MotionRectangle.setRectangle this rectangle)
-        Control.Monad.void (MotionRectangle.setPixelDeltaVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (MotionRectangle.setPixelDeltaVector this (javaCast (jio (BasicArrayListD.new_))))
         pure ()
 
 

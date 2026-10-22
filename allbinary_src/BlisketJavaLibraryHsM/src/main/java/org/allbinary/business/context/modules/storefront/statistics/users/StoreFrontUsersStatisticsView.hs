@@ -99,7 +99,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: StoreFrontUser
 toXmlNode_impl :: StoreFrontUsersStatisticsView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         hashMap <- (StoreFrontUsersStatisticsInterface.toHashMap ((jget (this).storeFrontUsersStatisticsInterface)))
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (StoreFrontUsersStatisticsData.getInstance))).nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (StoreFrontUsersStatisticsData.getInstance))).nAME) hashMap)
         pure (node)
 
 

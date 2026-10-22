@@ -107,7 +107,7 @@ init_2 this nameSpace value = do
             javaThrow ((JavaException "Exception" "Not a NameSpaceRequest"))
         let packages = (Prelude.drop ((beginIndex + (Prelude.length NameSpaceRequestParamData.nAME)) + (Prelude.length NameSpaceRequestParamData.sEP)) nameSpace)
         sepTokenizer <- (Tokenizer.new_1 (NameSpaceRequestParamData.sEP))
-        nameSpaceWithPropertiesVector <- (Tokenizer.getTokensFromString sepTokenizer packages (jio (BasicArrayListD.new_)))
+        nameSpaceWithPropertiesVector <- (Tokenizer.getTokensFromString sepTokenizer packages (javaCast (jio (BasicArrayListD.new_))))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("\nSep Tokens: " ++ (jio (BasicArrayList.toString nameSpaceWithPropertiesVector))) this "NameSpaceRequestParam()")
         nameSpaceAndPropertiesTokenizer <- (Tokenizer.new_1 (NameSpaceRequestParamData.pROPERTIES))
@@ -190,7 +190,7 @@ generatePackagePropertiesHashMap_impl :: NameSpaceRequestParam -> String -> IO (
 generatePackagePropertiesHashMap_impl this properties = do
         propertiesTokenizer <- (Tokenizer.new_1 (NameSpaceRequestParamData.pROPERTIESSEPARATOR))
         packagePropertiesHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
-        propertyVector <- (Tokenizer.getTokensFromString propertiesTokenizer properties (jio (BasicArrayListD.new_)))
+        propertyVector <- (Tokenizer.getTokensFromString propertiesTokenizer properties (javaCast (jio (BasicArrayListD.new_))))
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         propertyTokenizer <- (Tokenizer.new_1 (jget ((jio (HtmlNameMathData.getInstance))).eQUALS))
         let index = 0

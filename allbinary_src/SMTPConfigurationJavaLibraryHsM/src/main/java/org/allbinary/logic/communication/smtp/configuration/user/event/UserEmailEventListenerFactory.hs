@@ -90,6 +90,6 @@ getInstance abeClientInformation userEmailEventConfigurationInterface userInterf
         let classes = (jnewArray (1) javaNull)
         jsetIndex classes (0) ("UserInterface")
         jsetIndex params (0) ((jtoObject (javaCast userInterface :: Any.Any)))
-        pure ((javaCast (jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation (jio (UserEmailEventConfigurationInterface.getEventListenerClassPath userEmailEventConfigurationInterface)) classes params)) :: UserEmailEventListenerInterface.UserEmailEventListenerInterface))
+        pure ((javaCast (jio (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation (jio (UserEmailEventConfigurationInterface.getEventListenerClassPath userEmailEventConfigurationInterface)) classes params)) :: UserEmailEventListenerInterface.UserEmailEventListenerInterface))
 
 

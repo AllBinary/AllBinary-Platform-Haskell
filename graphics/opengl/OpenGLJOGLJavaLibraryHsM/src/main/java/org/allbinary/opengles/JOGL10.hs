@@ -115,7 +115,7 @@ newRecord_ = do
     jregisterMethod header_ "glCopyTexSubImage2D" (\() -> glCopyTexSubImage2D_impl this)
     jregisterMethod header_ "glCullFace" (\() -> glCullFace_impl this)
     jregisterMethod header_ "glDeleteTextures" (\() -> glDeleteTextures_impl this)
-    jregisterMethod header_ "glDeleteTextures" (\() -> glDeleteTextures_impl this)
+    jregisterMethod header_ "glDeleteTextures_2" (\() -> glDeleteTextures_2_impl this)
     jregisterMethod header_ "glDepthFunc" (\() -> glDepthFunc_impl this)
     jregisterMethod header_ "glDepthMask" (\() -> glDepthMask_impl this)
     jregisterMethod header_ "glDepthRangef" (\() -> glDepthRangef_impl this)
@@ -129,33 +129,33 @@ newRecord_ = do
     jregisterMethod header_ "glFlush" (\() -> glFlush_impl this)
     jregisterMethod header_ "glFogf" (\() -> glFogf_impl this)
     jregisterMethod header_ "glFogfv" (\() -> glFogfv_impl this)
-    jregisterMethod header_ "glFogfv" (\() -> glFogfv_impl this)
+    jregisterMethod header_ "glFogfv_2" (\() -> glFogfv_2_impl this)
     jregisterMethod header_ "glFrontFace" (\() -> glFrontFace_impl this)
     jregisterMethod header_ "glFrustumf" (\() -> glFrustumf_impl this)
     jregisterMethod header_ "glGenTextures" (\() -> glGenTextures_impl this)
-    jregisterMethod header_ "glGenTextures" (\() -> glGenTextures_impl this)
+    jregisterMethod header_ "glGenTextures_2" (\() -> glGenTextures_2_impl this)
     jregisterMethod header_ "glGetError" (\() -> glGetError_impl this)
     jregisterMethod header_ "glGetIntegerv" (\() -> glGetIntegerv_impl this)
-    jregisterMethod header_ "glGetIntegerv" (\() -> glGetIntegerv_impl this)
+    jregisterMethod header_ "glGetIntegerv_2" (\() -> glGetIntegerv_2_impl this)
     jregisterMethod header_ "glGetString" (\() -> glGetString_impl this)
     jregisterMethod header_ "glHint" (\() -> glHint_impl this)
     jregisterMethod header_ "glLightModelf" (\() -> glLightModelf_impl this)
     jregisterMethod header_ "glLightModelfv" (\() -> glLightModelfv_impl this)
-    jregisterMethod header_ "glLightModelfv" (\() -> glLightModelfv_impl this)
+    jregisterMethod header_ "glLightModelfv_2" (\() -> glLightModelfv_2_impl this)
     jregisterMethod header_ "glLightf" (\() -> glLightf_impl this)
     jregisterMethod header_ "glLightfv" (\() -> glLightfv_impl this)
-    jregisterMethod header_ "glLightfv" (\() -> glLightfv_impl this)
+    jregisterMethod header_ "glLightfv_3" (\() -> glLightfv_3_impl this)
     jregisterMethod header_ "glLineWidth" (\() -> glLineWidth_impl this)
     jregisterMethod header_ "glLoadIdentity" (\() -> glLoadIdentity_impl this)
     jregisterMethod header_ "glLoadMatrixf" (\() -> glLoadMatrixf_impl this)
-    jregisterMethod header_ "glLoadMatrixf" (\() -> glLoadMatrixf_impl this)
+    jregisterMethod header_ "glLoadMatrixf_1" (\() -> glLoadMatrixf_1_impl this)
     jregisterMethod header_ "glLogicOp" (\() -> glLogicOp_impl this)
     jregisterMethod header_ "glMaterialf" (\() -> glMaterialf_impl this)
     jregisterMethod header_ "glMaterialfv" (\() -> glMaterialfv_impl this)
-    jregisterMethod header_ "glMaterialfv" (\() -> glMaterialfv_impl this)
+    jregisterMethod header_ "glMaterialfv_3" (\() -> glMaterialfv_3_impl this)
     jregisterMethod header_ "glMatrixMode" (\() -> glMatrixMode_impl this)
     jregisterMethod header_ "glMultMatrixf" (\() -> glMultMatrixf_impl this)
-    jregisterMethod header_ "glMultMatrixf" (\() -> glMultMatrixf_impl this)
+    jregisterMethod header_ "glMultMatrixf_1" (\() -> glMultMatrixf_1_impl this)
     jregisterMethod header_ "glMultiTexCoord4f" (\() -> glMultiTexCoord4f_impl this)
     jregisterMethod header_ "glNormal3f" (\() -> glNormal3f_impl this)
     jregisterMethod header_ "glNormalPointer" (\() -> glNormalPointer_impl this)
@@ -179,7 +179,7 @@ newRecord_ = do
     jregisterMethod header_ "glTexCoordPointer" (\() -> glTexCoordPointer_impl this)
     jregisterMethod header_ "glTexEnvf" (\() -> glTexEnvf_impl this)
     jregisterMethod header_ "glTexEnvfv" (\() -> glTexEnvfv_impl this)
-    jregisterMethod header_ "glTexEnvfv" (\() -> glTexEnvfv_impl this)
+    jregisterMethod header_ "glTexEnvfv_3" (\() -> glTexEnvfv_3_impl this)
     jregisterMethod header_ "glTexImage2D" (\() -> glTexImage2D_impl this)
     jregisterMethod header_ "glTexParameterf" (\() -> glTexParameterf_impl this)
     jregisterMethod header_ "glTexParameteri" (\() -> glTexParameteri_impl this)
@@ -456,15 +456,14 @@ glDeleteTextures_impl this n textures offset = do
         pure ()
 
 
--- Java overload of glDeleteTextures with a different parameter count: give it a different name
-glDeleteTextures :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures object_ a1 a2 = jmethod object_ "glDeleteTextures" (\() -> (glDeleteTextures_impl (javaCast object_ :: JOGL10))) () a1 a2
+glDeleteTextures_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2 object_ a1 a2 = jmethod object_ "glDeleteTextures_2" (\() -> (glDeleteTextures_2_impl (javaCast object_ :: JOGL10))) () a1 a2
 
-glDeleteTextures_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures_super object_ a1 a2 = (glDeleteTextures_impl (javaCast object_ :: JOGL10)) a1 a2
+glDeleteTextures_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2_super object_ a1 a2 = (glDeleteTextures_2_impl (javaCast object_ :: JOGL10)) a1 a2
 
-glDeleteTextures_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures_impl this n textures = do
+glDeleteTextures_2_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2_impl this n textures = do
         Control.Monad.void (GL2.glDeleteTextures ((jget (this).gl10)) n textures)
         pure ()
 
@@ -625,15 +624,14 @@ glFogfv_impl this pname params offset = do
         pure ()
 
 
--- Java overload of glFogfv with a different parameter count: give it a different name
-glFogfv :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv object_ a1 a2 = jmethod object_ "glFogfv" (\() -> (glFogfv_impl (javaCast object_ :: JOGL10))) () a1 a2
+glFogfv_2 :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2 object_ a1 a2 = jmethod object_ "glFogfv_2" (\() -> (glFogfv_2_impl (javaCast object_ :: JOGL10))) () a1 a2
 
-glFogfv_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv_super object_ a1 a2 = (glFogfv_impl (javaCast object_ :: JOGL10)) a1 a2
+glFogfv_2_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2_super object_ a1 a2 = (glFogfv_2_impl (javaCast object_ :: JOGL10)) a1 a2
 
-glFogfv_impl :: JOGL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv_impl this pname params = do
+glFogfv_2_impl :: JOGL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2_impl this pname params = do
         Control.Monad.void (GL2.glFogfv ((jget (this).gl10)) pname params)
         pure ()
 
@@ -674,15 +672,14 @@ glGenTextures_impl this n textures offset = do
         pure ()
 
 
--- Java overload of glGenTextures with a different parameter count: give it a different name
-glGenTextures :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures object_ a1 a2 = jmethod object_ "glGenTextures" (\() -> (glGenTextures_impl (javaCast object_ :: JOGL10))) () a1 a2
+glGenTextures_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2 object_ a1 a2 = jmethod object_ "glGenTextures_2" (\() -> (glGenTextures_2_impl (javaCast object_ :: JOGL10))) () a1 a2
 
-glGenTextures_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures_super object_ a1 a2 = (glGenTextures_impl (javaCast object_ :: JOGL10)) a1 a2
+glGenTextures_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2_super object_ a1 a2 = (glGenTextures_2_impl (javaCast object_ :: JOGL10)) a1 a2
 
-glGenTextures_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures_impl this n textures = do
+glGenTextures_2_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2_impl this n textures = do
         Control.Monad.void (GL2.glGenTextures ((jget (this).gl10)) n textures)
         pure ()
 
@@ -710,15 +707,14 @@ glGetIntegerv_impl this pname params offset = do
         pure ()
 
 
--- Java overload of glGetIntegerv with a different parameter count: give it a different name
-glGetIntegerv :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv object_ a1 a2 = jmethod object_ "glGetIntegerv" (\() -> (glGetIntegerv_impl (javaCast object_ :: JOGL10))) () a1 a2
+glGetIntegerv_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2 object_ a1 a2 = jmethod object_ "glGetIntegerv_2" (\() -> (glGetIntegerv_2_impl (javaCast object_ :: JOGL10))) () a1 a2
 
-glGetIntegerv_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv_super object_ a1 a2 = (glGetIntegerv_impl (javaCast object_ :: JOGL10)) a1 a2
+glGetIntegerv_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2_super object_ a1 a2 = (glGetIntegerv_2_impl (javaCast object_ :: JOGL10)) a1 a2
 
-glGetIntegerv_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv_impl this pname params = do
+glGetIntegerv_2_impl :: JOGL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2_impl this pname params = do
         Control.Monad.void (GL2.glGetIntegerv ((jget (this).gl10)) pname params)
         pure ()
 
@@ -770,15 +766,14 @@ glLightModelfv_impl this pname params offset = do
         pure ()
 
 
--- Java overload of glLightModelfv with a different parameter count: give it a different name
-glLightModelfv :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv object_ a1 a2 = jmethod object_ "glLightModelfv" (\() -> (glLightModelfv_impl (javaCast object_ :: JOGL10))) () a1 a2
+glLightModelfv_2 :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2 object_ a1 a2 = jmethod object_ "glLightModelfv_2" (\() -> (glLightModelfv_2_impl (javaCast object_ :: JOGL10))) () a1 a2
 
-glLightModelfv_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv_super object_ a1 a2 = (glLightModelfv_impl (javaCast object_ :: JOGL10)) a1 a2
+glLightModelfv_2_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2_super object_ a1 a2 = (glLightModelfv_2_impl (javaCast object_ :: JOGL10)) a1 a2
 
-glLightModelfv_impl :: JOGL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv_impl this pname params = do
+glLightModelfv_2_impl :: JOGL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2_impl this pname params = do
         Control.Monad.void (GL2.glLightModelfv ((jget (this).gl10)) pname params)
         pure ()
 
@@ -807,15 +802,14 @@ glLightfv_impl this light pname params offset = do
         pure ()
 
 
--- Java overload of glLightfv with a different parameter count: give it a different name
-glLightfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv object_ a1 a2 a3 = jmethod object_ "glLightfv" (\() -> (glLightfv_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
+glLightfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3 object_ a1 a2 a3 = jmethod object_ "glLightfv_3" (\() -> (glLightfv_3_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
 
-glLightfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv_super object_ a1 a2 a3 = (glLightfv_impl (javaCast object_ :: JOGL10)) a1 a2 a3
+glLightfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3_super object_ a1 a2 a3 = (glLightfv_3_impl (javaCast object_ :: JOGL10)) a1 a2 a3
 
-glLightfv_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv_impl this light pname params = do
+glLightfv_3_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3_impl this light pname params = do
         Control.Monad.void (GL2.glLightfv ((jget (this).gl10)) light pname params)
         pure ()
 
@@ -856,15 +850,14 @@ glLoadMatrixf_impl this m offset = do
         pure ()
 
 
--- Java overload of glLoadMatrixf with a different parameter count: give it a different name
-glLoadMatrixf :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf object_ a1 = jmethod object_ "glLoadMatrixf" (\() -> (glLoadMatrixf_impl (javaCast object_ :: JOGL10))) () a1
+glLoadMatrixf_1 :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1 object_ a1 = jmethod object_ "glLoadMatrixf_1" (\() -> (glLoadMatrixf_1_impl (javaCast object_ :: JOGL10))) () a1
 
-glLoadMatrixf_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf_super object_ a1 = (glLoadMatrixf_impl (javaCast object_ :: JOGL10)) a1
+glLoadMatrixf_1_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1_super object_ a1 = (glLoadMatrixf_1_impl (javaCast object_ :: JOGL10)) a1
 
-glLoadMatrixf_impl :: JOGL10 -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf_impl this m = do
+glLoadMatrixf_1_impl :: JOGL10 -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1_impl this m = do
         Control.Monad.void (GL2.glLoadMatrixf ((jget (this).gl10)) m)
         pure ()
 
@@ -905,15 +898,14 @@ glMaterialfv_impl this face pname params offset = do
         pure ()
 
 
--- Java overload of glMaterialfv with a different parameter count: give it a different name
-glMaterialfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv object_ a1 a2 a3 = jmethod object_ "glMaterialfv" (\() -> (glMaterialfv_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
+glMaterialfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3 object_ a1 a2 a3 = jmethod object_ "glMaterialfv_3" (\() -> (glMaterialfv_3_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
 
-glMaterialfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv_super object_ a1 a2 a3 = (glMaterialfv_impl (javaCast object_ :: JOGL10)) a1 a2 a3
+glMaterialfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3_super object_ a1 a2 a3 = (glMaterialfv_3_impl (javaCast object_ :: JOGL10)) a1 a2 a3
 
-glMaterialfv_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv_impl this face pname params = do
+glMaterialfv_3_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3_impl this face pname params = do
         Control.Monad.void (GL2.glMaterialfv ((jget (this).gl10)) face pname params)
         pure ()
 
@@ -942,15 +934,14 @@ glMultMatrixf_impl this m offset = do
         pure ()
 
 
--- Java overload of glMultMatrixf with a different parameter count: give it a different name
-glMultMatrixf :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf object_ a1 = jmethod object_ "glMultMatrixf" (\() -> (glMultMatrixf_impl (javaCast object_ :: JOGL10))) () a1
+glMultMatrixf_1 :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1 object_ a1 = jmethod object_ "glMultMatrixf_1" (\() -> (glMultMatrixf_1_impl (javaCast object_ :: JOGL10))) () a1
 
-glMultMatrixf_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf_super object_ a1 = (glMultMatrixf_impl (javaCast object_ :: JOGL10)) a1
+glMultMatrixf_1_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1_super object_ a1 = (glMultMatrixf_1_impl (javaCast object_ :: JOGL10)) a1
 
-glMultMatrixf_impl :: JOGL10 -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf_impl this m = do
+glMultMatrixf_1_impl :: JOGL10 -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1_impl this m = do
         Control.Monad.void (GL2.glMultMatrixf ((jget (this).gl10)) m)
         pure ()
 
@@ -1231,15 +1222,14 @@ glTexEnvfv_impl this target pname params offset = do
         pure ()
 
 
--- Java overload of glTexEnvfv with a different parameter count: give it a different name
-glTexEnvfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv object_ a1 a2 a3 = jmethod object_ "glTexEnvfv" (\() -> (glTexEnvfv_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
+glTexEnvfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3 object_ a1 a2 a3 = jmethod object_ "glTexEnvfv_3" (\() -> (glTexEnvfv_3_impl (javaCast object_ :: JOGL10))) () a1 a2 a3
 
-glTexEnvfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv_super object_ a1 a2 a3 = (glTexEnvfv_impl (javaCast object_ :: JOGL10)) a1 a2 a3
+glTexEnvfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3_super object_ a1 a2 a3 = (glTexEnvfv_3_impl (javaCast object_ :: JOGL10)) a1 a2 a3
 
-glTexEnvfv_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv_impl this target pname params = do
+glTexEnvfv_3_impl :: JOGL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3_impl this target pname params = do
         Control.Monad.void (GL2.glTexEnvfv ((jget (this).gl10)) target pname params)
         pure ()
 

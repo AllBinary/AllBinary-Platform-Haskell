@@ -72,7 +72,7 @@ newRecord_ = do
     bLOWFISH <- newIORef ""
     let this = KeySpecFactory header_ dES dESEDE bLOWFISH
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: KeySpecFactory -> IO ()
@@ -100,15 +100,14 @@ init_ this = do
         pure ()
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: KeySpecFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: KeySpecFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: KeySpecFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: KeySpecFactory)) a1 a2
 
-getInstance_impl :: KeySpecFactory -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
-getInstance_impl this algorithm keyData = do
+getInstance_2_impl :: KeySpecFactory -> String -> JavaArray (Int8) -> IO (KeySpec.KeySpec)
+getInstance_2_impl this algorithm keyData = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)

@@ -101,7 +101,7 @@ init_2 this id name = do
         initFields_ this
         pure () -- super(...) is in the record above
         inputFactory <- (InputFactory.getInstance)
-        Control.Monad.void (InputFactory.add inputFactory (jio (Input.getId this)) this)
+        Control.Monad.void (InputFactory.add inputFactory (jio (Input.getId this)) (javaCast this))
         pure ()
 
 
@@ -118,7 +118,7 @@ update_impl this inputToGameKeyMapping = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).uPDATE) e)
             ) $ do
             gameKey <- (InputToGameKeyMapping.getInstance inputToGameKeyMapping (jio (Input.getId this)))
-            assignedValue <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) this gameKey)
+            assignedValue <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast gameKey))
             jset (this).gameKeyEvent (assignedValue)
         pure ()
 

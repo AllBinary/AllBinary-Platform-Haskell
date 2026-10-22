@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Thread -- same package or java.lang
 import qualified Graphics -- same package or java.lang
 import qualified JLabel -- same package or java.lang
 import qualified JButton -- same package or java.lang

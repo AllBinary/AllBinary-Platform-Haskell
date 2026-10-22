@@ -115,6 +115,6 @@ loadFileAsList_impl this file max byteArray1 = do
             ) $ do
             assignedValue <- (AbFileInputStream.new_1 file)
             jset inputStream (assignedValue)
-        (SimpleFileUtil.loadFileAsList ((jio (SimpleFileUtil.getInstance))) (jget inputStream) max byteArray1)
+        (SimpleFileUtil.loadFileAsList ((jio (SimpleFileUtil.getInstance))) (javaCast (jget inputStream)) max byteArray1)
 
 

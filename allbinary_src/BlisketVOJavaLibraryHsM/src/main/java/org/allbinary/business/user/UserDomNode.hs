@@ -107,7 +107,7 @@ toXmlNode_impl this document = do
         Control.Monad.void (HashMap.put hashMap (jget ((jio (EntryData.getInstance))).lASTMODIFIED) eMPTY_STRING)
         Control.Monad.void (HashMap.put hashMap (jget ((jio (EntryData.getInstance))).eNCRYPTION) eMPTY_STRING)
         Control.Monad.void (HashMap.put hashMap (UserData.pASSWORD) eMPTY_STRING)
-        (ModDomHelper.createNameValueNodes document (UserData.nAME) hashMap)
+        (ModDomHelper.createNameValueNodes_3 document (UserData.nAME) hashMap)
 
 
 -- throws Exception

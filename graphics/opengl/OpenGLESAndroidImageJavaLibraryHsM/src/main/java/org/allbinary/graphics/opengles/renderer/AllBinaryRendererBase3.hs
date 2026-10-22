@@ -96,7 +96,7 @@ update_impl this gl = do
         fix $ \loop -> when ((jio (BasicArrayList.size ((jget (this).list)))) > 0) $ javaIteration (loop) $ do
             let openGLESImage = (javaCast (jio (BasicArrayList.removeAt ((jget (this).list)) 0)) :: OpenGLESImage.OpenGLESImage)
             when (openGLESImage /= javaNull) $ do
-                Control.Monad.void (OpenGLESImage.set openGLESImage gl)
+                Control.Monad.void (OpenGLESImage.set openGLESImage (javaCast gl))
         pure ()
 
 

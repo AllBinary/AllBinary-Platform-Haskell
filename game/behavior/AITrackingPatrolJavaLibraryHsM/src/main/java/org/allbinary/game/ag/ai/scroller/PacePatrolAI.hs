@@ -111,7 +111,7 @@ init_3 this hashtable ownerLayerInterface gameInput = do
         BasePatrolAI.init_3 this.base (hashtable) (ownerLayerInterface) (gameInput)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) this)
+        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) (javaCast this))
         assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         jset (this).trackingList (assignedValue)
         pure ()

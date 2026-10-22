@@ -78,7 +78,7 @@ newRecord_ = do
     let this = VectorExplosionGenerator header_ rANDOM rOTATION vectorAnimationUtil randomRotationFactory
     jregisterLevel header_ this
     jregisterMethod header_ "createList" (\() -> createList_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3" (\() -> getInstance_3_impl this)
     jregisterMethod header_ "getInstanceStartFrame" (\() -> getInstanceStartFrame_impl this)
     jregisterMethod header_ "createListFromPoints" (\() -> createListFromPoints_impl this)
     jregisterMethod header_ "createPointsBasicArrayList" (\() -> createPointsBasicArrayList_impl this)
@@ -132,15 +132,14 @@ createList_impl this list howMuch type_ = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance object_ a1 a2 a3 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: VectorExplosionGenerator))) () a1 a2 a3
+getInstance_3 :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_3 object_ a1 a2 a3 = jmethod object_ "getInstance_3" (\() -> (getInstance_3_impl (javaCast object_ :: VectorExplosionGenerator))) () a1 a2 a3
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: VectorExplosionGenerator)) a1 a2 a3
+getInstance_3_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_3_super object_ a1 a2 a3 = (getInstance_3_impl (javaCast object_ :: VectorExplosionGenerator)) a1 a2 a3
 
-getInstance_impl :: VectorExplosionGenerator -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
-getInstance_impl this points howMuch type_ = do
+getInstance_3_impl :: VectorExplosionGenerator -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_3_impl this points howMuch type_ = do
         pointsBasicArrayList <- (VectorExplosionGenerator.getInstanceStartFrame this points howMuch type_ True)
         let tempBasicArrayList = (javaCast (jindex ((jget (pointsBasicArrayList).objectArray)) (0)) :: BasicArrayList.BasicArrayList)
         newPoints <- (VectorAnimationUtil.toAnimationArrayFromListOfPointListWithPointsPerFrame ((jget (this).vectorAnimationUtil)) pointsBasicArrayList (jio (BasicArrayList.size tempBasicArrayList)))

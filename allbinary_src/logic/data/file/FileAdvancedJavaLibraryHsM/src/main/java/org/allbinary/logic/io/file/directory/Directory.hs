@@ -74,13 +74,13 @@ newRecord_ = do
     jregisterMethod header_ "create_overload2" (\() -> create_overload2_impl this)
     jregisterMethod header_ "remove_overload2" (\() -> remove_overload2_impl this)
     jregisterMethod header_ "search_overload1" (\() -> search_overload1_impl this)
-    jregisterMethod header_ "search_overload1" (\() -> search_overload1_impl this)
-    jregisterMethod header_ "search" (\() -> search_impl this)
+    jregisterMethod header_ "search_3_overload1" (\() -> search_3_overload1_impl this)
+    jregisterMethod header_ "search_1" (\() -> search_1_impl this)
     jregisterMethod header_ "search_overload2" (\() -> search_overload2_impl this)
     jregisterMethod header_ "search_overload3" (\() -> search_overload3_impl this)
-    jregisterMethod header_ "search_overload2" (\() -> search_overload2_impl this)
+    jregisterMethod header_ "search_3_overload2" (\() -> search_3_overload2_impl this)
     jregisterMethod header_ "search_overload4" (\() -> search_overload4_impl this)
-    jregisterMethod header_ "search_overload3" (\() -> search_overload3_impl this)
+    jregisterMethod header_ "search_3_overload3" (\() -> search_3_overload3_impl this)
     pure this
 
 initFields_ :: Directory -> IO ()
@@ -156,7 +156,7 @@ create_overload2_impl this directory = do
             Control.Monad.void (PreLogUtil.putOE ("Error Creating Directories: " ++ directory) this "create" e)
             pure (False)
             ) $ do
-            directoryFile <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance ((jio (FileFactory.getInstance))) directory))
+            directoryFile <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance_1 ((jio (FileFactory.getInstance))) directory))
             when (Prelude.not (jio (AbFile.isDirectory directoryFile))) $ do
                 Control.Monad.void (PreLogUtil.put ("Creating Directories: " ++ directory) this "create")
                 when (Prelude.not (jio (AbFile.mkdirs directoryFile))) $ do
@@ -173,7 +173,7 @@ remove_overload2_super object_ a1 = (remove_overload2_impl (javaCast object_ :: 
 
 remove_overload2_impl :: Directory -> String -> IO (())
 remove_overload2_impl this existingDirectory = do
-        existingDirectoryFile <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance ((jio (FileFactory.getInstance))) existingDirectory))
+        existingDirectoryFile <- (fmap (\value_ -> javaCast value_ :: AbFile.AbFile) (FileFactory.getInstance_1 ((jio (FileFactory.getInstance))) existingDirectory))
         if (jio (AbFile.isDirectory existingDirectoryFile)) then do
             if ((jlength (jio (AbFile.list existingDirectoryFile))) > 0) then do
                 javaThrow ((JavaException "Exception" (("Did not remove category: " ++ existingDirectory) ++ " because files exist")))
@@ -201,26 +201,25 @@ search_overload1_super object_ a1 a2 = (search_overload1_impl (javaCast object_ 
 
 search_overload1_impl :: Directory -> FileFilter.FileFilter -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload1_impl this fileFilter file = do
-        (Directory.search this fileFilter file False)
+        (Directory.search_3 this fileFilter file False)
 
 
 -- Java overloads of search: calls the overload for the types of the arguments
-search :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search this a1 a2 a3
-    | jisInstanceOf a1 (javaNull :: FileFilter.FileFilter) = search_overload1 this (javaCast a1 :: FileFilter.FileFilter) a2 a3
-    | jisInstanceOf a1 (javaNull :: String) = search_overload2 this (javaCast a1 :: String) a2 a3
-    | jisInstanceOf a1 (javaNull :: Int) = search_overload3 this (javaCast a1 :: Int) a2 a3
-    | otherwise = search_overload3 this (javaCast a1 :: Int) a2 a3
+search_3 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3 this a1 a2 a3
+    | jisInstanceOf a1 (javaNull :: FileFilter.FileFilter) = search_3_overload1 this (javaCast a1 :: FileFilter.FileFilter) a2 a3
+    | jisInstanceOf a1 (javaNull :: String) = search_3_overload2 this (javaCast a1 :: String) a2 a3
+    | jisInstanceOf a1 (javaNull :: Int) = search_3_overload3 this (javaCast a1 :: Int) a2 a3
+    | otherwise = search_3_overload3 this (javaCast a1 :: Int) a2 a3
 
--- Java overload of search with a different parameter count: give it a different name
-search_overload1 :: (JavaObjectClass this_) => this_ -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload1 object_ a1 a2 a3 = jmethod object_ "search_overload1" (\() -> (search_overload1_impl (javaCast object_ :: Directory))) () a1 a2 a3
+search_3_overload1 :: (JavaObjectClass this_) => this_ -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload1 object_ a1 a2 a3 = jmethod object_ "search_3_overload1" (\() -> (search_3_overload1_impl (javaCast object_ :: Directory))) () a1 a2 a3
 
-search_overload1_super :: (JavaObjectClass this_) => this_ -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload1_super object_ a1 a2 a3 = (search_overload1_impl (javaCast object_ :: Directory)) a1 a2 a3
+search_3_overload1_super :: (JavaObjectClass this_) => this_ -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload1_super object_ a1 a2 a3 = (search_3_overload1_impl (javaCast object_ :: Directory)) a1 a2 a3
 
-search_overload1_impl :: Directory -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload1_impl this fileFilter file isRecursiveSearch = do
+search_3_overload1_impl :: Directory -> FileFilter.FileFilter -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload1_impl this fileFilter file isRecursiveSearch = do
     javaCatchReturn $ do
         fileList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         recursiveFileList <- newIORef (javaNull)
@@ -235,25 +234,23 @@ search_overload1_impl this fileFilter file isRecursiveSearch = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (BasicArrayList.add fileList (jindex files (index)))
                 when isRecursiveSearch $ do
-                    assignedValue <- (Directory.search this fileFilter (jindex files (index)) isRecursiveSearch)
+                    assignedValue <- (Directory.search_3 this fileFilter (jindex files (index)) isRecursiveSearch)
                     jset recursiveFileList (assignedValue)
                     Control.Monad.void (BasicArrayList.addAllList fileList (jget recursiveFileList))
         pure (fileList)
 
 
--- Java overload of search with a different parameter count: give it a different name
-search :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search object_ a1 = jmethod object_ "search" (\() -> (search_impl (javaCast object_ :: Directory))) () a1
+search_1 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1 object_ a1 = jmethod object_ "search_1" (\() -> (search_1_impl (javaCast object_ :: Directory))) () a1
 
-search_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search_super object_ a1 = (search_impl (javaCast object_ :: Directory)) a1
+search_1_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1_super object_ a1 = (search_1_impl (javaCast object_ :: Directory)) a1
 
-search_impl :: Directory -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search_impl this file = do
+search_1_impl :: Directory -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1_impl this file = do
         (Directory.search this file False)
 
 
--- Java overload of search with a different parameter count: give it a different name
 search_overload2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
 search_overload2 object_ a1 a2 = jmethod object_ "search_overload2" (\() -> (search_overload2_impl (javaCast object_ :: Directory))) () a1 a2
 
@@ -281,7 +278,6 @@ search_overload2_impl this file isRecursiveSearch = do
         pure (fileList)
 
 
--- Java overload of search with a different parameter count: give it a different name
 search_overload3 :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload3 object_ a1 a2 = jmethod object_ "search_overload3" (\() -> (search_overload3_impl (javaCast object_ :: Directory))) () a1 a2
 
@@ -290,18 +286,17 @@ search_overload3_super object_ a1 a2 = (search_overload3_impl (javaCast object_ 
 
 search_overload3_impl :: Directory -> String -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload3_impl this searchValue file = do
-        (Directory.search this searchValue file False)
+        (Directory.search_3 this searchValue file False)
 
 
--- Java overload of search with a different parameter count: give it a different name
-search_overload2 :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload2 object_ a1 a2 a3 = jmethod object_ "search_overload2" (\() -> (search_overload2_impl (javaCast object_ :: Directory))) () a1 a2 a3
+search_3_overload2 :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload2 object_ a1 a2 a3 = jmethod object_ "search_3_overload2" (\() -> (search_3_overload2_impl (javaCast object_ :: Directory))) () a1 a2 a3
 
-search_overload2_super :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload2_super object_ a1 a2 a3 = (search_overload2_impl (javaCast object_ :: Directory)) a1 a2 a3
+search_3_overload2_super :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload2_super object_ a1 a2 a3 = (search_3_overload2_impl (javaCast object_ :: Directory)) a1 a2 a3
 
-search_overload2_impl :: Directory -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload2_impl this searchValue file isRecursiveSearch = do
+search_3_overload2_impl :: Directory -> String -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload2_impl this searchValue file isRecursiveSearch = do
     javaCatchReturn $ do
         fileList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         recursiveFileList <- newIORef (javaNull)
@@ -316,13 +311,12 @@ search_overload2_impl this searchValue file isRecursiveSearch = do
                 when ((jio (indexOf ((jio (getPath ((jindex files (index)))))) searchValue)) >= 0) $ do
                     Control.Monad.void (BasicArrayList.add fileList (jindex files (index)))
                 when isRecursiveSearch $ do
-                    assignedValue <- (Directory.search this searchValue (jindex files (index)) isRecursiveSearch)
+                    assignedValue <- (Directory.search_3 this searchValue (jindex files (index)) isRecursiveSearch)
                     jset recursiveFileList (assignedValue)
                     Control.Monad.void (BasicArrayList.addAllList fileList (jget recursiveFileList))
         pure (fileList)
 
 
--- Java overload of search with a different parameter count: give it a different name
 search_overload4 :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload4 object_ a1 a2 = jmethod object_ "search_overload4" (\() -> (search_overload4_impl (javaCast object_ :: Directory))) () a1 a2
 
@@ -331,18 +325,17 @@ search_overload4_super object_ a1 a2 = (search_overload4_impl (javaCast object_ 
 
 search_overload4_impl :: Directory -> Int -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload4_impl this level file = do
-        (Directory.search this level file False)
+        (Directory.search_3 this level file False)
 
 
--- Java overload of search with a different parameter count: give it a different name
-search_overload3 :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload3 object_ a1 a2 a3 = jmethod object_ "search_overload3" (\() -> (search_overload3_impl (javaCast object_ :: Directory))) () a1 a2 a3
+search_3_overload3 :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload3 object_ a1 a2 a3 = jmethod object_ "search_3_overload3" (\() -> (search_3_overload3_impl (javaCast object_ :: Directory))) () a1 a2 a3
 
-search_overload3_super :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload3_super object_ a1 a2 a3 = (search_overload3_impl (javaCast object_ :: Directory)) a1 a2 a3
+search_3_overload3_super :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload3_super object_ a1 a2 a3 = (search_3_overload3_impl (javaCast object_ :: Directory)) a1 a2 a3
 
-search_overload3_impl :: Directory -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
-search_overload3_impl this level file isRecursiveSearch = do
+search_3_overload3_impl :: Directory -> Int -> AbFile.AbFile -> Bool -> IO (BasicArrayList.BasicArrayList)
+search_3_overload3_impl this level file isRecursiveSearch = do
     javaCatchReturn $ do
         fileList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         recursiveFileList <- newIORef (javaNull)
@@ -357,7 +350,7 @@ search_overload3_impl this level file isRecursiveSearch = do
                 Control.Monad.void (BasicArrayList.add fileList (jindex files (index)))
                 when (level <= 0) $ do
                     javaReturn (fileList)
-                assignedValue <- (Directory.search this (level - 1) (jindex files (index)) isRecursiveSearch)
+                assignedValue <- (Directory.search_3 this (level - 1) (jindex files (index)) isRecursiveSearch)
                 jset recursiveFileList (assignedValue)
                 Control.Monad.void (BasicArrayList.addAllList fileList (jget recursiveFileList))
         pure (fileList)

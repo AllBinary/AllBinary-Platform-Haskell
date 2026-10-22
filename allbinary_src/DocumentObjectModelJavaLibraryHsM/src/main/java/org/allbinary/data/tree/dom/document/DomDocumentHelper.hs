@@ -104,16 +104,15 @@ create = do
 
 
 -- Java overloads of create: calls the overload for the types of the arguments
-create :: (JavaObjectClass o1) => o1 -> IO (Document.Document)
-create a1
-    | jisInstanceOf a1 (javaNull :: InputStream.InputStream) = create_overload1 (javaCast a1 :: InputStream.InputStream)
-    | jisInstanceOf a1 (javaNull :: String) = create_overload2 (javaCast a1 :: String)
-    | otherwise = create_overload2 (javaCast a1 :: String)
+create_1 :: (JavaObjectClass o1) => o1 -> IO (Document.Document)
+create_1 a1
+    | jisInstanceOf a1 (javaNull :: InputStream.InputStream) = create_1_overload1 (javaCast a1 :: InputStream.InputStream)
+    | jisInstanceOf a1 (javaNull :: String) = create_1_overload2 (javaCast a1 :: String)
+    | otherwise = create_1_overload2 (javaCast a1 :: String)
 
 -- throws Exception
--- Java overload of create with a different parameter count: give it a different name
-create_overload1 :: InputStream.InputStream -> IO (Document.Document)
-create_overload1 inputStream = do
+create_1_overload1 :: InputStream.InputStream -> IO (Document.Document)
+create_1_overload1 inputStream = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
@@ -124,9 +123,8 @@ create_overload1 inputStream = do
 
 
 -- throws Exception
--- Java overload of create with a different parameter count: give it a different name
-create_overload2 :: String -> IO (Document.Document)
-create_overload2 xmlString = do
+create_1_overload2 :: String -> IO (Document.Document)
+create_1_overload2 xmlString = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do

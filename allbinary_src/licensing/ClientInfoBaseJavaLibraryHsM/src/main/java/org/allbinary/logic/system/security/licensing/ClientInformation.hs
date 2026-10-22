@@ -261,7 +261,7 @@ toHashtable_impl this = do
         Control.Monad.void (ABHashtable.put clientInfoHashtable (jget (abeClientInformationData).oSARCH) (jio (GenericOperatingSystem.getArch genericOperatingSystem)))
         Control.Monad.void (ABHashtable.put clientInfoHashtable (jget (abeClientInformationData).oSVERSION) (jio (GenericOperatingSystem.getVersion genericOperatingSystem)))
         Control.Monad.void (ABHashtable.put clientInfoHashtable (jget (abeClientInformationData).oS) (jio (GenericOperatingSystem.toString genericOperatingSystem)))
-        hardwareInterface <- (fmap (\value_ -> javaCast value_ :: HardwareInterface.HardwareInterface) (SystemHardwareFactory.getInstance ((jio (SystemHardwareFactory.getInstance))) genericOperatingSystem))
+        hardwareInterface <- (fmap (\value_ -> javaCast value_ :: HardwareInterface.HardwareInterface) (SystemHardwareFactory.getInstance_1 ((jio (SystemHardwareFactory.getInstance))) genericOperatingSystem))
         hardwareString <- (HardwareInterface.toString hardwareInterface)
         Control.Monad.void (ABHashtable.put clientInfoHashtable (jget (abeClientInformationData).hARDWARE) hardwareString)
         pure (clientInfoHashtable)

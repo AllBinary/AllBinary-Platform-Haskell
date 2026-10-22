@@ -69,7 +69,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = PaymentTransactionInterfaceFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: PaymentTransactionInterfaceFactory -> IO ()
@@ -96,15 +96,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: PaymentTransactionInterfaceFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: PaymentTransactionInterfaceFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: PaymentTransactionInterfaceFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: PaymentTransactionInterfaceFactory)) a1
 
-getInstance_impl :: PaymentTransactionInterfaceFactory -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance_impl this orderReview = do
+getInstance_1_impl :: PaymentTransactionInterfaceFactory -> OrderHistory.OrderHistory -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1_impl this orderReview = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pAYMENTERROR))) $ do

@@ -108,7 +108,7 @@ init_ this = do
 -- throws Exception
 getInstance :: Int -> Int -> IO (ColorDelta.ColorDelta)
 getInstance rgb1 rgb2 = do
-        colorDelta <- newIORef ((javaCast (jio (get ((jget ColorDeltaFactory.cacheInterface)) (jio (ColorDelta.getKey rgb1 rgb2)))) :: ColorDelta.ColorDelta))
+        colorDelta <- newIORef ((javaCast (jio (get ((jget ColorDeltaFactory.cacheInterface)) (jio (ColorDelta.getKey_2 rgb1 rgb2)))) :: ColorDelta.ColorDelta))
         when ((jget colorDelta) == javaNull) $ do
             assignedValue <- (ColorDelta.new_2 rgb1 rgb2)
             jset colorDelta (assignedValue)

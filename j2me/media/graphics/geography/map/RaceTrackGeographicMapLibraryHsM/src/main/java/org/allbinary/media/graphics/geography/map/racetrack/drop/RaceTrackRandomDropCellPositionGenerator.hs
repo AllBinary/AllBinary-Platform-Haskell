@@ -158,7 +158,7 @@ drop_impl this allBinaryLayerManager index = do
         tiledLayer <- (RaceTrackGeographicMapInterface.getAllBinaryTiledLayer ((jget (this).base.raceTrackGeographicMap)))
         let pickupLayer = (javaCast (jio (PickupLayerCircularStaticPool.getInstanceXYZ ((jio (PickupLayerCircularStaticPool.getInstance))) pickedUpLayerInterfaceFactory x y ((jio (AllBinaryTiledLayer.getZP tiledLayer)) + 3))) :: RaceTrackPickupLayer.RaceTrackPickupLayer)
         Control.Monad.void (RaceTrackPickupLayer.setTiledLayer pickupLayer tiledLayer)
-        Control.Monad.void (AllBinaryLayerManager.append allBinaryLayerManager pickupLayer)
+        Control.Monad.void (AllBinaryLayerManager.append allBinaryLayerManager (javaCast pickupLayer))
         pure ()
 
 

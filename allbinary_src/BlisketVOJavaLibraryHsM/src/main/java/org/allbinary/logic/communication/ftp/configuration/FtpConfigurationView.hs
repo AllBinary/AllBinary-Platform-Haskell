@@ -93,13 +93,13 @@ init_1 this node = do
         initFields_ this
         Control.Monad.void (FtpConfigurationView.setFtpConfigurationInterface this (javaCast (jio (FtpConfiguration.new_)) :: FtpConfigurationInterface.FtpConfigurationInterface))
         chileNodeList <- (Node.getChildNodes node)
-        server <- (DomNodeHelper.getTextNodeValue (FtpConfigurationData.sERVER) chileNodeList)
+        server <- (DomNodeHelper.getTextNodeValue_2 (FtpConfigurationData.sERVER) chileNodeList)
         Control.Monad.void (FtpConfigurationInterface.setServer ((jio (FtpConfigurationView.getFtpConfigurationInterface this))) server)
-        userName <- (DomNodeHelper.getTextNodeValue (FtpConfigurationData.uSERNAME) chileNodeList)
+        userName <- (DomNodeHelper.getTextNodeValue_2 (FtpConfigurationData.uSERNAME) chileNodeList)
         Control.Monad.void (FtpConfigurationInterface.setUserName ((jio (FtpConfigurationView.getFtpConfigurationInterface this))) userName)
-        password <- (DomNodeHelper.getTextNodeValue (FtpConfigurationData.pASSWORD) chileNodeList)
+        password <- (DomNodeHelper.getTextNodeValue_2 (FtpConfigurationData.pASSWORD) chileNodeList)
         Control.Monad.void (FtpConfigurationInterface.setPassword ((jio (FtpConfigurationView.getFtpConfigurationInterface this))) password)
-        path <- (DomNodeHelper.getTextNodeValue (FtpConfigurationData.pATH) chileNodeList)
+        path <- (DomNodeHelper.getTextNodeValue_2 (FtpConfigurationData.pATH) chileNodeList)
         Control.Monad.void (FtpConfigurationInterface.setPath ((jio (FtpConfigurationView.getFtpConfigurationInterface this))) path)
         pure ()
 
@@ -128,7 +128,7 @@ toXmlNode_impl :: FtpConfigurationView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         ftpConfigurationMapping <- (FtpConfigurationMapping.new_1 (jio (FtpConfigurationView.getFtpConfigurationInterface this)))
         hashMap <- (FtpConfigurationMapping.toHashMap ftpConfigurationMapping)
-        node <- (ModDomHelper.createNameValueNodes document (FtpConfigurationData.nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (FtpConfigurationData.nAME) hashMap)
         pure (node)
 
 

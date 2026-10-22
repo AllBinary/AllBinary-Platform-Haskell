@@ -90,7 +90,7 @@ new_1 id = do
 init_1 :: MotionEventCircularPool -> Int -> IO ()
 init_1 this id = do
         initFields_ this
-        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eventPool)) (jio (MotionEventFactory.new_2 (jget (this).eventPool) id)))
+        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eventPool)) (javaCast (jio (MotionEventFactory.new_2 (jget (this).eventPool) id))))
         pure ()
 
 

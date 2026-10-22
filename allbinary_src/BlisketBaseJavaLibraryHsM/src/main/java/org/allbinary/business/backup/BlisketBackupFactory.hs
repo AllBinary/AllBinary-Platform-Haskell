@@ -89,7 +89,7 @@ newRecord_ = do
     jregisterMethod header_ "backupViews" (\() -> backupViews_impl this)
     jregisterMethod header_ "backupResources" (\() -> backupResources_impl this)
     jregisterMethod header_ "backupJsps" (\() -> backupJsps_impl this)
-    jregisterMethod header_ "backup" (\() -> backup_impl this)
+    jregisterMethod header_ "backup_2" (\() -> backup_2_impl this)
     pure this
 
 initFields_ :: BlisketBackupFactory -> IO ()
@@ -148,7 +148,7 @@ backup_impl this = do
             backupPath <- (StringMaker.toString stringBuffer)
             path <- (AbPath.new_2 backupPath (jget ((jget (this).stringUtil)).eMPTY_STRING))
             fileBasicArrayList <- (BlisketBackupFactory.getFileBasicArrayList this backupPath)
-            Control.Monad.void (BlisketBackupFactory.backup this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backup.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backup.zip"))
         pure ()
 
 
@@ -190,7 +190,7 @@ backupViews_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jget viewsPath))
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this "backupViews()")
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jget viewsPath))))
-            Control.Monad.void (BlisketBackupFactory.backup this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupViews.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupViews.zip"))
         pure ()
 
 
@@ -235,7 +235,7 @@ backupResources_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jget resourcesPath))
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this "backupResources()")
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jget resourcesPath))))
-            Control.Monad.void (BlisketBackupFactory.backup this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupResources.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupResources.zip"))
         pure ()
 
 
@@ -268,19 +268,18 @@ backupJsps_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getWebappPath)))
                 Control.Monad.void (StringMaker.append stringBuffer (jget nextStore))
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jio (StringMaker.toString stringBuffer)))))
-            Control.Monad.void (BlisketBackupFactory.backup this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupJsps.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupJsps.zip"))
         pure ()
 
 
--- Java overload of backup with a different parameter count: give it a different name
-backup :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> String -> IO (())
-backup object_ a1 a2 = jmethod object_ "backup" (\() -> (backup_impl (javaCast object_ :: BlisketBackupFactory))) () a1 a2
+backup_2 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> String -> IO (())
+backup_2 object_ a1 a2 = jmethod object_ "backup_2" (\() -> (backup_2_impl (javaCast object_ :: BlisketBackupFactory))) () a1 a2
 
-backup_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> String -> IO (())
-backup_super object_ a1 a2 = (backup_impl (javaCast object_ :: BlisketBackupFactory)) a1 a2
+backup_2_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> String -> IO (())
+backup_2_super object_ a1 a2 = (backup_2_impl (javaCast object_ :: BlisketBackupFactory)) a1 a2
 
-backup_impl :: BlisketBackupFactory -> BasicArrayList.BasicArrayList -> String -> IO (())
-backup_impl this fileBasicArrayList zipFile = do
+backup_2_impl :: BlisketBackupFactory -> BasicArrayList.BasicArrayList -> String -> IO (())
+backup_2_impl this fileBasicArrayList zipFile = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "backup()" e)
             ) $ do

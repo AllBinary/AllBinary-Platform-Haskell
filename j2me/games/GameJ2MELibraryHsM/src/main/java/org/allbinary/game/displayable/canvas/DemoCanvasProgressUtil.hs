@@ -93,8 +93,8 @@ showProgressOptionallyInTheBackground demoCanvas background = do
         jsetIndex paintableArray (0) ((javaCast progressCanvas :: PaintableInterface.PaintableInterface))
         assignedValue <- (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (DemoCanvas.getDefaultPaintableInterface demoCanvas))
         jsetIndex paintableArray (1) (assignedValue)
-        Control.Monad.void (DemoCanvas.setDefaultPaintableInterface demoCanvas (jio (PaintableComposite.new_1 paintableArray)))
-        Control.Monad.void (DemoCanvas.setPaintableInterface demoCanvas (jio (DemoCanvas.getDefaultPaintableInterface demoCanvas)))
+        Control.Monad.void (DemoCanvas.setDefaultPaintableInterface demoCanvas (javaCast (jio (PaintableComposite.new_1 paintableArray))))
+        Control.Monad.void (DemoCanvas.setPaintableInterface demoCanvas (javaCast (jio (DemoCanvas.getDefaultPaintableInterface demoCanvas))))
         pure ()
 
 

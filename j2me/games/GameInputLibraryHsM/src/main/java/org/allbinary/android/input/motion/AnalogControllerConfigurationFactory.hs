@@ -122,7 +122,7 @@ setAvailable_super object_ a1 = (setAvailable_impl (javaCast object_ :: AnalogCo
 setAvailable_impl :: AnalogControllerConfigurationFactory -> Bool -> IO (())
 setAvailable_impl this available = do
         jset (this).available (available)
-        Control.Monad.void (AnalogControllerConfigurationEventHandler.fireEvent ((jio (AnalogControllerConfigurationEventHandler.getInstance))) (jget (this).analogControllerConfigurationEvent))
+        Control.Monad.void (AnalogControllerConfigurationEventHandler.fireEvent ((jio (AnalogControllerConfigurationEventHandler.getInstance))) (javaCast (jget (this).analogControllerConfigurationEvent)))
         pure ()
 
 

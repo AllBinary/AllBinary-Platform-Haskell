@@ -132,7 +132,7 @@ toXmlNode_impl this document = do
         pageName <- newIORef =<< (TransformTemplateCustomizerUtil.getPageNameHack ((jio (TransformTemplateCustomizerUtil.getInstance))) (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (jio (WeblisketSession.getStoreName ((jio (HttpStoreComponentView.getWeblisketSession this))))))
         when (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) (jget pageName))) $ do
             jset pageName (GenericBodyCustomizerView.nAME)
-        (ModDomHelper.createNameValueNodes document (jget ((jio (PageData.getInstance))).nAME) (jget pageName))
+        (ModDomHelper.createNameValueNodes_3 document (jget ((jio (PageData.getInstance))).nAME) (jget pageName))
 
 
 -- throws Exception

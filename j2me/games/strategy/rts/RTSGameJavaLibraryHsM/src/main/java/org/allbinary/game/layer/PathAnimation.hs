@@ -186,7 +186,7 @@ paintXY_impl this graphics x y = do
                         jset geographicMapCellPosition ((javaCast (jio (BasicArrayList.get list (index + 1))) :: GeographicMapCellPosition.GeographicMapCellPosition))
                         assignedValue <- (GeographicMapCellPosition.getMidPoint ((jget geographicMapCellPosition)))
                         jset nextPoint (assignedValue)
-                        Control.Monad.void (LinePathAnimation.paint ((jget (this).linePathAnimation)) graphics (jget point) (jget nextPoint) tiledLayer)
+                        Control.Monad.void (LinePathAnimation.paint ((jget (this).linePathAnimation)) graphics (jget point) (jget nextPoint) (javaCast tiledLayer))
         pure ()
 
 

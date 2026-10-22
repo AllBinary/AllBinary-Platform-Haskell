@@ -98,7 +98,7 @@ collide_super object_ a1 a2 = (collide_impl (javaCast object_ :: CollidableChara
 collide_impl :: CollidableCharacterNoDamageBehavior -> CollidableCompositeLayer.CollidableCompositeLayer -> CollidableCompositeLayer.CollidableCompositeLayer -> IO (())
 collide_impl this ownerLayer collidableInterfaceCompositeInterface = do
         collisionTypeFactory <- (CollisionTypeFactory.getInstance)
-        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) ownerLayer)
+        collisionType <- (CollidableBaseBehavior.getCollisionTypeWith ((jio (CollidableCompositeLayer.getCollidableInferface collidableInterfaceCompositeInterface))) (javaCast ownerLayer))
         if (collisionType == (jget (collisionTypeFactory).pICKUP)) then do
             let collidableDestroyableDamageableLayer = (javaCast ownerLayer :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer)
             Control.Monad.void (PickupBehavior.doPickupLayer ((jio (CollidableDestroyableDamageableLayer.getPickupBehavior collidableDestroyableDamageableLayer))) (javaCast collidableInterfaceCompositeInterface :: PickedUpLayerInterface.PickedUpLayerInterface))

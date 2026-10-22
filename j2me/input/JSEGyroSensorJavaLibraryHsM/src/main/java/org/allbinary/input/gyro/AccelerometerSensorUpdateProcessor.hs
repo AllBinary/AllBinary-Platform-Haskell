@@ -92,12 +92,12 @@ process_super object_ = (process_impl (javaCast object_ :: AccelerometerSensorUp
 process_impl :: AccelerometerSensorUpdateProcessor -> IO (())
 process_impl this = do
         sensorFeatureFactory <- (SensorFeatureFactory.getInstance)
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget (sensorFeatureFactory).oRIENTATION_SENSORS))) then do
-            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (jio (SingleKeyPressGameKeyFromMotionGestureEventListener.new_)))
-        else if (jio (Features.isFeature ((jio (Features.getInstance))) (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS))) then do
-            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (jio (SingleKeyPressGameKeyFromMotionGestureEventListener.new_)))
-        else if (jio (Features.isFeature ((jio (Features.getInstance))) (jget (sensorFeatureFactory).nO_ORIENTATION))) then do
-            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (jio (NoCompleteMotionGestureInputEventListener.getInstance)))
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget (sensorFeatureFactory).oRIENTATION_SENSORS)))) then do
+            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (javaCast (jio (SingleKeyPressGameKeyFromMotionGestureEventListener.new_))))
+        else if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS)))) then do
+            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (javaCast (jio (SingleKeyPressGameKeyFromMotionGestureEventListener.new_))))
+        else if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION)))) then do
+            Control.Monad.void (AllBinaryOrientationSensor.setCompleteMotionGestureInputEventListener ((jio (AccelerometerSensorFactory.getInstance))) (javaCast (jio (NoCompleteMotionGestureInputEventListener.getInstance))))
         else do
             javaThrow ((JavaException "Exception" "Sensor Feature Not Set"))
         pure ()

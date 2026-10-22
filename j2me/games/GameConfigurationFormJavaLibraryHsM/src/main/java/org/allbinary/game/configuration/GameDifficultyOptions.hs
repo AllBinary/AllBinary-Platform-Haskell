@@ -195,7 +195,7 @@ add_impl this list name option = do
         choiceGroup <- (GameDifficultyOptions.getChoiceGroup this list name option)
         when ((jio (BasicArrayList.size list)) > 0) $ do
             Control.Monad.void (ChoiceGroup.setSelectedIndex choiceGroup 0 True)
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this choiceGroup)
+        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
         pure ()
 
 

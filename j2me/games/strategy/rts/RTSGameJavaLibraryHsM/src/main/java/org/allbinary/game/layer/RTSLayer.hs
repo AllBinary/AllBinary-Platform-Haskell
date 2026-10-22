@@ -921,8 +921,8 @@ setDestroyed_impl :: RTSLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         jset (this).destroyed (destroyed)
         when (jio (RTSLayer.isDestroyed this)) $ do
-            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) this)
-            Control.Monad.void (ViewPositionEventHandler.removeListener ((jio (ViewPositionEventHandler.getInstance))) this)
+            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (javaCast this))
+            Control.Monad.void (ViewPositionEventHandler.removeListener ((jio (ViewPositionEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

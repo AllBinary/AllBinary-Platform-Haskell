@@ -16,7 +16,7 @@
 -- package org.allbinary.image.gui
 module ImageUnifierJPanel (module ImageUnifierJPanel, module JPanel) where
 
-import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, init, init_super, init_impl, updateImage, updateImage_super, updateImage_impl, updateImageWithFudgedImages, updateImageWithFudgedImages_super, updateImageWithFudgedImages_impl, updateImage, updateImage_super, updateImage_impl, updateOnPropertiesChange, updateOnPropertiesChange_super, updateOnPropertiesChange_impl, initComponents, initComponents_super, initComponents_impl, jButton2ActionPerformed, jButton2ActionPerformed_super, jButton2ActionPerformed_impl, columnsJTextFieldKeyPressed, columnsJTextFieldKeyPressed_super, columnsJTextFieldKeyPressed_impl, columnsJTextFieldKeyTyped, columnsJTextFieldKeyTyped_super, columnsJTextFieldKeyTyped_impl, columnsJTextFieldPropertyChange, columnsJTextFieldPropertyChange_super, columnsJTextFieldPropertyChange_impl, fudgeItJButtonActionPerformed, fudgeItJButtonActionPerformed_super, fudgeItJButtonActionPerformed_impl, cellHeightJTextFieldActionPerformed, cellHeightJTextFieldActionPerformed_super, cellHeightJTextFieldActionPerformed_impl, cellWidthJTextFieldActionPerformed, cellWidthJTextFieldActionPerformed_super, cellWidthJTextFieldActionPerformed_impl, columnsJTextFieldActionPerformed, columnsJTextFieldActionPerformed_super, columnsJTextFieldActionPerformed_impl, rowsJTextFieldActionPerformed, rowsJTextFieldActionPerformed_super, rowsJTextFieldActionPerformed_impl, jButton1ActionPerformed, jButton1ActionPerformed_super, jButton1ActionPerformed_impl, downJButtonActionPerformed, downJButtonActionPerformed_super, downJButtonActionPerformed_impl, upJButtonActionPerformed, upJButtonActionPerformed_super, upJButtonActionPerformed_impl, jButtonOrderActionPerformed, jButtonOrderActionPerformed_super, jButtonOrderActionPerformed_impl, getImageProcessorInput, getImageProcessorInput_super, getImageProcessorInput_impl, setImageProcessorInput, setImageProcessorInput_super, setImageProcessorInput_impl, logUtil, commonStrings, imageStrings, imagesRatioUtil, imageProcessorInput, icon, imageUnifierProperties, result, isImageFillIn, avgRatioJTextField, cellHeightJTextField, cellRatioJTextField, cellWidthJTextField, columnsJTextField, downJButton, fudgeItJButton, imageJList, jButton1, jButton2, jButtonOrder, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jPanel1, jScrollPane1, jScrollPane2, rowsJTextField, upJButton)
+import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, init, init_super, init_impl, updateImage, updateImage_super, updateImage_impl, updateImageWithFudgedImages, updateImageWithFudgedImages_super, updateImageWithFudgedImages_impl, updateImage_1, updateImage_1_super, updateImage_1_impl, updateImage, updateOnPropertiesChange, updateOnPropertiesChange_super, updateOnPropertiesChange_impl, initComponents, initComponents_super, initComponents_impl, jButton2ActionPerformed, jButton2ActionPerformed_super, jButton2ActionPerformed_impl, columnsJTextFieldKeyPressed, columnsJTextFieldKeyPressed_super, columnsJTextFieldKeyPressed_impl, columnsJTextFieldKeyTyped, columnsJTextFieldKeyTyped_super, columnsJTextFieldKeyTyped_impl, columnsJTextFieldPropertyChange, columnsJTextFieldPropertyChange_super, columnsJTextFieldPropertyChange_impl, fudgeItJButtonActionPerformed, fudgeItJButtonActionPerformed_super, fudgeItJButtonActionPerformed_impl, cellHeightJTextFieldActionPerformed, cellHeightJTextFieldActionPerformed_super, cellHeightJTextFieldActionPerformed_impl, cellWidthJTextFieldActionPerformed, cellWidthJTextFieldActionPerformed_super, cellWidthJTextFieldActionPerformed_impl, columnsJTextFieldActionPerformed, columnsJTextFieldActionPerformed_super, columnsJTextFieldActionPerformed_impl, rowsJTextFieldActionPerformed, rowsJTextFieldActionPerformed_super, rowsJTextFieldActionPerformed_impl, jButton1ActionPerformed, jButton1ActionPerformed_super, jButton1ActionPerformed_impl, downJButtonActionPerformed, downJButtonActionPerformed_super, downJButtonActionPerformed_impl, upJButtonActionPerformed, upJButtonActionPerformed_super, upJButtonActionPerformed_impl, jButtonOrderActionPerformed, jButtonOrderActionPerformed_super, jButtonOrderActionPerformed_impl, getImageProcessorInput, getImageProcessorInput_super, getImageProcessorInput_impl, setImageProcessorInput, setImageProcessorInput_super, setImageProcessorInput_impl, logUtil, commonStrings, imageStrings, imagesRatioUtil, imageProcessorInput, icon, imageUnifierProperties, result, isImageFillIn, avgRatioJTextField, cellHeightJTextField, cellRatioJTextField, cellWidthJTextField, columnsJTextField, downJButton, fudgeItJButton, imageJList, jButton1, jButton2, jButtonOrder, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jPanel1, jScrollPane1, jScrollPane2, rowsJTextField, upJButton)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -161,7 +161,7 @@ newRecord_ = do
     jregisterMethod header_ "init" (\() -> init_impl this)
     jregisterMethod header_ "updateImage" (\() -> updateImage_impl this)
     jregisterMethod header_ "updateImageWithFudgedImages" (\() -> updateImageWithFudgedImages_impl this)
-    jregisterMethod header_ "updateImage" (\() -> updateImage_impl this)
+    jregisterMethod header_ "updateImage_1" (\() -> updateImage_1_impl this)
     jregisterMethod header_ "updateOnPropertiesChange" (\() -> updateOnPropertiesChange_impl this)
     jregisterMethod header_ "initComponents" (\() -> initComponents_impl this)
     jregisterMethod header_ "jButton2ActionPerformed" (\() -> jButton2ActionPerformed_impl this)
@@ -272,11 +272,11 @@ updateImage_impl this = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "updateImage" e)
             ) $ do
-            bufferedImageArray <- (ImageUnifierJPanel.getBufferedImageArray ((jio (ImageUnifierJPanel.getImageProcessorInput this))))
+            bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray ((jio (ImageUnifierJPanel.getImageProcessorInput this))))
             let tempBufferedImageArray = (jnewArray ((jlength bufferedImageArray)) javaNull)
             forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
                 let indexedImageIcon = (javaCast (jio (JList.getElementAt ((jio (JList.getModel ((jget (this).imageJList))))) index)) :: ImageIconUnique.ImageIconUnique)
-                bufferedImage <- (ImageUtil.createBufferedImage ((jio (ImageUtil.getInstance))) (jindex bufferedImageArray ((jio (ImageIconUnique.getId indexedImageIcon)))) (jio (ImageUnifierProperties.getWidth ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) (jio (ImageUnifierProperties.getHeight ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) False)
+                bufferedImage <- (ImageUtil.createBufferedImage ((jio (ImageUtil.getInstance))) (jindex bufferedImageArray ((jio (ImageIconUnique.getId indexedImageIcon)))) (jio (ImageUnifierCell.getWidth ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) (jio (ImageUnifierCell.getHeight ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) False)
                 jsetIndex tempBufferedImageArray (index) (bufferedImage)
             let totalImages = ((jio (ImageUnifierProperties.getRows ((jget (this).imageUnifierProperties)))) * (jio (ImageUnifierProperties.getColumns ((jget (this).imageUnifierProperties)))))
             averageRatio <- (ImagesRatioUtil.getAverage ((jget (this).imagesRatioUtil)) tempBufferedImageArray totalImages)
@@ -288,7 +288,7 @@ updateImage_impl this = do
             when (Prelude.not (jio (ImagesRatioUtil.isEqual ((jget (this).imagesRatioUtil)) tempBufferedImageArray totalImages))) $ do
                 when (jget (this).isImageFillIn) $ do
                     Control.Monad.void (JButton.setEnabled ((jget (this).fudgeItJButton)) True)
-            Control.Monad.void (ImageUnifierJPanel.updateImage this tempBufferedImageArray)
+            Control.Monad.void (ImageUnifierJPanel.updateImage_1 this tempBufferedImageArray)
         pure ()
 
 
@@ -303,28 +303,27 @@ updateImageWithFudgedImages_impl this = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "updateImageWithFudgedImages" e)
             ) $ do
-            bufferedImageArray <- (ImageUnifierJPanel.getBufferedImageArray ((jio (ImageUnifierJPanel.getImageProcessorInput this))))
+            bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray ((jio (ImageUnifierJPanel.getImageProcessorInput this))))
             let tempBufferedImageArray = (jnewArray ((jlength bufferedImageArray)) javaNull)
             forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
                 let indexedImageIcon = (javaCast (jio (JList.getElementAt ((jio (JList.getModel ((jget (this).imageJList))))) index)) :: ImageIconUnique.ImageIconUnique)
-                bufferedImage <- (ImageUtil.createBufferedImage ((jio (ImageUtil.getInstance))) (jindex bufferedImageArray ((jio (ImageIconUnique.getId indexedImageIcon)))) (jio (ImageUnifierProperties.getWidth ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) (jio (ImageUnifierProperties.getHeight ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) False)
+                bufferedImage <- (ImageUtil.createBufferedImage ((jio (ImageUtil.getInstance))) (jindex bufferedImageArray ((jio (ImageIconUnique.getId indexedImageIcon)))) (jio (ImageUnifierCell.getWidth ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) (jio (ImageUnifierCell.getHeight ((jio (ImageUnifierProperties.getImageUnifierCell ((jget (this).imageUnifierProperties))))))) False)
                 jsetIndex tempBufferedImageArray (index) (bufferedImage)
             let totalImages = ((jio (ImageUnifierProperties.getRows ((jget (this).imageUnifierProperties)))) * (jio (ImageUnifierProperties.getColumns ((jget (this).imageUnifierProperties)))))
             averageRatio <- (ImagesRatioUtil.getAverage ((jget (this).imagesRatioUtil)) tempBufferedImageArray totalImages)
-            fudgedBufferedImageArray <- (ImagesRatioUtil.fudge ((jget this.imagesRatioUtil)) tempBufferedImageArray totalImages averageRatio)
-            Control.Monad.void (ImageUnifierJPanel.updateImage this fudgedBufferedImageArray)
+            fudgedBufferedImageArray <- (ImagesRatioUtil.fudge_3 ((jget this.imagesRatioUtil)) tempBufferedImageArray totalImages averageRatio)
+            Control.Monad.void (ImageUnifierJPanel.updateImage_1 this fudgedBufferedImageArray)
         pure ()
 
 
--- Java overload of updateImage with a different parameter count: give it a different name
-updateImage :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> IO (())
-updateImage object_ a1 = jmethod object_ "updateImage" (\() -> (updateImage_impl (javaCast object_ :: ImageUnifierJPanel))) () a1
+updateImage_1 :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> IO (())
+updateImage_1 object_ a1 = jmethod object_ "updateImage_1" (\() -> (updateImage_1_impl (javaCast object_ :: ImageUnifierJPanel))) () a1
 
-updateImage_super :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> IO (())
-updateImage_super object_ a1 = (updateImage_impl (javaCast object_ :: ImageUnifierJPanel)) a1
+updateImage_1_super :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> IO (())
+updateImage_1_super object_ a1 = (updateImage_1_impl (javaCast object_ :: ImageUnifierJPanel)) a1
 
-updateImage_impl :: ImageUnifierJPanel -> JavaArray (BufferedImage.BufferedImage) -> IO (())
-updateImage_impl this tempBufferedImageArray = do
+updateImage_1_impl :: ImageUnifierJPanel -> JavaArray (BufferedImage.BufferedImage) -> IO (())
+updateImage_1_impl this tempBufferedImageArray = do
         assignedValue <- (ImageUnifierUtil.getImage ((jio (ImageUnifierUtil.getInstance))) tempBufferedImageArray (jget (this).imageUnifierProperties))
         jset (this).result (assignedValue)
         image <- (fmap (\value_ -> javaCast value_ :: Icon.Icon) (ImageIcon.new_1 (jget (this).result)))

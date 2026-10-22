@@ -215,7 +215,7 @@ getObjectConfigs_impl this storeName = do
             objectConfigString <- newIORef ((javaCast (jio (BasicArrayList.get objectConfigColumnVector i)) :: String))
             assignedValue <- (jnewString (jio (Encoder.decode (jget objectConfigString))))
             jset objectConfigString (assignedValue)
-            Control.Monad.void (BasicArrayList.add objectConfigVector (jio (TransformInfoObjectConfigAndManipulatorFactoryBase.getInstance ((jget (this).transformInfoObjectConfigAndManipulatorFactoryInterface)) (jget (this).abeClientInformation) (javaCast this :: TransformInfoInterface.TransformInfoInterface) (jio (DomDocumentHelper.create (jget objectConfigString))))))
+            Control.Monad.void (BasicArrayList.add objectConfigVector (jio (TransformInfoObjectConfigAndManipulatorFactoryBase.getInstance ((jget (this).transformInfoObjectConfigAndManipulatorFactoryInterface)) (jget (this).abeClientInformation) (javaCast this :: TransformInfoInterface.TransformInfoInterface) (jio (DomDocumentHelper.create_1 (jget objectConfigString))))))
         pure (objectConfigVector)
 
 

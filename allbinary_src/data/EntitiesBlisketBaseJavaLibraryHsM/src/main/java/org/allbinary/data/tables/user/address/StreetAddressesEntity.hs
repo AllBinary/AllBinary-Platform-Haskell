@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.user.address
 module StreetAddressesEntity (module StreetAddressesEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, remove, remove_super, remove_impl, add, add_super, add_impl, add, add_super, add_impl, update, update_super, update_impl, getLastId, getLastId_super, getLastId_impl, get, get_super, get_impl, get, get_super, get_impl, getDefault, getDefault_super, getDefault_impl, setDefault, setDefault_super, setDefault_impl, getUserName, getUserName_super, getUserName_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, logUtil, userName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, remove, remove_super, remove_impl, add, add_super, add_impl, add_2, add_2_super, add_2_impl, add, update, update_super, update_impl, getLastId, getLastId_super, getLastId_impl, get, get_super, get_impl, get_1, get_1_super, get_1_impl, get, getDefault, getDefault_super, getDefault_impl, setDefault, setDefault_super, setDefault_impl, getUserName, getUserName_super, getUserName_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, logUtil, userName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -84,11 +84,11 @@ newRecord_ = do
     StreetAddressesEntityInterface.registerInterface_ header_
     jregisterMethod header_ "remove" (\() -> remove_impl this)
     jregisterMethod header_ "add" (\() -> add_impl this)
-    jregisterMethod header_ "add" (\() -> add_impl this)
+    jregisterMethod header_ "add_2" (\() -> add_2_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
     jregisterMethod header_ "getLastId" (\() -> getLastId_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "get" (\() -> get_impl this)
+    jregisterMethod header_ "get_1" (\() -> get_1_impl this)
     jregisterMethod header_ "getDefault" (\() -> getDefault_impl this)
     jregisterMethod header_ "setDefault" (\() -> setDefault_impl this)
     jregisterMethod header_ "getUserName" (\() -> getUserName_impl this)
@@ -160,19 +160,18 @@ add_super object_ a1 = (add_impl (javaCast object_ :: StreetAddressesEntity)) a1
 
 add_impl :: StreetAddressesEntity -> StreetAddress.StreetAddress -> IO (())
 add_impl this address = do
-        Control.Monad.void (StreetAddressesEntity.add this address (jget ((jio (TableDataFactory.getInstance))).iNTEGER_MAX_VALUE_STRING))
+        Control.Monad.void (StreetAddressesEntity.add_2 this address (jget ((jio (TableDataFactory.getInstance))).iNTEGER_MAX_VALUE_STRING))
         pure ()
 
 
--- Java overload of add with a different parameter count: give it a different name
-add :: (JavaObjectClass this_) => this_ -> StreetAddress.StreetAddress -> String -> IO (())
-add object_ a1 a2 = jmethod object_ "add" (\() -> (add_impl (javaCast object_ :: StreetAddressesEntity))) () a1 a2
+add_2 :: (JavaObjectClass this_) => this_ -> StreetAddress.StreetAddress -> String -> IO (())
+add_2 object_ a1 a2 = jmethod object_ "add_2" (\() -> (add_2_impl (javaCast object_ :: StreetAddressesEntity))) () a1 a2
 
-add_super :: (JavaObjectClass this_) => this_ -> StreetAddress.StreetAddress -> String -> IO (())
-add_super object_ a1 a2 = (add_impl (javaCast object_ :: StreetAddressesEntity)) a1 a2
+add_2_super :: (JavaObjectClass this_) => this_ -> StreetAddress.StreetAddress -> String -> IO (())
+add_2_super object_ a1 a2 = (add_2_impl (javaCast object_ :: StreetAddressesEntity)) a1 a2
 
-add_impl :: StreetAddressesEntity -> StreetAddress.StreetAddress -> String -> IO (())
-add_impl this address index = do
+add_2_impl :: StreetAddressesEntity -> StreetAddress.StreetAddress -> String -> IO (())
+add_2_impl this address index = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "add" e)
@@ -257,15 +256,14 @@ get_impl this = do
             pure (streetAddressVector)
 
 
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_) => this_ -> Int -> IO (StreetAddress.StreetAddress)
-get object_ a1 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: StreetAddressesEntity))) () a1
+get_1 :: (JavaObjectClass this_) => this_ -> Int -> IO (StreetAddress.StreetAddress)
+get_1 object_ a1 = jmethod object_ "get_1" (\() -> (get_1_impl (javaCast object_ :: StreetAddressesEntity))) () a1
 
-get_super :: (JavaObjectClass this_) => this_ -> Int -> IO (StreetAddress.StreetAddress)
-get_super object_ a1 = (get_impl (javaCast object_ :: StreetAddressesEntity)) a1
+get_1_super :: (JavaObjectClass this_) => this_ -> Int -> IO (StreetAddress.StreetAddress)
+get_1_super object_ a1 = (get_1_impl (javaCast object_ :: StreetAddressesEntity)) a1
 
-get_impl :: StreetAddressesEntity -> Int -> IO (StreetAddress.StreetAddress)
-get_impl this index = do
+get_1_impl :: StreetAddressesEntity -> Int -> IO (StreetAddress.StreetAddress)
+get_1_impl this index = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do

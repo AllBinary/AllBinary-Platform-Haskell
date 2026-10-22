@@ -107,7 +107,7 @@ processScore_super object_ a1 a2 a3 a4 a5 = (processScore_impl (javaCast object_
 processScore_impl :: BasicProjectileWeaponPart -> AllBinaryLayerManager.AllBinaryLayerManager -> Int16 -> Int16 -> WeaponProperties.WeaponProperties -> ScoreableInterface.ScoreableInterface -> IO (())
 processScore_impl this allbinaryLayerManager angle otherAngle weaponProperties scoreableInterface = do
         weaponLayer <- (WeaponLayerCircularPool.getInstanceWeaponLayer ((jget (this).weaponLayerCircularStaticPool)) (jio (BasicWeaponPart.getOwnerLayerInterface this)) (jio (RelativeRelationship.getX ((jget (this).base.relativeRelationship)))) (jio (RelativeRelationship.getY ((jget (this).base.relativeRelationship)))) (jio (RelativeRelationship.getZ ((jget (this).base.relativeRelationship)))) (Prelude.fromIntegral angle) (Prelude.fromIntegral otherAngle) weaponProperties scoreableInterface)
-        Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager weaponLayer)
+        Control.Monad.void (AllBinaryLayerManager.append allbinaryLayerManager (javaCast weaponLayer))
         pure ()
 
 

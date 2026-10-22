@@ -125,7 +125,7 @@ getDamageFloaters_super object_ a1 = (getDamageFloaters_impl (javaCast object_ :
 getDamageFloaters_impl :: BuildingPropertiesFactory -> BuildingLayer.BuildingLayer -> IO (DamageFloaters.DamageFloaters)
 getDamageFloaters_impl this buildingLayer = do
         damageFloaters <- newIORef =<< (DamageFloaters.getInstance)
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS)))) then do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 buildingLayer))
             jset damageFloaters (assignedValue)
             jset (this).damageFloatersPaintableInterface ((jget damageFloaters))
@@ -145,7 +145,7 @@ getHealthBar_super object_ a1 = (getHealthBar_impl (javaCast object_ :: Building
 getHealthBar_impl :: BuildingPropertiesFactory -> BuildingLayer.BuildingLayer -> IO (Paintable.Paintable)
 getHealthBar_impl this buildingLayer = do
         healthBar <- newIORef =<< (NullPaintable.getInstance)
-        when (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS))) $ do
+        when (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS)))) $ do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 buildingLayer (jio (BuildingLayer.getHealthInterface buildingLayer)) (jio (HealthBarTwodAnimation.new_2 (javaCast buildingLayer :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT))) (Prelude.negate 1)))
             jset healthBar (assignedValue)
         pure ((jget healthBar))

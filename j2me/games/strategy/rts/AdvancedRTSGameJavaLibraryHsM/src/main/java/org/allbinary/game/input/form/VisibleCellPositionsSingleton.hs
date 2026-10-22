@@ -133,8 +133,8 @@ new_ = do
 init_ :: VisibleCellPositionsSingleton -> IO ()
 init_ this = do
         initFields_ this
-        Control.Monad.void (LocalPlayerBuildingEventHandler.addListenerInterface ((jio (LocalPlayerBuildingEventHandler.getInstance))) this)
-        Control.Monad.void (ScrollMapEventHandler.addListenerInterface ((jio (ScrollMapEventHandler.getInstance))) this)
+        Control.Monad.void (LocalPlayerBuildingEventHandler.addListenerInterface ((jio (LocalPlayerBuildingEventHandler.getInstance))) (javaCast this))
+        Control.Monad.void (ScrollMapEventHandler.addListenerInterface ((jio (ScrollMapEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

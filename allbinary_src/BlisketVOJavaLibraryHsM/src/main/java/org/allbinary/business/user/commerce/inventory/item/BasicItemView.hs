@@ -135,8 +135,8 @@ toXmlNode_impl this document = do
             value <- newIORef ((javaCast (jio (HashMap.get hashMap name)) :: String))
             assignedValue <- (StringUtil.getNonNull stringUtil (jget value))
             jset value (assignedValue)
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name (jget value))))
-        totalNode <- (ModDomHelper.createNameValueNodes document (jget ((jget (this).basicItemData)).tOTAL) (jio (ItemInterface.toString ((jio (ItemInterface.getTotal ((jget (this).itemInterface))))))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name (jget value))))
+        totalNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jget (this).basicItemData)).tOTAL) (jio (ItemInterface.toString ((jio (ItemInterface.getTotal ((jget (this).itemInterface))))))))
         Control.Monad.void (Node.appendChild node totalNode)
         size <- (BasicArrayList.size ((jget (this).vector)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

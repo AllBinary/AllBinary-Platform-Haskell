@@ -112,7 +112,7 @@ init_1 this hashMap = do
         jset (this).storeName ((javaCast (jio (HashMap.get hashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
         jset (this).description ((javaCast (jio (HashMap.get hashMap (jget ((jio (AdvertisementAreaData.getInstance))).dESCRIPTION))) :: String))
         let constraintsDomString = (javaCast (jio (HashMap.get hashMap (jget ((jio (AdvertisementAreaData.getInstance))).cONSTRAINTS))) :: String)
-        document <- (DomDocumentHelper.create constraintsDomString)
+        document <- (DomDocumentHelper.create_1 constraintsDomString)
         assignedValue <- (fmap (\value_ -> javaCast value_ :: AdvertisementAreaConstraintsInterface.AdvertisementAreaConstraintsInterface) (AdvertisementAreaConstraints.new_1 document))
         jset (this).advertisementAreaConstraintsInterface (assignedValue)
         jset (this).campaign ((javaCast (jio (HashMap.get hashMap (jget ((jio (AdvertisementCampaignData.getInstance))).nAME))) :: String))

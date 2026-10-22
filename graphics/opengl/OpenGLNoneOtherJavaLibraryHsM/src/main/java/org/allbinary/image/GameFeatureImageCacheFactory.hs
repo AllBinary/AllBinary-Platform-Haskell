@@ -89,7 +89,7 @@ init = do
 
 releaseAll :: IO (())
 releaseAll = do
-        Control.Monad.void (ImageCacheFactory.releaseAll ((jio (ImageCacheFactory.getInstance))))
+        Control.Monad.void (ImageCache.releaseAll ((jio (ImageCacheFactory.getInstance))))
         pure ()
 
 

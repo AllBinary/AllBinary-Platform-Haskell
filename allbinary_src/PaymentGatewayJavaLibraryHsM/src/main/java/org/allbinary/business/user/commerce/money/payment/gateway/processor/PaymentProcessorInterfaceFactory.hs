@@ -72,7 +72,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = PaymentProcessorInterfaceFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: PaymentProcessorInterfaceFactory -> IO ()
@@ -99,15 +99,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: PaymentProcessorInterfaceFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: PaymentProcessorInterfaceFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: PaymentProcessorInterfaceFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: PaymentProcessorInterfaceFactory)) a1
 
-getInstance_impl :: PaymentProcessorInterfaceFactory -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
-getInstance_impl this transformInfoInterface = do
+getInstance_1_impl :: PaymentProcessorInterfaceFactory -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentProcessorInterface.PaymentProcessorInterface)
+getInstance_1_impl this transformInfoInterface = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pAYMENTERROR))) $ do
@@ -115,7 +114,7 @@ getInstance_impl this transformInfoInterface = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).gET_INSTANCE) e)
             javaThrow (e)
             ) $ do
-            paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceRequestFactory.getInstance ((jio (PaymentTransactionInterfaceRequestFactory.getInstance))) transformInfoInterface))
+            paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceRequestFactory.getInstance_1 ((jio (PaymentTransactionInterfaceRequestFactory.getInstance))) transformInfoInterface))
             gatewayName <- (PaymentTransactionInterface.getPaymentMethod ((jio (PaymentTransactionInterface.getOrderHistory paymentTransactionInterface))))
             when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) gatewayName))) $ do
                 paymentType <- (PaymentTypeUtil.get ((jio (PaymentTypeUtil.getInstance))) gatewayName)

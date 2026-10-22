@@ -70,8 +70,8 @@ newRecord_ = do
     header_ <- newJavaHeader
     let this = ContextConfigurationInterfaceFactory header_
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
-    jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
+    jregisterMethod header_ "getInstance_1_overload1" (\() -> getInstance_1_overload1_impl this)
+    jregisterMethod header_ "getInstance_1_overload2" (\() -> getInstance_1_overload2_impl this)
     pure this
 
 initFields_ :: ContextConfigurationInterfaceFactory -> IO ()
@@ -97,41 +97,39 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance this a1
-    | jisInstanceOf a1 (javaNull :: Document.Document) = getInstance_overload1 this (javaCast a1 :: Document.Document)
-    | jisInstanceOf a1 (javaNull :: String) = getInstance_overload2 this (javaCast a1 :: String)
-    | otherwise = getInstance_overload2 this (javaCast a1 :: String)
+getInstance_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1 this a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = getInstance_1_overload1 this (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: String) = getInstance_1_overload2 this (javaCast a1 :: String)
+    | otherwise = getInstance_1_overload2 this (javaCast a1 :: String)
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload1 object_ a1 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: ContextConfigurationInterfaceFactory))) () a1
+getInstance_1_overload1 :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload1 object_ a1 = jmethod object_ "getInstance_1_overload1" (\() -> (getInstance_1_overload1_impl (javaCast object_ :: ContextConfigurationInterfaceFactory))) () a1
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload1_super object_ a1 = (getInstance_overload1_impl (javaCast object_ :: ContextConfigurationInterfaceFactory)) a1
+getInstance_1_overload1_super :: (JavaObjectClass this_) => this_ -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload1_super object_ a1 = (getInstance_1_overload1_impl (javaCast object_ :: ContextConfigurationInterfaceFactory)) a1
 
-getInstance_overload1_impl :: ContextConfigurationInterfaceFactory -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload1_impl this document = do
+getInstance_1_overload1_impl :: ContextConfigurationInterfaceFactory -> Document.Document -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload1_impl this document = do
         contextConfigurationData <- (ContextConfigurationData.getInstance)
         contextConfigurationNode <- (DomSearchHelper.getNode (jget (contextConfigurationData).nAME) (jio (Document.getChildNodes document)))
         pure ((javaCast (jio (ContextConfigurationView.getContextConfigurationInterface ((jio (ContextConfigurationView.new_1 contextConfigurationNode))))) :: ContextConfigurationInterface.ContextConfigurationInterface))
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: (JavaObjectClass this_) => this_ -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload2 object_ a1 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: ContextConfigurationInterfaceFactory))) () a1
+getInstance_1_overload2 :: (JavaObjectClass this_) => this_ -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload2 object_ a1 = jmethod object_ "getInstance_1_overload2" (\() -> (getInstance_1_overload2_impl (javaCast object_ :: ContextConfigurationInterfaceFactory))) () a1
 
-getInstance_overload2_super :: (JavaObjectClass this_) => this_ -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload2_super object_ a1 = (getInstance_overload2_impl (javaCast object_ :: ContextConfigurationInterfaceFactory)) a1
+getInstance_1_overload2_super :: (JavaObjectClass this_) => this_ -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload2_super object_ a1 = (getInstance_1_overload2_impl (javaCast object_ :: ContextConfigurationInterfaceFactory)) a1
 
-getInstance_overload2_impl :: ContextConfigurationInterfaceFactory -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
-getInstance_overload2_impl this contextName = do
+getInstance_1_overload2_impl :: ContextConfigurationInterfaceFactory -> String -> IO (ContextConfigurationInterface.ContextConfigurationInterface)
+getInstance_1_overload2_impl this contextName = do
         abPath <- (ContextConfigurationPathUtil.getAbPath contextName)
         contextConfigurationData <- (ContextConfigurationData.getInstance)
         documentString <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget (contextConfigurationData).uNCRYPTED_EXTENSION) (jget (contextConfigurationData).eNCRYPTED_EXTENSION)))) abPath)
-        document <- (DomDocumentHelper.create documentString)
-        (fmap (\value_ -> javaCast value_ :: ContextConfigurationInterface.ContextConfigurationInterface) (ContextConfigurationInterfaceFactory.getInstance this document))
+        document <- (DomDocumentHelper.create_1 documentString)
+        (fmap (\value_ -> javaCast value_ :: ContextConfigurationInterface.ContextConfigurationInterface) (ContextConfigurationInterfaceFactory.getInstance_1 this document))
 
 

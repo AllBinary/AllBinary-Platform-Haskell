@@ -77,7 +77,7 @@ newRecord_ = do
     userEmailEventHandlerHashMap <- newIORef javaNull
     let this = AdminUserEmailEventHandlerSingletons header_ logUtil commonStrings userEmailEventHandlerHashMap
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: AdminUserEmailEventHandlerSingletons -> IO ()
@@ -107,15 +107,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: AdminUserEmailEventHandlerSingletons))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: AdminUserEmailEventHandlerSingletons))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: AdminUserEmailEventHandlerSingletons)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: AdminUserEmailEventHandlerSingletons)) a1 a2
 
-getInstance_impl :: AdminUserEmailEventHandlerSingletons -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
-getInstance_impl this abeClientInformation userEmailEventNameData = do
+getInstance_2_impl :: AdminUserEmailEventHandlerSingletons -> AbeClientInformationInterface.AbeClientInformationInterface -> UserEmailEventNameData.UserEmailEventNameData -> IO (UserEmailEventHandler.UserEmailEventHandler)
+getInstance_2_impl this abeClientInformation userEmailEventNameData = do
     javaCatchReturn $ do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).gET_INSTANCE))

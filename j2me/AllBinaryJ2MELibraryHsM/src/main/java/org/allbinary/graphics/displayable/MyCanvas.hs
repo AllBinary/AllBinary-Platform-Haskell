@@ -156,7 +156,7 @@ init_2 this name childNameList = do
         Canvas.init_ this.base
         initFields_ this
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
-        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) this (jget ((jget (this).canvasStrings)).cONSTRUCTOR))
+        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) (javaCast this) (jget ((jget (this).canvasStrings)).cONSTRUCTOR))
         jset (this).name (name)
         jset (this).childNameList (childNameList)
         assignedValue <- (StdUtil.createStack ((jio (StdUtil.getInstance))))
@@ -173,7 +173,7 @@ setFullScreenMode_super object_ a1 = (setFullScreenMode_impl (javaCast object_ :
 setFullScreenMode_impl :: MyCanvas -> Bool -> IO (())
 setFullScreenMode_impl this mode = do
         Control.Monad.void (Canvas.setFullScreenMode_super this.base mode)
-        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) this (jget ((jget (this).canvasStrings)).sET_FULL_SCREEN_MODE))
+        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) (javaCast this) (jget ((jget (this).canvasStrings)).sET_FULL_SCREEN_MODE))
         pure ()
 
 
@@ -185,7 +185,7 @@ sizeChanged_super object_ a1 a2 = (sizeChanged_impl (javaCast object_ :: MyCanva
 
 sizeChanged_impl :: MyCanvas -> Int -> Int -> IO (())
 sizeChanged_impl this w h = do
-        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) this (jget ((jget (this).canvasStrings)).sIZE_CHANGED))
+        Control.Monad.void (DisplayInfoSingleton.update ((jget (this).displayInfo)) (javaCast this) (jget ((jget (this).canvasStrings)).sIZE_CHANGED))
         pure ()
 
 

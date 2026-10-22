@@ -73,7 +73,7 @@ newRecord_ = do
     jregisterMethod header_ "visit_overload2" (\() -> visit_overload2_impl this)
     jregisterMethod header_ "getFilterStringBasicArrayList" (\() -> getFilterStringBasicArrayList_impl this)
     jregisterMethod header_ "setFilterStringBasicArrayList" (\() -> setFilterStringBasicArrayList_impl this)
-    jregisterMethod header_ "visit" (\() -> visit_impl this)
+    jregisterMethod header_ "visit_2" (\() -> visit_2_impl this)
     pure this
 
 initFields_ :: BooleanFileVisitor -> IO ()
@@ -128,7 +128,7 @@ visit_overload2_impl this file = do
         nextFileFilterString <- newIORef ("")
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset nextFileFilterString ((javaCast (jio (BasicArrayList.get list index)) :: String))
-            when (jio (Any.booleanValue ((jio (BooleanFileVisitor.visit this file (jget nextFileFilterString)))))) $ do
+            when (jio (Any.booleanValue ((jio (BooleanFileVisitor.visit_2 this file (jget nextFileFilterString)))))) $ do
                 javaReturn (True)
         pure (False)
 
@@ -156,15 +156,14 @@ setFilterStringBasicArrayList_impl this filterStringBasicArrayList = do
         pure ()
 
 
--- Java overload of visit with a different parameter count: give it a different name
-visit :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit object_ a1 a2 = jmethod object_ "visit" (\() -> (visit_impl (javaCast object_ :: BooleanFileVisitor))) () a1 a2
+visit_2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2 object_ a1 a2 = jmethod object_ "visit_2" (\() -> (visit_2_impl (javaCast object_ :: BooleanFileVisitor))) () a1 a2
 
-visit_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit_super object_ a1 a2 = (visit_impl (javaCast object_ :: BooleanFileVisitor)) a1 a2
+visit_2_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_super object_ a1 a2 = (visit_2_impl (javaCast object_ :: BooleanFileVisitor)) a1 a2
 
-visit_impl :: BooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
-visit_impl this file fileNameString = do
+visit_2_impl :: BooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_impl this file fileNameString = do
         pure (False)
 
 

@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified DefaultComboBoxModel -- same package or java.lang
+import qualified Thread -- same package or java.lang
 import qualified JLabel -- same package or java.lang
 import qualified JComboBox -- same package or java.lang
 import qualified JButton -- same package or java.lang

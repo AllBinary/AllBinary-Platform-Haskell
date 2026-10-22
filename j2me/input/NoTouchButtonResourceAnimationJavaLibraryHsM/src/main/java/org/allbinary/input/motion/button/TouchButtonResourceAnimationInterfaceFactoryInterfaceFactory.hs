@@ -148,7 +148,7 @@ isFeature_super object_ = (isFeature_impl (javaCast object_ :: TouchButtonResour
 isFeature_impl :: TouchButtonResourceAnimationInterfaceFactoryInterfaceFactory -> IO (Bool)
 isFeature_impl this = do
     javaCatchReturn $ do
-        if (Prelude.not (jio (Features.isDefault ((jio (Features.getInstance))) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) then do
+        if (Prelude.not (jio (Features.isDefault ((jio (Features.getInstance))) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) then do
             javaReturn (True)
         else do
             javaReturn (False)

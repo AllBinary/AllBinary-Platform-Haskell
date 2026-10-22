@@ -75,8 +75,8 @@ init_ :: PaymentTransactionResultTag -> IO ()
 init_ this = do
         TableTag.init_ this.base
         initFields_ this
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (PaymentTransactionResultHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (PaymentTransactionResultHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (PaymentTransactionResultHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (PaymentTransactionResultHelperFactory.new_))))
         pure ()
 
 

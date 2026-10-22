@@ -260,7 +260,7 @@ main args = do
             stringUtil <- (StringUtil.getInstance)
             appUrlGlobals <- (AppUrlGlobals.new_)
             Control.Monad.void (AppUrlGlobals.setWebappPath appUrlGlobals "G:/mnt/bc/mydev/work/allbinary_src/ToolsJavaLibrary/tools")
-            Control.Monad.void (URLGLOBALS.init appUrlGlobals)
+            Control.Monad.void (URLGLOBALS.init (javaCast appUrlGlobals))
             testString <- newIORef ("\"super gun\" big tank \"goodgunriflegun")
             replace <- (new_2 "gun" "abcdefghijklmnopqrstuxwxyzabcdefghijklmnopqrstuxwxyz")
             Control.Monad.void (putStrLn (javaToString ("Old String: " ++ (jget testString))))

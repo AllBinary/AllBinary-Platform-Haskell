@@ -229,7 +229,7 @@ onChangeEvent_super object_ a1 = (onChangeEvent_impl (javaCast object_ :: AllBin
 
 onChangeEvent_impl :: AllBinaryGameLayer -> ViewPositionEvent.ViewPositionEvent -> IO (())
 onChangeEvent_impl this layerManagerEvent = do
-        if (jio (GameLayerUtil.isOnScreen this)) then do
+        if (jio (GameLayerUtil.isOnScreen (javaCast this))) then do
             Control.Monad.void (AllBinaryLayer.setVisible this True)
         else do
             Control.Monad.void (AllBinaryLayer.setVisible this False)

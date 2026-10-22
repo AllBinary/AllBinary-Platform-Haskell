@@ -197,7 +197,7 @@ getDirectionFromCellPositionToCellPosition_impl this fromGeographicMapCellPositi
         else when (fromRow < goRow) $ do
             javaReturn ((jget (directionFactory).dOWN))
         stringMaker <- (StringMaker.new_)
-        string <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jio (CellPosition.toStringCellPosition fromGeographicMapCellPosition))))) " == "))) (jio (CellPosition.toStringCellPosition toGeographicMapCellPosition))))))
+        string <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jio (CellPosition.toStringCellPosition (javaCast fromGeographicMapCellPosition)))))) " == "))) (jio (CellPosition.toStringCellPosition (javaCast toGeographicMapCellPosition)))))))
         Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
         javaThrow ((JavaException "Exception" (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append stringMaker "Error: "))) string)))))))
 
@@ -240,9 +240,9 @@ getEightDirectionFromCellPositionToCellPosition_impl this fromGeographicMapCellP
                 javaReturn ((jget (directionFactory).dOWN))
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget (this).eRROR))
-        Control.Monad.void (StringMaker.append stringBuffer (jio (CellPosition.toStringCellPosition fromGeographicMapCellPosition)))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (CellPosition.toStringCellPosition (javaCast fromGeographicMapCellPosition))))
         Control.Monad.void (StringMaker.append stringBuffer (jget (this).eQUAL))
-        Control.Monad.void (StringMaker.append stringBuffer (jio (CellPosition.toStringCellPosition toGeographicMapCellPosition)))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (CellPosition.toStringCellPosition (javaCast toGeographicMapCellPosition))))
         javaThrow ((JavaException "Exception" (jio (StringMaker.toString stringBuffer))))
 
 

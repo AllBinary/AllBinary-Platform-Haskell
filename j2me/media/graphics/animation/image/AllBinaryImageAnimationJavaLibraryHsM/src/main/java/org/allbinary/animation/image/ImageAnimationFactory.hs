@@ -110,7 +110,7 @@ getInstance_impl this instanceId = do
         assignedValue <- (OpenGLUtil.addImage openGLUtil (jget scaledImage))
         jset scaledImage (assignedValue)
         if (((jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) /= 0) || ((jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) /= 0)) then do
-            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) this)
+            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) (javaCast this))
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AdjustedImageAnimation.new_4 (jget scaledImage) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))
         else do
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (ImageAnimation.new_2 (jget scaledImage) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))

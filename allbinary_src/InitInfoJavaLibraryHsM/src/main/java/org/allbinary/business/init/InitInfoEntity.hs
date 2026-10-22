@@ -163,7 +163,7 @@ get_impl this = do
             Control.Monad.void (HashMap.put keyAndValue (jget (this).nOTHING) (jget (this).nOTHING))
             hashMap <- (InitSql.getRow this keyAndValue)
             if (hashMap /= javaNull) then do
-                Control.Monad.void (InitInfo.set ((jio (InitInfo.getInstance))) hashMap)
+                Control.Monad.void (InitInfo.set_1 ((jio (InitInfo.getInstance))) hashMap)
                 javaReturn (True)
             else do
                 when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADER))) $ do

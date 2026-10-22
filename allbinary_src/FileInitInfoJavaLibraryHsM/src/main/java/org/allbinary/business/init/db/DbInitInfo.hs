@@ -168,7 +168,7 @@ write_impl this = do
             Control.Monad.void (AbFile.createNewFile newFile)
             dataOutputStream <- (DataOutputStreamFactory.getInstanceForAbFile ((jio (DataOutputStreamFactory.getInstance))) newFile)
             flip finally (do
-                Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) dataOutputStream)
+                Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast dataOutputStream))
                 ) $ do
                 let cryptedJdbcDriver = (jgetBytes (jio (WeakCrypt.encrypt ((jio (WeakCrypt.new_1 1))) (jio (DbConnectionInfo.getJdbcDriver this)))))
                 let cryptedName = (jgetBytes (jio (WeakCrypt.encrypt ((jio (WeakCrypt.new_1 2))) (jio (DbInitInfo.getName this)))))
@@ -207,7 +207,7 @@ load_impl this = do
                 iFile <- (AbFileInputStream.new_1 file)
                 iData <- (AbDataInputStream.new_1 iFile)
                 flip finally (do
-                    Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) iData)
+                    Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast iData))
                     ) $ do
                     decryptedJdbcDriver <- (jnewString (jio (DatabaseEncoder.decode (jio (AbDataInputStream.readUTF iData)))))
                     decryptedName <- (jnewString (jio (DatabaseEncoder.decode (jio (AbDataInputStream.readUTF iData)))))

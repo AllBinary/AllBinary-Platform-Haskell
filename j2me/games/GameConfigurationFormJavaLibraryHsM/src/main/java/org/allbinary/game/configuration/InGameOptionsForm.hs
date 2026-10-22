@@ -97,8 +97,8 @@ init_4 this commandListener title backgrounBasicColor foregroundBasicColor = do
         pure () -- super(...) is in the record above
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         gameFeatureFormUtil <- (GameFeatureFormUtil.getInstance)
-        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil this (jio (InGameFeatureChoiceGroups.get ((jio (InGameFeatureChoiceGroups.getExclusiveInstance))))) (Choice.eXCLUSIVE))
-        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil this (jio (InGameFeatureChoiceGroups.get ((jio (InGameFeatureChoiceGroups.getMultipleInstance))))) (Choice.mULTIPLE))
+        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (InGameFeatureChoiceGroups.get ((jio (InGameFeatureChoiceGroups.getExclusiveInstance))))) (Choice.eXCLUSIVE))
+        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (InGameFeatureChoiceGroups.get ((jio (InGameFeatureChoiceGroups.getMultipleInstance))))) (Choice.mULTIPLE))
         Control.Monad.void (InGameOptionsForm.initCommands this commandListener)
         pure ()
 

@@ -124,7 +124,7 @@ init_impl this = do
             ) $ do
             sunJce <- (fmap (\value_ -> javaCast value_ :: Provider.Provider) (SunJCE.new_))
             Control.Monad.void (Security.addProvider sunJce)
-            keySpec <- (fmap (\value_ -> javaCast value_ :: KeySpec.KeySpec) (KeySpecFactory.getInstance ((jio (KeySpecFactory.getInstance))) (jget (this).algorithm) (jget (this).key)))
+            keySpec <- (fmap (\value_ -> javaCast value_ :: KeySpec.KeySpec) (KeySpecFactory.getInstance_2 ((jio (KeySpecFactory.getInstance))) (jget (this).algorithm) (jget (this).key)))
             keyFactory <- (SecretKeyFactory.getInstance (jget (this).algorithm))
             assignedValue <- (SecretKeyFactory.generateSecret keyFactory keySpec)
             jset (this).secretKey (assignedValue)

@@ -178,7 +178,7 @@ setMyCanvas_impl this displayable = do
             when (jio (MyCanvas.hasChild displayable (javaCast (jget (this).displayable) :: MyCanvas.MyCanvas))) $ do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Child Displayable is already set for: "))) (jio (StringUtil.toString ((jget (this).stringUtil)) displayable))))))) this (jget (this).sET_DISPLAYABLE))
                 javaReturn (())
-        Control.Monad.void (CurrentDisplayableFactory.setDisplayable this displayable)
+        Control.Monad.void (CurrentDisplayableFactory.setDisplayable this (javaCast displayable))
     pure ()
 
 
@@ -262,13 +262,13 @@ update_impl this = do
             features <- (Features.getInstance)
             stringMaker <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringMaker (jio (StringUtil.toString ((jget (this).stringUtil)) (jget (this).openGlReadydisplayable))))
-            if ((jget SWTUtil.isSWT) && (Prelude.not (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) then do
+            if ((jget SWTUtil.isSWT) && (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))))) then do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jget (commonSeps).sPACE)))) (jget SWTUtil.sWT)))) (jget (commonSeps).sPACE)))) (jget (this).rUNNABLE)))) (jio (StringUtil.toString ((jget (this).stringUtil)) (jio (NullRunnable.getInstance))))))))) this (jget ((jget (this).commonStrings)).uPDATE))
                 Control.Monad.void (CurrentDisplayableFactory.setUsedRunnable this (jio (NullWaitGameRunnable.getInstance)))
             else if (jio (J2MEUtil.isHTML)) then do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jget (commonSeps).sPACE)))) (jget ((jio (GraphicsStrings.getInstance))).hTML)))) (jget (commonSeps).sPACE)))) (jget (this).rUNNABLE)))) (jio (StringUtil.toString ((jget (this).stringUtil)) (jget (this).runnable)))))))) this (jget ((jget (this).commonStrings)).uPDATE))
                 Control.Monad.void (CurrentDisplayableFactory.setUsedRunnable this (jget (this).runnable))
-            else if (((javaInstanceOf (jget (this).openGlReadydisplayable) "DemoCanvas") || (javaInstanceOf (jget (this).openGlReadydisplayable) "AllBinaryGameCanvas")) || (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) then do
+            else if (((javaInstanceOf (jget (this).openGlReadydisplayable) "DemoCanvas") || (javaInstanceOf (jget (this).openGlReadydisplayable) "AllBinaryGameCanvas")) || (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) then do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append stringMaker (jget (commonSeps).sPACE)))) (jio (OpenGLFeature.toString ((jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))))) (jget (commonSeps).sPACE)))) (jget (this).rUNNABLE)))) (jio (StringUtil.toString ((jget (this).stringUtil)) (jget (this).runnable)))))))) this (jget ((jget (this).commonStrings)).uPDATE))
                 Control.Monad.void (CurrentDisplayableFactory.setUsedRunnable this (jget (this).runnable))
             else do

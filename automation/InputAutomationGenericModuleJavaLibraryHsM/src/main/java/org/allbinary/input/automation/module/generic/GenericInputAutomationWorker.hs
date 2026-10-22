@@ -130,7 +130,7 @@ init_4 this inputAutomationActionInterface genericProfile motionRectangleConstra
             if (genericProfileDataWorkerType == (jget GenericProfileDataWorkerType.cOMPARISON)) then do
                 Control.Monad.void (CaptureWorkerInterface.addListenerInterface ((jio (AbstractInputAutomationWorker.getCaptureWorker this))) (jio (AbstractInputAutomationWorker.getImageComparisonWorker this)))
             else when (genericProfileDataWorkerType == (jget GenericProfileDataWorkerType.mOTION)) $ do
-                Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jio (AbstractInputAutomationWorker.getImageComparisonWorker this))) (jio (AbstractInputAutomationWorker.getMotionRectanglesWorker this)))
+                Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jio (AbstractInputAutomationWorker.getImageComparisonWorker this))) (javaCast (jio (AbstractInputAutomationWorker.getMotionRectanglesWorker this))))
         pure ()
 
 

@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.visual.transform.info.objectConfig
 module GenericStoreTransformInfoObjectConfig (module GenericStoreTransformInfoObjectConfig, module TransformInfoObjectConfig) where
 
-import TransformInfoObjectConfig hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, generate, generate_super, generate_impl, createReplaceHashMap, createReplaceHashMap_super, createReplaceHashMap_impl, createHashMap, createHashMap_super, createHashMap_impl, generate, generate_super, generate_impl, logUtil, abeClientInformation)
+import TransformInfoObjectConfig hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, generate, generate_super, generate_impl, createReplaceHashMap, createReplaceHashMap_super, createReplaceHashMap_impl, createHashMap, createHashMap_super, createHashMap_impl, generate_2, generate_2_super, generate_2_impl, generate, logUtil, abeClientInformation)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -85,7 +85,7 @@ newRecord_ = do
     jregisterMethod header_ "generate" (\() -> generate_impl this)
     jregisterMethod header_ "createReplaceHashMap" (\() -> createReplaceHashMap_impl this)
     jregisterMethod header_ "createHashMap" (\() -> createHashMap_impl this)
-    jregisterMethod header_ "generate" (\() -> generate_impl this)
+    jregisterMethod header_ "generate_2" (\() -> generate_2_impl this)
     pure this
 
 initFields_ :: GenericStoreTransformInfoObjectConfig -> IO ()
@@ -159,7 +159,7 @@ generate_impl this objectConfigDocument = do
         let transformInfoHttpStoreInterface = (javaCast (jio (TransformInfoObjectConfig.getTransformInfoInterface this)) :: TransformInfoHttp.TransformInfoHttp)
         objectConfigDocumentString <- (XmlDocumentHelper.toString objectConfigDocument)
         replaceHashMap <- (GenericStoreTransformInfoObjectConfig.createReplaceHashMap this transformInfoHttpStoreInterface objectConfigDocumentString)
-        (GenericStoreTransformInfoObjectConfig.generate this objectConfigDocumentString replaceHashMap)
+        (GenericStoreTransformInfoObjectConfig.generate_2 this objectConfigDocumentString replaceHashMap)
 
 
 -- throws Exception
@@ -202,24 +202,23 @@ createHashMap_impl this transformInfoHttpStoreInterface objectConfigDocumentStri
         Control.Monad.void (StringMaker.append templateNameStringBuffer (RootTransformInfoData.nAME))
         let templateNameKey = ((jget ((jio (TransformInfoObjectConfigData.getInstance))).vARKEY) + (jget ((jio (TransformInfoData.getInstance))).oWNER))
         when ((jstringIndexOf objectConfigDocumentString templateNameKey 0) /= (Prelude.negate 1)) $ do
-            templateInterface <- (fmap (\value_ -> javaCast value_ :: TransformTemplateInterface.TransformTemplateInterface) (TransformTemplateFactory.getInstance ((jio (TransformTemplateFactory.getInstance))) (jget (this).abeClientInformation) (jio (StringMaker.toString templateNameStringBuffer)) (jio (TransformInfoHttp.getPropertiesHashMap transformInfoHttpStoreInterface)) (jio (TransformInfoHttp.getPageContext transformInfoHttpStoreInterface))))
+            templateInterface <- (fmap (\value_ -> javaCast value_ :: TransformTemplateInterface.TransformTemplateInterface) (TransformTemplateFactory.getInstance_4 ((jio (TransformTemplateFactory.getInstance))) (jget (this).abeClientInformation) (jio (StringMaker.toString templateNameStringBuffer)) (jio (TransformInfoHttp.getPropertiesHashMap transformInfoHttpStoreInterface)) (jio (TransformInfoHttp.getPageContext transformInfoHttpStoreInterface))))
             selectedTemplate <- (TransformTemplateInterface.getName templateInterface)
             Control.Monad.void (HashMap.put hashMap templateNameKey selectedTemplate)
         pure (hashMap)
 
 
 -- throws Exception
--- Java overload of generate with a different parameter count: give it a different name
-generate :: (JavaObjectClass this_) => this_ -> String -> HashMap.HashMap -> IO (Document.Document)
-generate object_ a1 a2 = jmethod object_ "generate" (\() -> (generate_impl (javaCast object_ :: GenericStoreTransformInfoObjectConfig))) () a1 a2
+generate_2 :: (JavaObjectClass this_) => this_ -> String -> HashMap.HashMap -> IO (Document.Document)
+generate_2 object_ a1 a2 = jmethod object_ "generate_2" (\() -> (generate_2_impl (javaCast object_ :: GenericStoreTransformInfoObjectConfig))) () a1 a2
 
-generate_super :: (JavaObjectClass this_) => this_ -> String -> HashMap.HashMap -> IO (Document.Document)
-generate_super object_ a1 a2 = (generate_impl (javaCast object_ :: GenericStoreTransformInfoObjectConfig)) a1 a2
+generate_2_super :: (JavaObjectClass this_) => this_ -> String -> HashMap.HashMap -> IO (Document.Document)
+generate_2_super object_ a1 a2 = (generate_2_impl (javaCast object_ :: GenericStoreTransformInfoObjectConfig)) a1 a2
 
-generate_impl :: GenericStoreTransformInfoObjectConfig -> String -> HashMap.HashMap -> IO (Document.Document)
-generate_impl this objectConfigDocumentString hashMap = do
+generate_2_impl :: GenericStoreTransformInfoObjectConfig -> String -> HashMap.HashMap -> IO (Document.Document)
+generate_2_impl this objectConfigDocumentString hashMap = do
         replace <- (Replace.new_1 hashMap)
-        newObjectConfigDocument <- (DomDocumentHelper.create (jio (Replace.all replace objectConfigDocumentString)))
+        newObjectConfigDocument <- (DomDocumentHelper.create_1 (jio (Replace.all replace objectConfigDocumentString)))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Final ObjectConfig: " ++ (jio (XmlDocumentHelper.toString newObjectConfigDocument))) this "generate()")
         pure (newObjectConfigDocument)

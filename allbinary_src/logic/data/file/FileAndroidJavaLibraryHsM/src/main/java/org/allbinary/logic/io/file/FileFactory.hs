@@ -69,7 +69,7 @@ newRecord_ = do
     jregisterMethod header_ "isFile" (\() -> isFile_impl this)
     jregisterMethod header_ "getContext" (\() -> getContext_impl this)
     jregisterMethod header_ "getFile" (\() -> getFile_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: FileFactory -> IO ()
@@ -135,15 +135,14 @@ getFile_impl this filePath = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: FileFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: FileFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: FileFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: FileFactory)) a1 a2
 
-getInstance_impl :: FileFactory -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
-getInstance_impl this file childFilePath = do
+getInstance_2_impl :: FileFactory -> AbFile.AbFile -> String -> IO (AbFile.AbFile)
+getInstance_2_impl this file childFilePath = do
         (AbFile.createAbFileWithChild file childFilePath)
 
 

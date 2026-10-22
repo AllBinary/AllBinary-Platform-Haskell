@@ -159,7 +159,7 @@ waitForAll_impl :: ImageCompleteUtil -> IO (())
 waitForAll_impl this = do
         Control.Monad.void (TimeDelayHelper.setStartTime ((jget (this).allTimeDelayHelper)))
         hashtable <- (ImageCache.getHashtable ((jio (GameFeatureImageCacheFactory.getInstance))))
-        objectArray <- (HashtableUtil.getKeysAsArray ((jio (HashtableUtil.getInstance))) hashtable)
+        objectArray <- (HashtableUtil.getKeysAsArray ((jio (HashtableUtil.getInstance))) (javaCast hashtable))
         let size = (jlength objectArray)
         Control.Monad.void (PreLogUtil.put ("Total: " ++ javaToString size) this "waitForAll")
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

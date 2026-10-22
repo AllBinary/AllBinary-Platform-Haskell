@@ -200,7 +200,7 @@ translate_impl this xmlDocumentStr = do
             result <- (XslHelper.translate ((jio (XslHelper.getInstance))) (jio (AbTransformer.getURIResolver this)) (jio (StreamSource.new_1 (jio (AbTransformer.getInputStream this)))) (jio (StreamSource.new_1 (jio (StringBufferInputStream.new_1 xmlDocumentStr)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).xSLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("translated xml: " ++ result) this "translate(String xmlDocumentStr)")
-            transformInfoObjectConfigGeneratorInterface <- (fmap (\value_ -> javaCast value_ :: TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator) (TransformInfoObjectConfigGeneratorFactory.getInstance ((jio (TransformInfoObjectConfigGeneratorFactory.getInstance))) (jio (AbTransformer.getTransformInfoInterface this))))
+            transformInfoObjectConfigGeneratorInterface <- (fmap (\value_ -> javaCast value_ :: TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator) (TransformInfoObjectConfigGeneratorFactory.getInstance_1 ((jio (TransformInfoObjectConfigGeneratorFactory.getInstance))) (jio (AbTransformer.getTransformInfoInterface this))))
             (TransformInfoObjectConfigGenerator.process transformInfoObjectConfigGeneratorInterface result)
 
 

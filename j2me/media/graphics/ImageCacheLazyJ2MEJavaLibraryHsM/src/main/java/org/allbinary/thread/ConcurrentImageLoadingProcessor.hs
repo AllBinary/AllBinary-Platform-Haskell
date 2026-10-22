@@ -102,7 +102,7 @@ runTask_super object_ = (runTask_impl (javaCast object_ :: ConcurrentImageLoadin
 runTask_impl :: ConcurrentImageLoadingProcessor -> IO (())
 runTask_impl this = do
         when (Prelude.not (jio (ABRunnable.isRunning ((jget (this).runnable))))) $ do
-            Control.Monad.void (ThreadPool.runTask ((jio (ImageThreadPool.getInstance))) (jget (this).runnable))
+            Control.Monad.void (ThreadPool.runTask ((jio (ImageThreadPool.getInstance))) (javaCast (jget (this).runnable)))
         pure ()
 
 -- Java nested class ImageCacheRunnable: move it to its own module ImageCacheRunnable

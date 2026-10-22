@@ -204,8 +204,8 @@ init_17 this remoteInfo buildingPropertiesFactory advancedRTSProperties groupInt
         AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (NullPathFindingLayer.nULL_PATH_FINDING_LAYER) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (rtsFormInput) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (jio (TileLayerPositionIntoViewPosition.new_))
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (jio (CollidableRTSBehavior.new_1 True)))
-        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (jio (Waypoint.new_2 this (jio (SelectSound.getInstance)))))
+        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableRTSBehavior.new_1 True))))
+        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 this (jio (SelectSound.getInstance))))))
         assignedValue <- (BuildingPropertiesFactory.getDamageFloaters buildingPropertiesFactory this)
         jset (this).damageFloaters (assignedValue)
         jset (this).damageFloatersPaintableInterface ((jget (buildingPropertiesFactory).damageFloatersPaintableInterface))
@@ -253,7 +253,7 @@ construct_super object_ a1 = (construct_impl (javaCast object_ :: BuildingLayer)
 construct_impl :: BuildingLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> IO (())
 construct_impl this rtsPlayerLayerInterface = do
         Control.Monad.void (AdvancedRTSGameLayer.construct_super this.base rtsPlayerLayerInterface)
-        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) this)
+        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -284,7 +284,7 @@ processBuiltTick_super object_ a1 = (processBuiltTick_impl (javaCast object_ :: 
 processBuiltTick_impl :: BuildingLayer -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processBuiltTick_impl this allBinaryLayerManager = do
         when (jio (Health.isDamaged ((jio (AdvancedRTSGameLayer.getHealthInterface this))))) $ do
-            Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (jget (this).base.base.destroyAnimationInterface))
+            Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (javaCast (jget (this).base.base.destroyAnimationInterface)))
         if (Prelude.not (jio (Health.isAlive ((jio (AdvancedRTSGameLayer.getHealthInterface this)))))) then do
             if (jio (AdvancedRTSGameLayer.isReadyForExplosion this)) then do
                 currentFrame <- (IndexedAnimation.getFrame ((jget (this).base.base.destroyAnimationInterface)))
@@ -295,7 +295,7 @@ processBuiltTick_impl this allBinaryLayerManager = do
                 else do
                     Control.Monad.void (IndexedAnimation.nextFrame ((jget (this).base.base.destroyAnimationInterface)))
             else do
-                Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (jget (this).base.base.destroyAnimationInterface))
+                Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (javaCast (jget (this).base.base.destroyAnimationInterface)))
                 Control.Monad.void (PlayerQueue.add ((jio (SecondaryPlayerQueueFactory.getInstance))) (jio (ExplosionBasicSound.getInstance)))
                 Control.Monad.void (ShakeAnimationListener.onSmallShakeEvent ((jget (this).base.shakeListener)))
                 Control.Monad.void (AllBinaryVibrationME.vibrate ((jget (this).base.vibration)) (jget (this).base.duration) 0 0)
@@ -605,8 +605,8 @@ setDestroyed_impl :: BuildingLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         Control.Monad.void (AdvancedRTSGameLayer.setDestroyed_super this.base destroyed)
         when (jio (AdvancedRTSGameLayer.isDestroyed this)) $ do
-            Control.Monad.void (DropCellPositionHistory.removeAll ((jio (DropCellPositionHistory.getInstance))) this)
-            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) this)
+            Control.Monad.void (DropCellPositionHistory.removeAll ((jio (DropCellPositionHistory.getInstance))) (javaCast this))
+            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) (javaCast this))
             when (jget (this).local) $ do
                 Control.Monad.void (BuildingLayer.removeVisibility this)
             when (Prelude.not (jio (Health.isAlive ((jio (AdvancedRTSGameLayer.getHealthInterface this)))))) $ do
@@ -635,7 +635,7 @@ createHudPaintable_impl :: BuildingLayer -> IO (SelectionHudPaintable.SelectionH
 createHudPaintable_impl this = do
         buildingInfoHudPaintable <- (BuildingInfoHudPaintable.getInstance)
         Control.Monad.void (BuildingInfoHudPaintable.setBasicColorP buildingInfoHudPaintable (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).base.base.base.base.allBinaryGameLayerManagerP)))))
-        Control.Monad.void (BuildingInfoHudPaintable.setRtsLayer buildingInfoHudPaintable this)
+        Control.Monad.void (BuildingInfoHudPaintable.setRtsLayer buildingInfoHudPaintable (javaCast this))
         pure ((javaCast buildingInfoHudPaintable :: SelectionHudPaintable.SelectionHudPaintable))
 
 

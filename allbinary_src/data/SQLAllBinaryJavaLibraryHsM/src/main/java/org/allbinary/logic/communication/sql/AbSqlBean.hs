@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.communication.sql
 module AbSqlBean (module AbSqlBean, module AbSqlRow) where
 
-import AbSqlRow hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getField, getField_super, getField_impl, getField, getField_super, getField_impl, isSubsetOfEntry, isSubsetOfEntry_super, isSubsetOfEntry_impl, logUtil, mETHOD_GET_FIELD, mETHOD_IS_SUBSET_OF_ENTRY)
+import AbSqlRow hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getField, getField_super, getField_impl, getField_2, getField_2_super, getField_2_impl, getField, isSubsetOfEntry, isSubsetOfEntry_super, isSubsetOfEntry_impl, logUtil, mETHOD_GET_FIELD, mETHOD_IS_SUBSET_OF_ENTRY)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -75,7 +75,7 @@ newRecord_ = do
     let this = AbSqlBean header_ base logUtil mETHOD_GET_FIELD mETHOD_IS_SUBSET_OF_ENTRY
     jregisterLevel header_ this
     jregisterMethod header_ "getField" (\() -> getField_impl this)
-    jregisterMethod header_ "getField" (\() -> getField_impl this)
+    jregisterMethod header_ "getField_2" (\() -> getField_2_impl this)
     jregisterMethod header_ "isSubsetOfEntry" (\() -> isSubsetOfEntry_impl this)
     pure this
 
@@ -141,15 +141,14 @@ getField_impl this key value requestedField = do
             pure (javaNull)
 
 
--- Java overload of getField with a different parameter count: give it a different name
-getField :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (String)
-getField object_ a1 a2 = jmethod object_ "getField" (\() -> (getField_impl (javaCast object_ :: AbSqlBean))) () a1 a2
+getField_2 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (String)
+getField_2 object_ a1 a2 = jmethod object_ "getField_2" (\() -> (getField_2_impl (javaCast object_ :: AbSqlBean))) () a1 a2
 
-getField_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (String)
-getField_super object_ a1 a2 = (getField_impl (javaCast object_ :: AbSqlBean)) a1 a2
+getField_2_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (String)
+getField_2_super object_ a1 a2 = (getField_2_impl (javaCast object_ :: AbSqlBean)) a1 a2
 
-getField_impl :: AbSqlBean -> HashMap.HashMap -> String -> IO (String)
-getField_impl this keysAndValues requestedField = do
+getField_2_impl :: AbSqlBean -> HashMap.HashMap -> String -> IO (String)
+getField_2_impl this keysAndValues requestedField = do
     javaCatchReturn $ do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.base.sqlStrings)).sELECT))

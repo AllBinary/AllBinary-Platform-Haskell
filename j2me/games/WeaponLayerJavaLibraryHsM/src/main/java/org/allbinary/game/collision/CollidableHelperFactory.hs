@@ -82,7 +82,7 @@ init_ this = do
 getInstance :: IO (CollisionHelper.CollisionHelper)
 getInstance = do
     javaCatchReturn $ do
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).cOLLISIONS_WITH_SOURCE))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).cOLLISIONS_WITH_SOURCE)))) then do
             javaReturn =<< (CollisionHelper.new_1 (AllBinaryLayer.nULL_ALLBINARY_LAYER))
         else do
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: CollisionHelper.CollisionHelper) (SourceCollisionHelper.new_1 (AllBinaryLayer.nULL_ALLBINARY_LAYER)))

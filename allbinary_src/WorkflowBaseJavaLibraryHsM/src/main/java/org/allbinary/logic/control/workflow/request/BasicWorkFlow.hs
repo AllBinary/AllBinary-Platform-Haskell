@@ -141,7 +141,7 @@ init_2 this hashMap pageContext = do
         jset (this).storeName (assignedValue)
         requestHashMap <- (RequestParams.toHashMap ((jio (RequestParams.new_1 pageContext))))
         jset (this).workFlowName ((javaCast (jio (HashMap.get requestHashMap (jget ((jio (WorkFlowData.getInstance))).nAME))) :: String))
-        assignedValue <- (DomDocumentHelper.create (javaCast (jio (HashMap.get requestHashMap (jget ((jio (WorkFlowData.getInstance))).dATA))) :: String))
+        assignedValue <- (DomDocumentHelper.create_1 (javaCast (jio (HashMap.get requestHashMap (jget ((jio (WorkFlowData.getInstance))).dATA))) :: String))
         jset (this).workFlowDoc (assignedValue)
         pure ()
 
@@ -156,7 +156,7 @@ init_1 this hashMap = do
         initFields_ this
         jset (this).workFlowName ((javaCast (jio (HashMap.get hashMap (jget ((jio (WorkFlowData.getInstance))).nAME))) :: String))
         jset (this).storeName ((javaCast (jio (HashMap.get hashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
-        assignedValue <- (DomDocumentHelper.create (javaCast (jio (HashMap.get hashMap (jget ((jio (WorkFlowData.getInstance))).dATA))) :: String))
+        assignedValue <- (DomDocumentHelper.create_1 (javaCast (jio (HashMap.get hashMap (jget ((jio (WorkFlowData.getInstance))).dATA))) :: String))
         jset (this).workFlowDoc (assignedValue)
         pure ()
 
@@ -254,7 +254,7 @@ toXmlNode_impl this document = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let name = (javaCast (jindex nameArray (index)) :: String)
                 let value = (javaCast (jio (HashMap.get hashMap name)) :: String)
-                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document name value)))
+                Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name value)))
             pure (node)
 
 

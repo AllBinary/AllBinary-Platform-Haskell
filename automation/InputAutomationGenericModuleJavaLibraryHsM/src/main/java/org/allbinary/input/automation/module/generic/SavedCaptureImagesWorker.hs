@@ -189,7 +189,7 @@ run_impl this = do
                     jset SavedCaptureImagesWorker.index ((jget SavedCaptureImagesWorker.index) + 1)
                     Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame)))
                     capturedImageEvent <- (CapturedImageWorkerResultsEvent.new_3 this frame bufferedImage)
-                    Control.Monad.void (BasicEventHandler.fireEvent this capturedImageEvent)
+                    Control.Monad.void (BasicEventHandler.fireEvent this (javaCast capturedImageEvent))
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Could Not Load File: " ++ filePath) this (jget ((jget (this).commonStrings)).rUN))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))

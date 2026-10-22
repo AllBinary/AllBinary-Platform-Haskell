@@ -147,7 +147,7 @@ restore_impl this = do
             ) $ do
             let success = "Restore Successful"
             logTableEntity <- (LogTableEntityFactory.getLogTableEntityInstance ((jio (LogTableEntityFactory.getInstance))))
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) logTableEntity (jget (this).portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast logTableEntity) (jget (this).portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -168,7 +168,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Backup Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (LogTableEntityFactory.getLogTableEntityInstance ((jio (LogTableEntityFactory.getInstance))))))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (LogTableEntityFactory.getLogTableEntityInstance ((jio (LogTableEntityFactory.getInstance)))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)

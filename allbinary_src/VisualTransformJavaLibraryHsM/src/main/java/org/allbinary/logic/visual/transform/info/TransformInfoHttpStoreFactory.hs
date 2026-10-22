@@ -67,7 +67,7 @@ newRecord_ = do
     let this = TransformInfoHttpStoreFactory header_
     jregisterLevel header_ this
     TransformInfoFactoryInterface.registerInterface_ header_
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3" (\() -> getInstance_3_impl this)
     pure this
 
 initFields_ :: TransformInfoHttpStoreFactory -> IO ()
@@ -93,15 +93,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
-getInstance object_ a1 a2 a3 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoHttpStoreFactory))) () a1 a2 a3
+getInstance_3 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
+getInstance_3 object_ a1 a2 a3 = jmethod object_ "getInstance_3" (\() -> (getInstance_3_impl (javaCast object_ :: TransformInfoHttpStoreFactory))) () a1 a2 a3
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
-getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: TransformInfoHttpStoreFactory)) a1 a2 a3
+getInstance_3_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
+getInstance_3_super object_ a1 a2 a3 = (getInstance_3_impl (javaCast object_ :: TransformInfoHttpStoreFactory)) a1 a2 a3
 
-getInstance_impl :: TransformInfoHttpStoreFactory -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
-getInstance_impl this databaseHashMap propertiesHashMap pageContext = do
+getInstance_3_impl :: TransformInfoHttpStoreFactory -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (TransformInfoInterface.TransformInfoInterface)
+getInstance_3_impl this databaseHashMap propertiesHashMap pageContext = do
         (fmap (\value_ -> javaCast value_ :: TransformInfoInterface.TransformInfoInterface) (TransformInfoHttpStore.new_3 databaseHashMap propertiesHashMap pageContext))
 
 

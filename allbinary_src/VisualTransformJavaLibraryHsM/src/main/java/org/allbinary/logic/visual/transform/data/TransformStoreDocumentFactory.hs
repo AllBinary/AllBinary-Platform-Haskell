@@ -88,9 +88,8 @@ getInstance pageContext weblisketSession = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: SearchRequest.SearchRequest -> IO (TransformDocumentInterface.TransformDocumentInterface)
-getInstance searchRequest = do
+getInstance_1 :: SearchRequest.SearchRequest -> IO (TransformDocumentInterface.TransformDocumentInterface)
+getInstance_1 searchRequest = do
         pure ((javaCast (jio (TransformStoreDocument.new_1 searchRequest)) :: TransformDocumentInterface.TransformDocumentInterface))
 
 

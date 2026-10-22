@@ -109,7 +109,7 @@ setDestroyed_impl :: DestroyableSimpleBehavior -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         jset (this).destroyed (destroyed)
         when (jio (DestroyableSimpleBehavior.isDestroyed this)) $ do
-            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (jget (this).ownerLayer))
+            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (javaCast (jget (this).ownerLayer)))
         pure ()
 
 

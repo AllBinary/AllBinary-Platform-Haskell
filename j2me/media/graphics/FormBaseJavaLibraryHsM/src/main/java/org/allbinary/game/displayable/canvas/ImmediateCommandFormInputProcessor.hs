@@ -113,7 +113,7 @@ onPressGameKeyEvent_impl this gameKeyEvent = do
             Control.Monad.void (CommandFormInputProcessor.onPressGameKeyEvent_super this.base gameKeyEvent)
             when (jio (TimeDelayHelper.isTimeTNT ((jget (this).timeHelper)))) $ do
                 Control.Monad.void (CommandFormInputProcessor.processInputList this)
-                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (jio (CommandFormInputProcessor.getCanvas this)))
+                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (javaCast (jio (CommandFormInputProcessor.getCanvas this))))
         pure ()
 
 
@@ -131,7 +131,7 @@ onDownGameKeyEvent_impl this gameKeyEvent = do
             Control.Monad.void (CommandFormInputProcessor.onDownGameKeyEvent_super this.base gameKeyEvent)
             when (jio (TimeDelayHelper.isTimeTNT ((jget (this).timeHelper)))) $ do
                 Control.Monad.void (CommandFormInputProcessor.processInputList this)
-                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (jio (CommandFormInputProcessor.getCanvas this)))
+                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (javaCast (jio (CommandFormInputProcessor.getCanvas this))))
         pure ()
 
 
@@ -149,7 +149,7 @@ onUpGameKeyEvent_impl this gameKeyEvent = do
             Control.Monad.void (CommandFormInputProcessor.onUpGameKeyEvent_super this.base gameKeyEvent)
             when (jio (TimeDelayHelper.isTimeTNT ((jget (this).timeHelper)))) $ do
                 Control.Monad.void (CommandFormInputProcessor.processInputList this)
-                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (jio (CommandFormInputProcessor.getCanvas this)))
+                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (javaCast (jio (CommandFormInputProcessor.getCanvas this))))
         pure ()
 
 
@@ -167,7 +167,7 @@ onMotionGestureEvent_impl this motionGestureEvent = do
             Control.Monad.void (CommandFormInputProcessor.onMotionGestureEvent_super this.base motionGestureEvent)
             when (jio (TimeDelayHelper.isTimeTNT ((jget (this).timeHelper)))) $ do
                 Control.Monad.void (CommandFormInputProcessor.processInputList this)
-                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (jio (CommandFormInputProcessor.getCanvas this)))
+                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget ((jget (this).gameCommandCanvas)).repaintBehavior)) (javaCast (jio (CommandFormInputProcessor.getCanvas this))))
         pure ()
 
 

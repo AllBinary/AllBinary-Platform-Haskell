@@ -94,9 +94,9 @@ init_1 this node = do
         initFields_ this
         childNodeList <- (Node.getChildNodes node)
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
-        name <- (DomNodeHelper.getTextNodeValue (UserEmailEventConfigurationData.nAME) childNodeList)
+        name <- (DomNodeHelper.getTextNodeValue_2 (UserEmailEventConfigurationData.nAME) childNodeList)
         Control.Monad.void (HashMap.put hashMap (UserEmailEventConfigurationData.nAME) name)
-        eventListenerClassPath <- (DomNodeHelper.getTextNodeValue (UserEmailEventConfigurationData.lISTENER_CLASSPATH) childNodeList)
+        eventListenerClassPath <- (DomNodeHelper.getTextNodeValue_2 (UserEmailEventConfigurationData.lISTENER_CLASSPATH) childNodeList)
         Control.Monad.void (HashMap.put hashMap (UserEmailEventConfigurationData.lISTENER_CLASSPATH) eventListenerClassPath)
         Control.Monad.void (UserEmailEventConfigurationView.setUserEmailEventConfigurationInterface this (javaCast (jio (UserEmailEventConfiguration.new_1 hashMap)) :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface))
         pure ()
@@ -126,7 +126,7 @@ toXmlNode_impl :: UserEmailEventConfigurationView -> Document.Document -> IO (No
 toXmlNode_impl this document = do
         userEmailEventConfigurationMapping <- (UserEmailEventConfigurationMapping.new_1 (jio (UserEmailEventConfigurationView.getUserEmailEventConfigurationInterface this)))
         hashMap <- (UserEmailEventConfigurationMapping.toHashMap userEmailEventConfigurationMapping)
-        node <- (ModDomHelper.createNameValueNodes document (UserEmailEventConfigurationData.nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (UserEmailEventConfigurationData.nAME) hashMap)
         pure (node)
 
 

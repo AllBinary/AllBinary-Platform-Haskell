@@ -265,7 +265,7 @@ processTick_impl this allBinaryLayerManager = do
                     Control.Monad.void (MultiPlayerGameLayer.setReadyForExplosion this True)
                 else do
                     Control.Monad.void (WeaponLayer.setDestroyed this True)
-        Control.Monad.void (Movement.process ((jget (this).movement)) this)
+        Control.Monad.void (Movement.process ((jget (this).movement)) (javaCast this))
         jset (this).totalDamage (((jget (this).totalDamage) + (Prelude.fromIntegral (WeaponProperties.getDissipation ((jget (this).weaponProperties))))))
         pure ()
 
@@ -348,7 +348,7 @@ setDestroyed_impl this destroyed = do
         when (jio (WeaponLayer.isDestroyed this)) $ do
             assignedValue <- (NoScoreable.getInstance)
             jset (this).scoreableInterface (assignedValue)
-            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) this)
+            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (javaCast this))
         pure ()
 
 

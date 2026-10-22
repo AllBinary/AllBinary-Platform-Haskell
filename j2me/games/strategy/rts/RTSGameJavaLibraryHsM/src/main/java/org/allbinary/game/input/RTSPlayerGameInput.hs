@@ -155,7 +155,7 @@ initFields_ this = do
     jset this.inputProcessorArray ((jnewArray ((jget ((jio (InputFactory.getInstance))).mAX)) javaNull))
     jset this.removeInputProcessorArray ((jnewArray ((jget ((jio (InputFactory.getInstance))).mAX)) javaNull))
     jset this.inputList (javaNull)
-    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))) || (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS)))))
+    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))) || (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS))))))
     jset this.gameCanvas (javaNull)
     jset this.motionGestureInputList =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
     jset this.scrollPlayerGameInput (javaNull)

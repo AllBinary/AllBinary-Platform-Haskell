@@ -116,7 +116,7 @@ init_super object_ = (init_impl (javaCast object_ :: IndependentVectorExplosionR
 
 init_impl :: IndependentVectorExplosionRotationAnimationFactory -> IO (())
 init_impl this = do
-        assignedValue <- (VectorRotationGenerator.getInstance ((jio (VectorRotationGenerator.getInstance))) (jget (this).vectorInfo))
+        assignedValue <- (VectorRotationGenerator.getInstance_1 ((jio (VectorRotationGenerator.getInstance))) (jget (this).vectorInfo))
         jset (this).framePoints (assignedValue)
         pure ()
 
@@ -135,7 +135,7 @@ getInstanceAnimation_impl this animationInterface = do
             let rotationAnimationInterface = (javaCast animationInterface :: IndexedAnimation.IndexedAnimation)
             assignedValue <- (IndexedAnimation.getFrame rotationAnimationInterface)
             jset frame (assignedValue)
-        points <- (VectorExplosionGenerator.getInstance ((jget (this).vectorExplosionGenerator)) (jindex ((jget (this).framePoints)) ((jget frame))) 6 (jget ((jget (this).vectorExplosionGenerator)).rOTATION))
+        points <- (VectorExplosionGenerator.getInstance_3 ((jget (this).vectorExplosionGenerator)) (jindex ((jget (this).framePoints)) ((jget frame))) 6 (jget ((jget (this).vectorExplosionGenerator)).rOTATION))
         (VectorAnimationFactoryInterface.getInstance ((jget (this).vectorAnimationFactoryInterface)) points (jget (this).basicColor))
 
 

@@ -146,7 +146,7 @@ toXmlNode_impl :: UserEmailConfigurationView -> Document.Document -> IO (Node.No
 toXmlNode_impl this document = do
         emailConfigurationMapping <- (UserEmailConfigurationMapping.new_1 (jget (this).userEmailConfigurationInterface))
         hashMap <- (UserEmailConfigurationMapping.toHashMap emailConfigurationMapping)
-        node <- (ModDomHelper.createNameValueNodes document (UserEmailConfigurationData.nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (UserEmailConfigurationData.nAME) hashMap)
         userEmailConfigurationInterface <- (UserEmailConfigurationView.getEmailConfigurationInterface this)
         userEmailEventsConfigurationInterface <- (UserEmailConfigurationInterface.getUserEmailEventsConfigurationInterface userEmailConfigurationInterface)
         userEmailEventsConfigurationView <- (UserEmailEventsConfigurationView.new_1 userEmailEventsConfigurationInterface)

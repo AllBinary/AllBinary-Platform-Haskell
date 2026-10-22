@@ -97,7 +97,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: JvmStatisticsV
 toXmlNode_impl :: JvmStatisticsView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         hashMap <- (JvmStatisticsMapping.toHashMap this)
-        node <- (ModDomHelper.createNameValueNodes document (JvmStatisticsData.nAME) hashMap)
+        node <- (ModDomHelper.createNameValueNodes_3 document (JvmStatisticsData.nAME) hashMap)
         pure (node)
 
 

@@ -140,7 +140,7 @@ initCommands_super object_ a1 = (initCommands_impl (javaCast object_ :: HighScor
 initCommands_impl :: HighScoreTextBox -> CommandListener.CommandListener -> IO (())
 initCommands_impl this cmdListener = do
         Control.Monad.void (CustomTextBox.removeAllCommands this)
-        Control.Monad.void (PostGameCommandFactory.addCommands ((jio (PostGameCommandFactory.getInstance))) this)
+        Control.Monad.void (PostGameCommandFactory.addCommands ((jio (PostGameCommandFactory.getInstance))) (javaCast this))
         Control.Monad.void (CustomTextBox.addCommand this (HighScoreUtil.sUBMIT_TEXTBOX_COMMAND))
         Control.Monad.void (CustomTextBox.setCommandListener this cmdListener)
         pure ()
@@ -234,7 +234,7 @@ submit_super object_ = (submit_impl (javaCast object_ :: HighScoreTextBox))
 
 submit_impl :: HighScoreTextBox -> IO (())
 submit_impl this = do
-        Control.Monad.void (HighScoreUtil.submit ((jget (this).highScoreUtil)) this)
+        Control.Monad.void (HighScoreUtil.submit ((jget (this).highScoreUtil)) (javaCast this))
         pure ()
 
 

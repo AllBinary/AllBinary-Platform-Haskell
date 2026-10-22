@@ -63,7 +63,7 @@ newRecord_ = do
     header_ <- newJavaHeader
     let this = AllBinaryThreedTiledLayerFactory header_
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: AllBinaryThreedTiledLayerFactory -> IO ()
@@ -87,15 +87,14 @@ getInstance = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: AllBinaryThreedTiledLayerFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: AllBinaryThreedTiledLayerFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: AllBinaryThreedTiledLayerFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: AllBinaryThreedTiledLayerFactory)) a1 a2
 
-getInstance_impl :: AllBinaryThreedTiledLayerFactory -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
-getInstance_impl this raceTrackInfo raceTrackData = do
+getInstance_2_impl :: AllBinaryThreedTiledLayerFactory -> RaceTrackInfo.RaceTrackInfo -> RaceTrackData.RaceTrackData -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getInstance_2_impl this raceTrackInfo raceTrackData = do
         javaThrow ((JavaException "Exception" "No Threed"))
 
 

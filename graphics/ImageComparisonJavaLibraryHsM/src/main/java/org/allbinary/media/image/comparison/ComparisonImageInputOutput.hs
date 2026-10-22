@@ -80,7 +80,7 @@ newRecord_ = do
     jregisterLevel header_ this
     ImageIOInterface.registerInterface_ header_
     jregisterMethod header_ "save" (\() -> save_impl this)
-    jregisterMethod header_ "save" (\() -> save_impl this)
+    jregisterMethod header_ "save_2" (\() -> save_2_impl this)
     pure this
 
 initFields_ :: ComparisonImageInputOutput -> IO ()
@@ -115,7 +115,7 @@ save_impl this frame = do
             let imageComparisonResultFrameCacheable = (javaCast (jio (get (((javaCast (jio (ImageComparisonResultCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: ImageComparisonResultFrameCacheable.ImageComparisonResultFrameCacheable)
             if (imageComparisonResultFrameCacheable /= javaNull) then do
                 imageComparisonResult <- (ImageComparisonResultFrameCacheable.getImageComparisonResult imageComparisonResultFrameCacheable)
-                Control.Monad.void (ComparisonImageInputOutput.save this imageComparisonResult (jio (ImageComparisonResultFrameCacheable.getFrame imageComparisonResultFrameCacheable)))
+                Control.Monad.void (ComparisonImageInputOutput.save_2 this imageComparisonResult (jio (ImageComparisonResultFrameCacheable.getFrame imageComparisonResultFrameCacheable)))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Comparison Results Not Available for Output: " ++ javaToString frame) this (jget (commonStrings).sAVE))
         else do
@@ -124,15 +124,14 @@ save_impl this frame = do
 
 
 -- throws Exception
--- Java overload of save with a different parameter count: give it a different name
-save :: (JavaObjectClass this_) => this_ -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
-save object_ a1 a2 = jmethod object_ "save" (\() -> (save_impl (javaCast object_ :: ComparisonImageInputOutput))) () a1 a2
+save_2 :: (JavaObjectClass this_) => this_ -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
+save_2 object_ a1 a2 = jmethod object_ "save_2" (\() -> (save_2_impl (javaCast object_ :: ComparisonImageInputOutput))) () a1 a2
 
-save_super :: (JavaObjectClass this_) => this_ -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
-save_super object_ a1 a2 = (save_impl (javaCast object_ :: ComparisonImageInputOutput)) a1 a2
+save_2_super :: (JavaObjectClass this_) => this_ -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
+save_2_super object_ a1 a2 = (save_2_impl (javaCast object_ :: ComparisonImageInputOutput)) a1 a2
 
-save_impl :: ComparisonImageInputOutput -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
-save_impl this imageComparisonResult frame = do
+save_2_impl :: ComparisonImageInputOutput -> ImageComparisonResult.ImageComparisonResult -> Int64 -> IO (())
+save_2_impl this imageComparisonResult frame = do
         commonStrings <- (CommonStrings.getInstance)
         filePathStringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append filePathStringBuffer (ImageOutputData.sAVE_PATH))

@@ -97,12 +97,11 @@ isCollision_overload1 rectangle point = do
 
 isCollision_overload2 :: Rectangle.Rectangle -> Rectangle.Rectangle -> IO (Bool)
 isCollision_overload2 rectangle1 rectangle2 = do
-        (RectangleCollisionUtil.isCollision (jget (rectangle1).x) (jget (rectangle1).y) ((jget (rectangle1).x) + (jget (rectangle1).width)) ((jget (rectangle1).y) + (jget (rectangle1).height)) (jget (rectangle2).x) (jget (rectangle2).y) ((jget (rectangle2).x) + (jget (rectangle2).width)) ((jget (rectangle2).y) + (jget (rectangle2).height)))
+        (RectangleCollisionUtil.isCollision_8 (jget (rectangle1).x) (jget (rectangle1).y) ((jget (rectangle1).x) + (jget (rectangle1).width)) ((jget (rectangle1).y) + (jget (rectangle1).height)) (jget (rectangle2).x) (jget (rectangle2).y) ((jget (rectangle2).x) + (jget (rectangle2).width)) ((jget (rectangle2).y) + (jget (rectangle2).height)))
 
 
--- Java overload of isCollision with a different parameter count: give it a different name
-isCollision :: Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> IO (Bool)
-isCollision rectX1 rectY1 rectX2 rectY2 rect2X1 rect2Y1 rect2X2 rect2Y2 = do
+isCollision_8 :: Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> IO (Bool)
+isCollision_8 rectX1 rectY1 rectX2 rectY2 rect2X1 rect2Y1 rect2X2 rect2Y2 = do
     javaCatchReturn $ do
         if ((((rect2X1 >= rectX2) || (rect2Y1 >= rectY2)) || (rect2X2 <= rectX1)) || (rect2Y2 <= rectY1)) then do
             javaReturn (False)

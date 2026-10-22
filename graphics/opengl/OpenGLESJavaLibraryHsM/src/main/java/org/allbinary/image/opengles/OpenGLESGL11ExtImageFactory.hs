@@ -89,6 +89,6 @@ getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: Open
 
 getInstance_impl :: OpenGLESGL11ExtImageFactory -> Image.Image -> PlatformBitmapBaseFactory.PlatformBitmapBaseFactory -> PlatformTextureBaseFactory.PlatformTextureBaseFactory -> IO (Image.Image)
 getInstance_impl this image bitmapFactory textureFactory = do
-        (OpenGLESGL11ExtImage.new_3 image bitmapFactory textureFactory)
+        (fmap (\value_ -> javaCast value_ :: Image.Image) (OpenGLESGL11ExtImage.new_3 image bitmapFactory textureFactory))
 
 

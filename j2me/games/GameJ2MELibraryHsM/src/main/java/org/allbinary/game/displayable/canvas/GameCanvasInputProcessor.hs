@@ -121,7 +121,7 @@ init_1 this allBinaryGameCanvas = do
         InputProcessor.init_ this.base
         initFields_ this
         jset (this).allBinaryGameCanvas (allBinaryGameCanvas)
-        Control.Monad.void (InputToGameKeyMapping.init ((jget (this).inputToGameKeyMapping)) (jget (this).allBinaryGameCanvas))
+        Control.Monad.void (InputToGameKeyMapping.init ((jget (this).inputToGameKeyMapping)) (javaCast (jget (this).allBinaryGameCanvas)))
         pure ()
 
 
@@ -136,11 +136,11 @@ keyPressedByDevice_impl this keyCode deviceId = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Key Event Error" this (jget ((jget (this).base.gameInputStrings)).aDD_KEY_EVENT) e)
             ) $ do
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (jget (this).allBinaryGameCanvas) keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (javaCast (jget (this).allBinaryGameCanvas)) keyCode)
             if (gameKey /= (jget (this).nONE)) then do
-                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (jget (this).allBinaryGameCanvas) gameKey)
-                Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) gameKeyEvent)
-                Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) gameKeyEvent)
+                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast (jget (this).allBinaryGameCanvas)) (javaCast gameKey))
+                Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) (javaCast gameKeyEvent))
+                Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.gameInputStrings)).nO_KEY)))) keyCode))))) this (jget ((jget (this).base.gameInputStrings)).aDD_KEY_EVENT))
             keyCodeAsInteger <- (SmallIntegerSingletonFactory.getAtNoThrow ((jget (this).smallIntegerSingletonFactory)) keyCode)
@@ -175,9 +175,9 @@ removeGameKeyEvent_impl this canvas keyCode deviceId repeated = do
             gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) canvas keyCode)
             if (gameKey /= (jget (this).nONE)) then do
                 let gameKeyEventSourceInterface = (javaCast canvas :: GameKeyEventSourceInterface.GameKeyEventSourceInterface)
-                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) gameKeyEventSourceInterface gameKey)
-                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) gameKeyEvent)
-                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) gameKeyEvent)
+                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) gameKeyEventSourceInterface (javaCast gameKey))
+                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) (javaCast gameKeyEvent))
+                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.gameInputStrings)).nO_KEY)))) keyCode))))) this (jget ((jget (this).base.gameInputStrings)).rEMOVE_KEY_EVENT))
         pure ()

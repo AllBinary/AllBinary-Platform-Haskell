@@ -144,7 +144,7 @@ update_impl this gl = do
             forM_ [((jio (BasicArrayList.size ((jget (this).list)))) - 1), ((jio (BasicArrayList.size ((jget (this).list)))) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
                 let openGLESImage = ((javaCast (jindex ((jget ((jget (this).list)).objectArray)) (index)) :: OpenGLESImage.OpenGLESImage))
                 when (openGLESImage /= OpenGLESImage.nULL_OPENGL_IMAGE) $ do
-                    Control.Monad.void (OpenGLESImage.set openGLESImage gl)
+                    Control.Monad.void (OpenGLESImage.set openGLESImage (javaCast gl))
         pure ()
 
 

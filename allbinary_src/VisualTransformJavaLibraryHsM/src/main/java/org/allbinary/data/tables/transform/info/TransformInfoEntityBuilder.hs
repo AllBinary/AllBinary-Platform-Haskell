@@ -81,6 +81,6 @@ init_ this = do
 
 getInstance :: IO (TransformInfoEntity.TransformInfoEntity)
 getInstance = do
-        (TransformInfoEntityFactory.getInstance (jio (TransformInfoObjectConfigGeneratorFactory.getInstance)) (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance)) (jio (TransformInfoHttpStoreFactory.getInstance)))
+        (TransformInfoEntityFactory.getInstance (javaCast (jio (TransformInfoObjectConfigGeneratorFactory.getInstance))) (javaCast (jio (TransformInfoObjectConfigAndManipulatorFactory.getInstance))) (javaCast (jio (TransformInfoHttpStoreFactory.getInstance))))
 
 

@@ -108,7 +108,7 @@ getDoc = do
         let path = ((jio (URLGLOBALS.getWebappPath)) + LoggingInitInfo.pACKAGE)
         fILEABPATH <- (AbPath.new_2 path iNITFILENAME)
         file <- (AbFile.createAbFileFromAbPath fILEABPATH)
-        document <- (DomDocumentHelper.create (jio (AbFileLocalInputStream.new_1 file)))
+        document <- (DomDocumentHelper.create_1 (jio (AbFileLocalInputStream.new_1 file)))
         pure (document)
 
 

@@ -97,6 +97,6 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: TransformInfoI
 
 toXmlNode_impl :: TransformInfoInterfaceView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        (ModDomHelper.createNameValueNodes document (jget ((jio (TransformInfoData.getInstance))).nAME) (jio (TransformInfoInterface.toHashMap ((jget (this).transformInfoInterface)))))
+        (ModDomHelper.createNameValueNodes_3 document (jget ((jio (TransformInfoData.getInstance))).nAME) (jio (TransformInfoInterface.toHashMap ((jget (this).transformInfoInterface)))))
 
 

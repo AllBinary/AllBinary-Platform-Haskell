@@ -111,7 +111,7 @@ isValid_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to validate" this (jget ((jget (this).base.base.commonStrings)).iS_VALID) e)
             pure (False)
             ) $ do
-            when ((jio (UserName.isValid ((jio (UserName.getInstance))) (jio (WeblisketSession.getUserName ((jio (UserView.getWeblisketSession this))))))) == False) $ do
+            when ((jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jio (WeblisketSession.getUserName ((jio (UserView.getWeblisketSession this))))))) == False) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed to validate username" this (jget ((jget (this).base.base.commonStrings)).iS_VALID))
                 javaReturn (False)
@@ -142,7 +142,7 @@ validationInfo_impl this = do
             pure ("Error Getting Validation Info")
             ) $ do
             stringBuffer <- (StringMaker.new_)
-            when ((jio (UserName.isValid ((jio (UserName.getInstance))) (jio (WeblisketSession.getUserName ((jio (UserView.getWeblisketSession this))))))) == False) $ do
+            when ((jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jio (WeblisketSession.getUserName ((jio (UserView.getWeblisketSession this))))))) == False) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed to validate username" this "validationInfo()")
                 Control.Monad.void (StringMaker.append stringBuffer "Session User Name is not valid - Your session data has been logged!")

@@ -121,7 +121,7 @@ newRecord_ = do
     jregisterMethod header_ "addPoint" (\() -> addPoint_impl this)
     jregisterMethod header_ "addSeparator" (\() -> addSeparator_impl this)
     jregisterMethod header_ "readInt" (\() -> readInt_impl this)
-    jregisterMethod header_ "readInt" (\() -> readInt_impl this)
+    jregisterMethod header_ "readInt_3" (\() -> readInt_3_impl this)
     jregisterMethod header_ "toInt" (\() -> toInt_impl this)
     jregisterMethod header_ "asObject" (\() -> asObject_impl this)
     jregisterMethod header_ "toPoints" (\() -> toPoints_impl this)
@@ -283,8 +283,8 @@ addRectangle_super object_ a1 a2 = (addRectangle_impl (javaCast object_ :: SVGAs
 
 addRectangle_impl :: SVGAsJSONSimpleLoader -> BasicArrayList.BasicArrayList -> JSONObject.JSONObject -> IO (())
 addRectangle_impl this pointVector rectangle = do
-        x <- (SVGAsJSONSimpleLoader.readInt this rectangle (jget this.kEY_X) 0)
-        y <- (SVGAsJSONSimpleLoader.readInt this rectangle (jget this.kEY_Y) 0)
+        x <- (SVGAsJSONSimpleLoader.readInt_3 this rectangle (jget this.kEY_X) 0)
+        y <- (SVGAsJSONSimpleLoader.readInt_3 this rectangle (jget this.kEY_Y) 0)
         width <- (SVGAsJSONSimpleLoader.readInt this rectangle (jget ((jget this.graphicsStrings)).wIDTH))
         height <- (SVGAsJSONSimpleLoader.readInt this rectangle (jget ((jget this.graphicsStrings)).hEIGHT))
         Control.Monad.void (SVGAsJSONSimpleLoader.addPoint this pointVector x y)
@@ -335,15 +335,14 @@ readInt_impl this anyType key = do
         (SVGAsJSONSimpleLoader.toInt this value key)
 
 
--- Java overload of readInt with a different parameter count: give it a different name
-readInt :: (JavaObjectClass this_) => this_ -> JSONObject.JSONObject -> String -> Int -> IO (Int)
-readInt object_ a1 a2 a3 = jmethod object_ "readInt" (\() -> (readInt_impl (javaCast object_ :: SVGAsJSONSimpleLoader))) () a1 a2 a3
+readInt_3 :: (JavaObjectClass this_) => this_ -> JSONObject.JSONObject -> String -> Int -> IO (Int)
+readInt_3 object_ a1 a2 a3 = jmethod object_ "readInt_3" (\() -> (readInt_3_impl (javaCast object_ :: SVGAsJSONSimpleLoader))) () a1 a2 a3
 
-readInt_super :: (JavaObjectClass this_) => this_ -> JSONObject.JSONObject -> String -> Int -> IO (Int)
-readInt_super object_ a1 a2 a3 = (readInt_impl (javaCast object_ :: SVGAsJSONSimpleLoader)) a1 a2 a3
+readInt_3_super :: (JavaObjectClass this_) => this_ -> JSONObject.JSONObject -> String -> Int -> IO (Int)
+readInt_3_super object_ a1 a2 a3 = (readInt_3_impl (javaCast object_ :: SVGAsJSONSimpleLoader)) a1 a2 a3
 
-readInt_impl :: SVGAsJSONSimpleLoader -> JSONObject.JSONObject -> String -> Int -> IO (Int)
-readInt_impl this anyType key defaultValue = do
+readInt_3_impl :: SVGAsJSONSimpleLoader -> JSONObject.JSONObject -> String -> Int -> IO (Int)
+readInt_3_impl this anyType key defaultValue = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))

@@ -116,7 +116,7 @@ view_impl this = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("View Name: " ++ (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))) this "view()")
             viewName <- (RootContextView.getName this)
-            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) (jget (this).base.base.abeClientInformation) viewName (jio (HttpStoreComponentView.getTransformInfoInterface this))))
+            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).base.base.abeClientInformation) viewName (jio (HttpStoreComponentView.getTransformInfoInterface this))))
             (TransformInterface.view componentInterface)
 
 
@@ -135,7 +135,7 @@ getName_impl this = do
             javaThrow (e)
             ) $ do
             objectConfig <- (NoTemplateTransformInfoObjectConfig.new_2 (jio (HttpStoreComponentView.getTransformInfoInterface this)) (jio (TransformInfoInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))))
-            componentsVector <- (NoTemplateTransformInfoObjectConfig.getTransforms objectConfig)
+            componentsVector <- (NoTemplateTransformInfoObjectConfig.getTransforms_0 objectConfig)
             when ((jio (BasicArrayList.size componentsVector)) == 0) $ do
                 javaThrow ((JavaException "Exception" "Template View Not Set - No Components"))
             when ((jio (BasicArrayList.size componentsVector)) > 1) $ do

@@ -185,7 +185,7 @@ run_impl this = do
             Control.Monad.void (TimeDelayHelper.setStartTimeTNT timeHelper)
             let motionRectanglesResultsEvent = (javaCast (jio (BasicArrayList.get ((jio (SaveMotionRectanglesResultsWorker.getMotionRectanglesVector this))) 0)) :: MotionRectanglesResultsEvent.MotionRectanglesResultsEvent)
             motionRectangles <- (MotionRectanglesResultsEvent.getMotionRectangles motionRectanglesResultsEvent)
-            Control.Monad.void (MotionRectanglesImageInputOutput.save ((jio (MotionRectanglesImageInputOutput.new_))) motionRectangles (jio (MotionRectanglesResultsEvent.getFrame motionRectanglesResultsEvent)))
+            Control.Monad.void (MotionRectanglesImageInputOutput.save_2 ((jio (MotionRectanglesImageInputOutput.new_))) motionRectangles (jio (MotionRectanglesResultsEvent.getFrame motionRectanglesResultsEvent)))
             Control.Monad.void (BasicArrayList.remove ((jio (SaveMotionRectanglesResultsWorker.getMotionRectanglesVector this))) motionRectangles)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))

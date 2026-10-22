@@ -99,7 +99,7 @@ init_1 this transformInfoInterface = do
         WorkFlowView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (NewWorkFlowFactory.getInstance ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) (jio (WorkFlowView.getPropertiesHashMap this)) (jio (WorkFlowView.getPageContext this)))
+        assignedValue <- (NewWorkFlowFactory.getInstance_3 ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) (jio (WorkFlowView.getPropertiesHashMap this)) (jio (WorkFlowView.getPageContext this)))
         jset (this).base.workFlowInterface (assignedValue)
         pure ()
 

@@ -113,7 +113,7 @@ getInstanceGameCanvasRunnable_super object_ a1 = (getInstanceGameCanvasRunnable_
 
 getInstanceGameCanvasRunnable_impl :: ThreadFactoryUtil -> GameCanvasRunnableInterface.GameCanvasRunnableInterface -> IO (Thread.Thread)
 getInstanceGameCanvasRunnable_impl this runnable = do
-        (ThreadFactoryUtil.getInstanceType this runnable (jio (GameCanvasRunnableInterface.getType runnable)))
+        (ThreadFactoryUtil.getInstanceType this (javaCast runnable) (jio (GameCanvasRunnableInterface.getType runnable)))
 
 
 getInstanceForRunnable :: (JavaObjectClass this_) => this_ -> ABRunnable.ABRunnable -> IO (Thread.Thread)
@@ -124,7 +124,7 @@ getInstanceForRunnable_super object_ a1 = (getInstanceForRunnable_impl (javaCast
 
 getInstanceForRunnable_impl :: ThreadFactoryUtil -> ABRunnable.ABRunnable -> IO (Thread.Thread)
 getInstanceForRunnable_impl this runnable = do
-        (ThreadFactoryUtil.getInstanceType this runnable (jio (ABRunnable.getType runnable)))
+        (ThreadFactoryUtil.getInstanceType this (javaCast runnable) (jio (ABRunnable.getType runnable)))
 
 
 getInstanceType :: (JavaObjectClass this_) => this_ -> Runnable.Runnable -> Int -> IO (Thread.Thread)
@@ -141,7 +141,7 @@ getInstanceType_impl this runnable type_ = do
                 demoGameSingleThreadStartRunnable <- (RunnableCanvasSingleThreadStartRunnable.new_1 (javaCast runnable :: RunnableCanvas.RunnableCanvas))
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) runnable))))))) this (jget (commonStrings).cONSTRUCTOR))
                 primaryThreadPool <- (PrimaryThreadPool.getInstance)
-                Control.Monad.void (ThreadPool.runTask primaryThreadPool demoGameSingleThreadStartRunnable)
+                Control.Monad.void (ThreadPool.runTask primaryThreadPool (javaCast demoGameSingleThreadStartRunnable))
             else do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Using Pseudo Thread for Runnable under PlayN/HTML5: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) runnable))))))) this (jget (commonStrings).cONSTRUCTOR))
                 primaryThreadPool <- (PrimaryThreadPool.getInstance)

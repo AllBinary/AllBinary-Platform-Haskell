@@ -74,7 +74,7 @@ newRecord_ = do
 
 initFields_ :: OpenGLImageSpecificFactory -> IO ()
 initFields_ this = do
-    jset this.imageFactory (OpenGLImageFactory.nULL_OPENGL_IMAGE_FACTORY)
+    jset this.imageFactory ((jget OpenGLImageFactory.nULL_OPENGL_IMAGE_FACTORY))
     jset this.updating (False)
     pure ()
 

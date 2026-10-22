@@ -71,7 +71,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = TransformInfoObjectConfigNoManipulationFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: TransformInfoObjectConfigNoManipulationFactory -> IO ()
@@ -98,15 +98,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigNoManipulationFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: TransformInfoObjectConfigNoManipulationFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigNoManipulationFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: TransformInfoObjectConfigNoManipulationFactory)) a1 a2
 
-getInstance_impl :: TransformInfoObjectConfigNoManipulationFactory -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
-getInstance_impl this transformInfoInterface objectConfigFileAbPath = do
+getInstance_2_impl :: TransformInfoObjectConfigNoManipulationFactory -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO (TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface)
+getInstance_2_impl this transformInfoInterface objectConfigFileAbPath = do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
@@ -115,6 +114,6 @@ getInstance_impl this transformInfoInterface objectConfigFileAbPath = do
             ) $ do
             transformInfoObjectConfigData <- (TransformInfoObjectConfigData.getInstance)
             data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget (transformInfoObjectConfigData).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance transformInfoObjectConfigData))).eNCRYPTED_EXTENSION)))) objectConfigFileAbPath)
-            (fmap (\value_ -> javaCast value_ :: TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface) (TransformInfoObjectConfig.new_2 transformInfoInterface (jio (DomDocumentHelper.create data_))))
+            (fmap (\value_ -> javaCast value_ :: TransformInfoObjectConfigInterface.TransformInfoObjectConfigInterface) (TransformInfoObjectConfig.new_2 transformInfoInterface (jio (DomDocumentHelper.create_1 data_))))
 
 

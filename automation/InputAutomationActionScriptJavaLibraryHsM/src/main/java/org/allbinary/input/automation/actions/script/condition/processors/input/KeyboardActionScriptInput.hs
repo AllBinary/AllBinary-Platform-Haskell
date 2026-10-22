@@ -16,7 +16,7 @@
 -- package org.allbinary.input.automation.actions.script.condition.processors.input
 module KeyboardActionScriptInput (module KeyboardActionScriptInput, module BasicProfileActionScriptInput) where
 
-import BasicProfileActionScriptInput hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getDelayBetweenKeys, getDelayBetweenKeys_super, getDelayBetweenKeys_impl, setDelayBetweenKeys, setDelayBetweenKeys_super, setDelayBetweenKeys_impl, isPress, isPress_super, isPress_impl, setPress, setPress_super, setPress_impl, isRelease, isRelease_super, isRelease_impl, setRelease, setRelease_super, setRelease_impl, isNormal, isNormal_super, isNormal_impl, setNormal, setNormal_super, setNormal_impl, getKeyArray, getKeyArray_super, getKeyArray_impl, setKeyArray, setKeyArray_super, setKeyArray_impl, showDialog, showDialog_super, showDialog_impl, getText, getText_super, getText_impl, setText, setText_super, setText_impl, getText, getText_super, getText_impl, integerArrayValue, integerArrayValue_super, integerArrayValue_impl, toHashMap, toHashMap_super, toHashMap_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, process, process_super, process_impl, log, log_super, log_impl, toString, toString_super, toString_impl, logUtil, keyArray, nAME, keyboardActionScriptInputJPanel, press, release, delayBetweenKeys)
+import BasicProfileActionScriptInput hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getDelayBetweenKeys, getDelayBetweenKeys_super, getDelayBetweenKeys_impl, setDelayBetweenKeys, setDelayBetweenKeys_super, setDelayBetweenKeys_impl, isPress, isPress_super, isPress_impl, setPress, setPress_super, setPress_impl, isRelease, isRelease_super, isRelease_impl, setRelease, setRelease_super, setRelease_impl, isNormal, isNormal_super, isNormal_impl, setNormal, setNormal_super, setNormal_impl, getKeyArray, getKeyArray_super, getKeyArray_impl, setKeyArray, setKeyArray_super, setKeyArray_impl, showDialog, showDialog_super, showDialog_impl, getText, getText_super, getText_impl, setText, setText_super, setText_impl, getText_1, getText_1_super, getText_1_impl, getText, integerArrayValue, integerArrayValue_super, integerArrayValue_impl, toHashMap, toHashMap_super, toHashMap_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, process, process_super, process_impl, log, log_super, log_impl, toString, toString_super, toString_impl, logUtil, keyArray, nAME, keyboardActionScriptInputJPanel, press, release, delayBetweenKeys)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -326,7 +326,7 @@ getText_super object_ = (getText_impl (javaCast object_ :: KeyboardActionScriptI
 
 getText_impl :: KeyboardActionScriptInput -> IO (String)
 getText_impl this = do
-        (KeyboardActionScriptInput.getText this (jio (KeyboardActionScriptInput.getKeyArray this)))
+        (KeyboardActionScriptInput.getText_1 this (jio (KeyboardActionScriptInput.getKeyArray this)))
 
 
 setText :: (JavaObjectClass this_) => this_ -> String -> IO (())
@@ -343,9 +343,8 @@ setText_impl this text = do
         pure ()
 
 
--- Java overload of getText with a different parameter count: give it a different name
-getText :: JavaArray (Int) -> IO (String)
-getText integerArray = do
+getText_1 :: JavaArray (Int) -> IO (String)
+getText_1 integerArray = do
         index <- newIORef (0)
         stringBuffer <- (StringMaker.new_)
         fix $ \loop -> when ((jget index) < (jlength integerArray)) $ javaIteration (loop) $ do
@@ -427,7 +426,7 @@ process_super object_ a1 = (process_impl (javaCast object_ :: KeyboardActionScri
 
 process_impl :: KeyboardActionScriptInput -> Int64 -> IO (())
 process_impl this frame = do
-        Control.Monad.void (KeyboardInputAutomationProcessor.process this)
+        Control.Monad.void (KeyboardInputAutomationProcessor.process (javaCast this))
         pure ()
 
 

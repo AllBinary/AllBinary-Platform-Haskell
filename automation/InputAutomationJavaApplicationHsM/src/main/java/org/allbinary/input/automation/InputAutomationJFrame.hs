@@ -293,7 +293,7 @@ init_super object_ = (init_impl (javaCast object_ :: InputAutomationJFrame))
 init_impl :: InputAutomationJFrame -> IO (())
 init_impl this = do
         inputAutomationConfigurationFactory <- (InputAutomationConfigurationFactory.getInstance)
-        Control.Monad.void (InputAutomationConfigurationFactory.init inputAutomationConfigurationFactory (jio (InputAutomationClientInformationFactory.getInstance)))
+        Control.Monad.void (InputAutomationConfigurationFactory.init inputAutomationConfigurationFactory (javaCast (jio (InputAutomationClientInformationFactory.getInstance))))
         inputAutomationModuleConfigurationList <- (InputAutomationConfiguration.getInputAutomationModuleConfigurationList ((jget (inputAutomationConfigurationFactory).inputAutomationConfiguration)))
         if (inputAutomationModuleConfigurationList == javaNull) then do
             pure ()
@@ -680,7 +680,7 @@ create inputAutomationBundleActivatorListenerInterface = do
         Control.Monad.void (LogConfigTypeFactory.getInstance)
         appUrlGlobals <- (AppUrlGlobals.new_)
         Control.Monad.void (AppUrlGlobals.setWebappPath appUrlGlobals "G:/mnt/bc/mydev/work_automation/automation/run/")
-        Control.Monad.void (URLGLOBALS.init appUrlGlobals)
+        Control.Monad.void (URLGLOBALS.init (javaCast appUrlGlobals))
         Control.Monad.void (WebappClassLoaderInfo.setLoader (jio (Class.getClassLoader ((jio (jobjectGetClass appUrlGlobals))))))
         Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
             -- run

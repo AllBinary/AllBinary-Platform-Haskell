@@ -105,7 +105,7 @@ init_4 this commandListener title backgrounBasicColor foregroundBasicColor = do
         pure () -- super(...) is in the record above
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         let timeString = (javaToString (jio (ABSystemWrapper.currentTimeMillis ((jio (ABSystemWrapper.getInstance))))))
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this (jio (TextField.new_4 "Name: " timeString 30 (TextField.aNY))))
+        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (TextField.new_4 "Name: " timeString 30 (TextField.aNY)))))
         Control.Monad.void (SaveGameForm.initCommands this commandListener)
         pure ()
 

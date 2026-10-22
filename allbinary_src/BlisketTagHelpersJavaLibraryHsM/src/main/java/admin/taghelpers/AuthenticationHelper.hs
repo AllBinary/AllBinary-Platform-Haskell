@@ -284,7 +284,7 @@ invalidRole_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "invalidRole()" e)
             pure (error)
             ) $ do
-            Control.Monad.void (WeblisketSession.setAuthenticated ((jget (this).weblisketSession)) False)
+            Control.Monad.void (WeblisketSession.setAuthenticated_1 ((jget (this).weblisketSession)) False)
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer "Sorry your username and password is invalid on this page. ")
             Control.Monad.void (StringMaker.append stringBuffer "Trying New login<p/>")
@@ -330,7 +330,7 @@ isAuthenticationSessionValid_impl this roles = do
                         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                             let mustBeOfRole = (javaCast (jindex basicUserRoleArray (index)) :: BasicUserRole.BasicUserRole)
                             when (jio (BasicUserRole.equals basicUserRole mustBeOfRole)) $ do
-                                when (jio (BasicUserRole.equals basicUserRole (jget ((jio (UserRoleFactory.getInstance))).cUSTOMER))) $ do
+                                when (jio (BasicUserRole.equals basicUserRole (javaCast (jget ((jio (UserRoleFactory.getInstance))).cUSTOMER)))) $ do
                                     userEntityInterface <- (fmap (\value_ -> javaCast value_ :: UserEntityInterface.UserEntityInterface) (UserEntityFactory.getInstance))
                                     userInterface <- (UserEntityInterface.getUser userEntityInterface (jget (this).sessionUserName))
                                     when (Prelude.not (jio (UserInterface.booleanValue ((jio (UserInterface.isSessionValid userInterface)))))) $ do

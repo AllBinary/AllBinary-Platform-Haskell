@@ -185,7 +185,7 @@ init_4 this ownerLayerInterface artificialIntelligenceInterface gameInput visito
         let velocityInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: VelocityInterfaceCompositeInterface.VelocityInterfaceCompositeInterface)
         assignedValue <- (VelocityInterfaceCompositeInterface.getVelocityProperties velocityInterfaceCompositeInterface)
         jset (this).velocityInterface (assignedValue)
-        Control.Monad.void (DestroyedEventHandler.addListenerInterface ((jio (DestroyedEventHandler.getInstance))) this)
+        Control.Monad.void (DestroyedEventHandler.addListenerInterface ((jio (DestroyedEventHandler.getInstance))) (javaCast this))
         Control.Monad.void (DiveAndDirectionalTrackingAI.init this)
         pure ()
 
@@ -221,7 +221,7 @@ init_impl :: DiveAndDirectionalTrackingAI -> IO (())
 init_impl this = do
         jset (this).diveP (False)
         jset (this).directionOfTarget ((jget ((jio (DirectionFactory.getInstance))).nOT_BORDERED_WITH))
-        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) this)
+        Control.Monad.void (TrackingEventHandler.addListenerInterface ((jio (TrackingEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -319,7 +319,7 @@ setDive_impl :: DiveAndDirectionalTrackingAI -> IO (())
 setDive_impl this = do
         jset (this).diveP (True)
         Control.Monad.void (BasicVelocityProperties.zero ((jget (this).velocityInterface)))
-        Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) this)
+        Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -491,8 +491,8 @@ onDestroyed_super object_ a1 = (onDestroyed_impl (javaCast object_ :: DiveAndDir
 onDestroyed_impl :: DiveAndDirectionalTrackingAI -> DestroyedEvent.DestroyedEvent -> IO (())
 onDestroyed_impl this destroyedEvent = do
         when ((jio (BasicAI.getOwnerLayerInterface this)) == (jio (DestroyedEvent.getLayerInterface destroyedEvent))) $ do
-            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) this)
-            Control.Monad.void (DestroyedEventHandler.removeListener ((jio (DestroyedEventHandler.getInstance))) this)
+            Control.Monad.void (TrackingEventHandler.removeListener ((jio (TrackingEventHandler.getInstance))) (javaCast this))
+            Control.Monad.void (DestroyedEventHandler.removeListener ((jio (DestroyedEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

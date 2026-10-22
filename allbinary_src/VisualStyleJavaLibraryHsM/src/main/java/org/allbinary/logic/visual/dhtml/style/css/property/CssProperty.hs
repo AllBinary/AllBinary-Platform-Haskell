@@ -160,7 +160,7 @@ toXmlNode_impl this document = do
         hashMap <- (CssProperty.toHashMap this)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("CssView HashMap: " ++ (jio (HashMap.toString hashMap))) this "toXmlNode()")
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (CssPropertyData.getInstance))).nAME) (jget (this).propertyName))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (CssPropertyData.getInstance))).nAME) (jget (this).propertyName))
         Control.Monad.void (Node.appendChild node (jio (CssPropertyValues.toXmlNode ((jget (this).cssPropertyValues)) document)))
         pure (node)
 

@@ -162,17 +162,17 @@ init_6 this commandListener allBinaryGameLayerManager gameInfo paintable highSco
         jset (this).gameInfo (gameInfo)
         Control.Monad.void (SimpleTextPaintable.setBasicColorP ((jget (this).waitPaintable)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor allBinaryGameLayerManager)))
         Control.Monad.void (HighScoresPaintable.setBasicColorP ((jio (HighScoresCanvas.getHighScoresPaintable this))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor allBinaryGameLayerManager)))
-        assignedValue <- (ColorFillPaintableFactory.getInstance ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
         jset (this).colorFillPaintable (assignedValue)
         if ((jio (HighScoresHelperBase.getHighScoresArray ((jget (this).highScoresHelper)))) == (jget ((jio (NoHighScoresFactory.getInstance))).nO_HIGH_SCORES)) then do
-            Control.Monad.void (HighScoresCanvas.setPaintable this (jget (this).waitPaintable))
+            Control.Monad.void (HighScoresCanvas.setPaintable this (javaCast (jget (this).waitPaintable)))
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) "Show HighScores that are already loaded" this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
             Control.Monad.void (HighScoresCanvas.updateCommand this (jget (this).currentCommand))
-            Control.Monad.void (HighScoresCanvas.setPaintable this (jio (HighScoresCanvas.getHighScoresPaintable this)))
+            Control.Monad.void (HighScoresCanvas.setPaintable this (javaCast (jio (HighScoresCanvas.getHighScoresPaintable this))))
         -- Java nested class HighScoreRunnable: move it to its own module
 
-        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (jio (HighScoreRunnable.new_1 this)))
+        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (HighScoreRunnable.new_1 this))))
         pure ()
 
 
@@ -277,7 +277,7 @@ setHighScoresArray_impl this highScoresArray = do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).sTART) this "setHighScoresArray")
             Control.Monad.void (HighScoresHelperBase.setHighScoresArray ((jget (this).highScoresHelper)) highScoresArray)
             Control.Monad.void (HighScoresCanvas.updateCommand this (jget (this).currentCommand))
-            Control.Monad.void (HighScoresCanvas.setPaintable this (jio (HighScoresCanvas.getHighScoresPaintable this)))
+            Control.Monad.void (HighScoresCanvas.setPaintable this (javaCast (jio (HighScoresCanvas.getHighScoresPaintable this))))
         pure ()
 
 
@@ -310,7 +310,7 @@ updateCommand_impl this command = do
         Control.Monad.void (HighScoresCanvas.close this)
         Control.Monad.void (GameCommandCanvas.initMenu_super this.base)
         Control.Monad.void (HighScoresCanvas.open this)
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
 
 
@@ -334,7 +334,7 @@ setPaintable_super object_ a1 = (setPaintable_impl (javaCast object_ :: HighScor
 setPaintable_impl :: HighScoresCanvas -> Paintable.Paintable -> IO (())
 setPaintable_impl this paintable = do
         jset (this).paintable (paintable)
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
 
 

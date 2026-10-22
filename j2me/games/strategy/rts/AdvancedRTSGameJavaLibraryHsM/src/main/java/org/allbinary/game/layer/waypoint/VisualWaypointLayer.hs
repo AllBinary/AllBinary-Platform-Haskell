@@ -99,7 +99,7 @@ createHudPaintable_impl :: VisualWaypointLayer -> IO (SelectionHudPaintable.Sele
 createHudPaintable_impl this = do
         rtsLayerHudPaintable <- (WaypointInfoHudPaintableSingleton.getInstance)
         Control.Monad.void (WaypointInfoHudPaintable.setBasicColorP rtsLayerHudPaintable (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).base.base.base.base.base.allBinaryGameLayerManagerP)))))
-        Control.Monad.void (WaypointInfoHudPaintable.setRtsLayer rtsLayerHudPaintable this)
+        Control.Monad.void (WaypointInfoHudPaintable.setRtsLayer rtsLayerHudPaintable (javaCast this))
         pure ((javaCast rtsLayerHudPaintable :: SelectionHudPaintable.SelectionHudPaintable))
 
 

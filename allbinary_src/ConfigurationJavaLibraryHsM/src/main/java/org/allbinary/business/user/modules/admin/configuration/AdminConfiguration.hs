@@ -102,7 +102,7 @@ init_ :: AdminConfiguration -> IO ()
 init_ this = do
         initFields_ this
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
-        assignedValue <- (ContextConfigurationInterfaceFactory.getInstance ((jio (ContextConfigurationInterfaceFactory.getInstance))) (AdminConfigurationData.cONTEXTNAME))
+        assignedValue <- (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) (AdminConfigurationData.cONTEXTNAME))
         jset (this).contextConfigurationInterface (assignedValue)
         pure ()
 

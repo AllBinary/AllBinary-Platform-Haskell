@@ -166,7 +166,7 @@ getCanvasImage_impl :: AllBinaryAndroidImageRotationAnimationFactory -> IO (Imag
 getCanvasImage_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
-        if ((jget (this).resizeCanvasForRotation) && (Prelude.not (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) then do
+        if ((jget (this).resizeCanvasForRotation) && (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))))) then do
             javaReturn =<< (ImageCopyUtil.createImageScale ((jio (ImageCopyUtil.getInstance))) (jio (BaseImageAnimationFactory.getImage this)) (1.44) False)
         else do
             javaReturn =<< (BaseImageAnimationFactory.getImage this)
@@ -186,7 +186,7 @@ getInstance_impl this instanceId = do
         scaledImage <- (AnimationFactoryImageScaleUtil.createImage ((jget (this).base.animationFactoryImageScaleUtil)) canvasImage (jget ((jget (this).base.animationFactoryInitializationVisitor)).width) (jget ((jget (this).base.animationFactoryInitializationVisitor)).height) (jget ((jget (this).base.scaleProperties)).scaleWidth) (jget ((jget (this).base.scaleProperties)).scaleHeight))
         copyOfScaledImage <- (ImageCopyUtil.createImage ((jio (ImageCopyUtil.getInstance))) scaledImage)
         if (((jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) /= 0) || ((jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) /= 0)) then do
-            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) this)
+            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) (javaCast this))
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AllBinaryAdjustedAndroidImageRotationAnimation.new_7 scaledImage copyOfScaledImage (jio (AngleInfo.getInstance (jget (this).angleIncrement))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget this.base.animationBehaviorFactory))))))
         else do
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AllBinaryFlickerAndroidImageRotationAnimation.new_5 scaledImage copyOfScaledImage (jio (AngleInfo.getInstance (jget (this).angleIncrement))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))

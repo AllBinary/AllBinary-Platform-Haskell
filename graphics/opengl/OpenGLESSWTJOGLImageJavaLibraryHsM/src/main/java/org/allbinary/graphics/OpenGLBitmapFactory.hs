@@ -4,7 +4,7 @@
 -- package org.allbinary.graphics
 module OpenGLBitmapFactory (module OpenGLBitmapFactory, module PlatformBitmapBaseFactory) where
 
-import PlatformBitmapBaseFactory hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, createBitmap, createBitmap_super, createBitmap_impl, decodeStream, decodeStream_super, decodeStream_impl, createBitmap, createBitmap_super, createBitmap_impl, instance_, aRGB_8888)
+import PlatformBitmapBaseFactory hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, createBitmap, createBitmap_super, createBitmap_impl, decodeStream, decodeStream_super, decodeStream_impl, createBitmap_1, createBitmap_1_super, createBitmap_1_impl, createBitmap, instance_, aRGB_8888)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -60,7 +60,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "createBitmap" (\() -> createBitmap_impl this)
     jregisterMethod header_ "decodeStream" (\() -> decodeStream_impl this)
-    jregisterMethod header_ "createBitmap" (\() -> createBitmap_impl this)
+    jregisterMethod header_ "createBitmap_1" (\() -> createBitmap_1_impl this)
     pure this
 
 initFields_ :: OpenGLBitmapFactory -> IO ()
@@ -105,19 +105,18 @@ decodeStream_super object_ a1 = (decodeStream_impl (javaCast object_ :: OpenGLBi
 
 decodeStream_impl :: OpenGLBitmapFactory -> InputStream.InputStream -> IO (OpenGLBitmap.OpenGLBitmap)
 decodeStream_impl this inputStream = do
-        (OpenGLBitmap.new_1 (jio (ImageFactory.createImageFromInputStream ((jio (ImageFactory.getInstance))) inputStream)))
+        (OpenGLBitmap.new_1 (jio (ImageFactory.createImageFromInputStream_1 ((jio (ImageFactory.getInstance))) inputStream)))
 
 
--- Java overload of createBitmap with a different parameter count: give it a different name
-createBitmap :: (JavaObjectClass this_) => this_ -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
-createBitmap object_ a1 = jmethod object_ "createBitmap" (\() -> (createBitmap_impl (javaCast object_ :: OpenGLBitmapFactory))) () a1
+createBitmap_1 :: (JavaObjectClass this_) => this_ -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
+createBitmap_1 object_ a1 = jmethod object_ "createBitmap_1" (\() -> (createBitmap_1_impl (javaCast object_ :: OpenGLBitmapFactory))) () a1
 
-createBitmap_super :: (JavaObjectClass this_) => this_ -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
-createBitmap_super object_ a1 = (createBitmap_impl (javaCast object_ :: OpenGLBitmapFactory)) a1
+createBitmap_1_super :: (JavaObjectClass this_) => this_ -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
+createBitmap_1_super object_ a1 = (createBitmap_1_impl (javaCast object_ :: OpenGLBitmapFactory)) a1
 
-createBitmap_impl :: OpenGLBitmapFactory -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
-createBitmap_impl this image = do
-        (OpenGLBitmap.new_1 image)
+createBitmap_1_impl :: OpenGLBitmapFactory -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
+createBitmap_1_impl this image = do
+        (fmap (\value_ -> javaCast value_ :: PlatformBitmapBase.PlatformBitmapBase) (OpenGLBitmap.new_1 image))
 
 -- Java nested class Config: move it to its own module Config
 

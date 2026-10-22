@@ -174,7 +174,7 @@ run_impl this = do
             Control.Monad.void (TimeDelayHelper.setStartTimeTNT timeHelper)
             let capturedImageWorkerResultsEvent = ((javaCast (jio (BasicArrayList.get ((jget (this).capturedImageWorkerResultsEventVector)) 0)) :: CapturedImageWorkerResultsEvent.CapturedImageWorkerResultsEvent))
             screenBufferedImage <- (CapturedImageWorkerResultsEvent.getBufferedImage capturedImageWorkerResultsEvent)
-            Control.Monad.void (CapturedImageInputOutput.save ((jio (CapturedImageInputOutput.new_))) screenBufferedImage (jio (CapturedImageWorkerResultsEvent.getFrame capturedImageWorkerResultsEvent)))
+            Control.Monad.void (CapturedImageInputOutput.save_2 ((jio (CapturedImageInputOutput.new_))) screenBufferedImage (jio (CapturedImageWorkerResultsEvent.getFrame capturedImageWorkerResultsEvent)))
             Control.Monad.void (BasicArrayList.remove ((jget (this).capturedImageWorkerResultsEventVector)) capturedImageWorkerResultsEvent)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (SaveCapturedImageWorker.setRunning this False)

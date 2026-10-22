@@ -135,7 +135,7 @@ init_1 this fileName = do
             length <- (FileInputStream.read idFile bytes)
             data_ <- (jnewString bytes)
             let endIndex = (jstringLastIndexOf data_ '>')
-            document <- (DomDocumentHelper.create (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
+            document <- (DomDocumentHelper.create_1 (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
             nodeList <- (Document.getElementsByTagName document (jget GenericProfilesData.nAME))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Number Of Profiles Specified: " ++ javaToString (jio (NodeList.getLength nodeList))) this "Contructor")
             if (nodeList /= javaNull) then do

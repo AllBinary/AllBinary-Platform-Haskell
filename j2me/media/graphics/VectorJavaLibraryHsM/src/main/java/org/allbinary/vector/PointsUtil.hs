@@ -62,7 +62,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "adjustXY" (\() -> adjustXY_impl this)
     jregisterMethod header_ "adjust" (\() -> adjust_impl this)
-    jregisterMethod header_ "adjust" (\() -> adjust_impl this)
+    jregisterMethod header_ "adjust_3" (\() -> adjust_3_impl this)
     pure this
 
 initFields_ :: PointsUtil -> IO ()
@@ -116,18 +116,17 @@ adjust_super object_ a1 a2 = (adjust_impl (javaCast object_ :: PointsUtil)) a1 a
 
 adjust_impl :: PointsUtil -> JavaArray (JavaArray (Int)) -> Int -> IO (JavaArray (JavaArray (Int)))
 adjust_impl this points both = do
-        (PointsUtil.adjust this points both both)
+        (PointsUtil.adjust_3 this points both both)
 
 
--- Java overload of adjust with a different parameter count: give it a different name
-adjust :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
-adjust object_ a1 a2 a3 = jmethod object_ "adjust" (\() -> (adjust_impl (javaCast object_ :: PointsUtil))) () a1 a2 a3
+adjust_3 :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
+adjust_3 object_ a1 a2 a3 = jmethod object_ "adjust_3" (\() -> (adjust_3_impl (javaCast object_ :: PointsUtil))) () a1 a2 a3
 
-adjust_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
-adjust_super object_ a1 a2 a3 = (adjust_impl (javaCast object_ :: PointsUtil)) a1 a2 a3
+adjust_3_super :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
+adjust_3_super object_ a1 a2 a3 = (adjust_3_impl (javaCast object_ :: PointsUtil)) a1 a2 a3
 
-adjust_impl :: PointsUtil -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
-adjust_impl this points x y = do
+adjust_3_impl :: PointsUtil -> JavaArray (JavaArray (Int)) -> Int -> Int -> IO (JavaArray (JavaArray (Int)))
+adjust_3_impl this points x y = do
         let newPoints = (jnewArray2 ((jlength points)) (2) 0)
         forM_ [0 .. (jlength points) - 1] $ \index2 -> javaIteration (pure ()) $ do
             if ((jindex ((jindex points (index2))) (0)) /= 1000) then do

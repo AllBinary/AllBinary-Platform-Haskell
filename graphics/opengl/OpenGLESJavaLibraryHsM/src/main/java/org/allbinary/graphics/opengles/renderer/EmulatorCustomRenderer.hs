@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified RendererStrings -- same package or java.lang
+import qualified Thread -- same package or java.lang
 import qualified EGLConfig -- javax.microedition.khronos.egl.EGLConfig
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
 import qualified InitEmulatorFactory -- org.allbinary.emulator.InitEmulatorFactory

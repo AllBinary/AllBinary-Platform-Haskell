@@ -111,14 +111,13 @@ getInstance_overload2 :: UserRole.UserRole -> IO (UserConfigurationInterface.Use
 getInstance_overload2 userRole = do
         abPath <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).uSERCONFIGURATIONPATH)) (((javaToString UserConfigurationInterfaceFactory.configurationName ++ (jio (UserRole.toString userRole))) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString UserConfigurationData.uNCRYPTED_EXTENSION))
         documentString <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (UserConfigurationData.uNCRYPTED_EXTENSION) (UserConfigurationData.eNCRYPTED_EXTENSION)))) abPath)
-        document <- (DomDocumentHelper.create documentString)
+        document <- (DomDocumentHelper.create_1 documentString)
         (UserConfigurationInterfaceFactory.getInstance document)
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: IO (UserConfigurationInterface.UserConfigurationInterface)
-getInstance = do
+getInstance_0 :: IO (UserConfigurationInterface.UserConfigurationInterface)
+getInstance_0 = do
         (fmap (\value_ -> javaCast value_ :: UserConfigurationInterface.UserConfigurationInterface) (UserConfiguration.new_))
 
 

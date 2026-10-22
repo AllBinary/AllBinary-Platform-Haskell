@@ -162,10 +162,10 @@ initKeyMapping_super object_ a1 a2 = (initKeyMapping_impl (javaCast object_ :: B
 
 initKeyMapping_impl :: BaseGameInitialization -> AbeClientInformationInterface.AbeClientInformationInterface -> Int -> IO (())
 initKeyMapping_impl this abeClientInformation portion = do
-        when (jio (ChangedGameFeatureListener.isChangedFeature ((jio (ChangedGameFeatureListener.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING))) $ do
+        when (jio (ChangedGameFeatureListener.isChangedFeature ((jio (ChangedGameFeatureListener.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING)))) $ do
             Control.Monad.void (PlatformInputMappingFactory.init ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))) abeClientInformation)
             Control.Monad.void (ProgressCanvas.addNormalPortion ((jio (ProgressCanvasFactory.getInstance))) 50 "Game Keys")
-            Control.Monad.void (ChangedGameFeatureListener.remove ((jio (ChangedGameFeatureListener.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING))
+            Control.Monad.void (ChangedGameFeatureListener.remove ((jio (ChangedGameFeatureListener.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING)))
         pure ()
 
 

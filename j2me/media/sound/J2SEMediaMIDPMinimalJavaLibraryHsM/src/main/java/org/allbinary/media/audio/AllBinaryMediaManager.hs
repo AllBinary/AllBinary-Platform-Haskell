@@ -141,8 +141,8 @@ createPlayer :: String -> IO (Player.Player)
 createPlayer resource = do
     javaCatchReturn $ do
         if (Data.List.isPrefixOf (Manager.tONE_DEVICE_LOCATOR) resource) then do
-            javaReturn =<< (AllBinaryMediaManager.createPlayerFromInputStream (jio (ByteArrayInputStream.new_1 (jget ((jio (NullUtil.getInstance))).nULL_BYTE_ARRAY))) (jio (AudioContentTypeData.getName ((jget ((jio (AudioContentTypeDataFactory.getInstance))).mIME_AUDIO_TONE)))))
-        else if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).sOUND))) then do
+            javaReturn =<< (AllBinaryMediaManager.createPlayerFromInputStream (javaCast (jio (ByteArrayInputStream.new_1 (jget ((jio (NullUtil.getInstance))).nULL_BYTE_ARRAY)))) (jio (AudioContentTypeData.getName ((jget ((jio (AudioContentTypeDataFactory.getInstance))).mIME_AUDIO_TONE)))))
+        else if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).sOUND)))) then do
             handle (\(e :: JavaException) -> do
                 logUtil <- (LogUtil.getInstance)
                 commonString <- (CommonStrings.getInstance)

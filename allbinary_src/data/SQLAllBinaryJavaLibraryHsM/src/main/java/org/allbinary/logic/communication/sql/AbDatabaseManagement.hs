@@ -8,7 +8,7 @@
 -- package org.allbinary.logic.communication.sql
 module AbDatabaseManagement (module AbDatabaseManagement, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getHostName, getHostName_super, getHostName_impl, addDbUser, addDbUser_super, addDbUser_impl, addDbUser, addDbUser_super, addDbUser_impl, addDb, addDb_super, addDb_impl, logUtil, commonStrings, sqlCommandLog, gRANT_ALL, dOT_STAR, tO, aT_LOCALHOST, iDENTIFIED_BY, wITH_GRANT_OPTION, fAILED, gET_HOST_NAME, mETHOD_ADD_USER, mETHOD_ADD_USERS, mETHOD_ADD_DB, mETHOD_ADD_DATABASES, mETHOD_ADD_TABLES, uNABLE_TO_CREATE_USER, uNABLE_TO_CREATE_DATABASE, uNABLE_TO_CREATE_TABLES, aDD_TABLES_RESULTS_LABEL)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getHostName, getHostName_super, getHostName_impl, addDbUser, addDbUser_super, addDbUser_impl, addDbUser_3, addDbUser_3_super, addDbUser_3_impl, addDbUser, addDb, addDb_super, addDb_impl, logUtil, commonStrings, sqlCommandLog, gRANT_ALL, dOT_STAR, tO, aT_LOCALHOST, iDENTIFIED_BY, wITH_GRANT_OPTION, fAILED, gET_HOST_NAME, mETHOD_ADD_USER, mETHOD_ADD_USERS, mETHOD_ADD_DB, mETHOD_ADD_DATABASES, mETHOD_ADD_TABLES, uNABLE_TO_CREATE_USER, uNABLE_TO_CREATE_DATABASE, uNABLE_TO_CREATE_TABLES, aDD_TABLES_RESULTS_LABEL)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -100,7 +100,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "getHostName" (\() -> getHostName_impl this)
     jregisterMethod header_ "addDbUser" (\() -> addDbUser_impl this)
-    jregisterMethod header_ "addDbUser" (\() -> addDbUser_impl this)
+    jregisterMethod header_ "addDbUser_3" (\() -> addDbUser_3_impl this)
     jregisterMethod header_ "addDb" (\() -> addDb_impl this)
     pure this
 
@@ -198,15 +198,14 @@ addDbUser_impl this hostName db userName password = do
         pure (True)
 
 
--- Java overload of addDbUser with a different parameter count: give it a different name
-addDbUser :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (Bool)
-addDbUser object_ a1 a2 a3 = jmethod object_ "addDbUser" (\() -> (addDbUser_impl (javaCast object_ :: AbDatabaseManagement))) () a1 a2 a3
+addDbUser_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (Bool)
+addDbUser_3 object_ a1 a2 a3 = jmethod object_ "addDbUser_3" (\() -> (addDbUser_3_impl (javaCast object_ :: AbDatabaseManagement))) () a1 a2 a3
 
-addDbUser_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (Bool)
-addDbUser_super object_ a1 a2 a3 = (addDbUser_impl (javaCast object_ :: AbDatabaseManagement)) a1 a2 a3
+addDbUser_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (Bool)
+addDbUser_3_super object_ a1 a2 a3 = (addDbUser_3_impl (javaCast object_ :: AbDatabaseManagement)) a1 a2 a3
 
-addDbUser_impl :: AbDatabaseManagement -> String -> String -> String -> IO (Bool)
-addDbUser_impl this db userName password = do
+addDbUser_3_impl :: AbDatabaseManagement -> String -> String -> String -> IO (Bool)
+addDbUser_3_impl this db userName password = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).uNABLE_TO_CREATE_USER) ++ userName) this (jget (this).mETHOD_ADD_USER) e)
             pure (False)

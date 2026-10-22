@@ -260,7 +260,7 @@ init_ this = do
         Control.Monad.void (JTextField.setText ((jio (ImageToolJFrame.getMinBlueJTextField this))) (jget (commonPhoneStrings).zERO))
         assignedValue <- (FileJDialog.new_)
         jset (this).fileJDialog (assignedValue)
-        Control.Monad.void (FileJDialog.addFinishedListener ((jget (this).fileJDialog)) this)
+        Control.Monad.void (FileJDialog.addFinishedListener ((jget (this).fileJDialog)) (javaCast this))
         pure ()
 
 

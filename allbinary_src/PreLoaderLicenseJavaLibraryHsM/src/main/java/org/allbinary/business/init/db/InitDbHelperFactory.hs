@@ -91,15 +91,14 @@ getInstance abeClientInformation databaseConnectionInfoInterface = do
         let classes = (jnewArray (1) javaNull)
         jsetIndex classes (0) ("DatabaseConnectionInfoInterface")
         jsetIndex params (0) ((jtoObject (javaCast databaseConnectionInfoInterface :: Any.Any)))
-        anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation cLASSNAME classes params)
+        anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation cLASSNAME classes params)
         pure ((jtoObject anyType))
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
-getInstance abeClientInformation = do
-        anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation cLASSNAME javaNull javaNull)
+getInstance_1 :: AbeClientInformationInterface.AbeClientInformationInterface -> IO (Any.Any)
+getInstance_1 abeClientInformation = do
+        anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation cLASSNAME javaNull javaNull)
         pure ((jtoObject anyType))
 
 

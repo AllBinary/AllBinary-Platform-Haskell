@@ -116,7 +116,7 @@ updateMeasurement_impl this graphics = do
         font <- (Graphics.getFont graphics)
         displayInfo <- (DisplayInfoSingleton.getInstance)
         features <- (Features.getInstance)
-        isOpenGL <- (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))
+        isOpenGL <- (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
         let tOTAL_CHAR_WIDTH = (if ((jio (SWTJOGLProcessor.isJOGL ((jio (SWTJOGLProcessor.getInstance))))) && isOpenGL) then 2 else 3)
         width <- (MyFontProcessor.defaultStringWidth font tOTAL_CHAR_WIDTH)
         pointFactory <- (PointFactory.getInstance)

@@ -151,7 +151,7 @@ createImageForRotation_super object_ a1 = (createImageForRotation_impl (javaCast
 createImageForRotation_impl :: ImageCopyUtil -> Image.Image -> IO (Image.Image)
 createImageForRotation_impl this originalImage = do
     javaCatchReturn $ do
-        if (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL))) then do
+        if (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) then do
             image <- newIORef (originalImage)
             assignedValue <- (OpenGLUtil.addImage ((jget (this).openGLUtil)) (jget image))
             jset image (assignedValue)
@@ -174,7 +174,7 @@ createImage_impl this originalImage = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).nO_COPY) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
             javaReturn (originalImage)
         originalImage2 <- newIORef (originalImage)
-        when (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL))) $ do
+        when (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) $ do
             when ((jio (Image.getType originalImage)) >= OpenGLESImage.tYPE) $ do
                 let openGLESImage = ((javaCast originalImage :: OpenGLESImage.OpenGLESImage))
                 assignedValue <- (PlatformBitmapBase.getImage ((jget (openGLESImage).openGLBitmap)))
@@ -207,7 +207,7 @@ createImageWH_impl this originalImage width height mutable = do
         when (Prelude.not (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).gameFeatureFactory)).pOST_IMAGE_LOADING_MODIFICATION)))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).nO_COPY) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
             javaReturn (originalImage)
-        when (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL))) $ do
+        when (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) $ do
             when (jio (OpenGLESImageExclusionUtil.isCustomScaling ((jget (this).openGLESImageExclusionUtil)) originalImage)) $ do
                 javaReturn =<< (ImageCopyUtil.createImage2 this originalImage width height mutable)
             when ((jio (Image.getType originalImage)) >= OpenGLESImage.tYPE) $ do
@@ -260,7 +260,7 @@ createImage2_impl this originalImage width height mutable = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).nO_COPY) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
             javaReturn (originalImage)
         image <- newIORef (javaNull)
-        if (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL))) then do
+        if (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) then do
             displayInfoSingleton <- (DisplayInfoSingleton.getInstance)
             if ((jio (Image.getType originalImage)) >= OpenGLESImage.tYPE) then do
                 let openGLESImage = ((javaCast originalImage :: OpenGLESImage.OpenGLESImage))

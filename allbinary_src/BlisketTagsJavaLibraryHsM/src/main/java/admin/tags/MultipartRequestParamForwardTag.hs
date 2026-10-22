@@ -151,7 +151,7 @@ doStartTag_impl this = do
             pure (Tag.sKIP_BODY)
             ) $ do
             let parentTag = (javaCast (jio (CustomTagSupport.getParent this)) :: HelperTag.HelperTag)
-            Control.Monad.void (ParentInventoryTagHelper.isValid ((jio (ParentInventoryTagHelper.getInstance))) this parentTag)
+            Control.Monad.void (ParentInventoryTagHelper.isValid ((jio (ParentInventoryTagHelper.getInstance))) this (javaCast parentTag))
             hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put hashMap (AbTagData.pARENT) parentTag)
             multipartRequestParamForwardHelper <- (MultipartRequestParamForwardHelper.new_5 parentTag (jget (this).page) (jget (this).command) (jget (this).paramVector) (jget (this).base.pageContext))

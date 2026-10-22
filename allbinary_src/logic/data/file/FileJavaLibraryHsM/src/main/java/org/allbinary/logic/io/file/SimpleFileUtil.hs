@@ -180,13 +180,13 @@ loadFileAsListReturnLine_impl this inputStream max byteArray1 includeReturnLine 
             javaReturn (stringList)
         byteArray <- newIORef ((jget ((jget (this).nullUtil)).nULL_BYTE_ARRAY))
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) inputStream)
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast inputStream))
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).aDD) e)
             ) $ do
             outputStream2 <- (ByteArrayOutputStream.new_1 max)
             assignedValue <- (StreamUtil.getByteArray ((jget (this).streamUtil)) inputStream outputStream2 byteArray1)
             jset byteArray (assignedValue)
-            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) inputStream)
+            Control.Monad.void (StreamUtil.close ((jget (this).streamUtil)) (javaCast inputStream))
         when ((jget byteArray) == javaNull) $ do
             javaReturn (stringList)
         let size = (jlength (jget byteArray))

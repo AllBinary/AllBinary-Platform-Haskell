@@ -108,7 +108,7 @@ new_2 hashMap pageContext = do
 init_2 :: ViewHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
 init_2 this hashMap pageContext = do
         initFields_ this
-        assignedValue <- (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
+        assignedValue <- (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
         jset (this).componentInterface (assignedValue)
         pure ()
 

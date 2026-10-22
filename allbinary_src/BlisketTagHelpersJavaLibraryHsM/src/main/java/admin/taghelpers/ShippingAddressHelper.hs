@@ -202,7 +202,7 @@ restore_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (jio (ShippingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))) (jget this.portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (ShippingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))) (jget this.portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -223,7 +223,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Backup Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (ShippingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (ShippingAddressesEntity.new_1 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)
@@ -244,7 +244,7 @@ insert_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Added Shipping Address"
-            Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
+            Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "insert")
             pure (success)
@@ -265,7 +265,7 @@ update_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Updated Shipping Address"
-            Control.Monad.void (ShippingAddressesEntityFactory.update ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
+            Control.Monad.void (ShippingAddressesEntityFactory.update ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jget (this).streetAddress))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Successfull update of a Users Shipping Address table" this "update()")
             pure (success)
@@ -286,9 +286,9 @@ setToBillingAddress_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "setToBillingAddress()" e)
             pure (error)
             ) $ do
-            streetAddress <- (BillingAddressesEntityFactory.getDefault ((jio (BillingAddressesEntityFactory.getInstance ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))))
+            streetAddress <- (BillingAddressesEntityFactory.getDefault ((jio (BillingAddressesEntityFactory.getInstance_1 ((jio (BillingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))))
             if (streetAddress /= javaNull) then do
-                Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) streetAddress)
+                Control.Monad.void (ShippingAddressesEntityFactory.add ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) streetAddress)
             else do
                 javaReturn ("No Billing Address")
             pure ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
@@ -309,7 +309,7 @@ delete_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Removed Shipping Address"
-            Control.Monad.void (ShippingAddressesEntityFactory.remove ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (Prelude.fromIntegral ((jio (StreetAddress.getId ((jget (this).streetAddress))))) :: Int))
+            Control.Monad.void (ShippingAddressesEntityFactory.remove ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (Prelude.fromIntegral ((jio (StreetAddress.getId ((jget (this).streetAddress))))) :: Int))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "remove()")
             pure (success)
@@ -330,7 +330,7 @@ set_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Set Shipping Address"
-            Control.Monad.void (ShippingAddressesEntityFactory.setDefault ((jio (ShippingAddressesEntityFactory.getInstance ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jio (StreetAddress.getId ((jget (this).streetAddress)))))
+            Control.Monad.void (ShippingAddressesEntityFactory.setDefault ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jio (StreetAddress.getId ((jget (this).streetAddress)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "set()")
             pure (success)

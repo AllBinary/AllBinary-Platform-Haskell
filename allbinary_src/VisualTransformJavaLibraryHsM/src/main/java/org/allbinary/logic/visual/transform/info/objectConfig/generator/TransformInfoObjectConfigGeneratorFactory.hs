@@ -72,7 +72,7 @@ newRecord_ = do
     let this = TransformInfoObjectConfigGeneratorFactory header_ logUtil
     jregisterLevel header_ this
     TransformInfoObjectConfigGeneratorFactoryInterface.registerInterface_ header_
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: TransformInfoObjectConfigGeneratorFactory -> IO ()
@@ -99,15 +99,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigGeneratorFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: TransformInfoObjectConfigGeneratorFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: TransformInfoObjectConfigGeneratorFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: TransformInfoObjectConfigGeneratorFactory)) a1
 
-getInstance_impl :: TransformInfoObjectConfigGeneratorFactory -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
-getInstance_impl this transformInfoInterface = do
+getInstance_1_impl :: TransformInfoObjectConfigGeneratorFactory -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
+getInstance_1_impl this transformInfoInterface = do
     javaCatchReturn $ do
         let type_ = (javaCast (jio (TransformInfoInterface.getOutputTypeName ((jio (TransformInfoInterface.getObjectConfigInterface transformInfoInterface))))) :: String)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do

@@ -203,7 +203,7 @@ initDefault_impl this storeName = do
             Control.Monad.void (StringMaker.append stringBuffer (jget (this).pAYMENTGATEWAYFILEPATHSTRING))
             let abPath = (javaCast (jio (AbPath.new_2 (jio (StringMaker.toString stringBuffer)) (jget (this).sHIPPINGMETHODSFILENAME))) :: AbPath.AbPath)
             data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) abPath)
-            document <- (DomDocumentHelper.create data_)
+            document <- (DomDocumentHelper.create_1 data_)
             nodeList <- (Document.getElementsByTagName document (jget PaymentGatewaysData.nAME))
             forM_ [0 .. (jio (NodeList.getLength nodeList)) - 1] $ \index -> javaIteration (pure ()) $ do
                 node <- (NodeList.item nodeList index)

@@ -74,7 +74,7 @@ newRecord_ = do
     hardwareInterface <- newIORef javaNull
     let this = SystemHardwareFactory header_ logUtil commonStrings hardwareInterface
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: SystemHardwareFactory -> IO ()
@@ -102,20 +102,19 @@ init_ this = do
         pure ()
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: SystemHardwareFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: SystemHardwareFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: SystemHardwareFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: SystemHardwareFactory)) a1
 
-getInstance_impl :: SystemHardwareFactory -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance_impl this operatingSystemInterface = do
+getInstance_1_impl :: SystemHardwareFactory -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_impl this operatingSystemInterface = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).cONSTRUCTOR) e)
             ) $ do
             when ((jget (this).hardwareInterface) == (jio (NoHardware.getInstance))) $ do
-                assignedValue <- (HardwareFactory.getInstance ((jio (HardwareFactory.getInstance))) operatingSystemInterface)
+                assignedValue <- (HardwareFactory.getInstance_1 ((jio (HardwareFactory.getInstance))) (javaCast operatingSystemInterface))
                 jset (this).hardwareInterface (assignedValue)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Found Hardware" this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ((jget (this).hardwareInterface))

@@ -85,14 +85,13 @@ remove_impl this anyTypeObject_ = javaAbstractMethod "remove"
 
 
 -- throws Exception
--- Java overload of remove with a different parameter count: give it a different name
-remove :: (JavaObjectClass this_) => this_ -> IO (Any.Any)
-remove object_ = jmethod object_ "remove" (\() -> (remove_impl (javaCast object_ :: QueueInterface))) ()
+remove_0 :: (JavaObjectClass this_) => this_ -> IO (Any.Any)
+remove_0 object_ = jmethod object_ "remove_0" (\() -> (remove_0_impl (javaCast object_ :: QueueInterface))) ()
 
-remove_super :: (JavaObjectClass this_) => this_ -> IO (Any.Any)
-remove_super object_ = (remove_impl (javaCast object_ :: QueueInterface))
+remove_0_super :: (JavaObjectClass this_) => this_ -> IO (Any.Any)
+remove_0_super object_ = (remove_0_impl (javaCast object_ :: QueueInterface))
 
-remove_impl :: QueueInterface -> IO (Any.Any)
-remove_impl this = javaAbstractMethod "remove"
+remove_0_impl :: QueueInterface -> IO (Any.Any)
+remove_0_impl this = javaAbstractMethod "remove"
 
 

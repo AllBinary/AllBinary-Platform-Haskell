@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.communication.sql
 module AbSqlRow (module AbSqlRow, module AbSqlColumn) where
 
-import AbSqlColumn hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getValue, getValue_super, getValue_impl, updateWhere, updateWhere_super, updateWhere_impl, updateWhere, updateWhere_super, updateWhere_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, insert, insert_super, insert_impl, getRow, getRow_super, getRow_impl, getRows, getRows_super, getRows_impl, getRows, getRows_super, getRows_impl, getAllRows, getAllRows_super, getAllRows_impl, getRowsWhereBetween, getRowsWhereBetween_super, getRowsWhereBetween_impl, getRowsWhereBetween, getRowsWhereBetween_super, getRowsWhereBetween_impl, logUtil, eQUAL_QUOTE, eSCAPE_QUOTES, gET_ROW, mETHOD_GET_ROW, mETHOD_GET_ROWS, mETHOD_GET_ALL_ROWS, mETHOD_UPDATE_WHERE, mETHOD_GET_ROWS_WHERE_BETWEEN, mETHOD_DELETE_WHERE, rOW_VALUE_LABEL, rOW_VALUES_LABEL, nO_RESULTS_IN_RESULT_SET, cOLUMN_NAME_LABEL, iNSERT_END)
+import AbSqlColumn hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getValue, getValue_super, getValue_impl, updateWhere, updateWhere_super, updateWhere_impl, updateWhere_2, updateWhere_2_super, updateWhere_2_impl, updateWhere, deleteWhere, deleteWhere_super, deleteWhere_impl, deleteWhere_1, deleteWhere_1_super, deleteWhere_1_impl, deleteWhere, insert, insert_super, insert_impl, getRow, getRow_super, getRow_impl, getRows, getRows_super, getRows_impl, getRows_2, getRows_2_super, getRows_2_impl, getRows, getAllRows, getAllRows_super, getAllRows_impl, getRowsWhereBetween, getRowsWhereBetween_super, getRowsWhereBetween_impl, getRowsWhereBetween_3, getRowsWhereBetween_3_super, getRowsWhereBetween_3_impl, getRowsWhereBetween, logUtil, eQUAL_QUOTE, eSCAPE_QUOTES, gET_ROW, mETHOD_GET_ROW, mETHOD_GET_ROWS, mETHOD_GET_ALL_ROWS, mETHOD_UPDATE_WHERE, mETHOD_GET_ROWS_WHERE_BETWEEN, mETHOD_DELETE_WHERE, rOW_VALUE_LABEL, rOW_VALUES_LABEL, nO_RESULTS_IN_RESULT_SET, cOLUMN_NAME_LABEL, iNSERT_END)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -106,16 +106,16 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "getValue" (\() -> getValue_impl this)
     jregisterMethod header_ "updateWhere" (\() -> updateWhere_impl this)
-    jregisterMethod header_ "updateWhere" (\() -> updateWhere_impl this)
+    jregisterMethod header_ "updateWhere_2" (\() -> updateWhere_2_impl this)
     jregisterMethod header_ "deleteWhere" (\() -> deleteWhere_impl this)
-    jregisterMethod header_ "deleteWhere" (\() -> deleteWhere_impl this)
+    jregisterMethod header_ "deleteWhere_1" (\() -> deleteWhere_1_impl this)
     jregisterMethod header_ "insert" (\() -> insert_impl this)
     jregisterMethod header_ "getRow" (\() -> getRow_impl this)
     jregisterMethod header_ "getRows" (\() -> getRows_impl this)
-    jregisterMethod header_ "getRows" (\() -> getRows_impl this)
+    jregisterMethod header_ "getRows_2" (\() -> getRows_2_impl this)
     jregisterMethod header_ "getAllRows" (\() -> getAllRows_impl this)
     jregisterMethod header_ "getRowsWhereBetween" (\() -> getRowsWhereBetween_impl this)
-    jregisterMethod header_ "getRowsWhereBetween" (\() -> getRowsWhereBetween_impl this)
+    jregisterMethod header_ "getRowsWhereBetween_3" (\() -> getRowsWhereBetween_3_impl this)
     pure this
 
 initFields_ :: AbSqlRow -> IO ()
@@ -212,15 +212,14 @@ updateWhere_impl this key value updatedKeyValuePairs = do
 
 
 -- throws Exception
--- Java overload of updateWhere with a different parameter count: give it a different name
-updateWhere :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> IO (())
-updateWhere object_ a1 a2 = jmethod object_ "updateWhere" (\() -> (updateWhere_impl (javaCast object_ :: AbSqlRow))) () a1 a2
+updateWhere_2 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> IO (())
+updateWhere_2 object_ a1 a2 = jmethod object_ "updateWhere_2" (\() -> (updateWhere_2_impl (javaCast object_ :: AbSqlRow))) () a1 a2
 
-updateWhere_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> IO (())
-updateWhere_super object_ a1 a2 = (updateWhere_impl (javaCast object_ :: AbSqlRow)) a1 a2
+updateWhere_2_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> HashMap.HashMap -> IO (())
+updateWhere_2_super object_ a1 a2 = (updateWhere_2_impl (javaCast object_ :: AbSqlRow)) a1 a2
 
-updateWhere_impl :: AbSqlRow -> HashMap.HashMap -> HashMap.HashMap -> IO (())
-updateWhere_impl this whereKeyValuePairs updatedKeyValuePairs = do
+updateWhere_2_impl :: AbSqlRow -> HashMap.HashMap -> HashMap.HashMap -> IO (())
+updateWhere_2_impl this whereKeyValuePairs updatedKeyValuePairs = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).uPDATE))
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))
@@ -298,15 +297,14 @@ deleteWhere_impl this key value = do
         pure ()
 
 
--- Java overload of deleteWhere with a different parameter count: give it a different name
-deleteWhere :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-deleteWhere object_ a1 = jmethod object_ "deleteWhere" (\() -> (deleteWhere_impl (javaCast object_ :: AbSqlRow))) () a1
+deleteWhere_1 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+deleteWhere_1 object_ a1 = jmethod object_ "deleteWhere_1" (\() -> (deleteWhere_1_impl (javaCast object_ :: AbSqlRow))) () a1
 
-deleteWhere_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-deleteWhere_super object_ a1 = (deleteWhere_impl (javaCast object_ :: AbSqlRow)) a1
+deleteWhere_1_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+deleteWhere_1_super object_ a1 = (deleteWhere_1_impl (javaCast object_ :: AbSqlRow)) a1
 
-deleteWhere_impl :: AbSqlRow -> HashMap.HashMap -> IO (())
-deleteWhere_impl this keysAndValues = do
+deleteWhere_1_impl :: AbSqlRow -> HashMap.HashMap -> IO (())
+deleteWhere_1_impl this keysAndValues = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).dELETE))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).fROM))
@@ -429,18 +427,17 @@ getRows_super object_ a1 = (getRows_impl (javaCast object_ :: AbSqlRow)) a1
 
 getRows_impl :: AbSqlRow -> HashMap.HashMap -> IO (BasicArrayList.BasicArrayList)
 getRows_impl this keysAndValues = do
-        (AbSqlRow.getRows this keysAndValues (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        (AbSqlRow.getRows_2 this keysAndValues (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
 
 
--- Java overload of getRows with a different parameter count: give it a different name
-getRows :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
-getRows object_ a1 a2 = jmethod object_ "getRows" (\() -> (getRows_impl (javaCast object_ :: AbSqlRow))) () a1 a2
+getRows_2 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
+getRows_2 object_ a1 a2 = jmethod object_ "getRows_2" (\() -> (getRows_2_impl (javaCast object_ :: AbSqlRow))) () a1 a2
 
-getRows_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
-getRows_super object_ a1 a2 = (getRows_impl (javaCast object_ :: AbSqlRow)) a1 a2
+getRows_2_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
+getRows_2_super object_ a1 a2 = (getRows_2_impl (javaCast object_ :: AbSqlRow)) a1 a2
 
-getRows_impl :: AbSqlRow -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
-getRows_impl this keysAndValues more = do
+getRows_2_impl :: AbSqlRow -> HashMap.HashMap -> String -> IO (BasicArrayList.BasicArrayList)
+getRows_2_impl this keysAndValues more = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).sELECT_ALL_FROM))
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))
@@ -587,15 +584,14 @@ getRowsWhereBetween_impl this whereKeyValuePairs betweenColumn smallest largest 
             pure (rows)
 
 
--- Java overload of getRowsWhereBetween with a different parameter count: give it a different name
-getRowsWhereBetween :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getRowsWhereBetween object_ a1 a2 a3 = jmethod object_ "getRowsWhereBetween" (\() -> (getRowsWhereBetween_impl (javaCast object_ :: AbSqlRow))) () a1 a2 a3
+getRowsWhereBetween_3 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getRowsWhereBetween_3 object_ a1 a2 a3 = jmethod object_ "getRowsWhereBetween_3" (\() -> (getRowsWhereBetween_3_impl (javaCast object_ :: AbSqlRow))) () a1 a2 a3
 
-getRowsWhereBetween_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getRowsWhereBetween_super object_ a1 a2 a3 = (getRowsWhereBetween_impl (javaCast object_ :: AbSqlRow)) a1 a2 a3
+getRowsWhereBetween_3_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getRowsWhereBetween_3_super object_ a1 a2 a3 = (getRowsWhereBetween_3_impl (javaCast object_ :: AbSqlRow)) a1 a2 a3
 
-getRowsWhereBetween_impl :: AbSqlRow -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
-getRowsWhereBetween_impl this betweenColumn smallest largest = do
+getRowsWhereBetween_3_impl :: AbSqlRow -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
+getRowsWhereBetween_3_impl this betweenColumn smallest largest = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).sELECT_ALL_FROM))
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))

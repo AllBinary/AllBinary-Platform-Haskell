@@ -185,7 +185,7 @@ main args = do
         let oRIGINAL_DATA_LABEL = "Original Data: "
         Control.Monad.void (putStr (javaToString oRIGINAL_DATA_LABEL))
         Control.Monad.void (ObjectPermutationVisitor.visit permutationVisitor data_)
-        Control.Monad.void (OrderedObjectArrayPermutationUtil.generate ((jio (OrderedObjectArrayPermutationUtil.getInstance))) data_ permutationVisitor)
+        Control.Monad.void (OrderedObjectArrayPermutationUtil.generate ((jio (OrderedObjectArrayPermutationUtil.getInstance))) data_ (javaCast permutationVisitor))
         pure ()
 
 

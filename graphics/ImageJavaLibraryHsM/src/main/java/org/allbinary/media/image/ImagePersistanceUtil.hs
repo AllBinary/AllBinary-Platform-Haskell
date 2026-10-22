@@ -111,7 +111,7 @@ saveWithBatik_impl this file bufferedImage = do
         fileOutputStream <- (AbFileOutputStream.createFromAbFile file)
         flip finally (do
             Control.Monad.void (AbFileOutputStream.flush fileOutputStream)
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) fileOutputStream)
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast fileOutputStream))
             ) $ do
             Control.Monad.void (PNGImageWriter.writeImage batikPNGImageWriter bufferedImage fileOutputStream)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Wrote Image: " ++ javaToString (jio (AbFile.getAbsolutePath file))) this (jget ((jget (this).commonStrings)).sAVE))

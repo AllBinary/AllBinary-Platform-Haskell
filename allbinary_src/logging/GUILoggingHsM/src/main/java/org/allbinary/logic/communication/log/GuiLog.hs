@@ -78,9 +78,9 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "showDialog" (\() -> showDialog_impl this)
     jregisterMethod header_ "put_overload1" (\() -> put_overload1_impl this)
-    jregisterMethod header_ "put_overload1" (\() -> put_overload1_impl this)
+    jregisterMethod header_ "put_4_overload1" (\() -> put_4_overload1_impl this)
     jregisterMethod header_ "put_overload2" (\() -> put_overload2_impl this)
-    jregisterMethod header_ "put_overload2" (\() -> put_overload2_impl this)
+    jregisterMethod header_ "put_4_overload2" (\() -> put_4_overload2_impl this)
     pure this
 
 initFields_ :: GuiLog -> IO ()
@@ -148,24 +148,23 @@ put_overload1_super object_ a1 a2 a3 = (put_overload1_impl (javaCast object_ :: 
 put_overload1_impl :: GuiLog -> String -> JavaObject -> String -> IO (String)
 put_overload1_impl this specialMessage anyTypeObject_ functionName = do
         let anyType = jtoObject anyTypeObject_
-        (GuiLog.put this specialMessage anyType functionName javaNull)
+        (GuiLog.put_4 this specialMessage anyType functionName javaNull)
 
 
 -- Java overloads of put: calls the overload for the types of the arguments
-put :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
-put this a1 a2 a3 a4
-    | jisInstanceOf a2 (javaNull :: String) = put_overload2 this a1 (javaCast a2 :: String) a3 a4
-    | otherwise = put_overload1 this a1 a2 a3 a4
+put_4 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
+put_4 this a1 a2 a3 a4
+    | jisInstanceOf a2 (javaNull :: String) = put_4_overload2 this a1 (javaCast a2 :: String) a3 a4
+    | otherwise = put_4_overload1 this a1 a2 a3 a4
 
--- Java overload of put with a different parameter count: give it a different name
-put_overload1 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
-put_overload1 object_ a1 a2 a3 a4 = jmethod object_ "put_overload1" (\() -> (put_overload1_impl (javaCast object_ :: GuiLog))) () a1 (jtoObject a2) a3 a4
+put_4_overload1 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
+put_4_overload1 object_ a1 a2 a3 a4 = jmethod object_ "put_4_overload1" (\() -> (put_4_overload1_impl (javaCast object_ :: GuiLog))) () a1 (jtoObject a2) a3 a4
 
-put_overload1_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
-put_overload1_super object_ a1 a2 a3 a4 = (put_overload1_impl (javaCast object_ :: GuiLog)) a1 (jtoObject a2) a3 a4
+put_4_overload1_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> JavaException -> IO (String)
+put_4_overload1_super object_ a1 a2 a3 a4 = (put_4_overload1_impl (javaCast object_ :: GuiLog)) a1 (jtoObject a2) a3 a4
 
-put_overload1_impl :: GuiLog -> String -> JavaObject -> String -> JavaException -> IO (String)
-put_overload1_impl this specialMessage anyTypeObject_ functionName exception = do
+put_4_overload1_impl :: GuiLog -> String -> JavaObject -> String -> JavaException -> IO (String)
+put_4_overload1_impl this specialMessage anyTypeObject_ functionName exception = do
         let anyType = jtoObject anyTypeObject_
         handle (\(e :: JavaException) -> do
             Control.Monad.void (PreLogUtil.putOE (jget ((jget (this).commonStrings)).eXCEPTION) this "put" e)
@@ -177,7 +176,6 @@ put_overload1_impl this specialMessage anyTypeObject_ functionName exception = d
             pure (data_)
 
 
--- Java overload of put with a different parameter count: give it a different name
 put_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (String)
 put_overload2 object_ a1 a2 a3 = jmethod object_ "put_overload2" (\() -> (put_overload2_impl (javaCast object_ :: GuiLog))) () a1 a2 a3
 
@@ -186,18 +184,17 @@ put_overload2_super object_ a1 a2 a3 = (put_overload2_impl (javaCast object_ :: 
 
 put_overload2_impl :: GuiLog -> String -> String -> String -> IO (String)
 put_overload2_impl this specialMessage className functionName = do
-        (GuiLog.put this specialMessage className functionName javaNull)
+        (GuiLog.put_4 this specialMessage className functionName javaNull)
 
 
--- Java overload of put with a different parameter count: give it a different name
-put_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> JavaException -> IO (String)
-put_overload2 object_ a1 a2 a3 a4 = jmethod object_ "put_overload2" (\() -> (put_overload2_impl (javaCast object_ :: GuiLog))) () a1 a2 a3 a4
+put_4_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> JavaException -> IO (String)
+put_4_overload2 object_ a1 a2 a3 a4 = jmethod object_ "put_4_overload2" (\() -> (put_4_overload2_impl (javaCast object_ :: GuiLog))) () a1 a2 a3 a4
 
-put_overload2_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> JavaException -> IO (String)
-put_overload2_super object_ a1 a2 a3 a4 = (put_overload2_impl (javaCast object_ :: GuiLog)) a1 a2 a3 a4
+put_4_overload2_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> JavaException -> IO (String)
+put_4_overload2_super object_ a1 a2 a3 a4 = (put_4_overload2_impl (javaCast object_ :: GuiLog)) a1 a2 a3 a4
 
-put_overload2_impl :: GuiLog -> String -> String -> String -> JavaException -> IO (String)
-put_overload2_impl this specialMessage className functionName exception = do
+put_4_overload2_impl :: GuiLog -> String -> String -> String -> JavaException -> IO (String)
+put_4_overload2_impl this specialMessage className functionName exception = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (PreLogUtil.putOE (jget ((jget (this).commonStrings)).eXCEPTION) this "put" e)
             pure ("Logging Error")

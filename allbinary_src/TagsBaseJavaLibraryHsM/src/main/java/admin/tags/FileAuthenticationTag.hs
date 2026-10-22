@@ -433,7 +433,7 @@ invalidRole_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "invalidRole()" e)
             pure (error)
             ) $ do
-            Control.Monad.void (BasicWeblisketSession.setAuthenticated ((jget (this).weblisketSession)) False)
+            Control.Monad.void (BasicWeblisketSession.setAuthenticated_1 ((jget (this).weblisketSession)) False)
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer "Sorry your username and password is invalid on this page.")
             Control.Monad.void (StringMaker.append stringBuffer "Trying New login<p>")

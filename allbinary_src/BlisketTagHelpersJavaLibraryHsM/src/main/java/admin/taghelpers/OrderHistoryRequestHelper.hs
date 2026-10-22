@@ -16,7 +16,7 @@
 -- package admin.taghelpers
 module OrderHistoryRequestHelper (module OrderHistoryRequestHelper, module TagHelper) where
 
-import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, setOrderStatus, setOrderStatus_super, setOrderStatus_impl, setOrderStatus, setOrderStatus_super, setOrderStatus_impl, logUtil, abeClientInformation, request, id, groupId, status)
+import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, setOrderStatus, setOrderStatus_super, setOrderStatus_impl, setOrderStatus_1, setOrderStatus_1_super, setOrderStatus_1_impl, setOrderStatus, logUtil, abeClientInformation, request, id, groupId, status)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -87,7 +87,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "getFormData" (\() -> getFormData_impl this)
     jregisterMethod header_ "setOrderStatus" (\() -> setOrderStatus_impl this)
-    jregisterMethod header_ "setOrderStatus" (\() -> setOrderStatus_impl this)
+    jregisterMethod header_ "setOrderStatus_1" (\() -> setOrderStatus_1_impl this)
     pure this
 
 initFields_ :: OrderHistoryRequestHelper -> IO ()
@@ -158,15 +158,14 @@ setOrderStatus_impl this = do
             pure (success)
 
 
--- Java overload of setOrderStatus with a different parameter count: give it a different name
-setOrderStatus :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-setOrderStatus object_ a1 = jmethod object_ "setOrderStatus" (\() -> (setOrderStatus_impl (javaCast object_ :: OrderHistoryRequestHelper))) () a1
+setOrderStatus_1 :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+setOrderStatus_1 object_ a1 = jmethod object_ "setOrderStatus_1" (\() -> (setOrderStatus_1_impl (javaCast object_ :: OrderHistoryRequestHelper))) () a1
 
-setOrderStatus_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
-setOrderStatus_super object_ a1 = (setOrderStatus_impl (javaCast object_ :: OrderHistoryRequestHelper)) a1
+setOrderStatus_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (String)
+setOrderStatus_1_super object_ a1 = (setOrderStatus_1_impl (javaCast object_ :: OrderHistoryRequestHelper)) a1
 
-setOrderStatus_impl :: OrderHistoryRequestHelper -> String -> IO (String)
-setOrderStatus_impl this newStatus = do
+setOrderStatus_1_impl :: OrderHistoryRequestHelper -> String -> IO (String)
+setOrderStatus_1_impl this newStatus = do
         newStatus <- newIORef newStatus
         handle (\(e :: JavaException) -> do
             let error = "Failed to view order table"

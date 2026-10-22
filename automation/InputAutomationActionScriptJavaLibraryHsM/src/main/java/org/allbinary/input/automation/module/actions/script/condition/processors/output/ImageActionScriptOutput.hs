@@ -215,7 +215,7 @@ process_super object_ a1 = (process_impl (javaCast object_ :: ImageActionScriptO
 
 process_impl :: ImageActionScriptOutput -> Int64 -> IO (())
 process_impl this frame = do
-        Control.Monad.void (ImageActionScriptOutputProcessor.process this frame)
+        Control.Monad.void (ImageActionScriptOutputProcessor.process (javaCast this) frame)
         pure ()
 
 

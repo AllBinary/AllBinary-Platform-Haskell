@@ -111,7 +111,7 @@ processRequest_impl this request response = do
         inputStream <- newIORef (javaNull)
         flip finally (do
             Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jio (HttpServletResponse.getOutputStream response)))
-            when (Prelude.not (jio (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget inputStream)))) $ do
+            when (Prelude.not (jio (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget inputStream))))) $ do
                 Control.Monad.void (HttpServletResponse.sendError response (HttpServletResponse.sC_NOT_FOUND))
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do

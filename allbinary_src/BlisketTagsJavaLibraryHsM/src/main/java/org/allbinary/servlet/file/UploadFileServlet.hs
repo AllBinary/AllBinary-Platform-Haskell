@@ -131,7 +131,7 @@ processRequest_impl this request response = do
         flip finally (do
             when (Prelude.not (jget isError)) $ do
                 Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jio (HttpServletResponse.getOutputStream response)))
-            when (Prelude.not (jio (StreamUtil.close ((jio (StreamUtil.getInstance))) inputStream))) $ do
+            when (Prelude.not (jio (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast inputStream)))) $ do
                 pure ()
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
@@ -148,7 +148,7 @@ processRequest_impl this request response = do
                 Control.Monad.void (HttpServletResponse.sendError response (HttpServletResponse.sC_NOT_FOUND))
                 javaReturn (())
             hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
-            let authenticationHelper = (javaCast (jio (AuthenticationHelperFactory.getInstance ((jio (AuthenticationHelperFactory.new_))) hashMap request)) :: AuthenticationHelper.AuthenticationHelper)
+            let authenticationHelper = (javaCast (jio (AuthenticationHelperFactory.getInstance ((jio (AuthenticationHelperFactory.new_))) hashMap (javaCast request))) :: AuthenticationHelper.AuthenticationHelper)
             if (jio (AuthenticationHelper.isAuthenticated authenticationHelper)) then do
                 if (jio (AuthenticationHelperUtil.isAuthorized ((jio (AuthenticationHelperUtil.getInstance))) authenticationHelper filePath)) then do
                     Control.Monad.void (UploadFileServlet.saveFile this filePath)

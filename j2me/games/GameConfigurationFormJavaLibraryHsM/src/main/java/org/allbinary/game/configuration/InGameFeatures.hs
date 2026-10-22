@@ -109,7 +109,7 @@ init_impl this = do
                 when ((jio (BasicArrayList.size inGameExclusiveOrientationSensorVector)) == 0) $ do
                     Control.Monad.void (InGameFeatures.addToInGameMenu this)
         features <- (Features.getInstance)
-        when (((jio (Features.isFeature features (jget ((jio (TouchFeatureFactory.getInstance))).sHOW_SCREEN_BUTTONS))) || (jio (Features.isFeature features (jget ((jio (TouchFeatureFactory.getInstance))).aUTO_HIDE_SHOW_SCREEN_BUTTONS)))) || (jio (Features.isFeature features (jget ((jio (TouchFeatureFactory.getInstance))).hIDE_SCREEN_BUTTONS)))) $ do
+        when (((jio (Features.isFeature features (javaCast (jget ((jio (TouchFeatureFactory.getInstance))).sHOW_SCREEN_BUTTONS)))) || (jio (Features.isFeature features (javaCast (jget ((jio (TouchFeatureFactory.getInstance))).aUTO_HIDE_SHOW_SCREEN_BUTTONS))))) || (jio (Features.isFeature features (javaCast (jget ((jio (TouchFeatureFactory.getInstance))).hIDE_SCREEN_BUTTONS))))) $ do
             exclusiveScreenButtonsVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             touchFeatureFactory <- (TouchFeatureFactory.getInstance)
             Control.Monad.void (BasicArrayList.add exclusiveScreenButtonsVector (jget (touchFeatureFactory).aUTO_HIDE_SHOW_SCREEN_BUTTONS))
@@ -146,7 +146,7 @@ isAny_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
         touchFeatureFactory <- (TouchFeatureFactory.getInstance)
-        when (((jio (Features.isFeature features (jget (touchFeatureFactory).sHOW_SCREEN_BUTTONS))) || (jio (Features.isFeature features (jget (touchFeatureFactory).aUTO_HIDE_SHOW_SCREEN_BUTTONS)))) || (jio (Features.isFeature features (jget (touchFeatureFactory).hIDE_SCREEN_BUTTONS)))) $ do
+        when (((jio (Features.isFeature features (javaCast (jget (touchFeatureFactory).sHOW_SCREEN_BUTTONS)))) || (jio (Features.isFeature features (javaCast (jget (touchFeatureFactory).aUTO_HIDE_SHOW_SCREEN_BUTTONS))))) || (jio (Features.isFeature features (javaCast (jget (touchFeatureFactory).hIDE_SCREEN_BUTTONS))))) $ do
             javaReturn (True)
         let exclusiveOrientationSensorVector = (javaCast (jio (ABHashtable.get ((jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getExclusiveInstance)))))) (javaCast (jget ((jio (OrientationData.getInstance))).oRIENTATION_SENSOR_INPUT) :: Any.Any))) :: BasicArrayList.BasicArrayList)
         when (exclusiveOrientationSensorVector /= javaNull) $ do

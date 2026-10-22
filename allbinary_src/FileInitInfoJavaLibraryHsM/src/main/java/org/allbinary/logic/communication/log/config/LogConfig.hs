@@ -282,7 +282,7 @@ getDoc_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH))
         Control.Monad.void (StringMaker.append stringBuffer (jio (LogConfig.getFileName this)))
         file <- (AbFile.createAbFile (jio (StringMaker.toString stringBuffer)))
-        document <- (DomDocumentHelper.create (jio (AbFileLocalInputStream.new_1 file)))
+        document <- (DomDocumentHelper.create_1 (jio (AbFileLocalInputStream.new_1 file)))
         pure (document)
 
 

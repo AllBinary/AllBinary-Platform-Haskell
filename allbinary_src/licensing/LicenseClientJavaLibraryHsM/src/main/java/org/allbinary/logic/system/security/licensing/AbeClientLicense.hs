@@ -124,7 +124,7 @@ init_1 this hashtable = do
         stringUtil <- (StringUtil.getInstance)
         Control.Monad.void (AbeClientLicense.setSpecial this (jio (StringUtil.getNonNull stringUtil (javaCast (jio (ABHashtable.get hashtable (jget (abeClientInformationData).sPECIAL))) :: String))))
         licenseTypeString <- (StringUtil.getNonNull stringUtil (javaCast (jio (ABHashtable.get hashtable (jget (abeClientInformationData).lICENSE_TYPE))) :: String))
-        assignedValue <- (LicenseTypeFactory.getInstance ((jio (LicenseTypeFactory.getInstance))) licenseTypeString)
+        assignedValue <- (LicenseTypeFactory.getInstance_1 ((jio (LicenseTypeFactory.getInstance))) licenseTypeString)
         jset (this).licenseType (assignedValue)
         pure ()
 

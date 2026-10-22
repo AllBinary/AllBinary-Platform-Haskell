@@ -135,7 +135,7 @@ keyPressedByDevice_impl this keyCode deviceId = do
             ) $ do
             Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).inputFactory)).kEY_CODE_LABEL)))) keyCode))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) (jget ((jget (this).inputFactory)).dEVICE_ID_LABEL)))) deviceId))))) this (jget ((jget (this).base.gameInputStrings)).kEY_PRESSED))
             input <- (InputFactory.getInstanceById ((jget (this).inputFactory)) keyCode)
-            gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (jget (this).allBinaryGameCanvas) input)
+            gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast (jget (this).allBinaryGameCanvas)) input)
             Control.Monad.void (DownKeyEventHandler.fireEventForGameKeyEvent ((jget (this).downKeyEventHandler)) gameKeyEvent)
         pure ()
 
@@ -156,9 +156,9 @@ keyReleasedByDevice_impl this canvas keyCode deviceId = do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).inputFactory)).kEY_CODE_LABEL)))) keyCode))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) (jget ((jget (this).inputFactory)).dEVICE_ID_LABEL)))) deviceId))))) this (jget ((jget (this).base.gameInputStrings)).kEY_RELEASED))
                 let gameKey = (jget ((jio (GameKeyFactory.getInstance))).kEY_NUM0)
                 let gameKeyEventSourceInterface = (javaCast canvas :: GameKeyEventSourceInterface.GameKeyEventSourceInterface)
-                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) gameKeyEventSourceInterface gameKey)
-                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) gameKeyEvent)
-                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) gameKeyEvent)
+                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) gameKeyEventSourceInterface (javaCast gameKey))
+                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) (javaCast gameKeyEvent))
+                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
         pure ()
 
 

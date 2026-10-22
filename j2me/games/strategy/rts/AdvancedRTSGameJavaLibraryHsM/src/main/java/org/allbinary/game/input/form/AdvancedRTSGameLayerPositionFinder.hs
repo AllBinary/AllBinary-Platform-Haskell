@@ -100,9 +100,9 @@ getLayerInterface_super object_ a1 = (getLayerInterface_impl (javaCast object_ :
 
 getLayerInterface_impl :: AdvancedRTSGameLayerPositionFinder -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (AllBinaryLayer.AllBinaryLayer)
 getLayerInterface_impl this geographicMapCellPosition = do
-        layerInterface <- newIORef =<< (DropCellPositionHistory.getLayerInterface ((jio (DropCellPositionHistory.getInstance))) geographicMapCellPosition)
+        layerInterface <- newIORef =<< (DropCellPositionHistory.getLayerInterface ((jio (DropCellPositionHistory.getInstance))) (javaCast geographicMapCellPosition))
         when ((jget layerInterface) == AllBinaryLayer.nULL_ALLBINARY_LAYER) $ do
-            assignedValue <- (WaypointCellPositionHistory.getLayerInterface ((jio (WaypointCellPositionHistory.getInstance))) geographicMapCellPosition)
+            assignedValue <- (WaypointCellPositionHistory.getLayerInterface ((jio (WaypointCellPositionHistory.getInstance))) (javaCast geographicMapCellPosition))
             jset layerInterface (assignedValue)
         pure ((jget layerInterface))
 

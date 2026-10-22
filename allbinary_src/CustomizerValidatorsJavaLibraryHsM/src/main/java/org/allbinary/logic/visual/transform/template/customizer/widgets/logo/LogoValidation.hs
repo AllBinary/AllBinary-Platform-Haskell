@@ -288,7 +288,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: LogoValidation
 toXmlNode_impl :: LogoValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         hashMap <- (LogoValidation.toHashMap this)
-        (ModDomHelper.createNameValueNodes document (jget ((jio (LogoData.getInstance))).nAME) hashMap)
+        (ModDomHelper.createNameValueNodes_3 document (jget ((jio (LogoData.getInstance))).nAME) hashMap)
 
 
 -- throws Exception

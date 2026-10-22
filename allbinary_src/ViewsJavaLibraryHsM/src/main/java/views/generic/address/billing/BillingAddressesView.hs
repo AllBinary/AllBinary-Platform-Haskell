@@ -138,7 +138,7 @@ toXmlNode_impl this document = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let streetAddress = (javaCast (jio (BasicArrayList.get ((jget (this).streetAddresses)) index)) :: StreetAddress.StreetAddress)
                 Control.Monad.void (Node.appendChild billingAddressesNode (jio (StreetAddress.toXmlNode streetAddress document)))
-            Control.Monad.void (Node.appendChild billingAddressesNode (jio (ModDomHelper.createNameValueNodes document (StreetAddressData.nUMBEROFADDRESSES) (javaToString (Prelude.fromIntegral ((jio (BasicArrayList.size ((jget this.streetAddresses))))) :: Int)))))
+            Control.Monad.void (Node.appendChild billingAddressesNode (jio (ModDomHelper.createNameValueNodes_3 document (StreetAddressData.nUMBEROFADDRESSES) (javaToString (Prelude.fromIntegral ((jio (BasicArrayList.size ((jget this.streetAddresses))))) :: Int)))))
             pure (billingAddressesNode)
 
 

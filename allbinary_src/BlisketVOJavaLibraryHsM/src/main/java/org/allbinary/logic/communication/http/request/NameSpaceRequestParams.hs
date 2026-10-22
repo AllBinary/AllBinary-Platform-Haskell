@@ -186,7 +186,7 @@ createPackageMultiNode_impl this document nameSpaceRequestParam packageName pack
             jset selectedValue (propertyValue)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("\nAppending Multinode Element: " ++ multiElementPackage) ++ "[") ++ indexValue) ++ "] ") ++ (jget selectedValue)) this "createPackageMultiNode")
-        nextNode <- (ModDomHelper.createNameValueNodes document multiElementPackage (jget selectedValue))
+        nextNode <- (ModDomHelper.createNameValueNodes_3 document multiElementPackage (jget selectedValue))
         indexNode <- (ModDomHelper.createTextNode document (DomData.iNDEX) indexValue)
         Control.Monad.void (Node.appendChild nextNode indexNode)
         pure (nextNode)

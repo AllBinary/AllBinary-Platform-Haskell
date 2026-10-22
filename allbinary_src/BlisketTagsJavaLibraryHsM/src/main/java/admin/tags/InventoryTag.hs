@@ -89,8 +89,8 @@ init_ this = do
         TableTag.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (TableTag.setTagHelperFactory this (jio (InventoryHelperFactory.new_)))
-        Control.Monad.void (TableTag.setTagRequestHelperFactory this (jio (InventoryRequestHelperFactory.new_)))
+        Control.Monad.void (TableTag.setTagHelperFactory this (javaCast (jio (InventoryHelperFactory.new_))))
+        Control.Monad.void (TableTag.setTagRequestHelperFactory this (javaCast (jio (InventoryRequestHelperFactory.new_))))
         pure ()
 
 

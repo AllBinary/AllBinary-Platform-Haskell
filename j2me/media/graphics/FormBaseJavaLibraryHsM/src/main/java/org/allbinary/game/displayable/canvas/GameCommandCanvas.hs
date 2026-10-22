@@ -186,7 +186,7 @@ newRecord_ = do
 
 initFields_ :: GameCommandCanvas -> IO ()
 initFields_ this = do
-    jset this.repaintProcessor =<< (ScreenRepaintProcessorFactory.create ((jio (ScreenRepaintProcessorFactory.getInstance))) this)
+    jset this.repaintProcessor =<< (ScreenRepaintProcessorFactory.create ((jio (ScreenRepaintProcessorFactory.getInstance))) (javaCast this))
     jset this.gameInputStrings =<< (GameInputStrings.getInstance)
     jset this.foregroundBasicColor (javaNull)
     jset this.backgroundBasicColor (javaNull)
@@ -203,7 +203,7 @@ initFields_ this = do
     jset this.menuInputProcessor =<< (fmap (\value_ -> javaCast value_ :: BasicMenuInputProcessor.BasicMenuInputProcessor) (NoMenuInputProcessor.getInstance))
     jset this.menuPaintable =<< (NullPaintable.getInstance)
     jset this.menuForm =<< (PaintableForm.getNullPaintableForm)
-    jset this.isSingleKeyRepeatableProcessing =<< (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))
+    jset this.isSingleKeyRepeatableProcessing =<< (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))
     jset this.fontHeight (0)
     pure ()
 
@@ -310,10 +310,10 @@ initMenu_impl this = do
         form <- (GameCommandCanvas.createForm this)
         jset (this).menuForm (form)
         when (form /= (jio (ScrollSelectionFormNoneFactory.getInstance))) $ do
-            Control.Monad.void (GameCommandCanvas.setMenuInputProcessor this (jio (ImmediateCommandFormInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this form)))
+            Control.Monad.void (GameCommandCanvas.setMenuInputProcessor this (javaCast (jio (ImmediateCommandFormInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this form))))
             assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (FormPaintable.new_1 form))
             jset (this).menuPaintable (assignedValue)
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).repaintBehavior)) (javaCast this))
         pure ()
 
 
@@ -356,8 +356,8 @@ open_impl :: GameCommandCanvas -> IO (())
 open_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this "open")
         Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jio (BasicMotionGesturesHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
-        Control.Monad.void (GameKeyEventHandler.addListener ((jio (GameKeyEventHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
-        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) this)
+        Control.Monad.void (GameKeyEventHandler.addListener ((jio (GameKeyEventHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
+        Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -372,8 +372,8 @@ close_impl :: GameCommandCanvas -> IO (())
 close_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cLOSE))
         Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jio (BasicMotionGesturesHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jio (GameKeyEventHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
-        Control.Monad.void (DisplayChangeEventHandler.removeListener ((jio (DisplayChangeEventHandler.getInstance))) this)
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jio (GameKeyEventHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
+        Control.Monad.void (DisplayChangeEventHandler.removeListener ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -486,11 +486,11 @@ addGameKeyEvent_impl this keyCode deviceId repeated = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) "Key Event Error" this (jget ((jget (this).gameInputStrings)).aDD_KEY_EVENT) e)
             ) $ do
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) this keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (javaCast this) keyCode)
             if (gameKey /= (jget ((jget (this).gameKeyFactory)).nONE)) then do
-                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) this gameKey)
-                Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) gameKeyEvent)
-                Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) gameKeyEvent)
+                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast gameKey))
+                Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jget (this).downGameKeyEventHandler)) (javaCast gameKeyEvent))
+                Control.Monad.void (DownGameKeyEventHandlerBase.fireEvent ((jio (DownGameKeyEventHandler.getInstanceForDevice ((jget (this).downGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).gameInputStrings)).nO_KEY)))) keyCode))))) this (jget ((jget (this).gameInputStrings)).aDD_KEY_EVENT))
         pure ()
@@ -507,11 +507,11 @@ removeGameKeyEvent_impl this keyCode deviceId repeated = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) "Key Event Error" this (jget ((jget (this).gameInputStrings)).rEMOVE_KEY_EVENT) e)
             ) $ do
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) this keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (javaCast this) keyCode)
             if (gameKey /= (jget ((jget (this).gameKeyFactory)).nONE)) then do
-                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) this gameKey)
-                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) gameKeyEvent)
-                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) gameKeyEvent)
+                gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast gameKey))
+                Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jget (this).upGameKeyEventHandler)) (javaCast gameKeyEvent))
+                Control.Monad.void (UpGameKeyEventHandlerBase.fireEvent ((jio (UpGameKeyEventHandler.getInstanceForDevice ((jget (this).upGameKeyEventHandler)) deviceId))) (javaCast gameKeyEvent))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).gameInputStrings)).nO_KEY)))) keyCode))))) this (jget ((jget (this).gameInputStrings)).rEMOVE_KEY_EVENT))
         pure ()
@@ -527,7 +527,7 @@ paint_impl :: GameCommandCanvas -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
         Control.Monad.void (MyFontProcessor.process ((jget (this).myFontProcessor)) graphics)
         Control.Monad.void (Paintable.paint ((jget (this).menuPaintable)) graphics)
-        Control.Monad.void (RepaintBehavior.repaint ((jget (this).repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.repaint ((jget (this).repaintBehavior)) (javaCast this))
         pure ()
 
 

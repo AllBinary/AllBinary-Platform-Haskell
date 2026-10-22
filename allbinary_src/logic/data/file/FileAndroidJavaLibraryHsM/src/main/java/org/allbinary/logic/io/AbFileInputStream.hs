@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.io
 module AbFileInputStream (module AbFileInputStream, module InputStream) where
 
-import InputStream hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, mark, mark_super, mark_impl, markSupported, markSupported_super, markSupported_impl, reset, reset_super, reset_impl, available, available_super, available_impl, close, close_super, close_impl, getChannel, getChannel_super, getChannel_impl, read, read_super, read_impl, read, read_super, read_impl, read, read_super, read_impl, skip, skip_super, skip_impl, fileInputStream)
+import InputStream hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, mark, mark_super, mark_impl, markSupported, markSupported_super, markSupported_impl, reset, reset_super, reset_impl, available, available_super, available_impl, close, close_super, close_impl, getChannel, getChannel_super, getChannel_impl, read, read_super, read_impl, read_1, read_1_super, read_1_impl, read, read_3, read_3_super, read_3_impl, read, skip, skip_super, skip_impl, fileInputStream)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -71,8 +71,8 @@ newRecord_ = do
     jregisterMethod header_ "close" (\() -> close_impl this)
     jregisterMethod header_ "getChannel" (\() -> getChannel_impl this)
     jregisterMethod header_ "read" (\() -> read_impl this)
-    jregisterMethod header_ "read" (\() -> read_impl this)
-    jregisterMethod header_ "read" (\() -> read_impl this)
+    jregisterMethod header_ "read_1" (\() -> read_1_impl this)
+    jregisterMethod header_ "read_3" (\() -> read_3_impl this)
     jregisterMethod header_ "skip" (\() -> skip_impl this)
     pure this
 
@@ -180,28 +180,26 @@ read_impl this = do
 
 
 -- throws IOException
--- Java overload of read with a different parameter count: give it a different name
-read :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> IO (Int)
-read object_ a1 = jmethod object_ "read" (\() -> (read_impl (javaCast object_ :: AbFileInputStream))) () a1
+read_1 :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> IO (Int)
+read_1 object_ a1 = jmethod object_ "read_1" (\() -> (read_1_impl (javaCast object_ :: AbFileInputStream))) () a1
 
-read_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> IO (Int)
-read_super object_ a1 = (read_impl (javaCast object_ :: AbFileInputStream)) a1
+read_1_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> IO (Int)
+read_1_super object_ a1 = (read_1_impl (javaCast object_ :: AbFileInputStream)) a1
 
-read_impl :: AbFileInputStream -> JavaArray (Int8) -> IO (Int)
-read_impl this b = do
+read_1_impl :: AbFileInputStream -> JavaArray (Int8) -> IO (Int)
+read_1_impl this b = do
         (FileInputStream.read ((jget (this).fileInputStream)) b)
 
 
 -- throws IOException
--- Java overload of read with a different parameter count: give it a different name
-read :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (Int)
-read object_ a1 a2 a3 = jmethod object_ "read" (\() -> (read_impl (javaCast object_ :: AbFileInputStream))) () a1 a2 a3
+read_3 :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (Int)
+read_3 object_ a1 a2 a3 = jmethod object_ "read_3" (\() -> (read_3_impl (javaCast object_ :: AbFileInputStream))) () a1 a2 a3
 
-read_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (Int)
-read_super object_ a1 a2 a3 = (read_impl (javaCast object_ :: AbFileInputStream)) a1 a2 a3
+read_3_super :: (JavaObjectClass this_) => this_ -> JavaArray (Int8) -> Int -> Int -> IO (Int)
+read_3_super object_ a1 a2 a3 = (read_3_impl (javaCast object_ :: AbFileInputStream)) a1 a2 a3
 
-read_impl :: AbFileInputStream -> JavaArray (Int8) -> Int -> Int -> IO (Int)
-read_impl this buffer offset count = do
+read_3_impl :: AbFileInputStream -> JavaArray (Int8) -> Int -> Int -> IO (Int)
+read_3_impl this buffer offset count = do
         (FileInputStream.read ((jget (this).fileInputStream)) buffer offset count)
 
 

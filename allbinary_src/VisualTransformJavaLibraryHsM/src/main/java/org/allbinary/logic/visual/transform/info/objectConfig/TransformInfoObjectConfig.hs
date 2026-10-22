@@ -101,8 +101,8 @@ newRecord_ = do
     jregisterMethod header_ "getTransformDomNodes" (\() -> getTransformDomNodes_impl this)
     jregisterMethod header_ "getTransforms" (\() -> getTransforms_impl this)
     jregisterMethod header_ "getTransformsGroup" (\() -> getTransformsGroup_impl this)
-    jregisterMethod header_ "getTransformDomNodes" (\() -> getTransformDomNodes_impl this)
-    jregisterMethod header_ "getTransforms" (\() -> getTransforms_impl this)
+    jregisterMethod header_ "getTransformDomNodes_0" (\() -> getTransformDomNodes_0_impl this)
+    jregisterMethod header_ "getTransforms_0" (\() -> getTransforms_0_impl this)
     jregisterMethod header_ "getGroupTransforms" (\() -> getGroupTransforms_impl this)
     jregisterMethod header_ "getParentTransforms" (\() -> getParentTransforms_impl this)
     jregisterMethod header_ "getRootNode" (\() -> getRootNode_impl this)
@@ -415,28 +415,26 @@ getTransformsGroup_impl this group = do
 
 
 -- throws Exception
--- Java overload of getTransformDomNodes with a different parameter count: give it a different name
-getTransformDomNodes :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
-getTransformDomNodes object_ = jmethod object_ "getTransformDomNodes" (\() -> (getTransformDomNodes_impl (javaCast object_ :: TransformInfoObjectConfig))) ()
+getTransformDomNodes_0 :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
+getTransformDomNodes_0 object_ = jmethod object_ "getTransformDomNodes_0" (\() -> (getTransformDomNodes_0_impl (javaCast object_ :: TransformInfoObjectConfig))) ()
 
-getTransformDomNodes_super :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
-getTransformDomNodes_super object_ = (getTransformDomNodes_impl (javaCast object_ :: TransformInfoObjectConfig))
+getTransformDomNodes_0_super :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
+getTransformDomNodes_0_super object_ = (getTransformDomNodes_0_impl (javaCast object_ :: TransformInfoObjectConfig))
 
-getTransformDomNodes_impl :: TransformInfoObjectConfig -> IO (BasicArrayList.BasicArrayList)
-getTransformDomNodes_impl this = do
+getTransformDomNodes_0_impl :: TransformInfoObjectConfig -> IO (BasicArrayList.BasicArrayList)
+getTransformDomNodes_0_impl this = do
         (TransformInfoObjectConfig.getTransformDomNodes this (jget ((jio (TransformInfosData.getInstance))).gROUP))
 
 
 -- throws Exception
--- Java overload of getTransforms with a different parameter count: give it a different name
-getTransforms :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
-getTransforms object_ = jmethod object_ "getTransforms" (\() -> (getTransforms_impl (javaCast object_ :: TransformInfoObjectConfig))) ()
+getTransforms_0 :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
+getTransforms_0 object_ = jmethod object_ "getTransforms_0" (\() -> (getTransforms_0_impl (javaCast object_ :: TransformInfoObjectConfig))) ()
 
-getTransforms_super :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
-getTransforms_super object_ = (getTransforms_impl (javaCast object_ :: TransformInfoObjectConfig))
+getTransforms_0_super :: (JavaObjectClass this_) => this_ -> IO (BasicArrayList.BasicArrayList)
+getTransforms_0_super object_ = (getTransforms_0_impl (javaCast object_ :: TransformInfoObjectConfig))
 
-getTransforms_impl :: TransformInfoObjectConfig -> IO (BasicArrayList.BasicArrayList)
-getTransforms_impl this = do
+getTransforms_0_impl :: TransformInfoObjectConfig -> IO (BasicArrayList.BasicArrayList)
+getTransforms_0_impl this = do
         (TransformInfoObjectConfig.getTransforms this (jget ((jio (TransformInfosData.getInstance))).nAME))
 
 

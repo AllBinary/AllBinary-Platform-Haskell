@@ -131,7 +131,7 @@ getWhithoutDashesAndSkipNumberOnlyTokens_impl this stringVector = do
             fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size stringVector))) $ javaIteration (loop) $ do
                 let keywords = (javaCast (jio (BasicArrayList.get stringVector (jget index))) :: String)
                 tokenizer <- (Tokenizer.new_1 (jget (commonSeps).cOMMA))
-                keywordVector <- (Tokenizer.getTokensFromString tokenizer keywords (jio (BasicArrayListD.new_)))
+                keywordVector <- (Tokenizer.getTokensFromString tokenizer keywords (javaCast (jio (BasicArrayListD.new_))))
                 forM_ [0 .. (jio (BasicArrayList.size keywordVector)) - 1] $ \forIndex -> javaIteration (pure ()) $ do
                     cleanString <- newIORef ((javaCast (jio (BasicArrayList.get keywordVector forIndex)) :: String))
                     jset cleanString ((jstringTrim (jget cleanString)))
@@ -141,7 +141,7 @@ getWhithoutDashesAndSkipNumberOnlyTokens_impl this stringVector = do
                     Control.Monad.void (HashSet.add hashSet (jget cleanString))
                     when ((jstringIndexOf (jget cleanString) ' ' 0) /= (Prelude.negate 1)) $ do
                         spaceTokenizer <- (Tokenizer.new_1 (jget (commonSeps).sPACE))
-                        subKeywordVector <- (Tokenizer.getTokensFromString spaceTokenizer (jget cleanString) (jio (BasicArrayListD.new_)))
+                        subKeywordVector <- (Tokenizer.getTokensFromString spaceTokenizer (jget cleanString) (javaCast (jio (BasicArrayListD.new_))))
                         forM_ [0 .. (jio (BasicArrayList.size subKeywordVector)) - 1] $ \spaceIndex -> javaIteration (pure ()) $ do
                             let subCleanString = (javaCast (jio (BasicArrayList.get subKeywordVector spaceIndex)) :: String)
                             when ((Prelude.not (jio (UniqueTokens.isSpecialCharacter this subCleanString))) && (Prelude.not (jio (UniqueTokens.numberOnly this subCleanString)))) $ do

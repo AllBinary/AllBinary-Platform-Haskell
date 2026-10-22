@@ -98,7 +98,7 @@ new_3 vectorInfo basicColor animationBehaviorFactory = do
 
 init_3 :: VectorToImageArrayRotationAnimationFactory -> VectorInfo.VectorInfo -> BasicColor.BasicColor -> AnimationBehaviorFactory.AnimationBehaviorFactory -> IO ()
 init_3 this vectorInfo basicColor animationBehaviorFactory = do
-        BaseImageAnimationFactory.init_7 this.base (jio (AnimationFrameToImageUtil.getInstanceTranslate ((jio (AnimationFrameToImageUtil.getInstance))) (jio (VectorInfo.getWidth vectorInfo)) (jio (VectorInfo.getHeight vectorInfo)) (jio (VectorAnimation.createVectorAnimation (jio (VectorInfo.getPoints vectorInfo)) basicColor (jio (AnimationBehaviorFactory.getOrCreateInstance animationBehaviorFactory)))))) (jio (PrimitiveIntUtil.getArrayInstance)) (0) (0) (0) (0) (animationBehaviorFactory)
+        BaseImageAnimationFactory.init_7 this.base (jio (AnimationFrameToImageUtil.getInstanceTranslate ((jio (AnimationFrameToImageUtil.getInstance))) (jio (VectorInfo.getWidth vectorInfo)) (jio (VectorInfo.getHeight vectorInfo)) (javaCast (jio (VectorAnimation.createVectorAnimation (jio (VectorInfo.getPoints vectorInfo)) basicColor (jio (AnimationBehaviorFactory.getOrCreateInstance animationBehaviorFactory))))))) (jio (PrimitiveIntUtil.getArrayInstance)) (0) (0) (0) (0) (animationBehaviorFactory)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (VectorToImageArrayRotationAnimationFactory.init this)

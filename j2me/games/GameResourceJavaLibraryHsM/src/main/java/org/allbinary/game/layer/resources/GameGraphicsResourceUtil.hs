@@ -130,13 +130,13 @@ getString_impl this = do
         graphicsFeatureFactory <- (GraphicsFeatureFactory.getInstance)
         graphicsFeature <- newIORef ((jget (graphicsFeatureFactory).nONE))
         features <- (Features.getInstance)
-        if (jio (Features.isFeature features (jget (graphicsFeatureFactory).iMAGE_TO_ARRAY_GRAPHICS))) then do
+        if (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).iMAGE_TO_ARRAY_GRAPHICS)))) then do
             jset graphicsFeature ((jget (graphicsFeatureFactory).iMAGE_TO_ARRAY_GRAPHICS))
-        else if (jio (Features.isFeature features (jget (graphicsFeatureFactory).sPRITE_FULL_GRAPHICS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).sPRITE_FULL_GRAPHICS)))) then do
             jset graphicsFeature ((jget (graphicsFeatureFactory).sPRITE_FULL_GRAPHICS))
-        else if (jio (Features.isFeature features (jget (graphicsFeatureFactory).sPRITE_QUARTER_ROTATION_GRAPHICS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).sPRITE_QUARTER_ROTATION_GRAPHICS)))) then do
             jset graphicsFeature ((jget (graphicsFeatureFactory).sPRITE_QUARTER_ROTATION_GRAPHICS))
-        else when (jio (Features.isFeature features (jget (graphicsFeatureFactory).iMAGE_ROTATION_ON_THE_FLY))) $ do
+        else when (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).iMAGE_ROTATION_ON_THE_FLY)))) $ do
             jset graphicsFeature ((jget (graphicsFeatureFactory).iMAGE_ROTATION_ON_THE_FLY))
         (GameGraphicsResourceUtil.getStringForFeature this (jget graphicsFeature))
 
@@ -154,9 +154,9 @@ getStringForFeature_impl this graphicsFeature = do
         graphicsFeatureFactory <- (GraphicsFeatureFactory.getInstance)
         Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
         features <- (Features.getInstance)
-        if (jio (Features.isFeature features (jget (graphicsFeatureFactory).vECTOR_GRAPHICS))) then do
+        if (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).vECTOR_GRAPHICS)))) then do
             pure ()
-        else if (jio (Features.isFeature features (jget (graphicsFeatureFactory).iMAGE_GRAPHICS))) then do
+        else if (jio (Features.isFeature features (javaCast (jget (graphicsFeatureFactory).iMAGE_GRAPHICS)))) then do
             if ((graphicsFeature == (jget (graphicsFeatureFactory).iMAGE_TO_ARRAY_GRAPHICS)) || (graphicsFeature == (jget (graphicsFeatureFactory).iMAGE_ROTATION_ON_THE_FLY))) then do
                 pure ()
             else if (graphicsFeature == (jget (graphicsFeatureFactory).sPRITE_FULL_GRAPHICS)) then do

@@ -111,7 +111,7 @@ getInstanceAnimation_impl this animationInterface = do
         let vectorRotationAnimationInterface = (javaCast animationInterface :: VectorAnimationInterface.VectorAnimationInterface)
         frame <- (VectorAnimationInterface.getFrame vectorRotationAnimationInterface)
         framePoints <- (VectorAnimationInterface.getPoints vectorRotationAnimationInterface frame)
-        points <- (VectorExplosionGenerator.getInstance ((jget (this).vectorExplosionGenerator)) framePoints 6 (jget ((jget (this).vectorExplosionGenerator)).rOTATION))
+        points <- (VectorExplosionGenerator.getInstance_3 ((jget (this).vectorExplosionGenerator)) framePoints 6 (jget ((jget (this).vectorExplosionGenerator)).rOTATION))
         (fmap (\value_ -> javaCast value_ :: Animation.Animation) (VectorRotationAnimation.new_3 points (jio (VectorExplosionAnimationFactory.getBasicColorP this)) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).animationBehaviorFactory))))))
 
 

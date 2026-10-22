@@ -128,7 +128,7 @@ init_2 this inputMappingInterface basicColor = do
         ProcessPaintable.init_ this.base
         initFields_ this
         jset (this).inputMappingInterface (inputMappingInterface)
-        Control.Monad.void (CompleteMotionGestureInputEventHandler.addListenerInterface ((jio (CompleteMotionGestureInputEventHandler.getInstance))) this)
+        Control.Monad.void (CompleteMotionGestureInputEventHandler.addListenerInterface ((jio (CompleteMotionGestureInputEventHandler.getInstance))) (javaCast this))
         assignedValue <- (TouchButtonsMappingPaintable.new_1 basicColor)
         jset (this).touchButtonsPaintable (assignedValue)
         pure ()
@@ -187,7 +187,7 @@ process_super object_ = (process_impl (javaCast object_ :: TouchButtonsPaintable
 
 process_impl :: TouchButtonsPaintableComposite -> IO (())
 process_impl this = do
-        Control.Monad.void (CompleteMotionGestureInputEventHandler.removeListener ((jio (CompleteMotionGestureInputEventHandler.getInstance))) this)
+        Control.Monad.void (CompleteMotionGestureInputEventHandler.removeListener ((jio (CompleteMotionGestureInputEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

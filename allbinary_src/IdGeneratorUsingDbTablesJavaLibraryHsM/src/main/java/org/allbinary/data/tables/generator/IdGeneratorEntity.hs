@@ -16,7 +16,7 @@
 -- package org.allbinary.data.tables.generator
 module IdGeneratorEntity (module IdGeneratorEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, update, update_super, update_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, tableData, nAME, vALUE)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, update_1, update_1_super, update_1_impl, update, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, tableData, nAME, vALUE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -85,7 +85,7 @@ newRecord_ = do
     jregisterMethod header_ "insert" (\() -> insert_impl this)
     jregisterMethod header_ "delete" (\() -> delete_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
-    jregisterMethod header_ "update" (\() -> update_impl this)
+    jregisterMethod header_ "update_1" (\() -> update_1_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
     pure this
@@ -177,19 +177,18 @@ update_impl this name value = do
         map <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
         Control.Monad.void (HashMap.put map (jget (this).nAME) name)
         Control.Monad.void (HashMap.put map (jget (this).vALUE) (javaToString value))
-        Control.Monad.void (IdGeneratorEntity.update this map)
+        Control.Monad.void (IdGeneratorEntity.update_1 this map)
         pure ()
 
 
--- Java overload of update with a different parameter count: give it a different name
-update :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-update object_ a1 = jmethod object_ "update" (\() -> (update_impl (javaCast object_ :: IdGeneratorEntity))) () a1
+update_1 :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+update_1 object_ a1 = jmethod object_ "update_1" (\() -> (update_1_impl (javaCast object_ :: IdGeneratorEntity))) () a1
 
-update_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
-update_super object_ a1 = (update_impl (javaCast object_ :: IdGeneratorEntity)) a1
+update_1_super :: (JavaObjectClass this_) => this_ -> HashMap.HashMap -> IO (())
+update_1_super object_ a1 = (update_1_impl (javaCast object_ :: IdGeneratorEntity)) a1
 
-update_impl :: IdGeneratorEntity -> HashMap.HashMap -> IO (())
-update_impl this hashMap = do
+update_1_impl :: IdGeneratorEntity -> HashMap.HashMap -> IO (())
+update_1_impl this hashMap = do
         Control.Monad.void (AbSqlBean.updateWhere_super this.base (jget (this).nAME) (javaCast (jio (HashMap.get hashMap (jget (this).nAME))) :: String) hashMap)
         pure ()
 

@@ -115,7 +115,7 @@ getInstance_overload1 abeClientInformation factoryName className hashMap httpSer
             jsetIndex classes (1) (assignedValue)
             jsetIndex params (0) ((jtoObject (javaCast hashMap :: Any.Any)))
             jsetIndex params (1) ((jtoObject (javaCast httpServletRequest :: Any.Any)))
-            anyType <- (AbeFactory.getInstance abeFactory abeClientInformation className classes params)
+            anyType <- (AbeFactory.getInstance_4 abeFactory abeClientInformation className classes params)
             pure ((jtoObject anyType))
 
 
@@ -138,14 +138,13 @@ getInstance_overload2 abeClientInformation factoryName className hashMap pageCon
             jsetIndex classes (1) (assignedValue)
             jsetIndex params (0) ((jtoObject (javaCast hashMap :: Any.Any)))
             jsetIndex params (1) ((jtoObject (javaCast pageContext :: Any.Any)))
-            anyType <- (AbeFactory.getInstance abeFactory abeClientInformation className classes params)
+            anyType <- (AbeFactory.getInstance_4 abeFactory abeClientInformation className classes params)
             pure ((jtoObject anyType))
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> String -> String -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (Any.Any)
-getInstance abeClientInformation factoryName className hashMap specialhashMap pageContext = do
+getInstance_6 :: AbeClientInformationInterface.AbeClientInformationInterface -> String -> String -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO (Any.Any)
+getInstance_6 abeClientInformation factoryName className hashMap specialhashMap pageContext = do
         logUtil <- (LogUtil.getInstance)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
@@ -165,14 +164,13 @@ getInstance abeClientInformation factoryName className hashMap specialhashMap pa
             jsetIndex params (0) ((jtoObject (javaCast hashMap :: Any.Any)))
             jsetIndex params (1) ((jtoObject (javaCast specialhashMap :: Any.Any)))
             jsetIndex params (2) ((jtoObject (javaCast pageContext :: Any.Any)))
-            anyType <- (AbeFactory.getInstance abeFactory abeClientInformation className classes params)
+            anyType <- (AbeFactory.getInstance_4 abeFactory abeClientInformation className classes params)
             pure ((jtoObject anyType))
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> String -> String -> IO (Any.Any)
-getInstance abeClientInformation factoryName className = do
+getInstance_3 :: AbeClientInformationInterface.AbeClientInformationInterface -> String -> String -> IO (Any.Any)
+getInstance_3 abeClientInformation factoryName className = do
         logUtil <- (LogUtil.getInstance)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
@@ -180,7 +178,7 @@ getInstance abeClientInformation factoryName className = do
                 Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) (factoryName ++ "->HelperFactory") "getInstance(String, String, HashMap, PageContext)" e)
             javaThrow (e)
             ) $ do
-            anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation className)
+            anyType <- (AbeFactory.getInstance_2 ((jio (AbeFactory.getInstance))) abeClientInformation className)
             pure ((jtoObject anyType))
 
 

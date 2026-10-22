@@ -174,7 +174,7 @@ getPathFindingInfo_impl this geographicMapCellPosition = do
         jsetIndex ((jindex customMapArray ((jio (GeographicMapCellPosition.getRow startGeographicMapCellPosition))))) ((jio (GeographicMapCellPosition.getColumn startGeographicMapCellPosition))) (assignedValue)
         assignedValue <- (GeographicMapCellTypeFactory.getEndType raceTrackGeographicMapCellTypeFactory)
         jsetIndex ((jindex customMapArray ((jio (GeographicMapCellPosition.getRow endGeographicMapCellPosition))))) ((jio (GeographicMapCellPosition.getColumn endGeographicMapCellPosition))) (assignedValue)
-        pathFindingInfo <- (PathFindingInfoFactory.getInstancePathFindingInfo ((jio (PathFindingInfoFactory.getInstance))) raceTrackGeographicMap customMapArray)
+        pathFindingInfo <- (PathFindingInfoFactory.getInstancePathFindingInfo ((jio (PathFindingInfoFactory.getInstance))) (javaCast raceTrackGeographicMap) customMapArray)
         pure (pathFindingInfo)
 
 

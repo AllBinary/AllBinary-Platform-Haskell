@@ -118,13 +118,13 @@ process_impl this motionEvent = do
             x <- (MotionEvent.getX motionEvent)
             y <- (MotionEvent.getY motionEvent)
             if (x < 0.0) then do
-                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (jio (LeftTrackballInputToGameKeyEventAction.getInstance)))
+                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (javaCast (jio (LeftTrackballInputToGameKeyEventAction.getInstance))))
             else when (x > 0.0) $ do
-                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (jio (RightTrackballInputToGameKeyEventAction.getInstance)))
+                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (javaCast (jio (RightTrackballInputToGameKeyEventAction.getInstance))))
             if (y < 0.0) then do
-                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (jio (UpTrackballInputToGameKeyEventAction.getInstance)))
+                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (javaCast (jio (UpTrackballInputToGameKeyEventAction.getInstance))))
             else when (y > 0.0) $ do
-                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (jio (DownTrackballInputToGameKeyEventAction.getInstance)))
+                Control.Monad.void (SingleKeyPressGameKeyFromMotionGestureEventListener.onCompleteMotionGestureInputEvent ((jget (this).listener)) (javaCast (jio (DownTrackballInputToGameKeyEventAction.getInstance))))
         pure ()
 
 

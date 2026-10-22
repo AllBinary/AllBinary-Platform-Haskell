@@ -172,7 +172,7 @@ getXmlData_impl this = do
                         throwIO JavaBreak
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget xmlRequest) this "getXmlData()")
-                document <- (DomDocumentHelper.create (jget xmlRequest))
+                document <- (DomDocumentHelper.create_1 (jget xmlRequest))
                 requestNode <- (DomSearchHelper.getNode (jget (categoryData).rEQUEST) (jio (Document.getChildNodes document)))
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (XmlDocumentHelper.toString document)) this "getXmlData()")
@@ -216,7 +216,7 @@ setCategoryLoader_impl this requestNode = do
                 when ((jget (this).transformInfoInterface) == javaNull) $ do
                     javaThrow ((JavaException "Exception" "TransformInfo null"))
                 storeCategoryFactory <- (StoreCategoryFactory.new_1 (jget (this).transformInfoInterface))
-                assignedValue <- (CategoryLoaderFactory.getInstance storeCategoryFactory)
+                assignedValue <- (CategoryLoaderFactory.getInstance (javaCast storeCategoryFactory))
                 jset (this).categoryLoaderInterface (assignedValue)
             else do
                 javaThrow ((JavaException "Exception" ("Store Name Error: " ++ storeName)))

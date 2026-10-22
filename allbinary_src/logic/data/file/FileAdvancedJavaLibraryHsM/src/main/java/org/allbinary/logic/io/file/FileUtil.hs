@@ -103,16 +103,16 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "write_overload1" (\() -> write_overload1_impl this)
     jregisterMethod header_ "write_overload2" (\() -> write_overload2_impl this)
-    jregisterMethod header_ "write" (\() -> write_impl this)
+    jregisterMethod header_ "write_3" (\() -> write_3_impl this)
     jregisterMethod header_ "copy_overload1" (\() -> copy_overload1_impl this)
     jregisterMethod header_ "fixPath" (\() -> fixPath_impl this)
     jregisterMethod header_ "copyToCloud_overload1" (\() -> copyToCloud_overload1_impl this)
-    jregisterMethod header_ "copyToCloud" (\() -> copyToCloud_impl this)
-    jregisterMethod header_ "copyToCloud" (\() -> copyToCloud_impl this)
+    jregisterMethod header_ "copyToCloud_6" (\() -> copyToCloud_6_impl this)
+    jregisterMethod header_ "copyToCloud_2" (\() -> copyToCloud_2_impl this)
     jregisterMethod header_ "copyToCloud_overload2" (\() -> copyToCloud_overload2_impl this)
     jregisterMethod header_ "copyPrepare" (\() -> copyPrepare_impl this)
     jregisterMethod header_ "copyFile" (\() -> copyFile_impl this)
-    jregisterMethod header_ "copyFile" (\() -> copyFile_impl this)
+    jregisterMethod header_ "copyFile_4" (\() -> copyFile_4_impl this)
     jregisterMethod header_ "copyDirectoryPortion" (\() -> copyDirectoryPortion_impl this)
     jregisterMethod header_ "copyDirectory" (\() -> copyDirectory_impl this)
     jregisterMethod header_ "copy_overload2" (\() -> copy_overload2_impl this)
@@ -184,28 +184,27 @@ write_overload2_impl :: FileUtil -> InputStream.InputStream -> AbDataOutputStrea
 write_overload2_impl this inputStream dataOutputStream = do
         dataOutputStream <- newIORef dataOutputStream
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
             ) $ do
-            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) inputStream (jget dataOutputStream) (jnewArray (16384) 0))) :: AbDataOutputStream.AbDataOutputStream))
+            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) inputStream (javaCast (jget dataOutputStream)) (jnewArray (16384) 0))) :: AbDataOutputStream.AbDataOutputStream))
             Control.Monad.void (AbDataOutputStream.flush ((jget dataOutputStream)))
         pure ()
 
 
 -- throws Exception
--- Java overload of write with a different parameter count: give it a different name
-write :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
-write object_ a1 a2 a3 = jmethod object_ "write" (\() -> (write_impl (javaCast object_ :: FileUtil))) () a1 a2 a3
+write_3 :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
+write_3 object_ a1 a2 a3 = jmethod object_ "write_3" (\() -> (write_3_impl (javaCast object_ :: FileUtil))) () a1 a2 a3
 
-write_super :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
-write_super object_ a1 a2 a3 = (write_impl (javaCast object_ :: FileUtil)) a1 a2 a3
+write_3_super :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
+write_3_super object_ a1 a2 a3 = (write_3_impl (javaCast object_ :: FileUtil)) a1 a2 a3
 
-write_impl :: FileUtil -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
-write_impl this inputStream dataOutputStream buffer = do
+write_3_impl :: FileUtil -> InputStream.InputStream -> AbDataOutputStream.AbDataOutputStream -> JavaArray (Int8) -> IO (())
+write_3_impl this inputStream dataOutputStream buffer = do
         dataOutputStream <- newIORef dataOutputStream
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
             ) $ do
-            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) inputStream (jget dataOutputStream) buffer)) :: AbDataOutputStream.AbDataOutputStream))
+            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) inputStream (javaCast (jget dataOutputStream)) buffer)) :: AbDataOutputStream.AbDataOutputStream))
             Control.Monad.void (AbDataOutputStream.flush ((jget dataOutputStream)))
         pure ()
 
@@ -228,10 +227,10 @@ copy_overload1_impl :: FileUtil -> AbFileInputStream.AbFileInputStream -> AbData
 copy_overload1_impl this dataInputStream dataOutputStream = do
         dataOutputStream <- newIORef dataOutputStream
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) dataInputStream)
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast dataInputStream))
             ) $ do
-            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) dataInputStream (jget dataOutputStream) (jnewArray (16384) 0))) :: AbDataOutputStream.AbDataOutputStream))
+            jset dataOutputStream ((javaCast (jio (StreamUtil.get ((jio (StreamUtil.getInstance))) (javaCast dataInputStream) (javaCast (jget dataOutputStream)) (jnewArray (16384) 0))) :: AbDataOutputStream.AbDataOutputStream))
             Control.Monad.void (AbDataOutputStream.flush ((jget dataOutputStream)))
         pure ()
 
@@ -273,20 +272,19 @@ copyToCloud_overload1_super object_ a1 a2 a3 a4 = (copyToCloud_overload1_impl (j
 
 copyToCloud_overload1_impl :: FileUtil -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> IO (())
 copyToCloud_overload1_impl this file path realPath cloud = do
-        Control.Monad.void (FileUtil.copyToCloud this file path realPath cloud False False)
+        Control.Monad.void (FileUtil.copyToCloud_6 this file path realPath cloud False False)
         pure ()
 
 
 -- throws Exception
--- Java overload of copyToCloud with a different parameter count: give it a different name
-copyToCloud :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
-copyToCloud object_ a1 a2 a3 a4 a5 a6 = jmethod object_ "copyToCloud" (\() -> (copyToCloud_impl (javaCast object_ :: FileUtil))) () a1 a2 a3 a4 a5 a6
+copyToCloud_6 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
+copyToCloud_6 object_ a1 a2 a3 a4 a5 a6 = jmethod object_ "copyToCloud_6" (\() -> (copyToCloud_6_impl (javaCast object_ :: FileUtil))) () a1 a2 a3 a4 a5 a6
 
-copyToCloud_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
-copyToCloud_super object_ a1 a2 a3 a4 a5 a6 = (copyToCloud_impl (javaCast object_ :: FileUtil)) a1 a2 a3 a4 a5 a6
+copyToCloud_6_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
+copyToCloud_6_super object_ a1 a2 a3 a4 a5 a6 = (copyToCloud_6_impl (javaCast object_ :: FileUtil)) a1 a2 a3 a4 a5 a6
 
-copyToCloud_impl :: FileUtil -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
-copyToCloud_impl this file path realPath cloud overwriteNewer overwriteAll = do
+copyToCloud_6_impl :: FileUtil -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> String -> Bool -> Bool -> IO (())
+copyToCloud_6_impl this file path realPath cloud overwriteNewer overwriteAll = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jget (this).logConfigTypeFactory)).fILEERROR))) $ do
@@ -317,21 +315,19 @@ copyToCloud_impl this file path realPath cloud overwriteNewer overwriteAll = do
 
 
 -- throws Exception
--- Java overload of copyToCloud with a different parameter count: give it a different name
-copyToCloud :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> IO (())
-copyToCloud object_ a1 a2 = jmethod object_ "copyToCloud" (\() -> (copyToCloud_impl (javaCast object_ :: FileUtil))) () a1 a2
+copyToCloud_2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> IO (())
+copyToCloud_2 object_ a1 a2 = jmethod object_ "copyToCloud_2" (\() -> (copyToCloud_2_impl (javaCast object_ :: FileUtil))) () a1 a2
 
-copyToCloud_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> IO (())
-copyToCloud_super object_ a1 a2 = (copyToCloud_impl (javaCast object_ :: FileUtil)) a1 a2
+copyToCloud_2_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> IO (())
+copyToCloud_2_super object_ a1 a2 = (copyToCloud_2_impl (javaCast object_ :: FileUtil)) a1 a2
 
-copyToCloud_impl :: FileUtil -> AbFile.AbFile -> AbFile.AbFile -> IO (())
-copyToCloud_impl this file outFile = do
+copyToCloud_2_impl :: FileUtil -> AbFile.AbFile -> AbFile.AbFile -> IO (())
+copyToCloud_2_impl this file outFile = do
         Control.Monad.void (FileUtil.copyToCloud this file outFile False False)
         pure ()
 
 
 -- throws Exception
--- Java overload of copyToCloud with a different parameter count: give it a different name
 copyToCloud_overload2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
 copyToCloud_overload2 object_ a1 a2 a3 a4 = jmethod object_ "copyToCloud_overload2" (\() -> (copyToCloud_overload2_impl (javaCast object_ :: FileUtil))) () a1 a2 a3 a4
 
@@ -425,20 +421,19 @@ copyFile_super object_ a1 a2 = (copyFile_impl (javaCast object_ :: FileUtil)) a1
 
 copyFile_impl :: FileUtil -> AbFile.AbFile -> AbFile.AbFile -> IO (())
 copyFile_impl this fromFile toFile = do
-        Control.Monad.void (FileUtil.copyFile this fromFile toFile False False)
+        Control.Monad.void (FileUtil.copyFile_4 this fromFile toFile False False)
         pure ()
 
 
 -- throws Exception
--- Java overload of copyFile with a different parameter count: give it a different name
-copyFile :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
-copyFile object_ a1 a2 a3 a4 = jmethod object_ "copyFile" (\() -> (copyFile_impl (javaCast object_ :: FileUtil))) () a1 a2 a3 a4
+copyFile_4 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
+copyFile_4 object_ a1 a2 a3 a4 = jmethod object_ "copyFile_4" (\() -> (copyFile_4_impl (javaCast object_ :: FileUtil))) () a1 a2 a3 a4
 
-copyFile_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
-copyFile_super object_ a1 a2 a3 a4 = (copyFile_impl (javaCast object_ :: FileUtil)) a1 a2 a3 a4
+copyFile_4_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
+copyFile_4_super object_ a1 a2 a3 a4 = (copyFile_4_impl (javaCast object_ :: FileUtil)) a1 a2 a3 a4
 
-copyFile_impl :: FileUtil -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
-copyFile_impl this fromFile toFile overwriteNewer overwriteAll = do
+copyFile_4_impl :: FileUtil -> AbFile.AbFile -> AbFile.AbFile -> Bool -> Bool -> IO (())
+copyFile_4_impl this fromFile toFile overwriteNewer overwriteAll = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jget (this).logConfigTypeFactory)).fILEERROR))) $ do
@@ -522,7 +517,7 @@ copyDirectoryPortion_impl this fromDirectoryAbPath toDirectoryAbPath overwriteNe
                     jset beginIndex (((jget beginIndex) - (Prelude.length (jio (AbPath.getPath ((jio (AbPath.new_2 (jio (URLGLOBALS.getWebappPath)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))))))
                 let newPath = (javaToString (jio (AbPath.toFileSystemString toDirectoryAbPath)) ++ (Prelude.drop (jget beginIndex) path))
                 toFile <- (AbFile.createAbFileFromAbPath (jio (AbPath.new_2 newPath (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
-                Control.Monad.void (FileUtil.copyFile this (jget nextFile) toFile overwriteNewer overwriteAll)
+                Control.Monad.void (FileUtil.copyFile_4 this (jget nextFile) toFile overwriteNewer overwriteAll)
         pure ()
 
 
@@ -679,7 +674,6 @@ shouldSkip_impl this file skipFiles = do
 
 
 -- throws Exception
--- Java overload of write with a different parameter count: give it a different name
 write_overload3 :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
 write_overload3 object_ a1 a2 = jmethod object_ "write_overload3" (\() -> (write_overload3_impl (javaCast object_ :: FileUtil))) () a1 a2
 
@@ -690,7 +684,7 @@ write_overload3_impl :: FileUtil -> String -> String -> IO (())
 write_overload3_impl this filePath string = do
         dataOutputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
             ) $ do
             Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).wRITE_LABEL)))) filePath))) (jget (this).dATA_LABEL)))) string))))) this (jget (this).wRITE_METHOD))
             fileInputStreamFactory <- (FileStreamFactory.getInstance)

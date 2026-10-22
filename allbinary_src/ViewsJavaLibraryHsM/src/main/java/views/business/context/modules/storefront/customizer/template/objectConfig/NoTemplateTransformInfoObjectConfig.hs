@@ -143,7 +143,7 @@ generate_impl this objectConfigDocument = do
         pageName <- (TransformTemplateCustomizerUtil.getPageNameHack ((jio (TransformTemplateCustomizerUtil.getInstance))) (jio (TransformInfoInterface.getName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))) (jio (TransformInfoInterface.getStoreName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))))
         Control.Monad.void (HashMap.put hashMap (vARKEY ++ javaToString (jget ((jio (TransformInfoData.getInstance))).pARTIAL)) pageName)
         replace <- (Replace.new_1 hashMap)
-        newObjectConfigDocument <- (DomDocumentHelper.create (jio (Replace.all replace docString)))
+        newObjectConfigDocument <- (DomDocumentHelper.create_1 (jio (Replace.all replace docString)))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Final ObjectConfig: " ++ (jio (XmlDocumentHelper.toString newObjectConfigDocument))) this "generate()")
         pure (newObjectConfigDocument)

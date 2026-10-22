@@ -104,11 +104,11 @@ init_ this = do
         jset (this).saveMotionRectanglesAsImagesWorker (assignedValue)
         assignedValue <- (TestInputForMotionRectanglesResultsWorker.new_)
         jset (this).moveMouseToFirstMotionRectanglesResultsWorker (assignedValue)
-        Control.Monad.void (MotionRectanglesWorker.addListenerInterface ((jget (this).motionRectanglesWorker)) (jget (this).saveMotionRectanglesAsImagesWorker))
-        Control.Monad.void (MotionRectanglesWorker.addListenerInterface ((jget (this).motionRectanglesWorker)) (jget (this).moveMouseToFirstMotionRectanglesResultsWorker))
-        Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jget (this).imageComparisonWorker)) (jget (this).changedPixelsImageComparisonResultsWorker))
-        Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jget (this).imageComparisonWorker)) (jget (this).motionRectanglesWorker))
-        Control.Monad.void (ScreenCaptureImagesWorker.addListenerInterface ((jget (this).captureWorker)) (jget (this).imageComparisonWorker))
+        Control.Monad.void (MotionRectanglesWorker.addListenerInterface ((jget (this).motionRectanglesWorker)) (javaCast (jget (this).saveMotionRectanglesAsImagesWorker)))
+        Control.Monad.void (MotionRectanglesWorker.addListenerInterface ((jget (this).motionRectanglesWorker)) (javaCast (jget (this).moveMouseToFirstMotionRectanglesResultsWorker)))
+        Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jget (this).imageComparisonWorker)) (javaCast (jget (this).changedPixelsImageComparisonResultsWorker)))
+        Control.Monad.void (ImageComparisonWorker.addListenerInterface ((jget (this).imageComparisonWorker)) (javaCast (jget (this).motionRectanglesWorker)))
+        Control.Monad.void (ScreenCaptureImagesWorker.addListenerInterface ((jget (this).captureWorker)) (javaCast (jget (this).imageComparisonWorker)))
         pure ()
 
 

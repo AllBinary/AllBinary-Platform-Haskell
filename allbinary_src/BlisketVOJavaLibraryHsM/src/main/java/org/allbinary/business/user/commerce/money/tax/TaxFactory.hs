@@ -88,7 +88,7 @@ newRecord_ = do
     tAXATIONFILENAME <- newIORef ""
     let this = TaxFactory header_ logUtil commonStrings tAXATIONFILENAME
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: TaxFactory -> IO ()
@@ -117,15 +117,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TaxFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: TaxFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: TaxFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: TaxFactory)) a1 a2
 
-getInstance_impl :: TaxFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
-getInstance_impl this abeClientInformation storeFrontInterface = do
+getInstance_2_impl :: TaxFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> StoreFrontInterface.StoreFrontInterface -> IO (TaxModuleInterface.TaxModuleInterface)
+getInstance_2_impl this abeClientInformation storeFrontInterface = do
     javaCatchReturn $ do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getMainPath)))
@@ -139,7 +138,7 @@ getInstance_impl this abeClientInformation storeFrontInterface = do
         abPath <- (AbPath.new_2 (jio (StringMaker.toString stringBuffer)) (jget this.tAXATIONFILENAME))
         transformInfoObjectConfigData <- (TransformInfoObjectConfigData.getInstance)
         data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget (transformInfoObjectConfigData).uNCRYPTED_EXTENSION) (jget (transformInfoObjectConfigData).eNCRYPTED_EXTENSION)))) abPath)
-        document <- (DomDocumentHelper.create data_)
+        document <- (DomDocumentHelper.create_1 data_)
         taxNameNodeList <- (Document.getElementsByTagName document (TaxData.nAME))
         forM_ [0 .. (jio (NodeList.getLength taxNameNodeList)) - 1] $ \index -> javaIteration (pure ()) $ do
             node <- (NodeList.item taxNameNodeList index)
@@ -148,7 +147,7 @@ getInstance_impl this abeClientInformation storeFrontInterface = do
                 classNameNode <- (DomSearchHelper.getNode (DynamicObjectData.nAME) nodeList)
                 if (classNameNode /= javaNull) then do
                     className <- (DomNodeHelper.getTextNodeValue classNameNode)
-                    javaReturn ((javaCast (jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation className)) :: TaxModuleInterface.TaxModuleInterface))
+                    javaReturn ((javaCast (jio (AbeFactory.getInstance_2 ((jio (AbeFactory.getInstance))) abeClientInformation className)) :: TaxModuleInterface.TaxModuleInterface))
                 else do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAX))) $ do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Class Node Null" this (jget ((jget (this).commonStrings)).gET_INSTANCE))

@@ -97,7 +97,7 @@ init_4 this layerInterface healthInterface animationInterface direction = do
         jset (this).allbinaryLayer (layerInterface)
         jset (this).animationInterface (animationInterface)
         jset (this).healthInterface (healthInterface)
-        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) this)
+        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) (javaCast this))
         Control.Monad.void (HealthBar.onHealthChange this)
         pure ()
 

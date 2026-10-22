@@ -105,9 +105,8 @@ getTextNodeValue node = do
 
 
 -- throws Exception
--- Java overload of getTextNodeValue with a different parameter count: give it a different name
-getTextNodeValue :: String -> NodeList.NodeList -> IO (String)
-getTextNodeValue nodeName nodeList = do
+getTextNodeValue_2 :: String -> NodeList.NodeList -> IO (String)
+getTextNodeValue_2 nodeName nodeList = do
         node <- (DomSearchHelper.getNode nodeName nodeList)
         (DomNodeHelper.getTextNodeValue node)
 

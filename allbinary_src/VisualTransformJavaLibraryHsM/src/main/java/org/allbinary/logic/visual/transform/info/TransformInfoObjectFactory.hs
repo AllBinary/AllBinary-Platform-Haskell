@@ -72,7 +72,7 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = TransformInfoObjectFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: TransformInfoObjectFactory -> IO ()
@@ -99,15 +99,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: TransformInfoObjectFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: TransformInfoObjectFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: TransformInfoObjectFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: TransformInfoObjectFactory)) a1 a2
 
-getInstance_impl :: TransformInfoObjectFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
-getInstance_impl this abeClientInformation transformInfoInterface = do
+getInstance_2_impl :: TransformInfoObjectFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInterface.TransformInterface)
+getInstance_2_impl this abeClientInformation transformInfoInterface = do
         handle (\(e :: JavaException) -> do
             error <- newIORef ("Failed To Get Instance: ")
             when (transformInfoInterface /= javaNull) $ do
@@ -124,7 +123,7 @@ getInstance_impl this abeClientInformation transformInfoInterface = do
             let classes = (jnewArray (1) javaNull)
             jsetIndex classes (0) ("TransformInfoInterface")
             jsetIndex params (0) ((jtoObject (javaCast transformInfoInterface :: Any.Any)))
-            let anyType = (javaCast (jio (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation (jio (TransformInfoInterface.getObjectFile transformInfoInterface)) classes params)) :: TransformInterface.TransformInterface)
+            let anyType = (javaCast (jio (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation (jio (TransformInfoInterface.getObjectFile transformInfoInterface)) classes params)) :: TransformInterface.TransformInterface)
             when (anyType == javaNull) $ do
                 if (transformInfoInterface /= javaNull) then do
                     stringBuffer <- (StringMaker.new_)

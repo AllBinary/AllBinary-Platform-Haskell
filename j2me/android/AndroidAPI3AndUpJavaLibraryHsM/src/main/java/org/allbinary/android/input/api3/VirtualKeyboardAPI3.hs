@@ -118,7 +118,7 @@ init_1 this activity = do
         jset (this).hideVirtualKeyboardRunnable (assignedValue)
         virtualKeyboardEventHandler <- (VirtualKeyboardEventHandler.getInstance)
         Control.Monad.void (VirtualKeyboardEventHandler.removeAllListeners virtualKeyboardEventHandler)
-        Control.Monad.void (VirtualKeyboardEventHandler.addListenerInterface virtualKeyboardEventHandler this)
+        Control.Monad.void (VirtualKeyboardEventHandler.addListenerInterface virtualKeyboardEventHandler (javaCast this))
         pure ()
 
 

@@ -77,8 +77,8 @@ newRecord_ = do
     useCustomLoader <- newIORef False
     let this = AbeFactory header_ logUtil useCustomLoader
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
+    jregisterMethod header_ "getInstance_4" (\() -> getInstance_4_impl this)
     jregisterMethod header_ "getClass" (\() -> getClass_impl this)
     pure this
 
@@ -107,15 +107,14 @@ init_ this = do
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: AbeFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: AbeFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: AbeFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: AbeFactory)) a1 a2
 
-getInstance_impl :: AbeFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
-getInstance_impl this abeClientInformation className = do
+getInstance_2_impl :: AbeFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (Any.Any)
+getInstance_2_impl this abeClientInformation className = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).lOADERERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Failure for: " ++ className) this "getInstance(classname)" e)
@@ -125,15 +124,14 @@ getInstance_impl this abeClientInformation className = do
 
 
 -- throws LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
-getInstance object_ a1 a2 a3 a4 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: AbeFactory))) () a1 a2 a3 a4
+getInstance_4 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
+getInstance_4 object_ a1 a2 a3 a4 = jmethod object_ "getInstance_4" (\() -> (getInstance_4_impl (javaCast object_ :: AbeFactory))) () a1 a2 a3 a4
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
-getInstance_super object_ a1 a2 a3 a4 = (getInstance_impl (javaCast object_ :: AbeFactory)) a1 a2 a3 a4
+getInstance_4_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
+getInstance_4_super object_ a1 a2 a3 a4 = (getInstance_4_impl (javaCast object_ :: AbeFactory)) a1 a2 a3 a4
 
-getInstance_impl :: AbeFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
-getInstance_impl this abeClientInformation className classes params = do
+getInstance_4_impl :: AbeFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> JavaArray (Class.Class) -> JavaArray (Any.Any) -> IO (Any.Any)
+getInstance_4_impl this abeClientInformation className classes params = do
     javaCatchReturn $ do
         constructor <- newIORef (javaNull)
         handle (\(e :: JavaException) -> do

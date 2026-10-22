@@ -66,7 +66,7 @@ newRecord_ = do
     let this = SubDirectory header_ directory
     jregisterLevel header_ this
     jregisterMethod header_ "search_overload1" (\() -> search_overload1_impl this)
-    jregisterMethod header_ "search" (\() -> search_impl this)
+    jregisterMethod header_ "search_1" (\() -> search_1_impl this)
     jregisterMethod header_ "search_overload2" (\() -> search_overload2_impl this)
     jregisterMethod header_ "search_overload3" (\() -> search_overload3_impl this)
     pure this
@@ -110,22 +110,20 @@ search_overload1_super object_ a1 a2 = (search_overload1_impl (javaCast object_ 
 
 search_overload1_impl :: SubDirectory -> FileFilter.FileFilter -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload1_impl this fileFilter file = do
-        (Directory.search ((jget (this).directory)) fileFilter file True)
+        (Directory.search_3 ((jget (this).directory)) fileFilter file True)
 
 
--- Java overload of search with a different parameter count: give it a different name
-search :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search object_ a1 = jmethod object_ "search" (\() -> (search_impl (javaCast object_ :: SubDirectory))) () a1
+search_1 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1 object_ a1 = jmethod object_ "search_1" (\() -> (search_1_impl (javaCast object_ :: SubDirectory))) () a1
 
-search_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search_super object_ a1 = (search_impl (javaCast object_ :: SubDirectory)) a1
+search_1_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1_super object_ a1 = (search_1_impl (javaCast object_ :: SubDirectory)) a1
 
-search_impl :: SubDirectory -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
-search_impl this file = do
+search_1_impl :: SubDirectory -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
+search_1_impl this file = do
         (Directory.search ((jget (this).directory)) file True)
 
 
--- Java overload of search with a different parameter count: give it a different name
 search_overload2 :: (JavaObjectClass this_) => this_ -> String -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload2 object_ a1 a2 = jmethod object_ "search_overload2" (\() -> (search_overload2_impl (javaCast object_ :: SubDirectory))) () a1 a2
 
@@ -134,10 +132,9 @@ search_overload2_super object_ a1 a2 = (search_overload2_impl (javaCast object_ 
 
 search_overload2_impl :: SubDirectory -> String -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload2_impl this searchValue file = do
-        (Directory.search ((jget (this).directory)) searchValue file True)
+        (Directory.search_3 ((jget (this).directory)) searchValue file True)
 
 
--- Java overload of search with a different parameter count: give it a different name
 search_overload3 :: (JavaObjectClass this_) => this_ -> Int -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload3 object_ a1 a2 = jmethod object_ "search_overload3" (\() -> (search_overload3_impl (javaCast object_ :: SubDirectory))) () a1 a2
 
@@ -146,7 +143,7 @@ search_overload3_super object_ a1 a2 = (search_overload3_impl (javaCast object_ 
 
 search_overload3_impl :: SubDirectory -> Int -> AbFile.AbFile -> IO (BasicArrayList.BasicArrayList)
 search_overload3_impl this level file = do
-        (Directory.search ((jget (this).directory)) level file True)
+        (Directory.search_3 ((jget (this).directory)) level file True)
 
 
 toString :: BasicArrayList.BasicArrayList -> IO (String)

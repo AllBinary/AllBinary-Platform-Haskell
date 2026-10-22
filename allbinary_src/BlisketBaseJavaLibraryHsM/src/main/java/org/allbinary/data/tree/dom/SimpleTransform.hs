@@ -103,8 +103,8 @@ transform_super object_ = (transform_impl (javaCast object_ :: SimpleTransform))
 transform_impl :: SimpleTransform -> IO (String)
 transform_impl this = do
         inputStream <- (AbFileLocalInputStream.new_1 (jio (AbFile.createAbFileFromAbPath (jget (this).xsltFilePath))))
-        document <- (DomDocumentHelper.create (jio (AbFileLocalInputStream.new_1 (jio (AbFile.createAbFileFromAbPath (jget (this).dataFilePath))))))
-        result <- (XslHelper.translate ((jio (XslHelper.getInstance))) (jio (StreamSource.new_1 inputStream)) (jio (StreamSource.new_1 (jio (StringBufferInputStream.new_1 (jio (XmlDocumentHelper.toString document)))))))
+        document <- (DomDocumentHelper.create_1 (jio (AbFileLocalInputStream.new_1 (jio (AbFile.createAbFileFromAbPath (jget (this).dataFilePath))))))
+        result <- (XslHelper.translate_2 ((jio (XslHelper.getInstance))) (jio (StreamSource.new_1 inputStream)) (jio (StreamSource.new_1 (jio (StringBufferInputStream.new_1 (jio (XmlDocumentHelper.toString document)))))))
         pure (result)
 
 

@@ -135,7 +135,7 @@ processStartMotionEvent_impl this x y deviceId modifiers = do
             let point = (javaCast (jio (getNextInstance AllMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
             Control.Monad.void (CustomGPoint.setX point x)
             Control.Monad.void (CustomGPoint.setY point y)
-            Control.Monad.void (MotionGestureRecognizer.processPressedMotionEvent ((jget (this).motionGestureRecognizer)) point deviceId modifiers)
+            Control.Monad.void (MotionGestureRecognizer.processPressedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
         pure ()
 
 
@@ -154,7 +154,7 @@ processEndMotionEvent_impl this x y deviceId modifiers = do
             let point = (javaCast (jio (getNextInstance AllMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
             Control.Monad.void (CustomGPoint.setX point x)
             Control.Monad.void (CustomGPoint.setY point y)
-            Control.Monad.void (MotionGestureRecognizer.processReleasedMotionEvent ((jget (this).motionGestureRecognizer)) point deviceId modifiers)
+            Control.Monad.void (MotionGestureRecognizer.processReleasedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
         when (jget (this).touchButtonProcessing) $ do
             jset (this).touchButtonProcessing (False)
         pure ()
@@ -175,7 +175,7 @@ processDraggedMotionEvent_impl this x y deviceId modifiers = do
             let point = (javaCast (jio (getNextInstance AllMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
             Control.Monad.void (CustomGPoint.setX point x)
             Control.Monad.void (CustomGPoint.setY point y)
-            Control.Monad.void (MotionGestureRecognizer.processDraggedMotionEvent ((jget (this).motionGestureRecognizer)) point deviceId modifiers)
+            Control.Monad.void (MotionGestureRecognizer.processDraggedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
         pure ()
 
 
@@ -194,7 +194,7 @@ processMovedMotionEvent_impl this x y deviceId modifiers = do
             let point = (javaCast (jio (getNextInstance AllMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
             Control.Monad.void (CustomGPoint.setX point x)
             Control.Monad.void (CustomGPoint.setY point y)
-            Control.Monad.void (MotionGestureRecognizer.processMovedMotionEvent ((jget (this).motionGestureRecognizer)) point deviceId modifiers)
+            Control.Monad.void (MotionGestureRecognizer.processMovedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
         pure ()
 
 
@@ -210,7 +210,7 @@ processScrolledMotionEvent_impl this x y deviceId modifiers = do
         let point = (javaCast (jio (getNextInstance AllMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
         Control.Monad.void (CustomGPoint.setX point x)
         Control.Monad.void (CustomGPoint.setY point y)
-        Control.Monad.void (MotionGestureRecognizer.processScrolledMotionEvent ((jget (this).motionGestureRecognizer)) point deviceId modifiers)
+        Control.Monad.void (MotionGestureRecognizer.processScrolledMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
         pure ()
 
 

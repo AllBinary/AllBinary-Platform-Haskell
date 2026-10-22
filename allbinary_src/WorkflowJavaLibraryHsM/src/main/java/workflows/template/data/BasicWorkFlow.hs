@@ -111,7 +111,7 @@ init_2 this propertiesHashMap pageContext = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Properties: " ++ (jio (HashMap.toString propertiesHashMap))) this "BasicWorkFlow()")
         jset (this).propertiesHashMap (propertiesHashMap)
         jset (this).pageContext (pageContext)
-        jset (this).validationDomNodeInterface ((javaCast (jio (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) propertiesHashMap pageContext)) :: ValidationComponentInterface.ValidationComponentInterface))
+        jset (this).validationDomNodeInterface ((javaCast (jio (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) propertiesHashMap pageContext)) :: ValidationComponentInterface.ValidationComponentInterface))
         pure ()
 
 

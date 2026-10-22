@@ -493,7 +493,7 @@ getSubStores_impl this = do
             javaThrow (e)
             ) $ do
             tokenizer <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).sEMICOLON))
-            subStoreVector <- (Tokenizer.getTokensFromString tokenizer (jget (this).subStores) (jio (BasicArrayListD.new_)))
+            subStoreVector <- (Tokenizer.getTokensFromString tokenizer (jget (this).subStores) (javaCast (jio (BasicArrayListD.new_))))
             pure (subStoreVector)
 
 

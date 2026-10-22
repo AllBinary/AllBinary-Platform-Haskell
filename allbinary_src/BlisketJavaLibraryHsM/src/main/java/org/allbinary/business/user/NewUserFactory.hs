@@ -92,9 +92,8 @@ getInstance = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: TransformInfoInterface.TransformInfoInterface -> IO (UserInterface.UserInterface)
-getInstance transformInfoInterface = do
+getInstance_1 :: TransformInfoInterface.TransformInfoInterface -> IO (UserInterface.UserInterface)
+getInstance_1 transformInfoInterface = do
         let httpTransformInfoInterface = (javaCast transformInfoInterface :: TransformInfoHttpInterface.TransformInfoHttpInterface)
         let httpServletRequest = (javaCast (jio (TransformInfoHttpInterface.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface))))) :: HttpServletRequest.HttpServletRequest)
         hashMap <- (RequestParams.toHashMap ((jio (RequestParams.new_1 httpServletRequest))))
@@ -104,9 +103,8 @@ getInstance transformInfoInterface = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> IO (UserInterface.UserInterface)
-getInstance httpServletRequest propertiesHashMap = do
+getInstance_2 :: HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> IO (UserInterface.UserInterface)
+getInstance_2 httpServletRequest propertiesHashMap = do
     javaCatchReturn $ do
         if (propertiesHashMap /= javaNull) then do
             requestHashMap <- (RequestParams.toHashMap ((jio (RequestParams.new_1 httpServletRequest))))

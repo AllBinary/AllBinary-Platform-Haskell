@@ -137,7 +137,7 @@ open_super object_ = (open_impl (javaCast object_ :: HighScoresCanvasLevelChange
 
 open_impl :: HighScoresCanvasLevelChangeInputProcessor -> IO (())
 open_impl this = do
-        Control.Monad.void (GameKeyEventHandler.addListener ((jio (GameKeyEventHandler.getInstance))) this)
+        Control.Monad.void (GameKeyEventHandler.addListener ((jio (GameKeyEventHandler.getInstance))) (javaCast this))
         pure ()
 
 
@@ -149,7 +149,7 @@ close_super object_ = (close_impl (javaCast object_ :: HighScoresCanvasLevelChan
 
 close_impl :: HighScoresCanvasLevelChangeInputProcessor -> IO (())
 close_impl this = do
-        Control.Monad.void (GameKeyEventHandler.removeListener ((jio (GameKeyEventHandler.getInstance))) this)
+        Control.Monad.void (GameKeyEventHandler.removeListener ((jio (GameKeyEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

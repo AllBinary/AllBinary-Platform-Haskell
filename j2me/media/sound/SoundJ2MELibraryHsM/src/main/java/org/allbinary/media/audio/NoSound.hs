@@ -85,7 +85,7 @@ init_ this = do
         Sound.init_1 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (Sound.setPlayerP this (NoPlayer.nO_PLAYER))
+        Control.Monad.void (Sound.setPlayerP this (javaCast NoPlayer.nO_PLAYER))
         pure ()
 
 

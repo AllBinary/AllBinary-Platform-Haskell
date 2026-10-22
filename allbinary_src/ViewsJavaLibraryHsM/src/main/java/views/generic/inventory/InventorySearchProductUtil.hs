@@ -125,7 +125,7 @@ getProduct_impl this abeClientInformation searchRequest product = do
             inventoryEntityInterface <- (InventoryEntityFactory.getInventoryEntityInstance ((jio (InventoryEntityFactory.getInstance))))
             itemInterface <- (InventoryEntity.getItem inventoryEntityInterface product)
             if (itemInterface /= javaNull) then do
-                viewDocumentInterface <- (TransformStoreDocumentFactory.getInstance searchRequest)
+                viewDocumentInterface <- (TransformStoreDocumentFactory.getInstance_1 searchRequest)
                 Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode viewDocumentInterface))) (jio (BasicItemView.toXmlNode ((jio (BasicItemView.new_2 itemInterface (jio (BasicArrayListD.new_))))) (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))))
                 success <- (XmlDocumentHelper.toString (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))
                 outputStr <- (StoreTransformer.translate ((jio (StoreTransformer.new_2 abeClientInformation (javaCast (jio (TransformInfoHttpSearch.new_1 searchRequest)) :: TransformInfoInterface.TransformInfoInterface)))) success)

@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.io.file.directory
 module DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor (module DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor, module IncludeFileExtensionsBooleanFileVisitor) where
 
-import IncludeFileExtensionsBooleanFileVisitor hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, visit, visit_super, visit_impl, visit, visit_super, visit_impl, main, main_super, main_impl, trackedStrings, gitProcessHelper, includesString)
+import IncludeFileExtensionsBooleanFileVisitor hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, visit, visit_super, visit_impl, visit_2, visit_2_super, visit_2_impl, visit, main, main_super, main_impl, trackedStrings, gitProcessHelper, includesString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -71,7 +71,7 @@ newRecord_ = do
     let this = DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor header_ base trackedStrings gitProcessHelper includesString
     jregisterLevel header_ this
     jregisterMethod header_ "visit" (\() -> visit_impl this)
-    jregisterMethod header_ "visit" (\() -> visit_impl this)
+    jregisterMethod header_ "visit_2" (\() -> visit_2_impl this)
     pure this
 
 initFields_ :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor -> IO ()
@@ -127,15 +127,14 @@ visit_impl this file = do
             javaReturn (False)
 
 
--- Java overload of visit with a different parameter count: give it a different name
-visit :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit object_ a1 a2 = jmethod object_ "visit" (\() -> (visit_impl (javaCast object_ :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor))) () a1 a2
+visit_2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2 object_ a1 a2 = jmethod object_ "visit_2" (\() -> (visit_2_impl (javaCast object_ :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor))) () a1 a2
 
-visit_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit_super object_ a1 a2 = (visit_impl (javaCast object_ :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor)) a1 a2
+visit_2_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_super object_ a1 a2 = (visit_2_impl (javaCast object_ :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor)) a1 a2
 
-visit_impl :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
-visit_impl this file fileNameString = do
+visit_2_impl :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_impl this file fileNameString = do
     javaCatchReturn $ do
         filePath <- (AbFile.getPath file)
         when (jio (IncludeFileExtensionsBooleanFileVisitor.visit_super this.base file fileNameString)) $ do

@@ -119,8 +119,8 @@ init_4 this commandListener title backgrounBasicColor foregroundBasicColor = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         Control.Monad.void (GameOptionsForm.addConfiguration this)
         gameFeatureFormUtil <- (GameFeatureFormUtil.getInstance)
-        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil this (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getExclusiveInstance))))) (Choice.eXCLUSIVE))
-        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil this (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getMultipleInstance))))) (Choice.mULTIPLE))
+        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getExclusiveInstance))))) (Choice.eXCLUSIVE))
+        Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getMultipleInstance))))) (Choice.mULTIPLE))
         Control.Monad.void (GameOptionsForm.initCommands this commandListener)
         Control.Monad.void (CommandForm.setItemStateListener this (jio (GameFeatureItemStateListener.new_1 this)))
         Control.Monad.void (GameOptionsForm.addTextFieldsIfSimulated this)
@@ -177,7 +177,7 @@ addTextFields_impl this = do
             jset gameConfigurationTextInput ((javaCast (jio (ABHashtable.get hashtable (javaCast (jindex objectArray (index)) :: Any.Any))) :: GameConfigurationTextInput.GameConfigurationTextInput))
             assignedValue <- (TextField.new_4 (jio (GameConfigurationTextInput.getLabel ((jget gameConfigurationTextInput)))) (jio (GameConfigurationTextInput.getText ((jget gameConfigurationTextInput)))) 30 (TextField.aNY))
             jset textField (assignedValue)
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this (jget textField))
+            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget textField)))
         pure ()
 
 
@@ -205,7 +205,7 @@ addConfiguration_impl this = do
             jset gauge (assignedValue)
             Control.Monad.void (GameConfigurationGauge.setDefaultCommand ((jget gauge)) gAUGE_CHANGE)
             Control.Monad.void (GameConfigurationGauge.setItemCommandListener ((jget gauge)) (jio (GameFeatureItemCommandListener.new_1 this)))
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) this (jget gauge))
+            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget gauge)))
         pure ()
 
 

@@ -113,7 +113,7 @@ addListener_super object_ = (addListener_impl (javaCast object_ :: BaseGameInput
 addListener_impl :: BaseGameInputMotionEventProcessor -> IO (())
 addListener_impl this = do
         motionGesturesHandler <- (BasicMotionGesturesHandler.getInstance)
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface motionGesturesHandler (jget (this).gameMotionGestureListener))
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface motionGesturesHandler (javaCast (jget (this).gameMotionGestureListener)))
         pure ()
 
 

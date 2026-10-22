@@ -93,7 +93,7 @@ createDocument xmlFile = do
         handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
-            (DomDocumentHelper.create (jio (AbFileInputStream.new_1 xmlFile)))
+            (DomDocumentHelper.create_1 (jio (AbFileInputStream.new_1 xmlFile)))
 
 
 -- throws Exception
@@ -101,7 +101,7 @@ save :: AbFile.AbFile -> Document.Document -> IO (())
 save file document = do
         dataOutputStream <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget dataOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget dataOutputStream)))
             ) $ handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do

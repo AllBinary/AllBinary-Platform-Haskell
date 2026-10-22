@@ -132,7 +132,7 @@ visit_impl this unitLayer = do
                     if (jio (RTSLayer.isDestroyed ((jget rtsLayer)))) then do
                         Control.Monad.void (BasicArrayList.remove ((jio (Waypoint.getConnectedWaypointList this))) (jget rtsLayer))
                     else do
-                        Control.Monad.void (UnitWaypointBehavior.insertWaypoint unitWaypointBehavior 0 (jget rtsLayer))
+                        Control.Monad.void (UnitWaypointBehavior.insertWaypoint unitWaypointBehavior 0 (javaCast (jget rtsLayer)))
                         throwIO JavaBreak
     pure ()
 

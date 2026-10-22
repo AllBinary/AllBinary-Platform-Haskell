@@ -295,8 +295,8 @@ init_1 this clientInformationFactory = do
         assignedValue <- (CommandForm.getNullCommandForm)
         jset (this).loadGameForm (assignedValue)
         progressCanvas <- (ProgressCanvasFactory.getInstance)
-        Control.Monad.void (ProgressCanvas.init progressCanvas this)
-        Control.Monad.void (GameFeatureEventHandler.addListenerInterface ((jio (GameFeatureEventHandler.getInstance))) (jio (ChangedGameFeatureListener.getInstance)))
+        Control.Monad.void (ProgressCanvas.init progressCanvas (javaCast this))
+        Control.Monad.void (GameFeatureEventHandler.addListenerInterface ((jio (GameFeatureEventHandler.getInstance))) (javaCast (jio (ChangedGameFeatureListener.getInstance))))
         Control.Monad.void (GamePersistanceSingleton.clear ((jio (GamePersistanceSingleton.getInstance))))
         assignedValue <- (DebugFactory.getInstance)
         jset (this).debugInterface (assignedValue)
@@ -439,7 +439,7 @@ destroyAppInRunnable_impl this unconditional isProgress = do
         progressCanvas <- (ProgressCanvasFactory.getInstance)
         when isProgress $ do
             Control.Monad.void (ProgressCanvas.start progressCanvas)
-            Control.Monad.void (GameMidlet.commandAction this (jget ((jget (this).myCommandsFactory)).sET_DISPLAYABLE) progressCanvas)
+            Control.Monad.void (GameMidlet.commandAction this (jget ((jget (this).myCommandsFactory)).sET_DISPLAYABLE) (javaCast progressCanvas))
         Control.Monad.void (GameMidlet.destroyApp this unconditional)
         when isProgress $ do
             Control.Monad.void (ProgressCanvas.end progressCanvas)
@@ -463,7 +463,7 @@ destroyApp_impl this unconditional = do
             Control.Monad.void (Advertisements.stopAll ((jio (GameAdState.getAdvertisements gameAdState))))
             if (Prelude.not (jio (ProgressMidlet.isDestroyed this))) then do
                 Control.Monad.void (GameMidlet.stopGameCanvasRunnableInterface this)
-                Control.Monad.void (GameMidlet.setGameCanvasRunnableInterface this (NullGameCanvasRunnable.nULL_GAME_CANVAS_RUNNABLE))
+                Control.Monad.void (GameMidlet.setGameCanvasRunnableInterface this (javaCast NullGameCanvasRunnable.nULL_GAME_CANVAS_RUNNABLE))
                 Control.Monad.void (GameMidlet.mediaShutdown this)
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) "Midlet Managment Error: Midlet Should Only Be Destroyed Once" this mETHOD_NAME)
@@ -541,7 +541,7 @@ commandAction_impl this command displayable = do
             else if (command == (jget (gameCommandsFactory).eXIT_COMMAND)) then do
                 when ((jio (BasicArrayList.size ((jio (GameMidletEventHandler.getEventListenerInterfaceListP ((jio (GameMidletEventHandler.getInstance)))))))) == 0) $ do
                     Control.Monad.void (ProgressMidlet.exitProgress this True)
-                Control.Monad.void (GameMidletEventHandler.fireEvent ((jio (GameMidletEventHandler.getInstance))) (jio (DemoGameMidletEvent.new_2 this (jget ((jio (DemoGameMidletStateFactory.getInstance))).nONE))))
+                Control.Monad.void (GameMidletEventHandler.fireEvent ((jio (GameMidletEventHandler.getInstance))) (javaCast (jio (DemoGameMidletEvent.new_2 this (jget ((jio (DemoGameMidletStateFactory.getInstance))).nONE)))))
             else if (command == (jget (gameCommandsFactory).eXIT_WITHOUT_PROGRESS_COMMAND)) then do
                 Control.Monad.void (ProgressMidlet.exitProgress this False)
             else if (((command == (jget (gameCommandsFactory).sTART_COMMAND)) || (command == (jget (gameCommandsFactory).rESTART_COMMAND))) || (command == (jget (gameCommandsFactory).cONTINUE_COMMAND))) then do
@@ -606,22 +606,22 @@ commandAction_impl this command displayable = do
                 when (javaInstanceOf tempDisplayable "GameInputMappingCanvas") $ do
                     let gameInputMappingCanvas = (javaCast tempDisplayable :: GameInputMappingCanvas.GameInputMappingCanvas)
                     Control.Monad.void (GameInputMappingCanvas.update gameInputMappingCanvas)
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.getInputMappingInstructionsCanvas this)))
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.getInputMappingInstructionsCanvas this))))
             else if (jio (HighScoreCommandsFactory.isHighScoreCommand ((jio (HighScoreCommandsFactory.getInstance))) command)) then do
                 let tempDisplayable = displayable
                 when (javaInstanceOf tempDisplayable "HighScoresCanvas") $ do
                     let highScoresCanvas = (javaCast tempDisplayable :: HighScoresCanvas.HighScoresCanvas)
                     Control.Monad.void (HighScoresCanvas.updateCommand highScoresCanvas command)
             else if (command == (jget ((jio (HighScoreCommands.getInstance))).dISPLAY)) then do
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.createHighScoresCanvas this)))
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.createHighScoresCanvas this))))
             else if (command == GameInputMappingInstructionsCanvas.cLOSE) then do
                 let menuListener = (javaCast displayable :: MenuListener.MenuListener)
                 Control.Monad.void (MenuListener.close menuListener)
-                Control.Monad.void (GameMidlet.commandAction this (GameInputMappingCanvas.dISPLAY) (NullCanvas.nULL_CANVAS))
+                Control.Monad.void (GameMidlet.commandAction this (GameInputMappingCanvas.dISPLAY) (javaCast NullCanvas.nULL_CANVAS))
             else if (command == GameInputMappingCanvas.dISPLAY) then do
                 when (jio (J2MEUtil.isHTML)) $ do
                     Control.Monad.void (GameMidlet.pauseAppBackground this False)
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.getInputMappingCanvas this)))
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.getInputMappingCanvas this))))
             else if (command == GameInputMappingCanvas.dEFAULT) then do
                 let tempDisplayable = displayable
                 when (javaInstanceOf tempDisplayable "GameInputMappingCanvas") $ do
@@ -633,13 +633,13 @@ commandAction_impl this command displayable = do
                 Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas 50 "In Game Options")
                 layerManager <- (GameMidlet.createGameLayerManager this)
                 inGameOptionsFormFactory <- (InGameOptionsFormFactory.getInstance)
-                Control.Monad.void (InGameOptionsFormFactory.init inGameOptionsFormFactory this (jio (InGameFeatures.new_)) "Options In Game" (jio (AllBinaryGameLayerManager.getBackgroundBasicColor layerManager)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor layerManager)))
+                Control.Monad.void (InGameOptionsFormFactory.init inGameOptionsFormFactory (javaCast this) (javaCast (jio (InGameFeatures.new_))) "Options In Game" (jio (AllBinaryGameLayerManager.getBackgroundBasicColor layerManager)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor layerManager)))
                 inGameOptionsForm <- (InGameOptionsFormFactory.get inGameOptionsFormFactory)
                 Control.Monad.void (InGameOptionsForm.setItemStateListener inGameOptionsForm allbinaryGameCanvasRunnableInterface)
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) inGameOptionsForm)
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast inGameOptionsForm))
             else if (command == InGameOptionsForm.dEFAULT) then do
                 let inGameOptionsForm = (javaCast (jio (InGameOptionsFormFactory.get ((jio (InGameOptionsFormFactory.getInstance))))) :: InGameOptionsForm.InGameOptionsForm)
-                Control.Monad.void (GameFeatureFormUtil.setDefault ((jio (GameFeatureFormUtil.getInstance))) inGameOptionsForm)
+                Control.Monad.void (GameFeatureFormUtil.setDefault ((jio (GameFeatureFormUtil.getInstance))) (javaCast inGameOptionsForm))
             else if (command == (jget (gameCommandsFactory).dISPLAY_OPTIONS)) then do
                 Control.Monad.void (AllBinaryMediaManager.setMuted True)
                 Control.Monad.void (GameMidlet.stopAll this)
@@ -648,7 +648,7 @@ commandAction_impl this command displayable = do
                 jset (this).isFullScreen (assignedValue)
                 Control.Monad.void (ResizableListenerHandler.fireEvent ((jio (ResizableListenerHandler.getInstance))) True)
                 Control.Monad.void (GameMidlet.setResized this False)
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.getGameOptionsForm this)))
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.getGameOptionsForm this))))
             else if (command == (jget (gameCommandsFactory).cLOSE_OPTIONS)) then do
                 Control.Monad.void (ResizableListenerHandler.fireEvent ((jio (ResizableListenerHandler.getInstance))) False)
                 Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).cLOSE_AND_SHOW_GAME_CANVAS) displayable)
@@ -672,7 +672,7 @@ commandAction_impl this command displayable = do
                     Control.Monad.void (GameMidlet.setLoadGameForm this (jio (LoadGameForm.new_4 this "Load Game" (jio (AllBinaryGameLayerManager.getBackgroundBasicColor layerManager)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor layerManager)))))
                 else do
                     Control.Monad.void (CommandForm.update ((jio (GameMidlet.getLoadGameForm this))))
-                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.getLoadGameForm this)))
+                Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.getLoadGameForm this))))
             else if (command == (jget (gameCommandsFactory).lOAD_FILE)) then do
                 let loadGameForm = (javaCast (jio (GameMidlet.getLoadGameForm this)) :: LoadGameForm.LoadGameForm)
                 index <- (LoadGameForm.getSelectedId loadGameForm)
@@ -682,7 +682,7 @@ commandAction_impl this command displayable = do
                     menuListener <- (fmap (\value_ -> javaCast value_ :: MenuListener.MenuListener) (GameMidlet.getLoadGameForm this))
                     Control.Monad.void (MenuListener.close menuListener)
                     Control.Monad.void (PreLogUtil.put (jio (BasicMotionGesturesHandler.toString ((jio (BasicMotionGesturesHandler.getInstance))))) this (jget (this).cOMMAND_ACTION))
-                    Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sTART_COMMAND) (NullCanvas.nULL_CANVAS))
+                    Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).sTART_COMMAND) (javaCast NullCanvas.nULL_CANVAS))
                     Control.Monad.void (PreLogUtil.put (jio (BasicMotionGesturesHandler.toString ((jio (BasicMotionGesturesHandler.getInstance))))) this (jget (this).cOMMAND_ACTION))
             else if (command == (jget (gameCommandsFactory).dELETE_FILE)) then do
                 let loadGameForm = (javaCast (jio (GameMidlet.getLoadGameForm this)) :: LoadGameForm.LoadGameForm)
@@ -706,12 +706,12 @@ commandAction_impl this command displayable = do
                 Control.Monad.void (GameCanvasRunnableInterface.setHighScoreSubmitted allbinaryGameCanvasRunnableInterface True)
                 Control.Monad.void (GameMidlet.commandAction this (jget (gameCommandsFactory).cLOSE_AND_SHOW_GAME_CANVAS) displayable)
             else if (command == (jget (gameCommandsFactory).dISPLAY_ABOUT)) then do
-                Control.Monad.void (AboutCommandProcessor.process ((jget (this).aboutCommandProcessor)) this (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (jio (GameMidlet.getAboutCanvas this)))
+                Control.Monad.void (AboutCommandProcessor.process ((jget (this).aboutCommandProcessor)) (javaCast this) (jget (gameCommandsFactory).sET_MENU_DISPLAYABLE) (javaCast (jio (GameMidlet.getAboutCanvas this))))
             else if (command == (jget (gameCommandsFactory).oPEN_WEB_URL)) then do
-                Control.Monad.void (WebCommandProcessor.process ((jget (this).webCommandProcessor)) this (jget (gameCommandsFactory).oPEN_WEB_URL) (NullCanvas.nULL_CANVAS))
+                Control.Monad.void (WebCommandProcessor.process ((jget (this).webCommandProcessor)) (javaCast this) (jget (gameCommandsFactory).oPEN_WEB_URL) (javaCast NullCanvas.nULL_CANVAS))
             else if (command == (jget (gameCommandsFactory).tOGGLE_KEYBOARD)) then do
                 virtualKeyboardEventHandler <- (VirtualKeyboardEventHandler.getInstance)
-                Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (jget (virtualKeyboardEventHandler).sHOW_EVENT))
+                Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (javaCast (jget (virtualKeyboardEventHandler).sHOW_EVENT)))
             else when ((jio (TsUtil.compareTo ((jget (this).tsUtil)) (jio (Command.getLabel command)) (jio (Command.getLabel ((jget (gameCommandsFactory).tOGGLE_FULLSCREEN)))))) == 0) $ do
                 mainFeatureFactory <- (MainFeatureFactory.getInstance)
                 isFullScreen <- (Features.isFeature ((jget (this).features)) (jget (mainFeatureFactory).fULL_SCREEN))
@@ -903,7 +903,7 @@ getGameOptionsForm_super object_ = (getGameOptionsForm_impl (javaCast object_ ::
 getGameOptionsForm_impl :: GameMidlet -> IO (CommandForm.CommandForm)
 getGameOptionsForm_impl this = do
         layerManager <- (GameMidlet.createGameLayerManager this)
-        (GameOptionsFormFactory.init ((jio (GameOptionsFormFactory.getInstance))) this "Game Options" (jio (AllBinaryGameLayerManager.getBackgroundBasicColor layerManager)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor layerManager)))
+        (GameOptionsFormFactory.init ((jio (GameOptionsFormFactory.getInstance))) (javaCast this) "Game Options" (jio (AllBinaryGameLayerManager.getBackgroundBasicColor layerManager)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor layerManager)))
 
 
 -- throws Exception

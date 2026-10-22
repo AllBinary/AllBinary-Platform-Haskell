@@ -121,7 +121,7 @@ init_impl this keyAsString = do
                 ) $ do
                 Control.Monad.void (Security.addProvider (jio (BouncyCastleProvider.new_)))
             key <- (TsUtil.getByteArray ((jget (this).tsUtil)) keyAsString)
-            keySpec <- (fmap (\value_ -> javaCast value_ :: KeySpec.KeySpec) (KeySpecFactory.getInstance ((jio (KeySpecFactory.getInstance))) (jget (this).algorithm) key))
+            keySpec <- (fmap (\value_ -> javaCast value_ :: KeySpec.KeySpec) (KeySpecFactory.getInstance_2 ((jio (KeySpecFactory.getInstance))) (jget (this).algorithm) key))
             keyFactory <- (SecretKeyFactory.getInstance (jget (this).algorithm))
             secretKey <- (SecretKeyFactory.generateSecret keyFactory keySpec)
             cipher <- (Cipher.getInstance (jget (this).algorithm))

@@ -75,7 +75,7 @@ newRecord_ = do
 initFields_ :: OpenGLESGraphics -> IO ()
 initFields_ this = do
     jset this.commonStrings =<< (CommonStrings.getInstance)
-    jset this.gl (NullGL10.nULL_GL10)
+    jset this.gl ((javaCast NullGL10.nULL_GL10 :: GL10.GL10))
     pure ()
 
 new_ :: IO OpenGLESGraphics

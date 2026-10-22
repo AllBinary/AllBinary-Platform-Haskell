@@ -213,7 +213,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: MetaValidation
 
 toXmlNode_impl :: MetaValidation -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
-        node <- (ModDomHelper.createNameValueNodes document (jget ((jio (HtmlMetaData.getInstance))).nAME) (jio (MetaValidation.toHashMap this)))
+        node <- (ModDomHelper.createNameValueNodes_3 document (jget ((jio (HtmlMetaData.getInstance))).nAME) (jio (MetaValidation.toHashMap this)))
         pure (node)
 
 

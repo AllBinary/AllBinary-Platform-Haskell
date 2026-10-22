@@ -74,13 +74,13 @@ newRecord_ = do
     jregisterLevel header_ this
     CategoryFactoryInterface.registerInterface_ header_
     jregisterMethod header_ "getRootInstance" (\() -> getRootInstance_impl this)
-    jregisterMethod header_ "getRootInstance" (\() -> getRootInstance_impl this)
+    jregisterMethod header_ "getRootInstance_1" (\() -> getRootInstance_1_impl this)
     jregisterMethod header_ "getRootInstanceFromNode" (\() -> getRootInstanceFromNode_impl this)
     jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
-    jregisterMethod header_ "getInstance_overload1" (\() -> getInstance_overload1_impl this)
+    jregisterMethod header_ "getInstance_3_overload1" (\() -> getInstance_3_overload1_impl this)
     jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
-    jregisterMethod header_ "getInstance_overload2" (\() -> getInstance_overload2_impl this)
-    jregisterMethod header_ "getInstance_overload3" (\() -> getInstance_overload3_impl this)
+    jregisterMethod header_ "getInstance_3_overload2" (\() -> getInstance_3_overload2_impl this)
+    jregisterMethod header_ "getInstance_3_overload3" (\() -> getInstance_3_overload3_impl this)
     pure this
 
 initFields_ :: CategoryAbstractFactory -> IO ()
@@ -113,15 +113,14 @@ getRootInstance_impl this = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 
--- Java overload of getRootInstance with a different parameter count: give it a different name
-getRootInstance :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance object_ a1 = jmethod object_ "getRootInstance" (\() -> (getRootInstance_impl (javaCast object_ :: CategoryAbstractFactory))) () a1
+getRootInstance_1 :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1 object_ a1 = jmethod object_ "getRootInstance_1" (\() -> (getRootInstance_1_impl (javaCast object_ :: CategoryAbstractFactory))) () a1
 
-getRootInstance_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_super object_ a1 = (getRootInstance_impl (javaCast object_ :: CategoryAbstractFactory)) a1
+getRootInstance_1_super :: (JavaObjectClass this_) => this_ -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_super object_ a1 = (getRootInstance_1_impl (javaCast object_ :: CategoryAbstractFactory)) a1
 
-getRootInstance_impl :: CategoryAbstractFactory -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
-getRootInstance_impl this categoryAbPath = do
+getRootInstance_1_impl :: CategoryAbstractFactory -> AbPath.AbPath -> IO (CategoryInterface.CategoryInterface)
+getRootInstance_1_impl this categoryAbPath = do
         javaThrow ((JavaException "RuntimeException" ""))
 
 
@@ -163,22 +162,21 @@ getInstance_overload1_impl this categoryName = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance :: (JavaObjectClass this_, JavaObjectClass o3) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> o3 -> IO (CategoryInterface.CategoryInterface)
-getInstance this a1 a2 a3
-    | jisInstanceOf a3 (javaNull :: String) = getInstance_overload1 this a1 a2 (javaCast a3 :: String)
-    | jisInstanceOf a3 (javaNull :: Node.Node) = getInstance_overload2 this a1 a2 (javaCast a3 :: Node.Node)
-    | jisInstanceOf a3 (javaNull :: HashMap.HashMap) = getInstance_overload3 this a1 a2 (javaCast a3 :: HashMap.HashMap)
-    | otherwise = getInstance_overload3 this a1 a2 (javaCast a3 :: HashMap.HashMap)
+getInstance_3 :: (JavaObjectClass this_, JavaObjectClass o3) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> o3 -> IO (CategoryInterface.CategoryInterface)
+getInstance_3 this a1 a2 a3
+    | jisInstanceOf a3 (javaNull :: String) = getInstance_3_overload1 this a1 a2 (javaCast a3 :: String)
+    | jisInstanceOf a3 (javaNull :: Node.Node) = getInstance_3_overload2 this a1 a2 (javaCast a3 :: Node.Node)
+    | jisInstanceOf a3 (javaNull :: HashMap.HashMap) = getInstance_3_overload3 this a1 a2 (javaCast a3 :: HashMap.HashMap)
+    | otherwise = getInstance_3_overload3 this a1 a2 (javaCast a3 :: HashMap.HashMap)
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload1 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload1 object_ a1 a2 a3 = jmethod object_ "getInstance_overload1" (\() -> (getInstance_overload1_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
+getInstance_3_overload1 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload1 object_ a1 a2 a3 = jmethod object_ "getInstance_3_overload1" (\() -> (getInstance_3_overload1_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
 
-getInstance_overload1_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload1_super object_ a1 a2 a3 = (getInstance_overload1_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
+getInstance_3_overload1_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload1_super object_ a1 a2 a3 = (getInstance_3_overload1_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
 
-getInstance_overload1_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload1_impl this rootCategoryInterface parentCategoryInterface categoryName = do
+getInstance_3_overload1_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> String -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload1_impl this rootCategoryInterface parentCategoryInterface categoryName = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eNTITYFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "getInstance(CategoryInterface, CategoryInterface , String, int)" e)
@@ -190,7 +188,6 @@ getInstance_overload1_impl this rootCategoryInterface parentCategoryInterface ca
             pure ((javaCast (jio (Category.new_3 rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface)) :: CategoryInterface.CategoryInterface))
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
 getInstance_overload2 :: (JavaObjectClass this_) => this_ -> Node.Node -> IO (CategoryInterface.CategoryInterface)
 getInstance_overload2 object_ a1 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: CategoryAbstractFactory))) () a1
 
@@ -210,15 +207,14 @@ getInstance_overload2_impl this node = do
             pure ((javaCast (jio (Category.new_1 categoryPropertiesFactoryInterface)) :: CategoryInterface.CategoryInterface))
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload2 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload2 object_ a1 a2 a3 = jmethod object_ "getInstance_overload2" (\() -> (getInstance_overload2_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
+getInstance_3_overload2 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload2 object_ a1 a2 a3 = jmethod object_ "getInstance_3_overload2" (\() -> (getInstance_3_overload2_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
 
-getInstance_overload2_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload2_super object_ a1 a2 a3 = (getInstance_overload2_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
+getInstance_3_overload2_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload2_super object_ a1 a2 a3 = (getInstance_3_overload2_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
 
-getInstance_overload2_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload2_impl this rootCategoryInterface parentCategoryInterface node = do
+getInstance_3_overload2_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Node.Node -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload2_impl this rootCategoryInterface parentCategoryInterface node = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eNTITYFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.commonStrings)).eXCEPTION) this "getInstance(CategoryInterface, CategoryInterface, Node, int)" e)
@@ -230,15 +226,14 @@ getInstance_overload2_impl this rootCategoryInterface parentCategoryInterface no
             pure ((javaCast (jio (Category.new_3 rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface)) :: CategoryInterface.CategoryInterface))
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance_overload3 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload3 object_ a1 a2 a3 = jmethod object_ "getInstance_overload3" (\() -> (getInstance_overload3_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
+getInstance_3_overload3 :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload3 object_ a1 a2 a3 = jmethod object_ "getInstance_3_overload3" (\() -> (getInstance_3_overload3_impl (javaCast object_ :: CategoryAbstractFactory))) () a1 a2 a3
 
-getInstance_overload3_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload3_super object_ a1 a2 a3 = (getInstance_overload3_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
+getInstance_3_overload3_super :: (JavaObjectClass this_) => this_ -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload3_super object_ a1 a2 a3 = (getInstance_3_overload3_impl (javaCast object_ :: CategoryAbstractFactory)) a1 a2 a3
 
-getInstance_overload3_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
-getInstance_overload3_impl this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
+getInstance_3_overload3_impl :: CategoryAbstractFactory -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO (CategoryInterface.CategoryInterface)
+getInstance_3_overload3_impl this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORYERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.commonStrings)).eXCEPTION) this "getInstance(CategoryInterface, CategoryInterface, HashMap)" e)

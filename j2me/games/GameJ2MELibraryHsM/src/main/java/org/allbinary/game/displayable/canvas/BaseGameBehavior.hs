@@ -125,9 +125,9 @@ pause_super object_ a1 = (pause_impl (javaCast object_ :: BaseGameBehavior)) a1
 pause_impl :: BaseGameBehavior -> AllBinaryGameCanvas.AllBinaryGameCanvas -> IO (())
 pause_impl this allBinaryGameCanvas = do
         features <- (Features.getInstance)
-        when (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AS_GAME_THREAD))) $ do
+        when (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AS_GAME_THREAD)))) $ do
             currentDisplayableFactory <- (CurrentDisplayableFactory.getInstance)
-            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (jget (allBinaryGameCanvas).gamePauseRunnable))
+            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (javaCast (jget (allBinaryGameCanvas).gamePauseRunnable)))
         pure ()
 
 
@@ -139,10 +139,10 @@ unPause_super object_ a1 = (unPause_impl (javaCast object_ :: BaseGameBehavior))
 
 unPause_impl :: BaseGameBehavior -> AllBinaryGameCanvas.AllBinaryGameCanvas -> IO (())
 unPause_impl this allBinaryGameCanvas = do
-        when (jio (Features.isDefault ((jio (Features.getInstance))) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AS_GAME_THREAD))) $ do
+        when (jio (Features.isDefault ((jio (Features.getInstance))) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL_AS_GAME_THREAD)))) $ do
             currentDisplayableFactory <- (CurrentDisplayableFactory.getInstance)
-            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (jget (allBinaryGameCanvas).gameRunnable))
-            Control.Monad.void (CurrentDisplayableFactory.setDisplayable currentDisplayableFactory allBinaryGameCanvas)
+            Control.Monad.void (CurrentDisplayableFactory.setRunnable currentDisplayableFactory (javaCast (jget (allBinaryGameCanvas).gameRunnable)))
+            Control.Monad.void (CurrentDisplayableFactory.setDisplayable currentDisplayableFactory (javaCast allBinaryGameCanvas))
         pure ()
 
 

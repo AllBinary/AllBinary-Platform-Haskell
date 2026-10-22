@@ -149,7 +149,7 @@ processKeyAI_super object_ a1 = (processKeyAI_impl (javaCast object_ :: BasicAI)
 processKeyAI_impl :: BasicAI -> Int -> IO (())
 processKeyAI_impl this key = do
         when (key /= (Prelude.negate 1)) $ do
-            Control.Monad.void (GameInput.add ((jget (this).gameInput)) (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).gameKeyEventFactory)) this key)))
+            Control.Monad.void (GameInput.add ((jget (this).gameInput)) (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).gameKeyEventFactory)) (javaCast this) key)))
         pure ()
 
 

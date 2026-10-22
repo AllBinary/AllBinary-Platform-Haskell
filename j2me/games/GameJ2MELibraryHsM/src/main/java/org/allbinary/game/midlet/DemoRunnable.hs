@@ -116,10 +116,10 @@ run_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).rUN) e)
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jio (CommonLabels.getInstance))).sTART_LABEL)))) "GameCanvasRunnableInterface"))))) this (jget ((jget (this).commonStrings)).rUN))
-            Control.Monad.void (DemoGameMidlet.commandAction ((jget (this).demoGameMidlet)) (jget ((jio (MyCommandsFactory.getInstance))).sET_DISPLAYABLE) (jio (ProgressCanvasFactory.getInstance)))
+            Control.Monad.void (DemoGameMidlet.commandAction ((jget (this).demoGameMidlet)) (jget ((jio (MyCommandsFactory.getInstance))).sET_DISPLAYABLE) (javaCast (jio (ProgressCanvasFactory.getInstance))))
             Control.Monad.void (DemoGameMidlet.setGameCanvasRunnableInterface ((jget (this).demoGameMidlet)) (jio (DemoGameMidlet.createDemoGameCanvasRunnableInterface ((jget (this).demoGameMidlet)))))
             Control.Monad.void (DemoGameMidlet.demoSetup ((jget (this).demoGameMidlet)))
-            Control.Monad.void (DemoGameMidletEventHandler.fireEvent ((jio (DemoGameMidletEventHandler.getInstance))) (jget (this).startDemoGameMidletEvent))
+            Control.Monad.void (DemoGameMidletEventHandler.fireEvent ((jio (DemoGameMidletEventHandler.getInstance))) (javaCast (jget (this).startDemoGameMidletEvent)))
             Control.Monad.void (DemoGameMidlet.startGameCanvasRunnableInterface ((jget (this).demoGameMidlet)))
             Control.Monad.void (DemoGameMidlet.postDemoSetup ((jget (this).demoGameMidlet)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND_RUNNABLE) this (jget ((jget (this).commonStrings)).rUN))

@@ -140,7 +140,7 @@ initialize_impl this cloud overwriteNewer overwriteAll current total = do
                     if (jio (AbFile.isDirectory ((jget nextFile)))) then do
                         pure ()
                     else do
-                        Control.Monad.void (FileUtil.copyToCloud ((jio (FileUtil.getInstance))) (jget nextFile) path realPath cloud overwriteNewer overwriteAll)
+                        Control.Monad.void (FileUtil.copyToCloud_6 ((jio (FileUtil.getInstance))) (jget nextFile) path realPath cloud overwriteNewer overwriteAll)
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Copied Files To Cloud" this "initialize()")
             pure (True)
 

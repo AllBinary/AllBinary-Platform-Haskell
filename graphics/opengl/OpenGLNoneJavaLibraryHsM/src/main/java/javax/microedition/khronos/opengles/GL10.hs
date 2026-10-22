@@ -2,8 +2,9 @@
 {-# OPTIONS_GHC -fno-cse -fno-full-laziness #-}
 -- Generated Code Do Not Modify
 -- package javax.microedition.khronos.opengles
-module GL10 where
+module GL10 (module GL10, module GL) where
 
+import GL hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, glActiveTexture, glActiveTexture_super, glActiveTexture_impl, glAlphaFunc, glAlphaFunc_super, glAlphaFunc_impl, glBindTexture, glBindTexture_super, glBindTexture_impl, glBlendFunc, glBlendFunc_super, glBlendFunc_impl, glClear, glClear_super, glClear_impl, glClearColor, glClearColor_super, glClearColor_impl, glClearDepthf, glClearDepthf_super, glClearDepthf_impl, glClearStencil, glClearStencil_super, glClearStencil_impl, glClientActiveTexture, glClientActiveTexture_super, glClientActiveTexture_impl, glColor4f, glColor4f_super, glColor4f_impl, glColorMask, glColorMask_super, glColorMask_impl, glColorPointer, glColorPointer_super, glColorPointer_impl, glCompressedTexImage2D, glCompressedTexImage2D_super, glCompressedTexImage2D_impl, glCompressedTexSubImage2D, glCompressedTexSubImage2D_super, glCompressedTexSubImage2D_impl, glCopyTexImage2D, glCopyTexImage2D_super, glCopyTexImage2D_impl, glCopyTexSubImage2D, glCopyTexSubImage2D_super, glCopyTexSubImage2D_impl, glCullFace, glCullFace_super, glCullFace_impl, glDeleteTextures, glDeleteTextures_super, glDeleteTextures_impl, glDeleteTextures_2, glDeleteTextures_2_super, glDeleteTextures_2_impl, glDeleteTextures, glDepthFunc, glDepthFunc_super, glDepthFunc_impl, glDepthMask, glDepthMask_super, glDepthMask_impl, glDepthRangef, glDepthRangef_super, glDepthRangef_impl, glDisable, glDisable_super, glDisable_impl, glDisableClientState, glDisableClientState_super, glDisableClientState_impl, glDrawArrays, glDrawArrays_super, glDrawArrays_impl, glDrawElements, glDrawElements_super, glDrawElements_impl, glEnable, glEnable_super, glEnable_impl, glEnableClientState, glEnableClientState_super, glEnableClientState_impl, glFinish, glFinish_super, glFinish_impl, glFlush, glFlush_super, glFlush_impl, glFogf, glFogf_super, glFogf_impl, glFogfv, glFogfv_super, glFogfv_impl, glFogfv_2, glFogfv_2_super, glFogfv_2_impl, glFogfv, glFrontFace, glFrontFace_super, glFrontFace_impl, glFrustumf, glFrustumf_super, glFrustumf_impl, glGenTextures, glGenTextures_super, glGenTextures_impl, glGenTextures_2, glGenTextures_2_super, glGenTextures_2_impl, glGenTextures, glGetError, glGetError_super, glGetError_impl, glGetIntegerv, glGetIntegerv_super, glGetIntegerv_impl, glGetIntegerv_2, glGetIntegerv_2_super, glGetIntegerv_2_impl, glGetIntegerv, glGetString, glGetString_super, glGetString_impl, glHint, glHint_super, glHint_impl, glLightModelf, glLightModelf_super, glLightModelf_impl, glLightModelfv, glLightModelfv_super, glLightModelfv_impl, glLightModelfv_2, glLightModelfv_2_super, glLightModelfv_2_impl, glLightModelfv, glLightf, glLightf_super, glLightf_impl, glLightfv, glLightfv_super, glLightfv_impl, glLightfv_3, glLightfv_3_super, glLightfv_3_impl, glLightfv, glLineWidth, glLineWidth_super, glLineWidth_impl, glLoadIdentity, glLoadIdentity_super, glLoadIdentity_impl, glLoadMatrixf, glLoadMatrixf_super, glLoadMatrixf_impl, glLoadMatrixf_1, glLoadMatrixf_1_super, glLoadMatrixf_1_impl, glLoadMatrixf, glLogicOp, glLogicOp_super, glLogicOp_impl, glMaterialf, glMaterialf_super, glMaterialf_impl, glMaterialfv, glMaterialfv_super, glMaterialfv_impl, glMaterialfv_3, glMaterialfv_3_super, glMaterialfv_3_impl, glMaterialfv, glMatrixMode, glMatrixMode_super, glMatrixMode_impl, glMultMatrixf, glMultMatrixf_super, glMultMatrixf_impl, glMultMatrixf_1, glMultMatrixf_1_super, glMultMatrixf_1_impl, glMultMatrixf, glMultiTexCoord4f, glMultiTexCoord4f_super, glMultiTexCoord4f_impl, glNormal3f, glNormal3f_super, glNormal3f_impl, glNormalPointer, glNormalPointer_super, glNormalPointer_impl, glOrthof, glOrthof_super, glOrthof_impl, glPixelStorei, glPixelStorei_super, glPixelStorei_impl, glPointSize, glPointSize_super, glPointSize_impl, glPolygonOffset, glPolygonOffset_super, glPolygonOffset_impl, glPopMatrix, glPopMatrix_super, glPopMatrix_impl, glPushMatrix, glPushMatrix_super, glPushMatrix_impl, glReadPixels, glReadPixels_super, glReadPixels_impl, glRotatef, glRotatef_super, glRotatef_impl, glRotatex, glRotatex_super, glRotatex_impl, glSampleCoverage, glSampleCoverage_super, glSampleCoverage_impl, glScalef, glScalef_super, glScalef_impl, glScalex, glScalex_super, glScalex_impl, glScissor, glScissor_super, glScissor_impl, glShadeModel, glShadeModel_super, glShadeModel_impl, glStencilFunc, glStencilFunc_super, glStencilFunc_impl, glStencilMask, glStencilMask_super, glStencilMask_impl, glStencilOp, glStencilOp_super, glStencilOp_impl, glTexCoordPointer, glTexCoordPointer_super, glTexCoordPointer_impl, glTexEnvf, glTexEnvf_super, glTexEnvf_impl, glTexEnvfv, glTexEnvfv_super, glTexEnvfv_impl, glTexEnvfv_3, glTexEnvfv_3_super, glTexEnvfv_3_impl, glTexEnvfv, glTexImage2D, glTexImage2D_super, glTexImage2D_impl, glTexParameterf, glTexParameterf_super, glTexParameterf_impl, glTexParameteri, glTexParameteri_super, glTexParameteri_impl, glTexSubImage2D, glTexSubImage2D_super, glTexSubImage2D_impl, glTranslatef, glTranslatef_super, glTranslatef_impl, glVertexPointer, glVertexPointer_super, glVertexPointer_impl, glViewport, glViewport_super, glViewport_impl, glBegin, glBegin_super, glBegin_impl, glEnd, glEnd_super, glEnd_impl, glVertex3f, glVertex3f_super, glVertex3f_impl, glPolygonMode, glPolygonMode_super, glPolygonMode_impl, gL_ADD, gL_ALIASED_LINE_WIDTH_RANGE, gL_ALIASED_POINT_SIZE_RANGE, gL_ALPHA, gL_ALPHA_BITS, gL_ALPHA_TEST, gL_ALWAYS, gL_AMBIENT, gL_AMBIENT_AND_DIFFUSE, gL_AND, gL_AND_INVERTED, gL_AND_REVERSE, gL_BACK, gL_BLEND, gL_BLUE_BITS, gL_BYTE, gL_CCW, gL_CLAMP_TO_EDGE, gL_CLEAR, gL_COLOR_ARRAY, gL_COLOR_BUFFER_BIT, gL_COLOR_LOGIC_OP, gL_COLOR_MATERIAL, gL_COMPRESSED_TEXTURE_FORMATS, gL_CONSTANT_ATTENUATION, gL_COPY, gL_COPY_INVERTED, gL_CULL_FACE, gL_CW, gL_DECAL, gL_DECR, gL_DEPTH_BITS, gL_DEPTH_BUFFER_BIT, gL_DEPTH_TEST, gL_DIFFUSE, gL_DITHER, gL_DONT_CARE, gL_DST_ALPHA, gL_DST_COLOR, gL_EMISSION, gL_EQUAL, gL_EQUIV, gL_EXP, gL_EXP2, gL_EXTENSIONS, gL_FALSE, gL_FASTEST, gL_FIXED, gL_FLAT, gL_FLOAT, gL_FOG, gL_FOG_COLOR, gL_FOG_DENSITY, gL_FOG_END, gL_FOG_HINT, gL_FOG_MODE, gL_FOG_START, gL_FRONT, gL_FRONT_AND_BACK, gL_GEQUAL, gL_GREATER, gL_GREEN_BITS, gL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, gL_IMPLEMENTATION_COLOR_READ_TYPE_OES, gL_INCR, gL_INVALID_ENUM, gL_INVALID_OPERATION, gL_INVALID_VALUE, gL_INVERT, gL_KEEP, gL_LEQUAL, gL_LESS, gL_LIGHT_MODEL_AMBIENT, gL_LIGHT_MODEL_TWO_SIDE, gL_LIGHT0, gL_LIGHT1, gL_LIGHT2, gL_LIGHT3, gL_LIGHT4, gL_LIGHT5, gL_LIGHT6, gL_LIGHT7, gL_LIGHTING, gL_LINE_LOOP, gL_LINE_SMOOTH, gL_LINE_SMOOTH_HINT, gL_LINE_STRIP, gL_LINEAR, gL_LINEAR_ATTENUATION, gL_LINEAR_MIPMAP_LINEAR, gL_LINEAR_MIPMAP_NEAREST, gL_LINES, gL_LUMINANCE, gL_LUMINANCE_ALPHA, gL_MAX_ELEMENTS_INDICES, gL_MAX_ELEMENTS_VERTICES, gL_MAX_LIGHTS, gL_MAX_MODELVIEW_STACK_DEPTH, gL_MAX_PROJECTION_STACK_DEPTH, gL_MAX_TEXTURE_SIZE, gL_MAX_TEXTURE_STACK_DEPTH, gL_MAX_TEXTURE_UNITS, gL_MAX_VIEWPORT_DIMS, gL_MODELVIEW, gL_MODULATE, gL_MULTISAMPLE, gL_NAND, gL_NEAREST, gL_NEAREST_MIPMAP_LINEAR, gL_NEAREST_MIPMAP_NEAREST, gL_NEVER, gL_NICEST, gL_NO_ERROR, gL_NOOP, gL_NOR, gL_NORMAL_ARRAY, gL_NORMALIZE, gL_NOTEQUAL, gL_NUM_COMPRESSED_TEXTURE_FORMATS, gL_ONE, gL_ONE_MINUS_DST_ALPHA, gL_ONE_MINUS_DST_COLOR, gL_ONE_MINUS_SRC_ALPHA, gL_ONE_MINUS_SRC_COLOR, gL_OR, gL_OR_INVERTED, gL_OR_REVERSE, gL_OUT_OF_MEMORY, gL_PACK_ALIGNMENT, gL_PALETTE4_R5_G6_B5_OES, gL_PALETTE4_RGB5_A1_OES, gL_PALETTE4_RGB8_OES, gL_PALETTE4_RGBA4_OES, gL_PALETTE4_RGBA8_OES, gL_PALETTE8_R5_G6_B5_OES, gL_PALETTE8_RGB5_A1_OES, gL_PALETTE8_RGB8_OES, gL_PALETTE8_RGBA4_OES, gL_PALETTE8_RGBA8_OES, gL_PERSPECTIVE_CORRECTION_HINT, gL_POINT_SMOOTH, gL_POINT_SMOOTH_HINT, gL_POINTS, gL_POINT_FADE_THRESHOLD_SIZE, gL_POINT_SIZE, gL_POLYGON_OFFSET_FILL, gL_POLYGON_SMOOTH_HINT, gL_POSITION, gL_PROJECTION, gL_QUADRATIC_ATTENUATION, gL_RED_BITS, gL_RENDERER, gL_REPEAT, gL_REPLACE, gL_RESCALE_NORMAL, gL_RGB, gL_RGBA, gL_SAMPLE_ALPHA_TO_COVERAGE, gL_SAMPLE_ALPHA_TO_ONE, gL_SAMPLE_COVERAGE, gL_SCISSOR_TEST, gL_SET, gL_SHININESS, gL_SHORT, gL_SMOOTH, gL_SMOOTH_LINE_WIDTH_RANGE, gL_SMOOTH_POINT_SIZE_RANGE, gL_SPECULAR, gL_SPOT_CUTOFF, gL_SPOT_DIRECTION, gL_SPOT_EXPONENT, gL_SRC_ALPHA, gL_SRC_ALPHA_SATURATE, gL_SRC_COLOR, gL_STACK_OVERFLOW, gL_STACK_UNDERFLOW, gL_STENCIL_BITS, gL_STENCIL_BUFFER_BIT, gL_STENCIL_TEST, gL_SUBPIXEL_BITS, gL_TEXTURE, gL_TEXTURE_2D, gL_TEXTURE_COORD_ARRAY, gL_TEXTURE_ENV, gL_TEXTURE_ENV_COLOR, gL_TEXTURE_ENV_MODE, gL_TEXTURE_MAG_FILTER, gL_TEXTURE_MIN_FILTER, gL_TEXTURE_WRAP_S, gL_TEXTURE_WRAP_T, gL_TEXTURE0, gL_TEXTURE1, gL_TEXTURE2, gL_TEXTURE3, gL_TEXTURE4, gL_TEXTURE5, gL_TEXTURE6, gL_TEXTURE7, gL_TEXTURE8, gL_TEXTURE9, gL_TEXTURE10, gL_TEXTURE11, gL_TEXTURE12, gL_TEXTURE13, gL_TEXTURE14, gL_TEXTURE15, gL_TEXTURE16, gL_TEXTURE17, gL_TEXTURE18, gL_TEXTURE19, gL_TEXTURE20, gL_TEXTURE21, gL_TEXTURE22, gL_TEXTURE23, gL_TEXTURE24, gL_TEXTURE25, gL_TEXTURE26, gL_TEXTURE27, gL_TEXTURE28, gL_TEXTURE29, gL_TEXTURE30, gL_TEXTURE31, gL_TRIANGLE_FAN, gL_TRIANGLE_STRIP, gL_TRIANGLES, gL_TRUE, gL_UNPACK_ALIGNMENT, gL_UNSIGNED_BYTE, gL_UNSIGNED_SHORT, gL_UNSIGNED_SHORT_4_4_4_4, gL_UNSIGNED_SHORT_5_5_5_1, gL_UNSIGNED_SHORT_5_6_5, gL_VENDOR, gL_VERSION, gL_VERTEX_ARRAY, gL_XOR, gL_ZERO, toString)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -708,15 +709,14 @@ glDeleteTextures_impl :: GL10 -> Int -> JavaArray (Int) -> Int -> IO (())
 glDeleteTextures_impl this n textures offset = javaAbstractMethod "glDeleteTextures"
 
 
--- Java overload of glDeleteTextures with a different parameter count: give it a different name
-glDeleteTextures :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures object_ a1 a2 = jmethod object_ "glDeleteTextures" (\() -> (glDeleteTextures_impl (javaCast object_ :: GL10))) () a1 a2
+glDeleteTextures_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2 object_ a1 a2 = jmethod object_ "glDeleteTextures_2" (\() -> (glDeleteTextures_2_impl (javaCast object_ :: GL10))) () a1 a2
 
-glDeleteTextures_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures_super object_ a1 a2 = (glDeleteTextures_impl (javaCast object_ :: GL10)) a1 a2
+glDeleteTextures_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2_super object_ a1 a2 = (glDeleteTextures_2_impl (javaCast object_ :: GL10)) a1 a2
 
-glDeleteTextures_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glDeleteTextures_impl this n textures = javaAbstractMethod "glDeleteTextures"
+glDeleteTextures_2_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glDeleteTextures_2_impl this n textures = javaAbstractMethod "glDeleteTextures"
 
 
 glDepthFunc :: (JavaObjectClass this_) => this_ -> Int -> IO (())
@@ -849,15 +849,14 @@ glFogfv_impl :: GL10 -> Int -> JavaArray (Float) -> Int -> IO (())
 glFogfv_impl this pname params offset = javaAbstractMethod "glFogfv"
 
 
--- Java overload of glFogfv with a different parameter count: give it a different name
-glFogfv :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv object_ a1 a2 = jmethod object_ "glFogfv" (\() -> (glFogfv_impl (javaCast object_ :: GL10))) () a1 a2
+glFogfv_2 :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2 object_ a1 a2 = jmethod object_ "glFogfv_2" (\() -> (glFogfv_2_impl (javaCast object_ :: GL10))) () a1 a2
 
-glFogfv_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv_super object_ a1 a2 = (glFogfv_impl (javaCast object_ :: GL10)) a1 a2
+glFogfv_2_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2_super object_ a1 a2 = (glFogfv_2_impl (javaCast object_ :: GL10)) a1 a2
 
-glFogfv_impl :: GL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glFogfv_impl this pname params = javaAbstractMethod "glFogfv"
+glFogfv_2_impl :: GL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glFogfv_2_impl this pname params = javaAbstractMethod "glFogfv"
 
 
 glFrontFace :: (JavaObjectClass this_) => this_ -> Int -> IO (())
@@ -890,15 +889,14 @@ glGenTextures_impl :: GL10 -> Int -> JavaArray (Int) -> Int -> IO (())
 glGenTextures_impl this n textures offset = javaAbstractMethod "glGenTextures"
 
 
--- Java overload of glGenTextures with a different parameter count: give it a different name
-glGenTextures :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures object_ a1 a2 = jmethod object_ "glGenTextures" (\() -> (glGenTextures_impl (javaCast object_ :: GL10))) () a1 a2
+glGenTextures_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2 object_ a1 a2 = jmethod object_ "glGenTextures_2" (\() -> (glGenTextures_2_impl (javaCast object_ :: GL10))) () a1 a2
 
-glGenTextures_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures_super object_ a1 a2 = (glGenTextures_impl (javaCast object_ :: GL10)) a1 a2
+glGenTextures_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2_super object_ a1 a2 = (glGenTextures_2_impl (javaCast object_ :: GL10)) a1 a2
 
-glGenTextures_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glGenTextures_impl this n textures = javaAbstractMethod "glGenTextures"
+glGenTextures_2_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glGenTextures_2_impl this n textures = javaAbstractMethod "glGenTextures"
 
 
 glGetError :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -921,15 +919,14 @@ glGetIntegerv_impl :: GL10 -> Int -> JavaArray (Int) -> Int -> IO (())
 glGetIntegerv_impl this pname params offset = javaAbstractMethod "glGetIntegerv"
 
 
--- Java overload of glGetIntegerv with a different parameter count: give it a different name
-glGetIntegerv :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv object_ a1 a2 = jmethod object_ "glGetIntegerv" (\() -> (glGetIntegerv_impl (javaCast object_ :: GL10))) () a1 a2
+glGetIntegerv_2 :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2 object_ a1 a2 = jmethod object_ "glGetIntegerv_2" (\() -> (glGetIntegerv_2_impl (javaCast object_ :: GL10))) () a1 a2
 
-glGetIntegerv_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv_super object_ a1 a2 = (glGetIntegerv_impl (javaCast object_ :: GL10)) a1 a2
+glGetIntegerv_2_super :: (JavaObjectClass this_) => this_ -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2_super object_ a1 a2 = (glGetIntegerv_2_impl (javaCast object_ :: GL10)) a1 a2
 
-glGetIntegerv_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
-glGetIntegerv_impl this pname params = javaAbstractMethod "glGetIntegerv"
+glGetIntegerv_2_impl :: GL10 -> Int -> IntBuffer.IntBuffer -> IO (())
+glGetIntegerv_2_impl this pname params = javaAbstractMethod "glGetIntegerv"
 
 
 glGetString :: (JavaObjectClass this_) => this_ -> Int -> IO (String)
@@ -972,15 +969,14 @@ glLightModelfv_impl :: GL10 -> Int -> JavaArray (Float) -> Int -> IO (())
 glLightModelfv_impl this pname params offset = javaAbstractMethod "glLightModelfv"
 
 
--- Java overload of glLightModelfv with a different parameter count: give it a different name
-glLightModelfv :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv object_ a1 a2 = jmethod object_ "glLightModelfv" (\() -> (glLightModelfv_impl (javaCast object_ :: GL10))) () a1 a2
+glLightModelfv_2 :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2 object_ a1 a2 = jmethod object_ "glLightModelfv_2" (\() -> (glLightModelfv_2_impl (javaCast object_ :: GL10))) () a1 a2
 
-glLightModelfv_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv_super object_ a1 a2 = (glLightModelfv_impl (javaCast object_ :: GL10)) a1 a2
+glLightModelfv_2_super :: (JavaObjectClass this_) => this_ -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2_super object_ a1 a2 = (glLightModelfv_2_impl (javaCast object_ :: GL10)) a1 a2
 
-glLightModelfv_impl :: GL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightModelfv_impl this pname params = javaAbstractMethod "glLightModelfv"
+glLightModelfv_2_impl :: GL10 -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightModelfv_2_impl this pname params = javaAbstractMethod "glLightModelfv"
 
 
 glLightf :: (JavaObjectClass this_) => this_ -> Int -> Int -> Float -> IO (())
@@ -1003,15 +999,14 @@ glLightfv_impl :: GL10 -> Int -> Int -> JavaArray (Float) -> Int -> IO (())
 glLightfv_impl this light pname params offset = javaAbstractMethod "glLightfv"
 
 
--- Java overload of glLightfv with a different parameter count: give it a different name
-glLightfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv object_ a1 a2 a3 = jmethod object_ "glLightfv" (\() -> (glLightfv_impl (javaCast object_ :: GL10))) () a1 a2 a3
+glLightfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3 object_ a1 a2 a3 = jmethod object_ "glLightfv_3" (\() -> (glLightfv_3_impl (javaCast object_ :: GL10))) () a1 a2 a3
 
-glLightfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv_super object_ a1 a2 a3 = (glLightfv_impl (javaCast object_ :: GL10)) a1 a2 a3
+glLightfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3_super object_ a1 a2 a3 = (glLightfv_3_impl (javaCast object_ :: GL10)) a1 a2 a3
 
-glLightfv_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glLightfv_impl this light pname params = javaAbstractMethod "glLightfv"
+glLightfv_3_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glLightfv_3_impl this light pname params = javaAbstractMethod "glLightfv"
 
 
 glLineWidth :: (JavaObjectClass this_) => this_ -> Float -> IO (())
@@ -1044,15 +1039,14 @@ glLoadMatrixf_impl :: GL10 -> JavaArray (Float) -> Int -> IO (())
 glLoadMatrixf_impl this m offset = javaAbstractMethod "glLoadMatrixf"
 
 
--- Java overload of glLoadMatrixf with a different parameter count: give it a different name
-glLoadMatrixf :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf object_ a1 = jmethod object_ "glLoadMatrixf" (\() -> (glLoadMatrixf_impl (javaCast object_ :: GL10))) () a1
+glLoadMatrixf_1 :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1 object_ a1 = jmethod object_ "glLoadMatrixf_1" (\() -> (glLoadMatrixf_1_impl (javaCast object_ :: GL10))) () a1
 
-glLoadMatrixf_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf_super object_ a1 = (glLoadMatrixf_impl (javaCast object_ :: GL10)) a1
+glLoadMatrixf_1_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1_super object_ a1 = (glLoadMatrixf_1_impl (javaCast object_ :: GL10)) a1
 
-glLoadMatrixf_impl :: GL10 -> FloatBuffer.FloatBuffer -> IO (())
-glLoadMatrixf_impl this m = javaAbstractMethod "glLoadMatrixf"
+glLoadMatrixf_1_impl :: GL10 -> FloatBuffer.FloatBuffer -> IO (())
+glLoadMatrixf_1_impl this m = javaAbstractMethod "glLoadMatrixf"
 
 
 glLogicOp :: (JavaObjectClass this_) => this_ -> Int -> IO (())
@@ -1085,15 +1079,14 @@ glMaterialfv_impl :: GL10 -> Int -> Int -> JavaArray (Float) -> Int -> IO (())
 glMaterialfv_impl this face pname params offset = javaAbstractMethod "glMaterialfv"
 
 
--- Java overload of glMaterialfv with a different parameter count: give it a different name
-glMaterialfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv object_ a1 a2 a3 = jmethod object_ "glMaterialfv" (\() -> (glMaterialfv_impl (javaCast object_ :: GL10))) () a1 a2 a3
+glMaterialfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3 object_ a1 a2 a3 = jmethod object_ "glMaterialfv_3" (\() -> (glMaterialfv_3_impl (javaCast object_ :: GL10))) () a1 a2 a3
 
-glMaterialfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv_super object_ a1 a2 a3 = (glMaterialfv_impl (javaCast object_ :: GL10)) a1 a2 a3
+glMaterialfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3_super object_ a1 a2 a3 = (glMaterialfv_3_impl (javaCast object_ :: GL10)) a1 a2 a3
 
-glMaterialfv_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glMaterialfv_impl this face pname params = javaAbstractMethod "glMaterialfv"
+glMaterialfv_3_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glMaterialfv_3_impl this face pname params = javaAbstractMethod "glMaterialfv"
 
 
 glMatrixMode :: (JavaObjectClass this_) => this_ -> Int -> IO (())
@@ -1116,15 +1109,14 @@ glMultMatrixf_impl :: GL10 -> JavaArray (Float) -> Int -> IO (())
 glMultMatrixf_impl this m offset = javaAbstractMethod "glMultMatrixf"
 
 
--- Java overload of glMultMatrixf with a different parameter count: give it a different name
-glMultMatrixf :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf object_ a1 = jmethod object_ "glMultMatrixf" (\() -> (glMultMatrixf_impl (javaCast object_ :: GL10))) () a1
+glMultMatrixf_1 :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1 object_ a1 = jmethod object_ "glMultMatrixf_1" (\() -> (glMultMatrixf_1_impl (javaCast object_ :: GL10))) () a1
 
-glMultMatrixf_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf_super object_ a1 = (glMultMatrixf_impl (javaCast object_ :: GL10)) a1
+glMultMatrixf_1_super :: (JavaObjectClass this_) => this_ -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1_super object_ a1 = (glMultMatrixf_1_impl (javaCast object_ :: GL10)) a1
 
-glMultMatrixf_impl :: GL10 -> FloatBuffer.FloatBuffer -> IO (())
-glMultMatrixf_impl this m = javaAbstractMethod "glMultMatrixf"
+glMultMatrixf_1_impl :: GL10 -> FloatBuffer.FloatBuffer -> IO (())
+glMultMatrixf_1_impl this m = javaAbstractMethod "glMultMatrixf"
 
 
 glMultiTexCoord4f :: (JavaObjectClass this_) => this_ -> Int -> Float -> Float -> Float -> Float -> IO (())
@@ -1357,15 +1349,14 @@ glTexEnvfv_impl :: GL10 -> Int -> Int -> JavaArray (Float) -> Int -> IO (())
 glTexEnvfv_impl this target pname params offset = javaAbstractMethod "glTexEnvfv"
 
 
--- Java overload of glTexEnvfv with a different parameter count: give it a different name
-glTexEnvfv :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv object_ a1 a2 a3 = jmethod object_ "glTexEnvfv" (\() -> (glTexEnvfv_impl (javaCast object_ :: GL10))) () a1 a2 a3
+glTexEnvfv_3 :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3 object_ a1 a2 a3 = jmethod object_ "glTexEnvfv_3" (\() -> (glTexEnvfv_3_impl (javaCast object_ :: GL10))) () a1 a2 a3
 
-glTexEnvfv_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv_super object_ a1 a2 a3 = (glTexEnvfv_impl (javaCast object_ :: GL10)) a1 a2 a3
+glTexEnvfv_3_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3_super object_ a1 a2 a3 = (glTexEnvfv_3_impl (javaCast object_ :: GL10)) a1 a2 a3
 
-glTexEnvfv_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
-glTexEnvfv_impl this target pname params = javaAbstractMethod "glTexEnvfv"
+glTexEnvfv_3_impl :: GL10 -> Int -> Int -> FloatBuffer.FloatBuffer -> IO (())
+glTexEnvfv_3_impl this target pname params = javaAbstractMethod "glTexEnvfv"
 
 
 glTexImage2D :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Int -> Buffer.Buffer -> IO (())

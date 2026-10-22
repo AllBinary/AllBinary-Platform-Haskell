@@ -126,7 +126,7 @@ write_impl :: LicenseServerInitFileUtil -> IO (())
 write_impl this = do
         fileOutputStream <- newIORef ((jget (this).nULL_OUTPUT_STREAM))
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget fileOutputStream))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget fileOutputStream)))
             ) $ handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).iNIT) e)
             ) $ do

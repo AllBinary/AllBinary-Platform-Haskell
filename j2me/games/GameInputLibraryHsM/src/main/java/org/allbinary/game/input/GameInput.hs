@@ -104,7 +104,7 @@ init_2 this gameKeyEventList removalGameKeyEventList = do
         initFields_ this
         jset (this).gameKeyEventList (gameKeyEventList)
         jset (this).removalGameKeyEventList (removalGameKeyEventList)
-        assignedValue <- (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).rEMOVE_DUPLICATE_KEY_PRESSES))
+        assignedValue <- (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).rEMOVE_DUPLICATE_KEY_PRESSES)))
         jset (this).isRemoveDuplicateKeyPresses (assignedValue)
         pure ()
 

@@ -98,7 +98,7 @@ init_1 this transformInfoInterface = do
         HttpStoreComponentView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (WorkFlowEntity.get ((jio (WorkFlowEntityFactory.create2 ((jio (WorkFlowEntityFactory.getInstance)))))) (jio (WeblisketSession.getStoreName ((jio (HttpStoreComponentView.getWeblisketSession this))))))
+        assignedValue <- (WorkFlowEntity.get_1 ((jio (WorkFlowEntityFactory.create2 ((jio (WorkFlowEntityFactory.getInstance)))))) (jio (WeblisketSession.getStoreName ((jio (HttpStoreComponentView.getWeblisketSession this))))))
         jset (this).workFlowsVector (assignedValue)
         pure ()
 

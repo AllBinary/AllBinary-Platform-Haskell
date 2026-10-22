@@ -122,7 +122,7 @@ initFields_ this = do
     jset this.inputProcessorArray ((jnewArray ((jget ((jio (InputFactory.getInstance))).mAX)) javaNull))
     jset this.border (150)
     jset this.inputList (javaNull)
-    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))) || (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS)))))
+    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))) || (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS))))))
     jset this.geographicMapInterface (javaNull)
     jset this.maxBottom (0)
     jset this.maxRight (0)
@@ -159,7 +159,7 @@ move_impl this dx dy = do
         terrainTiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer ((jget (this).geographicMapInterface)))
         Control.Monad.void (AllBinaryTiledLayer.moveDXY terrainTiledLayer (Prelude.negate dx) (Prelude.negate dy))
         Control.Monad.void (ScrollMapEvent.setDxDy ((jget (this).scrollMapEvent)) (Prelude.negate dx) (Prelude.negate dy))
-        Control.Monad.void (ScrollMapEventHandler.fireEvent ((jio (ScrollMapEventHandler.getInstance))) (jget (this).scrollMapEvent))
+        Control.Monad.void (ScrollMapEventHandler.fireEvent ((jio (ScrollMapEventHandler.getInstance))) (javaCast (jget (this).scrollMapEvent)))
         pure ()
 
 

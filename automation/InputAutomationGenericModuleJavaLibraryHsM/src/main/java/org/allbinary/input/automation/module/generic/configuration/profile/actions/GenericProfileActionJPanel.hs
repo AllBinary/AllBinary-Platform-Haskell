@@ -139,7 +139,7 @@ updateProfileActionUI_impl :: GenericProfileActionJPanel -> IO (())
 updateProfileActionUI_impl this = do
         Control.Monad.void (JPanel.removeAll ((jget (this).blankProfileActionScriptJPanel)))
         genericProfileActionScriptJPanel <- (GenericProfileActionScriptJPanel.new_)
-        Control.Monad.void (JTreeInterfaceFactory.set ((jio (JTreeInterfaceFactory.getInstance))) genericProfileActionScriptJPanel)
+        Control.Monad.void (JTreeInterfaceFactory.set ((jio (JTreeInterfaceFactory.getInstance))) (javaCast genericProfileActionScriptJPanel))
         Control.Monad.void (GenericProfileActionJPanel.setGenericProfileActionScriptJPanel this genericProfileActionScriptJPanel)
         Control.Monad.void (GenericProfileActionScriptJPanel.setGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileActionScriptJPanel this))) (jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this))))))
         Control.Monad.void (GenericProfileActionScriptJPanel.updateJTree ((jio (GenericProfileActionJPanel.getGenericProfileActionScriptJPanel this))))

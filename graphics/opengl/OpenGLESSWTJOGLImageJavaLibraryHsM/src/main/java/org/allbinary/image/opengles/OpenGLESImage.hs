@@ -136,7 +136,7 @@ init_3 this image bitmapFactory textureFactory = do
         assignedValue <- (PlatformBitmapBaseFactory.createBitmap bitmapFactory image)
         jset (this).openGLBitmap (assignedValue)
         jset (this).textureFactory (textureFactory)
-        Control.Monad.void (OpenGLImageCacheFactory.init ((jio (OpenGLImageCacheFactory.getInstance))) this)
+        Control.Monad.void (ImageCache.init ((jio (OpenGLImageCacheFactory.getInstance))) (javaCast this))
         assignedValue <- (OpenGLESPostLoadPlatformImage.getInstance)
         jset (this).base.platformImage (assignedValue)
         pure ()
@@ -150,7 +150,7 @@ getHeight_super object_ = (getHeight_impl (javaCast object_ :: OpenGLESImage))
 
 getHeight_impl :: OpenGLESImage -> IO (Int)
 getHeight_impl this = do
-        pure ((Prelude.fromInteger (jnumericInteger (((jio (PlatformBitmapBase.getHeight ((jget (this).openGLBitmap)))) * (jget ((jget (this).openGLESImageProperties)).scaleY2))))))
+        pure ((Prelude.truncate (((Prelude.fromIntegral (jio (PlatformBitmapBase.getHeight ((jget (this).openGLBitmap))))) * (jget ((jget (this).openGLESImageProperties)).scaleY2)))))
 
 
 getWidth :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -161,7 +161,7 @@ getWidth_super object_ = (getWidth_impl (javaCast object_ :: OpenGLESImage))
 
 getWidth_impl :: OpenGLESImage -> IO (Int)
 getWidth_impl this = do
-        pure ((Prelude.fromInteger (jnumericInteger (((jio (PlatformBitmapBase.getWidth ((jget (this).openGLBitmap)))) * (jget ((jget (this).openGLESImageProperties)).scaleX2))))))
+        pure ((Prelude.truncate (((Prelude.fromIntegral (jio (PlatformBitmapBase.getWidth ((jget (this).openGLBitmap))))) * (jget ((jget (this).openGLESImageProperties)).scaleX2)))))
 
 
 -- throws Exception
@@ -189,16 +189,16 @@ initTexture_impl this gl = do
         when (Prelude.not (jio (contains OpenGLESImage.texture2dList this))) $ do
             Control.Monad.void (add OpenGLESImage.texture2dList this)
             let textures = (jnewArray (1) 0)
-            Control.Monad.void (GL.glEnable gl (GL10.gL_TEXTURE_2D))
+            Control.Monad.void (GL10.glEnable gl (GL10.gL_TEXTURE_2D))
             when ((jget ((jget (this).openGLESImageProperties)).textureID) /= (Prelude.negate 1)) $ do
                 jsetIndex textures (0) ((jget ((jget (this).openGLESImageProperties)).textureID))
-                Control.Monad.void (GL.glDeleteTextures gl 1 textures 0)
-            Control.Monad.void (GL.glGenTextures gl 1 textures 0)
+                Control.Monad.void (GL10.glDeleteTextures gl 1 textures 0)
+            Control.Monad.void (GL10.glGenTextures gl 1 textures 0)
             jset ((jget (this).openGLESImageProperties)).textureID ((jindex textures (0)))
-            Control.Monad.void (GL.glBindTexture gl (GL10.gL_TEXTURE_2D) (jget ((jget (this).openGLESImageProperties)).textureID))
-            Control.Monad.void (GL.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_MIN_FILTER) (GL10.gL_NEAREST))
-            Control.Monad.void (GL.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_WRAP_S) (GL10.gL_CLAMP_TO_EDGE))
-            Control.Monad.void (GL.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_WRAP_T) (GL10.gL_CLAMP_TO_EDGE))
+            Control.Monad.void (GL10.glBindTexture gl (GL10.gL_TEXTURE_2D) (jget ((jget (this).openGLESImageProperties)).textureID))
+            Control.Monad.void (GL10.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_MIN_FILTER) (GL10.gL_NEAREST))
+            Control.Monad.void (GL10.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_WRAP_S) (GL10.gL_CLAMP_TO_EDGE))
+            Control.Monad.void (GL10.glTexParameterf gl (GL10.gL_TEXTURE_2D) (GL10.gL_TEXTURE_WRAP_T) (GL10.gL_CLAMP_TO_EDGE))
             javaReturn (True)
         pure (False)
 
@@ -245,6 +245,6 @@ toString_super object_ = (toString_impl (javaCast object_ :: OpenGLESImage))
 toString_impl :: OpenGLESImage -> IO (String)
 toString_impl this = do
         graphicsStrings <- (GraphicsStrings.getInstance)
-        (StringMaker.toString ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (Image.getName this))))) (jio (Image.toString_super this.base))))) (jget (graphicsStrings).oPACITY)))) (Prelude.realToFrac (jnumericDouble (jget ((jget (this).openGLESImageProperties)).alphaf)))))))
+        (StringMaker.toString ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (Image.getName this))))) (jio (Image.toString_super this.base))))) (jget (graphicsStrings).oPACITY)))) (jget ((jget (this).openGLESImageProperties)).alphaf)))))
 
 

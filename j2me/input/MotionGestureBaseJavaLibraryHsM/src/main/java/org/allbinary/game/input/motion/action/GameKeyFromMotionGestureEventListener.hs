@@ -122,10 +122,10 @@ onCompleteMotionGestureInputEvent_impl this completeMotionGestureInputEvent = do
             gameKeyEvent <- (GameKeyCompleteMotionGestureInputEvent.getGameKeyEvent gameKeyCompleteMotionGestureInputEvent)
             when (gameKeyEvent /= (jget (this).previousGameKeyEvent)) $ do
                 when ((jget (this).previousGameKeyEvent) /= GameKeyEvent.nONE) $ do
-                    Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jio (UpGameKeyEventHandler.getInstance))) (jget (this).previousGameKeyEvent))
+                    Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jio (UpGameKeyEventHandler.getInstance))) (javaCast (jget (this).previousGameKeyEvent)))
                 jset (this).previousGameKeyEvent (gameKeyEvent)
                 when ((gameKeyEvent /= javaNull) && (gameKeyEvent /= GameKeyEvent.nONE)) $ do
-                    Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jio (DownGameKeyEventHandler.getInstance))) gameKeyEvent)
+                    Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jio (DownGameKeyEventHandler.getInstance))) (javaCast gameKeyEvent))
         pure ()
 
 

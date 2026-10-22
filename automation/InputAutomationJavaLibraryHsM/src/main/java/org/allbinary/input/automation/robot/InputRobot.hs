@@ -81,8 +81,8 @@ newRecord_ = do
     jregisterMethod header_ "getMousePoint" (\() -> getMousePoint_impl this)
     jregisterMethod header_ "mouseMoveToTarget" (\() -> mouseMoveToTarget_impl this)
     jregisterMethod header_ "mouseMove" (\() -> mouseMove_impl this)
-    jregisterMethod header_ "mouseMove_overload1" (\() -> mouseMove_overload1_impl this)
-    jregisterMethod header_ "mouseMoveToTarget" (\() -> mouseMoveToTarget_impl this)
+    jregisterMethod header_ "mouseMove_2_overload1" (\() -> mouseMove_2_overload1_impl this)
+    jregisterMethod header_ "mouseMoveToTarget_1" (\() -> mouseMoveToTarget_1_impl this)
     jregisterMethod header_ "createScreenCapture" (\() -> createScreenCapture_impl this)
     jregisterMethod header_ "delay" (\() -> delay_impl this)
     jregisterMethod header_ "getAutoDelay" (\() -> getAutoDelay_impl this)
@@ -90,7 +90,7 @@ newRecord_ = do
     jregisterMethod header_ "isAutoWaitForIdle" (\() -> isAutoWaitForIdle_impl this)
     jregisterMethod header_ "keyPress" (\() -> keyPress_impl this)
     jregisterMethod header_ "keyRelease" (\() -> keyRelease_impl this)
-    jregisterMethod header_ "mouseMove_overload2" (\() -> mouseMove_overload2_impl this)
+    jregisterMethod header_ "mouseMove_2_overload2" (\() -> mouseMove_2_overload2_impl this)
     jregisterMethod header_ "mousePress" (\() -> mousePress_impl this)
     jregisterMethod header_ "mouseRelease" (\() -> mouseRelease_impl this)
     jregisterMethod header_ "mouseWheel" (\() -> mouseWheel_impl this)
@@ -180,24 +180,23 @@ mouseMove_super object_ a1 = (mouseMove_impl (javaCast object_ :: InputRobot)) a
 
 mouseMove_impl :: InputRobot -> Point.Point -> IO (())
 mouseMove_impl this point = do
-        Control.Monad.void (InputRobot.mouseMove this (jget (point).x) (jget (point).y))
+        Control.Monad.void (InputRobot.mouseMove_2 this (jget (point).x) (jget (point).y))
         pure ()
 
 
 -- Java overloads of mouseMove: calls the overload for the types of the arguments
-mouseMove :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove this a1 a2
-    | otherwise = mouseMove_overload1 this a1 a2
+mouseMove_2 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2 this a1 a2
+    | otherwise = mouseMove_2_overload1 this a1 a2
 
--- Java overload of mouseMove with a different parameter count: give it a different name
-mouseMove_overload1 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove_overload1 object_ a1 a2 = jmethod object_ "mouseMove_overload1" (\() -> (mouseMove_overload1_impl (javaCast object_ :: InputRobot))) () a1 a2
+mouseMove_2_overload1 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2_overload1 object_ a1 a2 = jmethod object_ "mouseMove_2_overload1" (\() -> (mouseMove_2_overload1_impl (javaCast object_ :: InputRobot))) () a1 a2
 
-mouseMove_overload1_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove_overload1_super object_ a1 a2 = (mouseMove_overload1_impl (javaCast object_ :: InputRobot)) a1 a2
+mouseMove_2_overload1_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2_overload1_super object_ a1 a2 = (mouseMove_2_overload1_impl (javaCast object_ :: InputRobot)) a1 a2
 
-mouseMove_overload1_impl :: InputRobot -> Int -> Int -> IO (())
-mouseMove_overload1_impl this x y = do
+mouseMove_2_overload1_impl :: InputRobot -> Int -> Int -> IO (())
+mouseMove_2_overload1_impl this x y = do
         Control.Monad.void (Robot.mouseMove ((jget (this).robot)) x y)
         message <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "Moved Mouse To: x: "))) x))) " y: "))) y))))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) message this "moveMouse")
@@ -205,15 +204,14 @@ mouseMove_overload1_impl this x y = do
 
 
 -- throws Exception
--- Java overload of mouseMoveToTarget with a different parameter count: give it a different name
-mouseMoveToTarget :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget object_ a1 = jmethod object_ "mouseMoveToTarget" (\() -> (mouseMoveToTarget_impl (javaCast object_ :: InputRobot))) () a1
+mouseMoveToTarget_1 :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1 object_ a1 = jmethod object_ "mouseMoveToTarget_1" (\() -> (mouseMoveToTarget_1_impl (javaCast object_ :: InputRobot))) () a1
 
-mouseMoveToTarget_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget_super object_ a1 = (mouseMoveToTarget_impl (javaCast object_ :: InputRobot)) a1
+mouseMoveToTarget_1_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1_super object_ a1 = (mouseMoveToTarget_1_impl (javaCast object_ :: InputRobot)) a1
 
-mouseMoveToTarget_impl :: InputRobot -> Rectangle.Rectangle -> IO (())
-mouseMoveToTarget_impl this rectangle = do
+mouseMoveToTarget_1_impl :: InputRobot -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_1_impl this rectangle = do
         Control.Monad.void (InputRobot.mouseMoveToTarget this rectangle 0 0)
         pure ()
 
@@ -298,15 +296,14 @@ keyRelease_impl this keycode = do
         pure ()
 
 
--- Java overload of mouseMove with a different parameter count: give it a different name
-mouseMove_overload2 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove_overload2 object_ a1 a2 = jmethod object_ "mouseMove_overload2" (\() -> (mouseMove_overload2_impl (javaCast object_ :: InputRobot))) () a1 a2
+mouseMove_2_overload2 :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2_overload2 object_ a1 a2 = jmethod object_ "mouseMove_2_overload2" (\() -> (mouseMove_2_overload2_impl (javaCast object_ :: InputRobot))) () a1 a2
 
-mouseMove_overload2_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
-mouseMove_overload2_super object_ a1 a2 = (mouseMove_overload2_impl (javaCast object_ :: InputRobot)) a1 a2
+mouseMove_2_overload2_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> IO (())
+mouseMove_2_overload2_super object_ a1 a2 = (mouseMove_2_overload2_impl (javaCast object_ :: InputRobot)) a1 a2
 
-mouseMove_overload2_impl :: InputRobot -> Int -> Int -> IO (())
-mouseMove_overload2_impl this x y = do
+mouseMove_2_overload2_impl :: InputRobot -> Int -> Int -> IO (())
+mouseMove_2_overload2_impl this x y = do
         Control.Monad.void (Robot.mouseMove ((jget (this).robot)) x y)
         pure ()
 

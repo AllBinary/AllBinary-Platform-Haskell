@@ -139,11 +139,11 @@ init_2 this label node = do
             actionItemNode <- (NodeList.item nodeList index)
             when ((jio (Node.getNodeType actionItemNode)) == Node.eLEMENT_NODE) $ do
                 if ((jio (Node.compareTo ((jio (Node.getNodeName actionItemNode))) (jget GenericProfileActionScriptConditionData.nAME))) == 0) then do
-                    Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (jio (ProfileActionScriptConditionFactory.getInstance actionItemNode)))
+                    Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (javaCast (jio (ProfileActionScriptConditionFactory.getInstance actionItemNode))))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName actionItemNode))) (jget GenericProfileActionScriptInputData.nAME))) == 0) then do
-                    Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (ProfileActionScriptInputFactory.getInstance actionItemNode)))
+                    Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (ProfileActionScriptInputFactory.getInstance actionItemNode))))
                 else when ((jio (Node.compareTo ((jio (Node.getNodeName actionItemNode))) (jget GenericProfileActionScriptOutputData.nAME))) == 0) $ do
-                    Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (ProfileActionScriptOutputFactory.getInstance actionItemNode)))
+                    Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (ProfileActionScriptOutputFactory.getInstance actionItemNode))))
         pure ()
 
 
@@ -160,9 +160,9 @@ addProcessorNodes_impl this node = do
         forM_ [0 .. (jio (NodeList.getLength nodeList)) - 1] $ \index -> javaIteration (pure ()) $ do
             processorActionItemNode <- (NodeList.item nodeList index)
             if ((jio (Node.compareTo ((jio (Node.getNodeName processorActionItemNode))) (jget GenericProfileActionScriptInputData.nAME))) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (ProfileActionScriptInputFactory.getInstance processorActionItemNode)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (ProfileActionScriptInputFactory.getInstance processorActionItemNode))))
             else when ((jio (Node.compareTo ((jio (Node.getNodeName processorActionItemNode))) (jget GenericProfileActionScriptOutputData.nAME))) == 0) $ do
-                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (ProfileActionScriptOutputFactory.getInstance processorActionItemNode)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (ProfileActionScriptOutputFactory.getInstance processorActionItemNode))))
         pure ()
 
 new_1 :: String -> IO BasicProfileActionScriptCondition
@@ -188,8 +188,8 @@ init_super object_ = (init_impl (javaCast object_ :: BasicProfileActionScriptCon
 
 init_impl :: BasicProfileActionScriptCondition -> IO (())
 init_impl this = do
-        Control.Monad.void (BasicProfileActionScriptCondition.setProfileActionProcessorInterfaceVector this (jio (BasicArrayListD.new_)))
-        Control.Monad.void (BasicProfileActionScriptCondition.setProfileActionConditionInterfaceVector this (jio (BasicArrayListD.new_)))
+        Control.Monad.void (BasicProfileActionScriptCondition.setProfileActionProcessorInterfaceVector this (javaCast (jio (BasicArrayListD.new_))))
+        Control.Monad.void (BasicProfileActionScriptCondition.setProfileActionConditionInterfaceVector this (javaCast (jio (BasicArrayListD.new_))))
         Control.Monad.void (JPopupMenu.add ((jio (ProfileActionScriptItem.getJPopupMenu this))) (jio (BasicProfileActionScriptCondition.getConditionJPopupMenu this)))
         Control.Monad.void (JPopupMenu.add ((jio (ProfileActionScriptItem.getJPopupMenu this))) (jio (BasicProfileActionScriptCondition.getInputJPopupMenu this)))
         Control.Monad.void (JPopupMenu.add ((jio (ProfileActionScriptItem.getJPopupMenu this))) (jio (BasicProfileActionScriptCondition.getOutputJPopupMenu this)))
@@ -373,22 +373,22 @@ actionPerformed_impl this actionEvent = do
                     Control.Monad.void (ProfileActionScriptNodeInterface.removeCondition profileActionScriptNodeInterface this)
                     Control.Monad.void (JTreeInterface.updateJTree ((jio (JTreeInterfaceFactory.getJTreeInterface ((jio (JTreeInterfaceFactory.getInstance)))))))
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_COLOR_AT)) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (jio (ColorAtActionScriptCondition.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (javaCast (jio (ColorAtActionScriptCondition.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_ALWAYS)) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (jio (AlwaysActionScriptCondition.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (javaCast (jio (AlwaysActionScriptCondition.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_TIME_INTERVAL)) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (jio (TimeIntervalActionScriptCondition.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (javaCast (jio (TimeIntervalActionScriptCondition.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_KEY_INPUT)) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (KeyboardActionScriptInput.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (KeyboardActionScriptInput.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_MOUSE_INPUT)) == 0) then do
-                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (MouseActionScriptInput.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (MouseActionScriptInput.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
             else when ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_IMAGE_OUTPUT)) == 0) $ do
-                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (jio (ImageActionScriptOutput.new_)))
+                Control.Monad.void (BasicProfileActionScriptCondition.addProcessor this (javaCast (jio (ImageActionScriptOutput.new_))))
                 Control.Monad.void (BasicProfileActionScriptCondition.updateTree this)
         pure ()
 

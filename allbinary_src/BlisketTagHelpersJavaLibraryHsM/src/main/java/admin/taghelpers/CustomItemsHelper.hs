@@ -151,7 +151,7 @@ restore_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (jio (CustomItemsEntityFactory.getCustomItemsEntityInstance ((jio (CustomItemsEntityFactory.getInstance))))) (jget (this).portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (CustomItemsEntityFactory.getCustomItemsEntityInstance ((jio (CustomItemsEntityFactory.getInstance)))))) (jget (this).portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -172,7 +172,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Backup Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (CustomItemsEntityFactory.getCustomItemsEntityInstance ((jio (CustomItemsEntityFactory.getInstance))))))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (CustomItemsEntityFactory.getCustomItemsEntityInstance ((jio (CustomItemsEntityFactory.getInstance)))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)

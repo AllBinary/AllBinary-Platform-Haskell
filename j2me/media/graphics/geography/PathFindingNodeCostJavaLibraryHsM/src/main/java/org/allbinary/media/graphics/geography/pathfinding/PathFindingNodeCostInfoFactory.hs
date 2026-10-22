@@ -16,7 +16,7 @@
 -- package org.allbinary.media.graphics.geography.pathfinding
 module PathFindingNodeCostInfoFactory (module PathFindingNodeCostInfoFactory, module PathFindingNodeCostInfoFactoryBase) where
 
-import PathFindingNodeCostInfoFactoryBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, create, create_super, create_impl, getInstance, getInstance_super, getInstance_impl, getInstance, getInstance_super, getInstance_impl, getTotalCost, getTotalCost_super, getTotalCost_impl, pathFindingNodeCostInfoAdjacencyList)
+import PathFindingNodeCostInfoFactoryBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, create, create_super, create_impl, getInstance, getInstance_super, getInstance_impl, getInstance_2, getInstance_2_super, getInstance_2_impl, getInstance, getTotalCost, getTotalCost_super, getTotalCost_impl, pathFindingNodeCostInfoAdjacencyList)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -65,7 +65,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "create" (\() -> create_impl this)
     jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     jregisterMethod header_ "getTotalCost" (\() -> getTotalCost_impl this)
     pure this
 
@@ -110,7 +110,7 @@ getInstance_super object_ a1 a2 a3 a4 = (getInstance_impl (javaCast object_ :: P
 
 getInstance_impl :: PathFindingNodeCostInfoFactory -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> Int64 -> Int64 -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
 getInstance_impl this goingToGeographicMapCellPosition geographicMapCellPosition costFromStart costToEnd = do
-        pathFindingNodeCostInfo <- newIORef =<< (PathFindingNodeCostInfoFactory.getInstance this goingToGeographicMapCellPosition geographicMapCellPosition)
+        pathFindingNodeCostInfo <- newIORef =<< (PathFindingNodeCostInfoFactory.getInstance_2 this goingToGeographicMapCellPosition geographicMapCellPosition)
         if ((jget pathFindingNodeCostInfo) == javaNull) then do
             assignedValue <- (PathFindingNodeCostInfo.new_2 costFromStart costToEnd)
             jset pathFindingNodeCostInfo (assignedValue)
@@ -123,15 +123,14 @@ getInstance_impl this goingToGeographicMapCellPosition geographicMapCellPosition
         pure ((jget pathFindingNodeCostInfo))
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: PathFindingNodeCostInfoFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: PathFindingNodeCostInfoFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: PathFindingNodeCostInfoFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: PathFindingNodeCostInfoFactory)) a1 a2
 
-getInstance_impl :: PathFindingNodeCostInfoFactory -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
-getInstance_impl this goingToFromGeographicMapCellPosition geographicMapCellPosition = do
+getInstance_2_impl :: PathFindingNodeCostInfoFactory -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (PathFindingNodeCostInfo.PathFindingNodeCostInfo)
+getInstance_2_impl this goingToFromGeographicMapCellPosition geographicMapCellPosition = do
         pure ((jindex ((jindex ((jget (this).pathFindingNodeCostInfoAdjacencyList)) ((jio (GeographicMapCellPosition.getId geographicMapCellPosition))))) ((jio (GeographicMapCellPosition.getId goingToFromGeographicMapCellPosition)))))
 
 
@@ -143,6 +142,6 @@ getTotalCost_super object_ a1 a2 a3 = (getTotalCost_impl (javaCast object_ :: Pa
 
 getTotalCost_impl :: PathFindingNodeCostInfoFactory -> BasicGeographicMap.BasicGeographicMap -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (Int64)
 getTotalCost_impl this geographicMapInterface comingFromGeographicMapCellPosition geographicMapCellPosition = do
-        pure ((jget ((jio (PathFindingNodeCostInfoFactory.getInstance this comingFromGeographicMapCellPosition geographicMapCellPosition))).totalCostP))
+        pure ((jget ((jio (PathFindingNodeCostInfoFactory.getInstance_2 this comingFromGeographicMapCellPosition geographicMapCellPosition))).totalCostP))
 
 

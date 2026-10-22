@@ -190,6 +190,6 @@ toXmlNode_impl this document = do
         hashMap <- (TitleView.toHashMap this)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("TitleView HashMap: " ++ (jio (HashMap.toString hashMap))) this "toXmlNode()")
-        (ModDomHelper.createNameValueNodes document (jget ((jio (TitleData.getInstance))).nAME) hashMap)
+        (ModDomHelper.createNameValueNodes_3 document (jget ((jio (TitleData.getInstance))).nAME) hashMap)
 
 

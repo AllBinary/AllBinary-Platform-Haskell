@@ -168,7 +168,7 @@ createPlayer resource = do
     javaCatchReturn $ do
         jset AllBinaryMediaManager.mostUsedTotal ((jget AllBinaryMediaManager.mostUsedTotal) + 1)
         logUtil <- (LogUtil.getInstance)
-        if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (GameFeatureFactory.getInstance))).sOUND))) then do
+        if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).sOUND)))) then do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put logUtil (("Could not create AndroidMediaPlayerWrapper using NoPlayer at " ++ javaToString (jget ((jio (CommonLabels.getInstance))).tOTAL_LABEL)) ++ javaToString (jget AllBinaryMediaManager.mostUsedTotal)) (AllBinaryMediaManager.tHIS) "createPlayer" e)
                 javaReturn ((javaCast NoPlayer.nO_PLAYER :: Player.Player))

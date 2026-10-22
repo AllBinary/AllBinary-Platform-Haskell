@@ -111,7 +111,7 @@ rotateImage_impl :: ImageRotationUtil -> Image.Image -> Image.Image -> Int -> IO
 rotateImage_impl this originalImage image totalAngle = do
     javaCatchReturn $ do
         let originalImage2 = originalImage
-        when (jio (Features.isFeature ((jget (this).features)) (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))) $ do
+        when (jio (Features.isFeature ((jget (this).features)) (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))) $ do
             if ((jio (Image.getType image)) >= OpenGLESImage.tYPE) then do
                 let openGLESImage = ((javaCast image :: OpenGLESImage.OpenGLESImage))
                 jset ((jget (openGLESImage).openGLESImageProperties)).angle (totalAngle)

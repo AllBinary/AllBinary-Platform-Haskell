@@ -109,7 +109,7 @@ init_5 this layerInterface life healthInterface animationInterface direction = d
         jset (this).animationInterface (animationInterface)
         jset (this).life (life)
         jset (this).healthInterface (healthInterface)
-        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) this)
+        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) (javaCast this))
         Control.Monad.void (HealthIncludingLifeBar.onHealthChange this)
         pure ()
 

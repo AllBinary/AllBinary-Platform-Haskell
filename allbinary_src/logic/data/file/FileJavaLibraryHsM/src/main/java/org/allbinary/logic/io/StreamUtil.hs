@@ -128,11 +128,11 @@ getByteArray_impl :: StreamUtil -> InputStream.InputStream -> ByteArrayOutputStr
 getByteArray_impl this inputStream outputStream2 byteArray = do
         let outputStream = outputStream2
         flip finally (do
-            Control.Monad.void (StreamUtil.close this outputStream)
+            Control.Monad.void (StreamUtil.close this (javaCast outputStream))
             ) $ handle (\(e :: JavaException) -> do
             javaThrow (e)
             ) $ do
-            Control.Monad.void (StreamUtil.get this inputStream outputStream byteArray)
+            Control.Monad.void (StreamUtil.get this inputStream (javaCast outputStream) byteArray)
             (ByteArrayOutputStream.toByteArray outputStream)
 
 

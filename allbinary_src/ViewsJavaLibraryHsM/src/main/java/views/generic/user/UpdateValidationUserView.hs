@@ -98,7 +98,7 @@ init_1 this transformInfoInterface = do
         HttpStoreComponentView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (NewUserFactory.getInstance transformInfoInterface)
+        assignedValue <- (NewUserFactory.getInstance_1 transformInfoInterface)
         jset (this).user (assignedValue)
         pure ()
 

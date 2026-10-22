@@ -129,7 +129,7 @@ process_impl this remoteHighScores abeClientInformation highScore = do
             Control.Monad.void (ABHashtable.put hashtable (jget ((jio (RemoteHighScoresData.getInstance))).gAME_CONFIGURATION) (jio (GameConfigurationCentral.toString ((jio (GameConfigurationCentral.getInstance))))))
             Control.Monad.void (ABHashtable.put hashtable (jget ((jio (RemoteHighScoresData.getInstance))).sCORE) (javaToString (jio (HighScore.getScore highScore))))
             when (jget XmlRpcAbeClient.isOnline) $ do
-                let resultHashtable = (javaCast (jio (XmlRpcRemoteHighScoresClient.get ((jio (XmlRpcRemoteHighScoresClient.new_3 abeClientInformation "highscoresubmissionservicessl.php" "HighScoreSubmissionService.process"))) hashtable (jget (this).noCrypt))) :: ABHashtable.ABHashtable)
+                let resultHashtable = (javaCast (jio (XmlRpcRemoteHighScoresClient.get ((jio (XmlRpcRemoteHighScoresClient.new_3 abeClientInformation "highscoresubmissionservicessl.php" "HighScoreSubmissionService.process"))) hashtable (javaCast (jget (this).noCrypt)))) :: ABHashtable.ABHashtable)
                 Control.Monad.void (RemoteHighScores.update remoteHighScores resultHashtable)
         pure ()
 

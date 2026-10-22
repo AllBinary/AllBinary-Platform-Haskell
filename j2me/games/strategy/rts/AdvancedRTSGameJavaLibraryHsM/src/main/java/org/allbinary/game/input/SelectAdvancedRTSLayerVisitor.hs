@@ -112,7 +112,7 @@ visit_impl this anyTypeObject_ = do
                 jset currentRTSLayer ((javaCast (jio (BasicArrayList.get list index)) :: RTSLayer.RTSLayer))
                 when ((jio (RTSLayer.getType ((jget currentRTSLayer)))) == (jio (UnitLayer.getStaticType))) $ do
                     jset unitLayer ((javaCast (jget currentRTSLayer) :: UnitLayer.UnitLayer))
-                    Control.Monad.void (UnitLayer.setParentLayer ((jget unitLayer)) rtsGameLayer)
+                    Control.Monad.void (UnitLayer.setParentLayer ((jget unitLayer)) (javaCast rtsGameLayer))
                     Control.Monad.void (AssignWaypointsUtil.set assignWaypointsUtil (jget unitLayer) rtsGameLayer)
         pure ((jtoObject (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 

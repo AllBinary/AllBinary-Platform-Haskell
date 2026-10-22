@@ -65,7 +65,7 @@ newRecord_ = do
     let this = TimeUtil header_
     jregisterLevel header_ this
     jregisterMethod header_ "setCalendar" (\() -> setCalendar_impl this)
-    jregisterMethod header_ "setCalendar" (\() -> setCalendar_impl this)
+    jregisterMethod header_ "setCalendar_7" (\() -> setCalendar_7_impl this)
     jregisterMethod header_ "setExpirationCalendar" (\() -> setExpirationCalendar_impl this)
     jregisterMethod header_ "getTotalTime" (\() -> getTotalTime_impl this)
     pure this
@@ -106,15 +106,14 @@ setCalendar_impl this calendar yearString monthString dayString hourString = do
         pure ()
 
 
--- Java overload of setCalendar with a different parameter count: give it a different name
-setCalendar :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar object_ a1 a2 a3 a4 a5 a6 a7 = jmethod object_ "setCalendar" (\() -> (setCalendar_impl (javaCast object_ :: TimeUtil))) () a1 a2 a3 a4 a5 a6 a7
+setCalendar_7 :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendar_7 object_ a1 a2 a3 a4 a5 a6 a7 = jmethod object_ "setCalendar_7" (\() -> (setCalendar_7_impl (javaCast object_ :: TimeUtil))) () a1 a2 a3 a4 a5 a6 a7
 
-setCalendar_super :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar_super object_ a1 a2 a3 a4 a5 a6 a7 = (setCalendar_impl (javaCast object_ :: TimeUtil)) a1 a2 a3 a4 a5 a6 a7
+setCalendar_7_super :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendar_7_super object_ a1 a2 a3 a4 a5 a6 a7 = (setCalendar_7_impl (javaCast object_ :: TimeUtil)) a1 a2 a3 a4 a5 a6 a7
 
-setCalendar_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar_impl this calendar yearString monthString dayString hourString minuteString secondString = do
+setCalendar_7_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendar_7_impl this calendar yearString monthString dayString hourString minuteString secondString = do
         let year = (Prelude.fromIntegral (yearString) :: Int)
         let month = (Prelude.fromIntegral (monthString) :: Int)
         let day = (Prelude.fromIntegral (dayString) :: Int)

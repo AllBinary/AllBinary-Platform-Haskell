@@ -76,7 +76,7 @@ newRecord_ = do
     jregisterMethod header_ "isDirectory" (\() -> isDirectory_impl this)
     jregisterMethod header_ "getFilesAsStringArrayForPath" (\() -> getFilesAsStringArrayForPath_impl this)
     jregisterMethod header_ "readAsString" (\() -> readAsString_impl this)
-    jregisterMethod header_ "readAsString" (\() -> readAsString_impl this)
+    jregisterMethod header_ "readAsString_2" (\() -> readAsString_2_impl this)
     jregisterMethod header_ "close" (\() -> close_impl this)
     pure this
 
@@ -150,18 +150,17 @@ readAsString_super object_ a1 = (readAsString_impl (javaCast object_ :: AbFileSy
 readAsString_impl :: AbFileSystem -> String -> IO (String)
 readAsString_impl this fileName = do
         let bytes = (jnewArray (1000000) 0)
-        (AbFileSystem.readAsString this fileName bytes)
+        (AbFileSystem.readAsString_2 this fileName bytes)
 
 
--- Java overload of readAsString with a different parameter count: give it a different name
-readAsString :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (String)
-readAsString object_ a1 a2 = jmethod object_ "readAsString" (\() -> (readAsString_impl (javaCast object_ :: AbFileSystem))) () a1 a2
+readAsString_2 :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (String)
+readAsString_2 object_ a1 a2 = jmethod object_ "readAsString_2" (\() -> (readAsString_2_impl (javaCast object_ :: AbFileSystem))) () a1 a2
 
-readAsString_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (String)
-readAsString_super object_ a1 a2 = (readAsString_impl (javaCast object_ :: AbFileSystem)) a1 a2
+readAsString_2_super :: (JavaObjectClass this_) => this_ -> String -> JavaArray (Int8) -> IO (String)
+readAsString_2_super object_ a1 a2 = (readAsString_2_impl (javaCast object_ :: AbFileSystem)) a1 a2
 
-readAsString_impl :: AbFileSystem -> String -> JavaArray (Int8) -> IO (String)
-readAsString_impl this fileName bytes = do
+readAsString_2_impl :: AbFileSystem -> String -> JavaArray (Int8) -> IO (String)
+readAsString_2_impl this fileName bytes = do
     javaCatchReturn $ do
         closeable <- newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
         flip finally (do

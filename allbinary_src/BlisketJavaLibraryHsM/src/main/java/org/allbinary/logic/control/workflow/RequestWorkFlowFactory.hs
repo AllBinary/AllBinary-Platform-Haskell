@@ -101,9 +101,8 @@ getInstance request response servletConfig servletContext = do
 
 
 -- throws Exception, LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance hashMap pageContext = do
+getInstance_2 :: HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2 hashMap pageContext = do
         let workFlowName = (javaCast (jio (PageContext.getParameter ((jio (PageContext.getRequest pageContext))) (jget ((jio (WorkFlowData.getInstance))).nAME))) :: String)
         weblisketSession <- (WeblisketSession.new_2 hashMap pageContext)
         storeName <- (WeblisketSession.getStoreName weblisketSession)

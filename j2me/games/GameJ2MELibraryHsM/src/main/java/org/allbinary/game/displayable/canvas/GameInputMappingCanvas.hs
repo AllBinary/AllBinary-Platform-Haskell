@@ -164,7 +164,7 @@ init_4 this abeClientInformation commandListener allBinaryGameLayerManager helpP
         jset (this).inputMapping (assignedValue)
         assignedValue <- (ProcessPaintable.new_)
         jset (this).paintable (assignedValue)
-        assignedValue <- (ColorFillPaintableFactory.getInstance ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
         jset (this).colorFillPaintable (assignedValue)
         pure ()
 
@@ -263,7 +263,7 @@ addGameKey_impl this keyCode repeated = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) "Key Event Error" this (jget ((jget (this).base.gameInputStrings)).aDD_KEY_EVENT) e)
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Raw Device Key Code: "))) (Numeric.showHex keyCode "")))))) this (jget ((jget (this).base.gameInputStrings)).aDD_KEY_EVENT))
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).base.inputToGameKeyMapping)) this keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).base.inputToGameKeyMapping)) (javaCast this) keyCode)
             input <- (InputFactory.getInstanceById ((jget (this).inputFactory)) keyCode)
             Control.Monad.void (GameInputMappingCanvas.processInputMapping this gameKey input)
         pure ()
@@ -303,7 +303,7 @@ setSelectedAction_impl this gameKey = do
         jset (this).selectedGameKey (gameKey)
         jset (this).selectedInput ((jget (this).nONE))
         Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).selectedGameKey) (jget (this).selectedInput))
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
 
 
@@ -323,13 +323,13 @@ gameActionCrud_impl this gameKey input = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) (jget (this).selectedInput))))
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString stringBuffer)) this "gameActionCrud")
         if ((jtoObject (jget (this).selectedInput)) == (jtoObject (jget (this).nONE))) then do
-            list <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (jget (this).selectedGameKey))
+            list <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (javaCast (jget (this).selectedGameKey)))
             isInputAlreadyMappedToSelectedAction <- (BasicArrayList.contains list input)
             if isInputAlreadyMappedToSelectedAction then do
                 Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Already Mapped Input: "))) (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) input))))))) this "gameActionCrud")
                 jset (this).selectedInput (input)
                 Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).selectedGameKey) (jget (this).selectedInput))
-                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+                Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
             else do
                 Control.Monad.void (GameInputMappingCanvas.addNewMapping this gameKey input)
         else if (jio (PersistentInputMapping.isDelete ((jget (this).inputMapping)) input)) then do
@@ -358,7 +358,7 @@ addNewMapping_impl this gameKey input = do
             Control.Monad.void (StringMaker.append stringBuffer " Input: ")
             Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) (jget (this).selectedInput))))
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString stringBuffer)) this mETHOD_NAME)
-            Control.Monad.void (InputToGameKeyMapping.add ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (jget (this).selectedGameKey) input)
+            Control.Monad.void (InputToGameKeyMapping.add ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (javaCast (jget (this).selectedGameKey)) input)
             jset (this).selectedInput (input)
             Control.Monad.void (GameInputMappingCanvas.update this)
         else do
@@ -377,7 +377,7 @@ deleteCurrentMapping_super object_ = (deleteCurrentMapping_impl (javaCast object
 deleteCurrentMapping_impl :: GameInputMappingCanvas -> IO (())
 deleteCurrentMapping_impl this = do
         let mETHOD_NAME = "deleteCurrentMapping"
-        list <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (jget (this).selectedGameKey))
+        list <- (InputToGameKeyMapping.getMappedInput ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (javaCast (jget (this).selectedGameKey)))
         if ((jio (BasicArrayList.size list)) > 1) then do
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer "Start GameKey: ")
@@ -386,7 +386,7 @@ deleteCurrentMapping_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer " Input: ")
             Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) (jget (this).selectedInput))))
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString stringBuffer)) this mETHOD_NAME)
-            Control.Monad.void (InputToGameKeyMapping.remove ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (jget (this).selectedGameKey) (jget (this).selectedInput))
+            Control.Monad.void (InputToGameKeyMapping.remove ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (javaCast (jget (this).selectedGameKey)) (jget (this).selectedInput))
             jset (this).selectedInput ((jget (this).nONE))
             Control.Monad.void (GameInputMappingCanvas.update this)
         else do
@@ -404,8 +404,8 @@ setDefault_super object_ = (setDefault_impl (javaCast object_ :: GameInputMappin
 setDefault_impl :: GameInputMappingCanvas -> IO (())
 setDefault_impl this = do
         Control.Monad.void (PersistentInputMapping.setDefault ((jget (this).inputMapping)) (jget (this).abeClientInformation))
-        Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).nONE) (jget (this).nONE))
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+        Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).nONE) (javaCast (jget (this).nONE)))
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
 
 
@@ -420,7 +420,7 @@ update_impl :: GameInputMappingCanvas -> IO (())
 update_impl this = do
         Control.Monad.void (PersistentInputMapping.update ((jget (this).inputMapping)) (jget (this).abeClientInformation))
         Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).selectedGameKey) (jget (this).selectedInput))
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
 
 

@@ -155,12 +155,12 @@ toXmlNode_impl this document = do
                 Control.Monad.void (Node.appendChild node (jio (OrderHistory.toXmlNode orderHistory document)))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Attempt to View a users order history" this "view")
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pREPROCESSINGNAME) (OrderHistoryData.pREPROCESSING))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pROCESSINGNAME) (OrderHistoryData.pROCESSING))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.cANCELLEDNAME) (OrderHistoryData.cANCELLED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.pARTIALLYSHIPPEDNAME) (OrderHistoryData.pARTIALLYSHIPPED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (OrderHistoryData.sHIPPEDNAME) (OrderHistoryData.sHIPPED))))
-            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (GLOBALS2.vIEWNAME) (GLOBALS2.vIEW))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pREPROCESSINGNAME) (OrderHistoryData.pREPROCESSING))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pROCESSINGNAME) (OrderHistoryData.pROCESSING))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.cANCELLEDNAME) (OrderHistoryData.cANCELLED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.pARTIALLYSHIPPEDNAME) (OrderHistoryData.pARTIALLYSHIPPED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (OrderHistoryData.sHIPPEDNAME) (OrderHistoryData.sHIPPED))))
+            Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (GLOBALS2.vIEWNAME) (GLOBALS2.vIEW))))
             pure (node)
 
 

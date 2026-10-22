@@ -73,7 +73,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "process" (\() -> process_impl this)
     jregisterMethod header_ "compare" (\() -> compare_impl this)
-    jregisterMethod header_ "compare" (\() -> compare_impl this)
+    jregisterMethod header_ "compare_6" (\() -> compare_6_impl this)
     pure this
 
 initFields_ :: ImageComparator -> IO ()
@@ -133,19 +133,18 @@ compare_super object_ a1 a2 a3 a4 a5 = (compare_impl (javaCast object_ :: ImageC
 
 compare_impl :: ImageComparator -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> IO (ImageComparisonResult.ImageComparisonResult)
 compare_impl this bufferedImage1 bufferedImage2 frameOne frameTwo tolerance = do
-        (ImageComparator.compare this bufferedImage1 bufferedImage2 frameOne frameTwo tolerance (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        (ImageComparator.compare_6 this bufferedImage1 bufferedImage2 frameOne frameTwo tolerance (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
 
 
 -- throws Exception
--- Java overload of compare with a different parameter count: give it a different name
-compare :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
-compare object_ a1 a2 a3 a4 a5 a6 = jmethod object_ "compare" (\() -> (compare_impl (javaCast object_ :: ImageComparator))) () a1 a2 a3 a4 a5 a6
+compare_6 :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
+compare_6 object_ a1 a2 a3 a4 a5 a6 = jmethod object_ "compare_6" (\() -> (compare_6_impl (javaCast object_ :: ImageComparator))) () a1 a2 a3 a4 a5 a6
 
-compare_super :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
-compare_super object_ a1 a2 a3 a4 a5 a6 = (compare_impl (javaCast object_ :: ImageComparator)) a1 a2 a3 a4 a5 a6
+compare_6_super :: (JavaObjectClass this_) => this_ -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
+compare_6_super object_ a1 a2 a3 a4 a5 a6 = (compare_6_impl (javaCast object_ :: ImageComparator)) a1 a2 a3 a4 a5 a6
 
-compare_impl :: ImageComparator -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
-compare_impl this bufferedImage1 bufferedImage2 frameOne frameTwo tolerance name = do
+compare_6_impl :: ImageComparator -> BufferedImage.BufferedImage -> BufferedImage.BufferedImage -> Int64 -> Int64 -> Int -> String -> IO (ImageComparisonResult.ImageComparisonResult)
+compare_6_impl this bufferedImage1 bufferedImage2 frameOne frameTwo tolerance name = do
         when ((bufferedImage1 == javaNull) || (bufferedImage2 == javaNull)) $ do
             javaThrow ((JavaException "Exception" "Input images must not be null."))
         imageComparisonInfo <- (ImageComparisonResult.new_6 name bufferedImage1 bufferedImage2 frameOne frameTwo tolerance)

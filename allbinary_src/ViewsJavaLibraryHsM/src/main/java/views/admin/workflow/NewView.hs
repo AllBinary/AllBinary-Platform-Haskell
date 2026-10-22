@@ -101,7 +101,7 @@ init_1 this transformInfoInterface = do
         initFields_ this
         pure () -- super(...) is in the record above
         let httpTransformInfoInterface = (javaCast (jio (WorkFlowView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        assignedValue <- (NewWorkFlowFactory.getInstance ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) (javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (DynamicObjectData.nAME))) :: String))
+        assignedValue <- (NewWorkFlowFactory.getInstance_2 ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) (javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (DynamicObjectData.nAME))) :: String))
         jset (this).base.workFlowInterface (assignedValue)
         pure ()
 

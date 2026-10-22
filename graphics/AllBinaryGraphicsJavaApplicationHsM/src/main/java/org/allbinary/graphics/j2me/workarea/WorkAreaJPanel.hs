@@ -16,7 +16,7 @@
 -- package org.allbinary.graphics.j2me.workarea
 module WorkAreaJPanel (module WorkAreaJPanel, module JPanel) where
 
-import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getCanvasHashMap, getCanvasHashMap_super, getCanvasHashMap_impl, play, play_super, play_impl, stop, stop_super, stop_impl, isPlaying, isPlaying_super, isPlaying_impl, getName, getName_super, getName_impl, setName, setName_super, setName_impl, disableCanvas, disableCanvas_super, disableCanvas_impl, enableCanvas, enableCanvas_super, enableCanvas_impl, deselect, deselect_super, deselect_impl, select, select_super, select_impl, changeZoom, changeZoom_super, changeZoom_impl, getCurrentFrame, getCurrentFrame_super, getCurrentFrame_impl, initDuplicate, initDuplicate_super, initDuplicate_impl, duplicate_overload1, duplicate_overload1_super, duplicate_overload1_impl, duplicate, autoRotate, autoRotate_super, autoRotate_impl, explodeAll, explodeAll_super, explodeAll_impl, autoExplode, autoExplode_super, autoExplode_impl, autoMirror, autoMirror_super, autoMirror_impl, select_overload1, select_overload1_super, select_overload1_impl, select, select_overload2, select_overload2_super, select_overload2_impl, select, getDocument, getDocument_super, getDocument_impl, toDocument, toDocument_super, toDocument_impl, initComponents, initComponents_super, initComponents_impl, innerJPanelKeyReleased, innerJPanelKeyReleased_super, innerJPanelKeyReleased_impl, innerJPanelKeyPressed, innerJPanelKeyPressed_super, innerJPanelKeyPressed_impl, innerJPanelKeyTyped, innerJPanelKeyTyped_super, innerJPanelKeyTyped_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, duplicate_overload2, duplicate_overload2_super, duplicate_overload2_impl, duplicate, select_overload3, select_overload3_super, select_overload3_impl, select, rotate, rotate_super, rotate_impl, explode, explode_super, explode_impl, autoExplode, autoExplode_super, autoExplode_impl, center, center_super, center_impl, center, center_super, center_impl, run, run_super, run_impl, logUtil, canvasJPanelList, canvasHolderJPanel, name, selectedFrame, document, propertiesJPanel, workAreaJTreeJPanel, isPlaying, innerJPanel)
+import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getCanvasHashMap, getCanvasHashMap_super, getCanvasHashMap_impl, play, play_super, play_impl, stop, stop_super, stop_impl, isPlaying, isPlaying_super, isPlaying_impl, getName, getName_super, getName_impl, setName, setName_super, setName_impl, disableCanvas, disableCanvas_super, disableCanvas_impl, enableCanvas, enableCanvas_super, enableCanvas_impl, deselect, deselect_super, deselect_impl, select, select_super, select_impl, changeZoom, changeZoom_super, changeZoom_impl, getCurrentFrame, getCurrentFrame_super, getCurrentFrame_impl, initDuplicate, initDuplicate_super, initDuplicate_impl, duplicate_overload1, duplicate_overload1_super, duplicate_overload1_impl, duplicate, autoRotate, autoRotate_super, autoRotate_impl, explodeAll, explodeAll_super, explodeAll_impl, autoExplode, autoExplode_super, autoExplode_impl, autoMirror, autoMirror_super, autoMirror_impl, select_1_overload1, select_1_overload1_super, select_1_overload1_impl, select, select_1_overload2, select_1_overload2_super, select_1_overload2_impl, select, getDocument, getDocument_super, getDocument_impl, toDocument, toDocument_super, toDocument_impl, initComponents, initComponents_super, initComponents_impl, innerJPanelKeyReleased, innerJPanelKeyReleased_super, innerJPanelKeyReleased_impl, innerJPanelKeyPressed, innerJPanelKeyPressed_super, innerJPanelKeyPressed_impl, innerJPanelKeyTyped, innerJPanelKeyTyped_super, innerJPanelKeyTyped_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, duplicate_overload2, duplicate_overload2_super, duplicate_overload2_impl, duplicate, select_1_overload3, select_1_overload3_super, select_1_overload3_impl, select, rotate, rotate_super, rotate_impl, explode, explode_super, explode_impl, autoExplode_1, autoExplode_1_super, autoExplode_1_impl, autoExplode, center, center_super, center_impl, center_1, center_1_super, center_1_impl, center, run, run_super, run_impl, logUtil, canvasJPanelList, canvasHolderJPanel, name, selectedFrame, document, propertiesJPanel, workAreaJTreeJPanel, isPlaying, innerJPanel)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -139,8 +139,8 @@ newRecord_ = do
     jregisterMethod header_ "explodeAll" (\() -> explodeAll_impl this)
     jregisterMethod header_ "autoExplode" (\() -> autoExplode_impl this)
     jregisterMethod header_ "autoMirror" (\() -> autoMirror_impl this)
-    jregisterMethod header_ "select_overload1" (\() -> select_overload1_impl this)
-    jregisterMethod header_ "select_overload2" (\() -> select_overload2_impl this)
+    jregisterMethod header_ "select_1_overload1" (\() -> select_1_overload1_impl this)
+    jregisterMethod header_ "select_1_overload2" (\() -> select_1_overload2_impl this)
     jregisterMethod header_ "toDocument" (\() -> toDocument_impl this)
     jregisterMethod header_ "initComponents" (\() -> initComponents_impl this)
     jregisterMethod header_ "innerJPanelKeyReleased" (\() -> innerJPanelKeyReleased_impl this)
@@ -151,12 +151,12 @@ newRecord_ = do
     jregisterMethod header_ "keyTyped" (\() -> keyTyped_impl this)
     jregisterMethod header_ "delete" (\() -> delete_impl this)
     jregisterMethod header_ "duplicate_overload2" (\() -> duplicate_overload2_impl this)
-    jregisterMethod header_ "select_overload3" (\() -> select_overload3_impl this)
+    jregisterMethod header_ "select_1_overload3" (\() -> select_1_overload3_impl this)
     jregisterMethod header_ "rotate" (\() -> rotate_impl this)
     jregisterMethod header_ "explode" (\() -> explode_impl this)
-    jregisterMethod header_ "autoExplode" (\() -> autoExplode_impl this)
+    jregisterMethod header_ "autoExplode_1" (\() -> autoExplode_1_impl this)
     jregisterMethod header_ "center" (\() -> center_impl this)
-    jregisterMethod header_ "center" (\() -> center_impl this)
+    jregisterMethod header_ "center_1" (\() -> center_1_impl this)
     jregisterMethod header_ "run" (\() -> run_impl this)
     pure this
 
@@ -194,7 +194,7 @@ init_4 this name dimension x y = do
             canvasJPanel <- (CanvasJPanel.new_4 (jget (this).workAreaJTreeJPanel) (jio (JPanel.getSize this)) x y)
             Control.Monad.void (LinkedList.add ((jget (this).canvasJPanelList)) canvasJPanel)
             jset (this).selectedFrame (0)
-            Control.Monad.void (PropertiesJPanel.set ((jget (this).propertiesJPanel)) (jget (this).workAreaJTreeJPanel))
+            Control.Monad.void (PropertiesJPanel.set ((jget (this).propertiesJPanel)) (javaCast (jget (this).workAreaJTreeJPanel)))
             Control.Monad.void (JPanel.add ((jget (this).canvasHolderJPanel)) (javaCast canvasJPanel :: Component.Component))
         pure ()
 
@@ -225,7 +225,7 @@ init_2 this workAreaDom dimension = do
                 Control.Monad.void (LinkedList.add ((jget (this).canvasJPanelList)) canvasJPanel)
             jset (this).selectedFrame (0)
             Control.Monad.void (JPanel.add ((jget (this).canvasHolderJPanel)) (javaCast (jio (WorkAreaJPanel.getCurrentFrame this)) :: Component.Component))
-            Control.Monad.void (PropertiesJPanel.set ((jget (this).propertiesJPanel)) (jget (this).workAreaJTreeJPanel))
+            Control.Monad.void (PropertiesJPanel.set ((jget (this).propertiesJPanel)) (javaCast (jget (this).workAreaJTreeJPanel)))
         pure ()
 
 
@@ -446,7 +446,7 @@ initDuplicate_impl :: WorkAreaJPanel -> CanvasJPanel.CanvasJPanel -> IO (())
 initDuplicate_impl this newCanvasJPanel = do
         when (newCanvasJPanel /= javaNull) $ do
             Control.Monad.void (LinkedList.add ((jget (this).canvasJPanelList)) newCanvasJPanel)
-            Control.Monad.void (WorkAreaJPanel.select this ((jio (LinkedList.size ((jget (this).canvasJPanelList)))) - 1))
+            Control.Monad.void (WorkAreaJPanel.select_1 this ((jio (LinkedList.size ((jget (this).canvasJPanelList)))) - 1))
         pure ()
 
 
@@ -539,22 +539,21 @@ autoMirror_impl this = do
 
 
 -- Java overloads of select: calls the overload for the types of the arguments
-select :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (())
-select this a1
-    | jisInstanceOf a1 (javaNull :: Int) = select_overload1 this (javaCast a1 :: Int)
-    | jisInstanceOf a1 (javaNull :: MutableTreeNode.MutableTreeNode) = select_overload2 this (javaCast a1 :: MutableTreeNode.MutableTreeNode)
-    | jisInstanceOf a1 (javaNull :: MyCanvasEvent.MyCanvasEvent) = select_overload3 this (javaCast a1 :: MyCanvasEvent.MyCanvasEvent)
-    | otherwise = select_overload3 this (javaCast a1 :: MyCanvasEvent.MyCanvasEvent)
+select_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (())
+select_1 this a1
+    | jisInstanceOf a1 (javaNull :: Int) = select_1_overload1 this (javaCast a1 :: Int)
+    | jisInstanceOf a1 (javaNull :: MutableTreeNode.MutableTreeNode) = select_1_overload2 this (javaCast a1 :: MutableTreeNode.MutableTreeNode)
+    | jisInstanceOf a1 (javaNull :: MyCanvasEvent.MyCanvasEvent) = select_1_overload3 this (javaCast a1 :: MyCanvasEvent.MyCanvasEvent)
+    | otherwise = select_1_overload3 this (javaCast a1 :: MyCanvasEvent.MyCanvasEvent)
 
--- Java overload of select with a different parameter count: give it a different name
-select_overload1 :: (JavaObjectClass this_) => this_ -> Int -> IO (())
-select_overload1 object_ a1 = jmethod object_ "select_overload1" (\() -> (select_overload1_impl (javaCast object_ :: WorkAreaJPanel))) () a1
+select_1_overload1 :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+select_1_overload1 object_ a1 = jmethod object_ "select_1_overload1" (\() -> (select_1_overload1_impl (javaCast object_ :: WorkAreaJPanel))) () a1
 
-select_overload1_super :: (JavaObjectClass this_) => this_ -> Int -> IO (())
-select_overload1_super object_ a1 = (select_overload1_impl (javaCast object_ :: WorkAreaJPanel)) a1
+select_1_overload1_super :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+select_1_overload1_super object_ a1 = (select_1_overload1_impl (javaCast object_ :: WorkAreaJPanel)) a1
 
-select_overload1_impl :: WorkAreaJPanel -> Int -> IO (())
-select_overload1_impl this index = do
+select_1_overload1_impl :: WorkAreaJPanel -> Int -> IO (())
+select_1_overload1_impl this index = do
         when (index < (jio (LinkedList.size ((jget (this).canvasJPanelList))))) $ do
             let canvasJPanel = (javaCast (jio (LinkedList.get ((jget (this).canvasJPanelList)) index)) :: CanvasJPanel.CanvasJPanel)
             when (canvasJPanel /= javaNull) $ do
@@ -567,19 +566,18 @@ select_overload1_impl this index = do
         pure ()
 
 
--- Java overload of select with a different parameter count: give it a different name
-select_overload2 :: (JavaObjectClass this_) => this_ -> MutableTreeNode.MutableTreeNode -> IO (())
-select_overload2 object_ a1 = jmethod object_ "select_overload2" (\() -> (select_overload2_impl (javaCast object_ :: WorkAreaJPanel))) () a1
+select_1_overload2 :: (JavaObjectClass this_) => this_ -> MutableTreeNode.MutableTreeNode -> IO (())
+select_1_overload2 object_ a1 = jmethod object_ "select_1_overload2" (\() -> (select_1_overload2_impl (javaCast object_ :: WorkAreaJPanel))) () a1
 
-select_overload2_super :: (JavaObjectClass this_) => this_ -> MutableTreeNode.MutableTreeNode -> IO (())
-select_overload2_super object_ a1 = (select_overload2_impl (javaCast object_ :: WorkAreaJPanel)) a1
+select_1_overload2_super :: (JavaObjectClass this_) => this_ -> MutableTreeNode.MutableTreeNode -> IO (())
+select_1_overload2_super object_ a1 = (select_1_overload2_impl (javaCast object_ :: WorkAreaJPanel)) a1
 
-select_overload2_impl :: WorkAreaJPanel -> MutableTreeNode.MutableTreeNode -> IO (())
-select_overload2_impl this treeNode = do
+select_1_overload2_impl :: WorkAreaJPanel -> MutableTreeNode.MutableTreeNode -> IO (())
+select_1_overload2_impl this treeNode = do
         canvasJPanelHashMap <- (WorkAreaJPanel.getCanvasHashMap this)
         let frameInteger = (javaCast (jio (HashMap.get canvasJPanelHashMap treeNode)) :: Int)
         when (frameInteger /= javaNull) $ do
-            Control.Monad.void (WorkAreaJPanel.select this (frameInteger))
+            Control.Monad.void (WorkAreaJPanel.select_1 this (frameInteger))
         pure ()
 
 
@@ -717,7 +715,7 @@ delete_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).canvasHolderJPanel)))
             let frameInt = (javaCast (jio (HashMap.get canvasJPanelHashMap (jio (MyCanvasEvent.getTreeNode evt)))) :: Int)
             Control.Monad.void (LinkedList.remove ((jget (this).canvasJPanelList)) (frameInt))
-            Control.Monad.void (WorkAreaJPanel.select this (frameInt))
+            Control.Monad.void (WorkAreaJPanel.select_1 this (frameInt))
         pure ()
 
 
@@ -734,16 +732,15 @@ duplicate_overload2_impl this evt = do
         pure ()
 
 
--- Java overload of select with a different parameter count: give it a different name
-select_overload3 :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-select_overload3 object_ a1 = jmethod object_ "select_overload3" (\() -> (select_overload3_impl (javaCast object_ :: WorkAreaJPanel))) () a1
+select_1_overload3 :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+select_1_overload3 object_ a1 = jmethod object_ "select_1_overload3" (\() -> (select_1_overload3_impl (javaCast object_ :: WorkAreaJPanel))) () a1
 
-select_overload3_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-select_overload3_super object_ a1 = (select_overload3_impl (javaCast object_ :: WorkAreaJPanel)) a1
+select_1_overload3_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+select_1_overload3_super object_ a1 = (select_1_overload3_impl (javaCast object_ :: WorkAreaJPanel)) a1
 
-select_overload3_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
-select_overload3_impl this evt = do
-        Control.Monad.void (WorkAreaJPanel.select this (jio (MyCanvasEvent.getTreeNode evt)))
+select_1_overload3_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
+select_1_overload3_impl this evt = do
+        Control.Monad.void (WorkAreaJPanel.select_1 this (jio (MyCanvasEvent.getTreeNode evt)))
         Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) "Frame Selected")
         pure ()
 
@@ -762,7 +759,7 @@ rotate_impl this evt = do
         let canvasJPanel = (javaCast (jio (LinkedList.get ((jget (this).canvasJPanelList)) (frameInt))) :: CanvasJPanel.CanvasJPanel)
         when (canvasJPanel /= javaNull) $ do
             Control.Monad.void (CanvasJPanel.addAngle canvasJPanel (jio (MyCanvasEvent.getAngle evt)))
-            Control.Monad.void (WorkAreaJPanel.select this (frameInt))
+            Control.Monad.void (WorkAreaJPanel.select_1 this (frameInt))
         Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) "Canvas Rotated")
         pure ()
 
@@ -780,15 +777,14 @@ explode_impl this evt = do
 
 
 -- throws Exception
--- Java overload of autoExplode with a different parameter count: give it a different name
-autoExplode :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-autoExplode object_ a1 = jmethod object_ "autoExplode" (\() -> (autoExplode_impl (javaCast object_ :: WorkAreaJPanel))) () a1
+autoExplode_1 :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+autoExplode_1 object_ a1 = jmethod object_ "autoExplode_1" (\() -> (autoExplode_1_impl (javaCast object_ :: WorkAreaJPanel))) () a1
 
-autoExplode_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-autoExplode_super object_ a1 = (autoExplode_impl (javaCast object_ :: WorkAreaJPanel)) a1
+autoExplode_1_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+autoExplode_1_super object_ a1 = (autoExplode_1_impl (javaCast object_ :: WorkAreaJPanel)) a1
 
-autoExplode_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
-autoExplode_impl this evt = do
+autoExplode_1_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
+autoExplode_1_impl this evt = do
         Control.Monad.void (WorkAreaJPanel.autoExplode this 10 0)
         pure ()
 
@@ -808,15 +804,14 @@ center_impl this = do
 
 
 -- throws Exception
--- Java overload of center with a different parameter count: give it a different name
-center :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-center object_ a1 = jmethod object_ "center" (\() -> (center_impl (javaCast object_ :: WorkAreaJPanel))) () a1
+center_1 :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+center_1 object_ a1 = jmethod object_ "center_1" (\() -> (center_1_impl (javaCast object_ :: WorkAreaJPanel))) () a1
 
-center_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
-center_super object_ a1 = (center_impl (javaCast object_ :: WorkAreaJPanel)) a1
+center_1_super :: (JavaObjectClass this_) => this_ -> MyCanvasEvent.MyCanvasEvent -> IO (())
+center_1_super object_ a1 = (center_1_impl (javaCast object_ :: WorkAreaJPanel)) a1
 
-center_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
-center_impl this evt = do
+center_1_impl :: WorkAreaJPanel -> MyCanvasEvent.MyCanvasEvent -> IO (())
+center_1_impl this evt = do
         Control.Monad.void (WorkAreaJPanel.center this)
         pure ()
 
@@ -838,7 +833,7 @@ run_impl this = do
                     forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                         when (Prelude.not (jio (WorkAreaJPanel.isPlaying this))) $ do
                             throwIO JavaBreak
-                        Control.Monad.void (WorkAreaJPanel.select this index)
+                        Control.Monad.void (WorkAreaJPanel.select_1 this index)
                         Control.Monad.void (threadDelay (Prelude.fromIntegral 100 * 1000))
                 else do
                     Control.Monad.void (threadDelay (Prelude.fromIntegral 500 * 1000))

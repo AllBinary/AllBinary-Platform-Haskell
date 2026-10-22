@@ -137,7 +137,7 @@ update_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).uPDATE) e)
             ) $ do
             Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKey this (jio (InputToGameKeyMapping.getInstance ((jget (this).inputToGameKeyMapping)) (jio (MotionGestureInput.getId ((jio (CompleteMotionGestureInputEvent.getMotionGestureInput this))))))))
-            Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKeyEvent this (jio (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) this (jio (GameKeyCompleteMotionGestureInputEvent.getGameKey this)))))
+            Control.Monad.void (GameKeyCompleteMotionGestureInputEvent.setGameKeyEvent this (jio (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast (jio (GameKeyCompleteMotionGestureInputEvent.getGameKey this))))))
         pure ()
 
 

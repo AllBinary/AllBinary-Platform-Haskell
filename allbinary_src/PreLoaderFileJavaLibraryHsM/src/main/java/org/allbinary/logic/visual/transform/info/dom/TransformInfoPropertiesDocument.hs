@@ -126,7 +126,7 @@ toTransformInfoPropertiesHashMap_impl this = do
             transformInfoProperties <- newIORef (javaNull)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset node ((javaCast (jio (BasicArrayList.get transformInfoNodeVector index)) :: Node.Node))
-                assignedValue <- (TransformInfoPropertiesFactory.getInstance ((jio (TransformInfoPropertiesFactory.getInstance))) (jget node))
+                assignedValue <- (TransformInfoPropertiesFactory.getInstance_1 ((jio (TransformInfoPropertiesFactory.getInstance))) (jget node))
                 jset transformInfoProperties (assignedValue)
                 Control.Monad.void (HashMap.put transformInfoPropertiesHashMap (jio (TransformInfoProperties.getName ((jget transformInfoProperties)))) (jget transformInfoProperties))
             pure (transformInfoPropertiesHashMap)

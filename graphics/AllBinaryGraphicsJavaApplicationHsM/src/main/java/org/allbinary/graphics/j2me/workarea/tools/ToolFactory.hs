@@ -131,7 +131,7 @@ getSelectedToolFactory_impl this = do
     javaCatchReturn $ do
         Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) ("Tool In Use: " ++ (jget (this).tool)))
         if ((jget (this).tool) /= javaNull) then do
-            assignedValue <- (GraphicItemFactory.getInstance ((jio (GraphicItemFactory.getInstance))) (jget (this).tool))
+            assignedValue <- (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) (jget (this).tool))
             jset (this).selectedTool (assignedValue)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("New Tool: " ++ javaToString (jget (this).selectedTool)) this "getSelectedToolFactory")
             javaReturn ((jget (this).selectedTool))

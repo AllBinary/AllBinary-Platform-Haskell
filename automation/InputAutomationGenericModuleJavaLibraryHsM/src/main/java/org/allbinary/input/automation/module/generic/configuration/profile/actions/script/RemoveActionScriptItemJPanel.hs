@@ -134,7 +134,7 @@ removeJButtonActionPerformed_impl this evt = do
         when (genericProfileAction == javaNull) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "GenericProfileAction was null" this "removeJButtonActionPerformed")
             javaReturn (())
-        Control.Monad.void (GenericProfileActionScript.removeCondition ((jio (GenericProfileAction.getGenericProfileActionScript genericProfileAction))) (jget (this).profileActionScriptConditionInterface))
+        Control.Monad.void (GenericProfileActionScript.removeCondition ((jio (GenericProfileAction.getGenericProfileActionScript genericProfileAction))) (javaCast (jget (this).profileActionScriptConditionInterface)))
         Control.Monad.void (GenericProfileActionJPanel.updateProfileActionUI ((jget (this).genericProfileActionJPanel)))
     pure ()
 

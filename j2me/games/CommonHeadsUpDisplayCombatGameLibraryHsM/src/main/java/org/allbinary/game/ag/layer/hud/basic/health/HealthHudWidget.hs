@@ -127,7 +127,7 @@ init_4 this animationInterface healthInterface location direction = do
         pure () -- super(...) is in the record above
         jset (this).animationInterface (animationInterface)
         jset (this).healthInterface (healthInterface)
-        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) this)
+        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) (javaCast this))
         jset (this).healthScale (((((jio (Health.getMaxHealth ((jget (this).healthInterface)))) `quot` 6)) + 1))
         Control.Monad.void (HealthHudWidget.onHealthChange this)
         jset (this).base.updateMaxWidth (((jio (Health.getMaxHealth healthInterface)) * 16))

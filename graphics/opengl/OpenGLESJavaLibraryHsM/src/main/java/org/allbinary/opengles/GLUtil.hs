@@ -111,7 +111,7 @@ makeFloatBuffer3_impl this p_a p_b p_c = do
         Control.Monad.void (FloatBuffer.put buffer p_a)
         Control.Monad.void (FloatBuffer.put buffer p_b)
         Control.Monad.void (FloatBuffer.put buffer p_c)
-        Control.Monad.void (GLUtil.position this buffer 0)
+        Control.Monad.void (GLUtil.position this (javaCast buffer) 0)
         pure (buffer)
 
 
@@ -130,7 +130,7 @@ makeFloatBuffer4_impl this p_a p_b p_c p_d = do
         Control.Monad.void (FloatBuffer.put buffer p_b)
         Control.Monad.void (FloatBuffer.put buffer p_c)
         Control.Monad.void (FloatBuffer.put buffer p_d)
-        Control.Monad.void (GLUtil.position this buffer 0)
+        Control.Monad.void (GLUtil.position this (javaCast buffer) 0)
         pure (buffer)
 
 
@@ -151,7 +151,7 @@ makeFloatBuffer_impl this byteBuffer = do
             jset unsigned ((((Prelude.fromInteger (jnumericInteger (jio (ByteBuffer.get byteBuffer))))) Data.Bits..&. 0xFF))
             jset v ((((Prelude.fromIntegral (jget unsigned))) / 255.0))
             Control.Monad.void (FloatBuffer.put buffer (jget v))
-        Control.Monad.void (GLUtil.position this buffer 0)
+        Control.Monad.void (GLUtil.position this (javaCast buffer) 0)
         pure (buffer)
 
 
@@ -163,7 +163,7 @@ position_super object_ a1 a2 = (position_impl (javaCast object_ :: GLUtil)) a1 a
 
 position_impl :: GLUtil -> Buffer.Buffer -> Int -> IO (Buffer.Buffer)
 position_impl this buffer newPosition = do
-        (FloatBuffer.position buffer newPosition)
+        (Buffer.position buffer newPosition)
 
 
 rotateUVs :: (JavaObjectClass this_) => this_ -> JavaArray (Float) -> Float -> Float -> Float -> IO (())

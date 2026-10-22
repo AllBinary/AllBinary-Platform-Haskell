@@ -61,7 +61,7 @@ newRecord_ = do
     let this = OpenGLLogUtil header_ mAX_TEXTURE lOG_ERROR iMAGE
     jregisterLevel header_ this
     jregisterMethod header_ "logError" (\() -> logError_impl this)
-    jregisterMethod header_ "logError" (\() -> logError_impl this)
+    jregisterMethod header_ "logError_2" (\() -> logError_2_impl this)
     pure this
 
 initFields_ :: OpenGLLogUtil -> IO ()
@@ -112,15 +112,14 @@ logError_impl this gl = do
         pure ()
 
 
--- Java overload of logError with a different parameter count: give it a different name
-logError :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> Image.Image -> IO (())
-logError object_ a1 a2 = jmethod object_ "logError" (\() -> (logError_impl (javaCast object_ :: OpenGLLogUtil))) () a1 a2
+logError_2 :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> Image.Image -> IO (())
+logError_2 object_ a1 a2 = jmethod object_ "logError_2" (\() -> (logError_2_impl (javaCast object_ :: OpenGLLogUtil))) () a1 a2
 
-logError_super :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> Image.Image -> IO (())
-logError_super object_ a1 a2 = (logError_impl (javaCast object_ :: OpenGLLogUtil)) a1 a2
+logError_2_super :: (JavaObjectClass this_) => this_ -> GL10.GL10 -> Image.Image -> IO (())
+logError_2_super object_ a1 a2 = (logError_2_impl (javaCast object_ :: OpenGLLogUtil)) a1 a2
 
-logError_impl :: OpenGLLogUtil -> GL10.GL10 -> Image.Image -> IO (())
-logError_impl this gl image = do
+logError_2_impl :: OpenGLLogUtil -> GL10.GL10 -> Image.Image -> IO (())
+logError_2_impl this gl image = do
         error <- (GL10.glGetError gl)
         when (error /= GL10.gL_NO_ERROR) $ do
             stringBuffer <- (StringMaker.new_)

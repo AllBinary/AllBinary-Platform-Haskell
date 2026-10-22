@@ -72,7 +72,7 @@ newRecord_ = do
     tsUtil <- newIORef javaNull
     let this = HardwareFactory header_ logUtil tsUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: HardwareFactory -> IO ()
@@ -100,15 +100,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: HardwareFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: HardwareFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: HardwareFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: HardwareFactory)) a1
 
-getInstance_impl :: HardwareFactory -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
-getInstance_impl this os = do
+getInstance_1_impl :: HardwareFactory -> GenericOperatingSystem.GenericOperatingSystem -> IO (HardwareInterface.HardwareInterface)
+getInstance_1_impl this os = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)

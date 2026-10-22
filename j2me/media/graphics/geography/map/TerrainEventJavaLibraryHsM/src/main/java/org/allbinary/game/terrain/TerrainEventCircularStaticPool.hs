@@ -99,7 +99,7 @@ init_super object_ = (init_impl (javaCast object_ :: TerrainEventCircularStaticP
 
 init_impl :: TerrainEventCircularStaticPool -> IO (())
 init_impl this = do
-        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (jio (TerrainEventFactory.new_)))
+        Control.Monad.void (AllBinaryEventCircularPool.initAllBinaryEventCircularPool ((jget (this).eVENT_POOL)) (javaCast (jio (TerrainEventFactory.new_))))
         pure ()
 
 

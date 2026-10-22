@@ -101,7 +101,7 @@ update_super object_ a1 = (update_impl (javaCast object_ :: GeographicMapCellPos
 update_impl :: GeographicMapCellPositionEventUtil -> GeographicMapCellPositionTracking.GeographicMapCellPositionTracking -> IO (())
 update_impl this geographicMapCellPositionTracking = do
         Control.Monad.void (GeographicMapCellPositionEvent.setGeographicMapCellPosition ((jget (this).geographicMapCellPositionEvent)) (jio (GeographicMapCellPositionTracking.getCurrentGeographicMapCellPosition geographicMapCellPositionTracking)))
-        Control.Monad.void (GeographicMapCellPositionEventHandler.fireEvent ((jget (this).geographicMapCellPositionEventHandler)) (jget (this).geographicMapCellPositionEvent))
+        Control.Monad.void (GeographicMapCellPositionEventHandler.fireEvent ((jget (this).geographicMapCellPositionEventHandler)) (javaCast (jget (this).geographicMapCellPositionEvent)))
         pure ()
 
 
@@ -115,7 +115,7 @@ remove_super object_ a1 = (remove_impl (javaCast object_ :: GeographicMapCellPos
 remove_impl :: GeographicMapCellPositionEventUtil -> GeographicMapCellPositionTracking.GeographicMapCellPositionTracking -> IO (())
 remove_impl this geographicMapCellPositionTracking = do
         Control.Monad.void (GeographicMapCellPositionEvent.setGeographicMapCellPosition ((jget (this).geographicMapCellPositionEvent)) (jio (GeographicMapCellPositionTracking.getCurrentGeographicMapCellPosition geographicMapCellPositionTracking)))
-        Control.Monad.void (GeographicMapCellPositionEventHandler.fireRemoveEvent ((jget (this).geographicMapCellPositionEventHandler)) (jget (this).geographicMapCellPositionEvent))
+        Control.Monad.void (GeographicMapCellPositionEventHandler.fireRemoveEvent ((jget (this).geographicMapCellPositionEventHandler)) (javaCast (jget (this).geographicMapCellPositionEvent)))
         pure ()
 
 

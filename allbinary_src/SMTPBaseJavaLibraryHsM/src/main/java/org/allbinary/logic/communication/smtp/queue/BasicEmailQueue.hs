@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.communication.smtp.queue
 module BasicEmailQueue (module BasicEmailQueue, module BasicQueue) where
 
-import BasicQueue hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, offer, offer_super, offer_impl, remove, remove_super, remove_impl, remove, remove_super, remove_impl, post, post_super, post_impl, processAllUnsent, processAllUnsent_super, processAllUnsent_impl, send, send_super, send_impl, logUtil, instance_, basicEmailQueue)
+import BasicQueue hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, offer, offer_super, offer_impl, remove, remove_super, remove_impl, remove_0, remove_0_super, remove_0_impl, remove, post, post_super, post_impl, processAllUnsent, processAllUnsent_super, processAllUnsent_impl, send, send_super, send_impl, logUtil, instance_, basicEmailQueue)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -76,7 +76,7 @@ newRecord_ = do
     EmailQueueInterface.registerInterface_ header_
     jregisterMethod header_ "offer" (\() -> offer_impl this)
     jregisterMethod header_ "remove" (\() -> remove_impl this)
-    jregisterMethod header_ "remove" (\() -> remove_impl this)
+    jregisterMethod header_ "remove_0" (\() -> remove_0_impl this)
     jregisterMethod header_ "post" (\() -> post_impl this)
     jregisterMethod header_ "processAllUnsent" (\() -> processAllUnsent_impl this)
     jregisterMethod header_ "send" (\() -> send_impl this)
@@ -135,15 +135,14 @@ remove_impl this emailInterface = do
         pure ()
 
 
--- Java overload of remove with a different parameter count: give it a different name
-remove :: (JavaObjectClass this_) => this_ -> IO (EmailInterface.EmailInterface)
-remove object_ = jmethod object_ "remove" (\() -> (remove_impl (javaCast object_ :: BasicEmailQueue))) ()
+remove_0 :: (JavaObjectClass this_) => this_ -> IO (EmailInterface.EmailInterface)
+remove_0 object_ = jmethod object_ "remove_0" (\() -> (remove_0_impl (javaCast object_ :: BasicEmailQueue))) ()
 
-remove_super :: (JavaObjectClass this_) => this_ -> IO (EmailInterface.EmailInterface)
-remove_super object_ = (remove_impl (javaCast object_ :: BasicEmailQueue))
+remove_0_super :: (JavaObjectClass this_) => this_ -> IO (EmailInterface.EmailInterface)
+remove_0_super object_ = (remove_0_impl (javaCast object_ :: BasicEmailQueue))
 
-remove_impl :: BasicEmailQueue -> IO (EmailInterface.EmailInterface)
-remove_impl this = do
+remove_0_impl :: BasicEmailQueue -> IO (EmailInterface.EmailInterface)
+remove_0_impl this = do
         pure (javaNull)
 
 

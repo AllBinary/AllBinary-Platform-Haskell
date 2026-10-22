@@ -104,11 +104,11 @@ newRecord_ = do
     jregisterMethod header_ "setLastModified" (\() -> setLastModified_impl this)
     jregisterMethod header_ "setReadOnly" (\() -> setReadOnly_impl this)
     jregisterMethod header_ "setWritable" (\() -> setWritable_impl this)
-    jregisterMethod header_ "setWritable" (\() -> setWritable_impl this)
+    jregisterMethod header_ "setWritable_1" (\() -> setWritable_1_impl this)
     jregisterMethod header_ "setReadable" (\() -> setReadable_impl this)
-    jregisterMethod header_ "setReadable" (\() -> setReadable_impl this)
+    jregisterMethod header_ "setReadable_1" (\() -> setReadable_1_impl this)
     jregisterMethod header_ "setExecutable" (\() -> setExecutable_impl this)
-    jregisterMethod header_ "setExecutable" (\() -> setExecutable_impl this)
+    jregisterMethod header_ "setExecutable_1" (\() -> setExecutable_1_impl this)
     jregisterMethod header_ "canExecute" (\() -> canExecute_impl this)
     jregisterMethod header_ "getTotalSpace" (\() -> getTotalSpace_impl this)
     jregisterMethod header_ "getFreeSpace" (\() -> getFreeSpace_impl this)
@@ -533,15 +533,14 @@ setWritable_impl this writable ownerOnly = do
         (File.setExecutable ((jget (this).file)) writable ownerOnly)
 
 
--- Java overload of setWritable with a different parameter count: give it a different name
-setWritable :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setWritable object_ a1 = jmethod object_ "setWritable" (\() -> (setWritable_impl (javaCast object_ :: AbFile))) () a1
+setWritable_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setWritable_1 object_ a1 = jmethod object_ "setWritable_1" (\() -> (setWritable_1_impl (javaCast object_ :: AbFile))) () a1
 
-setWritable_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setWritable_super object_ a1 = (setWritable_impl (javaCast object_ :: AbFile)) a1
+setWritable_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setWritable_1_super object_ a1 = (setWritable_1_impl (javaCast object_ :: AbFile)) a1
 
-setWritable_impl :: AbFile -> Bool -> IO (Bool)
-setWritable_impl this writable = do
+setWritable_1_impl :: AbFile -> Bool -> IO (Bool)
+setWritable_1_impl this writable = do
         (File.setWritable ((jget (this).file)) writable)
 
 
@@ -556,15 +555,14 @@ setReadable_impl this readable ownerOnly = do
         (File.setReadable ((jget (this).file)) readable ownerOnly)
 
 
--- Java overload of setReadable with a different parameter count: give it a different name
-setReadable :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setReadable object_ a1 = jmethod object_ "setReadable" (\() -> (setReadable_impl (javaCast object_ :: AbFile))) () a1
+setReadable_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setReadable_1 object_ a1 = jmethod object_ "setReadable_1" (\() -> (setReadable_1_impl (javaCast object_ :: AbFile))) () a1
 
-setReadable_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setReadable_super object_ a1 = (setReadable_impl (javaCast object_ :: AbFile)) a1
+setReadable_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setReadable_1_super object_ a1 = (setReadable_1_impl (javaCast object_ :: AbFile)) a1
 
-setReadable_impl :: AbFile -> Bool -> IO (Bool)
-setReadable_impl this readable = do
+setReadable_1_impl :: AbFile -> Bool -> IO (Bool)
+setReadable_1_impl this readable = do
         (File.setReadable ((jget (this).file)) readable)
 
 
@@ -579,15 +577,14 @@ setExecutable_impl this executable ownerOnly = do
         (File.setExecutable ((jget (this).file)) executable ownerOnly)
 
 
--- Java overload of setExecutable with a different parameter count: give it a different name
-setExecutable :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setExecutable object_ a1 = jmethod object_ "setExecutable" (\() -> (setExecutable_impl (javaCast object_ :: AbFile))) () a1
+setExecutable_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setExecutable_1 object_ a1 = jmethod object_ "setExecutable_1" (\() -> (setExecutable_1_impl (javaCast object_ :: AbFile))) () a1
 
-setExecutable_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
-setExecutable_super object_ a1 = (setExecutable_impl (javaCast object_ :: AbFile)) a1
+setExecutable_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (Bool)
+setExecutable_1_super object_ a1 = (setExecutable_1_impl (javaCast object_ :: AbFile)) a1
 
-setExecutable_impl :: AbFile -> Bool -> IO (Bool)
-setExecutable_impl this executable = do
+setExecutable_1_impl :: AbFile -> Bool -> IO (Bool)
+setExecutable_1_impl this executable = do
         (File.setExecutable ((jget (this).file)) executable)
 
 

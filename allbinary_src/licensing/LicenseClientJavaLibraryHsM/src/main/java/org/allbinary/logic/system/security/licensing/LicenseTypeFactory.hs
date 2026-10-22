@@ -68,7 +68,7 @@ newRecord_ = do
     nORMAL <- newIORef javaNull
     let this = LicenseTypeFactory header_ uNKNOWN dEMO nORMAL
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     pure this
 
 initFields_ :: LicenseTypeFactory -> IO ()
@@ -94,15 +94,14 @@ getInstance = do
         pure (LicenseTypeFactory.instance_)
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> String -> IO (LicenseType.LicenseType)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: LicenseTypeFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> String -> IO (LicenseType.LicenseType)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: LicenseTypeFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> String -> IO (LicenseType.LicenseType)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: LicenseTypeFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (LicenseType.LicenseType)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: LicenseTypeFactory)) a1
 
-getInstance_impl :: LicenseTypeFactory -> String -> IO (LicenseType.LicenseType)
-getInstance_impl this name = do
+getInstance_1_impl :: LicenseTypeFactory -> String -> IO (LicenseType.LicenseType)
+getInstance_1_impl this name = do
     javaCatchReturn $ do
         if ((Prelude.fromEnum (Prelude.compare (jio (LicenseType.getName ((jget (this).dEMO)))) name) - 1) == 0) then do
             javaReturn ((jget (this).dEMO))

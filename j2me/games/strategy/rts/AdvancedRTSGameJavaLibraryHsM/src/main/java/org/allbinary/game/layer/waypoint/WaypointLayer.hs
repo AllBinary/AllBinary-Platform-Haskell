@@ -103,9 +103,9 @@ init_10 this remoteInfo parentLayer groupInterface rootName name animationInterf
         AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (jio (AdvancedRTSProperties.createProperties)) (groupInterface) (rootName) (name) (jio (Health.new_1 1000)) (jio (NullRTSFormInputFactory.getInstance)) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (jio (TileLayerPositionIntoViewPosition.new_))
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (jio (CollidableWaypointBehavior.new_1 True)))
-        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (jio (Waypoint.new_2 this (jio (AttackSound.getInstance)))))
-        Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (jget (this).base.base.indexedButShouldBeRotationAnimationInterface))
+        Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableWaypointBehavior.new_1 True))))
+        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 this (jio (AttackSound.getInstance))))))
+        Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (javaCast (jget (this).base.base.indexedButShouldBeRotationAnimationInterface)))
         pure ()
 
 
@@ -184,7 +184,7 @@ setDestroyed_impl :: WaypointLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         Control.Monad.void (AdvancedRTSGameLayer.setDestroyed_super this.base destroyed)
         when (jio (AdvancedRTSGameLayer.isDestroyed this)) $ do
-            Control.Monad.void (WaypointCellPositionHistory.removeLayer ((jio (WaypointCellPositionHistory.getInstance))) this)
+            Control.Monad.void (WaypointCellPositionHistory.removeLayer ((jio (WaypointCellPositionHistory.getInstance))) (javaCast this))
         pure ()
 
 

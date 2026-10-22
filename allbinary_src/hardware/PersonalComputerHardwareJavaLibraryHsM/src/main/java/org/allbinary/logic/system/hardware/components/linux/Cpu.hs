@@ -85,7 +85,7 @@ newRecord_ = do
     CpuInterface.registerInterface_ header_
     HardwareComponentInterface.registerInterface_ header_
     jregisterMethod header_ "init" (\() -> init_impl this)
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "init_2" (\() -> init_2_impl this)
     jregisterMethod header_ "getProcessor" (\() -> getProcessor_impl this)
     jregisterMethod header_ "getVendorId" (\() -> getVendorId_impl this)
     jregisterMethod header_ "getCpuFamily" (\() -> getCpuFamily_impl this)
@@ -147,20 +147,19 @@ init_impl this filePath = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Cpu Data: "))) (jio (Cpu.toString this))))))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR) e)
             javaThrow (e)
             ) $ do
-            Control.Monad.void (Cpu.init this lineNumberReader filePath)
+            Control.Monad.void (Cpu.init_2 this lineNumberReader filePath)
         pure ()
 
 
 -- throws Exception
--- Java overload of init with a different parameter count: give it a different name
-init :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
-init object_ a1 a2 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: Cpu))) () a1 a2
+init_2 :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2 object_ a1 a2 = jmethod object_ "init_2" (\() -> (init_2_impl (javaCast object_ :: Cpu))) () a1 a2
 
-init_super :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
-init_super object_ a1 a2 = (init_impl (javaCast object_ :: Cpu)) a1 a2
+init_2_super :: (JavaObjectClass this_) => this_ -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2_super object_ a1 a2 = (init_2_impl (javaCast object_ :: Cpu)) a1 a2
 
-init_impl :: Cpu -> LineNumberReader.LineNumberReader -> String -> IO (())
-init_impl this lineNumberReader filePath = do
+init_2_impl :: Cpu -> LineNumberReader.LineNumberReader -> String -> IO (())
+init_2_impl this lineNumberReader filePath = do
         lineNumberReader <- newIORef lineNumberReader
         flip finally (do
             when ((jget lineNumberReader) /= javaNull) $ do

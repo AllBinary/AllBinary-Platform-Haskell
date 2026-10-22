@@ -126,7 +126,7 @@ getCanvasImage_impl :: AllBinaryJ2SEImageRotationAnimationFactory -> IO (Image.I
 getCanvasImage_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
-        if ((jget (this).resizeCanvasForRotation) && (Prelude.not (jio (Features.isDefault features (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) then do
+        if ((jget (this).resizeCanvasForRotation) && (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))))) then do
             javaReturn =<< (ImageCopyUtil.createImageScale ((jio (ImageCopyUtil.getInstance))) (jio (BaseImageAnimationFactory.getImage this)) (1.44) False)
         else do
             javaReturn =<< (BaseImageAnimationFactory.getImage this)
@@ -150,7 +150,7 @@ getInstance_impl this instanceId = do
         jset scaledImage (assignedValue)
         copyOfScaledImage <- (ImageCopyUtil.createImageForRotation imageCopyUtil (jget scaledImage))
         if (((jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) /= 0) || ((jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) /= 0)) then do
-            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) this)
+            Control.Monad.void (AnimationFactoryImageScaleUtil.processAdjust ((jget (this).base.animationFactoryImageScaleUtil)) (javaCast this))
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AllBinaryAdjustedJ2SEImageRotationAnimation.new_7 (jget scaledImage) copyOfScaledImage (jio (AngleInfo.getInstance (jget (this).angleIncrementP))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dx) (jget ((jget (this).base.animationFactoryInitializationVisitor)).dy) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))
         else do
             javaReturn =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AllBinaryJ2SEImageRotationAnimation.new_5 (jget scaledImage) copyOfScaledImage (jio (AngleInfo.getInstance (jget (this).angleIncrementP))) (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) (jio (AnimationBehaviorFactory.getOrCreateInstance ((jget (this).base.animationBehaviorFactory))))))

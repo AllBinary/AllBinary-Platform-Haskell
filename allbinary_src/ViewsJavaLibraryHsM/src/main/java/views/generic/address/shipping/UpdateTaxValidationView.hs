@@ -110,7 +110,7 @@ isValid_impl this = do
         assignedValue <- (StreetAddress.new_1 (jio (ShippingAddressView.getRequest this)))
         jset (this).base.streetAddress (assignedValue)
         storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (ShippingAddressView.getTransformInfoInterface this)))))))
-        when ((jio (TaxFactory.isValid ((jio (TaxFactory.getInstance ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))) (jget (this).base.streetAddress) storeFrontInterface)) == False) $ do
+        when ((jio (TaxFactory.isValid ((jio (TaxFactory.getInstance_2 ((jio (TaxFactory.getInstance))) (jget (this).base.base.base.abeClientInformation) storeFrontInterface))) (jget (this).base.streetAddress) storeFrontInterface)) == False) $ do
             javaReturn (False)
         billingAddressesEntity <- (ShippingAddressesEntity.new_1 (jio (WeblisketSession.getUserName ((jio (ShippingAddressView.getWeblisketSession this))))))
         streetAddressList <- (ShippingAddressesEntity.get billingAddressesEntity)

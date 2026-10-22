@@ -51,7 +51,7 @@ newRecord_ = do
     let this = OpenGLObject3dProcessor header_ commonStrings
     jregisterLevel header_ this
     jregisterMethod header_ "process" (\() -> process_impl this)
-    jregisterMethod header_ "process" (\() -> process_impl this)
+    jregisterMethod header_ "process_3" (\() -> process_3_impl this)
     pure this
 
 initFields_ :: OpenGLObject3dProcessor -> IO ()
@@ -82,15 +82,14 @@ process_impl this gl object3dObject_ = do
         pure ()
 
 
--- Java overload of process with a different parameter count: give it a different name
-process :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> GL10.GL10 -> o2 -> Int -> IO (())
-process object_ a1 a2 a3 = jmethod object_ "process" (\() -> (process_impl (javaCast object_ :: OpenGLObject3dProcessor))) () a1 (jtoObject a2) a3
+process_3 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> GL10.GL10 -> o2 -> Int -> IO (())
+process_3 object_ a1 a2 a3 = jmethod object_ "process_3" (\() -> (process_3_impl (javaCast object_ :: OpenGLObject3dProcessor))) () a1 (jtoObject a2) a3
 
-process_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> GL10.GL10 -> o2 -> Int -> IO (())
-process_super object_ a1 a2 a3 = (process_impl (javaCast object_ :: OpenGLObject3dProcessor)) a1 (jtoObject a2) a3
+process_3_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> GL10.GL10 -> o2 -> Int -> IO (())
+process_3_super object_ a1 a2 a3 = (process_3_impl (javaCast object_ :: OpenGLObject3dProcessor)) a1 (jtoObject a2) a3
 
-process_impl :: OpenGLObject3dProcessor -> GL10.GL10 -> JavaObject -> Int -> IO (())
-process_impl this gl object3dObject_ index = do
+process_3_impl :: OpenGLObject3dProcessor -> GL10.GL10 -> JavaObject -> Int -> IO (())
+process_3_impl this gl object3dObject_ index = do
         let object3d = jtoObject object3dObject_
         pure ()
 

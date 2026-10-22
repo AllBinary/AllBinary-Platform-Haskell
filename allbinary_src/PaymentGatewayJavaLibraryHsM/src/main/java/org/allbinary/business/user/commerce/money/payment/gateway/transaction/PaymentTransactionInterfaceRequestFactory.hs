@@ -93,7 +93,7 @@ newRecord_ = do
     commonStrings <- newIORef javaNull
     let this = PaymentTransactionInterfaceRequestFactory header_ logUtil commonStrings
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_1" (\() -> getInstance_1_impl this)
     jregisterMethod header_ "generateFromTestData" (\() -> generateFromTestData_impl this)
     pure this
 
@@ -122,15 +122,14 @@ init_ this = do
 
 
 -- throws Exception
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance object_ a1 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: PaymentTransactionInterfaceRequestFactory))) () a1
+getInstance_1 :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1 object_ a1 = jmethod object_ "getInstance_1" (\() -> (getInstance_1_impl (javaCast object_ :: PaymentTransactionInterfaceRequestFactory))) () a1
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance_super object_ a1 = (getInstance_impl (javaCast object_ :: PaymentTransactionInterfaceRequestFactory)) a1
+getInstance_1_super :: (JavaObjectClass this_) => this_ -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: PaymentTransactionInterfaceRequestFactory)) a1
 
-getInstance_impl :: PaymentTransactionInterfaceRequestFactory -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
-getInstance_impl this transformInfoInterface = do
+getInstance_1_impl :: PaymentTransactionInterfaceRequestFactory -> TransformInfoInterface.TransformInfoInterface -> IO (PaymentTransactionInterface.PaymentTransactionInterface)
+getInstance_1_impl this transformInfoInterface = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pAYMENTERROR))) $ do
@@ -157,7 +156,7 @@ getInstance_impl this transformInfoInterface = do
                 Control.Monad.void (OrderHistory.setPaymentInfo orderReview orderPaymentInfo)
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pAYMENT))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (OrderHistory.getId orderReview)) this "getPaymentTransactionInterface()")
-                paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceFactory.getInstance ((jio (PaymentTransactionInterfaceFactory.getInstance))) orderReview))
+                paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceFactory.getInstance_1 ((jio (PaymentTransactionInterfaceFactory.getInstance))) orderReview))
                 javaReturn (paymentTransactionInterface)
 
 
@@ -232,7 +231,7 @@ generateFromTestData_impl this transformInfoInterface = do
             else do
                 Control.Monad.void (OrderHistory.setId orderReview (jget orderId))
             Control.Monad.void (OrderHistory.setPaymentInfo orderReview payment)
-            paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceFactory.getInstance ((jio (PaymentTransactionInterfaceFactory.getInstance))) orderReview))
+            paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceFactory.getInstance_1 ((jio (PaymentTransactionInterfaceFactory.getInstance))) orderReview))
             pure (paymentTransactionInterface)
 
 

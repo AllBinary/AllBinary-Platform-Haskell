@@ -109,7 +109,7 @@ decode value = do
             pure ((jget ((jio (NullUtil.getInstance))).nULL_BYTE_ARRAY))
             ) $ do
             tokenizer <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).sPACE))
-            vector <- (Tokenizer.getTokensFromString tokenizer value (jio (BasicArrayListD.new_)))
+            vector <- (Tokenizer.getTokensFromString tokenizer value (javaCast (jio (BasicArrayListD.new_))))
             byteVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             size <- (BasicArrayList.size vector)
             byteOfData <- newIORef ("")

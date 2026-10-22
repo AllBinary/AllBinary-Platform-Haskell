@@ -157,7 +157,7 @@ emailUser_impl this quoteRequest = do
         userEmailTextBody <- (StringMaker.toString stringBuffer)
         let basicEmailInfo = (javaCast (jio (StoreEmailInfo.new_3 (jget (this).storeFrontInterface) userEmailSubject userEmailTextBody)) :: BasicEmailInfo.BasicEmailInfo)
         emailInfo <- (EmailInfo.new_1 basicEmailInfo)
-        userEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (UserEmailEventHandlerSingletons.getInstance ((jio (UserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.qUOTEREQUEST) user))
+        userEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (UserEmailEventHandlerSingletons.getInstance_3 ((jio (UserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.qUOTEREQUEST) user))
         Control.Monad.void (UserEmailEventHandler.receiveEmailInfo userEmailEventHandler (UserEmailEventNameData.qUOTEREQUEST) emailInfo)
         pure ()
 
@@ -188,8 +188,8 @@ emailAdmins_impl this quoteRequest = do
         adminEmailTextBody <- (StringMaker.toString stringBuffer)
         let basicEmailInfo = (javaCast (jio (StoreEmailInfo.new_3 (jget (this).storeFrontInterface) adminEmailSubject adminEmailTextBody)) :: BasicEmailInfo.BasicEmailInfo)
         emailInfo <- (EmailInfo.new_1 basicEmailInfo)
-        storeAdminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (AdminUserEmailEventHandlerSingletons.getInstance ((jio (AdminUserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.qUOTEREQUEST)))
-        adminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (StoreAdminUserEmailEventHandlerSingletons.getInstance ((jio (StoreAdminUserEmailEventHandlerSingletons.getInstance))) (UserEmailEventNameData.qUOTEREQUEST) (jget (this).abeClientInformation) (jget (this).storeFrontInterface)))
+        storeAdminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (AdminUserEmailEventHandlerSingletons.getInstance_2 ((jio (AdminUserEmailEventHandlerSingletons.getInstance))) (jget (this).abeClientInformation) (UserEmailEventNameData.qUOTEREQUEST)))
+        adminUserEmailEventHandler <- (fmap (\value_ -> javaCast value_ :: UserEmailEventHandler.UserEmailEventHandler) (StoreAdminUserEmailEventHandlerSingletons.getInstance_3 ((jio (StoreAdminUserEmailEventHandlerSingletons.getInstance))) (UserEmailEventNameData.qUOTEREQUEST) (jget (this).abeClientInformation) (jget (this).storeFrontInterface)))
         Control.Monad.void (UserEmailEventHandler.receiveEmailInfo storeAdminUserEmailEventHandler (UserEmailEventNameData.qUOTEREQUEST) emailInfo)
         Control.Monad.void (UserEmailEventHandler.receiveEmailInfo adminUserEmailEventHandler (UserEmailEventNameData.qUOTEREQUEST) emailInfo)
         pure ()
@@ -283,7 +283,7 @@ restore_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (jio (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance))))) (jget this.portion))
+            result <- (AbSqlTableUtil.restoreTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance)))))) (jget this.portion))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "restore()")
             pure (result)
@@ -304,7 +304,7 @@ backup_impl this = do
             pure (error)
             ) $ do
             let success = "Restore Successful"
-            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (jio (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance))))))
+            result <- (AbSqlTableUtil.backupTable ((jio (AbSqlTableUtil.getInstance))) (javaCast (jio (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance)))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "backup()")
             pure (result)

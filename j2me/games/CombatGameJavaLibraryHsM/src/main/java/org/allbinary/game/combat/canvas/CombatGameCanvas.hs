@@ -109,7 +109,7 @@ combatGameCanvas_init_super object_ = (combatGameCanvas_init_impl (javaCast obje
 
 combatGameCanvas_init_impl :: CombatGameCanvas -> IO (())
 combatGameCanvas_init_impl this = do
-        Control.Monad.void (DestroyEventCircularStaticPool.init ((jio (DestroyEventCircularStaticPool.getInstance))) this)
+        Control.Monad.void (DestroyEventCircularStaticPool.init ((jio (DestroyEventCircularStaticPool.getInstance))) (javaCast this))
         Control.Monad.void (ProgressCanvas.addNormalPortion ((jio (ProgressCanvasFactory.getInstance))) 50 "Destroy Events")
         pure ()
 
@@ -140,7 +140,7 @@ initConfigurablePortion_impl this portion = do
         Control.Monad.void (ProgressCanvas.addNormalPortion ((jio (ProgressCanvasFactory.getInstance))) portion "Basic Processors")
         features <- (Features.getInstance)
         gameFeatureFactory <- (GameFeatureFactory.getInstance)
-        if ((jio (Features.isFeature features (jget (gameFeatureFactory).dROPPED_ITEMS))) && (jio (Features.isFeature features (jget (gameFeatureFactory).dROPPED_ITEMS_FROM_DEATH)))) then do
+        if ((jio (Features.isFeature features (javaCast (jget (gameFeatureFactory).dROPPED_ITEMS)))) && (jio (Features.isFeature features (javaCast (jget (gameFeatureFactory).dROPPED_ITEMS_FROM_DEATH))))) then do
             jset CombatGameCanvas.basicLayerProcessor ((jnewArray (2) javaNull))
             assignedValue <- (DestroyedLayerProcessor.getInstance)
             jsetIndex ((jget CombatGameCanvas.basicLayerProcessor)) (0) (assignedValue)

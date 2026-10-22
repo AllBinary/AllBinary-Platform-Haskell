@@ -16,7 +16,7 @@
 -- package views.business.context.modules.storefront.generator
 module GeneratorStoreFrontContextView (module GeneratorStoreFrontContextView, module HttpStoreComponentView) where
 
-import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, view, view_super, view_impl, view, view_super, view_impl, logUtil)
+import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, view, view_super, view_impl, view_0, view_0_super, view_0_impl, view, logUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -68,7 +68,7 @@ newRecord_ = do
     let this = GeneratorStoreFrontContextView header_ base logUtil
     jregisterLevel header_ this
     jregisterMethod header_ "view" (\() -> view_impl this)
-    jregisterMethod header_ "view" (\() -> view_impl this)
+    jregisterMethod header_ "view_0" (\() -> view_0_impl this)
     pure this
 
 initFields_ :: GeneratorStoreFrontContextView -> IO ()
@@ -110,15 +110,14 @@ view_impl this group = do
 
 
 -- throws Exception
--- Java overload of view with a different parameter count: give it a different name
-view :: (JavaObjectClass this_) => this_ -> IO (String)
-view object_ = jmethod object_ "view" (\() -> (view_impl (javaCast object_ :: GeneratorStoreFrontContextView))) ()
+view_0 :: (JavaObjectClass this_) => this_ -> IO (String)
+view_0 object_ = jmethod object_ "view_0" (\() -> (view_0_impl (javaCast object_ :: GeneratorStoreFrontContextView))) ()
 
-view_super :: (JavaObjectClass this_) => this_ -> IO (String)
-view_super object_ = (view_impl (javaCast object_ :: GeneratorStoreFrontContextView))
+view_0_super :: (JavaObjectClass this_) => this_ -> IO (String)
+view_0_super object_ = (view_0_impl (javaCast object_ :: GeneratorStoreFrontContextView))
 
-view_impl :: GeneratorStoreFrontContextView -> IO (String)
-view_impl this = do
+view_0_impl :: GeneratorStoreFrontContextView -> IO (String)
+view_0_impl this = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "view()" e)

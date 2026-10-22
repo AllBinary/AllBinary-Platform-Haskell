@@ -182,7 +182,7 @@ update_impl this allBinaryGameLayerManager geographicMapInterface = do
                     throwIO JavaBreak
         size <- (BasicArrayList.size ((jget (this).list)))
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (RaceTrackDropCellPositionGenerator.drop this allBinaryGameLayerManager index)
+            Control.Monad.void (RaceTrackDropCellPositionGenerator.drop this (javaCast allBinaryGameLayerManager) index)
         pure ()
 
 

@@ -178,18 +178,17 @@ put a1 a2 a3
 put_overload1 :: (JavaObjectClass o2) => String -> o2 -> String -> IO (String)
 put_overload1 specialMessage anyTypeObject_ functionName = do
         let anyType = jtoObject anyTypeObject_
-        (FileLog.put specialMessage anyType functionName javaNull)
+        (FileLog.put_4 specialMessage anyType functionName javaNull)
 
 
 -- Java overloads of put: calls the overload for the types of the arguments
-put :: (JavaObjectClass o2) => String -> o2 -> String -> JavaException -> IO (String)
-put a1 a2 a3 a4
-    | jisInstanceOf a2 (javaNull :: String) = put_overload2 a1 (javaCast a2 :: String) a3 a4
-    | otherwise = put_overload1 a1 a2 a3 a4
+put_4 :: (JavaObjectClass o2) => String -> o2 -> String -> JavaException -> IO (String)
+put_4 a1 a2 a3 a4
+    | jisInstanceOf a2 (javaNull :: String) = put_4_overload2 a1 (javaCast a2 :: String) a3 a4
+    | otherwise = put_4_overload1 a1 a2 a3 a4
 
--- Java overload of put with a different parameter count: give it a different name
-put_overload1 :: (JavaObjectClass o2) => String -> o2 -> String -> JavaException -> IO (String)
-put_overload1 specialMessage anyTypeObject_ functionName exception = do
+put_4_overload1 :: (JavaObjectClass o2) => String -> o2 -> String -> JavaException -> IO (String)
+put_4_overload1 specialMessage anyTypeObject_ functionName exception = do
     let anyType = jtoObject anyTypeObject_
     specialMessage <- newIORef specialMessage
     functionName <- newIORef functionName
@@ -222,15 +221,13 @@ put_overload1 specialMessage anyTypeObject_ functionName exception = do
             (jnewString (javaToString FileLog.oRG_ALLBINARY ++ message))
 
 
--- Java overload of put with a different parameter count: give it a different name
 put_overload2 :: String -> String -> String -> IO (String)
 put_overload2 specialMessage className functionName = do
-        (FileLog.put specialMessage className functionName javaNull)
+        (FileLog.put_4 specialMessage className functionName javaNull)
 
 
--- Java overload of put with a different parameter count: give it a different name
-put_overload2 :: String -> String -> String -> JavaException -> IO (String)
-put_overload2 specialMessage className functionName exception = do
+put_4_overload2 :: String -> String -> String -> JavaException -> IO (String)
+put_4_overload2 specialMessage className functionName exception = do
     specialMessage <- newIORef specialMessage
     functionName <- newIORef functionName
     javaCatchReturn $ do

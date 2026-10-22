@@ -91,9 +91,9 @@ init_1 :: EmailServerConfigurationView -> Node.Node -> IO ()
 init_1 this node = do
         initFields_ this
         childNodeList <- (Node.getChildNodes node)
-        server <- (DomNodeHelper.getTextNodeValue (EmailServerConfigurationData.sERVER) childNodeList)
-        accountName <- (DomNodeHelper.getTextNodeValue (EmailServerConfigurationData.aCCOUNT) childNodeList)
-        password <- (DomNodeHelper.getTextNodeValue (EmailServerConfigurationData.pASSWORD) childNodeList)
+        server <- (DomNodeHelper.getTextNodeValue_2 (EmailServerConfigurationData.sERVER) childNodeList)
+        accountName <- (DomNodeHelper.getTextNodeValue_2 (EmailServerConfigurationData.aCCOUNT) childNodeList)
+        password <- (DomNodeHelper.getTextNodeValue_2 (EmailServerConfigurationData.pASSWORD) childNodeList)
         jset (this).emailServerConfigurationInterface ((javaCast (jio (EmailServerConfiguration.new_3 accountName password server)) :: EmailServerConfigurationInterface.EmailServerConfigurationInterface))
         pure ()
 

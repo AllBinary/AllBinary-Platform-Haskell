@@ -145,7 +145,7 @@ isValid_impl this = do
             when ((jget (this).base.itemInterface) == javaNull) $ do
                 javaReturn (False)
             downloadItemsEntity <- (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance))))
-            vector <- (DownloadItemsEntity.getForItem downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
+            vector <- (DownloadItemsEntity.getForItem_2 downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
             when ((jio (BasicArrayList.size vector)) /= 1) $ do
                 javaReturn (False)
             pure (True)
@@ -190,7 +190,7 @@ validationInfo_impl this = do
             when ((jio (InventoryEntity.getItem ((jio (InventoryEntityFactory.getInventoryEntityInstance ((jio (InventoryEntityFactory.getInstance)))))) (jget (this).base.id))) == javaNull) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "Item does not exist.<br />")
             downloadItemsEntity <- (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance))))
-            vector <- (DownloadItemsEntity.getForItem downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
+            vector <- (DownloadItemsEntity.getForItem_2 downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
             when ((jio (BasicArrayList.size vector)) == 0) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "DownloadItem does not exist.<br />")
             when ((jio (BasicArrayList.size vector)) > 1) $ do

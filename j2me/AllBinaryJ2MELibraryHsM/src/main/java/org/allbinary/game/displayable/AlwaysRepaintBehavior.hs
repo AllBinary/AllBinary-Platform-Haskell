@@ -108,7 +108,7 @@ repaint_impl :: AlwaysRepaintBehavior -> Canvas.Canvas -> IO (())
 repaint_impl this canvas = do
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        if (jio (Features.isFeature features (jget (openGLFeatureFactory).oPENGL))) then do
+        if (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL)))) then do
             Control.Monad.void (DisplayInfoSingleton.process ((jio (DisplayInfoSingleton.getInstance))))
         else do
             thread <- (Thread.new_2 (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions

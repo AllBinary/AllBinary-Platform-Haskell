@@ -179,7 +179,7 @@ init_1 this canvasNode = do
             jset ((jget (this).grid)).isGridPossible ((jio (Node.getNodeValue possibleTextNode)))
             graphicItemNodeList <- (DomHelper.getChildrenWithoutTextNodes ((jio (DomHelper.getInstance))) gRAPHICITEMS (jio (Node.getChildNodes canvasNode)))
             when (graphicItemNodeList /= javaNull) $ do
-                assignedValue <- (GraphicItemFactory.getInstance ((jio (GraphicItemFactory.getInstance))) graphicItemNodeList)
+                assignedValue <- (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) graphicItemNodeList)
                 jset (this).graphicItemHashMap (assignedValue)
         else do
             javaThrow ((JavaException "Exception" ("Frame Element Not Found but Found: " ++ name)))

@@ -98,9 +98,8 @@ getInstance_impl this hashtable ownerLayerInterface gameInput = do
         pure ((javaCast (jget NullAIFactory.nULL_AI) :: ArtificialIntelligenceInterface.ArtificialIntelligenceInterface))
 
 
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: IO (ArtificialIntelligenceInterface.ArtificialIntelligenceInterface)
-getInstance = do
+getInstance_0 :: IO (ArtificialIntelligenceInterface.ArtificialIntelligenceInterface)
+getInstance_0 = do
         pure ((javaCast (jget NullAIFactory.nULL_AI) :: ArtificialIntelligenceInterface.ArtificialIntelligenceInterface))
 
 

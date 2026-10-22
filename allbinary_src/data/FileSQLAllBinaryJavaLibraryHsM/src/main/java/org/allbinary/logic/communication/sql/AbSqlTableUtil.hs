@@ -312,7 +312,7 @@ backupTable_impl this abSqlTable = do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).aPPENDING) ++ sqlStatementLine) this (jget (this).mETHOD_BACKUP_TABLE))
                 Control.Monad.void (OutputStream.write outputStream (jgetBytes sqlStatementLine))
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) outputStream)
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast outputStream))
             pure ((((jget (this).tABLE_LABEL) ++ tableName) ++ (jget (this).bACKUP_SUCCESS)))
 
 

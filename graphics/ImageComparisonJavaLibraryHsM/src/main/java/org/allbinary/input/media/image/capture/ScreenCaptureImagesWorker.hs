@@ -170,7 +170,7 @@ run_impl this = do
                 jset ScreenCaptureImagesWorker.index ((jget ScreenCaptureImagesWorker.index) + 1)
                 Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame)))
                 capturedImageEvent <- (CapturedImageWorkerResultsEvent.new_3 this frame bufferedImage)
-                Control.Monad.void (BasicEventHandler.fireEvent this capturedImageEvent)
+                Control.Monad.void (BasicEventHandler.fireEvent this (javaCast capturedImageEvent))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
                 Control.Monad.void (ScreenCaptureImagesWorker.setRunning this False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))

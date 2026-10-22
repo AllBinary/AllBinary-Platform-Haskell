@@ -333,7 +333,7 @@ getParamsNode_super object_ a1 = (getParamsNode_impl (javaCast object_ :: Search
 
 getParamsNode_impl :: SearchParams -> Document.Document -> IO (Node.Node)
 getParamsNode_impl this document = do
-        paramsNode <- (ModDomHelper.createNameValueNodes document (SearchData.pARAMS) (SearchData.pARAMS))
+        paramsNode <- (ModDomHelper.createNameValueNodes_3 document (SearchData.pARAMS) (SearchData.pARAMS))
         Control.Monad.void (Node.appendChild paramsNode (jio (SearchParams.getFieldsNode this document)))
         Control.Monad.void (Node.appendChild paramsNode (jio (SearchParams.getOrderNode this document)))
         Control.Monad.void (Node.appendChild paramsNode (jio (SearchParams.getSortByNode this document)))
@@ -350,7 +350,7 @@ getFieldsNode_super object_ a1 = (getFieldsNode_impl (javaCast object_ :: Search
 
 getFieldsNode_impl :: SearchParams -> Document.Document -> IO (Node.Node)
 getFieldsNode_impl this document = do
-        fieldsNode <- (ModDomHelper.createNameValueNodes document (SearchData.fIELDS) (javaToString (Prelude.fromIntegral ((jio (HashMap.size ((jget (this).columnsAndSearchValues))))) :: Int)))
+        fieldsNode <- (ModDomHelper.createNameValueNodes_3 document (SearchData.fIELDS) (javaToString (Prelude.fromIntegral ((jio (HashMap.size ((jget (this).columnsAndSearchValues))))) :: Int)))
         set <- (HashMap.keySet ((jget (this).columnsAndSearchValues)))
         searchValueArray <- (Set.toArray set)
         let size = (jlength searchValueArray)
@@ -370,7 +370,7 @@ getOrderNode_super object_ a1 = (getOrderNode_impl (javaCast object_ :: SearchPa
 
 getOrderNode_impl :: SearchParams -> Document.Document -> IO (Node.Node)
 getOrderNode_impl this document = do
-        (ModDomHelper.createNameValueNodes document (SearchData.oRDER) (jio (ToDomHelper.convertNull (jio (SearchParams.getOrder this)))))
+        (ModDomHelper.createNameValueNodes_3 document (SearchData.oRDER) (jio (ToDomHelper.convertNull (jio (SearchParams.getOrder this)))))
 
 
 -- throws Exception
@@ -382,7 +382,7 @@ getSortByNode_super object_ a1 = (getSortByNode_impl (javaCast object_ :: Search
 
 getSortByNode_impl :: SearchParams -> Document.Document -> IO (Node.Node)
 getSortByNode_impl this document = do
-        (ModDomHelper.createNameValueNodes document (SearchData.sORTBY) (jio (ToDomHelper.convertNull (jio (SearchParams.getSortBy this)))))
+        (ModDomHelper.createNameValueNodes_3 document (SearchData.sORTBY) (jio (ToDomHelper.convertNull (jio (SearchParams.getSortBy this)))))
 
 
 -- throws Exception
@@ -394,6 +394,6 @@ getLengthNode_super object_ a1 = (getLengthNode_impl (javaCast object_ :: Search
 
 getLengthNode_impl :: SearchParams -> Document.Document -> IO (Node.Node)
 getLengthNode_impl this document = do
-        (ModDomHelper.createNameValueNodes document (SearchData.lENGTH) (jio (ToDomHelper.convertNull (jio (SearchParams.getLength this)))))
+        (ModDomHelper.createNameValueNodes_3 document (SearchData.lENGTH) (jio (ToDomHelper.convertNull (jio (SearchParams.getLength this)))))
 
 

@@ -140,7 +140,7 @@ initFields_ :: SelectedRTSLayersPlayerGameInput -> IO ()
 initFields_ this = do
     jset this.inputProcessorArray ((jnewArray ((jget ((jio (InputFactory.getInstance))).mAX)) javaNull))
     jset this.list (javaNull)
-    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))) || (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS)))))
+    jset this.isSingleKeyProcessing (((jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))) || (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_PRESS))))))
     jset this.selectedRTSLayersList =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
     jset this.preSelectedRTSLayersList =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
     jset this.paintSelectedRTSLayersList =<< (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))
@@ -231,11 +231,11 @@ upgrade_impl this = do
                     Control.Monad.void (RTSLayer.upgrade rtsLayer)
                     Control.Monad.void (Capital.removeMoney capital upgradeCost)
                     when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface ((jget (this).rtsPlayerLayerInterface))))) $ do
-                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).upgradeGameNotificationEvent))
+                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).upgradeGameNotificationEvent)))
                 else do
                     Control.Monad.void (RTSPlayerLayerInterface.add ((jget (this).rtsPlayerLayerInterface)) (jio (ErrorSound.getInstance)))
                     when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface ((jget (this).rtsPlayerLayerInterface))))) $ do
-                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).noMoneyGameNotificationEvent))
+                        Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).noMoneyGameNotificationEvent)))
         when (jget anyChanged) $ do
             let rtsPlayerGameInput = ((javaCast (jio (RTSPlayerLayerInterface.getPlayerGameInput ((jget (this).rtsPlayerLayerInterface)))) :: RTSPlayerGameInput.RTSPlayerGameInput))
             Control.Monad.void (RTSPlayerGameInput.updatePaintable rtsPlayerGameInput)
@@ -263,7 +263,7 @@ downgrade_impl this = do
                 capital <- (RTSPlayerLayerInterface.getCapital ((jget (this).rtsPlayerLayerInterface)))
                 Control.Monad.void (Capital.addMoney capital downgradeCost)
                 when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface ((jget (this).rtsPlayerLayerInterface))))) $ do
-                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).downgradeGameNotificationEvent))
+                    Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).downgradeGameNotificationEvent)))
         when (jget anyChanged) $ do
             let rtsPlayerGameInput = ((javaCast (jio (RTSPlayerLayerInterface.getPlayerGameInput ((jget (this).rtsPlayerLayerInterface)))) :: RTSPlayerGameInput.RTSPlayerGameInput))
             Control.Monad.void (RTSPlayerGameInput.updatePaintable rtsPlayerGameInput)

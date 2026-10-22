@@ -120,7 +120,7 @@ setDestroyed_impl :: RaceTrackPickupLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         Control.Monad.void (PickupLayer.setDestroyed_super this.base destroyed)
         when (jio (PickupLayer.isDestroyed this)) $ do
-            Control.Monad.void (ViewPositionEventHandler.removeListener ((jget (this).viewPositionEventHandler)) this)
+            Control.Monad.void (ViewPositionEventHandler.removeListener ((jget (this).viewPositionEventHandler)) (javaCast this))
         pure ()
 
 

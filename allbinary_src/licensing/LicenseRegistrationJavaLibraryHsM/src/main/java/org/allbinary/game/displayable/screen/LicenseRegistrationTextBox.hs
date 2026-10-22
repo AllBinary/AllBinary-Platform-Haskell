@@ -141,7 +141,7 @@ open_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.base.base.base.commonStrings)).eXCEPTION) this "open" e)
             ) $ do
             virtualKeyboardEventHandler <- (VirtualKeyboardEventHandler.getInstance)
-            Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (jget (virtualKeyboardEventHandler).sHOW_EVENT))
+            Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (javaCast (jget (virtualKeyboardEventHandler).sHOW_EVENT)))
         Control.Monad.void (CustomTextBox.open_super this.base)
         assignedValue <- (NullPaintable.getInstance)
         jset (this).paintable (assignedValue)
@@ -162,7 +162,7 @@ close_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget this.base.base.base.commonStrings)).eXCEPTION) this "open" e)
             ) $ do
             virtualKeyboardEventHandler <- (VirtualKeyboardEventHandler.getInstance)
-            Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (jget (virtualKeyboardEventHandler).hIDE_EVENT))
+            Control.Monad.void (VirtualKeyboardEventHandler.fireEvent virtualKeyboardEventHandler (javaCast (jget (virtualKeyboardEventHandler).hIDE_EVENT)))
         jset (this).paintable ((jget (this).pleaseWaitPaintable))
         Control.Monad.void (CustomTextBox.repaint this)
         Control.Monad.void (CustomTextBox.close_super this.base)

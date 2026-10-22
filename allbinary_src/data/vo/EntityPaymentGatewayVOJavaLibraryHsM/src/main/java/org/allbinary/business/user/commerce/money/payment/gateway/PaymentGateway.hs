@@ -211,9 +211,9 @@ newRecord_ = do
     jregisterMethod header_ "setLastModified" (\() -> setLastModified_impl this)
     jregisterMethod header_ "setTimeEntered" (\() -> setTimeEntered_impl this)
     jregisterMethod header_ "toHashMap" (\() -> toHashMap_impl this)
-    jregisterMethod header_ "toHashMap" (\() -> toHashMap_impl this)
+    jregisterMethod header_ "toHashMap_1" (\() -> toHashMap_1_impl this)
     jregisterMethod header_ "toVector" (\() -> toVector_impl this)
-    jregisterMethod header_ "toVector" (\() -> toVector_impl this)
+    jregisterMethod header_ "toVector_1" (\() -> toVector_1_impl this)
     jregisterMethod header_ "getKey" (\() -> getKey_impl this)
     pure this
 
@@ -1164,19 +1164,18 @@ toHashMap_super object_ = (toHashMap_impl (javaCast object_ :: PaymentGateway))
 
 toHashMap_impl :: PaymentGateway -> IO (HashMap.HashMap)
 toHashMap_impl this = do
-        (PaymentGateway.toHashMap this True)
+        (PaymentGateway.toHashMap_1 this True)
 
 
 -- throws Exception
--- Java overload of toHashMap with a different parameter count: give it a different name
-toHashMap :: (JavaObjectClass this_) => this_ -> Bool -> IO (HashMap.HashMap)
-toHashMap object_ a1 = jmethod object_ "toHashMap" (\() -> (toHashMap_impl (javaCast object_ :: PaymentGateway))) () a1
+toHashMap_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (HashMap.HashMap)
+toHashMap_1 object_ a1 = jmethod object_ "toHashMap_1" (\() -> (toHashMap_1_impl (javaCast object_ :: PaymentGateway))) () a1
 
-toHashMap_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (HashMap.HashMap)
-toHashMap_super object_ a1 = (toHashMap_impl (javaCast object_ :: PaymentGateway)) a1
+toHashMap_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (HashMap.HashMap)
+toHashMap_1_super object_ a1 = (toHashMap_1_impl (javaCast object_ :: PaymentGateway)) a1
 
-toHashMap_impl :: PaymentGateway -> Bool -> IO (HashMap.HashMap)
-toHashMap_impl this isEncrypted = do
+toHashMap_1_impl :: PaymentGateway -> Bool -> IO (HashMap.HashMap)
+toHashMap_1_impl this isEncrypted = do
         paymentGatewayHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put paymentGatewayHashMap (jget ((jio (EntryData.getInstance))).eNABLE) (jget (this).enable))
         Control.Monad.void (HashMap.put paymentGatewayHashMap (jget ((jio (StoreFrontData.getInstance))).nAME) (jget (this).storeName))
@@ -1238,18 +1237,17 @@ toVector_super object_ = (toVector_impl (javaCast object_ :: PaymentGateway))
 
 toVector_impl :: PaymentGateway -> IO (BasicArrayList.BasicArrayList)
 toVector_impl this = do
-        (PaymentGateway.toVector this True)
+        (PaymentGateway.toVector_1 this True)
 
 
--- Java overload of toVector with a different parameter count: give it a different name
-toVector :: (JavaObjectClass this_) => this_ -> Bool -> IO (BasicArrayList.BasicArrayList)
-toVector object_ a1 = jmethod object_ "toVector" (\() -> (toVector_impl (javaCast object_ :: PaymentGateway))) () a1
+toVector_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (BasicArrayList.BasicArrayList)
+toVector_1 object_ a1 = jmethod object_ "toVector_1" (\() -> (toVector_1_impl (javaCast object_ :: PaymentGateway))) () a1
 
-toVector_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (BasicArrayList.BasicArrayList)
-toVector_super object_ a1 = (toVector_impl (javaCast object_ :: PaymentGateway)) a1
+toVector_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (BasicArrayList.BasicArrayList)
+toVector_1_super object_ a1 = (toVector_1_impl (javaCast object_ :: PaymentGateway)) a1
 
-toVector_impl :: PaymentGateway -> Bool -> IO (BasicArrayList.BasicArrayList)
-toVector_impl this isEncrypted = do
+toVector_1_impl :: PaymentGateway -> Bool -> IO (BasicArrayList.BasicArrayList)
+toVector_1_impl this isEncrypted = do
         updateVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         Control.Monad.void (BasicArrayList.add updateVector (jget (this).enable))
         Control.Monad.void (BasicArrayList.add updateVector (jget (this).storeName))

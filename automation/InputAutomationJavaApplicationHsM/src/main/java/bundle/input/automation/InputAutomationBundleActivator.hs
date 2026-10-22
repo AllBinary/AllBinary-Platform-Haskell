@@ -131,7 +131,7 @@ start_impl this bundleContext = do
             assignedValue <- (Thread.new_1 (jio (InputAutomationNewBundleRunnable.new_1 this)))
             jset InputAutomationBundleActivator.moduleManagementThread (assignedValue)
             Control.Monad.void (start ((jget InputAutomationBundleActivator.moduleManagementThread)))
-            Control.Monad.void (InputAutomationJFrame.create this)
+            Control.Monad.void (InputAutomationJFrame.create (javaCast this))
         pure ()
 
 

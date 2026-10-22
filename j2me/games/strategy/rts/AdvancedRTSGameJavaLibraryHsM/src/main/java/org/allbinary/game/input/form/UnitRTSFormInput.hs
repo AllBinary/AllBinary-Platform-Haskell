@@ -202,16 +202,16 @@ attemptBuild_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager l
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (BuildingSound.getInstance)))
             Control.Monad.void (Capital.removeMoney capital cost)
             Control.Monad.void (AssignWaypointsUtil.set ((jio (AssignWaypointsUtil.getInstance))) (javaCast layerInterface :: UnitLayer.UnitLayer) (javaCast associatedRtsLayer :: AdvancedRTSGameLayer.AdvancedRTSGameLayer))
-            Control.Monad.void (AllBinaryLayerManager.appendAt layerManager layerInterface (jget PlayersSingletonFactory.total))
+            Control.Monad.void (AllBinaryLayerManager.appendAt layerManager (javaCast layerInterface) (jget PlayersSingletonFactory.total))
             let advancedRTSPlayerLayerInterface = (javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface)
             advancedPlayerOwnedRTSLayers <- (AdvancedRTSPlayerLayerInterface.getAdvancedPlayerOwnedRTSLayers advancedRTSPlayerLayerInterface)
             Control.Monad.void (AdvancedPlayerOwnedRTSLayers.addUnit advancedPlayerOwnedRTSLayers layerInterface)
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).newUnitGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).newUnitGameNotificationEvent)))
         else do
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (ErrorSound.getInstance)))
             when (Prelude.not (jio (RTSPlayerLayerInterface.implmentsArtificialIntelligenceCompositeInterface rtsPlayerLayerInterface))) $ do
-                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (jget (this).noMoneyGameNotificationEvent))
+                Control.Monad.void (GameNotificationEventHandler.fireEvent ((jio (GameNotificationEventHandler.getInstance))) (javaCast (jget (this).noMoneyGameNotificationEvent)))
         pure ()
 
 

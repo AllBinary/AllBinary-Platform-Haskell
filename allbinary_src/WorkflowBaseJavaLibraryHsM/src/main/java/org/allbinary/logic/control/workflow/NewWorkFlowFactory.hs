@@ -75,8 +75,8 @@ newRecord_ = do
     logUtil <- newIORef javaNull
     let this = NewWorkFlowFactory header_ logUtil
     jregisterLevel header_ this
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
-    jregisterMethod header_ "getInstance" (\() -> getInstance_impl this)
+    jregisterMethod header_ "getInstance_3" (\() -> getInstance_3_impl this)
+    jregisterMethod header_ "getInstance_2" (\() -> getInstance_2_impl this)
     pure this
 
 initFields_ :: NewWorkFlowFactory -> IO ()
@@ -103,15 +103,14 @@ init_ this = do
 
 
 -- throws Exception, LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance object_ a1 a2 a3 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: NewWorkFlowFactory))) () a1 a2 a3
+getInstance_3 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_3 object_ a1 a2 a3 = jmethod object_ "getInstance_3" (\() -> (getInstance_3_impl (javaCast object_ :: NewWorkFlowFactory))) () a1 a2 a3
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: NewWorkFlowFactory)) a1 a2 a3
+getInstance_3_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_3_super object_ a1 a2 a3 = (getInstance_3_impl (javaCast object_ :: NewWorkFlowFactory)) a1 a2 a3
 
-getInstance_impl :: NewWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_impl this abeClientInformation hashMap pageContext = do
+getInstance_3_impl :: NewWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> PageContext.PageContext -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_3_impl this abeClientInformation hashMap pageContext = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 commonStrings <- (CommonStrings.getInstance)
@@ -127,20 +126,19 @@ getInstance_impl this abeClientInformation hashMap pageContext = do
             jsetIndex classes (1) (assignedValue)
             jsetIndex params (0) ((jtoObject (javaCast hashMap :: Any.Any)))
             jsetIndex params (1) ((jtoObject (javaCast pageContext :: Any.Any)))
-            anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation className classes params)
+            anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation className classes params)
             pure ((javaCast (jio (WorkFlowWrapper.new_1 anyType)) :: WorkFlowInterface.WorkFlowInterface))
 
 
 -- throws Exception, LicensingException
--- Java overload of getInstance with a different parameter count: give it a different name
-getInstance :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance object_ a1 a2 = jmethod object_ "getInstance" (\() -> (getInstance_impl (javaCast object_ :: NewWorkFlowFactory))) () a1 a2
+getInstance_2 :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2 object_ a1 a2 = jmethod object_ "getInstance_2" (\() -> (getInstance_2_impl (javaCast object_ :: NewWorkFlowFactory))) () a1 a2
 
-getInstance_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_super object_ a1 a2 = (getInstance_impl (javaCast object_ :: NewWorkFlowFactory)) a1 a2
+getInstance_2_super :: (JavaObjectClass this_) => this_ -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2_super object_ a1 a2 = (getInstance_2_impl (javaCast object_ :: NewWorkFlowFactory)) a1 a2
 
-getInstance_impl :: NewWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
-getInstance_impl this abeClientInformation className = do
+getInstance_2_impl :: NewWorkFlowFactory -> AbeClientInformationInterface.AbeClientInformationInterface -> String -> IO (WorkFlowInterface.WorkFlowInterface)
+getInstance_2_impl this abeClientInformation className = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
@@ -150,7 +148,7 @@ getInstance_impl this abeClientInformation className = do
             ) $ do
             stringUtil <- (StringUtil.getInstance)
             if ((className /= javaNull) && ((Prelude.fromEnum (Prelude.compare className (jget (stringUtil).eMPTY_STRING)) - 1) /= 0)) then do
-                anyType <- (AbeFactory.getInstance ((jio (AbeFactory.getInstance))) abeClientInformation className javaNull javaNull)
+                anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation className javaNull javaNull)
                 javaReturn ((javaCast (jio (WorkFlowWrapper.new_1 anyType)) :: WorkFlowInterface.WorkFlowInterface))
             else do
                 javaThrow ((JavaException "Exception" "No WorkFlow ClassName"))

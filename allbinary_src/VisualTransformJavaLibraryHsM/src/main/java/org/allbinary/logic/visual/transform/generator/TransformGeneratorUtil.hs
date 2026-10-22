@@ -121,7 +121,7 @@ generate_overload1_impl this abeClientInformation transformInfoInterface ownerTr
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Generating View: " ++ (jio (TransformInfoInterface.getName transformInfoInterface))) this "generate()")
-            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance ((jio (TransformFactory.getInstance))) abeClientInformation (jio (TransformInfoInterface.getName transformInfoInterface)) ownerTransformInfoInterface))
+            componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) abeClientInformation (jio (TransformInfoInterface.getName transformInfoInterface)) ownerTransformInfoInterface))
             result <- (TransformInterface.view componentInterface)
             let httpTransformInfoInterface = (javaCast (jio (TransformInterface.getTransformInfoInterface componentInterface)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
             inputOutputTypeData <- (InputOutputTypeData.getInstance)

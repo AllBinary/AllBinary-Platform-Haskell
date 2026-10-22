@@ -241,6 +241,6 @@ getFileBaseNameNode_super object_ a1 = (getFileBaseNameNode_impl (javaCast objec
 
 getFileBaseNameNode_impl :: SearchRequest -> Document.Document -> IO (Node.Node)
 getFileBaseNameNode_impl this document = do
-        (ModDomHelper.createNameValueNodes document (SearchData.fILENAME) (jio (SearchRequest.getFileBaseName this)))
+        (ModDomHelper.createNameValueNodes_3 document (SearchData.fILENAME) (jio (SearchRequest.getFileBaseName this)))
 
 

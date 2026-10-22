@@ -158,7 +158,7 @@ init_4 this location direction bufferZone basicColor = do
         jset (this).circularIndexUtil (assignedValue)
         gameNotificationEventHandler <- (GameNotificationEventHandler.getInstance)
         Control.Monad.void (GameNotificationEventHandler.removeAllListeners gameNotificationEventHandler)
-        Control.Monad.void (GameNotificationEventHandler.addListenerInterface gameNotificationEventHandler this)
+        Control.Monad.void (GameNotificationEventHandler.addListenerInterface gameNotificationEventHandler (javaCast this))
         pure ()
 
 

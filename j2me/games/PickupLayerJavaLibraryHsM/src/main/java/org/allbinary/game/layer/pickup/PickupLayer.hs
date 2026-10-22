@@ -221,7 +221,7 @@ setDestroyed_impl :: PickupLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         jset (this).destroyed (destroyed)
         when (jio (PickupLayer.isDestroyed this)) $ do
-            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) this)
+            Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (javaCast this))
         pure ()
 
 

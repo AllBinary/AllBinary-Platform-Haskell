@@ -148,8 +148,8 @@ getNext_impl this = do
         idData <- newIORef (javaNull)
         idOutData <- newIORef (javaNull)
         flip finally (do
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget idData))
-            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget idOutData))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget idData)))
+            Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget idOutData)))
             ) $ handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).iDLOGGING))) $ do
                 commonStrings <- (CommonStrings.getInstance)

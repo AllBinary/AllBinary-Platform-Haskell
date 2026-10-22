@@ -140,11 +140,11 @@ toXmlNode_impl this document = do
                     basicItemView <- (BasicItemView.new_2 itemInterface (jio (BasicArrayListD.new_)))
                     node <- (BasicItemView.toXmlNode basicItemView document)
                     numberInBasket <- (BasketInterface.toString ((jio (BasketInterface.getNumberOf basketInterface product))))
-                    Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (BasketData.iTEMTOTALINBASKET) numberInBasket)))
+                    Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (BasketData.iTEMTOTALINBASKET) numberInBasket)))
                     itemPrice <- (ItemInterface.getPrice itemInterface)
                     itemTotal <- (Money.new_1 itemPrice)
                     Control.Monad.void (Money.multiply itemTotal (jio (BasketInterface.intValue ((jio (BasketInterface.getNumberOf basketInterface product))))))
-                    Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes document (BasketData.iTEMTOTAL) (jio (Money.toString itemTotal)))))
+                    Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (BasketData.iTEMTOTAL) (jio (Money.toString itemTotal)))))
                     Control.Monad.void (Node.appendChild basketNode node)
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Product Failed: " ++ product) this "toXmlNode")

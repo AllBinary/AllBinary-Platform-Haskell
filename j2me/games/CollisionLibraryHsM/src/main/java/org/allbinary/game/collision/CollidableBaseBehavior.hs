@@ -179,7 +179,7 @@ isCollision_super object_ a1 a2 = (isCollision_impl (javaCast object_ :: Collida
 
 isCollision_impl :: CollidableBaseBehavior -> CollidableCompositeLayer.CollidableCompositeLayer -> CollidableCompositeLayer.CollidableCompositeLayer -> IO (Bool)
 isCollision_impl this ownerLayer collisionLayer = do
-        (LayerCollisionUtil.isCollision ((jget (this).layerCollisionUtil)) ownerLayer collisionLayer)
+        (LayerCollisionUtil.isCollision ((jget (this).layerCollisionUtil)) (javaCast ownerLayer) (javaCast collisionLayer))
 
 
 isCollisionInterface :: (JavaObjectClass this_) => this_ -> CollidableCompositeLayer.CollidableCompositeLayer -> CollidableInterfaceCompositeInterface.CollidableInterfaceCompositeInterface -> IO (Bool)
@@ -190,7 +190,7 @@ isCollisionInterface_super object_ a1 a2 = (isCollisionInterface_impl (javaCast 
 
 isCollisionInterface_impl :: CollidableBaseBehavior -> CollidableCompositeLayer.CollidableCompositeLayer -> CollidableInterfaceCompositeInterface.CollidableInterfaceCompositeInterface -> IO (Bool)
 isCollisionInterface_impl this ownerLayer collidableInterfaceCompositeInterface = do
-        (LayerCollisionUtil.isCollision ((jget (this).layerCollisionUtil)) ownerLayer (javaCast collidableInterfaceCompositeInterface :: AllBinaryLayer.AllBinaryLayer))
+        (LayerCollisionUtil.isCollision ((jget (this).layerCollisionUtil)) (javaCast ownerLayer) (javaCast collidableInterfaceCompositeInterface :: AllBinaryLayer.AllBinaryLayer))
 
 
 -- throws Exception

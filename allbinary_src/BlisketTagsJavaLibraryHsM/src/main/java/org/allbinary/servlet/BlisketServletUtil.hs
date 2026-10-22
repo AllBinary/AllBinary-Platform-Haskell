@@ -99,7 +99,7 @@ init_impl :: BlisketServletUtil -> HttpServletRequest.HttpServletRequest -> IO (
 init_impl this request = do
         urlGlobals <- (AppUrlGlobals.new_)
         Control.Monad.void (AppUrlGlobals.setWebappPath urlGlobals (jio (HttpServletRequest.getRealPath ((jio (HttpServletRequest.getServletContext request))) (jget ((jio (AbPathData.getInstance))).sEPARATOR))))
-        Control.Monad.void (URLGLOBALS.init urlGlobals)
+        Control.Monad.void (URLGLOBALS.init (javaCast urlGlobals))
         Control.Monad.void (WebappClassLoaderInfo.setLoader (jio (Class.getClassLoader ((jio (BlisketServletUtil.getClass this))))))
         pure ()
 

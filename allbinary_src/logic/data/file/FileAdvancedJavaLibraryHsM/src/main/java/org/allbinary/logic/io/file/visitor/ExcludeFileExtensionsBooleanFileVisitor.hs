@@ -16,7 +16,7 @@
 -- package org.allbinary.logic.io.file.visitor
 module ExcludeFileExtensionsBooleanFileVisitor (module ExcludeFileExtensionsBooleanFileVisitor, module BooleanFileVisitor) where
 
-import BooleanFileVisitor hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, visit, visit_super, visit_impl, visit, visit_super, visit_impl)
+import BooleanFileVisitor hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, visit, visit_super, visit_impl, visit_2, visit_2_super, visit_2_impl, visit)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -61,7 +61,7 @@ newRecord_ = do
     let this = ExcludeFileExtensionsBooleanFileVisitor header_ base
     jregisterLevel header_ this
     jregisterMethod header_ "visit" (\() -> visit_impl this)
-    jregisterMethod header_ "visit" (\() -> visit_impl this)
+    jregisterMethod header_ "visit_2" (\() -> visit_2_impl this)
     pure this
 
 initFields_ :: ExcludeFileExtensionsBooleanFileVisitor -> IO ()
@@ -96,15 +96,14 @@ visit_impl this file = do
         (BooleanFileVisitor.visit_super this.base file)
 
 
--- Java overload of visit with a different parameter count: give it a different name
-visit :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit object_ a1 a2 = jmethod object_ "visit" (\() -> (visit_impl (javaCast object_ :: ExcludeFileExtensionsBooleanFileVisitor))) () a1 a2
+visit_2 :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2 object_ a1 a2 = jmethod object_ "visit_2" (\() -> (visit_2_impl (javaCast object_ :: ExcludeFileExtensionsBooleanFileVisitor))) () a1 a2
 
-visit_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
-visit_super object_ a1 a2 = (visit_impl (javaCast object_ :: ExcludeFileExtensionsBooleanFileVisitor)) a1 a2
+visit_2_super :: (JavaObjectClass this_) => this_ -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_super object_ a1 a2 = (visit_2_impl (javaCast object_ :: ExcludeFileExtensionsBooleanFileVisitor)) a1 a2
 
-visit_impl :: ExcludeFileExtensionsBooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
-visit_impl this file fileNameString = do
+visit_2_impl :: ExcludeFileExtensionsBooleanFileVisitor -> AbFile.AbFile -> String -> IO (Bool)
+visit_2_impl this file fileNameString = do
     javaCatchReturn $ do
         fileNameAndExtension <- (AbFile.getPath file)
         when ((Prelude.length fileNameAndExtension) > (Prelude.length fileNameString)) $ do

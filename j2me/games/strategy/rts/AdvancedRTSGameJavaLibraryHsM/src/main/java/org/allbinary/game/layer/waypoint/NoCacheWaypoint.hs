@@ -211,7 +211,7 @@ createPaths_impl this startGeographicMapCellPosition = do
         jsetIndex ((jindex customMapArray ((jio (GeographicMapCellPosition.getRow startGeographicMapCellPosition))))) ((jio (GeographicMapCellPosition.getColumn startGeographicMapCellPosition))) (assignedValue)
         assignedValue <- (GeographicMapCellTypeFactory.getEndType raceTrackGeographicMapCellTypeFactory)
         jsetIndex ((jindex customMapArray ((jio (GeographicMapCellPosition.getRow endGeographicMapCellPosition))))) ((jio (GeographicMapCellPosition.getColumn endGeographicMapCellPosition))) (assignedValue)
-        pathFindingInfo <- (PathFindingInfoFactory.getInstancePathFindingInfo ((jio (PathFindingInfoFactory.getInstance))) raceTrackGeographicMap customMapArray)
+        pathFindingInfo <- (PathFindingInfoFactory.getInstancePathFindingInfo ((jio (PathFindingInfoFactory.getInstance))) (javaCast raceTrackGeographicMap) customMapArray)
         list <- (PathGenerator.getInstanceNoCache ((jio (PathGenerator.getInstance))) geographicMapInterface pathFindingInfo 2)
         when ((jio (BasicArrayList.size list)) < 1) $ do
             javaThrow ((JavaException "Exception" "Path may have been cleared by clearing caching"))

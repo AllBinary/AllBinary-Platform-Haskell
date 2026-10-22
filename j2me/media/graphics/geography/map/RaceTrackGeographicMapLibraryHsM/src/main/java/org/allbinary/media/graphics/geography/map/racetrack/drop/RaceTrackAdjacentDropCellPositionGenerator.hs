@@ -159,7 +159,7 @@ getFirstNonRoadAdjacentCellPosition_impl this column row = do
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset geographicMapCellPosition ((jindex ((jget (this).surroundingCellPositions)) ((jget index))))
             jset raceTrackGeographicMapCellType ((javaCast (jio (RaceTrackGeographicMapInterface.getCellTypeAt ((jget (this).base.raceTrackGeographicMap)) (jget geographicMapCellPosition))) :: RaceTrackGeographicMapCellType.RaceTrackGeographicMapCellType))
-            when (Prelude.not (jio (RaceTrackGeographicMapCellTypeFactory.isPath raceTrackGeographicMapCellTypeFactory (jget raceTrackGeographicMapCellType)))) $ do
+            when (Prelude.not (jio (RaceTrackGeographicMapCellTypeFactory.isPath raceTrackGeographicMapCellTypeFactory (javaCast (jget raceTrackGeographicMapCellType))))) $ do
                 jset nonRoadGeographicMapCellPosition ((jget geographicMapCellPosition))
                 throwIO JavaBreak
         pure ((jget nonRoadGeographicMapCellPosition))
@@ -194,7 +194,7 @@ drop_impl this allBinaryLayerManager index = do
         when (randomGeographicMapCellPosition == javaNull) $ do
             javaReturn (())
         dropCellPositionHistory <- (DropCellPositionHistory.getInstance)
-        when (Prelude.not (jio (DropCellPositionHistory.isCellPositionWithDrop dropCellPositionHistory geographicMapCellPosition))) $ do
+        when (Prelude.not (jio (DropCellPositionHistory.isCellPositionWithDrop dropCellPositionHistory (javaCast geographicMapCellPosition)))) $ do
             direction <- (GeographicMapDirectionUtil.getDirectionFromCellPositionToAdjacentCellPosition ((jget (this).geographicMapDirectionUtil)) randomGeographicMapCellPosition geographicMapCellPosition)
             objectCanBeNull <- (ABHashtable.get ((jget (this).hashtable)) (jget ((jget (this).groupCommonFactory)).iD))
             if (objectCanBeNull /= javaNull) then do
@@ -208,7 +208,7 @@ drop_impl this allBinaryLayerManager index = do
             z <- (GPoint.getZ point)
             layerInterface <- (LayerInterfaceFactoryInterface.getNextInstance ((jio (RaceTrackAdjacentDropLayerFactory.getRandomInstance ((jio (RaceTrackAdjacentDropLayerFactory.getInstance)))))) (jget this.hashtable) x y z)
             let baseRaceTrackGeographicMap = (javaCast (jget (this).base.raceTrackGeographicMap) :: BaseRaceTrackGeographicMap.BaseRaceTrackGeographicMap)
-            list <- (LayerCoveringCellPositionsUtil.getAll ((jget (this).layerCoveringCellPositionsUtil)) baseRaceTrackGeographicMap randomGeographicMapCellPosition layerInterface (jio (BasicArrayListD.new_)))
+            list <- (LayerCoveringCellPositionsUtil.getAll ((jget (this).layerCoveringCellPositionsUtil)) (javaCast baseRaceTrackGeographicMap) randomGeographicMapCellPosition layerInterface (javaCast (jio (BasicArrayListD.new_))))
             when (jio (DropCellPositionHistory.anyCellPositionWithDrop dropCellPositionHistory list)) $ do
                 javaReturn (())
             geographicMapCellType <- newIORef (javaNull)

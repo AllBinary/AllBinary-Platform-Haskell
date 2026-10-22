@@ -129,7 +129,7 @@ open_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "open" e)
             ) $ do
             Control.Monad.void (threadDelay (Prelude.fromIntegral 120 * 1000))
-            Control.Monad.void (BasicEventHandler.fireEvent this (jget (this).sHOW_EVENT))
+            Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jget (this).sHOW_EVENT)))
         pure ()
 
 
@@ -146,7 +146,7 @@ close_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.commonStrings)).cLOSE) e)
             ) $ do
             Control.Monad.void (threadDelay (Prelude.fromIntegral 120 * 1000))
-            Control.Monad.void (BasicEventHandler.fireEvent this (jget (this).hIDE_EVENT))
+            Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jget (this).hIDE_EVENT)))
         pure ()
 
 

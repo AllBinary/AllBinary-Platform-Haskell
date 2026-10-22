@@ -235,15 +235,14 @@ setAuthenticated_impl :: WeblisketSessionInterface -> IO (())
 setAuthenticated_impl this = javaAbstractMethod "setAuthenticated"
 
 
--- Java overload of setAuthenticated with a different parameter count: give it a different name
-setAuthenticated :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
-setAuthenticated object_ a1 = jmethod object_ "setAuthenticated" (\() -> (setAuthenticated_impl (javaCast object_ :: WeblisketSessionInterface))) () a1
+setAuthenticated_1 :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setAuthenticated_1 object_ a1 = jmethod object_ "setAuthenticated_1" (\() -> (setAuthenticated_1_impl (javaCast object_ :: WeblisketSessionInterface))) () a1
 
-setAuthenticated_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
-setAuthenticated_super object_ a1 = (setAuthenticated_impl (javaCast object_ :: WeblisketSessionInterface)) a1
+setAuthenticated_1_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setAuthenticated_1_super object_ a1 = (setAuthenticated_1_impl (javaCast object_ :: WeblisketSessionInterface)) a1
 
-setAuthenticated_impl :: WeblisketSessionInterface -> Bool -> IO (())
-setAuthenticated_impl this value = javaAbstractMethod "setAuthenticated"
+setAuthenticated_1_impl :: WeblisketSessionInterface -> Bool -> IO (())
+setAuthenticated_1_impl this value = javaAbstractMethod "setAuthenticated"
 
 
 setPassword :: (JavaObjectClass this_) => this_ -> String -> IO (())

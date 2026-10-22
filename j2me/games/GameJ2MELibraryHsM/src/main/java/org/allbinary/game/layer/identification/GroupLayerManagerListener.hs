@@ -116,7 +116,7 @@ init_ :: GroupLayerManagerListener -> IO ()
 init_ this = do
         LayerManagerEventListener.init_ this.base
         initFields_ this
-        Control.Monad.void (LayerManagerEventHandler.addListener ((jio (LayerManagerEventHandler.getInstance))) this)
+        Control.Monad.void (LayerManagerEventHandler.addListener ((jio (LayerManagerEventHandler.getInstance))) (javaCast this))
         pure ()
 
 

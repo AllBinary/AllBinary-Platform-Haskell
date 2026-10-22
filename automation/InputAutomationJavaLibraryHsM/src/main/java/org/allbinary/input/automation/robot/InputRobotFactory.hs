@@ -91,7 +91,7 @@ newRecord_ = do
     jregisterMethod header_ "loadLibraries" (\() -> loadLibraries_impl this)
     jregisterMethod header_ "unloadLibraries" (\() -> unloadLibraries_impl this)
     jregisterMethod header_ "get" (\() -> get_impl this)
-    jregisterMethod header_ "get" (\() -> get_impl this)
+    jregisterMethod header_ "get_1" (\() -> get_1_impl this)
     pure this
 
 initFields_ :: InputRobotFactory -> IO ()
@@ -181,15 +181,14 @@ loadLibraries_impl this = do
         nameArray <- (Set.toArray set)
         let size = (jlength nameArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            inputRobotInterface <- (fmap (\value_ -> javaCast value_ :: InputRobotInterface.InputRobotInterface) (InputRobotFactory.get ((jio (InputRobotFactory.getInstance))) (javaCast (jindex nameArray (index)) :: String)))
+            inputRobotInterface <- (fmap (\value_ -> javaCast value_ :: InputRobotInterface.InputRobotInterface) (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) (javaCast (jindex nameArray (index)) :: String)))
             Control.Monad.void (InputRobotFactory.loadLibrary inputRobotInterface)
         pure ()
 
 
 -- throws Exception
--- Java overload of loadLibraries with a different parameter count: give it a different name
-loadLibraries :: Collection.Collection -> IO (())
-loadLibraries collection = do
+loadLibraries_1 :: Collection.Collection -> IO (())
+loadLibraries_1 collection = do
         logUtil <- (LogUtil.getInstance)
         Control.Monad.void (LogUtil.putF logUtil "Loading Libraries" "InputRobotFactory" "loadLibraries")
         iterator <- (Collection.iterator collection)
@@ -224,7 +223,7 @@ unloadLibraries_impl this = do
         inputRobotArray <- (Set.toArray set)
         let size = (jlength inputRobotArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            assignedValue <- (InputRobotFactory.get this (javaCast (jindex inputRobotArray (index)) :: String))
+            assignedValue <- (InputRobotFactory.get_1 this (javaCast (jindex inputRobotArray (index)) :: String))
             jset inputRobotInterface (assignedValue)
             when (jio (InterfaceUtil.isImplemented ("SecuredNativeLibraryInterface") (jget inputRobotInterface))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Unloading Library: " ++ (jio (InputRobotInterface.getName ((jget inputRobotInterface))))) this "unloadLibraries")
@@ -245,15 +244,14 @@ get_impl this = do
         pure ((jget (this).hashtable))
 
 
--- Java overload of get with a different parameter count: give it a different name
-get :: (JavaObjectClass this_) => this_ -> String -> IO (InputRobotInterface.InputRobotInterface)
-get object_ a1 = jmethod object_ "get" (\() -> (get_impl (javaCast object_ :: InputRobotFactory))) () a1
+get_1 :: (JavaObjectClass this_) => this_ -> String -> IO (InputRobotInterface.InputRobotInterface)
+get_1 object_ a1 = jmethod object_ "get_1" (\() -> (get_1_impl (javaCast object_ :: InputRobotFactory))) () a1
 
-get_super :: (JavaObjectClass this_) => this_ -> String -> IO (InputRobotInterface.InputRobotInterface)
-get_super object_ a1 = (get_impl (javaCast object_ :: InputRobotFactory)) a1
+get_1_super :: (JavaObjectClass this_) => this_ -> String -> IO (InputRobotInterface.InputRobotInterface)
+get_1_super object_ a1 = (get_1_impl (javaCast object_ :: InputRobotFactory)) a1
 
-get_impl :: InputRobotFactory -> String -> IO (InputRobotInterface.InputRobotInterface)
-get_impl this name = do
+get_1_impl :: InputRobotFactory -> String -> IO (InputRobotInterface.InputRobotInterface)
+get_1_impl this name = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Getting Robot: " ++ name) this "getRobots")
         pure ((javaCast (jio (ABHashtable.get ((jget (this).hashtable)) name)) :: InputRobotInterface.InputRobotInterface))
 

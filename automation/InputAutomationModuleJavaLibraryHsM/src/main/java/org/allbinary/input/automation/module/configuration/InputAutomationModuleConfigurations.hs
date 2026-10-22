@@ -101,7 +101,7 @@ init_2 this abeClientInformation file = do
         length <- (FileInputStream.read idFile bytes)
         data_ <- (jnewString bytes)
         let endIndex = (jstringLastIndexOf data_ '>')
-        document <- (DomDocumentHelper.create (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
+        document <- (DomDocumentHelper.create_1 (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) data_)))
         nodeList <- (Document.getElementsByTagName document (jget NewInputAutomationModulesData.nAME))
         when ((jio (NodeList.getLength nodeList)) > 0) $ do
             nameNodeList <- (Document.getElementsByTagName document (jget InputAutomationModuleData.nAME))

@@ -441,7 +441,7 @@ creatImage_super object_ a1 = (creatImage_impl (javaCast object_ :: ImageCache))
 creatImage_impl :: ImageCache -> String -> IO (Image.Image)
 creatImage_impl this key = do
         inputStream <- (ResourceUtil.getResourceAsStream ((jget (this).resourceUtil)) key)
-        image <- (ImageFactory.createImageFromInputStream ((jio (ImageFactory.getInstance))) inputStream)
+        image <- (ImageFactory.createImageFromInputStream_1 ((jio (ImageFactory.getInstance))) inputStream)
         Control.Monad.void (Image.setName image key)
         pure (image)
 
