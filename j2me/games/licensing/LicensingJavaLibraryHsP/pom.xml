@@ -14,8 +14,8 @@
 
     <modules>
 
-        <module>../../platform/android/AndroidResourcesTempJavaLibraryHsM</module>
-        <module>../../../../allbinary_src/licensing/ClientInformationMobileLicensingRegistrationJavaLibraryHsM</module>
+        <!--<module>../../platform/android/AndroidResourcesTempJavaLibraryHsM</module>-->
+        <!--<module>../../../../allbinary_src/licensing/ClientInformationMobileLicensingRegistrationJavaLibraryHsM</module>-->
 
         <!--
         <module>../../../../../working/allbinary_src/licensing/LicenseRegistrationJavaLibraryHsM</module>
@@ -39,6 +39,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+    </dependencies>
 
 
 </project>

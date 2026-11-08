@@ -53,7 +53,7 @@
         <!--
         <module>../../../graphics/opengl/OpenGLESJavaLibraryHsM</module>
         -->
-        <module>../../../graphics/opengl/OpenGLJOGLJavaLibraryHsM</module>
+        <!--<module>../../../graphics/opengl/OpenGLJOGLJavaLibraryHsM</module>-->
         <module>../../../graphics/opengl/OpenGLESBaseJavaLibraryHsM</module>
 
         <!-- Not used in Platform Libraries -->
@@ -84,6 +84,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+    </dependencies>
 
 
 </project>

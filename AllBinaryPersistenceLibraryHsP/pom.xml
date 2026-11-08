@@ -37,18 +37,18 @@
         <module>../allbinary_src/logic/BasePreloaderFileJavaLibraryHsM</module>
         <module>../allbinary_src/logic/data/file/FileJavaLibraryHsM</module>
         <module>../allbinary_src/logic/data/file/FileJ2SEJavaLibraryHsM</module>
-        <module>../allbinary_src/data/DataJavaLibraryHsM</module>
-        <module>../allbinary_src/logic/data/file/FileUnamedJavaLibraryHsM</module>
-        <module>../allbinary_src/logic/data/file/FileAdvancedJavaLibraryHsM</module>
-        <module>../allbinary_src/PreLoaderJavaLibraryHsM</module>
-        <module>../allbinary_src/FileInitInfoJavaLibraryHsM</module>
-        <module>../allbinary_src/PreLoaderFileJavaLibraryHsM</module>
-        <module>../allbinary_src/PreLoaderLicenseJavaLibraryHsM</module>
+        <!--<module>../allbinary_src/data/DataJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/logic/data/file/FileUnamedJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/logic/data/file/FileAdvancedJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/PreLoaderJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/FileInitInfoJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/PreLoaderFileJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/PreLoaderLicenseJavaLibraryHsM</module>-->
         <module>../j2me/PCResourceLibraryHsM</module>
         <module>../j2me/ProgressJ2MEJavaLibraryHsM</module>
         <module>../allbinary_src/licensing/ClientInfoBaseJavaLibraryHsM</module>
-        <module>../allbinary_src/licensing/RemoteXmlRpcJavaLibraryHsM</module>
-        <module>../allbinary_src/licensing/LicenseClientJavaLibraryHsM</module>
+        <!--<module>../allbinary_src/licensing/RemoteXmlRpcJavaLibraryHsM</module>-->
+        <!--<module>../allbinary_src/licensing/LicenseClientJavaLibraryHsM</module>-->
 
         <!--
         <module>../allbinary_src/PreLoaderLicenseJavaLibraryHsM</module>
