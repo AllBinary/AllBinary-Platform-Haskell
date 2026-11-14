@@ -8,10 +8,10 @@ import SimpleWeaponLayer hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -20,6 +20,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GameTickTimeDelayHelper -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
+import qualified WeaponLayer -- same package or java.lang
 import qualified Animation -- org.allbinary.animation.Animation
 import qualified WeaponProperties -- org.allbinary.game.combat.weapon.WeaponProperties
 import qualified RemoteInfo -- org.allbinary.game.multiplayer.layer.RemoteInfo

@@ -20,10 +20,10 @@ import Input hiding (new_, init_, newRecord_, initFields_, header_, base, static
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,7 +82,7 @@ init_2 this key keyName = do
         id <- (Input.getId this)
         when (id >= 0) $ do
             inputFactory <- (InputFactory.getInstance)
-            Control.Monad.void (InputFactory.add inputFactory id this)
+            Control.Monad.void (InputFactory.add inputFactory id (javaCast this))
         pure ()
 
 

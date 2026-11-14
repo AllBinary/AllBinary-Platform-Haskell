@@ -146,12 +146,12 @@
                                 <argument>${project.basedir}/../../../working_thirdpartyhaskell/graphics/playn/allbinary_version/playn_my_microedition/core/src/main/java</argument>
                                 <argument>${project.basedir}/../../../working_thirdpartyhaskell/graphics/playn/allbinary_version/playn_my_microedition/html/src/main/java</argument>
                                 <argument>${project.basedir}/../../replace_these_stub_projects/allbinary_src/J2MEJsInteropCompatibilityJavaLibraryHsM/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-midp/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-midpHs/src/main/java</argument>
                                 <argument>${project.basedir}/../../../working_thirdpartyhaskell/graphics/playn/allbinary_version/playn_my_microedition/webgl/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/AllBinaryJ2MELibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/J2MEColorJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/animation/image/ImageHTMLJavaLibraryHsM/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-cldc/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-cldcHs/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/logging/LoggingJ2MEAllHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../LogJ2MEJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/J2SEForJ2MEJavaLibraryHsM/src/main/java</argument>
@@ -167,6 +167,7 @@
                                 <argument>${project.basedir}/../../j2me/AndroidResourceLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../hardware/NoSystemJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/TempBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/platform/me/TouchJ2MENoneJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../graphics/opengl/OpenGLNoneJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/NullJ2MELibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../licensing/ClientInfoBaseJavaLibraryHsM/src/main/java</argument>
@@ -180,10 +181,11 @@
                                 <argument>${project.basedir}/../../j2me/time/TimeJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/EventJ2MELibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/geography/map/GraphBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-midpHs/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/ImageCacheJ2MEJavaLibraryHsM/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/microemu-playn/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/allbinary_custom_android_version/microemulator/microemu-extensions/microemu-jsr-135/src/main/java</argument>
-                                <argument>${project.basedir}/../../../AllBinary-Platform-Integrationhaskell/embedded/j2me/microemulator/3.0.0/microemulator/microemu-javase/microemu-javase-null/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/microemu-playnHs/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-extensions/microemu-jsr-135Hs/src/main/java</argument>
+                                <argument>${project.basedir}/../../../AllBinary-Platform-Integrationhaskell/embedded/j2me/microemulator/3.0.0/microemulator/microemu-javase/microemu-javase-nullHs/src/main/java</argument>
                                 <argument>${project.basedir}/../LogHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/J2MEExceptionLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../LogJ2SEJavaLibraryHsM/src/main/java</argument>
@@ -205,7 +207,6 @@
                                 <argument>${project.basedir}/../logic/BasePreloaderFileJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/android/VirtualKeyboardJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../hardware/AndroidSystemJavaLibraryHsM/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-midp/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/DebugJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../hardware/NoHardwareJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../hardware/BaseHardwareJavaLibraryHsM/src/main/java</argument>
@@ -218,6 +219,7 @@
                                 <argument>${project.basedir}/../../j2me/lib/BaseMathLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/logging/LoggingJ2MEExceptionHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../cache/BaseCacheJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-cldcHs/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/J2MEForJ2MEJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/GameResourceNoneJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/ImageCacheBaseJ2MEJavaLibraryHsM/src/main/java</argument>
@@ -230,6 +232,8 @@
                                 <argument>${project.basedir}/../../graphics/opengl/NoSWTJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/FormValidationJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/input/AllBinarySensorJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/platform/pc/GameInputPCMotionJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/platform/pc/GameInputPCJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/FormJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/media/graphics/layer/AllBinaryLayerJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/GroupLibraryHsM/src/main/java</argument>
@@ -242,7 +246,18 @@
                                 <argument>${project.basedir}/../../j2me/media/graphics/NullCustomUIPreJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../../j2me/games/ScreenCaptureJavaLibraryHsM/src/main/java</argument>
                                 <argument>${project.basedir}/../logic/data/file/FileJavaLibraryHsM/src/main/java</argument>
-                                <argument>${project.basedir}/../../../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-cldc/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/TouchButtonJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/TouchButtonBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/MotionGestureBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/platform/pc/GameInputPCBaseJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/input/TouchScreenJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/media/graphics/animation/GameAnimationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/media/graphics/animation/AnimationLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/media/graphics/animation/RotationAnimationJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/media/graphics/animation/AnimationResourceJavaLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/lib/TrigJ2MELibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/media/graphics/geography/map/LayerPlacementLibraryHsM/src/main/java</argument>
+                                <argument>${project.basedir}/../../j2me/lib/VectorThreeDimensionalLibraryHsM/src/main/java</argument>
                                 <!-- AllBinary Haskell dependency sources end -->
                                 <argument>${haskell.runtime.source.path}</argument>
                             </arguments>

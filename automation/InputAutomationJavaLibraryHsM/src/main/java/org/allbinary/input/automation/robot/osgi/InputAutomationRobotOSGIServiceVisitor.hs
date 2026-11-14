@@ -19,10 +19,10 @@ module InputAutomationRobotOSGIServiceVisitor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ instance JavaObjectClass InputAutomationRobotOSGIServiceVisitor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationRobotOSGIServiceVisitor
 newRecord_ = do
@@ -128,7 +131,7 @@ visit_overload2_impl this osgiServiceInterface = do
             let inputAutomationRobotServiceInterface = (javaCast osgiServiceInterface :: InputAutomationRobotServiceInterface.InputAutomationRobotServiceInterface)
             inputRobotInterfaceArray <- (InputAutomationRobotServiceInterface.getInputRobotInterfaceArray inputAutomationRobotServiceInterface)
             forM_ [0 .. (jlength inputRobotInterfaceArray) - 1] $ \index -> javaIteration (pure ()) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding: " ++ (jio (getName ((jindex inputRobotInterfaceArray (index)))))) this "visit")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding: " ++ (jio (InputRobotInterface.getName ((jindex inputRobotInterfaceArray (index)))))) this "visit")
                 Control.Monad.void (InputRobotFactory.add ((jio (InputRobotFactory.getInstance))) (jindex inputRobotInterfaceArray (index)))
             pure (True)
 

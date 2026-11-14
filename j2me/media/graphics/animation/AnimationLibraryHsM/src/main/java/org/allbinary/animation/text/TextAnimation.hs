@@ -20,10 +20,10 @@ import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified TextChangeListener -- same package or java.lang
 import qualified BasicColorSetUtil -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -100,7 +101,7 @@ newRecord_ = do
 
 initFields_ :: TextAnimation -> IO ()
 initFields_ this = do
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.textArrayP ((jget ((jio (StringUtil.getInstance))).oNE_EMPTY_STRING_ARRAY))
     jset this.anchor ((jget Anchor.tOP_LEFT))
@@ -207,7 +208,7 @@ setText_super object_ a1 = (setText_impl (javaCast object_ :: TextAnimation)) a1
 setText_impl :: TextAnimation -> String -> IO (())
 setText_impl this text = do
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        when ((text /= javaNull) && ((Prelude.length text) > 0)) $ do
+        when ((Prelude.length text) > 0) $ do
             index <- newIORef (0)
             startIndex <- newIORef (0)
             endIndex <- newIORef (0)

@@ -20,10 +20,10 @@ import AdvancedRTSGameLayer hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,7 +37,15 @@ import qualified Waypoint -- same package or java.lang
 import qualified WaypointCellPositionHistory -- same package or java.lang
 import qualified IndexedAnimation -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified RTSLayer -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified AnimationInterfaceFactoryInterface -- org.allbinary.animation.AnimationInterfaceFactoryInterface
 import qualified ProceduralAnimationInterfaceFactoryInterface -- org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface
@@ -100,11 +108,11 @@ new_10 remoteInfo parentLayer groupInterface rootName name animationInterfaceFac
 
 init_10 :: WaypointLayer -> RemoteInfo.RemoteInfo -> PathFindingLayerInterface.PathFindingLayerInterface -> JavaArray (Group.Group) -> String -> String -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Int -> Int -> IO ()
 init_10 this remoteInfo parentLayer groupInterface rootName name animationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle x y = do
-        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (jio (AdvancedRTSProperties.createProperties)) (groupInterface) (rootName) (name) (jio (Health.new_1 1000)) (jio (NullRTSFormInputFactory.getInstance)) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (jio (TileLayerPositionIntoViewPosition.new_))
+        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (jio (AdvancedRTSProperties.createProperties)) (groupInterface) (rootName) (name) (jio (Health.new_1 1000)) (jio (NullRTSFormInputFactory.getInstance)) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (animationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (javaCast (jio (TileLayerPositionIntoViewPosition.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableWaypointBehavior.new_1 True))))
-        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 this (jio (AttackSound.getInstance))))))
+        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 (javaCast this) (jio (AttackSound.getInstance))))))
         Control.Monad.void (AdvancedRTSGameLayer.setAnimationInterface this (javaCast (jget (this).base.base.indexedButShouldBeRotationAnimationInterface)))
         pure ()
 

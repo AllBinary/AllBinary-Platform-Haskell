@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,8 @@ import qualified JTextField -- same package or java.lang
 import qualified JComboBox -- same package or java.lang
 import qualified DefaultComboBoxModel -- same package or java.lang
 import qualified GroupLayout -- same package or java.lang
+import qualified ColorAverage -- same package or java.lang
+import qualified ColorRange -- same package or java.lang
 import qualified ImageAnalysisResults -- org.allbinary.media.image.analysis.ImageAnalysisResults
 import qualified ImageColorRangeResults -- org.allbinary.media.image.analysis.ImageColorRangeResults
 import qualified ImageColorResults -- org.allbinary.media.image.analysis.ImageColorResults

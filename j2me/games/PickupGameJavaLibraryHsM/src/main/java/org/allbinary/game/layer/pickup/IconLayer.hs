@@ -20,10 +20,10 @@ import AllBinaryLayer hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Animation -- org.allbinary.animation.Animation
 import qualified NullAnimationFactory -- org.allbinary.animation.NullAnimationFactory
@@ -60,6 +61,7 @@ instance JavaObjectClass IconLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_ICON_LAYER :: IconLayer
 {-# NOINLINE nULL_ICON_LAYER #-}
 nULL_ICON_LAYER = unsafePerformIO ((new_3 (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)) 0 0))
 
@@ -88,7 +90,7 @@ new_3 animationInterface width height = do
 
 init_3 :: IconLayer -> Animation.Animation -> Int -> Int -> IO ()
 init_3 this animationInterface width height = do
-        AllBinaryLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) width height)) (jio (ViewPosition.getInstanceD))
+        AllBinaryLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) width height)) (javaCast (jio (ViewPosition.getInstanceD)))
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).animationInterface (animationInterface)

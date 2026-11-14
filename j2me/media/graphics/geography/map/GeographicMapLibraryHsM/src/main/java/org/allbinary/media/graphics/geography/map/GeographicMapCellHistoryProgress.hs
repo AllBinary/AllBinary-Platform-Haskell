@@ -20,10 +20,10 @@ import GeographicMapCellHistoryProgressBase hiding (new_, init_, newRecord_, ini
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -114,7 +114,7 @@ isAnyProgress_impl this = do
         currentTotalVisited <- newIORef (0)
         totalVisited <- newIORef (0)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            assignedValue <- (getTotalVisited ((jindex ((jget (this).geographicMapCellHistoryArray)) (index))))
+            assignedValue <- (GeographicMapCellHistory.getTotalVisited ((jindex ((jget (this).geographicMapCellHistoryArray)) (index))))
             jset totalVisited (assignedValue)
             jset currentTotalVisited ((jindex ((jget (this).totalVisitedArray)) (index)))
             when ((jget currentTotalVisited) < (jget totalVisited)) $ do

@@ -19,10 +19,10 @@ module BuildingPropertiesFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,11 +65,15 @@ instance JavaObjectClass BuildingPropertiesFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BuildingPropertiesFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BuildingPropertiesFactory
 newRecord_ = do
@@ -126,9 +130,9 @@ getDamageFloaters_impl :: BuildingPropertiesFactory -> BuildingLayer.BuildingLay
 getDamageFloaters_impl this buildingLayer = do
         damageFloaters <- newIORef =<< (DamageFloaters.getInstance)
         if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS)))) then do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 buildingLayer))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 (javaCast buildingLayer)))
             jset damageFloaters (assignedValue)
-            jset (this).damageFloatersPaintableInterface ((jget damageFloaters))
+            jset (this).damageFloatersPaintableInterface ((javaCast (jget damageFloaters) :: Paintable.Paintable))
         else do
             assignedValue <- (DamageFloaters.new_)
             jset damageFloaters (assignedValue)
@@ -146,7 +150,7 @@ getHealthBar_impl :: BuildingPropertiesFactory -> BuildingLayer.BuildingLayer ->
 getHealthBar_impl this buildingLayer = do
         healthBar <- newIORef =<< (NullPaintable.getInstance)
         when (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS)))) $ do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 buildingLayer (jio (BuildingLayer.getHealthInterface buildingLayer)) (jio (HealthBarTwodAnimation.new_2 (javaCast buildingLayer :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT))) (Prelude.negate 1)))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 (javaCast buildingLayer) (jio (BuildingLayer.getHealthInterface buildingLayer)) (javaCast (jio (HealthBarTwodAnimation.new_2 (javaCast buildingLayer :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT)))) (Prelude.negate 1)))
             jset healthBar (assignedValue)
         pure ((jget healthBar))
 

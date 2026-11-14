@@ -19,10 +19,10 @@ module NullClip where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,11 +63,15 @@ instance JavaObjectClass NullClip where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_CONTROL :: NullJ2SEControl.NullJ2SEControl
 {-# NOINLINE nULL_CONTROL #-}
 nULL_CONTROL = unsafePerformIO ((NullJ2SEControl.new_1 (jget (BooleanControl.type_).mUTE)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NullClip
 newRecord_ = do

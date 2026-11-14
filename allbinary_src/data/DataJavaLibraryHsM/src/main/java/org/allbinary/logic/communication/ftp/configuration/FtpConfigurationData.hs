@@ -19,10 +19,10 @@ module FtpConfigurationData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,18 +49,26 @@ instance JavaObjectClass FtpConfigurationData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "FTP_NAME"
 
+sERVER :: String
 sERVER = "FTP_SERVER"
 
+pATH :: String
 pATH = "FTP_PATH"
 
+uSERNAME :: String
 uSERNAME = "FTP_USERNAME"
 
+pASSWORD :: String
 pASSWORD = "FTP_PASSWORD"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FtpConfigurationData
 newRecord_ = do

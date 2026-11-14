@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,6 +38,7 @@ import qualified ImageComparisonResult -- same package or java.lang
 import qualified ImageComparisonResultFrameCacheable -- same package or java.lang
 import qualified ImageComparisonResultCacheSingleton -- same package or java.lang
 import qualified ImageComparisonResultsEvent -- same package or java.lang
+import qualified CacheInterface -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified CapturedImageWorkerResultsEvent -- org.allbinary.input.media.image.capture.CapturedImageWorkerResultsEvent
@@ -193,11 +194,11 @@ run_impl this = do
                 let capturedImageWorkerResultsEvent = (jnewArray (2) javaNull)
                 jsetIndex capturedImageWorkerResultsEvent (0) ((javaCast (jio (BasicArrayList.get ((jget (this).bufferedImageVector)) 0)) :: CapturedImageWorkerResultsEvent.CapturedImageWorkerResultsEvent))
                 jsetIndex capturedImageWorkerResultsEvent (1) ((javaCast (jio (BasicArrayList.get ((jget (this).bufferedImageVector)) 1)) :: CapturedImageWorkerResultsEvent.CapturedImageWorkerResultsEvent))
-                if ((jio (ImageComparatorConstraintsInterface.isImageValid ((jget (this).imageComparatorConstraintsInterface)) (jio (getBufferedImage ((jindex capturedImageWorkerResultsEvent (0))))))) && (jio (ImageComparatorConstraintsInterface.isImageValid ((jget (this).imageComparatorConstraintsInterface)) (jio (getBufferedImage ((jindex capturedImageWorkerResultsEvent (1)))))))) then do
-                    imageComparisonResult <- (ImageComparator.compare ((jget (this).imageComparator)) (jio (getBufferedImage ((jindex capturedImageWorkerResultsEvent (0))))) (jio (getBufferedImage ((jindex capturedImageWorkerResultsEvent (1))))) (jio (getFrame ((jindex capturedImageWorkerResultsEvent (0))))) (jio (getFrame ((jindex capturedImageWorkerResultsEvent (1))))) 0)
-                    frame <- (getFrame ((jindex capturedImageWorkerResultsEvent (1))))
+                if ((jio (ImageComparatorConstraintsInterface.isImageValid ((jget (this).imageComparatorConstraintsInterface)) (jio (CapturedImageWorkerResultsEvent.getBufferedImage ((jindex capturedImageWorkerResultsEvent (0))))))) && (jio (ImageComparatorConstraintsInterface.isImageValid ((jget (this).imageComparatorConstraintsInterface)) (jio (CapturedImageWorkerResultsEvent.getBufferedImage ((jindex capturedImageWorkerResultsEvent (1)))))))) then do
+                    imageComparisonResult <- (ImageComparator.compare ((jget (this).imageComparator)) (jio (CapturedImageWorkerResultsEvent.getBufferedImage ((jindex capturedImageWorkerResultsEvent (0))))) (jio (CapturedImageWorkerResultsEvent.getBufferedImage ((jindex capturedImageWorkerResultsEvent (1))))) (jio (CapturedImageWorkerResultsEvent.getFrame ((jindex capturedImageWorkerResultsEvent (0))))) (jio (CapturedImageWorkerResultsEvent.getFrame ((jindex capturedImageWorkerResultsEvent (1))))) 0)
+                    frame <- (CapturedImageWorkerResultsEvent.getFrame ((jindex capturedImageWorkerResultsEvent (1))))
                     imageComparisonResultFrameCacheable <- (ImageComparisonResultFrameCacheable.new_2 imageComparisonResult frame)
-                    Control.Monad.void (CacheInterface.add ((jio (ImageComparisonResultCacheSingleton.getInstance))) imageComparisonResultFrameCacheable)
+                    Control.Monad.void (CacheInterface.add ((jio (ImageComparisonResultCacheSingleton.getInstance))) (javaCast imageComparisonResultFrameCacheable))
                     Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jio (ImageComparisonResultsEvent.new_2 this imageComparisonResult))))
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendlong ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Image Comparison Result: "))) (jio (ImageComparisonResult.toString imageComparisonResult))))) " for frame: "))) frame))))) this (jget ((jget (this).commonStrings)).rUN))
                 else do

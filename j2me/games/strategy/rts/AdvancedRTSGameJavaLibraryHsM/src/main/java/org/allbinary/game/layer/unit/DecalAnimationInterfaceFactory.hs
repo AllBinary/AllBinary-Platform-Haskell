@@ -19,10 +19,10 @@ module DecalAnimationInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,11 +55,15 @@ instance JavaObjectClass DecalAnimationInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: DecalAnimationInterfaceFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DecalAnimationInterfaceFactory
 newRecord_ = do
@@ -103,7 +107,7 @@ getAnimationFactory_impl this basicGameResources basicColor = do
             assignedValue <- (FeaturedAnimationInterfaceFactoryInterfaceFactory.get ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance))) (jget (basicGameResources).rESOURCE))
             jset animationInterfaceFactoryInterface (assignedValue)
         else do
-            assignedValue <- (NullRotationAnimationFactory.getFactoryInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullRotationAnimationFactory.getFactoryInstance))
             jset animationInterfaceFactoryInterface (assignedValue)
         pure ((jget animationInterfaceFactoryInterface))
 

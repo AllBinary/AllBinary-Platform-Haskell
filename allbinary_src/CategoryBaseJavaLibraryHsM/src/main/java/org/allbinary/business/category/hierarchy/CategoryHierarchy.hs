@@ -19,10 +19,10 @@ module CategoryHierarchy where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,9 @@ instance JavaObjectClass CategoryHierarchy where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CategoryHierarchy
 newRecord_ = do
@@ -100,32 +103,45 @@ init_2 this rootCategoryInterface parentCategoryInterface = do
         Control.Monad.void (CategoryHierarchy.setParent this parentCategoryInterface)
         pure ()
 
-new_3 :: CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Int -> IO CategoryHierarchy
-new_3 rootCategoryInterface parentCategoryInterface level = do
+-- Java overloaded constructors with 3 parameters: call the overload for the types of the arguments
+new_3 :: (JavaObjectClass o3) => CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> o3 -> IO CategoryHierarchy
+new_3 a1 a2 a3
+    | jisInstanceOf a3 (javaNull :: Int) = new_3_overload1 a1 a2 (javaCast a3 :: Int)
+    | jisInstanceOf a3 (javaNull :: HashMap.HashMap) = new_3_overload2 a1 a2 (javaCast a3 :: HashMap.HashMap)
+    | otherwise = new_3_overload2 a1 a2 (javaCast a3 :: HashMap.HashMap)
+
+init_3 :: (JavaObjectClass o3) => CategoryHierarchy -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> o3 -> IO ()
+init_3 this a1 a2 a3
+    | jisInstanceOf a3 (javaNull :: Int) = init_3_overload1 this a1 a2 (javaCast a3 :: Int)
+    | jisInstanceOf a3 (javaNull :: HashMap.HashMap) = init_3_overload2 this a1 a2 (javaCast a3 :: HashMap.HashMap)
+    | otherwise = init_3_overload2 this a1 a2 (javaCast a3 :: HashMap.HashMap)
+
+
+new_3_overload1 :: CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Int -> IO CategoryHierarchy
+new_3_overload1 rootCategoryInterface parentCategoryInterface level = do
     this <- newRecord_
-    init_3 this rootCategoryInterface parentCategoryInterface level
+    init_3_overload1 this rootCategoryInterface parentCategoryInterface level
     pure this
 
-init_3 :: CategoryHierarchy -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Int -> IO ()
-init_3 this rootCategoryInterface parentCategoryInterface level = do
+init_3_overload1 :: CategoryHierarchy -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> Int -> IO ()
+init_3_overload1 this rootCategoryInterface parentCategoryInterface level = do
         initFields_ this
         jset (this).level (level)
         Control.Monad.void (CategoryHierarchy.setRoot this rootCategoryInterface)
         Control.Monad.void (CategoryHierarchy.setParent this parentCategoryInterface)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO CategoryHierarchy
-new_3 rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
+new_3_overload2 :: CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO CategoryHierarchy
+new_3_overload2 rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
     this <- newRecord_
-    init_3 this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap
+    init_3_overload2 this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap
     pure this
 
-init_3 :: CategoryHierarchy -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO ()
-init_3 this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
+init_3_overload2 :: CategoryHierarchy -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> HashMap.HashMap -> IO ()
+init_3_overload2 this rootCategoryInterface parentCategoryInterface categoryPropertiesHashMap = do
         initFields_ this
         levelString <- (StringUtil.getNonNull ((jio (StringUtil.getInstance))) (javaCast (jio (HashMap.get categoryPropertiesHashMap (jget ((jio (CategoryData.getInstance))).lEVEL))) :: String))
-        jset (this).level ((javaToString levelString))
+        jset (this).level ((jio (jparseInt levelString)))
         Control.Monad.void (CategoryHierarchy.setRoot this rootCategoryInterface)
         Control.Monad.void (CategoryHierarchy.setParent this parentCategoryInterface)
         pure ()

@@ -19,10 +19,10 @@ module SpinnerAIFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,9 @@ instance JavaObjectClass SpinnerAIFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO SpinnerAIFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -93,7 +96,7 @@ getInstance_super object_ a1 a2 a3 = (getInstance_impl (javaCast object_ :: Spin
 
 getInstance_impl :: SpinnerAIFactory -> ABHashtable.ABHashtable -> AllBinaryLayer.AllBinaryLayer -> GameInput.GameInput -> IO (ArtificialIntelligenceInterface.ArtificialIntelligenceInterface)
 getInstance_impl this hashtable ownerLayerInterface gameInput = do
-        let direction = (jarrayFromList [Canvas.lEFT])
+        let direction = (jarrayFromList [Canvas.lEFT] :: JavaArray Int)
         (fmap (\value_ -> javaCast value_ :: ArtificialIntelligenceInterface.ArtificialIntelligenceInterface) (SpinnerAI.new_3 direction ownerLayerInterface gameInput))
 
 

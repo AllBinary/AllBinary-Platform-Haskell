@@ -19,10 +19,10 @@ module GameFeatureFormUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,12 +36,12 @@ import qualified Features -- same package or java.lang
 import qualified Feature -- same package or java.lang
 import qualified GameFeatureUtil -- same package or java.lang
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified NullImage -- javax.microedition.lcdui.NullImage
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified GameConfigurationGauge -- org.allbinary.game.configuration.GameConfigurationGauge
 import qualified GameConfigurationUtil -- org.allbinary.game.configuration.GameConfigurationUtil
 import qualified CommandForm -- org.allbinary.graphics.displayable.screen.CommandForm
-import qualified MEUtil -- org.allbinary.logic.MEUtil
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified StringUtil -- org.allbinary.logic.string.StringUtil
@@ -52,7 +52,7 @@ import qualified HashtableUtil -- org.allbinary.util.HashtableUtil
 data GameFeatureFormUtil = GameFeatureFormUtil
     { header_ :: JavaHeader
     , logUtil :: IORef (LogUtil.LogUtil)
-    , meUtil :: IORef (MEUtil.MEUtil)
+    , meUtil :: IORef (MIDPUtil.MIDPUtil)
     }
 
 instance JavaNull GameFeatureFormUtil where
@@ -68,11 +68,15 @@ instance JavaObjectClass GameFeatureFormUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: GameFeatureFormUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameFeatureFormUtil
 newRecord_ = do
@@ -89,7 +93,7 @@ newRecord_ = do
 initFields_ :: GameFeatureFormUtil -> IO ()
 initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
-    jset this.meUtil =<< (MEUtil.getInstance)
+    jset this.meUtil =<< (MIDPUtil.getInstance)
     pure ()
 
 new_ :: IO GameFeatureFormUtil
@@ -151,7 +155,7 @@ addChoiceGroup_impl this form hashtable option = do
             jset name ((javaCast (jindex objectArray (index)) :: String))
             Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append stringMaker aDDING_CHOICE_GROUP))) (jget name)))))) this aDD_CHOICE_GROUP)
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) form (javaCast (jio (GameFeatureFormUtil.getChoiceGroup this hashtable (jget name) option))))
+            Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast form) (javaCast (jio (GameFeatureFormUtil.getChoiceGroup this hashtable (jget name) option))))
         pure ()
 
 

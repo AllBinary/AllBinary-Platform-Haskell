@@ -19,10 +19,10 @@ module GeographicMapCellHistory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -81,10 +81,14 @@ instance JavaObjectClass GeographicMapCellHistory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GEOGRPAHIC_MAP_HISTORY_ARRAY :: JavaArray (GeographicMapCellHistory)
 nULL_GEOGRPAHIC_MAP_HISTORY_ARRAY = (jnewArray (0) javaNull)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GeographicMapCellHistory
 newRecord_ = do
@@ -134,7 +138,7 @@ initFields_ this = do
     jset this.visitedList (javaNull)
     jset this.mISSED_INFO ("Missed")
     jset this.animation =<< (fmap (\value_ -> javaCast value_ :: Animation.Animation) (TextAnimation.new_2 (jget (this).mISSED_INFO) (jio (AnimationBehavior.getInstance))))
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.totalVisited (0)
     jset this.halfWidth (0)
     jset this.fontHeight (0)
@@ -457,7 +461,7 @@ paintNotVisitedRelativeToPoint_impl this graphics tiledLayer point = do
         let x = ((jio (GPoint.getX point)) - (jio (AllBinaryTiledLayer.getXP tiledLayer)))
         let y = ((jio (GPoint.getY point)) - (jio (AllBinaryTiledLayer.getYP tiledLayer)))
         when ((jget (this).halfWidth) == 0) $ do
-            jset (this).halfWidth ((((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).mISSED_INFO))) `Data.Bits.shiftR` 1)))
+            jset (this).halfWidth ((((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).mISSED_INFO))) `Data.Bits.shiftR` 1)))
         let height = (2 * (jget (this).fontHeight))
         Control.Monad.void (Animation.paintXY ((jget (this).animation)) graphics (x + (jget (this).halfWidth)) (y + (height)))
         pure ()

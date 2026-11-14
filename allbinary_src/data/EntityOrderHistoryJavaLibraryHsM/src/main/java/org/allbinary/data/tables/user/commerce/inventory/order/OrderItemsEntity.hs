@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.order
 module OrderItemsEntity (module OrderItemsEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, setStatus, setStatus_super, setStatus_impl, isEverythingShipped, isEverythingShipped_super, isEverythingShipped_impl, getBasketReview, getBasketReview_super, getBasketReview_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, basicItemData, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, setStatus, setStatus_super, setStatus_impl, isEverythingShipped, isEverythingShipped_super, isEverythingShipped_impl, getBasketReview, getBasketReview_super, getBasketReview_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, insert_1, insert_1_super, insert_1_impl, insert, logUtil, basicItemData, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,8 +33,13 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified ListIterator -- java.util.ListIterator
 import qualified Set -- java.util.Set
@@ -104,6 +109,7 @@ newRecord_ = do
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
+    jregisterMethod header_ "insert_1" (\() -> insert_1_impl this)
     pure this
 
 initFields_ :: OrderItemsEntity -> IO ()
@@ -121,7 +127,7 @@ new_ = do
 
 init_ :: OrderItemsEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (HistoryDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (HistoryDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -159,7 +165,7 @@ insert_impl this userName order = do
                 Control.Monad.void (BasicArrayList.add ((jget vector)) userName)
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (OrderInterface.getStoreName order)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getId itemInterface)))
-                Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (BasketInterface.toString ((jio (BasketInterface.getNumberOf basket item))))))
+                Control.Monad.void (BasicArrayList.add ((jget vector)) (javaToString (jio (BasketInterface.getNumberOf basket item))))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getNewOrUsed itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getSummary itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getDistributor itemInterface)))
@@ -175,7 +181,7 @@ insert_impl this userName order = do
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getMediumImage itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getLargeImage itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getWeight itemInterface)))
-                Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.toString ((jio (ItemInterface.getPrice itemInterface))))))
+                Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (Money.toString ((jio (ItemInterface.getPrice itemInterface))))))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getComment itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getCustoms itemInterface)))
                 Control.Monad.void (BasicArrayList.add ((jget vector)) (jio (ItemInterface.getDownloads itemInterface)))
@@ -196,7 +202,7 @@ insert_impl this userName order = do
                 Control.Monad.void (BasicArrayList.add ((jget vector)) zERO_STRING)
                 Control.Monad.void (BasicArrayList.add ((jget vector)) zERO_STRING)
                 Control.Monad.void (BasicArrayList.add ((jget vector)) zERO_STRING)
-                Control.Monad.void (OrderItemsEntity.insert this (jget vector))
+                Control.Monad.void (OrderItemsEntity.insert_1 this (jget vector))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Command Success Added: " ++ javaToString (jio (Set.size items))) this iNSERT)
         pure ()
@@ -214,12 +220,12 @@ setStatus_impl this orderId groupId status = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "setStatus" e)
             ) $ do
-            whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            updateHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            updateHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereHashMap (OrderData.iD) orderId)
             Control.Monad.void (HashMap.put whereHashMap (ShippingMethodData.gROUP) groupId)
             Control.Monad.void (HashMap.put updateHashMap (OrderHistoryData.sTATUS) status)
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base whereHashMap updateHashMap)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereHashMap updateHashMap)
         pure ()
 
 
@@ -261,7 +267,7 @@ getBasketReview_impl this orderId = do
             pure (javaNull)
             ) $ do
             basketReview <- (BasketReview.new_)
-            keyValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keyValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keyValues (OrderData.iD) orderId)
             items <- (AbSqlBean.getRows_super this.base keyValues)
             entryData <- (EntryData.getInstance)
@@ -411,5 +417,17 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: OrderItemsEntity)
 dropTable_impl :: OrderItemsEntity -> IO (String)
 dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
+
+
+insert_1 :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1 object_ a1 = jmethod object_ "insert_1" (\() -> (insert_1_impl (javaCast object_ :: OrderItemsEntity))) () a1
+
+insert_1_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_super object_ a1 = (insert_1_impl (javaCast object_ :: OrderItemsEntity)) a1
+
+insert_1_impl :: OrderItemsEntity -> BasicArrayList.BasicArrayList -> IO (())
+insert_1_impl this values = do
+        Control.Monad.void (AbSqlBean.insert_1_super this.base values)
+        pure ()
 
 

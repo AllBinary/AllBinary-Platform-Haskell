@@ -20,10 +20,10 @@ import CollidableCompositeLayer hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified CollidableNeverCollideBehaviorFactory -- org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory
 import qualified DamageableInterface -- org.allbinary.game.combat.damage.DamageableInterface
@@ -98,6 +101,7 @@ instance JavaObjectClass CollidableDestroyableDamageableLayer where
 {-# NOINLINE nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER #-}
 nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
+rEADYFOREXPLOSION :: String
 rEADYFOREXPLOSION = "ReadyForExplosion: "
 
 newRecord_ :: IO CollidableDestroyableDamageableLayer
@@ -187,7 +191,7 @@ initFields_ this = do
 getNullInstance :: IO (CollidableDestroyableDamageableLayer)
 getNullInstance = do
         when ((jget CollidableDestroyableDamageableLayer.nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_4 (jget ((jio (BasicGroupFactory.getInstance))).nONE_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (ViewPositionBase.nULL_VIEW_POSITION))
+            assignedValue <- (fmap jtoObject (new_4 (jget ((jio (BasicGroupFactory.getInstance))).nONE_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (ViewPositionBase.nULL_VIEW_POSITION)))
             jset CollidableDestroyableDamageableLayer.nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER (assignedValue)
         pure ((javaCast (jget CollidableDestroyableDamageableLayer.nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER) :: CollidableDestroyableDamageableLayer))
 
@@ -199,7 +203,7 @@ new_4 groupInterface name layerInfo viewPosition = do
 
 init_4 :: CollidableDestroyableDamageableLayer -> JavaArray (Group.Group) -> String -> Rectangle.Rectangle -> ViewPositionBase.ViewPositionBase -> IO ()
 init_4 this groupInterface name layerInfo viewPosition = do
-        CollidableCompositeLayer.init_4 this.base (name) (layerInfo) (viewPosition) (jio (CollidableNeverCollideBehaviorFactory.getInstance))
+        CollidableCompositeLayer.init_4 this.base (name) (layerInfo) (viewPosition) (javaCast (jio (CollidableNeverCollideBehaviorFactory.getInstance)))
         initFields_ this
         pure () -- super(...) is in the record above
         assignedValue <- (Rectangle.getWidth layerInfo)
@@ -694,7 +698,7 @@ toStringAppend_impl this stringBuffer = do
         groupInterfaceArray <- (CollidableDestroyableDamageableLayer.getGroupInterface this)
         let size = (jlength groupInterfaceArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (StringMaker.append stringBuffer (jio (toString ((jindex groupInterfaceArray (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Group.toString ((jindex groupInterfaceArray (index))))))
             Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).cOMMA))
         pickupBehavior <- (CollidableDestroyableDamageableLayer.getPickupBehavior this)
         when (pickupBehavior /= javaNull) $ do

@@ -19,10 +19,10 @@ module TransformGeneratorUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified InputOutputTypeData -- org.allbinary.logic.io.InputOutputTypeData
 import qualified AbeClientInformationInterface -- org.allbinary.logic.system.security.licensing.AbeClientInformationInterface
@@ -59,11 +60,15 @@ instance JavaObjectClass TransformGeneratorUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TransformGeneratorUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformGeneratorUtil
 newRecord_ = do
@@ -126,9 +131,9 @@ generate_overload1_impl this abeClientInformation transformInfoInterface ownerTr
             let httpTransformInfoInterface = (javaCast (jio (TransformInterface.getTransformInfoInterface componentInterface)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
             inputOutputTypeData <- (InputOutputTypeData.getInstance)
             if ((jstringIndexOf result "<HTML>" 0) >= 0) then do
-                Control.Monad.void (TransformInfoHttpInterface.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget (inputOutputTypeData).nAME) (jget (inputOutputTypeData).dEFAULT))
+                Control.Monad.void (HashMap.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget (inputOutputTypeData).nAME) (jget (inputOutputTypeData).dEFAULT))
             else do
-                Control.Monad.void (TransformInfoHttpInterface.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget (inputOutputTypeData).nAME) (jget (inputOutputTypeData).dEFAULT_FRAGMENT))
+                Control.Monad.void (HashMap.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget (inputOutputTypeData).nAME) (jget (inputOutputTypeData).dEFAULT_FRAGMENT))
             Control.Monad.void (StoreFileGenerator.process ((jio (StoreFileGenerator.new_1 (jio (TransformInterface.getTransformInfoInterface componentInterface))))) result)
         pure ()
 

@@ -19,10 +19,10 @@ module ImageOutputData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,11 +51,15 @@ instance JavaObjectClass ImageOutputData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sAVE_PATH :: String
 {-# NOINLINE sAVE_PATH #-}
 sAVE_PATH = unsafePerformIO ((StringMaker.toString ((jio (StringMaker.appendchar ((jio (StringMaker.append ((jio (StringMaker.appendchar ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (jgetProperty "user.dir"))))) (jget ((jio (FilePathData.getInstance))).sEPARATORCHAR)))) "saves"))) (jget ((jio (FilePathData.getInstance))).sEPARATORCHAR))))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageOutputData
 newRecord_ = do

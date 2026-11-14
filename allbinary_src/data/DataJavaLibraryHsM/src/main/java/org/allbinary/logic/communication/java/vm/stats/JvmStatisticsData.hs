@@ -19,10 +19,10 @@ module JvmStatisticsData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,32 +49,47 @@ instance JavaObjectClass JvmStatisticsData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+jVM_STATISTICS :: String
 jVM_STATISTICS = "JVM_STATISTICS_"
 
+nAME :: String
 nAME = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "NAME")
 
+tOTAL_MEMORY_BYTES :: String
 tOTAL_MEMORY_BYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "TOTAL_MEMORY_BYTES")
 
+tOTAL_MEMORY_KILOBYTES :: String
 tOTAL_MEMORY_KILOBYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "TOTAL_MEMORY_KILOBYTES")
 
+tOTAL_MEMORY_MEGABYTES :: String
 tOTAL_MEMORY_MEGABYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "TOTAL_MEMORY_MEGABYTES")
 
+fREE_MEMORY_BYTES :: String
 fREE_MEMORY_BYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "FREE_MEMORY_BYTES")
 
+fREE_MEMORY_KILOBYTES :: String
 fREE_MEMORY_KILOBYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "FREE_MEMORY_KILOBYTES")
 
+fREE_MEMORY_MEGABYTES :: String
 fREE_MEMORY_MEGABYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "FREE_MEMORY_MEGABYTES")
 
+mAX_MEMORY_BYTES :: String
 mAX_MEMORY_BYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "MAX_MEMORY_BYTES")
 
+mAX_MEMORY_KILOBYTES :: String
 mAX_MEMORY_KILOBYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "MAX_MEMORY_KILOBYTES")
 
+mAX_MEMORY_MEGABYTES :: String
 mAX_MEMORY_MEGABYTES = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "MAX_MEMORY_MEGABYTES")
 
+nUMBER_OF_THREADS :: String
 nUMBER_OF_THREADS = (javaToString JvmStatisticsData.jVM_STATISTICS ++ "NUMBER_OF_THREADS")
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO JvmStatisticsData
 newRecord_ = do

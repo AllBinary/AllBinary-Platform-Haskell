@@ -20,10 +20,10 @@ import BasicPlayer hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass AndroidMediaPlayerWrapper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_ANDROID_MEDIA_PLAYER_WRAPPER :: AndroidMediaPlayerWrapper
 {-# NOINLINE nULL_ANDROID_MEDIA_PLAYER_WRAPPER #-}
 nULL_ANDROID_MEDIA_PLAYER_WRAPPER = unsafePerformIO ((AndroidMediaPlayerWrapper.createPlayerWrapper))
 
@@ -253,7 +254,7 @@ update_impl this event = do
         size <- (BasicArrayList.size ((jget (this).base.listenersList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let listener = (javaCast (jindex ((jget ((jget (this).base.listenersList)).objectArray)) (index)) :: PlayerListener.PlayerListener)
-            Control.Monad.void (PlayerListener.playerUpdate listener this event (jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
+            Control.Monad.void (PlayerListener.playerUpdate listener (javaCast this) event (jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
         pure ()
 
 

@@ -20,10 +20,10 @@ import BasicHud hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,7 +96,7 @@ newRecord_ = do
 
 initFields_ :: VelocityWidget -> IO ()
 initFields_ this = do
-    jset this.kILOMETERS_PER_HOUR_STR ((jarrayFromList [' ', 'k', 'm', '/', 'h']))
+    jset this.kILOMETERS_PER_HOUR_STR ((jarrayFromList [' ', 'k', 'm', '/', 'h'] :: JavaArray Char))
     jset this.totalChars ((jlength (jget (this).kILOMETERS_PER_HOUR_STR)))
     jset this.velocity (0)
     jset this.maxVelocity (0)

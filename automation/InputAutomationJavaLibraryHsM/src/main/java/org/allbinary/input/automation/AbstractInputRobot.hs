@@ -19,10 +19,10 @@ module AbstractInputRobot where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,9 @@ instance JavaObjectClass AbstractInputRobot where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbstractInputRobot
 newRecord_ = do
@@ -129,7 +132,7 @@ mouseMoveToTarget_impl :: AbstractInputRobot -> Rectangle.Rectangle -> Int -> In
 mouseMoveToTarget_impl this rectangle x y = do
         point <- (PointHelper.getCenterPoint rectangle)
         Control.Monad.void (AbstractInputRobot.mouseMove_2 this ((jget (point).x) + x) ((jget (point).y) + y))
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("Moved Mouse To: x: " ++ javaToString (jget (point).x)) ++ " y: ") ++ javaToString (jget (point).y)) ++ " in the middle of: ") ++ javaToString rectangle) this "moveMouseToTarget")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("Moved Mouse To: x: " ++ javaToString (jget (point).x)) ++ " y: ") ++ javaToString (jget (point).y)) ++ " in the middle of: ") ++ jconcatObject Rectangle.toString rectangle) this "moveMouseToTarget")
         pure ()
 
 

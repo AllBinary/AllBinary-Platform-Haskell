@@ -19,10 +19,10 @@ module LogConfigTypes where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,13 +59,18 @@ instance JavaObjectClass LogConfigTypes where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+jSP_ERROR_NO_FUNCTION :: String
 jSP_ERROR_NO_FUNCTION = "in JSP Not In Function"
 
+lOGGING :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE lOGGING #-}
 lOGGING = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LogConfigTypes
 newRecord_ = do
@@ -109,8 +114,8 @@ init = do
             logConfigTypeVector <- (LoggingInitInfo.getTypeList loggingInitInfo)
             Control.Monad.void (PreLogUtil.put ("Number Of Log Configs: " ++ javaToString (jio (LoggingInitInfo.getNumberOfLogConfigs loggingInitInfo))) "LogConfigTypes" "init()")
             Control.Monad.void (PreLogUtil.put ("Number Of Log Config Type Names: " ++ javaToString (jio (BasicArrayList.size logConfigTypeVector))) "LogConfigTypes" "init()")
-            Control.Monad.void (addAllList ((jget LogConfigTypes.lOGGING)) logConfigTypeVector)
-            Control.Monad.void (add ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).nETBEANS_MODULE))
+            Control.Monad.void (BasicArrayList.addAllList ((jget LogConfigTypes.lOGGING)) logConfigTypeVector)
+            Control.Monad.void (BasicArrayList.add ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).nETBEANS_MODULE))
         pure ()
 
 
@@ -123,6 +128,7 @@ getInstance node = do
         descriptionValueNode <- (DomSearchHelper.getNodeNoThrow (jget ((jio (LogConfigTypeData.getInstance))).dESCRIPTION) (jio (Node.getChildNodes node)))
         when (descriptionValueNode /= javaNull) $ do
             description <- (DomNodeHelper.getTextNodeValue descriptionValueNode)
+            pure ()
         let availableLogConfigTypes = (jget LogConfigType.availableLogConfigTypes)
         size <- (BasicArrayList.size availableLogConfigTypes)
         logConfigType <- newIORef (javaNull)

@@ -8,10 +8,10 @@ import GL hiding (new_, init_, newRecord_, initFields_, header_, base, staticIni
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -44,36 +44,52 @@ instance JavaObjectClass GL11Ext where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+gL_MATRIX_INDEX_ARRAY_BUFFER_BINDING_OES :: Int
 gL_MATRIX_INDEX_ARRAY_BUFFER_BINDING_OES = 35742
 
+gL_MATRIX_INDEX_ARRAY_OES :: Int
 gL_MATRIX_INDEX_ARRAY_OES = 34884
 
+gL_MATRIX_INDEX_ARRAY_POINTER_OES :: Int
 gL_MATRIX_INDEX_ARRAY_POINTER_OES = 34889
 
+gL_MATRIX_INDEX_ARRAY_SIZE_OES :: Int
 gL_MATRIX_INDEX_ARRAY_SIZE_OES = 34886
 
+gL_MATRIX_INDEX_ARRAY_STRIDE_OES :: Int
 gL_MATRIX_INDEX_ARRAY_STRIDE_OES = 34888
 
+gL_MATRIX_INDEX_ARRAY_TYPE_OES :: Int
 gL_MATRIX_INDEX_ARRAY_TYPE_OES = 34887
 
+gL_MATRIX_PALETTE_OES :: Int
 gL_MATRIX_PALETTE_OES = 34880
 
+gL_MAX_PALETTE_MATRICES_OES :: Int
 gL_MAX_PALETTE_MATRICES_OES = 34882
 
+gL_MAX_VERTEX_UNITS_OES :: Int
 gL_MAX_VERTEX_UNITS_OES = 34468
 
+gL_TEXTURE_CROP_RECT_OES :: Int
 gL_TEXTURE_CROP_RECT_OES = 35741
 
+gL_WEIGHT_ARRAY_BUFFER_BINDING_OES :: Int
 gL_WEIGHT_ARRAY_BUFFER_BINDING_OES = 34974
 
+gL_WEIGHT_ARRAY_OES :: Int
 gL_WEIGHT_ARRAY_OES = 34477
 
+gL_WEIGHT_ARRAY_POINTER_OES :: Int
 gL_WEIGHT_ARRAY_POINTER_OES = 34476
 
+gL_WEIGHT_ARRAY_SIZE_OES :: Int
 gL_WEIGHT_ARRAY_SIZE_OES = 34475
 
+gL_WEIGHT_ARRAY_STRIDE_OES :: Int
 gL_WEIGHT_ARRAY_STRIDE_OES = 34474
 
+gL_WEIGHT_ARRAY_TYPE_OES :: Int
 gL_WEIGHT_ARRAY_TYPE_OES = 34473
 
 fromHeader_ :: JavaHeader -> GL11Ext

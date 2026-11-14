@@ -16,14 +16,14 @@
 -- package org.allbinary.logic.visual.transform.info.objectConfig
 module TransformInfoObjectConfigAndManipulatorFactory (module TransformInfoObjectConfigAndManipulatorFactory, module TransformInfoObjectConfigAndManipulatorFactoryBase) where
 
-import TransformInfoObjectConfigAndManipulatorFactoryBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, getInstance_3_overload1, getInstance_3_overload1_super, getInstance_3_overload1_impl, getInstance, getInstance_2, getInstance_2_super, getInstance_2_impl, getInstance, getInstance_3_overload2, getInstance_3_overload2_super, getInstance_3_overload2_impl, getInstance, logUtil, instance_)
+import TransformInfoObjectConfigAndManipulatorFactoryBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, getInstance_3_overload1, getInstance_3_overload1_super, getInstance_3_overload1_impl, getInstance, getInstance_3, getInstance_2, getInstance_2_super, getInstance_2_impl, getInstance, getInstance_3_overload2, getInstance_3_overload2_super, getInstance_3_overload2_impl, getInstance, getInstance_3, logUtil, instance_)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass TransformInfoObjectConfigAndManipulatorFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TransformInfoObjectConfigAndManipulatorFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 

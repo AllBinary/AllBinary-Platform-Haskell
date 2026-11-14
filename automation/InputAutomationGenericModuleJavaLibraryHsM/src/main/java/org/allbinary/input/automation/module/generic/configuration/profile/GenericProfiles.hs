@@ -19,10 +19,10 @@ module GenericProfiles where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -77,14 +77,20 @@ instance JavaObjectClass GenericProfiles where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dEFAULT_PROFILES_PATH :: String
 dEFAULT_PROFILES_PATH = "./modules/configs/profiles/"
 
+dEFAULT_PROFILE_ACTIONS_PATH :: String
 dEFAULT_PROFILE_ACTIONS_PATH = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
 
+dEFAULT_FILE :: String
 dEFAULT_FILE = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "profiles.xml")
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GenericProfiles
 newRecord_ = do
@@ -127,7 +133,7 @@ init_1 this fileName = do
         jset (this).fileName (fileName)
         assignedValue <- (DefaultListModelHelper.new_)
         jset (this).profilesDefaultListModelHelper (assignedValue)
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).hashMap (assignedValue)
         if (jio (File.isFile ((jio (File.new_1 fileName))))) then do
             let bytes = (jnewArray (100000) 0)
@@ -191,7 +197,7 @@ get_impl this name = do
         let genericProfile = (javaCast (jio (HashMap.get ((jget (this).hashMap)) name)) :: GenericProfile.GenericProfile)
         when (genericProfile == javaNull) $ do
             commonStrings <- (CommonStrings.getInstance)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("No Generic Profile Named: " ++ name) ++ " availability was: ") ++ javaToString (jget (this).hashMap)) this (jget (commonStrings).gET))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("No Generic Profile Named: " ++ name) ++ " availability was: ") ++ jconcatObject HashMap.toString (jget (this).hashMap)) this (jget (commonStrings).gET))
         pure (genericProfile)
 
 

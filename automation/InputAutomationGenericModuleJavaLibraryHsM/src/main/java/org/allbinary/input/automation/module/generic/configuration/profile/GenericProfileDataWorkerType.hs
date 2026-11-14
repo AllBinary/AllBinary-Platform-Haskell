@@ -19,10 +19,10 @@ module GenericProfileDataWorkerType where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,18 +61,23 @@ instance JavaObjectClass GenericProfileDataWorkerType where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE hashMap #-}
 hashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
+sAVED_CAPTURE :: IORef (GenericProfileDataWorkerType)
 {-# NOINLINE sAVED_CAPTURE #-}
 sAVED_CAPTURE = unsafePerformIO (newIORef ((javaCast (jget SavedCaptureGenericProfileDataWorkerType.sAVED_CAPTURE) :: GenericProfileDataWorkerType)))
 
+sCREEN_CAPTURE :: IORef (GenericProfileDataWorkerType)
 {-# NOINLINE sCREEN_CAPTURE #-}
 sCREEN_CAPTURE = unsafePerformIO ((new_1 ("Screen " ++ (jio (InputImageType.getName ((jget InputImageType.cAPTURE)))))) >>= newIORef)
 
+cOMPARISON :: IORef (GenericProfileDataWorkerType)
 {-# NOINLINE cOMPARISON #-}
 cOMPARISON = unsafePerformIO ((new_1 (jio (InputImageType.getName ((jget InputImageType.cOMPARISON))))) >>= newIORef)
 
+mOTION :: IORef (GenericProfileDataWorkerType)
 {-# NOINLINE mOTION #-}
 mOTION = unsafePerformIO ((new_1 (jio (InputImageType.getName ((jget InputImageType.mOTION))))) >>= newIORef)
 
@@ -104,7 +109,7 @@ init_1 :: GenericProfileDataWorkerType -> String -> IO ()
 init_1 this name = do
         initFields_ this
         Control.Monad.void (GenericProfileDataWorkerType.setName this name)
-        Control.Monad.void (put ((jget GenericProfileDataWorkerType.hashMap)) (jio (GenericProfileDataWorkerType.getName this)) this)
+        Control.Monad.void (HashMap.put ((jget GenericProfileDataWorkerType.hashMap)) (jio (GenericProfileDataWorkerType.getName this)) this)
         pure ()
 
 
@@ -158,6 +163,6 @@ toString_impl this = do
 getInstance :: Node.Node -> IO (GenericProfileDataWorkerType)
 getInstance node = do
         name <- (DomNodeHelper.getTextNodeValue node)
-        pure ((javaCast (jio (get ((jget GenericProfileDataWorkerType.hashMap)) name)) :: GenericProfileDataWorkerType))
+        pure ((javaCast (jio (HashMap.get ((jget GenericProfileDataWorkerType.hashMap)) name)) :: GenericProfileDataWorkerType))
 
 

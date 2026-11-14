@@ -20,10 +20,10 @@ import WaypointPathRunnableBase hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,8 @@ import qualified GHC.Float
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified Thread -- same package or java.lang
 import qualified PathFindingLayerInterface -- same package or java.lang
+import qualified WaypointRunnableLogHelper -- same package or java.lang
+import qualified WaypointBase -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified GeographicMapCellPosition -- org.allbinary.media.graphics.geography.map.GeographicMapCellPosition
@@ -102,13 +104,13 @@ run_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).rUN) e)
             Control.Monad.void (WaypointPathRunnableBase.setRunning this False)
             ) $ do
-            Control.Monad.void (PathFindingLayerInterface.start ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
+            Control.Monad.void (WaypointRunnableLogHelper.start ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
             waypointBehavior <- (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.pathFindingLayer)))
             geographicMapCellPosition <- (PathFindingLayerInterface.getCurrentGeographicMapCellPosition ((jget (this).base.pathFindingLayer)))
             when (geographicMapCellPosition == javaNull) $ do
                 javaThrow ((JavaException "Exception" "Should never be running here"))
-            Control.Monad.void (WaypointBehaviorBase.setWaypointPathsList waypointBehavior (jio (PathFindingLayerInterface.getPathsListRunnable ((jio (PathFindingLayerInterface.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition)))
-            Control.Monad.void (PathFindingLayerInterface.end ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
+            Control.Monad.void (WaypointBehaviorBase.setWaypointPathsList waypointBehavior (jio (WaypointBase.getPathsListRunnable ((jio (WaypointBehaviorBase.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition)))
+            Control.Monad.void (WaypointRunnableLogHelper.end ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
             Control.Monad.void (threadDelay (Prelude.fromIntegral (15 + (((jget (this).base.priorityP) * 2))) * 1000))
         pure ()
 

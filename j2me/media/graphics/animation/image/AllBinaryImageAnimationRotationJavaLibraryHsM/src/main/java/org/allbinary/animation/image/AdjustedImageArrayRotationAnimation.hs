@@ -20,10 +20,10 @@ import ImageArrayRotationAnimation hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageArrayRotationAnimationInfo -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified ImageArrayBaseRotationAnimation -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -94,7 +96,7 @@ createAdjustedImageArrayRotationAnimationInfo anyTypeObject_ animationBehavior =
 -- throws Exception
 createAnimation :: JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> AnimationBehavior.AnimationBehavior -> IO (AdjustedImageArrayRotationAnimation)
 createAnimation imageArray angleInfo totalAngle animationBehavior = do
-        (new_6 imageArray angleInfo totalAngle (Prelude.negate (((jio (getWidth ((jindex imageArray (0))))) `Data.Bits.shiftR` 2))) (Prelude.negate (((jio (getHeight ((jindex imageArray (0))))) `Data.Bits.shiftR` 2))) animationBehavior)
+        (new_6 imageArray angleInfo totalAngle (Prelude.negate (((jio (Image.getWidth ((jindex imageArray (0))))) `Data.Bits.shiftR` 2))) (Prelude.negate (((jio (Image.getHeight ((jindex imageArray (0))))) `Data.Bits.shiftR` 2))) animationBehavior)
 
 new_6 :: JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> Int -> Int -> AnimationBehavior.AnimationBehavior -> IO AdjustedImageArrayRotationAnimation
 new_6 imageArray angleInfo totalAngle dx dy animationBehavior = do

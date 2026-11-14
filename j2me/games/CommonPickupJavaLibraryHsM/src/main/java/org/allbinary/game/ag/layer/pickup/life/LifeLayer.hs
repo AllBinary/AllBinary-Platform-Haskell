@@ -20,10 +20,10 @@ import AllBinaryLayer hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -83,7 +83,7 @@ new_ = do
 
 init_ :: LifeLayer -> IO ()
 init_ this = do
-        AllBinaryLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (jio (ViewPosition.getInstanceD))
+        AllBinaryLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (javaCast (jio (ViewPosition.getInstanceD)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

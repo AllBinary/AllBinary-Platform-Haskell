@@ -16,14 +16,14 @@
 -- package org.allbinary.business.user.commerce.inventory.order
 module OrderHistory (module OrderHistory, module Order) where
 
-import Order hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setUserName, setUserName_super, setUserName_impl, setDefaultShippingAddress, setDefaultShippingAddress_super, setDefaultShippingAddress_impl, setBillingAddress, setBillingAddress_super, setBillingAddress_impl, setPaymentInfo, setPaymentInfo_super, setPaymentInfo_impl, setShipDate, setShipDate_super, setShipDate_impl, setOrderDate, setOrderDate_super, setOrderDate_impl, setTransDate, setTransDate_super, setTransDate_impl, setCancelDate, setCancelDate_super, setCancelDate_impl, setStatus, setStatus_super, setStatus_impl, setSubTotal, setSubTotal_super, setSubTotal_impl, setShippingCost, setShippingCost_super, setShippingCost_impl, setTaxes, setTaxes_super, setTaxes_impl, setTotal, setTotal_super, setTotal_impl, getUserName, getUserName_super, getUserName_impl, getShippingAddress, getShippingAddress_super, getShippingAddress_impl, getBillingAddress, getBillingAddress_super, getBillingAddress_impl, getPaymentInfo, getPaymentInfo_super, getPaymentInfo_impl, getShipDate, getShipDate_super, getShipDate_impl, getOrderDate, getOrderDate_super, getOrderDate_impl, getTransDate, getTransDate_super, getTransDate_impl, getCancelDate, getCancelDate_super, getCancelDate_impl, getStatus, getStatus_super, getStatus_impl, getSubTotal, getSubTotal_super, getSubTotal_impl, getShippingCost, getShippingCost_super, getShippingCost_impl, getTaxes, getTaxes_super, getTaxes_impl, getTotal, getTotal_super, getTotal_impl, toHashMap, toHashMap_super, toHashMap_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, userName, shippingAddress, billingAddress, payment, shipDate, orderDate, transDate, cancelDate, status, subTotal, shippingCost, taxes, total)
+import Order hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setUserName, setUserName_super, setUserName_impl, setDefaultShippingAddress, setDefaultShippingAddress_super, setDefaultShippingAddress_impl, setBillingAddress, setBillingAddress_super, setBillingAddress_impl, setPaymentInfo, setPaymentInfo_super, setPaymentInfo_impl, setShipDate, setShipDate_super, setShipDate_impl, setOrderDate, setOrderDate_super, setOrderDate_impl, setTransDate, setTransDate_super, setTransDate_impl, setCancelDate, setCancelDate_super, setCancelDate_impl, setStatus, setStatus_super, setStatus_impl, setSubTotal, setSubTotal_super, setSubTotal_impl, setShippingCost, setShippingCost_super, setShippingCost_impl, setTaxes, setTaxes_super, setTaxes_impl, setTotal, setTotal_super, setTotal_impl, getUserName, getUserName_super, getUserName_impl, getShippingAddress, getShippingAddress_super, getShippingAddress_impl, getBillingAddress, getBillingAddress_super, getBillingAddress_impl, getPaymentInfo, getPaymentInfo_super, getPaymentInfo_impl, getShipDate, getShipDate_super, getShipDate_impl, getOrderDate, getOrderDate_super, getOrderDate_impl, getTransDate, getTransDate_super, getTransDate_impl, getCancelDate, getCancelDate_super, getCancelDate_impl, getStatus, getStatus_super, getStatus_impl, getSubTotal, getSubTotal_super, getSubTotal_impl, getShippingCost, getShippingCost_super, getShippingCost_impl, getTaxes, getTaxes_super, getTaxes_impl, getTotal, getTotal_super, getTotal_impl, toHashMap, toHashMap_super, toHashMap_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, getPaymentMethod, getPaymentMethod_super, getPaymentMethod_impl, userName, shippingAddress, billingAddress, payment, shipDate, orderDate, transDate, cancelDate, status, subTotal, shippingCost, taxes, total)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -138,6 +138,7 @@ newRecord_ = do
     jregisterMethod header_ "getTotal" (\() -> getTotal_impl this)
     jregisterMethod header_ "toHashMap" (\() -> toHashMap_impl this)
     jregisterMethod header_ "toXmlNode" (\() -> toXmlNode_impl this)
+    jregisterMethod header_ "getPaymentMethod" (\() -> getPaymentMethod_impl this)
     pure this
 
 initFields_ :: OrderHistory -> IO ()
@@ -170,15 +171,29 @@ init_1 this basketInterface = do
         pure () -- super(...) is in the record above
         pure ()
 
-new_2 :: BasketInterface.BasketInterface -> OrderHistory -> IO OrderHistory
-new_2 basketInterface orderHistory = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => BasketInterface.BasketInterface -> o2 -> IO OrderHistory
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: OrderHistory) = new_2_overload1 a1 (javaCast a2 :: OrderHistory)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = new_2_overload2 a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: HashMap.HashMap)
+
+init_2 :: (JavaObjectClass o2) => OrderHistory -> BasketInterface.BasketInterface -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: OrderHistory) = init_2_overload1 this a1 (javaCast a2 :: OrderHistory)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = init_2_overload2 this a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: HashMap.HashMap)
+
+
+new_2_overload1 :: BasketInterface.BasketInterface -> OrderHistory -> IO OrderHistory
+new_2_overload1 basketInterface orderHistory = do
     this <- newRecord_
-    init_2 this basketInterface orderHistory
+    init_2_overload1 this basketInterface orderHistory
     pure this
 
-init_2 :: OrderHistory -> BasketInterface.BasketInterface -> OrderHistory -> IO ()
-init_2 this basketInterface orderHistory = do
-        Order.init_6 this.base (jio (OrderHistory.getStoreName orderHistory)) (basketInterface) (jio (OrderHistory.getId orderHistory)) (jio (OrderHistory.getShippingMethod orderHistory)) (jio (OrderHistory.getSpecial orderHistory)) (jio (OrderHistory.getPaymentMethod orderHistory))
+init_2_overload1 :: OrderHistory -> BasketInterface.BasketInterface -> OrderHistory -> IO ()
+init_2_overload1 this basketInterface orderHistory = do
+        Order.init_6 this.base (jio (Order.getStoreName orderHistory)) (basketInterface) (jio (Order.getId orderHistory)) (jio (Order.getShippingMethod orderHistory)) (jio (Order.getSpecial orderHistory)) (jio (OrderHistory.getPaymentMethod orderHistory))
         initFields_ this
         pure () -- super(...) is in the record above
         assignedValue <- (OrderHistory.getUserName orderHistory)
@@ -207,21 +222,20 @@ init_2 this basketInterface orderHistory = do
         jset (this).taxes (assignedValue)
         assignedValue <- (OrderHistory.getTotal orderHistory)
         jset (this).total (assignedValue)
-        Control.Monad.void (Order.setUserComments_super this.base (javaCast (jio (OrderHistory.getUserComments orderHistory)) :: String))
-        Control.Monad.void (Order.setUserCancelComments_super this.base (javaCast (jio (OrderHistory.getUserCancelComments orderHistory)) :: String))
-        Control.Monad.void (Order.setStoreComments_super this.base (javaCast (jio (OrderHistory.getStoreComments orderHistory)) :: String))
-        Control.Monad.void (Order.setStoreCancelComments_super this.base (javaCast (jio (OrderHistory.getStoreCancelComments orderHistory)) :: String))
+        Control.Monad.void (Order.setUserComments_super this.base (javaCast (jio (Order.getUserComments orderHistory)) :: String))
+        Control.Monad.void (Order.setUserCancelComments_super this.base (javaCast (jio (Order.getUserCancelComments orderHistory)) :: String))
+        Control.Monad.void (Order.setStoreComments_super this.base (javaCast (jio (Order.getStoreComments orderHistory)) :: String))
+        Control.Monad.void (Order.setStoreCancelComments_super this.base (javaCast (jio (Order.getStoreCancelComments orderHistory)) :: String))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: BasketInterface.BasketInterface -> HashMap.HashMap -> IO OrderHistory
-new_2 basketInterface orderHistoryHashMap = do
+new_2_overload2 :: BasketInterface.BasketInterface -> HashMap.HashMap -> IO OrderHistory
+new_2_overload2 basketInterface orderHistoryHashMap = do
     this <- newRecord_
-    init_2 this basketInterface orderHistoryHashMap
+    init_2_overload2 this basketInterface orderHistoryHashMap
     pure this
 
-init_2 :: OrderHistory -> BasketInterface.BasketInterface -> HashMap.HashMap -> IO ()
-init_2 this basketInterface orderHistoryHashMap = do
+init_2_overload2 :: OrderHistory -> BasketInterface.BasketInterface -> HashMap.HashMap -> IO ()
+init_2_overload2 this basketInterface orderHistoryHashMap = do
         Order.init_6 this.base (javaCast (jio (HashMap.get orderHistoryHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String) (basketInterface) (javaCast (jio (HashMap.get orderHistoryHashMap (OrderData.iD))) :: String) (javaCast (jio (HashMap.get orderHistoryHashMap (ShippingMethodData.nAME))) :: String) (javaCast (jio (HashMap.get orderHistoryHashMap (jget ((jio (EntryData.getInstance))).sPECIAL))) :: String) (javaCast (jio (HashMap.get orderHistoryHashMap (PaymentData.mETHOD))) :: String)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -565,10 +579,10 @@ toHashMap_impl this = do
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.sHIPPEDDATE) (jget (this).shipDate))
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.tRANSDATE) (jget (this).transDate))
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.cANCELDATE) (jget (this).cancelDate))
-        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.oRDERDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (Prelude.fromIntegral ((jget (this).orderDate)) :: Int64)))))))
-        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.sHIPPEDDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (Prelude.fromIntegral ((jget (this).shipDate)) :: Int64)))))))
-        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.tRANSDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (Prelude.fromIntegral ((jget (this).transDate)) :: Int64)))))))
-        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.cANCELDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (Prelude.fromIntegral ((jget (this).cancelDate)) :: Int64)))))))
+        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.oRDERDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (jio (jparseLong (jget (this).orderDate)))))))))
+        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.sHIPPEDDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (jio (jparseLong (jget (this).shipDate)))))))))
+        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.tRANSDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (jio (jparseLong (jget (this).transDate)))))))))
+        Control.Monad.void (HashMap.put hashMap (OrderHistoryData.cANCELDATEFORMATTED) (jio (Date.toString ((jio (Date.new_1 (jio (jparseLong (jget (this).cancelDate)))))))))
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.sTATUS) (jget (this).status))
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.sUBTOTAL) (jio (Money.toString ((jget (this).subTotal)))))
         Control.Monad.void (HashMap.put hashMap (OrderHistoryData.tOTAL) (jio (Money.toString ((jget (this).total)))))
@@ -606,5 +620,16 @@ toXmlNode_impl this document = do
             jset value (assignedValue)
             Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name (jget value))))
         pure (node)
+
+
+getPaymentMethod :: (JavaObjectClass this_) => this_ -> IO (String)
+getPaymentMethod object_ = jmethod object_ "getPaymentMethod" (\() -> (getPaymentMethod_impl (javaCast object_ :: OrderHistory))) ()
+
+getPaymentMethod_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getPaymentMethod_super object_ = (getPaymentMethod_impl (javaCast object_ :: OrderHistory))
+
+getPaymentMethod_impl :: OrderHistory -> IO (String)
+getPaymentMethod_impl this = do
+        (Order.getPaymentMethod_super this.base)
 
 

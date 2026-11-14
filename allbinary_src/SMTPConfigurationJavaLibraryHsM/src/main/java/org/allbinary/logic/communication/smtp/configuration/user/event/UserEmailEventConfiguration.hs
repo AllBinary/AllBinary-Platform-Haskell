@@ -19,10 +19,10 @@ module UserEmailEventConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,9 @@ instance JavaObjectClass UserEmailEventConfiguration where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserEmailEventConfiguration
 newRecord_ = do
@@ -111,7 +114,7 @@ init_1 this hashMap = do
         Control.Monad.void (UserEmailEventConfiguration.setName this (javaCast (jio (HashMap.get hashMap (UserEmailEventConfigurationData.nAME))) :: String))
         Control.Monad.void (UserEmailEventConfiguration.setEventListenerClassPath this (javaCast (jio (HashMap.get hashMap (UserEmailEventConfigurationData.lISTENER_CLASSPATH))) :: String))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Log: " ++ javaToString (jio (UserEmailEventConfiguration.log this))) this " Constructor")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Log: " ++ (jio (UserEmailEventConfiguration.log this))) this " Constructor")
         pure ()
 
 
@@ -169,6 +172,6 @@ log_super object_ = (log_impl (javaCast object_ :: UserEmailEventConfiguration))
 
 log_impl :: UserEmailEventConfiguration -> IO (String)
 log_impl this = do
-        pure ((((("\nUser Email Event Log Info:" ++ "\nName: ") ++ (jio (UserEmailEventConfiguration.getName this))) ++ "\nEventListenerClassPath: ") ++ javaToString (jio (UserEmailEventConfiguration.getEventListenerClassPath this))))
+        pure ((((("\nUser Email Event Log Info:" ++ "\nName: ") ++ (jio (UserEmailEventConfiguration.getName this))) ++ "\nEventListenerClassPath: ") ++ (jio (UserEmailEventConfiguration.getEventListenerClassPath this))))
 
 

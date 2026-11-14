@@ -19,10 +19,10 @@ module ResourceUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,11 +71,15 @@ instance JavaObjectClass ResourceUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ResourceUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ResourceUtil
 newRecord_ = do
@@ -154,7 +158,7 @@ setContextFromActivity_super object_ a1 = (setContextFromActivity_impl (javaCast
 
 setContextFromActivity_impl :: ResourceUtil -> Activity.Activity -> IO (())
 setContextFromActivity_impl this activity = do
-        jset (this).context (activity)
+        jset (this).context ((jtoObject activity))
         pure ()
 
 
@@ -166,7 +170,7 @@ setContext_super object_ a1 = (setContext_impl (javaCast object_ :: ResourceUtil
 
 setContext_impl :: ResourceUtil -> Context.Context -> IO (())
 setContext_impl this aContext = do
-        jset (this).context (aContext)
+        jset (this).context ((jtoObject aContext))
         pure ()
 
 
@@ -213,7 +217,7 @@ containsDuplicate_impl this resource value = do
         index <- newIORef ((jlength objectArray))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             let integer = (javaCast (jio (ABHashtable.get ((jget (this).hashMap)) (javaCast (jindex objectArray ((jget index))) :: Any.Any))) :: Int)
-            when (resource /= (jindex objectArray ((jget index)))) $ do
+            when ((jtoObject resource) /= (jtoObject (jindex objectArray ((jget index))))) $ do
                 when (value /= integer) $ do
                     when (value == integer) $ do
                         javaReturn (True)
@@ -229,7 +233,7 @@ setResources_super object_ a1 = (setResources_impl (javaCast object_ :: Resource
 setResources_impl :: ResourceUtil -> Resources.Resources -> IO (())
 setResources_impl this resources = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Resource Loader: "))) (jio (Class.getName ((jio (jobjectGetClass resources)))))))))) this "setResources")
-        jset (this).resources (resources)
+        jset (this).resources ((jtoObject resources))
         pure ()
 
 

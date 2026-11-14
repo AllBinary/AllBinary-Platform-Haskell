@@ -19,10 +19,10 @@ module ThemeValidation where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -100,6 +100,9 @@ instance JavaObjectClass ThemeValidation where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO ThemeValidation
 newRecord_ = do
     header_ <- newJavaHeader
@@ -165,18 +168,32 @@ init_3 this transformInfoInterface cssStyleValidation categoryThemePath = do
         jset (this).categoryAbPath (assignedValue)
         assignedValue <- (AbPathData.getNameFromPath pathData categoryThemePath)
         jset (this).themeName (assignedValue)
-        jset (this).styleValidationInterface (cssStyleValidation)
+        jset (this).styleValidationInterface ((javaCast cssStyleValidation :: ValidationInterface.ValidationInterface))
         Control.Monad.void (ThemeValidation.init this)
         pure ()
 
-new_2 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ThemeValidation
-new_2 transformInfoInterface hashMap = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o1, JavaObjectClass o2) => o1 -> o2 -> IO ThemeValidation
+new_2 a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) = new_2_overload1 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) (javaCast a2 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) && jisInstanceOf a2 (javaNull :: Node.Node) = new_2_overload2 (javaCast a1 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) (javaCast a2 :: Node.Node)
+    | otherwise = new_2_overload2 (javaCast a1 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) (javaCast a2 :: Node.Node)
+
+init_2 :: (JavaObjectClass o1, JavaObjectClass o2) => ThemeValidation -> o1 -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) = init_2_overload1 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) (javaCast a2 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) && jisInstanceOf a2 (javaNull :: Node.Node) = init_2_overload2 this (javaCast a1 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) (javaCast a2 :: Node.Node)
+    | otherwise = init_2_overload2 this (javaCast a1 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface) (javaCast a2 :: Node.Node)
+
+
+new_2_overload1 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ThemeValidation
+new_2_overload1 transformInfoInterface hashMap = do
     this <- newRecord_
-    init_2 this transformInfoInterface hashMap
+    init_2_overload1 this transformInfoInterface hashMap
     pure this
 
-init_2 :: ThemeValidation -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
-init_2 this transformInfoInterface hashMap = do
+init_2_overload1 :: ThemeValidation -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
+init_2_overload1 this transformInfoInterface hashMap = do
         initFields_ this
         jset (this).transformInfoInterface (transformInfoInterface)
         categoryThemeAbPath <- (AbPath.new_2 (javaCast (jio (HashMap.get hashMap (jget ((jio (ThemeData.getInstance))).pATH))) :: String) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
@@ -198,15 +215,14 @@ init_2 this transformInfoInterface hashMap = do
         Control.Monad.void (ThemeValidation.init this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface -> Node.Node -> IO ThemeValidation
-new_2 storeThemeCategoryInterface node = do
+new_2_overload2 :: StoreThemeCategoryInterface.StoreThemeCategoryInterface -> Node.Node -> IO ThemeValidation
+new_2_overload2 storeThemeCategoryInterface node = do
     this <- newRecord_
-    init_2 this storeThemeCategoryInterface node
+    init_2_overload2 this storeThemeCategoryInterface node
     pure this
 
-init_2 :: ThemeValidation -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> Node.Node -> IO ()
-init_2 this storeThemeCategoryInterface node = do
+init_2_overload2 :: ThemeValidation -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> Node.Node -> IO ()
+init_2_overload2 this storeThemeCategoryInterface node = do
         initFields_ this
         assignedValue <- (StoreThemeCategoryInterface.getTransformInfoInterface storeThemeCategoryInterface)
         jset (this).transformInfoInterface (assignedValue)
@@ -251,7 +267,7 @@ init_1_super object_ a1 = (init_1_impl (javaCast object_ :: ThemeValidation)) a1
 
 init_1_impl :: ThemeValidation -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO (())
 init_1_impl this storeThemeCategoryInterface = do
-        assignedValue <- (AbPath.new_2 ((jio (StoreThemeCategoryInterface.toString ((jio (StoreThemeCategoryInterface.getRootFilePath storeThemeCategoryInterface))))) ++ (jio (AbPath.toString ((jget (this).categoryAbPath))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        assignedValue <- (AbPath.new_2 ((jio (AbPath.toString ((jio (StoreThemeCategoryInterface.getRootFilePath storeThemeCategoryInterface))))) ++ (jio (AbPath.toString ((jget (this).categoryAbPath))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         jset (this).fileAbPath (assignedValue)
         assignedValue <- (StoreThemeCategoryInterface.getWebAppPath storeThemeCategoryInterface)
         jset (this).webAppAbPath (assignedValue)

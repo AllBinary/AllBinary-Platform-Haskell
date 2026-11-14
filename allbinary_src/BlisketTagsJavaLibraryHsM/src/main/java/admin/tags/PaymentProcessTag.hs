@@ -20,10 +20,10 @@ import StoreValidationTransformTag hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,14 @@ import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified Class -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ValidationTransformTag -- same package or java.lang
+import qualified TransformTag -- same package or java.lang
+import qualified TransformInfoTag -- same package or java.lang
+import qualified ModifyTag -- same package or java.lang
+import qualified HelperTag -- same package or java.lang
+import qualified PropertiesTag -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified Method -- java.lang.reflect.Method
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
 import qualified PaymentProcessHelperFactory -- admin.taghelpers.PaymentProcessHelperFactory
@@ -122,12 +130,13 @@ doStartTag_super object_ = (doStartTag_impl (javaCast object_ :: PaymentProcessT
 
 doStartTag_impl :: PaymentProcessTag -> IO (Int)
 doStartTag_impl this = do
+    javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (AbResponseHandler.sendJspTagRedirect (jget (this).base.pageContext) e)
             pure (sKIP_BODY)
             ) $ do
             if ((((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).aUTHORIZEORDEREVALBODYONERROR)) - 1) == 0) || ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).aUTHORIZEORDERANDEVALBODY)) - 1) == 0)) || ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).aUTHORIZEFORMEVALBODYONERROR)) - 1) == 0)) then do
-                Control.Monad.void (print ((jio (getOut ((jget (this).base.pageContext))))) (javaToString (jio (PaymentProcessTag.process this)) ++ "<br />"))
+                Control.Monad.void (print ((jio (getOut ((jget (this).base.pageContext))))) ((jio (PaymentProcessTag.process this)) ++ "<br />"))
                 if ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).aUTHORIZEORDEREVALBODYONERROR)) - 1) == 0) then do
                     javaReturn ((jget (this).base.sKIP_BODY))
                 else do

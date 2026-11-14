@@ -19,10 +19,10 @@ module EmailServerConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -230,6 +230,6 @@ toString_super object_ = (toString_impl (javaCast object_ :: EmailServerConfigur
 
 toString_impl :: EmailServerConfiguration -> IO (String)
 toString_impl this = do
-        pure ((((((("Email Server Configuration:\n" ++ "Smtp Server: \n") ++ javaToString (jio (EmailServerConfiguration.getSmtpServer this))) ++ "\nAccount Name: ") ++ javaToString (jio (EmailServerConfiguration.getAccountName this))) ++ "\nPassword: ") ++ javaToString (jio (EmailServerConfiguration.getPassword this))))
+        pure ((((((("Email Server Configuration:\n" ++ "Smtp Server: \n") ++ (jio (EmailServerConfiguration.getSmtpServer this))) ++ "\nAccount Name: ") ++ (jio (EmailServerConfiguration.getAccountName this))) ++ "\nPassword: ") ++ (jio (EmailServerConfiguration.getPassword this))))
 
 

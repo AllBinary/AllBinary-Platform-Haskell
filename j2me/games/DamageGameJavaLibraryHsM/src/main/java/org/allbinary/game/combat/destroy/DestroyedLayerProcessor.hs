@@ -20,10 +20,10 @@ import BasicLayerProcessor hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,7 @@ instance JavaObjectClass DestroyedLayerProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dESTROYED_LAYER_PROCESSOR :: IORef (BasicLayerProcessor.BasicLayerProcessor)
 {-# NOINLINE dESTROYED_LAYER_PROCESSOR #-}
 dESTROYED_LAYER_PROCESSOR = unsafePerformIO (newIORef (BasicLayerProcessor.nULL_LAYER_PROCESSOR))
 
@@ -94,7 +95,7 @@ init_ this = do
 
 init :: IO (())
 init = do
-        assignedValue <- (new_)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicLayerProcessor.BasicLayerProcessor) (new_))
         jset DestroyedLayerProcessor.dESTROYED_LAYER_PROCESSOR (assignedValue)
         pure ()
 
@@ -129,6 +130,7 @@ process_impl this allBinaryLayerManager = do
                 Control.Monad.void (DestroyedEventHandler.fireEvent destroyedEventHandler (javaCast (jget destroyedEvent)))
             else do
                 commonStrings <- (CommonStrings.getInstance)
+                pure ()
         Control.Monad.void (BasicArrayList.clear list)
         pure ()
 

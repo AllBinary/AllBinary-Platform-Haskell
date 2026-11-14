@@ -19,10 +19,10 @@ module SystemHardwareFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass SystemHardwareFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SystemHardwareFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SystemHardwareFactory
 newRecord_ = do
@@ -114,7 +118,7 @@ getInstance_1_impl this operatingSystemInterface = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).cONSTRUCTOR) e)
             ) $ do
             when ((jget (this).hardwareInterface) == (jio (NoHardware.getInstance))) $ do
-                assignedValue <- (HardwareFactory.getInstance_1 ((jio (HardwareFactory.getInstance))) (javaCast operatingSystemInterface))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HardwareInterface.HardwareInterface) (HardwareFactory.getInstance_1 ((jio (HardwareFactory.getInstance))) (javaCast operatingSystemInterface)))
                 jset (this).hardwareInterface (assignedValue)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Found Hardware" this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ((jget (this).hardwareInterface))
@@ -126,7 +130,7 @@ static_toString = do
         osBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append osBuffer "Hardware Info: \n")
         if ((jget (systemHardwareFactory).hardwareInterface) /= javaNull) then do
-            Control.Monad.void (StringMaker.append osBuffer (jio (toString ((jget (systemHardwareFactory).hardwareInterface)))))
+            Control.Monad.void (StringMaker.append osBuffer (jio (HardwareInterface.toString ((jget (systemHardwareFactory).hardwareInterface)))))
         else do
             Control.Monad.void (StringMaker.append osBuffer (jget ((jio (StringUtil.getInstance))).nULL_STRING))
         (StringMaker.toString osBuffer)

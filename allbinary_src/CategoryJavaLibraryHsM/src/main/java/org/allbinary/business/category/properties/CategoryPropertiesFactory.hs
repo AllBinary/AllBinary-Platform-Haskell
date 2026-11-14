@@ -19,10 +19,10 @@ module CategoryPropertiesFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ instance JavaObjectClass CategoryPropertiesFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO CategoryPropertiesFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -79,40 +82,54 @@ initFields_ this = do
     jset this.categoryPropertiesInterface (javaNull)
     pure ()
 
-new_1 :: String -> IO CategoryPropertiesFactory
-new_1 name = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO CategoryPropertiesFactory
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload2 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload3 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload3 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => CategoryPropertiesFactory -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload2 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload3 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload3 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: String -> IO CategoryPropertiesFactory
+new_1_overload1 name = do
     this <- newRecord_
-    init_1 this name
+    init_1_overload1 this name
     pure this
 
-init_1 :: CategoryPropertiesFactory -> String -> IO ()
-init_1 this name = do
+init_1_overload1 :: CategoryPropertiesFactory -> String -> IO ()
+init_1_overload1 this name = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (CategoryProperties.new_1 name)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Node.Node -> IO CategoryPropertiesFactory
-new_1 node = do
+new_1_overload2 :: Node.Node -> IO CategoryPropertiesFactory
+new_1_overload2 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload2 this node
     pure this
 
-init_1 :: CategoryPropertiesFactory -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload2 :: CategoryPropertiesFactory -> Node.Node -> IO ()
+init_1_overload2 this node = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (CategoryProperties.new_1 node)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO CategoryPropertiesFactory
-new_1 categoryPropertiesHashMap = do
+new_1_overload3 :: HashMap.HashMap -> IO CategoryPropertiesFactory
+new_1_overload3 categoryPropertiesHashMap = do
     this <- newRecord_
-    init_1 this categoryPropertiesHashMap
+    init_1_overload3 this categoryPropertiesHashMap
     pure this
 
-init_1 :: CategoryPropertiesFactory -> HashMap.HashMap -> IO ()
-init_1 this categoryPropertiesHashMap = do
+init_1_overload3 :: CategoryPropertiesFactory -> HashMap.HashMap -> IO ()
+init_1_overload3 this categoryPropertiesHashMap = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (CategoryProperties.new_1 categoryPropertiesHashMap)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()

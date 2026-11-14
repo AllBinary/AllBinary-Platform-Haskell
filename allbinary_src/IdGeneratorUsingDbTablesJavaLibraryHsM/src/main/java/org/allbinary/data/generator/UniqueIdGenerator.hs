@@ -19,10 +19,10 @@ module UniqueIdGenerator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,10 +62,14 @@ instance JavaObjectClass UniqueIdGenerator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+eXT :: String
 eXT = ".unq"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UniqueIdGenerator
 newRecord_ = do
@@ -116,7 +120,7 @@ initialize_impl this value = do
             ) $ do
             vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             Control.Monad.void (BasicArrayList.add vector (jget (this).name))
-            Control.Monad.void (BasicArrayList.add vector (javaToString (javaToString value)))
+            Control.Monad.void (BasicArrayList.add vector (javaToString (Prelude.fromIntegral value :: Int64)))
             Control.Monad.void (IdGeneratorEntity.insert ((jget (this).idGeneratorEntity)) vector)
         pure ()
 
@@ -150,7 +154,7 @@ getNext_impl this = do
             pure ("Error")
             ) $ do
             idLong <- (IdGeneratorEntity.get ((jget (this).idGeneratorEntity)) (jget (this).name))
-            let newValue = (javaToString (idLong + 1))
+            let newValue = (Prelude.fromIntegral (idLong + 1) :: Int64)
             Control.Monad.void (IdGeneratorEntity.update ((jget (this).idGeneratorEntity)) (jget (this).name) newValue)
             pure ((javaToString idLong))
 

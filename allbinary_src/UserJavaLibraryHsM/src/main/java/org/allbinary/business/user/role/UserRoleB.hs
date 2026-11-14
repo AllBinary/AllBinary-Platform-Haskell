@@ -20,10 +20,10 @@ import UserRole hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,7 @@ instance JavaObjectClass UserRoleB where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+roleVector :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE roleVector #-}
 roleVector = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)) >>= newIORef)
 
@@ -85,7 +86,7 @@ init_2 this aBasicUserRole aUserFactoryInterface = do
         UserRole.init_2 this.base (aBasicUserRole) (aUserFactoryInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (add ((jget UserRoleB.roleVector)) this)
+        Control.Monad.void (BasicArrayList.add ((jget UserRoleB.roleVector)) this)
         pure ()
 
 

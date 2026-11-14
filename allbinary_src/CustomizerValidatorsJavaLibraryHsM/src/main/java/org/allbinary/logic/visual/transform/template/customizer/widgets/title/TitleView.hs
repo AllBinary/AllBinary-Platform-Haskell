@@ -19,10 +19,10 @@ module TitleView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,10 +66,14 @@ instance JavaObjectClass TitleView where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "None"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TitleView
 newRecord_ = do
@@ -105,14 +109,28 @@ init_ this = do
         jset (this).title (TitleView.nAME)
         pure ()
 
-new_1 :: Node.Node -> IO TitleView
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TitleView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => TitleView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Node.Node -> IO TitleView
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: TitleView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: TitleView -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         titleTextNode <- (DomSearchHelper.getNode (jget ((jio (TitleData.getInstance))).tEXT) (jio (Node.getChildNodes node)))
         valueNode <- (DomSearchHelper.getNode (DomData.vALUE) (jio (Node.getChildNodes titleTextNode)))
@@ -121,18 +139,17 @@ init_1 this node = do
         when (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) (jget (this).title))) $ do
             jset (this).title (TitleView.nAME)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Title: " ++ javaToString (jio (TitleView.getTitle this))) this "Consructor()")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Title: " ++ (jio (TitleView.getTitle this))) this "Consructor()")
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO TitleView
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO TitleView
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: TitleView -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: TitleView -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("HashMap: " ++ (jio (HashMap.toString hashMap))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))

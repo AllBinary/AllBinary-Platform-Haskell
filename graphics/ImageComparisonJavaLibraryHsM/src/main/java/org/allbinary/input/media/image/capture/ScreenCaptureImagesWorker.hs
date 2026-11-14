@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,7 @@ import qualified ProcessingFrameIndexFactory -- same package or java.lang
 import qualified Thread -- same package or java.lang
 import qualified CapturedBufferedImagesCacheSingleton -- same package or java.lang
 import qualified CapturedImageWorkerResultsEvent -- same package or java.lang
+import qualified CacheInterface -- same package or java.lang
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified BasicEventHandler -- org.allbinary.logic.util.event.handler.BasicEventHandler
@@ -69,6 +70,7 @@ instance JavaObjectClass ScreenCaptureImagesWorker where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+index :: IORef (Int64)
 {-# NOINLINE index #-}
 index = unsafePerformIO (newIORef (0))
 
@@ -168,7 +170,7 @@ run_impl this = do
                 let bufferedImage = (jindex ((jio (ScreenScavangerRobot.getScreenAsBufferedImages ((jget (this).screenScavangerRobot))))) (0))
                 let frame = (Prelude.fromIntegral ((jget index)) :: Int64)
                 jset ScreenCaptureImagesWorker.index ((jget ScreenCaptureImagesWorker.index) + 1)
-                Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame)))
+                Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (javaCast (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame))))
                 capturedImageEvent <- (CapturedImageWorkerResultsEvent.new_3 this frame bufferedImage)
                 Control.Monad.void (BasicEventHandler.fireEvent this (javaCast capturedImageEvent))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))

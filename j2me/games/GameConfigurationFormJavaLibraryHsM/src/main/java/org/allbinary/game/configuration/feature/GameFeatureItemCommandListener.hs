@@ -19,10 +19,10 @@ module GameFeatureItemCommandListener where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Command -- javax.microedition.lcdui.Command
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified ItemCommandListener -- javax.microedition.lcdui.ItemCommandListener
 import qualified GameConfigurationGauge -- org.allbinary.game.configuration.GameConfigurationGauge
 import qualified GameConfigurationUtil -- org.allbinary.game.configuration.GameConfigurationUtil
@@ -66,6 +66,9 @@ instance JavaObjectClass GameFeatureItemCommandListener where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO GameFeatureItemCommandListener
 newRecord_ = do
     header_ <- newJavaHeader
@@ -96,19 +99,19 @@ init_1 this gameOptionsForm = do
         pure ()
 
 
-commandAction :: (JavaObjectClass this_) => this_ -> Command.Command -> Item.Item -> IO (())
+commandAction :: (JavaObjectClass this_) => this_ -> Command.Command -> LcduiItem.LcduiItem -> IO (())
 commandAction object_ a1 a2 = jmethod object_ "commandAction" (\() -> (commandAction_impl (javaCast object_ :: GameFeatureItemCommandListener))) () a1 a2
 
-commandAction_super :: (JavaObjectClass this_) => this_ -> Command.Command -> Item.Item -> IO (())
+commandAction_super :: (JavaObjectClass this_) => this_ -> Command.Command -> LcduiItem.LcduiItem -> IO (())
 commandAction_super object_ a1 a2 = (commandAction_impl (javaCast object_ :: GameFeatureItemCommandListener)) a1 a2
 
-commandAction_impl :: GameFeatureItemCommandListener -> Command.Command -> Item.Item -> IO (())
+commandAction_impl :: GameFeatureItemCommandListener -> Command.Command -> LcduiItem.LcduiItem -> IO (())
 commandAction_impl this command item = do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget ((jio (MidletStrings.getInstance))).cOMMAND_ACTION) e)
             ) $ do
-            itemLabel <- (Item.getLabel item)
+            itemLabel <- (LcduiItem.getLabel item)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jio (CommonLabels.getInstance))).iTEM_LABEL)))) itemLabel))))) this (jget ((jio (MidletStrings.getInstance))).cOMMAND_ACTION))
             when (javaInstanceOf item "GameConfigurationGauge") $ do
                 Control.Monad.void (GameConfigurationUtil.change ((jio (GameConfigurationUtil.getInstance))) (jget (this).gameOptionsForm) (javaCast item :: GameConfigurationGauge.GameConfigurationGauge))

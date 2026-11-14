@@ -19,10 +19,10 @@ module CategoryPrivateTree where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ instance JavaObjectClass CategoryPrivateTree where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CategoryPrivateTree
 newRecord_ = do
@@ -106,7 +109,7 @@ save_super object_ a1 = (save_impl (javaCast object_ :: CategoryPrivateTree)) a1
 save_impl :: CategoryPrivateTree -> CategoryInterface.CategoryInterface -> IO (())
 save_impl this categoryInterface = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Category File: " ++ javaToString (jio (CategoryInterface.getFilePath categoryInterface))) this "save()")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Category File: " ++ jconcatObject AbPath.toString (jio (CategoryInterface.getFilePath categoryInterface))) this "save()")
         document <- (CategoryComponent.toXmlDoc ((jio (CategoryComponent.new_1 categoryInterface))))
         cryptFileWriter <- (CryptFileWriter.new_2 (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (CategoryData.getInstance))).eNCRYPTED_EXTENSION))
         Control.Monad.void (CryptFileWriter.write cryptFileWriter (jio (CategoryInterface.getFilePath categoryInterface)) document)
@@ -128,7 +131,7 @@ delete_impl this categoryInterface = do
             categoryFile <- (AbFile.createAbFileFromAbPath (jio (CategoryInterface.getFilePath categoryInterface)))
             when (jio (AbFile.delete categoryFile)) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Removed: " ++ javaToString (jio (CategoryInterface.getFilePath categoryInterface))) this "delete(CategoryInterface)")
+                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Removed: " ++ jconcatObject AbPath.toString (jio (CategoryInterface.getFilePath categoryInterface))) this "delete(CategoryInterface)")
         else do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Not a leaf unable to remove" this "delete(CategoryInterface)")

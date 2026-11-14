@@ -20,10 +20,10 @@ import TableTag hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,9 @@ import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified Class -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PropertiesTag -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified Method -- java.lang.reflect.Method
 import qualified HashMap -- java.util.HashMap
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
@@ -150,7 +153,7 @@ doStartTag_impl this = do
             pure (sKIP_BODY)
             ) $ do
             when (jio (TableTag.isEnabled this)) $ do
-                assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
                 jset (this).propertiesHashMap (assignedValue)
                 Control.Monad.void (HashMap.put ((jget (this).propertiesHashMap)) (jget ((jio (StoreFrontData.getInstance))).nAME) (jget (this).storeName))
                 when ((jio (TableTag.getCommand this)) /= javaNull) $ do

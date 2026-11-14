@@ -19,10 +19,10 @@ module ImageModifierUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,9 @@ instance JavaObjectClass ImageModifierUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageModifierUtil
 newRecord_ = do
@@ -174,7 +177,7 @@ setAlpha2_impl :: ImageModifierUtil -> Image.Image -> Image.Image -> Int -> Floa
 setAlpha2_impl this originalImage image imageIndex alpha = do
         let htmlImage = (javaCast image :: PlaynImage.PlaynImage)
         let canvasImage = (javaCast (jio (PlaynImage.getImage htmlImage)) :: CanvasImage.CanvasImage)
-        let originalPlaynImage = (javaCast (jio (getImage (((javaCast originalImage :: PlaynImage.PlaynImage))))) :: Image.Image)
+        let originalPlaynImage = (javaCast (jio (PlaynImage.getImage (((javaCast originalImage :: PlaynImage.PlaynImage))))) :: Image.Image)
         canvas <- (CanvasImage.canvas canvasImage)
         Control.Monad.void (Canvas.clear canvas)
         Control.Monad.void (Canvas.setAlpha canvas alpha)
@@ -224,7 +227,7 @@ handleImage_super object_ a1 a2 a3 = (handleImage_impl (javaCast object_ :: Imag
 
 handleImage_impl :: ImageModifierUtil -> JavaArray (Image.Image) -> Int -> Image.Image -> IO (())
 handleImage_impl this imageArray index image = do
-        let image3 = (javaCast (jio (getImage (((javaCast image :: PlaynImage.PlaynImage))))) :: Image.Image)
+        let image3 = (javaCast (jio (PlaynImage.getImage (((javaCast image :: PlaynImage.PlaynImage))))) :: Image.Image)
         if (image3 /= javaNull) then do
             if (((jio (Image.isReady image3)) || (((jio (Image.width image3)) + (jio (Image.height image3))) <= 0)) || ((jio (Image.getName image)) == (jget ((jget (this).resourceCallbackStrings)).fROM_DATA))) then do
                 Control.Monad.void (ImageModifierUtil.copy this imageArray index image image3)
@@ -252,7 +255,7 @@ copy_impl this imageArray index image image3 = do
             ) $ do
             image2 <- (Image.createImage (jio (Image.width image3)) (jio (Image.height image3)))
             graphics <- (Image.getGraphics image2)
-            Control.Monad.void (Graphics.drawImage graphics image 0 0 (Anchor.tOP_LEFT))
+            Control.Monad.void (Graphics.drawImage graphics image 0 0 (jget Anchor.tOP_LEFT))
             jsetIndex imageArray (index) (image2)
         pure ()
 

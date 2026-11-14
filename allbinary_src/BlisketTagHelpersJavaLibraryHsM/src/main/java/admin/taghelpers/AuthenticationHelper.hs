@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -120,27 +120,40 @@ initFields_ this = do
     jset this.attemptsInteger (javaNull)
     pure ()
 
-new_2 :: HashMap.HashMap -> PageContext.PageContext -> IO AuthenticationHelper
-new_2 hashMap pageContext = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => HashMap.HashMap -> o2 -> IO AuthenticationHelper
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = new_2_overload1 a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+init_2 :: (JavaObjectClass o2) => AuthenticationHelper -> HashMap.HashMap -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = init_2_overload1 this a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+
+new_2_overload1 :: HashMap.HashMap -> PageContext.PageContext -> IO AuthenticationHelper
+new_2_overload1 hashMap pageContext = do
     this <- newRecord_
-    init_2 this hashMap pageContext
+    init_2_overload1 this hashMap pageContext
     pure this
 
-init_2 :: AuthenticationHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_2 this hashMap pageContext = do
+init_2_overload1 :: AuthenticationHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_2_overload1 this hashMap pageContext = do
         init_2 this (hashMap) (javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest)
         pure () -- this(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO AuthenticationHelper
-new_2 hashMap httpServletRequest = do
+new_2_overload2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO AuthenticationHelper
+new_2_overload2 hashMap httpServletRequest = do
     this <- newRecord_
-    init_2 this hashMap httpServletRequest
+    init_2_overload2 this hashMap httpServletRequest
     pure this
 
-init_2 :: AuthenticationHelper -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
-init_2 this hashMap httpServletRequest = do
+init_2_overload2 :: AuthenticationHelper -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
+init_2_overload2 this hashMap httpServletRequest = do
         TagHelper.init_ this.base
         initFields_ this
         assignedValue <- (WeblisketSession.new_2 hashMap httpServletRequest)
@@ -333,7 +346,7 @@ isAuthenticationSessionValid_impl this roles = do
                                 when (jio (BasicUserRole.equals basicUserRole (javaCast (jget ((jio (UserRoleFactory.getInstance))).cUSTOMER)))) $ do
                                     userEntityInterface <- (fmap (\value_ -> javaCast value_ :: UserEntityInterface.UserEntityInterface) (UserEntityFactory.getInstance))
                                     userInterface <- (UserEntityInterface.getUser userEntityInterface (jget (this).sessionUserName))
-                                    when (Prelude.not (jio (UserInterface.booleanValue ((jio (UserInterface.isSessionValid userInterface)))))) $ do
+                                    when (Prelude.not (jio (UserInterface.isSessionValid userInterface))) $ do
                                         javaReturn (False)
                                 javaReturn (True)
                     javaReturn (False)
@@ -381,7 +394,7 @@ processIfNewLogin_impl this userName password = do
                 jset login (assignedValue)
                 when ((Prelude.fromEnum (Prelude.compare (jget login) (GLOBALS2.lOGINSUCCESS)) - 1) == 0) $ do
                     userInterface <- (UserEntityInterface.getUser userEntityInterface userName)
-                    when (jio (UserInterface.booleanValue ((jio (UserInterface.isSessionValid userInterface))))) $ do
+                    when (jio (UserInterface.isSessionValid userInterface)) $ do
                         Control.Monad.void (WeblisketSession.setAttempts ((jget (this).weblisketSession)) (Prelude.fromIntegral (0) :: Int))
                         javaReturn (True)
                 Control.Monad.void (AuthenticationHelper.nextAttempt this)

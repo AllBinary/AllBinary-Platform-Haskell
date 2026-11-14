@@ -19,10 +19,10 @@ module CellPositionsUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,11 +57,15 @@ instance JavaObjectClass CellPositionsUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: CellPositionsUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CellPositionsUtil
 newRecord_ = do
@@ -78,7 +82,7 @@ newRecord_ = do
 initFields_ :: CellPositionsUtil -> IO ()
 initFields_ this = do
     jset this.reusableSingleThreadedSurroundingList =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListS.new_1 8))
-    jset this.surroundArray ((jarrayFromList [(jarrayFromList [(Prelude.negate 1), (Prelude.negate 1)]), (jarrayFromList [0, (Prelude.negate 1)]), (jarrayFromList [1, (Prelude.negate 1)]), (jarrayFromList [(Prelude.negate 1), 1]), (jarrayFromList [0, 1]), (jarrayFromList [1, 1]), (jarrayFromList [1, 0]), (jarrayFromList [(Prelude.negate 1), 0])]))
+    jset this.surroundArray ((jarrayFromList [(jarrayFromList [(Prelude.negate 1), (Prelude.negate 1)] :: JavaArray Int), (jarrayFromList [0, (Prelude.negate 1)] :: JavaArray Int), (jarrayFromList [1, (Prelude.negate 1)] :: JavaArray Int), (jarrayFromList [(Prelude.negate 1), 1] :: JavaArray Int), (jarrayFromList [0, 1] :: JavaArray Int), (jarrayFromList [1, 1] :: JavaArray Int), (jarrayFromList [1, 0] :: JavaArray Int), (jarrayFromList [(Prelude.negate 1), 0] :: JavaArray Int)] :: JavaArray (JavaArray Int)))
     pure ()
 
 new_ :: IO CellPositionsUtil

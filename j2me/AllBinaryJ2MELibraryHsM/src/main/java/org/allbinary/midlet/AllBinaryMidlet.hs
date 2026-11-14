@@ -20,10 +20,10 @@ import MIDlet hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -129,7 +129,7 @@ initFields_ this = do
 getNullInstance :: IO (AllBinaryMidlet)
 getNullInstance = do
         when ((jget AllBinaryMidlet.nULL_ALLBINARY_MIDLET) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset AllBinaryMidlet.nULL_ALLBINARY_MIDLET (assignedValue)
         pure ((javaCast (jget AllBinaryMidlet.nULL_ALLBINARY_MIDLET) :: AllBinaryMidlet))
 
@@ -159,10 +159,7 @@ setDisplay_impl this newDisplay = do
         when ((jtoObject newDisplay) /= (jtoObject NullCanvas.nULL_CANVAS)) $ do
             assignedValue <- (Displayable.getTitle newDisplay)
             jset title (assignedValue)
-            if ((jget title) /= javaNull) then do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).sETTING_)))) (jget title)))) (jget (this)._DISPLAY_)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) newDisplay))))))) this (jget (this).sET_DISPLAY))
-            else do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).sETTING_NO_TITLE)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) newDisplay))))))) this (jget (this).sET_DISPLAY))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).sETTING_)))) (jget title)))) (jget (this)._DISPLAY_)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) newDisplay))))))) this (jget (this).sET_DISPLAY))
         display <- (AllBinaryMidlet.getDisplay this)
         Control.Monad.void (Display.setCurrent display newDisplay)
         pure ()
@@ -176,7 +173,7 @@ getDisplay_super object_ = (getDisplay_impl (javaCast object_ :: AllBinaryMidlet
 
 getDisplay_impl :: AllBinaryMidlet -> IO (Display.Display)
 getDisplay_impl this = do
-        (Display.getDisplay this)
+        (Display.getDisplay (javaCast this))
 
 
 getCurrentDisplayable :: (JavaObjectClass this_) => this_ -> IO (Displayable.Displayable)
@@ -187,7 +184,7 @@ getCurrentDisplayable_super object_ = (getCurrentDisplayable_impl (javaCast obje
 
 getCurrentDisplayable_impl :: AllBinaryMidlet -> IO (Displayable.Displayable)
 getCurrentDisplayable_impl this = do
-        (Display.getCurrent ((jio (Display.getDisplay this))))
+        (Display.getCurrent ((jio (Display.getDisplay (javaCast this)))))
 
 
 setDestroyed :: (JavaObjectClass this_) => this_ -> Bool -> IO (())

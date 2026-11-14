@@ -20,10 +20,10 @@ import ProgressCanvas hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Runnable -- same package or java.lang
+import qualified RunnableCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified NullProgressActivity -- org.allbinary.android.activity.NullProgressActivity
 import qualified ProgressActivityInterface -- org.allbinary.android.activity.ProgressActivityInterface
@@ -152,7 +154,7 @@ start_impl this = do
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.base.commonStrings)).sTART_METHOD_NAME))
             Control.Monad.void (ProgressCanvas.start_super this.base)
-            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (jget (this).showTitleProgressBarRunnable))
+            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (javaCast (jget (this).showTitleProgressBarRunnable)))
         pure ()
 
 
@@ -168,7 +170,7 @@ end_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.base.base.commonStrings)).eND_METHOD_NAME) e)
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.base.commonStrings)).eND_METHOD_NAME))
-            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (jget (this).dismissTitleProgressBarRunnable))
+            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (javaCast (jget (this).dismissTitleProgressBarRunnable)))
             Control.Monad.void (ProgressCanvas.end_super this.base)
         pure ()
 
@@ -186,7 +188,7 @@ addPortion_impl this value text index = do
             ) $ do
             Control.Monad.void (ProgressCanvas.addPortion_super this.base value text index)
             jset (this).portion (value)
-            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (jget (this).progressDialogPortionSetProgressRunnable))
+            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (javaCast (jget (this).progressDialogPortionSetProgressRunnable)))
         pure ()
 
 
@@ -203,7 +205,7 @@ addNormalPortion_impl this value text = do
             ) $ do
             Control.Monad.void (ProgressCanvas.addNormalPortion_super this.base value text)
             jset (this).portion (value)
-            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (jget (this).progressDialogPortionSetProgressRunnable))
+            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (javaCast (jget (this).progressDialogPortionSetProgressRunnable)))
         pure ()
 
 
@@ -219,7 +221,7 @@ setValue_impl this value = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).eXCEPTION) this "setValue" e)
             ) $ do
             Control.Monad.void (ProgressCanvas.setValue_super this.base value)
-            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (jget (this).progressDialogSetProgressRunnable))
+            Control.Monad.void (ProgressActivityInterface.runOnUiThread ((jget (this).progressActivity)) (javaCast (jget (this).progressDialogSetProgressRunnable)))
         pure ()
 
 

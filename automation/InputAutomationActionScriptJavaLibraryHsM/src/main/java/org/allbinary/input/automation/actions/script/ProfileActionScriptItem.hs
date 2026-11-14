@@ -20,10 +20,10 @@ import DefaultMutableTreeNode hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,28 +66,40 @@ instance JavaObjectClass ProfileActionScriptItem where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+eDIT :: String
 eDIT = "Edit"
 
+dELETE :: String
 dELETE = "Delete"
 
+nEW_CONDITION :: String
 nEW_CONDITION = "New Condition"
 
+nEW_INPUT :: String
 nEW_INPUT = "New Input"
 
+nEW_OUTPUT :: String
 nEW_OUTPUT = "New Output"
 
+nEW_COLOR_AT :: String
 nEW_COLOR_AT = "Color At"
 
+nEW_TIME_INTERVAL :: String
 nEW_TIME_INTERVAL = "Time Interval"
 
+nEW_ALWAYS :: String
 nEW_ALWAYS = "Always On/Off"
 
+nEW_KEY_INPUT :: String
 nEW_KEY_INPUT = "Key"
 
+nEW_MOUSE_INPUT :: String
 nEW_MOUSE_INPUT = "Mouse"
 
+nEW_JOYSTICK_INPUT :: String
 nEW_JOYSTICK_INPUT = "Joystick"
 
+nEW_IMAGE_OUTPUT :: String
 nEW_IMAGE_OUTPUT = "Image"
 
 newRecord_ :: IO ProfileActionScriptItem

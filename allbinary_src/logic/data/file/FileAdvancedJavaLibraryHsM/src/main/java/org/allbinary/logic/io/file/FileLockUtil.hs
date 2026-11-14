@@ -19,10 +19,10 @@ module FileLockUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass FileLockUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: FileLockUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FileLockUtil
 newRecord_ = do
@@ -118,7 +122,7 @@ getAll_impl this vector isReturnOnFailure = do
             let file = (javaCast (jio (BasicArrayList.get vector index)) :: AbFile.AbFile)
             fileLock <- (FileLockUtil.getLock this file)
             if (fileLock /= javaNull) then do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("File Lock Obtained: " ++ javaToString (jio (AbFile.getAbsolutePath file))) this "getAll")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("File Lock Obtained: " ++ (jio (AbFile.getAbsolutePath file))) this "getAll")
                 Control.Monad.void (BasicArrayList.add fileLockVector fileLock)
             else when isReturnOnFailure $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Total Locks Obtained: " ++ javaToString (jio (BasicArrayList.size fileLockVector))) this "getAll")

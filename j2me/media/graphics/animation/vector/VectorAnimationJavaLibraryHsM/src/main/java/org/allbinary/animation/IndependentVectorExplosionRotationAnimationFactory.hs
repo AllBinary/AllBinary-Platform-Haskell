@@ -19,10 +19,10 @@ module IndependentVectorExplosionRotationAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass IndependentVectorExplosionRotationAnimationFactory wher
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO IndependentVectorExplosionRotationAnimationFactory
 newRecord_ = do
@@ -136,6 +139,6 @@ getInstanceAnimation_impl this animationInterface = do
             assignedValue <- (IndexedAnimation.getFrame rotationAnimationInterface)
             jset frame (assignedValue)
         points <- (VectorExplosionGenerator.getInstance_3 ((jget (this).vectorExplosionGenerator)) (jindex ((jget (this).framePoints)) ((jget frame))) 6 (jget ((jget (this).vectorExplosionGenerator)).rOTATION))
-        (VectorAnimationFactoryInterface.getInstance ((jget (this).vectorAnimationFactoryInterface)) points (jget (this).basicColor))
+        (fmap (\value_ -> javaCast value_ :: Animation.Animation) (VectorAnimationFactoryInterface.getInstance ((jget (this).vectorAnimationFactoryInterface)) points (jget (this).basicColor)))
 
 

@@ -19,10 +19,10 @@ module AllBinaryMediaManager where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified SoundsFactoryInterface -- same package or java.lang
 import qualified NoPlayer -- same package or java.lang
 import qualified PCClipWavPlayer -- same package or java.lang
 import qualified AudioContentTypeData -- same package or java.lang
+import qualified ProgressCanvas -- same package or java.lang
 import qualified BufferedInputStream -- java.io.BufferedInputStream
 import qualified ByteArrayInputStream -- java.io.ByteArrayInputStream
 import qualified IOException -- java.io.IOException
@@ -70,12 +71,17 @@ instance JavaObjectClass AllBinaryMediaManager where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tHIS :: String
 tHIS = "AllBinaryMediaManagerPC"
 
+cREATE_PLAYER :: String
 cREATE_PLAYER = "createPlayer"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryMediaManager
 newRecord_ = do
@@ -151,7 +157,7 @@ createPlayer resource = do
                 ) $ do
                 inputStream <- (ResourceUtil.getResourceAsStream ((jio (ResourceUtil.getInstance))) resource)
                 bufferedInputStream <- (BufferedInputStream.new_1 inputStream)
-                javaReturn =<< (fmap (\value_ -> javaCast value_ :: Player.Player) (PCClipWavPlayer.new_1 bufferedInputStream))
+                javaReturn =<< (fmap (\value_ -> javaCast value_ :: Player.Player) (PCClipWavPlayer.new_1 (javaCast bufferedInputStream)))
         else do
             javaReturn ((javaCast NoPlayer.nO_PLAYER :: Player.Player))
 

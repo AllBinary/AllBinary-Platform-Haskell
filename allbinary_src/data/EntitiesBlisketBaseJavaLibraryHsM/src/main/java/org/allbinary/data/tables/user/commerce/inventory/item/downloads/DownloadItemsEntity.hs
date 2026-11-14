@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -106,7 +110,7 @@ new_ = do
 
 init_ :: DownloadItemsEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (InventoryDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (InventoryDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -170,7 +174,7 @@ getForItem_super object_ a1 = (getForItem_impl (javaCast object_ :: DownloadItem
 getForItem_impl :: DownloadItemsEntity -> String -> IO (BasicArrayList.BasicArrayList)
 getForItem_impl this id = do
         returnVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jget this.basicItemData)).iD) id)
         vector <- (AbSqlBean.getRows_super this.base keysAndValues)
         size <- (BasicArrayList.size vector)
@@ -191,7 +195,7 @@ getForItem_2_super object_ a1 a2 = (getForItem_2_impl (javaCast object_ :: Downl
 getForItem_2_impl :: DownloadItemsEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
 getForItem_2_impl this id downloadItemId = do
         returnVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jget this.basicItemData)).iD) id)
         Control.Monad.void (HashMap.put keysAndValues (DownloadItemData.iD) downloadItemId)
         vector <- (AbSqlBean.getRows_super this.base keysAndValues)

@@ -20,10 +20,10 @@ import BasicLayerProcessor hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,7 @@ instance JavaObjectClass DropLayerProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+lAYER_PROCESSOR :: BasicLayerProcessor.BasicLayerProcessor
 {-# NOINLINE lAYER_PROCESSOR #-}
 lAYER_PROCESSOR = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicLayerProcessor.BasicLayerProcessor) (new_)))
 

@@ -37,13 +37,13 @@
         <module>../working_thirdpartyhaskell/embedded/j2me/microemulator/2_0_4/microemu-extensions/microemu-jsr-135Hs</module>
         
         <module>./j2me/AllBinaryBaseLibraryPOHsM</module>
-        <module>./j2me/AllBinaryJ2MELibraryP</module>
-        <module>./AllBinaryPersistenceLibraryP</module>
+        <module>./j2me/AllBinaryJ2MELibraryHsP</module>
+        <module>./AllBinaryPersistenceLibraryHsP</module>
 
-        <module>./automation/InputAutomationToolsP</module>
-        <module>./graphics/GraphicsToolsP</module>
-        <module>./allbinary_src/FreeblisketJavaLibraryP</module>
-        <module>./j2me/games/platform/AllBinaryOnAllPlatformsJavaLibraryP</module>
+        <!--<module>./automation/InputAutomationToolsHsP</module>-->
+        <module>./graphics/GraphicsToolsHsP</module>
+        <!--<module>./allbinary_src/FreeblisketJavaLibraryHsP</module>-->
+        <module>./j2me/games/platform/AllBinaryOnAllPlatformsJavaLibraryHsP</module>
 
         <!--
         <module>./j2me/media/graphics/animation/image/AllBinaryHTMLImageAnimationRotationJavaLibraryHsM</module>

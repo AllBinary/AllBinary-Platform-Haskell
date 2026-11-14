@@ -19,10 +19,10 @@ module SelectionTool where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,6 +40,7 @@ import qualified MouseEvent -- same package or java.lang
 import qualified MouseStrings -- same package or java.lang
 import qualified KeyEvent -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified MutableTreeNode -- javax.swing.tree.MutableTreeNode
 import qualified GPoint -- org.allbinary.graphics.GPoint
@@ -81,10 +82,14 @@ instance JavaObjectClass SelectionTool where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Selection Tool"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SelectionTool
 newRecord_ = do
@@ -340,12 +345,12 @@ makeSelection_impl this = do
         yRect <- (SelectionTool.getYRect this)
         let yRect2 = ((Prelude.abs ((jio (GPoint.getY ((jget (this).endPoint)))) - (jio (GPoint.getY ((jget (this).startPoint)))))) + yRect)
         hashMap <- (CanvasJPanel.getGraphicItemHashMap ((jget (this).canvasJPanel)))
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet hashMap))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet hashMap))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get hashMap (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
             when ((jio (GraphicItemInterface.getName item)) == (jio (LinesGraphicItem.getStaticName))) $ do
-                if (jio (RectangleCollisionPointUtil.allPointsInsideCell xRect yRect xRect2 yRect2 (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel ((jget (this).canvasJPanel)))) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel ((jget (this).canvasJPanel)))))) then do
+                if (jio (RectangleCollisionPointUtil.allPointsInsideCell xRect yRect xRect2 yRect2 (jio (Points.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel ((jget (this).canvasJPanel)))) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel ((jget (this).canvasJPanel)))))) then do
                     Control.Monad.void (GraphicItemInterface.setColor item (Color.yELLOW))
                     Control.Monad.void (GraphicItemInterface.activate item)
                 else when (Prelude.not (jget (this).controlIdDown)) $ do

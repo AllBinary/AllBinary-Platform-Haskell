@@ -16,14 +16,14 @@
 -- package org.allbinary.animation.vector
 module RectangleFilledAnimation (module RectangleFilledAnimation, module Animation) where
 
-import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, nextFrame, nextFrame_super, nextFrame_impl, paintXY, paintXY_super, paintXY_impl, setWidth, setWidth_super, setWidth_impl, setHeight, setHeight_super, setHeight_impl, widthP, heightP)
+import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, nextFrame, nextFrame_super, nextFrame_impl, paintXY, paintXY_super, paintXY_impl, setWidth, setWidth_super, setWidth_impl, setHeight, setHeight_super, setHeight_impl, getBasicColorP, getBasicColorP_super, getBasicColorP_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, widthP, heightP)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -72,6 +72,8 @@ newRecord_ = do
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     jregisterMethod header_ "setWidth" (\() -> setWidth_impl this)
     jregisterMethod header_ "setHeight" (\() -> setHeight_impl this)
+    jregisterMethod header_ "getBasicColorP" (\() -> getBasicColorP_impl this)
+    jregisterMethod header_ "setBasicColorP" (\() -> setBasicColorP_impl this)
     pure this
 
 initFields_ :: RectangleFilledAnimation -> IO ()
@@ -92,7 +94,7 @@ init_3 this width height basicColor = do
         initFields_ this
         jset (this).widthP (width)
         jset (this).heightP (height)
-        Control.Monad.void (Animation.setBasicColorP this basicColor)
+        Control.Monad.void (RectangleFilledAnimation.setBasicColorP this basicColor)
         pure ()
 
 
@@ -115,7 +117,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: RectangleFil
 
 paintXY_impl :: RectangleFilledAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (Animation.getBasicColorP this)) (jio (Animation.getColor this)))
+        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (RectangleFilledAnimation.getBasicColorP this)) (jio (Animation.getColor this)))
         Control.Monad.void (Graphics.fillRect graphics x y (jget (this).widthP) (jget (this).heightP))
         pure ()
 
@@ -141,6 +143,29 @@ setHeight_super object_ a1 = (setHeight_impl (javaCast object_ :: RectangleFille
 setHeight_impl :: RectangleFilledAnimation -> Int -> IO (())
 setHeight_impl this height = do
         jset (this).heightP (height)
+        pure ()
+
+
+getBasicColorP :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP object_ = jmethod object_ "getBasicColorP" (\() -> (getBasicColorP_impl (javaCast object_ :: RectangleFilledAnimation))) ()
+
+getBasicColorP_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP_super object_ = (getBasicColorP_impl (javaCast object_ :: RectangleFilledAnimation))
+
+getBasicColorP_impl :: RectangleFilledAnimation -> IO (BasicColor.BasicColor)
+getBasicColorP_impl this = do
+        (Animation.getBasicColorP_super this.base)
+
+
+setBasicColorP :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP object_ a1 = jmethod object_ "setBasicColorP" (\() -> (setBasicColorP_impl (javaCast object_ :: RectangleFilledAnimation))) () a1
+
+setBasicColorP_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: RectangleFilledAnimation)) a1
+
+setBasicColorP_impl :: RectangleFilledAnimation -> BasicColor.BasicColor -> IO (())
+setBasicColorP_impl this basicColor = do
+        Control.Monad.void (Animation.setBasicColorP_super this.base basicColor)
         pure ()
 
 

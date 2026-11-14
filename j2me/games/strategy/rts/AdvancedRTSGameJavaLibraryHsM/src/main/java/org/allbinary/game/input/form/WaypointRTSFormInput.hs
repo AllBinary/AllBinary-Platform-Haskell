@@ -20,10 +20,10 @@ import RTSFormInput hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,11 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PrimaryWaypointHelper -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
+import qualified AdvancedPlayerOwnedRTSLayers -- same package or java.lang
+import qualified WaypointBase -- same package or java.lang
+import qualified WaypointBehaviorBase -- same package or java.lang
+import qualified WaypointEventHandler -- same package or java.lang
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified RTSPlayerGameInput -- org.allbinary.game.input.RTSPlayerGameInput
 import qualified AdvancedRTSGameLayer -- org.allbinary.game.layer.AdvancedRTSGameLayer
@@ -126,7 +131,7 @@ newRecord_ = do
 
 initFields_ :: WaypointRTSFormInput -> IO ()
 initFields_ this = do
-    jset this.wAYPOINT_EVENT =<< (RTSLayerEvent.new_1 (NullRTSLayer.nULL_RTS_LAYER))
+    jset this.wAYPOINT_EVENT =<< (RTSLayerEvent.new_1 (javaCast NullRTSLayer.nULL_RTS_LAYER))
     jset this.dragToSpotGameNotificationEvent (javaNull)
     jset this.spotTakenGameNotificationEvent (javaNull)
     jset this.buildingCollisionGameNotificationEvent (javaNull)
@@ -232,7 +237,7 @@ processCellPosition_impl this rtsPlayerLayerInterface layerManager geographicMap
             cellPoint <- (GeographicMapCellPosition.getPoint geographicMapCellPosition)
             let rtsLayer = (javaCast (jindex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex)) :: RTSLayer.RTSLayer)
             Control.Monad.void (RTSLayer.setPosition rtsLayer (jio (GPoint.getX cellPoint)) (jio (GPoint.getY cellPoint)) (jio (RTSLayer.getZP rtsLayer)))
-            let geographicMapCompositeInterface = (javaCast (jget (rtsLayer).allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
+            let geographicMapCompositeInterface = (javaCast (jget (rtsLayer).base.base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
             let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
             Control.Monad.void (GeographicMapCellPositionAreaBase.update ((jget (rtsLayer).geographicMapCellPositionAreaBase)) geographicMapInterface)
         Control.Monad.void (WaypointRTSFormInput.attemptBuild this rtsPlayerLayerInterface layerManager (javaCast (jindex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex)) :: RTSLayer.RTSLayer) itemIndex)
@@ -248,7 +253,7 @@ processStickyGameSpecific_super object_ a1 a2 a3 a4 a5 = (processStickyGameSpeci
 
 processStickyGameSpecific_impl :: WaypointRTSFormInput -> CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> ABCustomItem.ABCustomItem -> Int -> IO (())
 processStickyGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager item index = do
-        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ("Set Sticking Item: " ++ javaToString item) this "processSticky")
+        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ("Set Sticking Item: " ++ jconcatObject ABCustomItem.toString item) this "processSticky")
         Control.Monad.void (RTSFormInput.setSelectedStickyItem this item)
         Control.Monad.void (RTSFormInput.setSelectedStickyItemIndex this index)
         Control.Monad.void (RTSFormInput.setStickyItemSelected this True)
@@ -267,7 +272,7 @@ attemptBuild_super object_ a1 a2 a3 a4 = (attemptBuild_impl (javaCast object_ ::
 attemptBuild_impl :: WaypointRTSFormInput -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> RTSLayer.RTSLayer -> Int -> IO (Bool)
 attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemIndex = do
     javaCatchReturn $ do
-        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ("Layer: " ++ javaToString layerInterface) this "attemptBuild")
+        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ("Layer: " ++ jconcatObject RTSLayer.toString layerInterface) this "attemptBuild")
         when (layerInterface == javaNull) $ do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) "Layer was null" this "attemptBuild" (JavaException "Exception" ""))
             javaReturn (False)
@@ -313,7 +318,7 @@ attemptBuild_impl this rtsPlayerLayerInterface layerManager layerInterface itemI
             let rtsPlayerGameInput = (javaCast (jio (RTSPlayerLayerInterface.getPlayerGameInput rtsPlayerLayerInterface)) :: RTSPlayerGameInput.RTSPlayerGameInput)
             Control.Monad.void (RTSPlayerGameInput.setSelectedRTSLayer rtsPlayerGameInput (javaCast layerInterface) geographicMapCellPosition)
             let advancedRTSPlayerLayerInterface = (javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface)
-            Control.Monad.void (AdvancedRTSPlayerLayerInterface.addWaypoint ((jio (AdvancedRTSPlayerLayerInterface.getAdvancedPlayerOwnedRTSLayers advancedRTSPlayerLayerInterface))) layerInterface)
+            Control.Monad.void (AdvancedPlayerOwnedRTSLayers.addWaypoint ((jio (AdvancedRTSPlayerLayerInterface.getAdvancedPlayerOwnedRTSLayers advancedRTSPlayerLayerInterface))) layerInterface)
             Control.Monad.void (AllBinaryLayerManager.append layerManager (javaCast layerInterface))
             let waypointAvancedRTSGameLayer = (javaCast waypointLayer :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
             Control.Monad.void (RTSPlayerLayerInterface.add rtsPlayerLayerInterface (jio (WaypointBase.getSound ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior waypointAvancedRTSGameLayer)))))))))

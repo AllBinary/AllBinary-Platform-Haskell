@@ -7,10 +7,10 @@ module BufferedImageUtil2 where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,11 +42,15 @@ instance JavaObjectClass BufferedImageUtil2 where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BufferedImageUtil2
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BufferedImageUtil2
 newRecord_ = do
@@ -94,7 +98,7 @@ createSpriteImage_impl this bufferedImageArray = do
         jset rows ((((jlength bufferedImageArray) `quot` (jget columns))))
         when (((jlength bufferedImageArray) `rem` (jget columns)) /= 0) $ do
             jset rows ((jget rows) + 1)
-        bufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) ((jio (getWidth ((jindex bufferedImageArray (0))) javaNull)) * (jget columns)) ((jio (getHeight ((jindex bufferedImageArray (0))) javaNull)) * (jget rows)))
+        bufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) ((jio (BufferedImage.getWidth ((jindex bufferedImageArray (0))) javaNull)) * (jget columns)) ((jio (BufferedImage.getHeight ((jindex bufferedImageArray (0))) javaNull)) * (jget rows)))
         g <- (BufferedImage.createGraphics bufferedImage)
         columnIndex <- newIORef (0)
         rowIndex <- newIORef (0)
@@ -102,7 +106,7 @@ createSpriteImage_impl this bufferedImageArray = do
             when (((index `quot` max) /= 0) && ((index `rem` max) == 0)) $ do
                 jset rowIndex ((jget rowIndex) + 1)
                 jset columnIndex (0)
-            Control.Monad.void (Graphics2D.drawImage g (jindex bufferedImageArray (index)) ((jio (getWidth ((jindex bufferedImageArray (index))) javaNull)) * (jget columnIndex)) ((jio (getHeight ((jindex bufferedImageArray (index))) javaNull)) * (jget rowIndex)) (jio (getWidth ((jindex bufferedImageArray (index))) javaNull)) (jio (getHeight ((jindex bufferedImageArray (index))) javaNull)) javaNull)
+            Control.Monad.void (Graphics2D.drawImage g (jindex bufferedImageArray (index)) ((jio (BufferedImage.getWidth ((jindex bufferedImageArray (index))) javaNull)) * (jget columnIndex)) ((jio (BufferedImage.getHeight ((jindex bufferedImageArray (index))) javaNull)) * (jget rowIndex)) (jio (BufferedImage.getWidth ((jindex bufferedImageArray (index))) javaNull)) (jio (BufferedImage.getHeight ((jindex bufferedImageArray (index))) javaNull)) javaNull)
             jset columnIndex ((jget columnIndex) + 1)
         Control.Monad.void (Graphics2D.dispose g)
         pure (bufferedImage)

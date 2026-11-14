@@ -19,10 +19,10 @@ module PlayerComposite where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,6 +71,9 @@ instance JavaObjectClass PlayerComposite where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PlayerComposite
 newRecord_ = do
@@ -218,7 +221,7 @@ getTimeBase_super object_ = (getTimeBase_impl (javaCast object_ :: PlayerComposi
 
 getTimeBase_impl :: PlayerComposite -> IO (TimeBase.TimeBase)
 getTimeBase_impl this = do
-        (getTimeBase (((javaCast (jget (this).player) :: TimeBaseInterface.TimeBaseInterface))))
+        (TimeBaseInterface.getTimeBase (((javaCast (jget (this).player) :: TimeBaseInterface.TimeBaseInterface))))
 
 
 -- throws MediaException
@@ -230,7 +233,7 @@ setTimeBase_super object_ a1 = (setTimeBase_impl (javaCast object_ :: PlayerComp
 
 setTimeBase_impl :: PlayerComposite -> TimeBase.TimeBase -> IO (())
 setTimeBase_impl this timeBase = do
-        Control.Monad.void (setTimeBase (((javaCast (jget (this).player) :: TimeBaseInterface.TimeBaseInterface))) timeBase)
+        Control.Monad.void (TimeBaseInterface.setTimeBase (((javaCast (jget (this).player) :: TimeBaseInterface.TimeBaseInterface))) timeBase)
         pure ()
 
 

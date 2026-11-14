@@ -19,10 +19,10 @@ module AbeClientLicense where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -124,7 +124,7 @@ init_1 this hashtable = do
         stringUtil <- (StringUtil.getInstance)
         Control.Monad.void (AbeClientLicense.setSpecial this (jio (StringUtil.getNonNull stringUtil (javaCast (jio (ABHashtable.get hashtable (jget (abeClientInformationData).sPECIAL))) :: String))))
         licenseTypeString <- (StringUtil.getNonNull stringUtil (javaCast (jio (ABHashtable.get hashtable (jget (abeClientInformationData).lICENSE_TYPE))) :: String))
-        assignedValue <- (LicenseTypeFactory.getInstance_1 ((jio (LicenseTypeFactory.getInstance))) licenseTypeString)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: LicenseType.LicenseType) (LicenseTypeFactory.getInstance_1 ((jio (LicenseTypeFactory.getInstance))) licenseTypeString))
         jset (this).licenseType (assignedValue)
         pure ()
 

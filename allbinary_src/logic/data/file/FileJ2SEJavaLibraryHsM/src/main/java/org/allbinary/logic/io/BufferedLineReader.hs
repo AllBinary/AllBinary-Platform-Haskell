@@ -19,10 +19,10 @@ module BufferedLineReader where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,6 +57,9 @@ instance JavaObjectClass BufferedLineReader where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO BufferedLineReader
 newRecord_ = do
     header_ <- newJavaHeader
@@ -65,6 +68,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "readUpToLines" (\() -> readUpToLines_impl this)
     jregisterMethod header_ "readLine" (\() -> readLine_impl this)
+    jregisterMethod header_ "ready" (\() -> ready_impl this)
     jregisterMethod header_ "getSize" (\() -> getSize_impl this)
     jregisterMethod header_ "getCurrent" (\() -> getCurrent_impl this)
     pure this
@@ -109,6 +113,18 @@ readLine_super object_ = (readLine_impl (javaCast object_ :: BufferedLineReader)
 readLine_impl :: BufferedLineReader -> IO (String)
 readLine_impl this = do
         (BufferedReader.readLine ((jget (this).tmpIn)))
+
+
+-- throws Exception
+ready :: (JavaObjectClass this_) => this_ -> IO (Bool)
+ready object_ = jmethod object_ "ready" (\() -> (ready_impl (javaCast object_ :: BufferedLineReader))) ()
+
+ready_super :: (JavaObjectClass this_) => this_ -> IO (Bool)
+ready_super object_ = (ready_impl (javaCast object_ :: BufferedLineReader))
+
+ready_impl :: BufferedLineReader -> IO (Bool)
+ready_impl this = do
+        (BufferedReader.ready ((jget (this).tmpIn)))
 
 
 getSize :: (JavaObjectClass this_) => this_ -> IO (Int64)

@@ -16,14 +16,14 @@
 -- package views.admin.orderhistory
 module UserNameOrderHistoryView (module UserNameOrderHistoryView, module HttpStoreComponentView) where
 
-import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, addDomNodeInterfaces, addDomNodeInterfaces_super, addDomNodeInterfaces_impl, view, view_super, view_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, logUtil, request, userName, shipped, partiallyShipped, processing, preprocessing, cancelled, oN)
+import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, addDomNodeInterfaces, addDomNodeInterfaces_super, addDomNodeInterfaces_impl, view, view_super, view_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, request, userName, shipped, partiallyShipped, processing, preprocessing, cancelled, oN)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PageContext -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -105,6 +106,7 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: UserNameOrderHistoryView -> IO ()
@@ -258,9 +260,21 @@ validationInfo_impl :: UserNameOrderHistoryView -> IO (String)
 validationInfo_impl this = do
     javaCatchReturn $ do
         when ((jget (this).userName) == javaNull) $ do
-            pure ("No User Name Specified<br />")
+            javaReturn ("No User Name Specified<br />")
         when ((jio (UserName.isValid_1 ((jio (UserName.getInstance))) (jget (this).userName))) == False) $ do
             javaReturn ("Invalid User Name<br />")
         pure ("Unknown Error<br />")
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: UserNameOrderHistoryView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: UserNameOrderHistoryView))
+
+getTransformInfoInterface_impl :: UserNameOrderHistoryView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (HttpStoreComponentView.getTransformInfoInterface_super this.base)
 
 

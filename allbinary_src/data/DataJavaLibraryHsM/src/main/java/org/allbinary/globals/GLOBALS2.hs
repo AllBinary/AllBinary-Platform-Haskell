@@ -19,10 +19,10 @@ module GLOBALS2 where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,138 +49,206 @@ instance JavaObjectClass GLOBALS2 where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+gETCURRENTLOCATION :: String
 gETCURRENTLOCATION = "Get Current Location"
 
+gETCURRENTHOMELOCATION :: String
 gETCURRENTHOMELOCATION = "Get Current Home Location"
 
+gENERATEALLSTORES :: String
 gENERATEALLSTORES = "Generate All Stores"
 
+lICENSEAGREEMENT :: String
 lICENSEAGREEMENT = "License Agreement"
 
+cREATEDATABASES :: String
 cREATEDATABASES = "Create Databases"
 
+vIEWNAME :: String
 vIEWNAME = "VIEW_NAME"
 
+sETSHIPPINGTYPE :: String
 sETSHIPPINGTYPE = "Set Shipping Type"
 
+vIEWSUMMARY :: String
 vIEWSUMMARY = "View Summary"
 
+sET :: String
 sET = "Set"
 
+sELECT :: String
 sELECT = "Select"
 
+sELECTNEW :: String
 sELECTNEW = "Select New"
 
+sELECTEXISTING :: String
 sELECTEXISTING = "Select Existing"
 
+pROCESS :: String
 pROCESS = "Process"
 
+lOGINSUCCESS :: String
 lOGINSUCCESS = "Login Successful"
 
+lOGINFAILED :: String
 lOGINFAILED = "Login Failed"
 
+nONE :: String
 nONE = "None"
 
+tOP :: String
 tOP = "Top"
 
+lEFT :: String
 lEFT = "Left"
 
+rIGHT :: String
 rIGHT = "Right"
 
+bACK :: String
 bACK = "Back"
 
+bOTTOM :: String
 bOTTOM = "Bottom"
 
+fRONT :: String
 fRONT = "Front"
 
+aUTHORIZE :: String
 aUTHORIZE = "Authorize"
 
+aUTHORIZEANDEVALBODY :: String
 aUTHORIZEANDEVALBODY = "Authorize AND EVAL BODY"
 
+aUTHORIZEANDEVALBODYONERROR :: String
 aUTHORIZEANDEVALBODYONERROR = "Authorize AND EVAL BODY On Error"
 
+aUTHORIZEORDEREVALBODYONERROR :: String
 aUTHORIZEORDEREVALBODYONERROR = "Authorize Order Eval On Error"
 
+aUTHORIZEFORMEVALBODYONERROR :: String
 aUTHORIZEFORMEVALBODYONERROR = "Authorize Form Eval On Error"
 
+aUTHORIZEORDERANDSKIPBODY :: String
 aUTHORIZEORDERANDSKIPBODY = "Authorize Order Skip"
 
+aUTHORIZEORDERANDEVALBODY :: String
 aUTHORIZEORDERANDEVALBODY = "Authorize Order Eval"
 
+eDITPRICING :: String
 eDITPRICING = "Edit Pricing"
 
+uPDATEPRICING :: String
 uPDATEPRICING = "Update Pricing"
 
+sETPAYMENTMETHOD :: String
 sETPAYMENTMETHOD = "Set Payment Method"
 
+bACKUP :: String
 bACKUP = "Backup"
 
+rESTORE :: String
 rESTORE = "Restore"
 
+sUMMARY :: String
 sUMMARY = "Summary"
 
+dESCRIPTION :: String
 dESCRIPTION = "Description"
 
+iMG :: String
 iMG = "img"
 
+hREF :: String
 hREF = "href"
 
+kEYWORD :: String
 kEYWORD = "keyword"
 
+tYPE :: String
 tYPE = "TYPE"
 
+dATA :: String
 dATA = "DATA"
 
+nUM :: String
 nUM = "NUM"
 
+pRICE :: String
 pRICE = "PRICE"
 
+rEGISTER :: String
 rEGISTER = "Register"
 
+cHECKOUT :: String
 cHECKOUT = "Checkout"
 
+aDMINCOMMAND :: String
 aDMINCOMMAND = "AdminCommand"
 
+pROCESSBODYIFNOTAUTHENTICATED :: String
 pROCESSBODYIFNOTAUTHENTICATED = "Not Authenticated"
 
+pROCESSBODYIFAUTHENTICATED :: String
 pROCESSBODYIFAUTHENTICATED = "Authenticated"
 
+pROCESSTRANSACTION :: String
 pROCESSTRANSACTION = "Process Transaction"
 
+nEWPASSWORD :: String
 nEWPASSWORD = "New Password"
 
+cHANGEPASSWORD :: String
 cHANGEPASSWORD = "Change Password"
 
+jDBCDRIVER :: String
 jDBCDRIVER = "Jdbc Driver"
 
+wEBAPPPATH :: String
 wEBAPPPATH = "Webapp Path"
 
+aMOUNTVALUE :: String
 aMOUNTVALUE = "Amount Value"
 
+gETORDERIDFROMSESSION :: String
 gETORDERIDFROMSESSION = "Get Order Id From Session"
 
+sETUPPAYMENTMETHODS :: String
 sETUPPAYMENTMETHODS = "Setup Payment Methods"
 
+cANCELSTOREFRONT :: String
 cANCELSTOREFRONT = "Cancel Store Front"
 
+aDJUST :: String
 aDJUST = "Adjust"
 
+iSASUBSET :: String
 iSASUBSET = "Is a Subset"
 
+nOTASUBSET :: String
 nOTASUBSET = "Not a Subset"
 
+gENERATE :: String
 gENERATE = "Generate"
 
+vIEW :: String
 vIEW = "View"
 
+eDIT :: String
 eDIT = "Edit"
 
+nEW :: String
 nEW = "New"
 
+sEARCH :: String
 sEARCH = "Search"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GLOBALS2
 newRecord_ = do

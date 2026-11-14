@@ -20,10 +20,10 @@ import HtmlValueInput hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -100,7 +100,7 @@ setMaxLength_super object_ a1 = (setMaxLength_impl (javaCast object_ :: HtmlLeng
 
 setMaxLength_impl :: HtmlLengthInput -> Int -> IO (())
 setMaxLength_impl this length = do
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: Integer.Integer) (jnewString (javaToString length)))
+        assignedValue <- (jnewString (javaToString length))
         (jlength this) <- pure (assignedValue)
         Control.Monad.void (HtmlValueInput.addAttribute this (jget (this).mAXLENGTH) (jlength this))
         pure ()
@@ -114,7 +114,7 @@ setSize_super object_ a1 = (setSize_impl (javaCast object_ :: HtmlLengthInput)) 
 
 setSize_impl :: HtmlLengthInput -> Int -> IO (())
 setSize_impl this size = do
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: Integer.Integer) (jnewString (javaToString size)))
+        assignedValue <- (jnewString (javaToString size))
         jset (this).size (assignedValue)
         Control.Monad.void (HtmlValueInput.addAttribute this (jget (this).mAXLENGTH) (jget (this).size))
         pure ()

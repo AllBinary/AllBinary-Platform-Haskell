@@ -7,10 +7,10 @@ module MusicManager where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,6 +76,9 @@ instance JavaObjectClass MusicManager where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MusicManager
 newRecord_ = do
@@ -157,7 +160,7 @@ nextSong_impl :: MusicManager -> Sound.Sound -> Int -> Int -> IO (())
 nextSong_impl this nextSongSound leftVolume rightVolume = do
         nextSongSound <- newIORef nextSongSound
         when ((jget nextSongSound) == javaNull) $ do
-            assignedValue <- (NoSound.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Sound.Sound) (NoSound.getInstance))
             jset nextSongSound (assignedValue)
         jset (this).nextSongSound ((jget nextSongSound))
         jset (this).leftVolume (leftVolume)
@@ -236,7 +239,7 @@ startNewSong_impl this = do
                 jset (this).currentSongSound ((javaCast (jio (BasicArrayListUtil.getRandom ((jget (this).basicArrayListUtil)) (jget (this).songList))) :: Sound.Sound))
             else do
                 jset (this).currentSongSound ((jget (this).nextSongSound))
-                assignedValue <- (NoSound.getInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: Sound.Sound) (NoSound.getInstance))
                 jset (this).nextSongSound (assignedValue)
             let duration = (Prelude.fromIntegral (jio (Sound.getDuration ((jget (this).currentSongSound)))))
             Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendlong ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).pLAY)))) (jio (Sound.getResource ((jget (this).currentSongSound))))))) (jget (this).fOR)))) duration))))) this (jget ((jget (this).commonStrings)).pROCESS))

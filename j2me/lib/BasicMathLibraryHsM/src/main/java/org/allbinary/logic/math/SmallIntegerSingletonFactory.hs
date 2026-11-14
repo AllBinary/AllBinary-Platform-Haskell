@@ -19,10 +19,10 @@ module SmallIntegerSingletonFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass SmallIntegerSingletonFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SmallIntegerSingletonFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SmallIntegerSingletonFactory
 newRecord_ = do
@@ -249,8 +253,7 @@ getString_impl :: SmallIntegerSingletonFactory -> Int -> IO (String)
 getString_impl this index = do
         let i = (index + (jget (this).nEGATIVE_MAX))
         when ((jindex ((jget (this).sTRING_ARRAY)) (i)) == javaNull) $ do
-            assignedValue <- (toString ((jindex ((jget (this).iNTEGER_ARRAY)) (i))))
-            jsetIndex ((jget (this).sTRING_ARRAY)) (i) (assignedValue)
+            jsetIndex ((jget (this).sTRING_ARRAY)) (i) ((javaToString (jindex ((jget (this).iNTEGER_ARRAY)) (i))))
         pure ((jindex ((jget (this).sTRING_ARRAY)) (i)))
 
 

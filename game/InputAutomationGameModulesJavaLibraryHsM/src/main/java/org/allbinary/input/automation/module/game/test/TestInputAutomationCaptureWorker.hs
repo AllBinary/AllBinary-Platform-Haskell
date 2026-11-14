@@ -20,10 +20,10 @@ import AbstractInputAutomationWorker hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -127,9 +127,9 @@ processDataWorkerResults_super object_ = (processDataWorkerResults_impl (javaCas
 processDataWorkerResults_impl :: TestInputAutomationCaptureWorker -> IO (())
 processDataWorkerResults_impl this = do
         let cacheInterface = (javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: J2SECacheInterface.J2SECacheInterface)
-        if ((jio (J2SECacheInterface.size ((jio (J2SECacheInterface.keySet cacheInterface))))) > 0) then do
+        if ((jio (Set.size ((jio (J2SECacheInterface.keySet cacheInterface))))) > 0) then do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).iMAGE_AVAILABLE_SO_PROCESSING) this (jget (this).pROCESS_DATA_WORKER_RESULTS))
-            let anyType = (jindex ((jio (J2SECacheInterface.toArray ((jio (J2SECacheInterface.keySet cacheInterface)))))) (0))
+            let anyType = (jindex ((jio (Set.toArray ((jio (J2SECacheInterface.keySet cacheInterface)))))) (0))
             hashMap <- (GenericProfileActions.getHashMap ((jio (TestInputAutomationCaptureWorker.getGenericProfileActions this))))
             set <- (HashMap.keySet hashMap)
             actionNameArray <- (Set.toArray set)
@@ -139,6 +139,7 @@ processDataWorkerResults_impl this = do
                 let genericProfileAction = (javaCast (jio (HashMap.get hashMap actionNameString)) :: GenericProfileAction.GenericProfileAction)
                 genericProfileActionScript <- (GenericProfileAction.getGenericProfileActionScript genericProfileAction)
                 vector <- (GenericProfileActionScript.getProfileActionConditionInterfaceVector genericProfileActionScript)
+                pure ()
             Control.Monad.void (J2SECacheInterface.get cacheInterface anyType)
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).iMAGE_NOT_AVAILABLE) this (jget (this).pROCESS_DATA_WORKER_RESULTS))

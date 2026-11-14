@@ -20,10 +20,10 @@ import HighScoresBase hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,6 +39,7 @@ import qualified ScoreComparator -- same package or java.lang
 import qualified LastFetchHighScoresFactory -- same package or java.lang
 import qualified HighScoresHelper2 -- same package or java.lang
 import qualified HighScoresHelperBaseInterface -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified BasicHighScoresGameInfoFactory -- org.allbinary.game.BasicHighScoresGameInfoFactory

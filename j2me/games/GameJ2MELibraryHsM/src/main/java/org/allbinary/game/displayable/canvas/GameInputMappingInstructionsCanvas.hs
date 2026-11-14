@@ -20,10 +20,10 @@ import GameCommandCanvas hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,9 @@ import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
 import qualified DisplayInfoSingleton -- same package or java.lang
+import qualified Font -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -70,12 +72,15 @@ instance JavaObjectClass GameInputMappingInstructionsCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dISPLAY :: Command.Command
 {-# NOINLINE dISPLAY #-}
 dISPLAY = unsafePerformIO ((Command.new_4 "Help" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 1))
 
+cLOSE :: Command.Command
 {-# NOINLINE cLOSE #-}
 cLOSE = unsafePerformIO ((Command.new_4 "Close" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 1))
 
+nAME :: String
 nAME = "GameInputMappingInstructionsCanvas"
 
 newRecord_ :: IO GameInputMappingInstructionsCanvas
@@ -114,7 +119,7 @@ init_2 this commandListener allBinaryGameLayerManager = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
-        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False))
         jset (this).colorFillPaintable (assignedValue)
         pure ()
 
@@ -144,7 +149,7 @@ paint_impl this graphics = do
         Control.Monad.void (MyFontProcessor.process ((jget (this).base.myFontProcessor)) graphics)
         Control.Monad.void (ColorFillBasePaintable.paint ((jget (this).colorFillPaintable)) graphics)
         halfWidth <- (DisplayInfoSingleton.getLastHalfWidth ((jget (this).base.base.displayInfo)))
-        let beginWidth = (((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).tITLE))) `Data.Bits.shiftR` 1))
+        let beginWidth = (((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).tITLE))) `Data.Bits.shiftR` 1))
         Control.Monad.void (Graphics.setColor graphics (jget (this).base.foregroundColor))
         Control.Monad.void (Graphics.drawString graphics (jget (this).tITLE) (halfWidth - beginWidth) (jget (this).base.fontHeight) (jget (this).anchor))
         Control.Monad.void (DrawStringUtil.drawCenterStrings ((jget (this).drawStringUtil)) graphics (jget (this).instructions) (jio (DisplayInfoSingleton.getLastWidth ((jget (this).base.base.displayInfo)))) (jget (this).base.fontHeight) halfWidth (3 * (jget (this).base.fontHeight)))

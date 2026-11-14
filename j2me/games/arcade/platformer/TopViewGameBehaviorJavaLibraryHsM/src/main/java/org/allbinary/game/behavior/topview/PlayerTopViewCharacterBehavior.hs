@@ -20,10 +20,10 @@ import TopViewCharacterBehavior hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -102,7 +102,7 @@ terrainEvent_super object_ a1 a2 a3 a4 a5 a6 = (terrainEvent_impl (javaCast obje
 
 terrainEvent_impl :: PlayerTopViewCharacterBehavior -> AllBinaryLayer.AllBinaryLayer -> Direction.Direction -> Int -> Int -> JavaArray (BasicGeographicMap.BasicGeographicMap) -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (())
 terrainEvent_impl this layer direction x y geographicMapInterfaceArray geographicMapCellPosition = do
-        Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (jio (TrackingEventCircularStaticPool.getNextInstance ((jio (TrackingEventCircularStaticPool.getInstance))) layer)))
+        Control.Monad.void (TrackingEventHandler.fireEvent ((jio (TrackingEventHandler.getInstance))) (javaCast (jio (TrackingEventCircularStaticPool.getNextInstance ((jio (TrackingEventCircularStaticPool.getInstance))) layer))))
         pure ()
 
 

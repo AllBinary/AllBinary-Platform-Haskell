@@ -20,10 +20,10 @@ import JFrame hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -158,17 +158,23 @@ instance JavaObjectClass MyFrame where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXWORKAREAS :: Int
 mAXWORKAREAS = 10
 
+numberOfWorkAreas :: IORef (Int)
 {-# NOINLINE numberOfWorkAreas #-}
 numberOfWorkAreas = unsafePerformIO (newIORef (0))
 
+pATH :: String
 pATH = "G:/mnt/bc/mydev/work/graphics/AllBinaryGraphicsJavaApplication"
 
+sAVE_PATH :: String
 sAVE_PATH = (javaToString MyFrame.pATH ++ "/save")
 
+tEMPLATE_EXPORT_PATH :: String
 tEMPLATE_EXPORT_PATH = (javaToString MyFrame.pATH ++ "/templates/export")
 
+statusJLabel :: IORef (JLabel.JLabel)
 {-# NOINLINE statusJLabel #-}
 statusJLabel = unsafePerformIO (newIORef (javaNull))
 
@@ -510,7 +516,7 @@ initComponents_impl this = do
         Control.Monad.void (JPanel.add ((jget (this).jPanel1)) (jget (this).mainJPanel))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).jPanel1) (jget ((jget (java.awt).borderLayout)).cENTER))
         Control.Monad.void (JPanel.setLayout ((jget (this).statusJPanel)) (jio (GridLayout.new_2 1 0)))
-        Control.Monad.void (setText ((jget MyFrame.statusJLabel)) "Status Bar")
+        Control.Monad.void (JLabel.setText ((jget MyFrame.statusJLabel)) "Status Bar")
         Control.Monad.void (JPanel.add ((jget (this).statusJPanel)) (jget MyFrame.statusJLabel))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).statusJPanel) (jget ((jget (java.awt).borderLayout)).sOUTH))
         Control.Monad.void (JMenu.setText ((jget (this).fileJMenu)) "File")
@@ -775,7 +781,7 @@ exitJMenuItemActionPerformed_super object_ a1 = (exitJMenuItemActionPerformed_im
 
 exitJMenuItemActionPerformed_impl :: MyFrame -> ActionEvent.ActionEvent -> IO (())
 exitJMenuItemActionPerformed_impl this evt = do
-        Control.Monad.void (System.exit 0)
+        Control.Monad.void (jsystemExit 0)
         pure ()
 
 
@@ -810,7 +816,7 @@ exitForm_super object_ a1 = (exitForm_impl (javaCast object_ :: MyFrame)) a1
 
 exitForm_impl :: MyFrame -> WindowEvent.WindowEvent -> IO (())
 exitForm_impl this evt = do
-        Control.Monad.void (System.exit 0)
+        Control.Monad.void (jsystemExit 0)
         pure ()
 
 
@@ -928,6 +934,7 @@ newGraphics_impl this = do
             let newName = ("graphic" ++ javaToString (jget MyFrame.numberOfWorkAreas))
             dim <- (JFrame.getSize this)
             newDialog <- (NewWorkAreaJDialog.new_4 this False dim newName)
+            pure ()
         pure ()
 
 
@@ -994,8 +1001,8 @@ onHashMap_super object_ a1 = (onHashMap_impl (javaCast object_ :: MyFrame)) a1
 
 onHashMap_impl :: MyFrame -> HashMap.HashMap -> IO (())
 onHashMap_impl this hashMap = do
-        let angleIncrementInteger = (javaCast (jio (HashMap.get hashMap (javaToString 0))) :: Int)
-        let totalRotationInteger = (javaCast (jio (HashMap.get hashMap (javaToString 1))) :: Int)
+        let angleIncrementInteger = (javaCast (jio (HashMap.get hashMap (0))) :: Int)
+        let totalRotationInteger = (javaCast (jio (HashMap.get hashMap (1))) :: Int)
         Control.Monad.void (WorkAreaJPanelInterface.autoRotate ((jio (MyFrame.getSelectedWorkArea this))) (angleIncrementInteger) (totalRotationInteger))
         pure ()
 
@@ -1095,7 +1102,7 @@ main args = do
             ) $ do
             Control.Monad.void (AngleFactory.getInstance)
             Control.Monad.void (SmallIntegerSingletonFactory.init ((jio (SmallIntegerSingletonFactory.getInstance))))
-            Control.Monad.void (MyFrame.show ((jio (new_))))
+            Control.Monad.void (JFrame.show ((jio (new_))))
         pure ()
 
 

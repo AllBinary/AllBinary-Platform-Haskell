@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified InventoryUploadMediaUtil -- same package or java.lang
+import qualified PageContext -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
@@ -89,6 +91,7 @@ instance JavaObjectClass InventoryItemView where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tYPE_ID :: IORef (Int)
 {-# NOINLINE tYPE_ID #-}
 tYPE_ID = unsafePerformIO (newIORef (10))
 

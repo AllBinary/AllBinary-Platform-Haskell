@@ -20,10 +20,10 @@ import InitUpdatePaintable hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -126,8 +126,8 @@ initFields_ :: SelectionHudPaintable -> IO ()
 initFields_ this = do
     jset this.y (((jget ((jio (CommonButtons.getInstance))).sTANDARD_BUTTON_SIZE) + 17))
     jset this.primitiveLongUtil (javaNull)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
-    jset this.myFontProcessor ((jget this.updateMyFontProcessor))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
+    jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.x (0)
     jset this.textX (0)
     jset this.imageX (0)

@@ -20,10 +20,10 @@ import StoreValidationTransformTag hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,14 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
+import qualified ValidationTransformTag -- same package or java.lang
+import qualified TransformTag -- same package or java.lang
+import qualified TransformInfoTag -- same package or java.lang
+import qualified ModifyTag -- same package or java.lang
+import qualified HelperTag -- same package or java.lang
+import qualified PropertiesTag -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
 import qualified AbResponseHandler -- org.allbinary.logic.communication.http.request.AbResponseHandler
 import qualified LicensingException -- org.allbinary.logic.system.security.licensing.LicensingException
@@ -99,7 +107,7 @@ doStartTag_impl this = do
             ) $ do
             when ((jio (StoreValidationTransformTag.getCommand this)) /= javaNull) $ do
                 if ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).vIEW)) - 1) == 0) then do
-                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ javaToString (jio (StoreValidationTransformTag.getCommand this)))))
+                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ (jio (StoreValidationTransformTag.getCommand this)))))
                 else if ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget (this).base.base.base.base.base.base.base.base.base.commonStrings)).iNSERT)) - 1) == 0) then do
                     Control.Monad.void (StoreValidationTransformTag.setName this "Add Inventory Item Validation View")
                     Control.Monad.void (StoreValidationTransformTag.setObjectFile this "views.admin.inventory.download.AddFileValidationView")
@@ -116,7 +124,7 @@ doStartTag_impl this = do
                     Control.Monad.void (StoreValidationTransformTag.setName this "Update Inventory Item Validation View")
                     Control.Monad.void (StoreValidationTransformTag.setObjectFile this "views.admin.inventory.download.UpdateFileValidationView")
                 else do
-                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ javaToString (jio (StoreValidationTransformTag.getCommand this)))))
+                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ (jio (StoreValidationTransformTag.getCommand this)))))
                 javaReturn =<< (StoreValidationTransformTag.doStartTag_super this.base)
             javaThrow ((JavaException "Exception" "Command Null"))
 

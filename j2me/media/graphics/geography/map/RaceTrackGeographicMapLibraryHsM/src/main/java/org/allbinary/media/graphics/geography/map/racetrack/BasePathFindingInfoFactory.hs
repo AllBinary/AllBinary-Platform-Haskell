@@ -19,10 +19,10 @@ module BasePathFindingInfoFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified RaceTrackRoadsGeographicMapCellHistoryFactory -- same package or java.lang
+import qualified GeographicMapCellPositionFactoryInterface -- same package or java.lang
+import qualified GeographicMapCellHistory -- same package or java.lang
+import qualified BasicGeographicMapCellPositionFactory -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified AllBinaryTiledLayer -- org.allbinary.game.layer.AllBinaryTiledLayer
 import qualified NullUtil -- org.allbinary.logic.NullUtil
@@ -64,6 +67,9 @@ instance JavaObjectClass BasePathFindingInfoFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasePathFindingInfoFactory
 newRecord_ = do
@@ -104,7 +110,7 @@ init_impl :: BasePathFindingInfoFactory -> BasicGeographicMap.BasicGeographicMap
 init_impl this geographicMapInterface pathFindingInfo mapArray = do
         -- Java nested class RaceTrackGeographicMapCellPositionFactoryInitVisitor: move it to its own module
 
-        Control.Monad.void (BasicGeographicMapCellPositionFactory.visit ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface))) (javaCast (jio (RaceTrackGeographicMapCellPositionFactoryInitVisitor.new_))))
+        Control.Monad.void (BasicGeographicMapCellPositionFactory.visit ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface))) (javaCast (jio (RaceTrackGeographicMapCellPositionFactoryInitVisitor.new_1 this))))
         pure ()
 
 

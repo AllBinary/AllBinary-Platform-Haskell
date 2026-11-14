@@ -19,10 +19,10 @@ module URLGLOBALS where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,11 +51,15 @@ instance JavaObjectClass URLGLOBALS where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+urlGlobalsInterface :: IORef (UrlGlobalsInterface.UrlGlobalsInterface)
 {-# NOINLINE urlGlobalsInterface #-}
 urlGlobalsInterface = unsafePerformIO (newIORef ((javaCast AppUrlGlobals.nULL_APP_URL_GLOBALS :: UrlGlobalsInterface.UrlGlobalsInterface)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO URLGLOBALS
 newRecord_ = do
@@ -87,22 +91,22 @@ init urlGlobalsInterface = do
 
 isTestingMode :: IO (Bool)
 isTestingMode = do
-        (isTestingMode ((jget URLGLOBALS.urlGlobalsInterface)))
+        (UrlGlobalsInterface.isTestingMode ((jget URLGLOBALS.urlGlobalsInterface)))
 
 
 getWebappPath :: IO (String)
 getWebappPath = do
-        (getWebappPath ((jget URLGLOBALS.urlGlobalsInterface)))
+        (UrlGlobalsInterface.getWebappPath ((jget URLGLOBALS.urlGlobalsInterface)))
 
 
 getTestHtmlPath :: IO (String)
 getTestHtmlPath = do
-        (getTestHtmlPath ((jget URLGLOBALS.urlGlobalsInterface)))
+        (UrlGlobalsInterface.getTestHtmlPath ((jget URLGLOBALS.urlGlobalsInterface)))
 
 
 -- throws Exception
 getMainPath :: IO (String)
 getMainPath = do
-        (getMainPath ((jget URLGLOBALS.urlGlobalsInterface)))
+        (UrlGlobalsInterface.getMainPath ((jget URLGLOBALS.urlGlobalsInterface)))
 
 

@@ -19,10 +19,10 @@ module ImageScaleUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,11 +58,15 @@ instance JavaObjectClass ImageScaleUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageScaleUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageScaleUtil
 newRecord_ = do
@@ -145,7 +149,7 @@ createImageInternal_super object_ a1 a2 a3 = (createImageInternal_impl (javaCast
 createImageInternal_impl :: ImageScaleUtil -> Image.Image -> Float -> Float -> IO (Image.Image)
 createImageInternal_impl this originalImage scaleX scaleY = do
     javaCatchReturn $ do
-        image <- (fmap (\value_ -> javaCast value_ :: Image.Image) (ImageCreationUtil.getInstance ((jio (ImageCreationUtil.getInstance))) (Prelude.fromInteger (jnumericInteger (((jio (Image.getWidth originalImage)) * scaleX)))) (Prelude.fromInteger (jnumericInteger (((jio (Image.getHeight originalImage)) * scaleY))))))
+        image <- (fmap (\value_ -> javaCast value_ :: Image.Image) (ImageCreationUtil.getInstance ((jio (ImageCreationUtil.getInstance))) (Prelude.truncate (((Prelude.fromIntegral (jio (Image.getWidth originalImage))) * scaleX))) (Prelude.truncate (((Prelude.fromIntegral (jio (Image.getHeight originalImage))) * scaleY)))))
         if (jio (Image.isMutable image)) then do
             originalPlayNImage <- newIORef (javaNull)
             if (jio (Image.isMutable originalImage)) then do

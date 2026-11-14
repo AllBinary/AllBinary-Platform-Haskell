@@ -19,10 +19,10 @@ module WebappClassLoaderInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ classLoader = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nU
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO WebappClassLoaderInfo
 newRecord_ = do
     header_ <- newJavaHeader
@@ -84,7 +87,7 @@ init_ this = do
 
 setLoader :: ClassLoader.ClassLoader -> IO (())
 setLoader classLoader = do
-        jset WebappClassLoaderInfo.classLoader (classLoader)
+        jset WebappClassLoaderInfo.classLoader ((jtoObject classLoader))
         pure ()
 
 

@@ -19,10 +19,10 @@ module SimpleGeographicMapCellPositionFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass SimpleGeographicMapCellPositionFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GEOGRAPHIC_MAP_CELL_POSITION :: GeographicMapCellPosition.GeographicMapCellPosition
 {-# NOINLINE nULL_GEOGRAPHIC_MAP_CELL_POSITION #-}
 nULL_GEOGRAPHIC_MAP_CELL_POSITION = unsafePerformIO ((GeographicMapCellPosition.new_6 (Prelude.negate 1) (Prelude.negate 1) (Prelude.negate 1) (Prelude.negate 1) (Prelude.negate 1) (Prelude.negate 1)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SimpleGeographicMapCellPositionFactory
 newRecord_ = do

@@ -20,10 +20,10 @@ import RaceTracksPathPrinter hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -102,7 +102,7 @@ printAllPaths_impl this raceTrackGeographicMapInterfaceFactoryInterface pathFind
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).pROCESS) e)
             ) $ do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-                geographicMapInterface <- (RaceTrackGeographicMapInterfaceFactoryInterface.getTrackInstance raceTrackGeographicMapInterfaceFactoryInterface (jio (SmallIntegerSingletonFactory.getAt ((jio (SmallIntegerSingletonFactory.getInstance))) index)))
+                geographicMapInterface <- (fmap (\value_ -> javaCast value_ :: BasicGeographicMap.BasicGeographicMap) (RaceTrackGeographicMapInterfaceFactoryInterface.getTrackInstance raceTrackGeographicMapInterfaceFactoryInterface (jio (SmallIntegerSingletonFactory.getAt ((jio (SmallIntegerSingletonFactory.getInstance))) index))))
                 list <- (PathGenerator.createList ((jio (PathGenerator.getInstance))) geographicMapInterface (jio (RaceTrackRoadsGeographicMapCellHistoryFactory.getInstance)) pathFindingInfo 10)
                 Control.Monad.void (putStrLn (javaToString ("Track " ++ javaToString index)))
                 Control.Monad.void (RaceTracksPathPrinter.printPaths this list)

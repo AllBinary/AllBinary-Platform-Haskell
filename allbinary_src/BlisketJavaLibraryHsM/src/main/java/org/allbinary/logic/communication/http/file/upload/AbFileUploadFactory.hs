@@ -19,10 +19,10 @@ module AbFileUploadFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,11 +62,15 @@ instance JavaObjectClass AbFileUploadFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AbFileUploadFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbFileUploadFactory
 newRecord_ = do
@@ -116,7 +120,7 @@ getFileItemStreamList_impl this httpServletRequest = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "get()" e)
             javaThrow (e)
             ) $ do
-            fileUpload <- (AbFileUpload.new_1 (jio (AbFileItemFactory.new_)))
+            fileUpload <- (AbFileUpload.new_1 (javaCast (jio (AbFileItemFactory.new_))))
             iterator <- (AbFileUpload.getItemIterator fileUpload httpServletRequest)
             items <- (fmap (\value_ -> javaCast value_ :: List.List) (ArrayList.new_))
             fix $ \loop -> when (jio (FileItemIterator.hasNext iterator)) $ javaIteration (loop) $ do
@@ -142,7 +146,7 @@ getFileItemList_impl this httpServletRequest = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "get()" e)
             javaThrow (e)
             ) $ do
-            abFileUpload <- (AbFileUpload.new_1 (jio (AbFileItemFactory.new_)))
+            abFileUpload <- (AbFileUpload.new_1 (javaCast (jio (AbFileItemFactory.new_))))
             (AbFileUpload.parseRequest abFileUpload httpServletRequest)
 
 

@@ -19,10 +19,10 @@ module AbSqlTableUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,11 +96,15 @@ instance JavaObjectClass AbSqlTableUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AbSqlTableUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbSqlTableUtil
 newRecord_ = do
@@ -162,7 +166,7 @@ initFields_ this = do
     jset this.sECTION_LABEL (" Section: ")
     jset this.dASH (" - ")
     jset this.pORTION_RESTORED (" Portion Restored")
-    jset this.specialCharArray ((jarrayFromList ['\n', '\f', '\r']))
+    jset this.specialCharArray ((jarrayFromList ['\n', '\f', '\r'] :: JavaArray Char))
     jset this.nEW_LINE ("\\n")
     jset this.stringUtil =<< (StringUtil.getInstance)
     jset this.commonStrings =<< (CommonStrings.getInstance)

@@ -19,10 +19,10 @@ module CommandTextItemArrayFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,7 @@ import qualified CommandTextItem -- same package or java.lang
 import qualified ABCustomItem -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
-import qualified ImageItem -- javax.microedition.lcdui.ImageItem
+import qualified LcduiImageItem -- javax.microedition.lcdui.LcduiImageItem
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified DisplayInfoSingleton -- org.allbinary.graphics.displayable.DisplayInfoSingleton
 import qualified ScreenInfo -- org.allbinary.graphics.form.ScreenInfo
@@ -66,6 +66,9 @@ instance JavaObjectClass CommandTextItemArrayFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CommandTextItemArrayFactory
 newRecord_ = do
@@ -120,7 +123,7 @@ getInstance_impl this vectorObject_ backgroundBasicColor foregroundBasicColor = 
             when ((jio (Command.getPriority ((jget command)))) < (jget priorityLimit)) $ do
                 let aBoolean = (javaCast (jio (Visitor.visit ((jget (this).visitorInterface)) (jget command))) :: Bool)
                 when aBoolean $ do
-                    assignedValue <- (CommandTextItem.new_5 (jget command) (ImageItem.lAYOUT_DEFAULT) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) backgroundBasicColor foregroundBasicColor)
+                    assignedValue <- (CommandTextItem.new_5 (jget command) (LcduiImageItem.lAYOUT_DEFAULT) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) backgroundBasicColor foregroundBasicColor)
                     jset textItem (assignedValue)
                     Control.Monad.void (BasicArrayList.add ((jget (this).list)) (jget textItem))
         let textItemArray = (jnewArray ((jio (BasicArrayList.size ((jget (this).list))))) javaNull)

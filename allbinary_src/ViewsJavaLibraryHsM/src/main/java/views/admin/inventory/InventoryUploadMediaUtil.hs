@@ -19,10 +19,10 @@ module InventoryUploadMediaUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -79,6 +79,9 @@ instance JavaObjectClass InventoryUploadMediaUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InventoryUploadMediaUtil
 newRecord_ = do
@@ -162,7 +165,7 @@ saveFiles_impl this byteArray fileName mediaData = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (MediaData.getName mediaData)))
         originalImageFile <- (AbFile.createAbFile (jio (StringMaker.toString stringBuffer)))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORY))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Original Image: " ++ javaToString originalImageFile) this "saveFiles()")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Original Image: " ++ jconcatObject AbFile.toString originalImageFile) this "saveFiles()")
         Control.Monad.void (AbFile.createNewFile originalImageFile)
         Control.Monad.void (FileUtil.write fileUtil (jio (ByteArrayInputStream.new_1 byteArray)) originalImageFile)
         uploadMedia <- (UploadMediaSingleton.getInstance)
@@ -189,7 +192,7 @@ saveFiles_impl this byteArray fileName mediaData = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "saveFiles()")
             if isMediaResizable then do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORY))) $ do
-                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Small Image: " ++ javaToString (jio (ItemInterface.getSmallImage ((jget (this).itemInterface))))) this "saveFiles()")
+                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Small Image: " ++ (jio (ItemInterface.getSmallImage ((jget (this).itemInterface))))) this "saveFiles()")
                 Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getSmallImage ((jget (this).itemInterface)))) fullPath mediaData (jget (this).sMALLWIDTH) (jget (this).sMALLHEIGHT))
                 Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getMediumImage ((jget (this).itemInterface)))) fullPath mediaData (jget (this).mEDIUMWIDTH) (jget (this).mEDIUMHEIGHT))
                 Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getLargeImage ((jget (this).itemInterface)))) fullPath mediaData (jget (this).lARGEWIDTH) (jget (this).lARGEHEIGHT))
@@ -206,7 +209,7 @@ saveFiles_impl this byteArray fileName mediaData = do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "saveFiles()")
                 if isConvertable then do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORY))) $ do
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Small Image: " ++ javaToString (jio (ItemInterface.getSmallImage ((jget (this).itemInterface))))) this "saveFiles()")
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Saving Small Image: " ++ (jio (ItemInterface.getSmallImage ((jget (this).itemInterface))))) this "saveFiles()")
                     Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getSmallImage ((jget (this).itemInterface)))) fullPath defaultMediaData (jget (this).sMALLWIDTH) (jget (this).sMALLHEIGHT))
                     Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getMediumImage ((jget (this).itemInterface)))) fullPath defaultMediaData (jget (this).mEDIUMWIDTH) (jget (this).mEDIUMHEIGHT))
                     Control.Monad.void (MediaUtil.saveImageFile ((jget (this).mediaUtil)) originalImageFile (jio (ItemInterface.getLargeImage ((jget (this).itemInterface)))) fullPath defaultMediaData (jget (this).lARGEWIDTH) (jget (this).lARGEHEIGHT))

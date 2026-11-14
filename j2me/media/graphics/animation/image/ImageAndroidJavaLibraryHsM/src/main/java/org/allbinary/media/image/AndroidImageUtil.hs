@@ -19,10 +19,10 @@ module AndroidImageUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,11 +56,15 @@ instance JavaObjectClass AndroidImageUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AndroidImageUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AndroidImageUtil
 newRecord_ = do
@@ -116,7 +120,7 @@ paint_super object_ a1 a2 a3 = (paint_impl (javaCast object_ :: AndroidImageUtil
 paint_impl :: AndroidImageUtil -> Image.Image -> Image.Image -> Paint.Paint -> IO (())
 paint_impl this image originalImage paint = do
         let androidImage = (javaCast image :: AndroidImageInterface.AndroidImageInterface)
-        Control.Monad.void (AndroidImageInterface.eraseColor ((jio (AndroidImageInterface.getBitmap androidImage))) (Color.tRANSPARENT))
+        Control.Monad.void (Bitmap.eraseColor ((jio (AndroidImageInterface.getBitmap androidImage))) (Color.tRANSPARENT))
         canvas <- (AndroidImageInterface.getCanvas androidImage)
         let originalAndroidImage = (javaCast originalImage :: AndroidImageInterface.AndroidImageInterface)
         Control.Monad.void (Canvas.drawBitmap canvas (jio (AndroidImageInterface.getBitmap originalAndroidImage)) (0.0) (0.0) paint)
@@ -132,7 +136,7 @@ rotate_super object_ a1 a2 a3 a4 = (rotate_impl (javaCast object_ :: AndroidImag
 rotate_impl :: AndroidImageUtil -> Image.Image -> Image.Image -> Matrix.Matrix -> Paint.Paint -> IO (())
 rotate_impl this image originalImage matrix paint = do
         let androidImage = (javaCast image :: AndroidImageInterface.AndroidImageInterface)
-        Control.Monad.void (AndroidImageInterface.eraseColor ((jio (AndroidImageInterface.getBitmap androidImage))) (Color.tRANSPARENT))
+        Control.Monad.void (Bitmap.eraseColor ((jio (AndroidImageInterface.getBitmap androidImage))) (Color.tRANSPARENT))
         canvas <- (AndroidImageInterface.getCanvas androidImage)
         Control.Monad.void (Canvas.concat canvas matrix)
         let originalAndroidImage = (javaCast originalImage :: AndroidImageInterface.AndroidImageInterface)

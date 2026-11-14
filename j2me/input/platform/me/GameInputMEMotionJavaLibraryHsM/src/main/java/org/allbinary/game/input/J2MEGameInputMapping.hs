@@ -20,10 +20,10 @@ import PersistentInputMapping hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,9 @@ import qualified GHC.Float
 import qualified J2MEKeyFactory -- same package or java.lang
 import qualified GameKeyFactory -- same package or java.lang
 import qualified Input -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
+import qualified InputToGameKeyMapping -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified GamePersistanceStrings -- org.allbinary.game.configuration.persistance.GamePersistanceStrings
 import qualified PersistentInputMapping -- org.allbinary.game.input.mapping.PersistentInputMapping
 import qualified AbeClientInformationInterface -- org.allbinary.logic.system.security.licensing.AbeClientInformationInterface
@@ -95,11 +98,11 @@ init_super object_ a1 = (init_impl (javaCast object_ :: J2MEGameInputMapping)) a
 
 init_impl :: J2MEGameInputMapping -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
 init_impl this abeClientInformation = do
-        Control.Monad.void (putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).iNIT))
+        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).iNIT))
         Control.Monad.void (J2MEKeyFactory.init ((jio (J2MEKeyFactory.getInstance))))
         Control.Monad.void (PersistentInputMapping.init_super this.base abeClientInformation)
         when (((jio (PersistentInputMapping.getTotalMapped this)) == 0) || (jio (PersistentInputMapping.isDefaultNew this))) $ do
-            Control.Monad.void (PersistentInputMapping.addMapping ((jio (PersistentInputMapping.getInputMapping this))) (jio (PersistentInputMapping.getDefault this)))
+            Control.Monad.void (InputToGameKeyMapping.addMapping ((jio (PersistentInputMapping.getInputMapping this))) (jio (PersistentInputMapping.getDefault this)))
             Control.Monad.void (PersistentInputMapping.save this abeClientInformation)
         pure ()
 
@@ -113,7 +116,7 @@ isDelete_super object_ a1 = (isDelete_impl (javaCast object_ :: J2MEGameInputMap
 isDelete_impl :: J2MEGameInputMapping -> Input.Input -> IO (Bool)
 isDelete_impl this input = do
     javaCatchReturn $ do
-        if (input == (jget ((jio (GameKeyFactory.getInstance))).gAME_D)) then do
+        if ((jtoObject input) == (jtoObject (jget ((jio (GameKeyFactory.getInstance))).gAME_D))) then do
             javaReturn (True)
         else do
             javaReturn (False)

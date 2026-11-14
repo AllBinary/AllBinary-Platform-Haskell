@@ -19,10 +19,10 @@ module DirectoryFileVisitor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,6 +57,9 @@ instance JavaObjectClass DirectoryFileVisitor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DirectoryFileVisitor
 newRecord_ = do
@@ -94,7 +97,7 @@ accept_super object_ a1 = (accept_impl (javaCast object_ :: DirectoryFileVisitor
 
 accept_impl :: DirectoryFileVisitor -> File.File -> IO (Bool)
 accept_impl this arg0 = do
-        (booleanValue (((javaCast (jio (DirectoryFileVisitor.visit this (javaCast arg0 :: Any.Any))) :: Bool))))
+        pure (((javaCast (jio (DirectoryFileVisitor.visit this (javaCast arg0 :: Any.Any))) :: Bool)))
 
 
 visit :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Any.Any)

@@ -19,10 +19,10 @@ module NameSpaceRequestParamData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,20 +49,29 @@ instance JavaObjectClass NameSpaceRequestParamData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "NAMESPACE_REQUESTDATA_NAME"
 
+vALUE :: String
 vALUE = "INPUT_VALUE"
 
+pROPERTIES :: String
 pROPERTIES = "_PROPERTIES_"
 
+sEP :: String
 sEP = "_DOT_"
 
+pROPERTIESSEPARATOR :: String
 pROPERTIESSEPARATOR = "_PROPDOT_"
 
+dOCUMENT :: String
 dOCUMENT = "NAMESPACE_REQUESTDATA_DOCUMENT"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NameSpaceRequestParamData
 newRecord_ = do

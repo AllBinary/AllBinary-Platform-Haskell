@@ -19,10 +19,10 @@ module PaymentGatewayInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,9 @@ instance JavaObjectClass PaymentGatewayInterfaceFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PaymentGatewayInterfaceFactory
 newRecord_ = do
@@ -155,7 +158,7 @@ getInstance_overload3_impl this hashMap = do
             let gatewayName = (javaCast (jio (HashMap.get hashMap (jio (PaymentGatewayData.toString PaymentGatewayData.nAME)))) :: String)
             paymentType <- (BasicPaymentTypeUtil.get ((jio (BasicPaymentTypeUtil.getInstance))) gatewayName)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pAYMENT))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Getting PaymentGatewayInterface for PaymentType: " ++ (jio (BasicPaymentType.getName paymentType))) ++ " with: ") ++ javaToString hashMap) this (jget (commonStrings).gET_INSTANCE))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Getting PaymentGatewayInterface for PaymentType: " ++ (jio (BasicPaymentType.getName paymentType))) ++ " with: ") ++ jconcatObject HashMap.toString hashMap) this (jget (commonStrings).gET_INSTANCE))
             paymentGatewayInterfaceFactoryInterface <- (BasicPaymentType.getPaymentGatewayInterfaceFactoryInterface paymentType)
             (PaymentGatewayInterfaceFactoryInterface.getInstance paymentGatewayInterfaceFactoryInterface hashMap)
 

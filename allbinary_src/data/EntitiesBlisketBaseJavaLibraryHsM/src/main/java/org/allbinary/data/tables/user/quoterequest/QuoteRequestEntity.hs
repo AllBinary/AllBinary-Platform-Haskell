@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -103,7 +107,7 @@ new_ = do
 
 init_ :: QuoteRequestEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -138,7 +142,7 @@ get_super object_ a1 a2 = (get_impl (javaCast object_ :: QuoteRequestEntity)) a1
 get_impl :: QuoteRequestEntity -> String -> Int -> IO (QuoteRequest.QuoteRequest)
 get_impl this userName id = do
     javaCatchReturn $ do
-        row <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        row <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put row (UserData.uSERNAME) userName)
         Control.Monad.void (HashMap.put row (jget ((jio (QuoteRequestData.getInstance))).iD) (javaToString id))
         quoteRequestHashMap <- (AbSqlBean.getRow_super this.base row)

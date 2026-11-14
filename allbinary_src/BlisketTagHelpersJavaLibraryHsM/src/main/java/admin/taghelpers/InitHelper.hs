@@ -20,10 +20,10 @@ import BasicTable hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -99,6 +99,7 @@ drop_super object_ = (drop_impl (javaCast object_ :: InitHelper))
 
 drop_impl :: InitHelper -> IO (String)
 drop_impl this = do
+    javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             let error = "Failed to drop log table"
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
@@ -106,9 +107,9 @@ drop_impl this = do
             pure (error)
             ) $ do
             if (jio (InitInfoEntity.dropTable ((jio (InitInfoEntity.new_))))) then do
-                pure ("Table Dropped Successfully")
+                javaReturn ("Table Dropped Successfully")
             else do
-                pure ("Failed To Drop Table")
+                javaReturn ("Failed To Drop Table")
 
 
 create :: (JavaObjectClass this_) => this_ -> IO (String)

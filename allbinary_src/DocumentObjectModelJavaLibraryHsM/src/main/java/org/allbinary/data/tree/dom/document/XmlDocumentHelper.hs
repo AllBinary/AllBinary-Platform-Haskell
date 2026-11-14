@@ -19,10 +19,10 @@ module XmlDocumentHelper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,13 +38,13 @@ import qualified Writer -- java.io.Writer
 import qualified DocumentBuilderFactory -- javax.xml.parsers.DocumentBuilderFactory
 import qualified OutputKeys -- javax.xml.transform.OutputKeys
 import qualified Transformer -- javax.xml.transform.Transformer
+import qualified TransformerConfigurationException -- javax.xml.transform.TransformerConfigurationException
 import qualified TransformerFactory -- javax.xml.transform.TransformerFactory
 import qualified DOMSource -- javax.xml.transform.dom.DOMSource
 import qualified StreamResult -- javax.xml.transform.stream.StreamResult
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified BooleanFactory -- org.allbinary.logic.java.bool.BooleanFactory
 import qualified CharacterSetData -- org.allbinary.logic.java.characters.CharacterSetData
-import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified Document -- org.w3c.dom.Document
 import qualified InputSource -- org.xml.sax.InputSource
 
@@ -52,7 +52,8 @@ data XmlDocumentHelper = XmlDocumentHelper
     { header_ :: JavaHeader
     , logUtil :: IORef (LogUtil.LogUtil)
     , iNDENT_NUMBER :: IORef (String)
-    , transformer :: IORef (Transformer.Transformer)
+    , indent :: IORef (Int)
+    , ignoreDeclaration :: IORef (Bool)
     }
 
 instance JavaNull XmlDocumentHelper where
@@ -68,6 +69,7 @@ instance JavaObjectClass XmlDocumentHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: XmlDocumentHelper
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -76,18 +78,23 @@ newRecord_ = do
     header_ <- newJavaHeader
     logUtil <- newIORef javaNull
     iNDENT_NUMBER <- newIORef ""
-    transformer <- newIORef javaNull
-    let this = XmlDocumentHelper header_ logUtil iNDENT_NUMBER transformer
+    indent <- newIORef 0
+    ignoreDeclaration <- newIORef False
+    let this = XmlDocumentHelper header_ logUtil iNDENT_NUMBER indent ignoreDeclaration
     jregisterLevel header_ this
     jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "createTransformer" (\() -> createTransformer_impl this)
+    jregisterMethod header_ "createTransformer_0" (\() -> createTransformer_0_impl this)
     jregisterMethod header_ "format" (\() -> format_impl this)
+    jregisterMethod header_ "formatWithTransformer" (\() -> formatWithTransformer_impl this)
     pure this
 
 initFields_ :: XmlDocumentHelper -> IO ()
 initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
     jset this.iNDENT_NUMBER ("indent-number")
-    jset this.transformer (javaNull)
+    jset this.indent (0)
+    jset this.ignoreDeclaration (False)
     pure ()
 
 
@@ -116,19 +123,45 @@ init_super object_ a1 a2 = (init_impl (javaCast object_ :: XmlDocumentHelper)) a
 
 init_impl :: XmlDocumentHelper -> Int -> Bool -> IO (())
 init_impl this indent ignoreDeclaration = do
-        handle (\(e :: JavaException) -> do
-            commonStrings <- (CommonStrings.getInstance)
-            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).iNIT) e)
-            ) $ do
-            booleanFactory <- (BooleanFactory.getInstance)
-            transformerFactory <- (TransformerFactory.newInstance)
-            Control.Monad.void (TransformerFactory.setAttribute transformerFactory (jget (this).iNDENT_NUMBER) indent)
-            assignedValue <- (TransformerFactory.newTransformer transformerFactory)
-            jset (this).transformer (assignedValue)
-            Control.Monad.void (Transformer.setOutputProperty ((jget (this).transformer)) (OutputKeys.eNCODING) (jget ((jio (CharacterSetData.getInstance))).uTF_8))
-            Control.Monad.void (Transformer.setOutputProperty ((jget (this).transformer)) (OutputKeys.oMIT_XML_DECLARATION) (if ignoreDeclaration then (jget (booleanFactory).yES) else (jget (booleanFactory).nO)))
-            Control.Monad.void (Transformer.setOutputProperty ((jget (this).transformer)) (OutputKeys.iNDENT) (jget (booleanFactory).yES))
+        jset (this).indent (indent)
+        jset (this).ignoreDeclaration (ignoreDeclaration)
         pure ()
+
+
+-- throws TransformerConfigurationException
+createTransformer :: (JavaObjectClass this_) => this_ -> Int -> Bool -> IO (Transformer.Transformer)
+createTransformer object_ a1 a2 = jmethod object_ "createTransformer" (\() -> (createTransformer_impl (javaCast object_ :: XmlDocumentHelper))) () a1 a2
+
+createTransformer_super :: (JavaObjectClass this_) => this_ -> Int -> Bool -> IO (Transformer.Transformer)
+createTransformer_super object_ a1 a2 = (createTransformer_impl (javaCast object_ :: XmlDocumentHelper)) a1 a2
+
+createTransformer_impl :: XmlDocumentHelper -> Int -> Bool -> IO (Transformer.Transformer)
+createTransformer_impl this indent ignoreDeclaration = do
+        booleanFactory <- (BooleanFactory.getInstance)
+        transformerFactory <- (TransformerFactory.newInstance)
+        Control.Monad.void (TransformerFactory.setAttribute transformerFactory (jget (this).iNDENT_NUMBER) indent)
+        transformer <- (TransformerFactory.newTransformer transformerFactory)
+        Control.Monad.void (Transformer.setOutputProperty transformer (OutputKeys.eNCODING) (jget ((jio (CharacterSetData.getInstance))).uTF_8))
+        Control.Monad.void (Transformer.setOutputProperty transformer (OutputKeys.oMIT_XML_DECLARATION) (if ignoreDeclaration then (jget (booleanFactory).yES) else (jget (booleanFactory).nO)))
+        Control.Monad.void (Transformer.setOutputProperty transformer (OutputKeys.iNDENT) (jget (booleanFactory).yES))
+        pure (transformer)
+
+
+-- throws TransformerConfigurationException
+createTransformer_0 :: (JavaObjectClass this_) => this_ -> IO (Transformer.Transformer)
+createTransformer_0 object_ = jmethod object_ "createTransformer_0" (\() -> (createTransformer_0_impl (javaCast object_ :: XmlDocumentHelper))) ()
+
+createTransformer_0_super :: (JavaObjectClass this_) => this_ -> IO (Transformer.Transformer)
+createTransformer_0_super object_ = (createTransformer_0_impl (javaCast object_ :: XmlDocumentHelper))
+
+createTransformer_0_impl :: XmlDocumentHelper -> IO (Transformer.Transformer)
+createTransformer_0_impl this = do
+        currentIndent <- newIORef (0)
+        currentIgnoreDeclaration <- newIORef (False)
+        do -- synchronized
+            jset currentIndent ((jget (this).indent))
+            jset currentIgnoreDeclaration ((jget (this).ignoreDeclaration))
+        (XmlDocumentHelper.createTransformer this (jget currentIndent) (jget currentIgnoreDeclaration))
 
 
 -- throws Exception
@@ -140,10 +173,22 @@ format_super object_ a1 = (format_impl (javaCast object_ :: XmlDocumentHelper)) 
 
 format_impl :: XmlDocumentHelper -> String -> IO (String)
 format_impl this xmlString = do
+        (XmlDocumentHelper.formatWithTransformer this xmlString (jio (XmlDocumentHelper.createTransformer_0 this)))
+
+
+-- throws Exception
+formatWithTransformer :: (JavaObjectClass this_) => this_ -> String -> Transformer.Transformer -> IO (String)
+formatWithTransformer object_ a1 a2 = jmethod object_ "formatWithTransformer" (\() -> (formatWithTransformer_impl (javaCast object_ :: XmlDocumentHelper))) () a1 a2
+
+formatWithTransformer_super :: (JavaObjectClass this_) => this_ -> String -> Transformer.Transformer -> IO (String)
+formatWithTransformer_super object_ a1 a2 = (formatWithTransformer_impl (javaCast object_ :: XmlDocumentHelper)) a1 a2
+
+formatWithTransformer_impl :: XmlDocumentHelper -> String -> Transformer.Transformer -> IO (String)
+formatWithTransformer_impl this xmlString transformer = do
         src <- (InputSource.new_1 (jio (StringReader.new_1 xmlString)))
         document <- (DocumentBuilderFactory.parse ((jio (DocumentBuilderFactory.newDocumentBuilder ((jio (DocumentBuilderFactory.newInstance)))))) src)
         out <- (fmap (\value_ -> javaCast value_ :: Writer.Writer) (StringWriter.new_))
-        Control.Monad.void (Transformer.transform ((jget (this).transformer)) (jio (DOMSource.new_1 document)) (jio (StreamResult.new_1 out)))
+        Control.Monad.void (Transformer.transform transformer (jio (DOMSource.new_1 document)) (jio (StreamResult.new_1 out)))
         (Writer.toString out)
 
 

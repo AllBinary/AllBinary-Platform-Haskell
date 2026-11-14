@@ -20,10 +20,10 @@ import TransformInfo hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -95,14 +95,30 @@ initFields_ this = do
     jset this.abContext (javaNull)
     pure ()
 
-new_3 :: HashMap.HashMap -> PageContext.PageContext -> Bool -> IO TransformInfoHttp
-new_3 propertiesHashMap pageContext crud = do
+-- Java overloaded constructors with 3 parameters: call the overload for the types of the arguments
+new_3 :: (JavaObjectClass o1, JavaObjectClass o2, JavaObjectClass o3) => o1 -> o2 -> o3 -> IO TransformInfoHttp
+new_3 a1 a2 a3
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) && jisInstanceOf a2 (javaNull :: PageContext.PageContext) && jisInstanceOf a3 (javaNull :: Bool) = new_3_overload1 (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: PageContext.PageContext) (javaCast a3 :: Bool)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = new_3_overload2 (javaCast a1 :: HttpServletRequest.HttpServletRequest) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = new_3_overload3 (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+    | otherwise = new_3_overload3 (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+
+init_3 :: (JavaObjectClass o1, JavaObjectClass o2, JavaObjectClass o3) => TransformInfoHttp -> o1 -> o2 -> o3 -> IO ()
+init_3 this a1 a2 a3
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) && jisInstanceOf a2 (javaNull :: PageContext.PageContext) && jisInstanceOf a3 (javaNull :: Bool) = init_3_overload1 this (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: PageContext.PageContext) (javaCast a3 :: Bool)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = init_3_overload2 this (javaCast a1 :: HttpServletRequest.HttpServletRequest) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) && jisInstanceOf a2 (javaNull :: HashMap.HashMap) && jisInstanceOf a3 (javaNull :: PageContext.PageContext) = init_3_overload3 this (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+    | otherwise = init_3_overload3 this (javaCast a1 :: HashMap.HashMap) (javaCast a2 :: HashMap.HashMap) (javaCast a3 :: PageContext.PageContext)
+
+
+new_3_overload1 :: HashMap.HashMap -> PageContext.PageContext -> Bool -> IO TransformInfoHttp
+new_3_overload1 propertiesHashMap pageContext crud = do
     this <- newRecord_
-    init_3 this propertiesHashMap pageContext crud
+    init_3_overload1 this propertiesHashMap pageContext crud
     pure this
 
-init_3 :: TransformInfoHttp -> HashMap.HashMap -> PageContext.PageContext -> Bool -> IO ()
-init_3 this propertiesHashMap pageContext crud = do
+init_3_overload1 :: TransformInfoHttp -> HashMap.HashMap -> PageContext.PageContext -> Bool -> IO ()
+init_3_overload1 this propertiesHashMap pageContext crud = do
         TransformInfo.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above
@@ -113,15 +129,14 @@ init_3 this propertiesHashMap pageContext crud = do
         Control.Monad.void (TransformInfo.override this propertiesHashMap)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttp
-new_3 request propertiesHashMap pageContext = do
+new_3_overload2 :: HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttp
+new_3_overload2 request propertiesHashMap pageContext = do
     this <- newRecord_
-    init_3 this request propertiesHashMap pageContext
+    init_3_overload2 this request propertiesHashMap pageContext
     pure this
 
-init_3 :: TransformInfoHttp -> HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_3 this request propertiesHashMap pageContext = do
+init_3_overload2 :: TransformInfoHttp -> HttpServletRequest.HttpServletRequest -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_3_overload2 this request propertiesHashMap pageContext = do
         TransformInfo.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above
@@ -133,15 +148,14 @@ init_3 this request propertiesHashMap pageContext = do
         Control.Monad.void (TransformInfo.override this propertiesHashMap)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttp
-new_3 databaseHashMap propertiesHashMap pageContext = do
+new_3_overload3 :: HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttp
+new_3_overload3 databaseHashMap propertiesHashMap pageContext = do
     this <- newRecord_
-    init_3 this databaseHashMap propertiesHashMap pageContext
+    init_3_overload3 this databaseHashMap propertiesHashMap pageContext
     pure this
 
-init_3 :: TransformInfoHttp -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_3 this databaseHashMap propertiesHashMap pageContext = do
+init_3_overload3 :: TransformInfoHttp -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_3_overload3 this databaseHashMap propertiesHashMap pageContext = do
         TransformInfo.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above
@@ -207,7 +221,7 @@ set_impl this hashMap = do
         if (jio (StringValidationUtil.isValidRequired stringValidationUtil objectConfigString 10 (AbSqlData.mAXBLOB))) then do
             Control.Monad.void (TransformInfo.setObjectConfig this objectConfigString)
         else do
-            Control.Monad.void (TransformInfo.setObjectConfig this (jio (TransformInfoObjectConfig.toString ((jio (TransformInfoObjectConfig.new_1 this))))))
+            Control.Monad.void (TransformInfo.setObjectConfig this (jio (TransformInfoObjectConfig.toString ((jio (TransformInfoObjectConfig.new_1 (javaCast this)))))))
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil (javaCast (jio (HashMap.get hashMap (jget (transformInfoData).oBJECTCONFIGFILENAME))) :: String)))) $ do
             Control.Monad.void (TransformInfo.setObjectConfigFile this (javaCast (jio (HashMap.get hashMap (jget (transformInfoData).oBJECTCONFIGFILENAME))) :: String))
         Control.Monad.void (TransformInfo.setTemplateFile this (javaCast (jio (HashMap.get hashMap (jget (transformInfoData).tEMPLATEFILENAME))) :: String))
@@ -261,7 +275,7 @@ getTemplateFilePath_super object_ = (getTemplateFilePath_impl (javaCast object_ 
 
 getTemplateFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getTemplateFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getTemplateFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getTemplateFile this)))
 
 
 -- throws Exception
@@ -273,7 +287,7 @@ getObjectConfigFilePath_super object_ = (getObjectConfigFilePath_impl (javaCast 
 
 getObjectConfigFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getObjectConfigFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getObjectConfigFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getObjectConfigFile this)))
 
 
 -- throws Exception
@@ -285,6 +299,6 @@ getDataFilePath_super object_ = (getDataFilePath_impl (javaCast object_ :: Trans
 
 getDataFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getDataFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getDataFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getDataFile this)))
 
 

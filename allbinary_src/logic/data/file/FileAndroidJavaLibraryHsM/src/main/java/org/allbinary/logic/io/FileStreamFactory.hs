@@ -19,10 +19,10 @@ module FileStreamFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ sINGLETON = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO FileStreamFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -83,7 +86,7 @@ initFields_ this = do
 getInstance :: IO (FileStreamFactory)
 getInstance = do
         when ((jget FileStreamFactory.sINGLETON) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_1 (jio (ResourceUtil.getContext ((jio (ResourceUtil.getInstance))))))
+            assignedValue <- (fmap jtoObject (new_1 (jio (ResourceUtil.getContext ((jio (ResourceUtil.getInstance)))))))
             jset FileStreamFactory.sINGLETON (assignedValue)
         pure ((javaCast (jget FileStreamFactory.sINGLETON) :: FileStreamFactory))
 
@@ -96,7 +99,7 @@ new_1 context = do
 init_1 :: FileStreamFactory -> Context.Context -> IO ()
 init_1 this context = do
         initFields_ this
-        jset (this).context (context)
+        jset (this).context ((jtoObject context))
         pure ()
 
 

@@ -19,10 +19,10 @@ module BasicDecimal where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,6 +54,7 @@ instance JavaObjectClass BasicDecimal where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+zERO_BIGDECIMAL :: BasicDecimal
 {-# NOINLINE zERO_BIGDECIMAL #-}
 zERO_BIGDECIMAL = unsafePerformIO ((new_1 0))
 

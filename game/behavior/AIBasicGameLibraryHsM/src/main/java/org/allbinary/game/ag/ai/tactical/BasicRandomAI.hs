@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TimeDelayHelper -- same package or java.lang
+import qualified GameTickTimeDelayHelper -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified BasicAI -- org.allbinary.game.ai.BasicAI
 import qualified InputProbability -- org.allbinary.game.ag.ai.InputProbability
@@ -84,7 +86,7 @@ initFields_ this = do
     jset this.i_random (0)
     jset this.inputProbability (javaNull)
     jset this.visitor (javaNull)
-    jset this.keyArray ((jarrayFromList [Canvas.uP, Canvas.dOWN, Canvas.lEFT, Canvas.rIGHT, Canvas.kEY_NUM1, Canvas.kEY_NUM7, Canvas.kEY_NUM9]))
+    jset this.keyArray ((jarrayFromList [Canvas.uP, Canvas.dOWN, Canvas.lEFT, Canvas.rIGHT, Canvas.kEY_NUM1, Canvas.kEY_NUM7, Canvas.kEY_NUM9] :: JavaArray Int))
     jset this.myRandomFactory =<< (MyRandomFactory.getInstance)
     pure ()
 
@@ -118,7 +120,7 @@ processAI_impl this allBinaryLayerManager = do
             jset (this).i_random (assignedValue)
             repeat <- newIORef (False)
             repeatLikelyhoodIntegerArray <- (InputProbability.getRepeatLikelyhoodIntegerArray ((jget (this).inputProbability)))
-            when (((jio (BasicAI.getLastKey this)) /= (Prelude.negate 1)) && ((jio (intValue ((jindex repeatLikelyhoodIntegerArray ((jio (BasicAI.getLastKey this))))))) >= (jget (this).i_random))) $ do
+            when (((jio (BasicAI.getLastKey this)) /= (Prelude.negate 1)) && ((jindex repeatLikelyhoodIntegerArray ((jio (BasicAI.getLastKey this)))) >= (jget (this).i_random))) $ do
                 jset repeat (True)
             when (Prelude.not (jget repeat)) $ do
                 likelyhoodIntegerArray <- (InputProbability.getLikelyhoodIntegerArray ((jget (this).inputProbability)))
@@ -130,7 +132,7 @@ processAI_impl this allBinaryLayerManager = do
                     let key = (jindex ((jget (this).keyArray)) (index))
                     jset likelyhoodIntegerKeyArray ((jindex likelyhoodIntegerArray (key)))
                     when (((jlength likelyhoodIntegerArray) >= key) && ((jindex ((jget likelyhoodIntegerKeyArray)) (0)) /= javaNull)) $ do
-                        when (((jget (this).i_random) >= (jio (intValue ((jindex ((jget likelyhoodIntegerKeyArray)) (0)))))) && ((jget (this).i_random) < (jio (intValue ((jindex ((jget likelyhoodIntegerKeyArray)) (1))))))) $ do
+                        when (((jget (this).i_random) >= (jindex ((jget likelyhoodIntegerKeyArray)) (0))) && ((jget (this).i_random) < (jindex ((jget likelyhoodIntegerKeyArray)) (1)))) $ do
                             Control.Monad.void (BasicAI.setLastKey this key)
                             throwIO JavaBreak
             Control.Monad.void (Visitor.visit ((jget (this).visitor)) this)

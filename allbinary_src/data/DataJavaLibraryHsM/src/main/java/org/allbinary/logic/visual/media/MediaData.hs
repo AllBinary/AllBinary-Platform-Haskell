@@ -19,10 +19,10 @@ module MediaData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,7 @@ instance JavaObjectClass MediaData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE hashMap #-}
 hashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
@@ -93,7 +94,7 @@ init_1 this a_Name = do
         jset (this).name (a_Name)
         jset (this).extension (("." ++ (jget (this).name)))
         jset (this).type_ ((jget ((jio (MediaTypeData.getInstance))).nOT_RESIZABLE_MEDIA))
-        Control.Monad.void (put ((jget MediaData.hashMap)) a_Name this)
+        Control.Monad.void (HashMap.put ((jget MediaData.hashMap)) a_Name this)
         pure ()
 
 
@@ -159,7 +160,7 @@ toString_impl this = do
 get :: String -> IO (MediaData)
 get a_Name = do
     javaCatchReturn $ do
-        let mediaData = (javaCast (jio (get ((jget MediaData.hashMap)) a_Name)) :: MediaData)
+        let mediaData = (javaCast (jio (HashMap.get ((jget MediaData.hashMap)) a_Name)) :: MediaData)
         if (mediaData /= javaNull) then do
             javaReturn (mediaData)
         else do

@@ -20,10 +20,10 @@ import BasicWeaponPart hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,7 +80,7 @@ initFields_ this = do
 
 createBasicProjectileWeaponPart :: Animation.Animation -> WeaponLayerCircularPool.WeaponLayerCircularPool -> IO (BasicProjectileWeaponPart)
 createBasicProjectileWeaponPart animationInterface weaponLayerCircularStaticPool = do
-        (new_6 animationInterface (AllBinaryLayer.nULL_ALLBINARY_LAYER) weaponLayerCircularStaticPool (WeaponProperties.nULL_WEAPON_PROPERTIES) (jio (NoScoreable.getInstance)) (RelativeRelationship.nULL_RELATIVE_RELATIONSHIP))
+        (new_6 animationInterface (AllBinaryLayer.nULL_ALLBINARY_LAYER) weaponLayerCircularStaticPool (WeaponProperties.nULL_WEAPON_PROPERTIES) (javaCast (jio (NoScoreable.getInstance))) (RelativeRelationship.nULL_RELATIVE_RELATIONSHIP))
 
 new_6 :: Animation.Animation -> AllBinaryLayer.AllBinaryLayer -> WeaponLayerCircularPool.WeaponLayerCircularPool -> WeaponProperties.WeaponProperties -> ScoreableInterface.ScoreableInterface -> RelativeRelationship.RelativeRelationship -> IO BasicProjectileWeaponPart
 new_6 animationInterface sourceLayerInterface weaponLayerCircularStaticPool weaponProperties scoreableInterface relativeRelationship = do

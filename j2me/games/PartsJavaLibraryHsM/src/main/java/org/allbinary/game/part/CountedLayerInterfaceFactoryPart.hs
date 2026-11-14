@@ -19,10 +19,10 @@ module CountedLayerInterfaceFactoryPart where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -73,11 +73,15 @@ instance JavaObjectClass CountedLayerInterfaceFactoryPart where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_COUNTED_LAYER_INTERFACE_FACTORY :: CountedLayerInterfaceFactoryPart
 {-# NOINLINE nULL_COUNTED_LAYER_INTERFACE_FACTORY #-}
 nULL_COUNTED_LAYER_INTERFACE_FACTORY = unsafePerformIO ((new_2 0 (CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CountedLayerInterfaceFactoryPart
 newRecord_ = do
@@ -112,7 +116,7 @@ newRecord_ = do
 
 initFields_ :: CountedLayerInterfaceFactoryPart -> IO ()
 initFields_ this = do
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.animationInterface =<< (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
     jset this.total (0)

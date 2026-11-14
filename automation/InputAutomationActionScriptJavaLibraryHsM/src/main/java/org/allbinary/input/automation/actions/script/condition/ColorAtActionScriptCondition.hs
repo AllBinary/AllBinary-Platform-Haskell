@@ -20,10 +20,10 @@ import BasicProfileActionScriptCondition hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ColorAtActionScriptConditionJPanel -- same package or java.lang
 import qualified ColorAtActionScriptConditionData -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified Color -- java.awt.Color
 import qualified Point -- java.awt.Point
 import qualified BufferedImage -- java.awt.image.BufferedImage
@@ -81,6 +82,7 @@ instance JavaObjectClass ColorAtActionScriptCondition where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "If Color At"
 
 newRecord_ :: IO ColorAtActionScriptCondition
@@ -134,28 +136,30 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.lOCATION_X))) == 0) then do
                     locationX <- (DomNodeHelper.getTextNodeValue childNode)
-                    jset ((jget (this).point)).x ((javaToString locationX))
+                    assignedValue <- (jparseInt locationX)
+                    jset ((jget (this).point)).x (assignedValue)
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.lOCATION_Y))) == 0) then do
                     locationY <- (DomNodeHelper.getTextNodeValue childNode)
-                    jset ((jget (this).point)).y ((javaToString locationY))
+                    assignedValue <- (jparseInt locationY)
+                    jset ((jget (this).point)).y (assignedValue)
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mIN_RED))) == 0) then do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMinRed ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMinRed ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mAX_RED))) == 0) then do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMaxRed ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMaxRed ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mIN_GREEN))) == 0) then do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMinGreen ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMinGreen ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mAX_GREEN))) == 0) then do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMaxGreen ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMaxGreen ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mIN_BLUE))) == 0) then do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMinBlue ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMinBlue ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
                 else when ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ColorAtActionScriptConditionData.mAX_BLUE))) == 0) $ do
                     string <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ColorRangeInterface.setMaxBlue ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (javaToString string))
+                    Control.Monad.void (ColorRangeInterface.setMaxBlue ((jio (ColorAtActionScriptCondition.getColorRangeInterface this))) (jio (jparseInt string)))
         else do
             javaThrow ((JavaException "Exception" "Color At Action Script Condition Node Null"))
         Control.Monad.void (ColorAtActionScriptCondition.init this)
@@ -186,7 +190,7 @@ init_super object_ = (init_impl (javaCast object_ :: ColorAtActionScriptConditio
 
 init_impl :: ColorAtActionScriptCondition -> IO (())
 init_impl this = do
-        assignedValue <- (ColorAtActionScriptConditionJPanel.new_1 this)
+        assignedValue <- (ColorAtActionScriptConditionJPanel.new_1 (javaCast this))
         jset (this).colorAtActionScriptConditionJPanel (assignedValue)
         pure ()
 
@@ -271,10 +275,10 @@ shouldProcess_super object_ a1 = (shouldProcess_impl (javaCast object_ :: ColorA
 shouldProcess_impl :: ColorAtActionScriptCondition -> Int64 -> IO (Bool)
 shouldProcess_impl this frame = do
     javaCatchReturn $ do
-        let capturedBufferedImageCacheable = (javaCast (jio (get (((javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) (javaToString frame))) :: BufferedImageFrameCacheable.BufferedImageFrameCacheable)
+        let capturedBufferedImageCacheable = (javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) (Prelude.fromIntegral frame :: Int64))) :: BufferedImageFrameCacheable.BufferedImageFrameCacheable)
         bufferedImage <- (BufferedImageFrameCacheable.getBufferedImage capturedBufferedImageCacheable)
         automaticCacheInterface <- (ColorCacheFactory.getInstance)
-        let colorInteger = (javaToString (jio (BufferedImage.getRGB bufferedImage (jget ((jio (ColorAtActionScriptCondition.getPoint this))).x) (jget ((jio (ColorAtActionScriptCondition.getPoint this))).y))))
+        let colorInteger = ((jio (BufferedImage.getRGB bufferedImage (jget ((jio (ColorAtActionScriptCondition.getPoint this))).x) (jget ((jio (ColorAtActionScriptCondition.getPoint this))).y))))
         let colorCacheable = (javaCast (jio (AutomaticCacheInterface.get automaticCacheInterface colorInteger)) :: ColorCacheable.ColorCacheable)
         color <- (ColorCacheable.getColor colorCacheable)
         when (jio (ColorRangeInterface.isInRange ((jget (this).colorRangeInterface)) color)) $ do

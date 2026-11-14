@@ -16,14 +16,14 @@
 -- package views.admin.inventory
 module UpdateFileValidationView (module UpdateFileValidationView, module InventoryItemView) where
 
-import InventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid_2, isValid_2_super, isValid_2_impl, isValid, validationInfo_4, validationInfo_4_super, validationInfo_4_impl, validationInfo, logUtil, uPDATEPRODUCT)
+import InventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid_2, isValid_2_super, isValid_2_impl, isValid, validationInfo_4, validationInfo_4_super, validationInfo_4_impl, validationInfo, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, uPDATEPRODUCT)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified ItemInterface -- same package or java.lang
+import qualified HashMap -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
+import qualified HttpStoreComponentView -- same package or java.lang
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
 import qualified BasicItemData -- org.allbinary.business.user.commerce.inventory.item.BasicItemData
@@ -78,6 +81,7 @@ instance JavaObjectClass UpdateFileValidationView where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+uPDATEPRODUCT :: String
 uPDATEPRODUCT = (jget ((jio (CommonStrings.getInstance))).uPDATE)
 
 newRecord_ :: IO UpdateFileValidationView
@@ -94,6 +98,7 @@ newRecord_ = do
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
     jregisterMethod header_ "isValid_2" (\() -> isValid_2_impl this)
     jregisterMethod header_ "validationInfo_4" (\() -> validationInfo_4_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: UpdateFileValidationView -> IO ()
@@ -201,7 +206,7 @@ validationInfo_impl this = do
             javaReturn ((jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jio (BasicItemValidation.validationInfo ((jio (BasicItemValidation.new_1 (jget (this).base.itemInterface)))))))
         storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (WeblisketSession.getStoreName ((jio (InventoryItemView.getWeblisketSession this)))))))
-        let fullCategory = (((javaCast (jio (URLGLOBALS.getWebappPath)) :: String) + (jio (StoreFrontInterface.getCurrentHostNamePath storeFrontInterface))) + (jio (ItemInterface.getCategory ((jget (this).base.itemInterface)))))
+        let fullCategory = ((javaToString (javaCast (jio (URLGLOBALS.getWebappPath)) :: String) ++ (jio (StoreFrontInterface.getCurrentHostNamePath storeFrontInterface))) ++ (jio (ItemInterface.getCategory ((jget (this).base.itemInterface)))))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Category: " ++ fullCategory) this "validationInfo()")
         handle (\(e :: JavaException) -> do
@@ -273,5 +278,17 @@ validationInfo_4_impl this stringBuffer fileName fileItemFieldName size = do
                     Control.Monad.void (StringMaker.appendint stringBuffer (jget (fileData).mAXIMAGEFILESIZE))
                     Control.Monad.void (StringMaker.append stringBuffer "<br />")
         pure ()
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: UpdateFileValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: UpdateFileValidationView))
+
+getTransformInfoInterface_impl :: UpdateFileValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (InventoryItemView.getTransformInfoInterface_super this.base)
 
 

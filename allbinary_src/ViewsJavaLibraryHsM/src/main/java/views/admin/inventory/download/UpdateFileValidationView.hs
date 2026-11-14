@@ -16,14 +16,14 @@
 -- package views.admin.inventory.download
 module UpdateFileValidationView (module UpdateFileValidationView, module DownloadableInventoryItemView) where
 
-import DownloadableInventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid_2, isValid_2_super, isValid_2_impl, isValid, validationInfo_3, validationInfo_3_super, validationInfo_3_impl, validationInfo, logUtil, commonStrings)
+import DownloadableInventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, isValid_2, isValid_2_super, isValid_2_impl, isValid, validationInfo_3, validationInfo_3_super, validationInfo_3_impl, validationInfo, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, commonStrings)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified ItemInterface -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
@@ -98,6 +99,7 @@ newRecord_ = do
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
     jregisterMethod header_ "isValid_2" (\() -> isValid_2_impl this)
     jregisterMethod header_ "validationInfo_3" (\() -> validationInfo_3_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: UpdateFileValidationView -> IO ()
@@ -203,12 +205,12 @@ isValid_impl this = do
             Control.Monad.void (HashMap.put hashMap (jget ((jget this.base.basicItemData)).iD) (jio (ItemInterface.getId ((jget (this).base.itemInterface)))))
             licenseObject <- (HashMap.get hashMap (DownloadItemData.lICENSE_FILE))
             if (licenseObject /= javaNull) then do
-                Control.Monad.void (HashMap.put hashMap (DownloadItemData.lICENSE_FILE) (jio (getName (((javaCast licenseObject :: FileItem.FileItem))))))
+                Control.Monad.void (HashMap.put hashMap (DownloadItemData.lICENSE_FILE) (jio (FileItem.getName (((javaCast licenseObject :: FileItem.FileItem))))))
             else do
                 Control.Monad.void (HashMap.put hashMap (DownloadItemData.lICENSE_FILE) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             fileObject <- (HashMap.get hashMap (DownloadItemData.fILE))
             if (fileObject /= javaNull) then do
-                Control.Monad.void (HashMap.put hashMap (DownloadItemData.fILE) (jio (getName (((javaCast fileObject :: FileItem.FileItem))))))
+                Control.Monad.void (HashMap.put hashMap (DownloadItemData.fILE) (jio (FileItem.getName (((javaCast fileObject :: FileItem.FileItem))))))
             else do
                 Control.Monad.void (HashMap.put hashMap (DownloadItemData.fILE) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             assignedValue <- (DownloadableItem.new_1 hashMap)
@@ -387,5 +389,17 @@ validationInfo_3_impl this stringBuffer fileName size = do
                 Control.Monad.void (StringMaker.appendint stringBuffer (jget (fileData).mAXDOWNLOADABLEFILESIZE))
                 Control.Monad.void (StringMaker.append stringBuffer "<br/>")
         pure ()
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: UpdateFileValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: UpdateFileValidationView))
+
+getTransformInfoInterface_impl :: UpdateFileValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (DownloadableInventoryItemView.getTransformInfoInterface_super this.base)
 
 

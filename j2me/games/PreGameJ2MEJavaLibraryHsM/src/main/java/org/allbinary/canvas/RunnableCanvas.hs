@@ -20,10 +20,10 @@ import MyCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Thread -- same package or java.lang
 import qualified Processor -- same package or java.lang
 import qualified RunnableCanvasRefreshHelper -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified GameRunnable -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified TsUtil -- org.allbinary.TsUtil
 import qualified NullWaitGameRunnable -- org.allbinary.game.displayable.canvas.NullWaitGameRunnable
@@ -181,7 +182,7 @@ init_3 this commandListener childNameList hasParam = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "RunnableCanvas delay: "))) (jget ((jget (this).loopTimeHelper)).delay)))))) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: Processor.Processor) (RunnableCanvasRefreshHelper.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: Processor.Processor) (RunnableCanvasRefreshHelper.new_1 (javaCast this)))
         jset (this).runnableCanvasRefreshHelper (assignedValue)
         if (commandListener /= javaNull) then do
             Control.Monad.void (RunnableCanvas.initCommands this commandListener)

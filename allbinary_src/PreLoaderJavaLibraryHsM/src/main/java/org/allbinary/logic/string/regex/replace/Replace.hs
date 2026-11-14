@@ -19,10 +19,10 @@ module Replace where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass Replace where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO Replace
 newRecord_ = do
     header_ <- newJavaHeader
@@ -95,31 +98,44 @@ initFields_ this = do
     jset this.hashMap (javaNull)
     pure ()
 
-new_2 :: String -> String -> IO Replace
-new_2 key value = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o1, JavaObjectClass o2) => o1 -> o2 -> IO Replace
+new_2 a1 a2
+    | jisInstanceOf a1 (javaNull :: String) && jisInstanceOf a2 (javaNull :: String) = new_2_overload1 (javaCast a1 :: String) (javaCast a2 :: String)
+    | jisInstanceOf a1 (javaNull :: JavaArray (String)) && jisInstanceOf a2 (javaNull :: JavaArray (String)) = new_2_overload2 (javaCast a1 :: JavaArray (String)) (javaCast a2 :: JavaArray (String))
+    | otherwise = new_2_overload2 (javaCast a1 :: JavaArray (String)) (javaCast a2 :: JavaArray (String))
+
+init_2 :: (JavaObjectClass o1, JavaObjectClass o2) => Replace -> o1 -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a1 (javaNull :: String) && jisInstanceOf a2 (javaNull :: String) = init_2_overload1 this (javaCast a1 :: String) (javaCast a2 :: String)
+    | jisInstanceOf a1 (javaNull :: JavaArray (String)) && jisInstanceOf a2 (javaNull :: JavaArray (String)) = init_2_overload2 this (javaCast a1 :: JavaArray (String)) (javaCast a2 :: JavaArray (String))
+    | otherwise = init_2_overload2 this (javaCast a1 :: JavaArray (String)) (javaCast a2 :: JavaArray (String))
+
+
+new_2_overload1 :: String -> String -> IO Replace
+new_2_overload1 key value = do
     this <- newRecord_
-    init_2 this key value
+    init_2_overload1 this key value
     pure this
 
-init_2 :: Replace -> String -> String -> IO ()
-init_2 this key value = do
+init_2_overload1 :: Replace -> String -> String -> IO ()
+init_2_overload1 this key value = do
         initFields_ this
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).hashMap (assignedValue)
         Control.Monad.void (HashMap.put ((jget (this).hashMap)) (jarrayFromList [key]) (jarrayFromList [value]))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: JavaArray (String) -> JavaArray (String) -> IO Replace
-new_2 keys values = do
+new_2_overload2 :: JavaArray (String) -> JavaArray (String) -> IO Replace
+new_2_overload2 keys values = do
     this <- newRecord_
-    init_2 this keys values
+    init_2_overload2 this keys values
     pure this
 
-init_2 :: Replace -> JavaArray (String) -> JavaArray (String) -> IO ()
-init_2 this keys values = do
+init_2_overload2 :: Replace -> JavaArray (String) -> JavaArray (String) -> IO ()
+init_2_overload2 this keys values = do
         initFields_ this
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).hashMap (assignedValue)
         Control.Monad.void (HashMap.put ((jget (this).hashMap)) keys values)
         pure ()

@@ -19,10 +19,10 @@ module OSGIActivatorUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ instance JavaObjectClass OSGIActivatorUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO OSGIActivatorUtil
 newRecord_ = do
@@ -95,11 +98,11 @@ registerAsService bundleContext anyTypeObject_ serviceName = do
 registerAsService_4 :: (JavaObjectClass o2) => BundleContext.BundleContext -> o2 -> String -> ABHashtable.ABHashtable -> IO (())
 registerAsService_4 bundleContext anyTypeObject_ serviceName properties = do
         let anyType = jtoObject anyTypeObject_
-        serviceRegistration <- (BundleContext.registerService bundleContext serviceName anyType properties)
+        serviceRegistration <- (BundleContext.registerService bundleContext serviceName anyType (javaCast properties))
         serviceReference <- newIORef =<< (ServiceRegistration.getReference serviceRegistration)
         assignedValue <- (BundleContext.getServiceReference bundleContext serviceName)
         jset serviceReference (assignedValue)
-        when ((jget serviceReference) == (jget ((jio (NullServiceReferenceFactory.getInstance))).nULL_SERVICE_REFERENCE)) $ do
+        when ((jtoObject (jget serviceReference)) == (jtoObject (jget ((jio (NullServiceReferenceFactory.getInstance))).nULL_SERVICE_REFERENCE))) $ do
             javaThrow ((JavaException "Exception" "No Such Service Reference"))
         pure ()
 

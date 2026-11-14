@@ -19,10 +19,10 @@ module ImageRotationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass ImageRotationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageRotationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageRotationUtil
 newRecord_ = do
@@ -117,7 +121,7 @@ rotateImage_impl this originalImage image totalAngle = do
                 jset ((jget (openGLESImage).openGLESImageProperties)).angle (totalAngle)
                 javaReturn (())
             else do
-                Control.Monad.void (PreLogUtil.put ((("OpenGL but image is: " ++ javaToString image) ++ " type: ") ++ javaToString (jio (Image.getType image))) this "rotateImage")
+                Control.Monad.void (PreLogUtil.put ((("OpenGL but image is: " ++ jconcatObject Image.toString image) ++ " type: ") ++ javaToString (jio (Image.getType image))) this "rotateImage")
         let originalSwtImage = ((javaCast (jio (Image.getImage originalImage2)) :: Image.Image))
         gc <- newIORef (javaNull)
         copySwtImage <- newIORef (javaNull)

@@ -16,14 +16,14 @@
 -- package views.business.context.modules.storefront.customizer.includes.style.theme
 module NewThemeValidationView (module NewThemeValidationView, module CssCustomizerView) where
 
-import CssCustomizerView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, toXmlDoc, toXmlDoc_super, toXmlDoc_impl, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, view, view_super, view_impl, logUtil)
+import CssCustomizerView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, toXmlDoc, toXmlDoc_super, toXmlDoc_impl, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, view, view_super, view_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ValidationInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HttpStoreComponentView -- same package or java.lang
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified ValidationComponentInterface -- org.allbinary.logic.control.validate.ValidationComponentInterface
@@ -79,6 +80,7 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "view" (\() -> view_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: NewThemeValidationView -> IO ()
@@ -127,7 +129,7 @@ isValid_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to validate" this (jget ((jget (this).base.base.commonStrings)).iS_VALID) e)
             pure (False)
             ) $ do
-            Control.Monad.void (CustomizerUtil.insert ((jio (CustomizerUtil.getInstance))) (jio (CssCustomizerView.getTransformInfoInterface this)) (javaCast (jget (this).base.styleValidationInterface) :: DomNodeInterface.DomNodeInterface))
+            Control.Monad.void (CustomizerUtil.insert ((jio (CustomizerUtil.getInstance))) (jio (NewThemeValidationView.getTransformInfoInterface this)) (javaCast (jget (this).base.styleValidationInterface) :: DomNodeInterface.DomNodeInterface))
             pure (True)
 
 
@@ -181,5 +183,17 @@ view_super object_ = (view_impl (javaCast object_ :: NewThemeValidationView))
 view_impl :: NewThemeValidationView -> IO (String)
 view_impl this = do
         (view ((jio (getInstance ((jget ((jget this.base.views)).validationOnlyTempUtil))))) this)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: NewThemeValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: NewThemeValidationView))
+
+getTransformInfoInterface_impl :: NewThemeValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (CssCustomizerView.getTransformInfoInterface_super this.base)
 
 

@@ -20,10 +20,10 @@ import WaypointInfoHudPaintable hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,7 +34,10 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GeologicalGeographicMapCellPosition -- same package or java.lang
 import qualified GeographicMapCellPositionAreaBase -- same package or java.lang
+import qualified GeologicalResource -- same package or java.lang
+import qualified PrimitiveLongUtil -- same package or java.lang
 import qualified PathFindingLayerInterface -- same package or java.lang
+import qualified SelectionHudPaintable -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified RTSLayer -- org.allbinary.game.layer.RTSLayer
@@ -62,6 +65,7 @@ instance JavaObjectClass GeologicalResourceInfoHudPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rESOURCES :: String
 rESOURCES = "Resources: "
 
 newRecord_ :: IO GeologicalResourceInfoHudPaintable
@@ -127,7 +131,8 @@ updateSelectionInfo_impl this = do
         index <- newIORef =<< (BasicArrayList.size list)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             let geographicMapCellPosition = (javaCast (jio (BasicArrayList.get list (jget index))) :: GeologicalGeographicMapCellPosition.GeologicalGeographicMapCellPosition)
-            jset total (((jget total) + (GeologicalResource.getTotal ((jio (GeologicalGeographicMapCellPosition.getGeologicalResource geographicMapCellPosition))))))
+            assignedValue <- (GeologicalResource.getTotal ((jio (GeologicalGeographicMapCellPosition.getGeologicalResource geographicMapCellPosition))))
+            jset total (((jget total) + assignedValue))
         Control.Monad.void (KeyValueDrawCharArray.update ((jget (this).keyvalueDrawString)) (jio (PrimitiveLongUtil.getCharArray ((jio (WaypointInfoHudPaintable.getPrimitiveLongUtil this))) (jget total))) (jio (PrimitiveLongUtil.getCurrentTotalDigits ((jio (WaypointInfoHudPaintable.getPrimitiveLongUtil this))))))
         pure ()
 

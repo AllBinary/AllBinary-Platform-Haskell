@@ -20,10 +20,10 @@ import Category hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -109,14 +109,28 @@ init_3 this transformInfoInterface categoryPropertiesFactoryInterface level = do
         jset (this).themeVector (assignedValue)
         pure ()
 
-new_4 :: TransformInfoInterface.TransformInfoInterface -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> IO StoreThemeCategory
-new_4 transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface = do
+-- Java overloaded constructors with 4 parameters: call the overload for the types of the arguments
+new_4 :: (JavaObjectClass o2, JavaObjectClass o3, JavaObjectClass o4) => TransformInfoInterface.TransformInfoInterface -> o2 -> o3 -> o4 -> IO StoreThemeCategory
+new_4 a1 a2 a3 a4
+    | jisInstanceOf a2 (javaNull :: CategoryInterface.CategoryInterface) && jisInstanceOf a3 (javaNull :: CategoryInterface.CategoryInterface) && jisInstanceOf a4 (javaNull :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) = new_4_overload1 a1 (javaCast a2 :: CategoryInterface.CategoryInterface) (javaCast a3 :: CategoryInterface.CategoryInterface) (javaCast a4 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface)
+    | jisInstanceOf a2 (javaNull :: Node.Node) && jisInstanceOf a3 (javaNull :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) && jisInstanceOf a4 (javaNull :: Int) = new_4_overload2 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) (javaCast a4 :: Int)
+    | otherwise = new_4_overload2 a1 (javaCast a2 :: Node.Node) (javaCast a3 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) (javaCast a4 :: Int)
+
+init_4 :: (JavaObjectClass o2, JavaObjectClass o3, JavaObjectClass o4) => StoreThemeCategory -> TransformInfoInterface.TransformInfoInterface -> o2 -> o3 -> o4 -> IO ()
+init_4 this a1 a2 a3 a4
+    | jisInstanceOf a2 (javaNull :: CategoryInterface.CategoryInterface) && jisInstanceOf a3 (javaNull :: CategoryInterface.CategoryInterface) && jisInstanceOf a4 (javaNull :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) = init_4_overload1 this a1 (javaCast a2 :: CategoryInterface.CategoryInterface) (javaCast a3 :: CategoryInterface.CategoryInterface) (javaCast a4 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface)
+    | jisInstanceOf a2 (javaNull :: Node.Node) && jisInstanceOf a3 (javaNull :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) && jisInstanceOf a4 (javaNull :: Int) = init_4_overload2 this a1 (javaCast a2 :: Node.Node) (javaCast a3 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) (javaCast a4 :: Int)
+    | otherwise = init_4_overload2 this a1 (javaCast a2 :: Node.Node) (javaCast a3 :: CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface) (javaCast a4 :: Int)
+
+
+new_4_overload1 :: TransformInfoInterface.TransformInfoInterface -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> IO StoreThemeCategory
+new_4_overload1 transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface = do
     this <- newRecord_
-    init_4 this transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface
+    init_4_overload1 this transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface
     pure this
 
-init_4 :: StoreThemeCategory -> TransformInfoInterface.TransformInfoInterface -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> IO ()
-init_4 this transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface = do
+init_4_overload1 :: StoreThemeCategory -> TransformInfoInterface.TransformInfoInterface -> CategoryInterface.CategoryInterface -> CategoryInterface.CategoryInterface -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> IO ()
+init_4_overload1 this transformInfoInterface rootCategoryInterface parentCategoryInterface categoryPropertiesFactoryInterface = do
         Category.init_3 this.base (rootCategoryInterface) (parentCategoryInterface) (categoryPropertiesFactoryInterface)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -125,15 +139,14 @@ init_4 this transformInfoInterface rootCategoryInterface parentCategoryInterface
         jset (this).themeVector (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_4 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> Int -> IO StoreThemeCategory
-new_4 transformInfoInterface node categoryPropertiesFactoryInterface level = do
+new_4_overload2 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> Int -> IO StoreThemeCategory
+new_4_overload2 transformInfoInterface node categoryPropertiesFactoryInterface level = do
     this <- newRecord_
-    init_4 this transformInfoInterface node categoryPropertiesFactoryInterface level
+    init_4_overload2 this transformInfoInterface node categoryPropertiesFactoryInterface level
     pure this
 
-init_4 :: StoreThemeCategory -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> Int -> IO ()
-init_4 this transformInfoInterface node categoryPropertiesFactoryInterface level = do
+init_4_overload2 :: StoreThemeCategory -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> CategoryPropertiesFactoryInterface.CategoryPropertiesFactoryInterface -> Int -> IO ()
+init_4_overload2 this transformInfoInterface node categoryPropertiesFactoryInterface level = do
         Category.init_2 this.base (categoryPropertiesFactoryInterface) (level)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -223,7 +236,7 @@ isValid_super object_ = (isValid_impl (javaCast object_ :: StoreThemeCategory))
 isValid_impl :: StoreThemeCategory -> IO (Bool)
 isValid_impl this = do
     javaCatchReturn $ do
-        when (Prelude.not (jio (booleanValue ((jio (Category.isValid_super this.base)))))) $ do
+        when (Prelude.not (jio (Category.isValid_super this.base))) $ do
             javaReturn (False)
         pure (True)
 

@@ -20,10 +20,10 @@ import Init hiding (new_, init_, newRecord_, initFields_, header_, base, staticI
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified GameFeatureChoiceGroups -- org.allbinary.game.configuration.feature.GameFeatureChoiceGroups
 import qualified InGameFeatureChoiceGroups -- org.allbinary.game.configuration.feature.InGameFeatureChoiceGroups

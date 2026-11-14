@@ -20,10 +20,10 @@ import FeaturedResourceFactory hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,8 @@ import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified BasicAnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified NullAnimationFactory -- same package or java.lang
 import qualified GameConfiguration -- same package or java.lang
+import qualified Any -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified FeatureResourceAnimationInterfaceFactoryInterface -- org.allbinary.animation.resource.FeatureResourceAnimationInterfaceFactoryInterface
 import qualified GameConfigurationCentral -- org.allbinary.game.configuration.GameConfigurationCentral
 import qualified FeaturedResourceFactory -- org.allbinary.game.resource.FeaturedResourceFactory
@@ -67,6 +69,7 @@ instance JavaObjectClass FeaturedAnimationInterfaceFactoryInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iNSTANCE :: IORef (FeaturedAnimationInterfaceFactoryInterfaceFactory)
 {-# NOINLINE iNSTANCE #-}
 iNSTANCE = unsafePerformIO ((new_) >>= newIORef)
 
@@ -212,7 +215,7 @@ getBasicAnimationInterfaceFactoryInstance_impl this resource = do
                 when (jio (FeatureResourceAnimationInterfaceFactoryInterface.isFeature ((jget featureInterface)))) $ do
                     Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jio (StringUtil.getInstance))) (jget featureInterface))))
                     Control.Monad.void (StringMaker.append stringBuffer hAS_KEY)
-                    Control.Monad.void (StringMaker.appendint stringBuffer (jio (FeatureResourceAnimationInterfaceFactoryInterface.size ((jio (FeatureResourceAnimationInterfaceFactoryInterface.getHashtable ((jget featureInterface))))))))
+                    Control.Monad.void (StringMaker.appendint stringBuffer (jio (ABHashtable.size ((jio (FeatureResourceAnimationInterfaceFactoryInterface.getHashtable ((jget featureInterface))))))))
                     Control.Monad.void (StringMaker.append stringBuffer rESOURCES_LABEL)
             javaThrow ((JavaException "Exception" (jio (StringMaker.toString stringBuffer))))
         else do

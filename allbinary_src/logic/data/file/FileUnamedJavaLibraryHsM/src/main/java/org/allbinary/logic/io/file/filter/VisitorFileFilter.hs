@@ -19,10 +19,10 @@ module VisitorFileFilter where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ instance JavaObjectClass VisitorFileFilter where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO VisitorFileFilter
 newRecord_ = do
@@ -104,7 +107,7 @@ accept_overload1_super object_ a1 = (accept_overload1_impl (javaCast object_ :: 
 accept_overload1_impl :: VisitorFileFilter -> File.File -> IO (Bool)
 accept_overload1_impl this file = do
         abFile <- (FileWrapperUtil.wrapFile file)
-        isFileAcceptable <- (booleanValue (((javaCast (jio (VisitorInterface.visit ((jget (this).booleanVisitorInterface)) abFile)) :: Bool))))
+        let isFileAcceptable = ((javaCast (jio (VisitorInterface.visit ((jget (this).booleanVisitorInterface)) abFile)) :: Bool))
         pure ((isFileAcceptable || (jio (File.isDirectory file))))
 
 
@@ -116,7 +119,7 @@ accept_overload2_super object_ a1 = (accept_overload2_impl (javaCast object_ :: 
 
 accept_overload2_impl :: VisitorFileFilter -> AbFile.AbFile -> IO (Bool)
 accept_overload2_impl this file = do
-        isFileAcceptable <- (booleanValue (((javaCast (jio (VisitorInterface.visit ((jget (this).booleanVisitorInterface)) file)) :: Bool))))
+        let isFileAcceptable = ((javaCast (jio (VisitorInterface.visit ((jget (this).booleanVisitorInterface)) file)) :: Bool))
         pure ((isFileAcceptable || (jio (AbFile.isDirectory file))))
 
 

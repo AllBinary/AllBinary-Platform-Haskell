@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,6 +40,7 @@ import qualified JButton -- same package or java.lang
 import qualified Dimension -- same package or java.lang
 import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
+import qualified GenericProfileActionScript -- same package or java.lang
 import qualified JTreeInterfaceFactory -- org.allbinary.input.automation.actions.script.JTreeInterfaceFactory
 import qualified AlwaysActionScriptCondition -- org.allbinary.input.automation.actions.script.condition.AlwaysActionScriptCondition
 import qualified ColorAtActionScriptCondition -- org.allbinary.input.automation.actions.script.condition.ColorAtActionScriptCondition

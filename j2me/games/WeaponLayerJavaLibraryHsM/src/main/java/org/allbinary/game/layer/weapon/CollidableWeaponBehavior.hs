@@ -20,10 +20,10 @@ import CollidableDestroyableDamageableBehavior hiding (new_, init_, newRecord_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,8 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
-import qualified LayerCollisionUtil -- same package or java.lang
 import qualified DamageUtil -- same package or java.lang
+import qualified LayerCollisionUtil -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
 import qualified CollidableHelperFactory -- org.allbinary.game.collision.CollidableHelperFactory
 import qualified CollidableInterfaceCompositeInterface -- org.allbinary.game.collision.CollidableInterfaceCompositeInterface
 import qualified CollisionHelper -- org.allbinary.game.collision.CollisionHelper
@@ -97,7 +98,7 @@ initFields_ this = do
 getNullInstance :: IO (CollidableWeaponBehavior)
 getNullInstance = do
         when ((jget CollidableWeaponBehavior.nULL_COLLIDABLE_WEAPON_BEHAVIOR) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_1 False)
+            assignedValue <- (fmap jtoObject (new_1 False))
             jset CollidableWeaponBehavior.nULL_COLLIDABLE_WEAPON_BEHAVIOR (assignedValue)
         pure ((javaCast (jget CollidableWeaponBehavior.nULL_COLLIDABLE_WEAPON_BEHAVIOR) :: CollidableWeaponBehavior))
 
@@ -173,7 +174,7 @@ isCollisionInterface_impl this ownerLayer collidableInterfaceCompositeInterface 
         when (jio (CollisionHelper.isCollidable ((jget (this).collisionHelper)) (javaCast collidableInterfaceCompositeInterface :: CollidableCompositeLayer.CollidableCompositeLayer))) $ do
             let layerInterface = (javaCast collidableInterfaceCompositeInterface :: AllBinaryLayer.AllBinaryLayer)
             when ((jindex ((jio (CollidableCompositeLayer.getGroupInterface ownerLayer))) (0)) /= (jindex ((jio (AllBinaryLayer.getGroupInterface layerInterface))) (0))) $ do
-                when (jio (LayerCollisionUtil.isCollision ((jget (this).base.base.layerCollisionUtil)) ownerLayer layerInterface)) $ do
+                when (jio (LayerCollisionUtil.isCollision ((jget (this).base.base.layerCollisionUtil)) (javaCast ownerLayer) layerInterface)) $ do
                     javaReturn (True)
         pure (False)
 

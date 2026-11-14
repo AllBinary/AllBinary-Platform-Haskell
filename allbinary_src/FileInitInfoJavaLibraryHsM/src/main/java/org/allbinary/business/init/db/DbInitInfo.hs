@@ -20,10 +20,10 @@ import DbConnectionInfo hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -157,9 +157,9 @@ write_super object_ = (write_impl (javaCast object_ :: DbInitInfo))
 
 write_impl :: DbInitInfo -> IO (())
 write_impl this = do
-        pATH <- (AbPath.new_2 (javaToString (jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        pATH <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         Control.Monad.void (Directory.create ((jget (this).directory)) pATH)
-        fILEABPATH <- (AbPath.new_2 (javaToString (jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget (this).initFileName))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget (this).initFileName))
         handle (\(e :: JavaException) -> do
             when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADERERROR))) $ do
                 Control.Monad.void (PreLogUtil.putOE ("Failed Write: " ++ (jio (AbPath.toString fILEABPATH))) this "write" e)
@@ -197,7 +197,7 @@ load_super object_ = (load_impl (javaCast object_ :: DbInitInfo))
 
 load_impl :: DbInitInfo -> IO (())
 load_impl this = do
-        fILEABPATH <- (AbPath.new_2 (javaToString (jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget (this).initFileName))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (jget (this).pACKAGE)) (jget (this).initFileName))
         handle (\(e :: JavaException) -> do
             when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADERERROR))) $ do
                 Control.Monad.void (PreLogUtil.putOE ("Failed Loading: " ++ (jio (AbPath.toString fILEABPATH))) this (jget ((jget (this).commonStrings)).lOAD) e)
@@ -205,7 +205,7 @@ load_impl this = do
             file <- (AbFile.createAbFileFromAbPath fILEABPATH)
             if (jio (AbFile.isFile file)) then do
                 iFile <- (AbFileInputStream.new_1 file)
-                iData <- (AbDataInputStream.new_1 iFile)
+                iData <- (AbDataInputStream.new_1 (javaCast iFile))
                 flip finally (do
                     Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast iData))
                     ) $ do
@@ -224,6 +224,7 @@ load_impl this = do
                     Control.Monad.void (DbConnectionInfo.setServer this (jio (WeakCrypt.decrypt ((jio (WeakCrypt.new_1 6))) decryptedServer)))
                     Control.Monad.void (DbConnectionInfo.setPort this (jio (WeakCrypt.decrypt ((jio (WeakCrypt.new_1 7))) decryptedPort)))
                     stringUtil <- (StringUtil.getInstance)
+                    pure ()
             else do
                 jset (this).hasRead (False)
                 when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADER))) $ do
@@ -285,7 +286,7 @@ getUserName_impl :: DbInitInfo -> IO (String)
 getUserName_impl this = do
         Control.Monad.void (DbInitInfo.updateIfNeeded this)
         when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADER))) $ do
-            Control.Monad.void (PreLogUtil.put ("Name: " ++ javaToString (jio (DbConnectionInfo.getUserName_super this.base))) this "getUserName")
+            Control.Monad.void (PreLogUtil.put ("Name: " ++ (jio (DbConnectionInfo.getUserName_super this.base))) this "getUserName")
         (DbConnectionInfo.getUserName_super this.base)
 
 

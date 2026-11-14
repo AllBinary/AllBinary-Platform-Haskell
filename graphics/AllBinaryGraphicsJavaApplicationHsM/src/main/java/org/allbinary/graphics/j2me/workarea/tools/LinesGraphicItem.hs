@@ -19,10 +19,10 @@ module LinesGraphicItem where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -93,23 +93,33 @@ instance JavaObjectClass LinesGraphicItem where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rECT :: String
 rECT = "rect"
 
+aRC :: String
 aRC = "arc"
 
+sTRING :: String
 sTRING = "string"
 
+cHAR :: String
 cHAR = "char"
 
+iMAGE :: String
 iMAGE = "image"
 
+item :: IORef (Int)
 {-# NOINLINE item #-}
 item = unsafePerformIO (newIORef (0))
 
+nAME :: String
 nAME = "Line Tool"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LinesGraphicItem
 newRecord_ = do
@@ -255,7 +265,7 @@ translate_super object_ a1 a2 = (translate_impl (javaCast object_ :: LinesGraphi
 
 translate_impl :: LinesGraphicItem -> Int -> Int -> IO (())
 translate_impl this x y = do
-        Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) ("Translating: " ++ javaToString (jio (Points.getPoints ((jget (this).points))))))
+        Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) ("Translating: " ++ jconcatObject BasicArrayList.toString (jio (Points.getPoints ((jget (this).points))))))
         basicGraphicsPipeline <- (BasicGraphicsPipeline.new_1 (jio (Points.getPoints ((jget (this).points)))))
         Control.Monad.void (BasicGraphicsPipeline.translate basicGraphicsPipeline x y)
         assignedValue <- (Points.new_)

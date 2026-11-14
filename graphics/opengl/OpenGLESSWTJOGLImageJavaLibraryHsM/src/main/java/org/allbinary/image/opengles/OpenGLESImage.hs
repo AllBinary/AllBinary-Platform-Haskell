@@ -20,10 +20,10 @@ import Image hiding (new_, init_, newRecord_, initFields_, header_, base, static
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified OpenGLESImageProcessor -- same package or java.lang
 import qualified OpenGLESImageTranslate -- same package or java.lang
 import qualified OpenGLESImageProperties -- same package or java.lang
 import qualified OpenGLImageCacheFactory -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified GL -- javax.microedition.khronos.opengles.GL
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
 import qualified Image -- javax.microedition.lcdui.Image
@@ -79,12 +80,15 @@ instance JavaObjectClass OpenGLESImage where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_OPENGL_IMAGE :: OpenGLESImage
 {-# NOINLINE nULL_OPENGL_IMAGE #-}
 nULL_OPENGL_IMAGE = unsafePerformIO ((new_3 (NullImage.nULL_IMAGE) (PlatformBitmapBaseFactory.nULL_PLATFORM_BITMAP_BASE_FACTORY) (PlatformTextureBaseFactory.nULL_PLATFORM_TEXTURE_BASE_FACTORY)))
 
+texture2dList :: BasicArrayList.BasicArrayList
 {-# NOINLINE texture2dList #-}
 texture2dList = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)))
 
+tYPE :: Int
 tYPE = 4
 
 newRecord_ :: IO OpenGLESImage
@@ -186,8 +190,8 @@ initTexture_super object_ a1 = (initTexture_impl (javaCast object_ :: OpenGLESIm
 initTexture_impl :: OpenGLESImage -> GL10.GL10 -> IO (Bool)
 initTexture_impl this gl = do
     javaCatchReturn $ do
-        when (Prelude.not (jio (contains OpenGLESImage.texture2dList this))) $ do
-            Control.Monad.void (add OpenGLESImage.texture2dList this)
+        when (Prelude.not (jio (BasicArrayList.contains OpenGLESImage.texture2dList this))) $ do
+            Control.Monad.void (BasicArrayList.add OpenGLESImage.texture2dList this)
             let textures = (jnewArray (1) 0)
             Control.Monad.void (GL10.glEnable gl (GL10.gL_TEXTURE_2D))
             when ((jget ((jget (this).openGLESImageProperties)).textureID) /= (Prelude.negate 1)) $ do

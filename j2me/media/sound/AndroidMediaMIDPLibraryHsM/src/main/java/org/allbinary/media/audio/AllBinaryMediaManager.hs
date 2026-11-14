@@ -19,10 +19,10 @@ module AllBinaryMediaManager where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,6 +39,7 @@ import qualified PlayerComposite -- same package or java.lang
 import qualified MediaPlayerUtil -- same package or java.lang
 import qualified NoPlayer -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified ProgressCanvas -- same package or java.lang
 import qualified IOException -- java.io.IOException
 import qualified InputStream -- java.io.InputStream
 import qualified MediaException -- javax.microedition.media.MediaException
@@ -69,13 +70,18 @@ instance JavaObjectClass AllBinaryMediaManager where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tHIS :: String
 tHIS = "AllBinaryMediaManagerAndroid"
 
+mostUsedTotal :: IORef (Int)
 {-# NOINLINE mostUsedTotal #-}
 mostUsedTotal = unsafePerformIO (newIORef (0))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryMediaManager
 newRecord_ = do
@@ -144,10 +150,10 @@ shutdown soundsFactoryInterface = do
             androidMediaPlayerWrapper <- newIORef (javaNull)
             forM_ [0 .. (jlength soundInterfaceArray) - 1] $ \i -> javaIteration (pure ()) $ do
                 when ((jindex soundInterfaceArray (i)) /= javaNull) $ do
-                    assignedValue <- (getPlayerP ((jindex soundInterfaceArray (i))))
+                    assignedValue <- (Sound.getPlayerP ((jindex soundInterfaceArray (i))))
                     jset player (assignedValue)
                     when ((jget player) /= javaNull) $ do
-                        assignedValue <- (getPlayerP (((javaCast (jget player) :: PlayerComposite.PlayerComposite))))
+                        assignedValue <- (PlayerComposite.getPlayerP (((javaCast (jget player) :: PlayerComposite.PlayerComposite))))
                         jset player2 (assignedValue)
                         if (javaInstanceOf (jget player2) "AndroidMediaPlayerWrapper") then do
                             jset androidMediaPlayerWrapper ((javaCast (jget player2) :: AndroidMediaPlayerWrapper.AndroidMediaPlayerWrapper))

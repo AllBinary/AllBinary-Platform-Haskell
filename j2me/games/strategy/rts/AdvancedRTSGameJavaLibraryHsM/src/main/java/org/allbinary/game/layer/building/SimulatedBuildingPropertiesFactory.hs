@@ -20,10 +20,10 @@ import BuildingPropertiesFactory hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,7 @@ instance JavaObjectClass SimulatedBuildingPropertiesFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: SimulatedBuildingPropertiesFactory
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 
@@ -118,7 +119,7 @@ getDamageFloaters_super object_ a1 = (getDamageFloaters_impl (javaCast object_ :
 getDamageFloaters_impl :: SimulatedBuildingPropertiesFactory -> BuildingLayer.BuildingLayer -> IO (DamageFloaters.DamageFloaters)
 getDamageFloaters_impl this buildingLayer = do
         damageFloaters <- (DamageFloaters.getInstance)
-        jset (this).base.damageFloatersPaintableInterface (damageFloaters)
+        jset (this).base.damageFloatersPaintableInterface ((javaCast damageFloaters :: Paintable.Paintable))
         pure (damageFloaters)
 
 

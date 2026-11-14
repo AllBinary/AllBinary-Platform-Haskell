@@ -20,10 +20,10 @@ import AllBinaryMidlet hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -94,7 +94,7 @@ init_1 this clientInformationFactory = do
         initFields_ this
         Control.Monad.void (Globals.init ((jio (Globals.getInstance))) (jio (TsUtil.getClassClassLoader ((jio (TsUtil.getInstance))) this)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         Control.Monad.void (ProgressMidlet.preInit this)
-        assignedValue <- (ClientInformationFactory.getInstance clientInformationFactory)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: AbeClientInformationInterface.AbeClientInformationInterface) (ClientInformationFactory.getInstance clientInformationFactory))
         jset (this).abeClientInformation (assignedValue)
         pure ()
 
@@ -127,7 +127,7 @@ exitProgress_impl this isProgress = do
                 Control.Monad.void (Processor.process processor)
             ) $ do
             primaryThreadPool <- (PrimaryThreadPool.getInstance)
-            runnable <- (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (ExitRunnable.new_3 this processor isProgress))
+            runnable <- (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (ExitRunnable.new_3 (javaCast this) processor isProgress))
             Control.Monad.void (ThreadPool.runTask primaryThreadPool runnable)
         pure ()
 

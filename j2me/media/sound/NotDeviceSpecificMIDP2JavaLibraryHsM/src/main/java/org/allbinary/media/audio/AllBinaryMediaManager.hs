@@ -19,10 +19,10 @@ module AllBinaryMediaManager where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,10 +35,12 @@ import qualified Sounds -- same package or java.lang
 import qualified SoundsFactoryInterface -- same package or java.lang
 import qualified NoPlayer -- same package or java.lang
 import qualified AudioContentTypeData -- same package or java.lang
+import qualified ProgressCanvas -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified Manager -- javax.microedition.media.Manager
 import qualified MediaException -- javax.microedition.media.MediaException
 import qualified Player -- javax.microedition.media.Player
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified TsUtil -- org.allbinary.TsUtil
 import qualified AudioContentTypeDataFactory -- org.allbinary.audio.AudioContentTypeDataFactory
 import qualified ResourceUtil -- org.allbinary.data.resource.ResourceUtil
@@ -65,10 +67,14 @@ instance JavaObjectClass AllBinaryMediaManager where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tHIS :: String
 tHIS = "AllBinaryMediaManagerNoMIPD2"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryMediaManager
 newRecord_ = do
@@ -138,7 +144,7 @@ createPlayer resource = do
                 javaReturn =<< (Manager.createPlayer resource)
             else do
                 inputStream <- (ResourceUtil.getResourceAsStream ((jio (ResourceUtil.getInstance))) resource)
-                javaReturn =<< (Manager.createPlayer inputStream (jio (AudioContentTypeData.getName ((jget ((jio (AudioContentTypeDataFactory.getInstance))).mIME_AUDIO_WAV)))))
+                javaReturn =<< (MIDPUtil.createPlayerFromInputStream ((jio (MIDPUtil.getInstance))) inputStream (jio (AudioContentTypeData.getName ((jget ((jio (AudioContentTypeDataFactory.getInstance))).mIME_AUDIO_WAV)))))
         else do
             javaReturn ((javaCast NoPlayer.nO_PLAYER :: Player.Player))
 

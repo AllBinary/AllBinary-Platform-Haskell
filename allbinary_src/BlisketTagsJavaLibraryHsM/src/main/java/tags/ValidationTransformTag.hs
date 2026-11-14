@@ -20,10 +20,10 @@ import TransformTag hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,8 +33,15 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Class -- same package or java.lang
+import qualified Any -- same package or java.lang
 import qualified TagStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified TransformInfoTag -- same package or java.lang
+import qualified ModifyTag -- same package or java.lang
+import qualified HelperTag -- same package or java.lang
+import qualified PropertiesTag -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified Method -- java.lang.reflect.Method
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
@@ -98,7 +105,7 @@ new_ = do
 
 init_ :: ValidationTransformTag -> IO ()
 init_ this = do
-        TransformTag.init_1 this.base (jio (ValidatedViewHelperFactory.new_))
+        TransformTag.init_1 this.base (javaCast (jio (ValidatedViewHelperFactory.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).logic (True)

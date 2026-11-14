@@ -16,14 +16,14 @@
 -- package views.business.context.modules.storefront.customizer.generic.page
 module PageValidationView (module PageValidationView, module PageView) where
 
-import PageView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, logUtil)
+import PageView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified AbPath -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HttpStoreComponentView -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified TransformInfoEntity -- org.allbinary.data.tables.transform.info.TransformInfoEntity
@@ -86,6 +88,7 @@ newRecord_ = do
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: PageValidationView -> IO ()
@@ -126,7 +129,7 @@ isValid_impl this = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.commonStrings)).iS_VALID))
             transformInfoEntityInterface <- (TransformInfoEntityBuilder.getInstance)
-            pageObjectConfigInterface <- (TransformInfoInterface.getObjectConfigInterface ((jio (PageView.getTransformInfoInterface this))))
+            pageObjectConfigInterface <- (TransformInfoInterface.getObjectConfigInterface ((jio (PageValidationView.getTransformInfoInterface this))))
             allViewsToBeModifiedVector <- (TransformInfoObjectConfigInterface.getGroupTransforms pageObjectConfigInterface)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Views To Be Modified: " ++ javaToString (jio (BasicArrayList.size allViewsToBeModifiedVector))) this "get(transformInfoInterface)")
@@ -136,24 +139,24 @@ isValid_impl this = do
                 viewNameOfViewToBeModified <- (TransformInfo.getName transformInfoInterface)
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     stringBuffer <- (StringMaker.new_)
-                    Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.getName ((jio (PageView.getTransformInfoInterface this))))))
+                    Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.getName ((jio (PageValidationView.getTransformInfoInterface this))))))
                     Control.Monad.void (StringMaker.append stringBuffer " is modifying view: ")
                     Control.Monad.void (StringMaker.append stringBuffer viewNameOfViewToBeModified)
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "insert()")
-                let httpTransformInfoInterface = (javaCast (jio (PageView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
+                let httpTransformInfoInterface = (javaCast (jio (PageValidationView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
                 specifiedTransformInfoInterface <- (TransformInfoEntity.get transformInfoEntityInterface viewNameOfViewToBeModified (jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface)) (jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface)))
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                     stringBuffer <- (StringMaker.new_)
-                    Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.getName ((jio (PageView.getTransformInfoInterface this))))))
+                    Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.getName ((jio (PageValidationView.getTransformInfoInterface this))))))
                     Control.Monad.void (StringMaker.append stringBuffer " is adding data to view: ")
                     Control.Monad.void (StringMaker.append stringBuffer viewNameOfViewToBeModified)
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "insert()")
                 hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
-                title <- (TransformInfoInterface.substring ((jio (TransformInfoInterface.getName specifiedTransformInfoInterface))) (jio (TransformInfoInterface.length ((jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this)))))))))
+                let title = (Prelude.drop (Prelude.length (jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this)))))) (jio (TransformInfoInterface.getName specifiedTransformInfoInterface)))
                 if ((Prelude.fromEnum (Prelude.compare title "index") - 1) == 0) then do
-                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) (javaToString (jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this))))) ++ " - Home Page"))
+                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) ((jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this))))) ++ " - Home Page"))
                 else do
-                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) ((javaToString (jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this))))) ++ " -") ++ title))
+                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) (((jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this))))) ++ " -") ++ title))
                 pageValidation <- (PageValidation.new_1 hashMap)
                 when ((jio (PageValidation.isValid pageValidation)) == False) $ do
                     jset isValid (False)
@@ -165,7 +168,7 @@ isValid_impl this = do
                         stringBuffer <- (StringMaker.new_)
                         Control.Monad.void (StringMaker.append stringBuffer viewNameOfViewToBeModified)
                         Control.Monad.void (StringMaker.append stringBuffer " is changing data in ")
-                        Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.toString ((jio (TransformInfoInterface.getDataFilePath specifiedTransformInfoInterface))))))
+                        Control.Monad.void (StringMaker.append stringBuffer (jio (AbPath.toString ((jio (TransformInfoInterface.getDataFilePath specifiedTransformInfoInterface))))))
                         Control.Monad.void (StringMaker.append stringBuffer " to the following data:\n")
                         Control.Monad.void (StringMaker.append stringBuffer documentString)
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget ((jget (this).base.base.commonStrings)).iS_VALID))
@@ -188,8 +191,8 @@ validationInfo_impl this = do
             ) $ do
             stringBuffer <- (StringMaker.new_)
             transformInfoEntityInterface <- (TransformInfoEntityBuilder.getInstance)
-            objectConfig <- (TransformInfoInterface.getObjectConfigInterface ((jio (PageView.getTransformInfoInterface this))))
-            let httpTransformInfoInterface = (javaCast (jio (PageView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
+            objectConfig <- (TransformInfoInterface.getObjectConfigInterface ((jio (PageValidationView.getTransformInfoInterface this))))
+            let httpTransformInfoInterface = (javaCast (jio (PageValidationView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
             allViewsToBeModifiedVector <- (TransformInfoObjectConfigInterface.getGroupTransforms objectConfig)
             size <- (BasicArrayList.size allViewsToBeModifiedVector)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -197,16 +200,16 @@ validationInfo_impl this = do
                 viewNameOfViewToBeModified <- (TransformInfo.getName transformInfoInterface)
                 specifiedTransformInfoInterface <- (TransformInfoEntity.get transformInfoEntityInterface viewNameOfViewToBeModified (jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface)) (jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface)))
                 hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
-                title <- (TransformInfoInterface.substring ((jio (TransformInfoInterface.getName specifiedTransformInfoInterface))) (jio (TransformInfoInterface.length ((jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this)))))))))
+                let title = (Prelude.drop (Prelude.length (jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this)))))) (jio (TransformInfoInterface.getName specifiedTransformInfoInterface)))
                 if ((Prelude.fromEnum (Prelude.compare title "index") - 1) == 0) then do
-                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) (javaToString (jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this))))) ++ " - Home Page"))
+                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) ((jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this))))) ++ " - Home Page"))
                 else do
-                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) ((javaToString (jio (TransformInfoInterface.getStoreName ((jio (PageView.getTransformInfoInterface this))))) ++ " -") ++ title))
+                    Control.Monad.void (HashMap.put hashMap (jget ((jio (TitleData.getInstance))).tEXT) (((jio (TransformInfoInterface.getStoreName ((jio (PageValidationView.getTransformInfoInterface this))))) ++ " -") ++ title))
                 pageValidation <- (PageValidation.new_1 hashMap)
                 when ((jio (PageValidation.isValid pageValidation)) == False) $ do
                     Control.Monad.void (StringMaker.append stringBuffer ("TransformInfo Name for PageValidation:" ++ (jio (TransformInfoInterface.getName specifiedTransformInfoInterface))))
-                    Control.Monad.void (StringMaker.append stringBuffer ("PageValidation:" ++ javaToString hashMap))
-                    Control.Monad.void (StringMaker.append stringBuffer ("PageValidation Info:" ++ javaToString (jio (PageValidation.validationInfo pageValidation))))
+                    Control.Monad.void (StringMaker.append stringBuffer ("PageValidation:" ++ jconcatObject HashMap.toString hashMap))
+                    Control.Monad.void (StringMaker.append stringBuffer ("PageValidation Info:" ++ (jio (PageValidation.validationInfo pageValidation))))
             (StringMaker.toString stringBuffer)
 
 
@@ -230,5 +233,17 @@ toValidationInfoNode_super object_ a1 = (toValidationInfoNode_impl (javaCast obj
 toValidationInfoNode_impl :: PageValidationView -> Document.Document -> IO (Node.Node)
 toValidationInfoNode_impl this document = do
         pure (javaNull)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: PageValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: PageValidationView))
+
+getTransformInfoInterface_impl :: PageValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (PageView.getTransformInfoInterface_super this.base)
 
 

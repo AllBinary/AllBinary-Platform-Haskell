@@ -19,10 +19,10 @@ module ImageActionScriptOutputData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,23 +49,31 @@ instance JavaObjectClass ImageActionScriptOutputData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef ("IMAGE_ACTION_OUTPUT_NAME"))
 
+sAVE :: IORef (String)
 {-# NOINLINE sAVE #-}
 sAVE = unsafePerformIO (newIORef ("SAVE_IMAGE_ACTION_OUTPUT_NAME"))
 
+dISPLAY :: IORef (String)
 {-# NOINLINE dISPLAY #-}
 dISPLAY = unsafePerformIO (newIORef ("DISPLAY_IMAGE_ACTION_OUTPUT_NAME"))
 
+tYPE :: IORef (String)
 {-# NOINLINE tYPE #-}
 tYPE = unsafePerformIO (newIORef ("TYPE_IMAGE_ACTION_OUTPUT_NAME"))
 
+tYPES :: IORef (String)
 {-# NOINLINE tYPES #-}
 tYPES = unsafePerformIO (newIORef ("TYPES_IMAGE_ACTION_OUTPUT_NAME"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageActionScriptOutputData
 newRecord_ = do

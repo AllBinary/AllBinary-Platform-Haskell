@@ -19,10 +19,10 @@ module PathFindingNodeCostInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -172,7 +172,12 @@ compareTo_super object_ a1 = (compareTo_impl (javaCast object_ :: PathFindingNod
 
 compareTo_impl :: PathFindingNodeCostInfo -> PathFindingNodeCostInfo -> IO (Int)
 compareTo_impl this pathFindingNodeCostInfo = do
-        (compare ((jget (java.lang).long)) (jget (this).totalCostP) (jget (pathFindingNodeCostInfo).totalCostP))
+    javaCatchReturn $ do
+        if ((jget (this).totalCostP) < (jget (pathFindingNodeCostInfo).totalCostP)) then do
+            javaReturn ((Prelude.negate 1))
+        else when ((jget (this).totalCostP) > (jget (pathFindingNodeCostInfo).totalCostP)) $ do
+            javaReturn (1)
+        pure (0)
 
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)

@@ -16,14 +16,14 @@
 -- package org.allbinary.game.input
 module TestingInputSingleton (module TestingInputSingleton, module AllBinaryGameLayer) where
 
-import AllBinaryGameLayer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, initInputProcessors, initInputProcessors_super, initInputProcessors_impl, initInputProcessorsForTestInput, initInputProcessorsForTestInput_super, initInputProcessorsForTestInput_impl, processInputList, processInputList_super, processInputList_impl, processInput, processInput_super, processInput_impl, paint, paint_super, paint_impl, implmentsGameInputInterface, implmentsGameInputInterface_super, implmentsGameInputInterface_impl, instance_, inputProcessorArray, paintable)
+import AllBinaryGameLayer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, initInputProcessors, initInputProcessors_super, initInputProcessors_impl, initInputProcessorsForTestInput, initInputProcessorsForTestInput_super, initInputProcessorsForTestInput_impl, processInputList, processInputList_super, processInputList_impl, processInput, processInput_super, processInput_impl, paint, paint_super, paint_impl, implmentsGameInputInterface, implmentsGameInputInterface_super, implmentsGameInputInterface_impl, instance_, inputProcessorArray, testInputPaintable)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,7 +54,7 @@ data TestingInputSingleton = TestingInputSingleton
     { header_ :: JavaHeader
     , base :: AllBinaryGameLayer.AllBinaryGameLayer
     , inputProcessorArray :: IORef (JavaArray (GameInputProcessor.GameInputProcessor))
-    , paintable :: IORef (PaintableInterface.PaintableInterface)
+    , testInputPaintable :: IORef (PaintableInterface.PaintableInterface)
     }
 
 instance JavaNull TestingInputSingleton where
@@ -70,6 +70,7 @@ instance JavaObjectClass TestingInputSingleton where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TestingInputSingleton
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -78,8 +79,8 @@ newRecord_ = do
     base <- AllBinaryGameLayer.newRecord_
     let header_ = base.header_
     inputProcessorArray <- newIORef javaNull
-    paintable <- newIORef javaNull
-    let this = TestingInputSingleton header_ base inputProcessorArray paintable
+    testInputPaintable <- newIORef javaNull
+    let this = TestingInputSingleton header_ base inputProcessorArray testInputPaintable
     jregisterLevel header_ this
     GameInputInterface.registerInterface_ header_
     jregisterMethod header_ "initInputProcessors" (\() -> initInputProcessors_impl this)
@@ -93,7 +94,7 @@ newRecord_ = do
 initFields_ :: TestingInputSingleton -> IO ()
 initFields_ this = do
     jset this.inputProcessorArray ((jnewArray ((jget ((jio (InputFactory.getInstance))).mAX)) javaNull))
-    jset this.paintable =<< (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (NullPaintable.getInstance))
+    jset this.testInputPaintable =<< (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (NullPaintable.getInstance))
     pure ()
 
 
@@ -109,7 +110,7 @@ new_ = do
 
 init_ :: TestingInputSingleton -> IO ()
 init_ this = do
-        AllBinaryGameLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (jio (ViewPosition.getInstanceD))
+        AllBinaryGameLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (javaCast (jio (ViewPosition.getInstanceD)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (GameInputProcessorUtil.init (jget (this).inputProcessorArray))
@@ -136,7 +137,7 @@ initInputProcessorsForTestInput_super object_ a1 = (initInputProcessorsForTestIn
 initInputProcessorsForTestInput_impl :: TestingInputSingleton -> TestInputInterface.TestInputInterface -> IO (())
 initInputProcessorsForTestInput_impl this aTestInputInterface = do
         let testInputInterface = aTestInputInterface
-        jset (this).paintable (testInputInterface)
+        jset (this).testInputPaintable ((javaCast testInputInterface :: PaintableInterface.PaintableInterface))
         assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
             -- processEvent
 -})
@@ -181,7 +182,7 @@ processInputList_impl this allbinaryLayerManager list = do
             jset gameKeyEvent (((javaCast (jindex ((jget (list).objectArray)) (index)) :: GameKeyEvent.GameKeyEvent)))
             assignedValue <- (GameKeyEvent.getKey ((jget gameKeyEvent)))
             jset key (assignedValue)
-            Control.Monad.void (processEvent ((jindex ((jget (this).inputProcessorArray)) ((jget key)))) allbinaryLayerManager (GameKeyEvent.nONE))
+            Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).inputProcessorArray)) ((jget key)))) allbinaryLayerManager (GameKeyEvent.nONE))
         pure ()
 
 
@@ -207,7 +208,7 @@ paint_super object_ a1 = (paint_impl (javaCast object_ :: TestingInputSingleton)
 
 paint_impl :: TestingInputSingleton -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
-        Control.Monad.void (PaintableInterface.paint ((jget (this).paintable)) graphics)
+        Control.Monad.void (PaintableInterface.paint ((jget (this).testInputPaintable)) graphics)
         pure ()
 
 

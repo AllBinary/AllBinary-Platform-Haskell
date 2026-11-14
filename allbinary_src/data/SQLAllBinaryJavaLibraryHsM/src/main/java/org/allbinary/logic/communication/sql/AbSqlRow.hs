@@ -20,10 +20,10 @@ import AbSqlColumn hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,8 @@ import qualified Any -- same package or java.lang
 import qualified StdUtil -- same package or java.lang
 import qualified CommonSeps -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified ResultSet -- java.sql.ResultSet
 import qualified ResultSetMetaData -- java.sql.ResultSetMetaData
 import qualified HashMap -- java.util.HashMap
@@ -180,12 +182,12 @@ updateWhere_impl this key value updatedKeyValuePairs = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).sET))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget this.mETHOD_UPDATE_WHERE) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget this.mETHOD_UPDATE_WHERE) e)
             ) $ do
-            keyArray <- (HashMap.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
+            keyArray <- (Set.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
             let size = (jlength keyArray)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
-                columnName <- (toString ((jindex keyArray (i))))
+                columnName <- (Any.toString ((jindex keyArray (i))))
                 Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.commonSeps)).sPACE))
                 Control.Monad.void (StringMaker.append stringBuffer columnName)
                 Control.Monad.void (StringMaker.append stringBuffer (jget (this).eQUAL_QUOTE))
@@ -226,13 +228,13 @@ updateWhere_2_impl this whereKeyValuePairs updatedKeyValuePairs = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).sET))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget this.mETHOD_UPDATE_WHERE) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget this.mETHOD_UPDATE_WHERE) e)
             javaThrow (e)
             ) $ do
-            keyArray <- (HashMap.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
+            keyArray <- (Set.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
             let size = (jlength keyArray)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
-                columnName <- (toString ((jindex keyArray (i))))
+                columnName <- (Any.toString ((jindex keyArray (i))))
                 Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.commonSeps)).sPACE))
                 Control.Monad.void (StringMaker.append stringBuffer columnName)
                 Control.Monad.void (StringMaker.append stringBuffer (jget (this).eQUAL_QUOTE))
@@ -382,7 +384,7 @@ getRow_impl this keysAndValues = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).wHERE))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget (this).mETHOD_GET_ROW) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget (this).mETHOD_GET_ROW) e)
             pure (javaNull)
             ) $ do
             result <- newIORef (javaNull)
@@ -444,7 +446,7 @@ getRows_2_impl this keysAndValues more = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).wHERE))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget (this).mETHOD_GET_ROWS) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget (this).mETHOD_GET_ROWS) e)
             pure (javaNull)
             ) $ do
             rows <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
@@ -493,7 +495,7 @@ getAllRows_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget (this).mETHOD_GET_ALL_ROWS) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget (this).mETHOD_GET_ALL_ROWS) e)
             pure (javaNull)
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
@@ -528,7 +530,7 @@ getRowsWhereBetween_impl this whereKeyValuePairs betweenColumn smallest largest 
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget this.mETHOD_GET_ROWS_WHERE_BETWEEN) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget this.mETHOD_GET_ROWS_WHERE_BETWEEN) e)
             pure (javaNull)
             ) $ do
             rows <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
@@ -597,7 +599,7 @@ getRowsWhereBetween_3_impl this betweenColumn smallest largest = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlColumn.getTableName this)))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) this (jget this.mETHOD_GET_ROWS_WHERE_BETWEEN) e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) this (jget this.mETHOD_GET_ROWS_WHERE_BETWEEN) e)
             pure (javaNull)
             ) $ do
             rows <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))

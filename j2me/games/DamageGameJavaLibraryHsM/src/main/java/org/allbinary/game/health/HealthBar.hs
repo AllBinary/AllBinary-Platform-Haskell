@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,8 +96,8 @@ init_4 this layerInterface healthInterface animationInterface direction = do
         initFields_ this
         jset (this).allbinaryLayer (layerInterface)
         jset (this).animationInterface (animationInterface)
-        jset (this).healthInterface (healthInterface)
-        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) (javaCast this))
+        jset (this).healthInterface ((javaCast healthInterface :: HealthInterface.HealthInterface))
+        Control.Monad.void (HealthInterface.addListener ((jget (this).healthInterface)) (javaCast this))
         Control.Monad.void (HealthBar.onHealthChange this)
         pure ()
 
@@ -110,7 +110,7 @@ onHealthChange_super object_ = (onHealthChange_impl (javaCast object_ :: HealthB
 
 onHealthChange_impl :: HealthBar -> IO (())
 onHealthChange_impl this = do
-        Control.Monad.void (HealthBarAnimation.onHealthChange ((jget (this).animationInterface)) (((jio (HealthInterface.getHealth ((jget (this).healthInterface)))) * (jio (AllBinaryLayer.getWidth ((jget (this).allbinaryLayer))))) / (jio (HealthInterface.getMaxHealth ((jget (this).healthInterface))))))
+        Control.Monad.void (HealthBarAnimation.onHealthChange ((jget (this).animationInterface)) (((jio (HealthInterface.getHealth ((jget (this).healthInterface)))) * (jio (AllBinaryLayer.getWidth ((jget (this).allbinaryLayer))))) `quot` (jio (HealthInterface.getMaxHealth ((jget (this).healthInterface))))))
         pure ()
 
 

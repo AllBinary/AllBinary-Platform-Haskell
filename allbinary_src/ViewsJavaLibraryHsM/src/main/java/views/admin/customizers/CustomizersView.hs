@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified TransformInfoEntity -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified Arrays -- java.util.Arrays
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD

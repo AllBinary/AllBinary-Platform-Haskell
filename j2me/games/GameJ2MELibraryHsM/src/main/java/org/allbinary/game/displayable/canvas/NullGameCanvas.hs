@@ -20,10 +20,10 @@ import AllBinaryGameCanvas hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified RunnableCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified NullCommandListener -- javax.microedition.lcdui.NullCommandListener
@@ -66,8 +68,10 @@ instance JavaObjectClass NullGameCanvas where
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
+nO_GAME :: String
 nO_GAME = "No Background Game"
 
+tYPE :: Int
 tYPE = 1
 
 newRecord_ :: IO NullGameCanvas
@@ -107,7 +111,7 @@ createNull = do
 getInstance :: IO (NullGameCanvas)
 getInstance = do
         when ((jget NullGameCanvas.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (NullGameCanvas.createNull)
+            assignedValue <- (fmap jtoObject (NullGameCanvas.createNull))
             jset NullGameCanvas.instance_ (assignedValue)
         pure ((javaCast (jget NullGameCanvas.instance_) :: NullGameCanvas))
 
@@ -116,8 +120,8 @@ getInstance = do
 createCanvas :: AllBinaryGameLayerManager.AllBinaryGameLayerManager -> IO (NullGameCanvas)
 createCanvas gameLayerManager = do
         nullGameCanvas <- (new_1 gameLayerManager)
-        Control.Monad.void (NullGameCanvas.setInitialized nullGameCanvas True)
-        Control.Monad.void (NullGameCanvas.setTitle nullGameCanvas (NullGameCanvas.nO_GAME))
+        Control.Monad.void (AllBinaryGameCanvas.setInitialized nullGameCanvas True)
+        Control.Monad.void (AllBinaryGameCanvas.setTitle nullGameCanvas (NullGameCanvas.nO_GAME))
         pure (nullGameCanvas)
 
 new_1 :: AllBinaryGameLayerManager.AllBinaryGameLayerManager -> IO NullGameCanvas
@@ -128,7 +132,7 @@ new_1 gameLayerManager = do
 
 init_1 :: NullGameCanvas -> AllBinaryGameLayerManager.AllBinaryGameLayerManager -> IO ()
 init_1 this gameLayerManager = do
-        AllBinaryGameCanvas.init_5 this.base (NullCommandListener.nULL_COMMAND_LISTENER) (gameLayerManager) (jio (NoHighScoresFactory.getInstance)) (jget BasicBuildGameInitializerFactory.nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY) (False)
+        AllBinaryGameCanvas.init_5 this.base (javaCast NullCommandListener.nULL_COMMAND_LISTENER) (gameLayerManager) (javaCast (jio (NoHighScoresFactory.getInstance))) (jget BasicBuildGameInitializerFactory.nULL_BASE_BUILD_GMAE_INITIALIZER_FACTORY) (False)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AllBinaryGameCanvas.setWait_super this.base 1200)

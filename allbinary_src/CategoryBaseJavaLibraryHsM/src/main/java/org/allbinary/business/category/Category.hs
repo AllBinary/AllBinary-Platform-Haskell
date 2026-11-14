@@ -19,10 +19,10 @@ module Category where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified CategoryInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -76,10 +77,14 @@ instance JavaObjectClass Category where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nOT_ROOT :: String
 nOT_ROOT = "This is not the root so it has no file path."
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Category
 newRecord_ = do
@@ -145,7 +150,7 @@ init_1 this categoryPropertiesFactoryInterface = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this "Category(CategoryPropertiesFactoryInterface)")
         assignedValue <- (CategoryPropertiesFactoryInterface.getInstance categoryPropertiesFactoryInterface)
         jset (this).categoryPropertiesInterface (assignedValue)
-        jset (this).categoryHierarchyInterface ((javaCast (jio (CategoryHierarchy.new_2 this this)) :: CategoryHierarchyInterface.CategoryHierarchyInterface))
+        jset (this).categoryHierarchyInterface ((javaCast (jio (CategoryHierarchy.new_2 (javaCast this) (javaCast this))) :: CategoryHierarchyInterface.CategoryHierarchyInterface))
         Control.Monad.void (Category.log this)
         pure ()
 
@@ -202,7 +207,7 @@ getRootFilePath_impl :: Category -> IO (AbPath.AbPath)
 getRootFilePath_impl this = do
         rootAbPath <- newIORef =<< (AbPath.new_2 nOT_ROOT (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         categoryInterface <- (CategoryHierarchyInterface.getRoot ((jget (this).categoryHierarchyInterface)))
-        when (jio (CategoryInterface.isRoot ((jio (CategoryInterface.getProperties categoryInterface))))) $ do
+        when (jio (CategoryPropertiesInterface.isRoot ((jio (CategoryInterface.getProperties categoryInterface))))) $ do
             let rootCategoryPropertiesInterface = (javaCast (jio (CategoryInterface.getProperties categoryInterface)) :: RootCategoryPropertiesInterface.RootCategoryPropertiesInterface)
             assignedValue <- (RootCategoryPropertiesInterface.getRootFilePath rootCategoryPropertiesInterface)
             jset rootAbPath (assignedValue)
@@ -218,7 +223,7 @@ getFilePath_super object_ = (getFilePath_impl (javaCast object_ :: Category))
 
 getFilePath_impl :: Category -> IO (AbPath.AbPath)
 getFilePath_impl this = do
-        (AbPath.new_2 ((jio (AbPath.toString ((jio (Category.getRootFilePath this))))) ++ (jio (CategoryPropertiesInterface.toString ((jio (CategoryPropertiesInterface.getPath ((jio (Category.getProperties this))) (jio (Category.getHierarchy this)))))))) (jio (CategoryPropertiesInterface.getFileName ((jio (Category.getProperties this))))))
+        (AbPath.new_2 ((jio (AbPath.toString ((jio (Category.getRootFilePath this))))) ++ (jio (AbPath.toString ((jio (CategoryPropertiesInterface.getPath ((jio (Category.getProperties this))) (jio (Category.getHierarchy this)))))))) (jio (CategoryPropertiesInterface.getFileName ((jio (Category.getProperties this))))))
 
 
 -- throws Exception
@@ -231,7 +236,7 @@ getWebAppPath_super object_ = (getWebAppPath_impl (javaCast object_ :: Category)
 getWebAppPath_impl :: Category -> IO (AbPath.AbPath)
 getWebAppPath_impl this = do
         categoryInterface <- (CategoryHierarchyInterface.getRoot ((jget (this).categoryHierarchyInterface)))
-        (CategoryInterface.getWebAppPath ((jio (CategoryInterface.getProperties categoryInterface))))
+        (CategoryPropertiesInterface.getWebAppPath ((jio (CategoryInterface.getProperties categoryInterface))))
 
 
 -- throws Exception
@@ -270,7 +275,7 @@ addChild_impl this categoryInterface = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORY))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "adding" this "addChild")
         childCategoryHierarchyInterface <- (CategoryInterface.getHierarchy categoryInterface)
-        Control.Monad.void (CategoryHierarchyInterface.setParent childCategoryHierarchyInterface this)
+        Control.Monad.void (CategoryHierarchyInterface.setParent childCategoryHierarchyInterface (javaCast this))
         Control.Monad.void (CategoryHierarchyInterface.setRoot childCategoryHierarchyInterface (jio (CategoryHierarchyInterface.getRoot ((jio (Category.getHierarchy this))))))
         Control.Monad.void (CategoryInterface.setHierarchy categoryInterface childCategoryHierarchyInterface)
         Control.Monad.void (BasicArrayList.add ((jget (this).typeVector)) (jget (this).cATEGORY))
@@ -303,7 +308,7 @@ removeChild_impl this categoryInterface = do
             when ((jget (this).cATEGORY) == (jio (BasicArrayList.get ((jget (this).typeVector)) index))) $ do
                 anyType <- (BasicArrayList.get ((jget (this).childCategoryVector)) index)
                 let currentCategoryInterface = (javaCast anyType :: CategoryInterface.CategoryInterface)
-                when ((jio (CategoryInterface.compareTo ((jio (CategoryInterface.getValue ((jio (CategoryInterface.getProperties currentCategoryInterface)))))) (jio (CategoryInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface))))))) == 0) $ do
+                when ((Prelude.fromEnum (Prelude.compare (jio (CategoryPropertiesInterface.getValue ((jio (CategoryInterface.getProperties currentCategoryInterface))))) (jio (CategoryPropertiesInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface)))))) - 1) == 0) $ do
                     Control.Monad.void (BasicArrayList.add removalVector currentCategoryInterface)
                     jset bool_return (True)
         Control.Monad.void (Category.removal this removalVector)
@@ -342,14 +347,14 @@ removeDuplicateChild_impl this categoryInterface = do
             anyType <- (BasicArrayList.get ((jget (this).childCategoryVector)) index)
             if ((jget (this).pROPERTIES) == (jio (BasicArrayList.get ((jget (this).typeVector)) index))) then do
                 let categoryPropertiesInterface = (javaCast anyType :: CategoryPropertiesInterface.CategoryPropertiesInterface)
-                when ((jio (CategoryInterface.compareTo ((jio (CategoryInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface)))))) (jio (CategoryPropertiesInterface.getValue categoryPropertiesInterface)))) == 0) $ do
+                when ((Prelude.fromEnum (Prelude.compare (jio (CategoryPropertiesInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface))))) (jio (CategoryPropertiesInterface.getValue categoryPropertiesInterface))) - 1) == 0) $ do
                     Control.Monad.void (BasicArrayList.add removalVector categoryPropertiesInterface)
                     jset bool_return (True)
                     throwIO JavaBreak
             else when ((jget (this).cATEGORY) == (jio (BasicArrayList.get ((jget (this).typeVector)) index))) $ do
                 let existingCategoryInterface = (javaCast anyType :: CategoryInterface.CategoryInterface)
                 categoryPropertiesInterface <- (CategoryInterface.getProperties existingCategoryInterface)
-                when ((jio (CategoryInterface.compareTo ((jio (CategoryInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface)))))) (jio (CategoryPropertiesInterface.getValue categoryPropertiesInterface)))) == 0) $ do
+                when ((Prelude.fromEnum (Prelude.compare (jio (CategoryPropertiesInterface.getValue ((jio (CategoryInterface.getProperties categoryInterface))))) (jio (CategoryPropertiesInterface.getValue categoryPropertiesInterface))) - 1) == 0) $ do
                     Control.Monad.void (BasicArrayList.add removalVector existingCategoryInterface)
                     jset bool_return (True)
                     throwIO JavaBreak

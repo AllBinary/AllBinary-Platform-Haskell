@@ -20,10 +20,10 @@ import HealthGraphic hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -92,7 +92,7 @@ init_4 this animationInterface healthInterface location direction = do
             jsetIndex ((jget (this).image)) (numOfHealth) (assignedValue)
         forM_ [0 .. (jget this.base.max)] $ \numOfHealth -> javaIteration (pure ()) $ do
             forM_ [0 .. numOfHealth - 1] $ \index -> javaIteration (pure ()) $ do
-                Control.Monad.void (AnimationInterface.paint ((jget (this).base.animationInterface)) (jio (getGraphics ((jindex ((jget (this).image)) (numOfHealth))))) (numOfHealth * 10) 0)
+                Control.Monad.void (AnimationInterface.paint ((jget (this).base.animationInterface)) (jio (Image.getGraphics ((jindex ((jget (this).image)) (numOfHealth))))) (numOfHealth * 10) 0)
         pure ()
 
 

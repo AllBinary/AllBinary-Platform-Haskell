@@ -19,10 +19,10 @@ module ClassUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,6 +57,9 @@ instance JavaObjectClass ClassUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ClassUtil
 newRecord_ = do
@@ -95,7 +98,7 @@ viewAll_overload1 anyTypeObject_ lineBreak = do
         if (anyType /= javaNull) then do
             javaReturn =<< (ClassUtil.viewAll (jio (jobjectGetClass anyType)) lineBreak)
         else do
-            pure ("Object Null")
+            javaReturn ("Object Null")
 
 
 viewAll_overload2 :: Class.Class -> String -> IO (String)
@@ -116,7 +119,7 @@ viewAll_overload2 myClass lineBreak = do
             Control.Monad.void (StringMaker.append stringBuffer lineBreak)
             forM_ [0 .. (jlength classes) - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "Class: ")
-                Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex classes (index))))))
+                Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName ((jindex classes (index))))))
                 Control.Monad.void (StringMaker.append stringBuffer lineBreak)
             Control.Monad.void (StringMaker.append stringBuffer (jio (InterfaceUtil.viewAll myClass lineBreak)))
             Control.Monad.void (StringMaker.append stringBuffer lineBreak)
@@ -125,6 +128,6 @@ viewAll_overload2 myClass lineBreak = do
             Control.Monad.void (StringMaker.append stringBuffer (jio (MethodUtil.viewAll myClass lineBreak)))
             javaReturn =<< (StringMaker.toString stringBuffer)
         else do
-            pure ("Class Null")
+            javaReturn ("Class Null")
 
 

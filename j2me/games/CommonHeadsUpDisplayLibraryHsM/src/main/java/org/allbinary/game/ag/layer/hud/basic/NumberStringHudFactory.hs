@@ -19,10 +19,10 @@ module NumberStringHudFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,9 @@ instance_ = unsafePerformIO ((NullUtil.getInstance) >>= newIORef)
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO NumberStringHudFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -91,8 +94,8 @@ init_ this = do
 
 getInstance :: IO (NumberStringHudFactory)
 getInstance = do
-        when ((jget NumberStringHudFactory.instance_) == (jio (NullUtil.getInstance))) $ do
-            assignedValue <- (new_)
+        when ((jtoObject (jget NumberStringHudFactory.instance_)) == (jtoObject (jio (NullUtil.getInstance)))) $ do
+            assignedValue <- (fmap jtoObject (new_))
             jset NumberStringHudFactory.instance_ (assignedValue)
         pure ((javaCast (jget NumberStringHudFactory.instance_) :: NumberStringHudFactory))
 

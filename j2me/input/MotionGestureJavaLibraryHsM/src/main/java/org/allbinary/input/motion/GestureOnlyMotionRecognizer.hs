@@ -20,10 +20,10 @@ import MotionRecognizer hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,9 +57,11 @@ instance JavaObjectClass GestureOnlyMotionRecognizer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+index :: IORef (Int)
 {-# NOINLINE index #-}
 index = unsafePerformIO (newIORef (0))
 
+pointCircularPool :: GPointCircularPool.GPointCircularPool
 {-# NOINLINE pointCircularPool #-}
 pointCircularPool = unsafePerformIO ((GPointCircularPool.new_1 40))
 
@@ -107,7 +109,7 @@ processStartMotionEvent_super object_ a1 a2 a3 a4 = (processStartMotionEvent_imp
 
 processStartMotionEvent_impl :: GestureOnlyMotionRecognizer -> Int -> Int -> Int -> Int -> IO (())
 processStartMotionEvent_impl this x y deviceId modifiers = do
-        let point = (javaCast (jio (getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
+        let point = (javaCast (jio (GPointCircularPool.getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
         Control.Monad.void (CustomGPoint.setX point x)
         Control.Monad.void (CustomGPoint.setY point y)
         Control.Monad.void (MotionGestureRecognizer.processPressedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
@@ -123,7 +125,7 @@ processEndMotionEvent_super object_ a1 a2 a3 a4 = (processEndMotionEvent_impl (j
 
 processEndMotionEvent_impl :: GestureOnlyMotionRecognizer -> Int -> Int -> Int -> Int -> IO (())
 processEndMotionEvent_impl this x y deviceId modifiers = do
-        let point = (javaCast (jio (getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
+        let point = (javaCast (jio (GPointCircularPool.getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
         Control.Monad.void (CustomGPoint.setX point x)
         Control.Monad.void (CustomGPoint.setY point y)
         Control.Monad.void (MotionGestureRecognizer.processReleasedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)
@@ -139,7 +141,7 @@ processDraggedMotionEvent_super object_ a1 a2 a3 a4 = (processDraggedMotionEvent
 
 processDraggedMotionEvent_impl :: GestureOnlyMotionRecognizer -> Int -> Int -> Int -> Int -> IO (())
 processDraggedMotionEvent_impl this x y deviceId modifiers = do
-        let point = (javaCast (jio (getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
+        let point = (javaCast (jio (GPointCircularPool.getNextInstance GestureOnlyMotionRecognizer.pointCircularPool)) :: CustomGPoint.CustomGPoint)
         Control.Monad.void (CustomGPoint.setX point x)
         Control.Monad.void (CustomGPoint.setY point y)
         Control.Monad.void (MotionGestureRecognizer.processDraggedMotionEvent ((jget (this).motionGestureRecognizer)) (javaCast point) deviceId modifiers)

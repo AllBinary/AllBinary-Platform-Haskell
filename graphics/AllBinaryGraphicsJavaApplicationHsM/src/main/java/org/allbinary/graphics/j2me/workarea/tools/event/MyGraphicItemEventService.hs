@@ -19,10 +19,10 @@ module MyGraphicItemEventService where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,26 +55,35 @@ instance JavaObjectClass MyGraphicItemEventService where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+listenerList :: IORef (EventListenerList.EventListenerList)
 {-# NOINLINE listenerList #-}
 listenerList = unsafePerformIO ((EventListenerList.new_) >>= newIORef)
 
+dELETE :: IORef (String)
 {-# NOINLINE dELETE #-}
 dELETE = unsafePerformIO (newIORef ("delete"))
 
+dESELECT :: IORef (String)
 {-# NOINLINE dESELECT #-}
 dESELECT = unsafePerformIO (newIORef ("deselect"))
 
+sELECT :: IORef (String)
 {-# NOINLINE sELECT #-}
 sELECT = unsafePerformIO (newIORef ("select"))
 
+dUPLICATE :: IORef (String)
 {-# NOINLINE dUPLICATE #-}
 dUPLICATE = unsafePerformIO (newIORef ("duplicate"))
 
+rOTATE :: IORef (String)
 {-# NOINLINE rOTATE #-}
 rOTATE = unsafePerformIO (newIORef ("rotate"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MyGraphicItemEventService
 newRecord_ = do
@@ -102,13 +111,13 @@ init_ this = do
 
 addListener :: MyGraphicItemEventListener.MyGraphicItemEventListener -> IO (())
 addListener listener = do
-        Control.Monad.void (add ((jget MyGraphicItemEventService.listenerList)) (javaCast (jio (jobjectGetClass listener)) :: Class.Class) (javaCast listener :: EventListener.EventListener))
+        Control.Monad.void (EventListenerList.add ((jget MyGraphicItemEventService.listenerList)) (javaCast (jio (jobjectGetClass listener)) :: Class.Class) (javaCast listener :: EventListener.EventListener))
         pure ()
 
 
 removeListener :: MyGraphicItemEventListener.MyGraphicItemEventListener -> IO (())
 removeListener listener = do
-        Control.Monad.void (remove ((jget MyGraphicItemEventService.listenerList)) (javaCast (jio (jobjectGetClass listener)) :: Class.Class) (javaCast listener :: EventListener.EventListener))
+        Control.Monad.void (EventListenerList.remove ((jget MyGraphicItemEventService.listenerList)) (javaCast (jio (jobjectGetClass listener)) :: Class.Class) (javaCast listener :: EventListener.EventListener))
         pure ()
 
 
@@ -119,15 +128,15 @@ fire evt = do
         forM_ [0, 0 + (2) .. (jlength listeners) - 1] $ \i -> javaIteration (pure ()) $ do
             when ((jindex listeners (i)) == (jio (jobjectGetClass (jindex listeners ((i + 1)))))) $ do
                 if ((Prelude.fromEnum (Prelude.compare (jio (MyGraphicItemEvent.getCommand evt)) (jget MyGraphicItemEventService.sELECT)) - 1) == 0) then do
-                    Control.Monad.void (highlight (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
+                    Control.Monad.void (MyGraphicItemEventListener.highlight (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
                 else if ((Prelude.fromEnum (Prelude.compare (jio (MyGraphicItemEvent.getCommand evt)) (jget MyGraphicItemEventService.dESELECT)) - 1) == 0) then do
-                    Control.Monad.void (deselect (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
+                    Control.Monad.void (MyGraphicItemEventListener.deselect (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
                 else if ((Prelude.fromEnum (Prelude.compare (jio (MyGraphicItemEvent.getCommand evt)) (jget MyGraphicItemEventService.dELETE)) - 1) == 0) then do
-                    Control.Monad.void (delete (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
+                    Control.Monad.void (MyGraphicItemEventListener.delete (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
                 else if ((Prelude.fromEnum (Prelude.compare (jio (MyGraphicItemEvent.getCommand evt)) (jget MyGraphicItemEventService.dUPLICATE)) - 1) == 0) then do
-                    Control.Monad.void (duplicate (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
+                    Control.Monad.void (MyGraphicItemEventListener.duplicate (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
                 else when ((Prelude.fromEnum (Prelude.compare (jio (MyGraphicItemEvent.getCommand evt)) (jget MyGraphicItemEventService.rOTATE)) - 1) == 0) $ do
-                    Control.Monad.void (rotate (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
+                    Control.Monad.void (MyGraphicItemEventListener.rotate (((javaCast (jindex listeners ((i + 1))) :: MyGraphicItemEventListener.MyGraphicItemEventListener))) evt)
         pure ()
 
 

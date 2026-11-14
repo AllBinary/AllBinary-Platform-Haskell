@@ -20,10 +20,10 @@ import CustomTextBox hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,7 +34,10 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified HighScoreUtil -- same package or java.lang
 import qualified RepaintBehavior -- same package or java.lang
+import qualified ABTextFieldItem -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameCommandCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -124,10 +127,7 @@ init_9 this highScoresFactoryInterface highScoresHelper abeClientInformation gam
         operatingSystemInterface <- (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance))))
         when (jio (GenericOperatingSystem.isOverScan operatingSystemInterface)) $ do
             username <- (InApplicationPurchaseFactory.getUserName ((jio (InApplicationPurchaseFactory.getInstance))))
-            if (username /= javaNull) then do
-                Control.Monad.void (ABTextFieldItem.setString ((jio (CustomTextBox.getTextFieldItem this))) username)
-            else do
-                Control.Monad.void (ABTextFieldItem.setString ((jio (CustomTextBox.getTextFieldItem this))) "NoGamerInfo")
+            Control.Monad.void (ABTextFieldItem.setString ((jio (CustomTextBox.getTextFieldItem this))) username)
         pure ()
 
 

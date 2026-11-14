@@ -20,10 +20,10 @@ import PickedUpLayerInterfaceFactory hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass CountedPickedUpLayerInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_COUNTED_PICKUP_LAYER_FACTORY :: CountedPickedUpLayerInterfaceFactory
 {-# NOINLINE nULL_COUNTED_PICKUP_LAYER_FACTORY #-}
 nULL_COUNTED_PICKUP_LAYER_FACTORY = unsafePerformIO ((new_3 (jget ((jio (PickedUpLayerTypeFactory.getInstance))).nONE) (IconLayer.nULL_ICON_LAYER) (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0))))
 

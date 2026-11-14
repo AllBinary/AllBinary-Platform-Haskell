@@ -19,10 +19,10 @@ module ComparisonImageInputOutput where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,10 +67,14 @@ instance JavaObjectClass ComparisonImageInputOutput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rOOT_NAME :: String
 rOOT_NAME = "_Changed_"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ComparisonImageInputOutput
 newRecord_ = do
@@ -112,7 +116,7 @@ save_impl :: ComparisonImageInputOutput -> Int64 -> IO (())
 save_impl this frame = do
         commonStrings <- (CommonStrings.getInstance)
         if (frame > 0) then do
-            let imageComparisonResultFrameCacheable = (javaCast (jio (get (((javaCast (jio (ImageComparisonResultCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: ImageComparisonResultFrameCacheable.ImageComparisonResultFrameCacheable)
+            let imageComparisonResultFrameCacheable = (javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (ImageComparisonResultCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: ImageComparisonResultFrameCacheable.ImageComparisonResultFrameCacheable)
             if (imageComparisonResultFrameCacheable /= javaNull) then do
                 imageComparisonResult <- (ImageComparisonResultFrameCacheable.getImageComparisonResult imageComparisonResultFrameCacheable)
                 Control.Monad.void (ComparisonImageInputOutput.save_2 this imageComparisonResult (jio (ImageComparisonResultFrameCacheable.getFrame imageComparisonResultFrameCacheable)))
@@ -151,9 +155,9 @@ save_2_impl this imageComparisonResult frame = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Comparison Image File Path 1: " ++ filePath1) this (jget (commonStrings).sAVE))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Comparison Image File Path 2: " ++ filePath2) this (jget (commonStrings).sAVE))
         let bufferedImageArray = (jnewArray (2) javaNull)
-        assignedValue <- (getBufferedImage ((jindex bufferedImageCacheables (0))))
+        assignedValue <- (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (0))))
         jsetIndex bufferedImageArray (0) (assignedValue)
-        assignedValue <- (getBufferedImage ((jindex bufferedImageCacheables (1))))
+        assignedValue <- (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (1))))
         jsetIndex bufferedImageArray (1) (assignedValue)
         imagePersistanceUtil <- (ImagePersistanceUtil.getInstance)
         Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil filePath1 (jindex bufferedImageArray (0)))

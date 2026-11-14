@@ -20,10 +20,10 @@ import ModifyTable hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -87,6 +87,7 @@ instance JavaObjectClass CategoryRequestHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+categoryRequest :: String
 {-# NOINLINE categoryRequest #-}
 categoryRequest = unsafePerformIO ((StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "<"))) (jget ((jio (CategoryData.getInstance))).rEQUEST)))) ">")))))
 
@@ -261,12 +262,12 @@ delete_impl this = do
                     Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e2)
                 pure (error)
                 ) $ do
-                let error = ("Failed to remove category: " ++ javaToString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
+                let error = ("Failed to remove category: " ++ jconcatObject AbPath.toString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                     Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e)
                 pure (error)
             ) $ do
-            let success = ((("Successfully Removed " ++ javaToString (jget ((jio (CategoryData.getInstance))).nAME)) ++ "=") ++ javaToString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
+            let success = ((("Successfully Removed " ++ javaToString (jget ((jio (CategoryData.getInstance))).nAME)) ++ "=") ++ jconcatObject AbPath.toString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Deleting" this "delete()")
             Control.Monad.void (CategoryLoaderInterface.delete ((jget (this).categoryLoaderInterface)) (jget (this).categoryInterface) (jget (this).childCategoryInterface))

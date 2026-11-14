@@ -20,10 +20,10 @@ import Validation hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -100,28 +100,42 @@ init_ this = do
         pure ()
         pure ()
 
-new_1 :: Document.Document -> IO GenericCssStyleValidation
-new_1 document = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO GenericCssStyleValidation
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = new_1_overload1 (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => GenericCssStyleValidation -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = init_1_overload1 this (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Document.Document -> IO GenericCssStyleValidation
+new_1_overload1 document = do
     this <- newRecord_
-    init_1 this document
+    init_1_overload1 this document
     pure this
 
-init_1 :: GenericCssStyleValidation -> Document.Document -> IO ()
-init_1 this document = do
+init_1_overload1 :: GenericCssStyleValidation -> Document.Document -> IO ()
+init_1_overload1 this document = do
         Validation.init_ this.base
         initFields_ this
         nodeList <- (Document.getElementsByTagName document (jget ((jio (StylesData.getInstance))).nAME))
         pure ()
+        pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO GenericCssStyleValidation
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO GenericCssStyleValidation
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: GenericCssStyleValidation -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: GenericCssStyleValidation -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         Validation.init_ this.base
         initFields_ this
         Control.Monad.void (GenericCssStyleValidation.getFormData this hashMap)

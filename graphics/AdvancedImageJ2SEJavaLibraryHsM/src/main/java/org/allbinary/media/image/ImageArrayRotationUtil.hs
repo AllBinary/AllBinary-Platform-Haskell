@@ -19,10 +19,10 @@ module ImageArrayRotationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass ImageArrayRotationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageArrayRotationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageArrayRotationUtil
 newRecord_ = do
@@ -110,16 +114,17 @@ process_impl :: ImageArrayRotationUtil -> ImageProcessorInput.ImageProcessorInpu
 process_impl this imageProcessorInput input visitor = do
         totalAngle <- newIORef (javaNull)
         if (input == (jget ((jget (this).commonStrings)).uP)) then do
-            jset totalAngle ((javaToString (Prelude.negate 90)))
+            jset totalAngle (((Prelude.negate 90)))
         else if (input == (jget ((jget (this).commonStrings)).dOWN)) then do
-            jset totalAngle ((javaToString 90))
+            jset totalAngle ((90))
         else do
-            jset totalAngle ((javaToString input))
+            assignedValue <- (jparseInt input)
+            jset totalAngle (assignedValue)
         generatedBufferedImage <- newIORef (javaNull)
         bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
         forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).tOTAL_ANGLE) ++ javaToString (jget totalAngle)) this (jget ((jget (this).commonStrings)).rUN))
-            assignedValue <- (ImageJ2SERotationUtil.getRotatedImage ((jio (ImageJ2SERotationUtil.getInstance))) (jindex bufferedImageArray (index)) (jget totalAngle))
+            assignedValue <- (ImageJ2SERotationUtil.getRotatedImage ((jio (ImageJ2SERotationUtil.getInstance))) (javaCast (jindex bufferedImageArray (index))) (jget totalAngle))
             jset generatedBufferedImage (assignedValue)
             Control.Monad.void (ImageProcessedVisitor.visit visitor (jget generatedBufferedImage) input index)
         pure ()

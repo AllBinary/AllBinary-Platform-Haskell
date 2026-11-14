@@ -20,10 +20,10 @@ import SimpleWeaponLayer hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,14 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified MineWeaponResources -- same package or java.lang
+import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
+import qualified WeaponLayer -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified DropWeaponSound -- org.allbinary.ag.weapon.media.audio.DropWeaponSound
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified SimpleWeaponLayer -- org.allbinary.game.layer.weapon.SimpleWeaponLayer
@@ -64,6 +72,7 @@ instance JavaObjectClass MineLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "MineLayer"
 
 newRecord_ :: IO MineLayer
@@ -92,7 +101,7 @@ new_1 viewPosition = do
 
 init_1 :: MineLayer -> ViewPositionBase.ViewPositionBase -> IO ()
 init_1 this viewPosition = do
-        SimpleWeaponLayer.init_8 this.base (MineLayer.nAME) (RemoteInfo.rEMOTE_INFO) (Prelude.negate 1) (jio (NoMovementFactory.getMovmentInstance ((jio (NoMovementFactory.getInstance))))) (jio (AnimationInterfaceFactoryInterface.getInstance ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.get ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance))) (jget ((jio (MineWeaponResources.getInstance))).rESOURCE)))) 0)) (jio (SimpleWeaponLayer.createDestroyed)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 10 10)) (viewPosition)
+        SimpleWeaponLayer.init_8 this.base (MineLayer.nAME) (RemoteInfo.rEMOTE_INFO) (Prelude.negate 1) (jio (NoMovementFactory.getMovmentInstance ((jio (NoMovementFactory.getInstance))))) (jio (AnimationInterfaceFactoryInterface.getInstance ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.get ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance))) (jget ((jio (MineWeaponResources.getInstance))).base.rESOURCE)))) 0)) (jio (SimpleWeaponLayer.createDestroyed)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 10 10)) (viewPosition)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

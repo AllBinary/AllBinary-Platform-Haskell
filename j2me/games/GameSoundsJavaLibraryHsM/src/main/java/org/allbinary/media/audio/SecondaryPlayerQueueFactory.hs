@@ -19,10 +19,10 @@ module SecondaryPlayerQueueFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,11 +50,15 @@ instance JavaObjectClass SecondaryPlayerQueueFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: PlayerQueue.PlayerQueue
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((PlayerQueue.new_1 4))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SecondaryPlayerQueueFactory
 newRecord_ = do

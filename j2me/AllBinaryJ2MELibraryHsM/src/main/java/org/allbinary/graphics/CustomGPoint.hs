@@ -20,10 +20,10 @@ import GPoint hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,6 +55,7 @@ instance JavaObjectClass CustomGPoint where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_CUSTOM_POINT :: CustomGPoint
 {-# NOINLINE nULL_CUSTOM_POINT #-}
 nULL_CUSTOM_POINT = unsafePerformIO ((new_3 0 0 0))
 

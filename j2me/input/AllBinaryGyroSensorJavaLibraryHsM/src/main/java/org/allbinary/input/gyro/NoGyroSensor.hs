@@ -20,10 +20,10 @@ import AllBinaryOrientationSensor hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified AllBinarySensor -- same package or java.lang
 import qualified AllBinarySensorListener -- org.allbinary.input.AllBinarySensorListener
 import qualified Orientation -- org.allbinary.logic.math.Orientation
 import qualified AllBinaryOrientationSensor

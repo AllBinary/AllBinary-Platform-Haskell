@@ -19,10 +19,10 @@ module ItemView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified OrderItemInterface -- same package or java.lang
 import qualified ItemData -- same package or java.lang
 import qualified BasicItemView -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified StreetAddress -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -66,6 +67,9 @@ instance JavaObjectClass ItemView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ItemView
 newRecord_ = do
@@ -109,7 +113,7 @@ toXmlNode_impl this document = do
         hashMap <- (OrderItemInterface.toHashMap ((jget (this).itemInterface)))
         keySet <- (HashMap.keySet hashMap)
         node <- (Document.createElement document (ItemData.iTEM))
-        basicItemView <- (BasicItemView.new_2 (jget (this).itemInterface) (jget (this).vector))
+        basicItemView <- (BasicItemView.new_2 (javaCast (jget (this).itemInterface)) (jget (this).vector))
         Control.Monad.void (Node.appendChild node (jio (BasicItemView.toXmlNode basicItemView document)))
         stringUtil <- (StringUtil.getInstance)
         nameArray <- (Set.toArray keySet)
@@ -121,7 +125,7 @@ toXmlNode_impl this document = do
             jset value (assignedValue)
             Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name (jget value))))
         shippingAddressNode <- (Document.createElement document (StreetAddressData.nAME))
-        Control.Monad.void (Node.appendChild shippingAddressNode (jio (OrderItemInterface.toXmlNode ((jio (OrderItemInterface.getShippingAddress ((jget (this).itemInterface))))) document)))
+        Control.Monad.void (Node.appendChild shippingAddressNode (jio (StreetAddress.toXmlNode ((jio (OrderItemInterface.getShippingAddress ((jget (this).itemInterface))))) document)))
         pure (node)
 
 

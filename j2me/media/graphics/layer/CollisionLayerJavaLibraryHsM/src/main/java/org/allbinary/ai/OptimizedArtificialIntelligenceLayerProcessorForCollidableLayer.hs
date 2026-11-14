@@ -20,10 +20,10 @@ import LayerProcessor hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified OptimizedArtificialIntelligenceLayerManager -- same package or java.lang
+import qualified ArtificialIntelligenceInterface -- same package or java.lang
 import qualified CollidableCompositeLayer -- org.allbinary.game.layer.CollidableCompositeLayer
 import qualified AllBinaryLayer -- org.allbinary.layer.AllBinaryLayer
 import qualified AllBinaryLayerManager -- org.allbinary.layer.AllBinaryLayerManager
@@ -78,7 +79,7 @@ new_ = do
 
 init_ :: OptimizedArtificialIntelligenceLayerProcessorForCollidableLayer -> IO ()
 init_ this = do
-        LayerProcessor.init_1 this.base (jio (OptimizedArtificialIntelligenceLayerManager.new_))
+        LayerProcessor.init_1 this.base (javaCast (jio (OptimizedArtificialIntelligenceLayerManager.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

@@ -19,10 +19,10 @@ module LicenseServerInitFileUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass LicenseServerInitFileUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LicenseServerInitFileUtil
 newRecord_ = do
@@ -135,7 +138,7 @@ write_impl this = do
             inputStream <- (ResourceUtil.getResourceAsStream resourceUtil filePath)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Writing Default License File" this (jget ((jget (this).commonStrings)).iNIT))
             fileStreamFactory <- (FileStreamFactory.getInstance)
-            assignedValue <- (FileStreamFactory.getFileOutputStreamInstance fileStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) filePath)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: OutputStream.OutputStream) (FileStreamFactory.getFileOutputStreamInstance fileStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) filePath))
             jset fileOutputStream (assignedValue)
             b <- newIORef (0)
             index <- newIORef (0)

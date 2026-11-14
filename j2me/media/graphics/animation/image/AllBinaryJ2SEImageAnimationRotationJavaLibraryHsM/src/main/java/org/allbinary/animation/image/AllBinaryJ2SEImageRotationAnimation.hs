@@ -20,10 +20,10 @@ import ImageBaseRotationAnimation hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,6 +38,9 @@ import qualified ScaleBaseProcessor -- same package or java.lang
 import qualified SetColorProcessor -- same package or java.lang
 import qualified ChangeColorProcessor -- same package or java.lang
 import qualified AlphaProcessor -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
+import qualified IndexedAnimation -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified NullImage -- javax.microedition.lcdui.NullImage
@@ -177,7 +180,7 @@ setBasicColorP_impl this basicColor = do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setBasicColorP_super this.base basicColor)
         when (jget changed) $ do
-            assignedValue <- (SetColorProcessor.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: ModifierBaseProcessor.ModifierBaseProcessor) (SetColorProcessor.getInstance))
             jset (this).setColorProcessor (assignedValue)
             Control.Monad.void (AllBinaryJ2SEImageRotationAnimation.updateImage this)
         pure ()
@@ -196,7 +199,7 @@ changeBasicColor_impl this basicColor = do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.changeBasicColor_super this.base basicColor)
         when (jget changed) $ do
-            assignedValue <- (ChangeColorProcessor.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: ModifierBaseProcessor.ModifierBaseProcessor) (ChangeColorProcessor.getInstance))
             jset (this).changeColorProcessor (assignedValue)
             Control.Monad.void (AllBinaryJ2SEImageRotationAnimation.updateImage this)
         pure ()
@@ -215,7 +218,7 @@ setAlpha_impl this alpha = do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setAlpha_super this.base alpha)
         when (jget changed) $ do
-            assignedValue <- (AlphaProcessor.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: ModifierBaseProcessor.ModifierBaseProcessor) (AlphaProcessor.getInstance))
             jset (this).alphaProcessor (assignedValue)
             Control.Monad.void (AllBinaryJ2SEImageRotationAnimation.updateImage this)
         pure ()

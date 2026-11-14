@@ -20,10 +20,10 @@ import BasicProfileActionScriptCondition hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified TimeIntervalActionScriptConditionJPanel -- same package or java.lang
 import qualified TimeIntervalActionScriptConditionData -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified DomNodeHelper -- org.allbinary.data.tree.dom.DomNodeHelper
 import qualified DomSearchHelper -- org.allbinary.data.tree.dom.DomSearchHelper
@@ -69,6 +70,7 @@ instance JavaObjectClass TimeIntervalActionScriptCondition where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Time Interval"
 
 newRecord_ :: IO TimeIntervalActionScriptCondition
@@ -116,7 +118,7 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget TimeIntervalActionScriptConditionData.tIME))) == 0) then do
                     interval <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (TimeIntervalActionScriptCondition.setTimeDelayHelper this (jio (TimeDelayHelper.new_1 (javaToString interval))))
+                    Control.Monad.void (TimeIntervalActionScriptCondition.setTimeDelayHelper this (jio (TimeDelayHelper.new_1 (jio (jparseInt interval)))))
                 else do
                     javaThrow ((JavaException "Exception" "Time Interval Action Script Condition Unknown Node"))
         else do
@@ -148,7 +150,7 @@ init_super object_ = (init_impl (javaCast object_ :: TimeIntervalActionScriptCon
 
 init_impl :: TimeIntervalActionScriptCondition -> IO (())
 init_impl this = do
-        assignedValue <- (TimeIntervalActionScriptConditionJPanel.new_1 this)
+        assignedValue <- (TimeIntervalActionScriptConditionJPanel.new_1 (javaCast this))
         jset (this).timeIntervalActionScriptConditionJPanel (assignedValue)
         pure ()
 

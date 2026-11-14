@@ -20,10 +20,10 @@ import BasePathFindingInfoFactory hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GeographicMapCellHistory -- same package or java.lang
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified PreLogUtil -- org.allbinary.logic.communication.log.PreLogUtil
 import qualified BasicGeographicMap -- org.allbinary.media.graphics.geography.map.BasicGeographicMap
@@ -59,6 +60,7 @@ instance JavaObjectClass PathFindingInfoFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PathFindingInfoFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -105,7 +107,7 @@ getInstancePathFindingInfo_impl :: PathFindingInfoFactory -> BasicGeographicMap.
 getInstancePathFindingInfo_impl this geographicMapInterface graphArray = do
         commonStrings <- (CommonStrings.getInstance)
         Control.Monad.void (PreLogUtil.put (jget (commonStrings).sTART) this (jget (commonStrings).gET_INSTANCE))
-        pathFindingInfo <- (PathFindingInfo.new_3 (jio (PathFindingNodeCostInfoFactoryBase.new_)) (jio (BasicArrayListS.new_1 1)) (jio (BasicArrayListS.new_1 1)))
+        pathFindingInfo <- (PathFindingInfo.new_3 (jio (PathFindingNodeCostInfoFactoryBase.new_)) (javaCast (jio (BasicArrayListS.new_1 1))) (javaCast (jio (BasicArrayListS.new_1 1))))
         Control.Monad.void (GeographicMapCellHistory.init ((jio (RaceTrackRoadsGeographicMapCellHistoryFactory.getInstance))))
         Control.Monad.void (BasePathFindingInfoFactory.init this geographicMapInterface pathFindingInfo graphArray)
         pure (pathFindingInfo)

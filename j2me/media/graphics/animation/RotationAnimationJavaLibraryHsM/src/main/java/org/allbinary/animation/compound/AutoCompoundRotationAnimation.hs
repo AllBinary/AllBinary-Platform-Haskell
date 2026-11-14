@@ -20,10 +20,10 @@ import RotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -129,7 +129,7 @@ setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: AutoCompoundRota
 
 setFrame_impl :: AutoCompoundRotationAnimation -> Int -> IO (())
 setFrame_impl this index = do
-        Control.Monad.void (setFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) index)
+        Control.Monad.void (RotationAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) index)
         pure ()
 
 
@@ -141,7 +141,7 @@ getFrame_super object_ = (getFrame_impl (javaCast object_ :: AutoCompoundRotatio
 
 getFrame_impl :: AutoCompoundRotationAnimation -> IO (Int)
 getFrame_impl this = do
-        (getFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        (RotationAnimation.getFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
 
 
 -- throws Exception
@@ -153,7 +153,7 @@ getAnimationSize_super object_ = (getAnimationSize_impl (javaCast object_ :: Aut
 
 getAnimationSize_impl :: AutoCompoundRotationAnimation -> IO (Int)
 getAnimationSize_impl this = do
-        (getAnimationSize ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        (RotationAnimation.getAnimationSize ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
 
 
 getSize :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -164,7 +164,7 @@ getSize_super object_ = (getSize_impl (javaCast object_ :: AutoCompoundRotationA
 
 getSize_impl :: AutoCompoundRotationAnimation -> IO (Int)
 getSize_impl this = do
-        (getSize ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        (RotationAnimation.getSize ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
 
 
 previousFrame :: (JavaObjectClass this_) => this_ -> IO (())
@@ -176,7 +176,7 @@ previousFrame_super object_ = (previousFrame_impl (javaCast object_ :: AutoCompo
 previousFrame_impl :: AutoCompoundRotationAnimation -> IO (())
 previousFrame_impl this = do
         Control.Monad.void (CircularIndexUtil.previous ((jget (this).base.circularIndexUtil)))
-        Control.Monad.void (previousFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        Control.Monad.void (RotationAnimation.previousFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
         pure ()
 
 
@@ -190,7 +190,7 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: AutoCompoundRotat
 nextFrame_impl :: AutoCompoundRotationAnimation -> IO (())
 nextFrame_impl this = do
         Control.Monad.void (CircularIndexUtil.next ((jget (this).base.circularIndexUtil)))
-        Control.Monad.void (nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        Control.Monad.void (RotationAnimation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
         pure ()
 
 
@@ -202,7 +202,7 @@ previousRotation_super object_ = (previousRotation_impl (javaCast object_ :: Aut
 
 previousRotation_impl :: AutoCompoundRotationAnimation -> IO (())
 previousRotation_impl this = do
-        Control.Monad.void (previousRotation ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        Control.Monad.void (RotationAnimation.previousRotation ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
         pure ()
 
 
@@ -214,7 +214,7 @@ nextRotation_super object_ = (nextRotation_impl (javaCast object_ :: AutoCompoun
 
 nextRotation_impl :: AutoCompoundRotationAnimation -> IO (())
 nextRotation_impl this = do
-        Control.Monad.void (nextRotation ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        Control.Monad.void (RotationAnimation.nextRotation ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
         pure ()
 
 
@@ -248,7 +248,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: AutoCompound
 
 paintXY_impl :: AutoCompoundRotationAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        Control.Monad.void (paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) graphics x y)
+        Control.Monad.void (RotationAnimation.paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) graphics x y)
         pure ()
 
 
@@ -260,7 +260,7 @@ paintThreedXYZ_super object_ a1 a2 a3 a4 = (paintThreedXYZ_impl (javaCast object
 
 paintThreedXYZ_impl :: AutoCompoundRotationAnimation -> Graphics.Graphics -> Int -> Int -> Int -> IO (())
 paintThreedXYZ_impl this graphics x y z = do
-        Control.Monad.void (paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) graphics x y z)
+        Control.Monad.void (RotationAnimation.paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) graphics x y z)
         pure ()
 
 
@@ -272,7 +272,7 @@ getCurrentAnimation_super object_ = (getCurrentAnimation_impl (javaCast object_ 
 
 getCurrentAnimation_impl :: AutoCompoundRotationAnimation -> IO (IndexedAnimation.IndexedAnimation)
 getCurrentAnimation_impl this = do
-        pure ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil)))))))
+        pure ((javaCast (jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil)))))) :: IndexedAnimation.IndexedAnimation))
 
 
 nextAnimation :: (JavaObjectClass this_) => this_ -> IO (())
@@ -325,7 +325,7 @@ setFrameByDirection_super object_ a1 = (setFrameByDirection_impl (javaCast objec
 
 setFrameByDirection_impl :: AutoCompoundRotationAnimation -> Direction.Direction -> IO (())
 setFrameByDirection_impl this direction = do
-        Control.Monad.void (setFrameByDirection ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) direction)
+        Control.Monad.void (RotationAnimation.setFrameByDirection ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) direction)
         pure ()
 
 
@@ -337,7 +337,7 @@ setFrameToAngle_super object_ a1 = (setFrameToAngle_impl (javaCast object_ :: Au
 
 setFrameToAngle_impl :: AutoCompoundRotationAnimation -> Angle.Angle -> IO (())
 setFrameToAngle_impl this angle = do
-        Control.Monad.void (setFrameToAngle ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) angle)
+        Control.Monad.void (RotationAnimation.setFrameToAngle ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) angle)
         pure ()
 
 
@@ -361,7 +361,7 @@ adjustFrame_super object_ a1 = (adjustFrame_impl (javaCast object_ :: AutoCompou
 
 adjustFrame_impl :: AutoCompoundRotationAnimation -> Int16 -> IO (())
 adjustFrame_impl this angle = do
-        Control.Monad.void (adjustFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) angle)
+        Control.Monad.void (RotationAnimation.adjustFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))) angle)
         pure ()
 
 
@@ -373,7 +373,7 @@ getAngleInfoP_super object_ = (getAngleInfoP_impl (javaCast object_ :: AutoCompo
 
 getAngleInfoP_impl :: AutoCompoundRotationAnimation -> IO (AngleInfo.AngleInfo)
 getAngleInfoP_impl this = do
-        (getAngleInfoP ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
+        (RotationAnimation.getAngleInfoP ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))))
 
 
 getAnimationInterfaceArray :: (JavaObjectClass this_) => this_ -> IO (JavaArray (RotationAnimation.RotationAnimation))
@@ -410,7 +410,7 @@ set_impl :: AutoCompoundRotationAnimation -> GL.GL -> IO (())
 set_impl this gl = do
         index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
+            Control.Monad.void (RotationAnimation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()
 
 

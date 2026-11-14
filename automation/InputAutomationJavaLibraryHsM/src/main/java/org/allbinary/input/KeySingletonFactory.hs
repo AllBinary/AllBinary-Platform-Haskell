@@ -19,10 +19,10 @@ module KeySingletonFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,7 @@ instance JavaObjectClass KeySingletonFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+keyStringHashtable :: IORef (ABHashtable.ABHashtable)
 {-# NOINLINE keyStringHashtable #-}
 keyStringHashtable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))) >>= newIORef)
 
@@ -64,6 +65,9 @@ keyArray = unsafePerformIO (newIORef ((jarrayFromList [KeyEvent.vK_0, KeyEvent.v
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO KeySingletonFactory
 newRecord_ = do
@@ -90,7 +94,7 @@ staticInit_ = do
             ) $ do
             forM_ [0 .. (jlength (jget keyArray)) - 1] $ \index -> javaIteration (pure ()) $ do
                 keyAsString <- (KeyEvent.getKeyText (jindex ((jget keyArray)) (index)))
-                Control.Monad.void (put ((jget KeySingletonFactory.keyStringHashtable)) keyAsString (jindex ((jget keyArray)) (index)))
+                Control.Monad.void (ABHashtable.put ((jget KeySingletonFactory.keyStringHashtable)) keyAsString (jindex ((jget keyArray)) (index)))
         pure ()
 
 new_ :: IO KeySingletonFactory
@@ -113,7 +117,7 @@ getHashtable = do
 
 getInstance :: Int -> IO (Int)
 getInstance index = do
-        pure ((javaToString index))
+        pure ((index))
 
 
 getArray :: IO (JavaArray (Int))

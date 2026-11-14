@@ -20,10 +20,10 @@ import GameCommandCanvas hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,7 @@ import qualified LogUtil -- same package or java.lang
 import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -112,7 +113,7 @@ init_8 this cmdListener label text maxSize constraints font backgroundBasicColor
         initFields_ this
         pure () -- super(...) is in the record above
         stringUtil <- (StringUtil.getInstance)
-        textFieldItem <- (ABTextFieldItem.new_10 this (jio (TextItemVisitor.new_)) (jget (stringUtil).eMPTY_STRING) (jget (stringUtil).eMPTY_STRING) maxSize 0 (jget (stringUtil).eMPTY_STRING) font backgroundBasicColor foregroundBasicColor)
+        textFieldItem <- (ABTextFieldItem.new_10 (javaCast this) (javaCast (jio (TextItemVisitor.new_))) (jget (stringUtil).eMPTY_STRING) (jget (stringUtil).eMPTY_STRING) maxSize 0 (jget (stringUtil).eMPTY_STRING) font backgroundBasicColor foregroundBasicColor)
         Control.Monad.void (ABTextFieldItem.setString textFieldItem text)
         jset (this).textFieldItem (textFieldItem)
         Control.Monad.void (GameCommandCanvas.setTitle this label)
@@ -224,7 +225,7 @@ paint_impl this graphics = do
         Control.Monad.void (Graphics.setColor graphics (jget (this).base.foregroundColor))
         when (Prelude.not (jio (J2MEUtil.isJ2ME))) $ do
             Control.Monad.void (Graphics.drawString graphics (jio (GameCommandCanvas.getTitle this)) 8 1 0)
-        Control.Monad.void (CustomTextBox.paintXY this graphics 8 ((jio (Graphics.getHeight ((jio (Graphics.getFont graphics))))) + 2))
+        Control.Monad.void (CustomTextBox.paintXY this graphics 8 ((jio (Font.getHeight ((jio (Graphics.getFont graphics))))) + 2))
         Control.Monad.void (GameCommandCanvas.paint_super this.base graphics)
         pure ()
 

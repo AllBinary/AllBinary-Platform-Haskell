@@ -19,10 +19,10 @@ module GameConfigurationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,7 +36,7 @@ import qualified GameConfiguration -- same package or java.lang
 import qualified GameOptionsForm -- same package or java.lang
 import qualified GameConfigurationGauge -- same package or java.lang
 import qualified GameConfigurationCentral -- same package or java.lang
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified SmallIntegerSingletonFactory -- org.allbinary.logic.math.SmallIntegerSingletonFactory
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
@@ -65,11 +65,15 @@ instance JavaObjectClass GameConfigurationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: GameConfigurationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameConfigurationUtil
 newRecord_ = do
@@ -201,7 +205,7 @@ updateChallange_impl this gameOptionsForm gameConfiguration = do
                 item <- (GameOptionsForm.get gameOptionsForm index)
                 when (javaInstanceOf item "GameConfigurationGauge") $ do
                     let gauge = (javaCast item :: GameConfigurationGauge.GameConfigurationGauge)
-                    name <- (Item.getLabel item)
+                    name <- (LcduiItem.getLabel item)
                     nextGameConfiguration <- (GameConfigurationSingleton.getInstanceByName gameConfigurationSingleton name)
                     if (nextGameConfiguration == (jget (gameConfigurationCentral).cOLLIDE_DAMAGE)) then do
                         Control.Monad.void (GameConfigurationGauge.setValue gauge ((jio (GameConfiguration.getValue ((jget (gameConfigurationCentral).cOLLIDE_DAMAGE)))) - (jio (GameConfiguration.getMinValue gameConfiguration))))

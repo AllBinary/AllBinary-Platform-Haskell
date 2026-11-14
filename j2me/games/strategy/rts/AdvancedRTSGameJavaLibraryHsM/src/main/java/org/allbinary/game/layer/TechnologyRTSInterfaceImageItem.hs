@@ -20,10 +20,10 @@ import ABCustomImageItem hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified RTSInterface -- same package or java.lang
+import qualified CustomImageItem -- same package or java.lang
+import qualified ImageItem -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
@@ -114,7 +116,7 @@ initFields_ this = do
     jset this.lEVEL ("Level")
     jset this.cOST ("Cost")
     jset this.dOLLAR ("$")
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.costString =<< (CharArrayFactory.getZeroCharArray ((jio (CharArrayFactory.getInstance))))
     jset this.costLength (0)
     jset this.levelString =<< (CharArrayFactory.getZeroCharArray ((jio (CharArrayFactory.getInstance))))

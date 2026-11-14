@@ -19,10 +19,10 @@ module KeyboardActionScriptInputData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,23 +49,31 @@ instance JavaObjectClass KeyboardActionScriptInputData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef ("KEY_ACTION_INPUT_NAME"))
 
+kEY :: IORef (String)
 {-# NOINLINE kEY #-}
 kEY = unsafePerformIO (newIORef ("KEY_ACTION_INPUT_KEY"))
 
+dELAY_BETWEEN_KEYS :: IORef (String)
 {-# NOINLINE dELAY_BETWEEN_KEYS #-}
 dELAY_BETWEEN_KEYS = unsafePerformIO (newIORef ("KEY_ACTION_INPUT_DELAY_BETWEEN_KEYS"))
 
+pRESS :: IORef (String)
 {-# NOINLINE pRESS #-}
 pRESS = unsafePerformIO (newIORef ("KEY_ACTION_INPUT_PRESS"))
 
+rELEASE :: IORef (String)
 {-# NOINLINE rELEASE #-}
 rELEASE = unsafePerformIO (newIORef ("KEY_ACTION_INPUT_RELEASE"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO KeyboardActionScriptInputData
 newRecord_ = do

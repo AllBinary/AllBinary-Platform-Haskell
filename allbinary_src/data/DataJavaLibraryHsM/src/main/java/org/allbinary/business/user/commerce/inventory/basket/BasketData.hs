@@ -19,10 +19,10 @@ module BasketData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,30 +49,44 @@ instance JavaObjectClass BasketData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+bASKET :: String
 bASKET = "BASKET"
 
+nAME :: String
 nAME = "NAME"
 
+bASKETREVIEW :: String
 bASKETREVIEW = "BASKET_REVIEW"
 
+tOTALWEIGHT :: String
 tOTALWEIGHT = "BASKET_TOTALWEIGTH"
 
+iTEMTOTAL :: String
 iTEMTOTAL = "BASKET_ITEMTOTAL"
 
+iTEMTOTALINBASKET :: String
 iTEMTOTALINBASKET = "BASKET_ITEMTOTALINBASKET"
 
+sUBTOTAL :: String
 sUBTOTAL = "BASKET_SUBTOTAL"
 
+iSEMPTY :: String
 iSEMPTY = "BASKET_ISEMPTY"
 
+iNSERT :: String
 iNSERT = "BASKET_INSERT"
 
+dELETE :: String
 dELETE = "BASKET_DELETE"
 
+aDJUST :: String
 aDJUST = "BASKET_ADJUST"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasketData
 newRecord_ = do

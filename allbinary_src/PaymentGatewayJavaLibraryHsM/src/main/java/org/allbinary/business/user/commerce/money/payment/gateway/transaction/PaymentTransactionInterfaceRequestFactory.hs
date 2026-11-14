@@ -19,10 +19,10 @@ module PaymentTransactionInterfaceRequestFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,11 +80,15 @@ instance JavaObjectClass PaymentTransactionInterfaceRequestFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PaymentTransactionInterfaceRequestFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PaymentTransactionInterfaceRequestFactory
 newRecord_ = do
@@ -189,7 +193,7 @@ generateFromTestData_impl this transformInfoInterface = do
             payment <- (Payment.new_)
             Control.Monad.void (Payment.setTransactionType payment transactionType)
             Control.Monad.void (Payment.setTenderType payment tenderType)
-            orderReview <- (OrderHistory.new_1 (jio (Basket.new_)))
+            orderReview <- (OrderHistory.new_1 (javaCast (jio (Basket.new_))))
             Control.Monad.void (OrderHistory.setStoreName orderReview (jio (StoreFrontInterface.getName storeFrontInterface)))
             Control.Monad.void (OrderHistory.setPaymentMethod orderReview (jget gatewayName))
             Control.Monad.void (OrderHistory.setUserName orderReview "testing")

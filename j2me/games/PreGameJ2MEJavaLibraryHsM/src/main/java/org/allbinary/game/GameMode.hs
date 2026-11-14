@@ -19,10 +19,10 @@ module GameMode where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,12 +51,15 @@ instance JavaObjectClass GameMode where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nONE :: IORef (GameMode)
 {-# NOINLINE nONE #-}
 nONE = unsafePerformIO ((new_1 (jget ((jio (StringUtil.getInstance))).nULL_STRING)) >>= newIORef)
 
+sERVER :: IORef (GameMode)
 {-# NOINLINE sERVER #-}
 sERVER = unsafePerformIO ((new_1 "Server") >>= newIORef)
 
+cLIENT :: IORef (GameMode)
 {-# NOINLINE cLIENT #-}
 cLIENT = unsafePerformIO ((new_1 "Client") >>= newIORef)
 

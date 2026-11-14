@@ -19,10 +19,10 @@ module GenericProfileActionScriptOutputData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,14 +49,19 @@ instance JavaObjectClass GenericProfileActionScriptOutputData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef ("GENERIC_CONFIGURATION_PROFILE_ACTION_OUTPUT_NAME"))
 
+tYPE :: IORef (String)
 {-# NOINLINE tYPE #-}
 tYPE = unsafePerformIO (newIORef ("GENERIC_CONFIGURATION_PROFILE_ACTION_OUTPUT_TYPE"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GenericProfileActionScriptOutputData
 newRecord_ = do

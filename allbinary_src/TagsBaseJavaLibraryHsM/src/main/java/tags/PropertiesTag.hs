@@ -20,10 +20,10 @@ import CommandTag hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified StdUtil -- org.allbinary.logic.StdUtil
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -88,7 +89,7 @@ init_ this = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).propertiesHashMap (assignedValue)
         pure ()
 
@@ -114,7 +115,7 @@ doEndTag_impl :: PropertiesTag -> IO (Int)
 doEndTag_impl this = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Tag Ended" this "doEndTag")
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).propertiesHashMap (assignedValue)
         pure (eVAL_PAGE)
 

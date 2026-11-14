@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified UserEntity -- same package or java.lang
+import qualified UserRole -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -102,14 +104,28 @@ initFields_ this = do
     jset this.request (javaNull)
     pure ()
 
-new_2 :: HashMap.HashMap -> PageContext.PageContext -> IO AuthenticationRequestHelper
-new_2 hashMap pageContext = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => HashMap.HashMap -> o2 -> IO AuthenticationRequestHelper
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = new_2_overload1 a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+init_2 :: (JavaObjectClass o2) => AuthenticationRequestHelper -> HashMap.HashMap -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = init_2_overload1 this a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+
+new_2_overload1 :: HashMap.HashMap -> PageContext.PageContext -> IO AuthenticationRequestHelper
+new_2_overload1 hashMap pageContext = do
     this <- newRecord_
-    init_2 this hashMap pageContext
+    init_2_overload1 this hashMap pageContext
     pure this
 
-init_2 :: AuthenticationRequestHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_2 this hashMap pageContext = do
+init_2_overload1 :: AuthenticationRequestHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_2_overload1 this hashMap pageContext = do
         TagHelper.init_ this.base
         initFields_ this
         assignedValue <- (WeblisketSession.new_2 hashMap pageContext)
@@ -117,15 +133,14 @@ init_2 this hashMap pageContext = do
         jset (this).request ((javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO AuthenticationRequestHelper
-new_2 hashMap httpServletRequest = do
+new_2_overload2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO AuthenticationRequestHelper
+new_2_overload2 hashMap httpServletRequest = do
     this <- newRecord_
-    init_2 this hashMap httpServletRequest
+    init_2_overload2 this hashMap httpServletRequest
     pure this
 
-init_2 :: AuthenticationRequestHelper -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
-init_2 this hashMap httpServletRequest = do
+init_2_overload2 :: AuthenticationRequestHelper -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
+init_2_overload2 this hashMap httpServletRequest = do
         TagHelper.init_ this.base
         initFields_ this
         assignedValue <- (WeblisketSession.new_2 hashMap httpServletRequest)
@@ -174,8 +189,8 @@ newPassword_impl this = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Generating New Password For: " ++ userName) this "newPassword()")
             userEntityInterface <- (fmap (\value_ -> javaCast value_ :: UserEntityInterface.UserEntityInterface) (UserEntityFactory.getInstance))
             userInterface <- (UserEntityInterface.getUser userEntityInterface userName)
-            when ((jio (UserInterface.compareTo ((jio (UserInterface.getMainEmail userInterface))) email)) /= 0) $ do
-                when (((jio (UserInterface.getSecondaryEmail userInterface)) /= javaNull) && ((jio (UserInterface.compareTo ((jio (UserInterface.getSecondaryEmail userInterface))) email)) /= 0)) $ do
+            when ((Prelude.fromEnum (Prelude.compare (jio (UserInterface.getMainEmail userInterface)) email) - 1) /= 0) $ do
+                when (((jio (UserInterface.getSecondaryEmail userInterface)) /= javaNull) && ((Prelude.fromEnum (Prelude.compare (jio (UserInterface.getSecondaryEmail userInterface)) email) - 1) /= 0)) $ do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Requested Email Is Not In User Profile" this "newPassword()")
                     javaReturn (False)
@@ -252,13 +267,13 @@ isRoleValid_impl this userName password roles = do
             userInterface <- (UserEntityInterface.getUser userEntityInterface userName)
             when ((jio (UserInterface.getRole userInterface)) == javaNull) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
-                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Role is null: " ++ javaToString (jio (UserInterface.getRole userInterface))) ++ " Valid Roles: ") ++ (jio (BasicArrayList.toString roles))) this "isRoleValid()")
+                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Role is null: " ++ jconcatObject UserRole.toString (jio (UserInterface.getRole userInterface))) ++ " Valid Roles: ") ++ (jio (BasicArrayList.toString roles))) this "isRoleValid()")
                 javaReturn (False)
             basicUserRoleArray <- (BasicArrayList.toArray roles)
             let size = (jlength basicUserRoleArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let nextRole = (javaCast (jindex basicUserRoleArray (index)) :: BasicUserRole.BasicUserRole)
-                when (jio (UserInterface.equals ((jio (UserInterface.getBasicUserRole ((jio (UserInterface.getRole userInterface)))))) nextRole)) $ do
+                when (jio (BasicUserRole.equals ((jio (UserRole.getBasicUserRole ((jio (UserInterface.getRole userInterface)))))) nextRole)) $ do
                     Control.Monad.void (UserInterface.validateSession userInterface (javaCast (jget (this).weblisketSession) :: WeblisketSessionInterface.WeblisketSessionInterface))
                     Control.Monad.void (HttpServletRequest.removeAttribute ((jget (this).request)) (WeblisketSessionData.rEMOVABLEUSERNAME))
                     Control.Monad.void (HttpServletRequest.removeAttribute ((jget (this).request)) (WeblisketSessionData.rEMOVABLEPASSWORD))
@@ -266,7 +281,7 @@ isRoleValid_impl this userName password roles = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
                 stringBuffer <- (StringMaker.new_)
                 Control.Monad.void (StringMaker.append stringBuffer "Role is not valid: ")
-                Control.Monad.void (StringMaker.append stringBuffer (jio (UserInterface.toString ((jio (UserInterface.getRole userInterface))))))
+                Control.Monad.void (StringMaker.append stringBuffer (jio (UserRole.toString ((jio (UserInterface.getRole userInterface))))))
                 Control.Monad.void (StringMaker.append stringBuffer " Valid Roles: ")
                 Control.Monad.void (StringMaker.append stringBuffer (jio (BasicArrayList.toString roles)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "isRoleValid()")

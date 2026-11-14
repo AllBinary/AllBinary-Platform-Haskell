@@ -7,10 +7,10 @@ module PolygonRasterizer where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,11 +39,15 @@ instance JavaObjectClass PolygonRasterizer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PolygonRasterizer
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PolygonRasterizer
 newRecord_ = do
@@ -98,8 +102,9 @@ fillPolygon_super object_ a1 a2 a3 a4 a5 a6 a7 = (fillPolygon_impl (javaCast obj
 
 fillPolygon_impl :: PolygonRasterizer -> JavaArray (Int) -> JavaArray (Int) -> Int -> JavaArray (Int) -> Int -> Int -> Int -> IO (())
 fillPolygon_impl this polyX polyY numPoints buffer width height colorRGB = do
+    javaCatchReturn $ do
         when (numPoints < 3) $ do
-            pure (())
+            javaReturn (())
         fixedPoint <- (FixedPoint.getInstance)
         let x = (jnewArray (numPoints) 0)
         let y = (jnewArray (numPoints) 0)
@@ -149,7 +154,7 @@ fillPolygon_impl this polyX polyY numPoints buffer width height colorRGB = do
                 let rowOffset = (scanY * width)
                 forM_ [(jget startX) .. (jget endX)] $ \pixelX -> javaIteration (pure ()) $ do
                     jsetIndex buffer ((rowOffset + pixelX)) (colorRGB)
-        pure ()
+    pure ()
 
 
 main :: (JavaObjectClass this_) => this_ -> JavaArray (String) -> IO (())

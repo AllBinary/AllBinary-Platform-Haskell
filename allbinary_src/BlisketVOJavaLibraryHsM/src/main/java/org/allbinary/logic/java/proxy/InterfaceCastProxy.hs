@@ -19,10 +19,10 @@ module InterfaceCastProxy where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ instance JavaObjectClass InterfaceCastProxy where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InterfaceCastProxy
 newRecord_ = do
@@ -107,7 +110,7 @@ invoke_impl this proxyObjectObject_ proxyMethod proxyArgs = do
         methodName <- (Method.getName proxyMethod)
         realMethod <- (Class.getMethod ((jio (jobjectGetClass (jget (this).anyType)))) methodName (jio (Method.getParameterTypes proxyMethod)))
         when (Prelude.not (jio (Method.isAccessible realMethod))) $ do
-            Control.Monad.void (jio (Method.setAccessible realMethod True))
+            Control.Monad.void (Method.setAccessible realMethod True)
         (fmap jtoObject (Method.invoke proxyMethod (jget (this).anyType) proxyArgs))
 
 

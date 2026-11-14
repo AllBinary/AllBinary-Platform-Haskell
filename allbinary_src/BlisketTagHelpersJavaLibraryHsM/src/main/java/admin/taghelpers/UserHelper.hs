@@ -20,10 +20,10 @@ import Table hiding (new_, init_, newRecord_, initFields_, header_, base, static
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -122,7 +123,7 @@ init_2 this hashMap pageContext = do
         jset (this).hashMap (hashMap)
         jset (this).pageContext (pageContext)
         jset (this).request ((javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest))
-        jset (this).path (((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)))
+        jset (this).path (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)))
         assignedValue <- (Portion.new_1 hashMap)
         jset (this).portion (assignedValue)
         pure ()

@@ -7,10 +7,10 @@ module MusicManager where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,6 +82,9 @@ instance JavaObjectClass MusicManager where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO MusicManager
 newRecord_ = do
     header_ <- newJavaHeader
@@ -124,7 +127,7 @@ initFields_ this = do
     jset this.gameTickTimeDelayHelper =<< (GameTickTimeDelayHelperFactory.getInstance)
     jset this.playerStateUtil =<< (PlayerStateUtil.getInstance)
     jset this.timeDelayHelper =<< (TimeDelayHelper.new_1 0)
-    jset this.playerListener =<< (fmap (\value_ -> javaCast value_ :: PlayerListener.PlayerListener) (MusicManagerPlayerListener.new_))
+    jset this.playerListener =<< (fmap (\value_ -> javaCast value_ :: PlayerListener.PlayerListener) (MusicManagerPlayerListener.new_1 this))
     jset this.pLAY ("Play ")
     jset this.sONG (" for: ")
     jset this.nEXT_SONG ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Song: "))
@@ -221,7 +224,7 @@ process_impl this = do
                 jset (this).noDuration (False)
                 let endingCurrentSongSound = (jget (this).currentSongSound)
                 let nextSongSound = (jget (this).nextSongSound)
-                assignedValue <- (NoSound.getInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: Sound.Sound) (NoSound.getInstance))
                 jset (this).nextSongSound (assignedValue)
                 if ((jtoObject nextSongSound) == (jtoObject (jio (NoSound.getInstance)))) then do
                     jset (this).currentSongSound ((javaCast (jio (BasicArrayListUtil.getRandom ((jio (BasicArrayListUtil.getInstance))) (jget (this).songList))) :: Sound.Sound))

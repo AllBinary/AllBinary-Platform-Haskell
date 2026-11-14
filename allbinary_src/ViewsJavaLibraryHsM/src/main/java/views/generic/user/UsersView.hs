@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -118,7 +118,7 @@ toXmlNode_impl this document = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let userInterface = (javaCast (jio (BasicArrayList.get ((jget (this).userVector)) index)) :: User.User)
                 if (userInterface /= javaNull) then do
-                    node <- (UserDomNode.toXmlNode ((jio (UserDomNode.new_1 userInterface))) document)
+                    node <- (UserDomNode.toXmlNode ((jio (UserDomNode.new_1 (javaCast userInterface)))) document)
                     Control.Monad.void (Node.appendChild usersNode node)
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "UserHelper" this "toXmlNode")

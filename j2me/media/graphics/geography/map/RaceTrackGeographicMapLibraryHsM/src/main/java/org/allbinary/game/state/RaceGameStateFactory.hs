@@ -19,10 +19,10 @@ module RaceGameStateFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ instance_ = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO RaceGameStateFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -93,7 +96,7 @@ init_ this = do
 getInstance :: IO (RaceGameStateFactory)
 getInstance = do
         when ((jget RaceGameStateFactory.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset RaceGameStateFactory.instance_ (assignedValue)
         pure ((javaCast (jget RaceGameStateFactory.instance_) :: RaceGameStateFactory))
 

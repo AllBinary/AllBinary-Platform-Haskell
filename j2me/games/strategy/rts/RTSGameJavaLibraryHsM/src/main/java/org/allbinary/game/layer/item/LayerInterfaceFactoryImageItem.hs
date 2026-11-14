@@ -20,10 +20,10 @@ import ABCustomImageItem hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -115,7 +115,7 @@ paintXY_impl this graphics x y = do
         Control.Monad.void (ABCustomImageItem.paintXY_super this.base graphics x y)
         index <- newIORef ((jlength (jget (this).animationArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (paintXY ((jindex ((jget (this).animationArray)) ((jget index)))) graphics x y)
+            Control.Monad.void (Animation.paintXY ((jindex ((jget (this).animationArray)) ((jget index)))) graphics x y)
         pure ()
 
 

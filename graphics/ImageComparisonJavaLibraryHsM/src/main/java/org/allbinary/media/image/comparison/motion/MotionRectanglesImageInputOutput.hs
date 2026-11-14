@@ -19,10 +19,10 @@ module MotionRectanglesImageInputOutput where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -84,6 +84,9 @@ instance JavaObjectClass MotionRectanglesImageInputOutput where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO MotionRectanglesImageInputOutput
 newRecord_ = do
     header_ <- newJavaHeader
@@ -125,15 +128,15 @@ save_super object_ a1 = (save_impl (javaCast object_ :: MotionRectanglesImageInp
 save_impl :: MotionRectanglesImageInputOutput -> Int64 -> IO (())
 save_impl this frame = do
         commonStrings <- (CommonStrings.getInstance)
-        motionRectanglesResultsFrameCacheable <- newIORef ((javaCast (jio (get (((javaCast (jio (AllMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
+        motionRectanglesResultsFrameCacheable <- newIORef ((javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (AllMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
         if ((jget motionRectanglesResultsFrameCacheable) /= javaNull) then do
             motionRectangles <- newIORef =<< (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
             Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
-            jset motionRectanglesResultsFrameCacheable ((javaCast (jio (get (((javaCast (jio (ConsolidatedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
+            jset motionRectanglesResultsFrameCacheable ((javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (ConsolidatedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
             assignedValue <- (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
             jset motionRectangles (assignedValue)
             Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
-            jset motionRectanglesResultsFrameCacheable ((javaCast (jio (get (((javaCast (jio (ConstrainedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
+            jset motionRectanglesResultsFrameCacheable ((javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (ConstrainedMotionRectanglesResultsCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: MotionRectanglesResultsFrameCacheable.MotionRectanglesResultsFrameCacheable))
             assignedValue <- (MotionRectanglesResultsFrameCacheable.getMotionRectangles ((jget motionRectanglesResultsFrameCacheable)))
             jset motionRectangles (assignedValue)
             Control.Monad.void (MotionRectanglesImageInputOutput.save_2 this (jget motionRectangles) frame)
@@ -178,13 +181,13 @@ save_2_impl this motionRectangles frame = do
         poolInterface <- (BufferedImagePoolSingleton.getInstance)
         forM_ [0 .. (jget (this).nUMBER_OF_IMAGES) - 1] $ \index -> javaIteration (pure ()) $ do
             jsetIndex bufferedImageCacheables (index) ((javaCast (jio (PoolInterface.remove poolInterface bufferedImageInfo)) :: BufferedImageCacheable.BufferedImageCacheable))
-        Control.Monad.void (setData ((jio (getBufferedImage ((jindex bufferedImageCacheables (0)))))) (jio (getData ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))))))
+        Control.Monad.void (BufferedImage.setData ((jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (0)))))) (jio (getData ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))))))
         when ((jget (this).nUMBER_OF_IMAGES) > 1) $ do
-            Control.Monad.void (setData ((jio (getBufferedImage ((jindex bufferedImageCacheables (1)))))) (jio (getData ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))))))
+            Control.Monad.void (BufferedImage.setData ((jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (1)))))) (jio (getData ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))))))
         bufferedImageGraphicsArray <- newIORef (javaNull)
         jset bufferedImageGraphicsArray ((jnewArray ((jget (this).nUMBER_OF_IMAGES)) javaNull))
         forM_ [0 .. (jget (this).nUMBER_OF_IMAGES) - 1] $ \index -> javaIteration (pure ()) $ do
-            assignedValue <- (getGraphics ((jio (getBufferedImage ((jindex bufferedImageCacheables (index)))))))
+            assignedValue <- (BufferedImage.getGraphics ((jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (index)))))))
             jsetIndex ((jget bufferedImageGraphicsArray)) (index) (assignedValue)
         rectangelList <- (MotionRectangles.getVector motionRectangles)
         size <- (BasicArrayList.size rectangelList)
@@ -192,14 +195,14 @@ save_2_impl this motionRectangles frame = do
             let motionRectangle = (javaCast (jio (BasicArrayList.get rectangelList index2)) :: MotionRectangle.MotionRectangle)
             rectangle <- (MotionRectangle.getRectangle motionRectangle)
             forM_ [0 .. (jget (this).nUMBER_OF_IMAGES) - 1] $ \index -> javaIteration (pure ()) $ do
-                Control.Monad.void (setColor ((jindex ((jget bufferedImageGraphicsArray)) (index))) (Color.oRANGE))
-                Control.Monad.void (drawRect ((jindex ((jget bufferedImageGraphicsArray)) (index))) (jget (rectangle).x) (jget (rectangle).y) (jget (rectangle).width) (jget (rectangle).height))
+                Control.Monad.void (Graphics.setColor ((jindex ((jget bufferedImageGraphicsArray)) (index))) (Color.oRANGE))
+                Control.Monad.void (Graphics.drawRect ((jindex ((jget bufferedImageGraphicsArray)) (index))) (jget (rectangle).x) (jget (rectangle).y) (jget (rectangle).width) (jget (rectangle).height))
         imagePersistanceUtil <- (ImagePersistanceUtil.getInstance)
         when ((jget (this).nUMBER_OF_IMAGES) > 1) $ do
-            Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer1)) (jio (getBufferedImage ((jindex bufferedImageCacheables (1))))))
-        Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer2)) (jio (getBufferedImage ((jindex bufferedImageCacheables (0))))))
+            Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer1)) (jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (1))))))
+        Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer2)) (jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (0))))))
         when ((jget (this).nUMBER_OF_IMAGES) > 2) $ do
-            Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer3)) (jio (getBufferedImage ((jindex bufferedImageCacheables (2))))))
+            Control.Monad.void (ImagePersistanceUtil.saveWithImageIO imagePersistanceUtil (jio (StringMaker.toString filePathStringBuffer3)) (jio (BufferedImageCacheable.getBufferedImage ((jindex bufferedImageCacheables (2))))))
         pure ()
 
 

@@ -20,10 +20,10 @@ import Waypoint hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified WaypointInfoHudPaintable -- same package or java.lang
+import qualified GeographicMapCellPositionAreaBase -- same package or java.lang
 import qualified PathFindingLayerInterface -- org.allbinary.game.layer.PathFindingLayerInterface
 import qualified RTSLayer -- org.allbinary.game.layer.RTSLayer
 import qualified GeologicalGeographicMapCellPosition -- org.allbinary.game.layer.geological.resources.GeologicalGeographicMapCellPosition
@@ -107,7 +108,7 @@ visit_impl this unitLayer = do
             javaReturn (())
         size <- (BasicArrayList.size ((jio (Waypoint.getConnectedWaypointList this))))
         when (size > 0) $ do
-            occupyList <- (PathFindingLayerInterface.getOccupyingGeographicMapCellPositionList ((jio (PathFindingLayerInterface.getGeographicMapCellPositionArea ((jget (this).base.ownerLayer))))))
+            occupyList <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jio (PathFindingLayerInterface.getGeographicMapCellPositionArea ((jget (this).base.ownerLayer))))))
             outOfResources <- newIORef (True)
             geologicalGeographicMapCellPosition <- newIORef (javaNull)
             geologicalResource <- newIORef (javaNull)

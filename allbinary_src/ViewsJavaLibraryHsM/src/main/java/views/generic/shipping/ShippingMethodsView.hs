@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
+import qualified HttpComponentView -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
@@ -112,7 +114,7 @@ init_1 this transformInfoInterface = do
         HttpStoreComponentView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))
         jset (this).storeFrontInterface (assignedValue)
         assignedValue <- (ShippingMethods.new_2 (jget (this).base.base.abeClientInformation) (jget (this).storeFrontInterface))
         jset (this).shippingMethods (assignedValue)

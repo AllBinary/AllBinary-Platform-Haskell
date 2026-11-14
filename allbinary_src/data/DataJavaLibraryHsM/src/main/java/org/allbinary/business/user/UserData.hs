@@ -19,10 +19,10 @@ module UserData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,53 +49,78 @@ instance JavaObjectClass UserData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXLEN :: IORef (Int)
 {-# NOINLINE mAXLEN #-}
 mAXLEN = unsafePerformIO (newIORef (250))
 
+nAME :: String
 nAME = "USER_NAME"
 
+uSERNAME :: String
 uSERNAME = "CUSTOMER_USER_NAME"
 
+pASSWORD :: String
 pASSWORD = "CUSTOMER_PASSWORD"
 
+pREFIXNAME :: String
 pREFIXNAME = "CUSTOMER_PREFIX_NAME"
 
+fIRSTNAME :: String
 fIRSTNAME = "CUSTOMER_FIRST_NAME"
 
+lASTNAME :: String
 lASTNAME = "CUSTOMER_LAST_NAME"
 
+mIDDLENAME :: String
 mIDDLENAME = "CUSTOMER_MIDDLE_NAME"
 
+sUFFIXNAME :: String
 sUFFIXNAME = "CUSTOMER_SUFFIX_NAME"
 
+cOMPANY :: String
 cOMPANY = "CUSTOMER_COMPANY"
 
+pOSITIONATCOMPANY :: String
 pOSITIONATCOMPANY = "CUSTOMER_POSITION_AT_COMPANY"
 
+mAINEMAIL :: String
 mAINEMAIL = "CUSTOMER_MAIN_EMAIL"
 
+sECONDARYEMAIL :: String
 sECONDARYEMAIL = "CUSTOMER_SECONDARY_EMAIL"
 
+hOMEPHONE :: String
 hOMEPHONE = "CUSTOMER_HOME_PHONE"
 
+cELLPHONE :: String
 cELLPHONE = "CUSTOMER_CELL_PHONE"
 
+wORKPHONE :: String
 wORKPHONE = "CUSTOMER_WORK_PHONE"
 
+oTHERCONTACT :: String
 oTHERCONTACT = "CUSTOMER_OTHER_CONTACT"
 
+eLECTRONICDEVICE :: String
 eLECTRONICDEVICE = "CUSTOMER_ELECTRONIC_DEVICE"
 
+fAX :: String
 fAX = "CUSTOMER_FAX"
 
+sECRET :: String
 sECRET = "CUSTOMER_SECRET"
 
+pERMISSIONS :: String
 pERMISSIONS = "CUSTOMER_PERMISSIONS"
 
+cONFIGURATION :: String
 cONFIGURATION = "CUSTOMER_CONFIGURATION"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserData
 newRecord_ = do

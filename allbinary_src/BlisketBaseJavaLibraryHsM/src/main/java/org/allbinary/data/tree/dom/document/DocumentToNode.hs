@@ -19,10 +19,10 @@ module DocumentToNode where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,20 +51,29 @@ instance JavaObjectClass DocumentToNode where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+xMLROOT :: String
 xMLROOT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 
+xMLROOTSTART :: String
 xMLROOTSTART = "<?xml"
 
+xMLROOTEND :: String
 xMLROOTEND = "?>"
 
+xMLJSPROOTSTART :: String
 xMLJSPROOTSTART = "<jsp:root"
 
+xMLEND :: String
 xMLEND = ">"
 
+xMLJSPROOTENDSTART :: String
 xMLJSPROOTENDSTART = "</jsp:root"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DocumentToNode
 newRecord_ = do

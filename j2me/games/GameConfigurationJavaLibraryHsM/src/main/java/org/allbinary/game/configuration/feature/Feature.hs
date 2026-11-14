@@ -19,10 +19,10 @@ module Feature where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,6 +54,7 @@ instance JavaObjectClass Feature where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashtable :: IORef (ABHashtable.ABHashtable)
 {-# NOINLINE hashtable #-}
 hashtable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))) >>= newIORef)
 
@@ -89,12 +90,12 @@ init_1 this name = do
 
 getInstance :: String -> IO (Feature)
 getInstance name = do
-        pure ((javaCast (jio (get ((jget Feature.hashtable)) name)) :: Feature))
+        pure ((javaCast (jio (ABHashtable.get ((jget Feature.hashtable)) name)) :: Feature))
 
 
 add :: String -> Feature -> IO (())
 add name gameFeature = do
-        Control.Monad.void (put ((jget Feature.hashtable)) name gameFeature)
+        Control.Monad.void (ABHashtable.put ((jget Feature.hashtable)) name gameFeature)
         pure ()
 
 

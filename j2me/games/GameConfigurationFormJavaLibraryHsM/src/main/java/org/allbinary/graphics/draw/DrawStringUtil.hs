@@ -19,10 +19,10 @@ module DrawStringUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,11 +61,15 @@ instance JavaObjectClass DrawStringUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: DrawStringUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DrawStringUtil
 newRecord_ = do
@@ -108,7 +112,7 @@ drawCenterString_super object_ a1 a2 a3 a4 a5 a6 = (drawCenterString_impl (javaC
 
 drawCenterString_impl :: DrawStringUtil -> Graphics.Graphics -> String -> Int -> Int -> Int -> Int -> IO (())
 drawCenterString_impl this graphics string offset length x y = do
-        let width = (((jio (Graphics.substringWidth ((jio (Graphics.getFont graphics))) string offset length)) `Data.Bits.shiftR` 1))
+        let width = (((jio (Font.substringWidth ((jio (Graphics.getFont graphics))) string offset length)) `Data.Bits.shiftR` 1))
         handle (\(e :: JavaException) -> do
             Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "Exception: stringLength: "))) (Prelude.length string)))) " offset: "))) offset))) " currentLength: "))) length))))) this "drawCenterString")
             ) $ do
@@ -128,7 +132,7 @@ drawCenterStrings_impl this graphics stringArray maxWidth charHeight x y = do
         forM_ [0 .. (jlength stringArray) - 1] $ \index -> javaIteration (pure ()) $ do
             let string = (jindex stringArray (index))
             when (string /= (jget (this).eMPTY_STRING)) $ do
-                width <- (Graphics.stringWidth ((jio (Graphics.getFont graphics))) string)
+                width <- (Font.stringWidth ((jio (Graphics.getFont graphics))) string)
                 minTotalLines <- newIORef (1)
                 when (width > maxWidth) $ do
                     jset minTotalLines ((((width `quot` maxWidth)) + 1))
@@ -140,7 +144,7 @@ drawCenterStrings_impl this graphics stringArray maxWidth charHeight x y = do
                     when (((jget offset) + (jget currentLength)) > size) $ do
                         jset currentLength ((size - (jget offset)))
                     when (((jget offset) + (jget currentLength)) /= size) $ do
-                        fix $ \loop -> when (((jget currentLength) > 0) && ((jio (charAt ((jindex stringArray (index))) ((jget offset) + (jget currentLength)))) /= ' ')) $ javaIteration (loop) $ do
+                        fix $ \loop -> when (((jget currentLength) > 0) && (((jindex stringArray (index)) Prelude.!! ((jget offset) + (jget currentLength))) /= ' ')) $ javaIteration (loop) $ do
                             jset currentLength ((jget currentLength) - 1)
                         when ((jget currentLength) <= 4) $ do
                             jset currentLength (linePortion)

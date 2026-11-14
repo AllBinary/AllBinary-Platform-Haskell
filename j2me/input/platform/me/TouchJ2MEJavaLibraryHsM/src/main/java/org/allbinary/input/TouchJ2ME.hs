@@ -19,10 +19,10 @@ module TouchJ2ME where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified MotionGestureRecognizer -- same package or java.lang
 import qualified AllMotionRecognizer -- org.allbinary.input.motion.AllMotionRecognizer
 import qualified BasicMotionGesturesHandler -- org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler
 import qualified GameMotionGestureListener -- org.allbinary.input.motion.gesture.observer.GameMotionGestureListener
@@ -61,6 +62,9 @@ instance JavaObjectClass TouchJ2ME where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO TouchJ2ME
 newRecord_ = do
     header_ <- newJavaHeader
@@ -90,8 +94,8 @@ new_ = do
 init_ :: TouchJ2ME -> IO ()
 init_ this = do
         initFields_ this
-        motionGesturesHandler <- (AllMotionRecognizer.getMotionGesturesHandler ((jio (AllMotionRecognizer.getMotionGestureRecognizer ((jget (this).motionRecognizer))))))
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface motionGesturesHandler (jio (GameMotionGestureListener.new_1 (jio (MotionGestureReceiveInterfaceFactory.getInstance)))))
+        motionGesturesHandler <- (MotionGestureRecognizer.getMotionGesturesHandler ((jio (AllMotionRecognizer.getMotionGestureRecognizer ((jget (this).motionRecognizer))))))
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface motionGesturesHandler (javaCast (jio (GameMotionGestureListener.new_1 (jio (MotionGestureReceiveInterfaceFactory.getInstance))))))
         pure ()
 
 

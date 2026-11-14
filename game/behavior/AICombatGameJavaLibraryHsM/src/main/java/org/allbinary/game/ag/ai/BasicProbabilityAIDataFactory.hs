@@ -19,10 +19,10 @@ module BasicProbabilityAIDataFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,6 +57,9 @@ instance JavaObjectClass BasicProbabilityAIDataFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicProbabilityAIDataFactory
 newRecord_ = do
@@ -134,7 +137,7 @@ getInstance_impl this = do
         jsetIndex repeatLikelyhoodIntegerArray (Canvas.kEY_NUM9) (assignedValue)
         assignedValue <- (SmallIntegerSingletonFactory.getAt smallIntegerSingletonFactory 10)
         jsetIndex repeatLikelyhoodIntegerArray (Canvas.kEY_NUM1) (assignedValue)
-        inputProbability <- (InputProbability.new_4 likelyhoodIntegerArray repeatLikelyhoodIntegerArray 42 (NoTimeDelayHelper.sINGLETON))
+        inputProbability <- (InputProbability.new_4 likelyhoodIntegerArray repeatLikelyhoodIntegerArray 42 (javaCast NoTimeDelayHelper.sINGLETON))
         (InputProbability.toHashtable inputProbability)
 
 

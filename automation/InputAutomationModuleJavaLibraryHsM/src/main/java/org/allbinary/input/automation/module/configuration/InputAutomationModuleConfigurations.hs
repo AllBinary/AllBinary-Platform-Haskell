@@ -19,10 +19,10 @@ module InputAutomationModuleConfigurations where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass InputAutomationModuleConfigurations where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO InputAutomationModuleConfigurations
 newRecord_ = do
     header_ <- newJavaHeader
@@ -86,14 +89,28 @@ initFields_ this = do
     jset this.hashMap (javaNull)
     pure ()
 
-new_2 :: AbeClientInformationInterface.AbeClientInformationInterface -> File.File -> IO InputAutomationModuleConfigurations
-new_2 abeClientInformation file = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> IO InputAutomationModuleConfigurations
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: File.File) = new_2_overload1 a1 (javaCast a2 :: File.File)
+    | jisInstanceOf a2 (javaNull :: Document.Document) = new_2_overload2 a1 (javaCast a2 :: Document.Document)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: Document.Document)
+
+init_2 :: (JavaObjectClass o2) => InputAutomationModuleConfigurations -> AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: File.File) = init_2_overload1 this a1 (javaCast a2 :: File.File)
+    | jisInstanceOf a2 (javaNull :: Document.Document) = init_2_overload2 this a1 (javaCast a2 :: Document.Document)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: Document.Document)
+
+
+new_2_overload1 :: AbeClientInformationInterface.AbeClientInformationInterface -> File.File -> IO InputAutomationModuleConfigurations
+new_2_overload1 abeClientInformation file = do
     this <- newRecord_
-    init_2 this abeClientInformation file
+    init_2_overload1 this abeClientInformation file
     pure this
 
-init_2 :: InputAutomationModuleConfigurations -> AbeClientInformationInterface.AbeClientInformationInterface -> File.File -> IO ()
-init_2 this abeClientInformation file = do
+init_2_overload1 :: InputAutomationModuleConfigurations -> AbeClientInformationInterface.AbeClientInformationInterface -> File.File -> IO ()
+init_2_overload1 this abeClientInformation file = do
         initFields_ this
         Control.Monad.void (InputAutomationModuleConfigurations.setHashMap this (jio (HashMap.new_)))
         let bytes = (jnewArray (100000) 0)
@@ -111,15 +128,14 @@ init_2 this abeClientInformation file = do
                 Control.Monad.void (InputAutomationModuleConfigurations.add this (jio (InputAutomationModuleConfiguration.new_2 abeClientInformation node)))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: AbeClientInformationInterface.AbeClientInformationInterface -> Document.Document -> IO InputAutomationModuleConfigurations
-new_2 abeClientInformation document = do
+new_2_overload2 :: AbeClientInformationInterface.AbeClientInformationInterface -> Document.Document -> IO InputAutomationModuleConfigurations
+new_2_overload2 abeClientInformation document = do
     this <- newRecord_
-    init_2 this abeClientInformation document
+    init_2_overload2 this abeClientInformation document
     pure this
 
-init_2 :: InputAutomationModuleConfigurations -> AbeClientInformationInterface.AbeClientInformationInterface -> Document.Document -> IO ()
-init_2 this abeClientInformation document = do
+init_2_overload2 :: InputAutomationModuleConfigurations -> AbeClientInformationInterface.AbeClientInformationInterface -> Document.Document -> IO ()
+init_2_overload2 this abeClientInformation document = do
         initFields_ this
         Control.Monad.void (InputAutomationModuleConfigurations.setHashMap this (jio (HashMap.new_)))
         nameNodeList <- (Document.getElementsByTagName document (jget InputAutomationModuleData.nAME))

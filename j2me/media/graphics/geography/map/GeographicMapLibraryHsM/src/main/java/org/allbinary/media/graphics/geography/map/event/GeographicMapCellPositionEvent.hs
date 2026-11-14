@@ -20,10 +20,10 @@ import AllBinaryEventObject hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -114,7 +114,7 @@ setGeographicMapCellPosition_super object_ a1 = (setGeographicMapCellPosition_im
 
 setGeographicMapCellPosition_impl :: GeographicMapCellPositionEvent -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (())
 setGeographicMapCellPosition_impl this geographicMapCellPosition = do
-        jset (this).geographicMapCellPosition (geographicMapCellPosition)
+        jset (this).geographicMapCellPosition ((javaCast geographicMapCellPosition :: CellPosition.CellPosition))
         pure ()
 
 

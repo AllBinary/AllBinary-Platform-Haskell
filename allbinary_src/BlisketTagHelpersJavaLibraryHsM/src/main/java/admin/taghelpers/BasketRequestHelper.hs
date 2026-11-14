@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified OrderInterface -- same package or java.lang
+import qualified InventoryEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
@@ -127,7 +129,7 @@ init_2 this propertiesHashMap pageContext = do
         jset (this).request ((javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest))
         let storeName = (javaCast (jio (HashMap.get propertiesHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String)
         if (storeName /= javaNull) then do
-            assignedValue <- (StoreFrontFactory.getInstance storeName)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
             jset (this).storeFrontInterface (assignedValue)
         else do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFront.new_))
@@ -213,7 +215,7 @@ adjustBasket_impl this = do
             ) $ do
             basket <- (OrderInterface.getBasket ((jio (WeblisketSession.getOrder ((jget (this).weblisketSession))))))
             when (((jget (this).id) /= javaNull) && ((jget (this).num) /= javaNull)) $ do
-                Control.Monad.void (jio (BasketInterface.adjustItem basket (jget (this).id) (jget (this).num)))
+                Control.Monad.void (BasketInterface.adjustItem basket (jget (this).id) (jget (this).num))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Successfull Adjusted Basket" this "adjustBasket()")
             pure (True)

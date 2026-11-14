@@ -19,10 +19,10 @@ module AdminConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,6 +70,9 @@ instance JavaObjectClass AdminConfiguration where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO AdminConfiguration
 newRecord_ = do
     header_ <- newJavaHeader
@@ -102,32 +105,45 @@ init_ :: AdminConfiguration -> IO ()
 init_ this = do
         initFields_ this
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
-        assignedValue <- (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) (AdminConfigurationData.cONTEXTNAME))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: ContextConfigurationInterface.ContextConfigurationInterface) (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) (AdminConfigurationData.cONTEXTNAME)))
         jset (this).contextConfigurationInterface (assignedValue)
         pure ()
 
-new_1 :: HttpServletRequest.HttpServletRequest -> IO AdminConfiguration
-new_1 request = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO AdminConfiguration
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload1 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => AdminConfiguration -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload1 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: HttpServletRequest.HttpServletRequest -> IO AdminConfiguration
+new_1_overload1 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload1 this request
     pure this
 
-init_1 :: AdminConfiguration -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this request = do
+init_1_overload1 :: AdminConfiguration -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload1 this request = do
         initFields_ this
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         Control.Monad.void (AdminConfiguration.getFormData this (jio (RequestParams.toHashMap ((jio (RequestParams.new_1 request))))))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO AdminConfiguration
-new_1 storeHashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO AdminConfiguration
+new_1_overload2 storeHashMap = do
     this <- newRecord_
-    init_1 this storeHashMap
+    init_1_overload2 this storeHashMap
     pure this
 
-init_1 :: AdminConfiguration -> HashMap.HashMap -> IO ()
-init_1 this storeHashMap = do
+init_1_overload2 :: AdminConfiguration -> HashMap.HashMap -> IO ()
+init_1_overload2 this storeHashMap = do
         initFields_ this
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         Control.Monad.void (AdminConfiguration.getFormData this storeHashMap)

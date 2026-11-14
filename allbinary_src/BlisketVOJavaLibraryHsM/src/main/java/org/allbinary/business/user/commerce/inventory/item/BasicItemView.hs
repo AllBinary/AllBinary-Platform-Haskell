@@ -19,10 +19,10 @@ module BasicItemView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified BasicItemData -- same package or java.lang
 import qualified ItemInterface -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -71,6 +72,9 @@ instance JavaObjectClass BasicItemView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicItemView
 newRecord_ = do
@@ -136,7 +140,7 @@ toXmlNode_impl this document = do
             assignedValue <- (StringUtil.getNonNull stringUtil (jget value))
             jset value (assignedValue)
             Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document name (jget value))))
-        totalNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jget (this).basicItemData)).tOTAL) (jio (ItemInterface.toString ((jio (ItemInterface.getTotal ((jget (this).itemInterface))))))))
+        totalNode <- (ModDomHelper.createNameValueNodes_3 document (jget ((jget (this).basicItemData)).tOTAL) (jio (Money.toString ((jio (ItemInterface.getTotal ((jget (this).itemInterface))))))))
         Control.Monad.void (Node.appendChild node totalNode)
         size <- (BasicArrayList.size ((jget (this).vector)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

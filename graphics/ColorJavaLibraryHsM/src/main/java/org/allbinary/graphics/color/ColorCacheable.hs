@@ -19,10 +19,10 @@ module ColorCacheable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,9 @@ instance JavaObjectClass ColorCacheable where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO ColorCacheable
 newRecord_ = do
     header_ <- newJavaHeader
@@ -89,7 +92,7 @@ init_1 this keyObject_ = do
         let key = jtoObject keyObject_
         initFields_ this
         jset (this).key (key)
-        assignedValue <- (Color.new_1 (jio (intValue (((javaCast key :: Int))))))
+        assignedValue <- (Color.new_1 ((javaCast key :: Int)))
         jset (this).color (assignedValue)
         pure ()
 

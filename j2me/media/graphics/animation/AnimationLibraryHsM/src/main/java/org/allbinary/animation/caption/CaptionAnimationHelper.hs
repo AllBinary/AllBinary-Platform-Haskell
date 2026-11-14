@@ -20,10 +20,10 @@ import CaptionAnimationHelperBase hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CaptionAnimation -- same package or java.lang
+import qualified GameTickTimeDelayHelper -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Animation -- org.allbinary.animation.Animation
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -100,7 +101,7 @@ init_5 :: CaptionAnimationHelper -> Animation.Animation -> Int -> Int -> Int -> 
 init_5 this captionAnimation captionDx captionDy dx dy = do
         CaptionAnimationHelperBase.init_ this.base
         initFields_ this
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (CaptionAnimation.new_6 captionAnimation (jget (this).textAnimation) captionDx captionDy dx dy))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (CaptionAnimation.new_6 captionAnimation (javaCast (jget (this).textAnimation)) captionDx captionDy dx dy))
         jset (this).captionAnimation (assignedValue)
         pure ()
 

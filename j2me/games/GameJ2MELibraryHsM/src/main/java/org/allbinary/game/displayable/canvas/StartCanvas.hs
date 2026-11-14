@@ -16,14 +16,14 @@
 -- package org.allbinary.game.displayable.canvas
 module StartCanvas (module StartCanvas, module RunnableCanvas) where
 
-import RunnableCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, onEvent, onEvent_super, onEvent_impl, onDisplayChangeEvent, onDisplayChangeEvent_super, onDisplayChangeEvent_impl, getCustomCommands, getCustomCommands_super, getCustomCommands_impl, initCommands, initCommands_super, initCommands_impl, initPostPaint, initPostPaint_super, initPostPaint_impl, mediaInit, mediaInit_super, mediaInit_impl, itemStateChanged, itemStateChanged_super, itemStateChanged_impl, initMenu, initMenu_super, initMenu_impl, open, open_super, open_impl, close, close_super, close_impl, getSourceId, getSourceId_super, getSourceId_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyRepeated, keyRepeated_super, keyRepeated_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, addGameKeyEvent, addGameKeyEvent_super, addGameKeyEvent_impl, removeGameKeyEvent, removeGameKeyEvent_super, removeGameKeyEvent_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, isPausable, isPausable_super, isPausable_impl, isGameOver, isGameOver_super, isGameOver_impl, setLoadStateHashtable, setLoadStateHashtable_super, setLoadStateHashtable_impl, getLoadStateHashtable, getLoadStateHashtable_super, getLoadStateHashtable_impl, getCurrentStateHashtable, getCurrentStateHashtable_super, getCurrentStateHashtable_impl, setHighScoreSubmitted, setHighScoreSubmitted_super, setHighScoreSubmitted_impl, paint, paint_super, paint_impl, paintThreed, paintThreed_super, paintThreed_impl, processGameOver, processGameOver_super, processGameOver_impl, demoStateChange, demoStateChange_super, demoStateChange_impl, updateDemoState, updateDemoState_super, updateDemoState_impl, getNextRandom, getNextRandom_super, getNextRandom_impl, createGameLayerManager, createGameLayerManager_super, createGameLayerManager_impl, createRunnable, createRunnable_super, createRunnable_impl, createCanvas, createCanvas_super, createCanvas_impl, start, start_super, start_impl, preDemoProcess, preDemoProcess_super, preDemoProcess_impl, process, process_super, process_impl, startDemoGame, startDemoGame_super, startDemoGame_impl, processGame, processGame_super, processGame_impl, run, run_super, run_impl, setRunning, setRunning_super, setRunning_impl, end, end_super, end_impl, setGameState, setGameState_super, setGameState_impl, getGameState, getGameState_super, getGameState_impl, getState, getState_super, getState_impl, setState, setState_super, setState_impl, isHighScoreSubmitted, isHighScoreSubmitted_super, isHighScoreSubmitted_impl, getRealHighScoresPaintable, getRealHighScoresPaintable_super, getRealHighScoresPaintable_impl, setSpecialAnimationInterface, setSpecialAnimationInterface_super, setSpecialAnimationInterface_impl, getSpecialAnimationInterface, getSpecialAnimationInterface_super, getSpecialAnimationInterface_impl, setPaintableInterface, setPaintableInterface_super, setPaintableInterface_impl, getPaintableInterface, getPaintableInterface_super, getPaintableInterface_impl, setDefaultPaintableInterface, setDefaultPaintableInterface_super, setDefaultPaintableInterface_impl, getDefaultPaintableInterface, getDefaultPaintableInterface_super, getDefaultPaintableInterface_impl, getHighScoresFactoryInterface, getHighScoresFactoryInterface_super, getHighScoresFactoryInterface_impl, setMenuInputProcessor, setMenuInputProcessor_super, setMenuInputProcessor_impl, getMenuInputProcessor, getMenuInputProcessor_super, getMenuInputProcessor_impl, getMenuForm, getMenuForm_super, getMenuForm_impl, setMenuForm, setMenuForm_super, setMenuForm_impl, isInitialized, isInitialized_super, isInitialized_impl, getOverlayPaintable, getOverlayPaintable_super, getOverlayPaintable_impl, setBasicGameDemoPaintable, setBasicGameDemoPaintable_super, setBasicGameDemoPaintable_impl, getBasicGameDemoPaintable, getBasicGameDemoPaintable_super, getBasicGameDemoPaintable_impl, setTempWait, setTempWait_super, setTempWait_impl, getTempWait, getTempWait_super, getTempWait_impl, isSingleThread, isSingleThread_super, isSingleThread_impl, isRunningInAnotherThread, isRunningInAnotherThread_super, isRunningInAnotherThread_impl, getGameInitializationInterfaceFactoryInterface, getGameInitializationInterfaceFactoryInterface_super, getGameInitializationInterfaceFactoryInterface_impl, basicColorFactory, features, openGLFeatureFactory, myCommandsFactory, gameAdStateFactory, gameStateFactory, gameInputStrings, formUtil, basicGameDemoPaintable, specialAnimationInterface, paintedSpecialAnimationInterface, fullScreenUtil, highScoresHelper, realHighScoresPaintable, highScoresPaintable, state, timeDelayHelper, highScoresFactoryInterface, menuInputProcessor, menuForm, gameInitializationInterfaceFactoryInterface, initialized, defaultPaintableInterface, paintableInterface, overlayPaintable, tempWait, inputToGameKeyMapping, gameRunnable, progressPaintable, id, isSingleKeyRepeatableProcessing, nONE, gameKeyEventFactory, sET_STATE, bOT_GAME_STATS, baseGameStatistics)
+import RunnableCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, onEvent, onEvent_super, onEvent_impl, onDisplayChangeEvent, onDisplayChangeEvent_super, onDisplayChangeEvent_impl, getCustomCommands, getCustomCommands_super, getCustomCommands_impl, initCommands, initCommands_super, initCommands_impl, initPostPaint, initPostPaint_super, initPostPaint_impl, mediaInit, mediaInit_super, mediaInit_impl, itemStateChanged, itemStateChanged_super, itemStateChanged_impl, initMenu, initMenu_super, initMenu_impl, open, open_super, open_impl, close, close_super, close_impl, getSourceId, getSourceId_super, getSourceId_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyRepeated, keyRepeated_super, keyRepeated_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, addGameKeyEvent, addGameKeyEvent_super, addGameKeyEvent_impl, removeGameKeyEvent, removeGameKeyEvent_super, removeGameKeyEvent_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, isPausable, isPausable_super, isPausable_impl, isGameOver, isGameOver_super, isGameOver_impl, setLoadStateHashtable, setLoadStateHashtable_super, setLoadStateHashtable_impl, getLoadStateHashtable, getLoadStateHashtable_super, getLoadStateHashtable_impl, getCurrentStateHashtable, getCurrentStateHashtable_super, getCurrentStateHashtable_impl, setHighScoreSubmitted, setHighScoreSubmitted_super, setHighScoreSubmitted_impl, paint, paint_super, paint_impl, paintThreed, paintThreed_super, paintThreed_impl, processGameOver, processGameOver_super, processGameOver_impl, demoStateChange, demoStateChange_super, demoStateChange_impl, updateDemoState, updateDemoState_super, updateDemoState_impl, getNextRandom, getNextRandom_super, getNextRandom_impl, createGameLayerManager, createGameLayerManager_super, createGameLayerManager_impl, createRunnable, createRunnable_super, createRunnable_impl, createCanvas, createCanvas_super, createCanvas_impl, start, start_super, start_impl, preDemoProcess, preDemoProcess_super, preDemoProcess_impl, process, process_super, process_impl, startDemoGame, startDemoGame_super, startDemoGame_impl, processGame, processGame_super, processGame_impl, run, run_super, run_impl, setRunning, setRunning_super, setRunning_impl, end, end_super, end_impl, setGameState, setGameState_super, setGameState_impl, getGameState, getGameState_super, getGameState_impl, getState, getState_super, getState_impl, setState, setState_super, setState_impl, isHighScoreSubmitted, isHighScoreSubmitted_super, isHighScoreSubmitted_impl, getRealHighScoresPaintable, getRealHighScoresPaintable_super, getRealHighScoresPaintable_impl, setSpecialAnimationInterface, setSpecialAnimationInterface_super, setSpecialAnimationInterface_impl, getSpecialAnimationInterface, getSpecialAnimationInterface_super, getSpecialAnimationInterface_impl, setPaintableInterface, setPaintableInterface_super, setPaintableInterface_impl, getPaintableInterface, getPaintableInterface_super, getPaintableInterface_impl, setDefaultPaintableInterface, setDefaultPaintableInterface_super, setDefaultPaintableInterface_impl, getDefaultPaintableInterface, getDefaultPaintableInterface_super, getDefaultPaintableInterface_impl, getHighScoresFactoryInterface, getHighScoresFactoryInterface_super, getHighScoresFactoryInterface_impl, setMenuInputProcessor, setMenuInputProcessor_super, setMenuInputProcessor_impl, getMenuInputProcessor, getMenuInputProcessor_super, getMenuInputProcessor_impl, getMenuForm, getMenuForm_super, getMenuForm_impl, setMenuForm, setMenuForm_super, setMenuForm_impl, isInitialized, isInitialized_super, isInitialized_impl, getOverlayPaintable, getOverlayPaintable_super, getOverlayPaintable_impl, setBasicGameDemoPaintable, setBasicGameDemoPaintable_super, setBasicGameDemoPaintable_impl, getBasicGameDemoPaintable, getBasicGameDemoPaintable_super, getBasicGameDemoPaintable_impl, setTempWait, setTempWait_super, setTempWait_impl, getTempWait, getTempWait_super, getTempWait_impl, isSingleThread, isSingleThread_super, isSingleThread_impl, isRunningInAnotherThread, isRunningInAnotherThread_super, isRunningInAnotherThread_impl, getGameInitializationInterfaceFactoryInterface, getGameInitializationInterfaceFactoryInterface_super, getGameInitializationInterfaceFactoryInterface_impl, getTitle, getTitle_super, getTitle_impl, isPaused, isPaused_super, isPaused_impl, getType, getType_super, getType_impl, basicColorFactory, features, openGLFeatureFactory, myCommandsFactory, gameAdStateFactory, gameStateFactory, gameInputStrings, formUtil, basicGameDemoPaintable, specialAnimationInterface, paintedSpecialAnimationInterface, fullScreenUtil, highScoresHelper, realHighScoresPaintable, highScoresPaintable, state, timeDelayHelper, highScoresFactoryInterface, menuInputProcessor, menuForm, gameInitializationInterfaceFactoryInterface, initialized, defaultPaintableInterface, paintableInterface, overlayPaintable, tempWait, inputToGameKeyMapping, gameRunnable, progressPaintable, id, isSingleKeyRepeatableProcessing, nONE, gameKeyEventFactory, sET_STATE, bOT_GAME_STATS, baseGameStatistics)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,13 +40,16 @@ import qualified GameRunnable -- same package or java.lang
 import qualified GameInputMappingCanvas -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
+import qualified GenericOperatingSystem -- same package or java.lang
 import qualified StdUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
 import qualified Animation -- org.allbinary.animation.Animation
 import qualified IndexedAnimationBehavior -- org.allbinary.animation.IndexedAnimationBehavior
@@ -186,8 +189,10 @@ instance JavaObjectClass StartCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+id :: Int
 id = 0
 
+bOT_GAME_STATS :: String
 bOT_GAME_STATS = "Bot Game Statistics: "
 
 newRecord_ :: IO StartCanvas
@@ -303,6 +308,9 @@ newRecord_ = do
     jregisterMethod header_ "isSingleThread" (\() -> isSingleThread_impl this)
     jregisterMethod header_ "isRunningInAnotherThread" (\() -> isRunningInAnotherThread_impl this)
     jregisterMethod header_ "getGameInitializationInterfaceFactoryInterface" (\() -> getGameInitializationInterfaceFactoryInterface_impl this)
+    jregisterMethod header_ "getTitle" (\() -> getTitle_impl this)
+    jregisterMethod header_ "isPaused" (\() -> isPaused_impl this)
+    jregisterMethod header_ "getType" (\() -> getType_impl this)
     pure this
 
 initFields_ :: StartCanvas -> IO ()
@@ -333,10 +341,10 @@ initFields_ this = do
     jset this.paintableInterface =<< (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (NullPaintable.getInstance))
     jset this.overlayPaintable (javaNull)
     jset this.tempWait ((jget ((jio (NullWaitGameRunnable.getInstance))).wAIT))
-    jset this.inputToGameKeyMapping =<< (PlatformInputMappingFactory.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
+    jset this.inputToGameKeyMapping =<< (PersistentInputMapping.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
     jset this.gameRunnable =<< (NullWaitGameRunnable.getInstance)
     jset this.progressPaintable =<< (ProgressCanvasFactory.getLazyInstance)
-    jset this.isSingleKeyRepeatableProcessing =<< (Features.isFeature ((jget (this).features)) (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS))
+    jset this.isSingleKeyRepeatableProcessing =<< (Features.isFeature ((jget (this).features)) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).sINGLE_KEY_REPEAT_PRESS)))
     jset this.nONE ((jget ((jio (GameKeyFactory.getInstance))).nONE))
     jset this.gameKeyEventFactory =<< (GameKeyEventFactory.getInstance)
     jset this.sET_STATE ("setState")
@@ -413,7 +421,7 @@ getCustomCommands_impl this = do
     javaCatchReturn $ do
         gameCommandsFactory <- (GameCommandsFactory.getInstance)
         if (jio (J2MEUtil.isHTML)) then do
-            let commandArray = (jarrayFromList [(jget (gameCommandsFactory).sTART_COMMAND), (jget ((jio (HighScoreCommands.getInstance))).dISPLAY), GameInputMappingCanvas.dISPLAY, (jget (gameCommandsFactory).dISPLAY_ABOUT)])
+            let commandArray = (jarrayFromList [(jtoObject (jget (gameCommandsFactory).sTART_COMMAND)), (jtoObject (jget ((jio (HighScoreCommands.getInstance))).dISPLAY)), (jtoObject GameInputMappingCanvas.dISPLAY), (jtoObject (jget (gameCommandsFactory).dISPLAY_ABOUT))])
             javaReturn (commandArray)
         else do
             commandList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
@@ -482,13 +490,13 @@ mediaInit_impl this = do
         pure ()
 
 
-itemStateChanged :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged object_ a1 = jmethod object_ "itemStateChanged" (\() -> (itemStateChanged_impl (javaCast object_ :: StartCanvas))) () a1
 
-itemStateChanged_super :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged_super :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_super object_ a1 = (itemStateChanged_impl (javaCast object_ :: StartCanvas)) a1
 
-itemStateChanged_impl :: StartCanvas -> Item.Item -> IO (())
+itemStateChanged_impl :: StartCanvas -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_impl this item = do
         Control.Monad.void (ForcedLogUtil.log (jget ((jget (this).base.base.commonStrings)).nOT_IMPLEMENTED) this)
         pure ()
@@ -629,7 +637,7 @@ addGameKeyEvent_impl this keyCode repeated = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) "Key Event Error" this (jget ((jget (this).gameInputStrings)).aDD_KEY_EVENT) e)
             ) $ do
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) this keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (javaCast this) keyCode)
             if (gameKey /= (jget (this).nONE)) then do
                 gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast gameKey))
                 Control.Monad.void (DownGameKeyEventHandler.fireEvent ((jio (DownGameKeyEventHandler.getInstance))) (javaCast gameKeyEvent))
@@ -649,7 +657,7 @@ removeGameKeyEvent_impl this keyCode repeated = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) "Key Event Error" this (jget ((jget (this).gameInputStrings)).rEMOVE_KEY_EVENT) e)
             ) $ do
-            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) this keyCode)
+            gameKey <- (InputToGameKeyMapping.getInstanceForCanvas ((jget (this).inputToGameKeyMapping)) (javaCast this) keyCode)
             if (gameKey /= (jget (this).nONE)) then do
                 gameKeyEvent <- (GameKeyEventFactory.getInstanceForInput ((jget (this).gameKeyEventFactory)) (javaCast this) (javaCast gameKey))
                 Control.Monad.void (UpGameKeyEventHandler.fireEvent ((jio (UpGameKeyEventHandler.getInstance))) (javaCast gameKeyEvent))
@@ -841,14 +849,14 @@ updateDemoState_impl this = do
         if ((jget (this).state) == 0) then do
             assignedValue <- (NullPaintable.getInstance)
             jset (this).highScoresPaintable (assignedValue)
-            assignedValue <- (StartCanvas.getSpecialAnimationInterface this)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (StartCanvas.getSpecialAnimationInterface this))
             jset (this).paintedSpecialAnimationInterface (assignedValue)
             Control.Monad.void (SpecialAnimation.reset ((jio (StartCanvas.getSpecialAnimationInterface this))))
         else if ((jget (this).state) == 1) then do
-            assignedValue <- (SpecialAnimation.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (SpecialAnimation.getInstance))
             jset (this).paintedSpecialAnimationInterface (assignedValue)
         else when ((jget (this).state) == 2) $ do
-            assignedValue <- (StartCanvas.getRealHighScoresPaintable this)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (StartCanvas.getRealHighScoresPaintable this))
             jset (this).highScoresPaintable (assignedValue)
         gameAdState <- (GameAdStateFactory.getCurrentInstance ((jget (this).gameAdStateFactory)))
         Control.Monad.void (GameAdState.processPageAdState gameAdState)
@@ -904,6 +912,7 @@ createCanvas_impl this = do
         jset (this).highScoresPaintable (assignedValue)
         randomLevel <- (StartCanvas.getNextRandom this)
         pure ()
+        pure ()
 
 
 -- throws Exception
@@ -946,6 +955,7 @@ process_impl this = do
             when ((jget (indexedAnimationBehavior).loopIndex) < 1) $ do
                 Control.Monad.void (TimeDelayHelper.setStartTimeTNT ((jget (this).timeDelayHelper)))
             let demoGameMidlet = (javaCast (jio (RunnableCanvas.getCustomCommandListener this)) :: DemoGameMidlet.DemoGameMidlet)
+            pure ()
         pure ()
 
 
@@ -1000,9 +1010,9 @@ run_impl this = do
             Control.Monad.void (StartCanvas.initMenu this)
             Control.Monad.void (StartCanvas.initPostPaint this)
             Control.Monad.void (StartCanvas.updateDemoState this)
-            when (jio (Features.isDefault ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD))) $ do
+            when (jio (Features.isDefault ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD)))) $ do
                 Control.Monad.void (OpenGLThreadUtil.onResume ((jio (OpenGLThreadUtil.getInstance))))
-            if ((jio (Features.isDefault ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD))) || (jio (J2MEUtil.isHTML))) then do
+            if ((jio (Features.isDefault ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL_AS_GAME_THREAD)))) || (jio (J2MEUtil.isHTML))) then do
                 pure ()
             else do
                 fix $ \loop -> when (jio (RunnableCanvas.isRunning this)) $ javaIteration (loop) $ do
@@ -1026,7 +1036,7 @@ setRunning_impl this running = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this (jget (this).base.sET_RUNNING) e)
             ) $ do
-            when ((((jio (Features.isDefault ((jget (this).features)) (jget ((jget (this).openGLFeatureFactory)).oPENGL))) || (jio (J2MEUtil.isHTML)))) && (Prelude.not running)) $ do
+            when ((((jio (Features.isDefault ((jget (this).features)) (javaCast (jget ((jget (this).openGLFeatureFactory)).oPENGL)))) || (jio (J2MEUtil.isHTML)))) && (Prelude.not running)) $ do
                 currentDisplayableFactory <- (CurrentDisplayableFactory.getInstance)
                 Control.Monad.void (CurrentDisplayableFactory.clearRunnable currentDisplayableFactory)
                 Control.Monad.void (StartCanvas.end this)
@@ -1338,7 +1348,7 @@ isRunningInAnotherThread_impl this = do
     javaCatchReturn $ do
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        if (jio (Features.isDefault features (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD))) then do
+        if (jio (Features.isDefault features (javaCast (jget (openGLFeatureFactory).oPENGL_AS_GAME_THREAD)))) then do
             javaReturn (True)
         else do
             javaReturn =<< (RunnableCanvas.isRunning this)
@@ -1353,5 +1363,38 @@ getGameInitializationInterfaceFactoryInterface_super object_ = (getGameInitializ
 getGameInitializationInterfaceFactoryInterface_impl :: StartCanvas -> IO (BasicBuildGameInitializerFactory.BasicBuildGameInitializerFactory)
 getGameInitializationInterfaceFactoryInterface_impl this = do
         pure ((jget (this).gameInitializationInterfaceFactoryInterface))
+
+
+getTitle :: (JavaObjectClass this_) => this_ -> IO (String)
+getTitle object_ = jmethod object_ "getTitle" (\() -> (getTitle_impl (javaCast object_ :: StartCanvas))) ()
+
+getTitle_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getTitle_super object_ = (getTitle_impl (javaCast object_ :: StartCanvas))
+
+getTitle_impl :: StartCanvas -> IO (String)
+getTitle_impl this = do
+        (RunnableCanvas.getTitle_super this.base)
+
+
+isPaused :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isPaused object_ = jmethod object_ "isPaused" (\() -> (isPaused_impl (javaCast object_ :: StartCanvas))) ()
+
+isPaused_super :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isPaused_super object_ = (isPaused_impl (javaCast object_ :: StartCanvas))
+
+isPaused_impl :: StartCanvas -> IO (Bool)
+isPaused_impl this = do
+        (RunnableCanvas.isPaused_super this.base)
+
+
+getType :: (JavaObjectClass this_) => this_ -> IO (Int)
+getType object_ = jmethod object_ "getType" (\() -> (getType_impl (javaCast object_ :: StartCanvas))) ()
+
+getType_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getType_super object_ = (getType_impl (javaCast object_ :: StartCanvas))
+
+getType_impl :: StartCanvas -> IO (Int)
+getType_impl this = do
+        (RunnableCanvas.getType_super this.base)
 
 

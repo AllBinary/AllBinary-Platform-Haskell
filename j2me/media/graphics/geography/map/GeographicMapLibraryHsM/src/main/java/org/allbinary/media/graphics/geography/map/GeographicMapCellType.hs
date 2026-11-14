@@ -19,10 +19,10 @@ module GeographicMapCellType where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,8 +54,10 @@ instance JavaObjectClass GeographicMapCellType where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GEOGRAPHIC_MAP_CELL_TYPE_ARRAY :: JavaArray (GeographicMapCellType)
 nULL_GEOGRAPHIC_MAP_CELL_TYPE_ARRAY = (jnewArray (0) javaNull)
 
+nULL_GEOGRAPHIC_MAP_CELL_TYPE :: GeographicMapCellType
 {-# NOINLINE nULL_GEOGRAPHIC_MAP_CELL_TYPE #-}
 nULL_GEOGRAPHIC_MAP_CELL_TYPE = unsafePerformIO ((new_2 ((-2147483648) :: Int) 0))
 

@@ -19,10 +19,10 @@ module OpenGLConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -132,7 +132,7 @@ initFields_ this = do
 getInstance :: IO (OpenGLConfiguration)
 getInstance = do
         when ((jget OpenGLConfiguration.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset OpenGLConfiguration.instance_ (assignedValue)
         pure ((javaCast (jget OpenGLConfiguration.instance_) :: OpenGLConfiguration))
 
@@ -230,7 +230,7 @@ write_impl this = do
             fileInputStreamFactory <- (FileStreamFactory.getInstance)
             fileOutputStream <- (fmap (\value_ -> javaCast value_ :: OutputStream.OutputStream) (FileStreamFactory.getFileOutputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE)))
             dataOutputStream <- (AbDataOutputStream.new_1 fileOutputStream)
-            jset closeable (dataOutputStream)
+            jset closeable ((javaCast dataOutputStream :: Closeable.Closeable))
             if (jio (OpenGLConfiguration.isOpenGL this)) then do
                 Control.Monad.void (AbDataOutputStream.writeInt dataOutputStream 1)
             else do
@@ -260,13 +260,13 @@ init_impl this = do
                     when (Prelude.not (jio (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL))))) $ do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Turning on OpenGL as Default" this (jget ((jget (this).commonStrings)).iNIT))
                         Control.Monad.void (Features.addDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Type Feature: " ++ javaToString (jio (OpenGLConfiguration.getType this))) this (jget ((jget (this).commonStrings)).iNIT))
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Type Feature: " ++ jconcatObject OpenGLFeature.toString (jio (OpenGLConfiguration.getType this))) this (jget ((jget (this).commonStrings)).iNIT))
                         Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getType this))))
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL ImageColor Feature: " ++ javaToString (jio (OpenGLConfiguration.getImageColor this))) this (jget ((jget (this).commonStrings)).iNIT))
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL ImageColor Feature: " ++ jconcatObject OpenGLFeature.toString (jio (OpenGLConfiguration.getImageColor this))) this (jget ((jget (this).commonStrings)).iNIT))
                         Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getImageColor this))))
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Color Feature: " ++ javaToString (jio (OpenGLConfiguration.getColor this))) this (jget ((jget (this).commonStrings)).iNIT))
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Color Feature: " ++ jconcatObject OpenGLFeature.toString (jio (OpenGLConfiguration.getColor this))) this (jget ((jget (this).commonStrings)).iNIT))
                         Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getColor this))))
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Version Selector Feature: " ++ javaToString (jio (OpenGLConfiguration.getVersionSelector this))) this (jget ((jget (this).commonStrings)).iNIT))
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Using OpenGL Version Selector Feature: " ++ jconcatObject OpenGLFeature.toString (jio (OpenGLConfiguration.getVersionSelector this))) this (jget ((jget (this).commonStrings)).iNIT))
                         Control.Monad.void (Features.addDefault features (javaCast (jio (OpenGLConfiguration.getVersionSelector this))))
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "OpenGL is enabled, but this game does not support OpenGL (Probably from installing with the same package name from a game that had OpenGL available)" this (jget ((jget (this).commonStrings)).iNIT))

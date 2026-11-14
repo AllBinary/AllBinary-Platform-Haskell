@@ -19,10 +19,10 @@ module EmailServerConfigurationData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,16 +49,23 @@ instance JavaObjectClass EmailServerConfigurationData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "EMAIL_SERVER_CONFIGURATION_NAME"
 
+sERVER :: String
 sERVER = "EMAIL_SERVER_CONFIGURATION_SERVER"
 
+aCCOUNT :: String
 aCCOUNT = "EMAIL_SERVER_CONFIGURATION_ACCOUNT"
 
+pASSWORD :: String
 pASSWORD = "EMAIL_SERVER_CONFIGURATION_PASSWORD"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO EmailServerConfigurationData
 newRecord_ = do

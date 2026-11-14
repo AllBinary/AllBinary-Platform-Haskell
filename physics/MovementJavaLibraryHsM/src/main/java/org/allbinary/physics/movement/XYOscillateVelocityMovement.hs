@@ -20,10 +20,10 @@ import BasicConstantVelocityMovement hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified BasicVelocityProperties -- same package or java.lang
 import qualified AllBinaryGameLayer -- org.allbinary.game.layer.AllBinaryGameLayer
 import qualified VelocityProperties -- org.allbinary.game.physics.velocity.VelocityProperties
 import qualified BasicDecimal -- org.allbinary.logic.math.BasicDecimal
@@ -88,7 +89,7 @@ new_3 speedBasicDecimal oscillateMin oscillateMax = do
 
 init_3 :: XYOscillateVelocityMovement -> BasicDecimal.BasicDecimal -> Int -> Int -> IO ()
 init_3 this speedBasicDecimal oscillateMin oscillateMax = do
-        BasicConstantVelocityMovement.init_2 this.base (speedBasicDecimal) (jio (VelocityProperties.new_2 (Prelude.fromIntegral (jio (BasicDecimal.getUnscaled speedBasicDecimal))) (Prelude.fromIntegral (jio (BasicDecimal.getUnscaled speedBasicDecimal)))))
+        BasicConstantVelocityMovement.init_2 this.base (speedBasicDecimal) (javaCast (jio (VelocityProperties.new_2 (Prelude.fromIntegral (jio (BasicDecimal.getUnscaled speedBasicDecimal))) (Prelude.fromIntegral (jio (BasicDecimal.getUnscaled speedBasicDecimal))))))
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).oscillateMin (oscillateMin)

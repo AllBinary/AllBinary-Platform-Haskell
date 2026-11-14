@@ -16,14 +16,14 @@
 -- package org.allbinary.animation
 module VectorAnimation (module VectorAnimation, module IndexedAnimation) where
 
-import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createVectorAnimation, createVectorAnimation_super, createVectorAnimation_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, changeBasicColor, changeBasicColor_super, changeBasicColor_impl, setAlpha, setAlpha_super, setAlpha_impl, setScale, setScale_super, setScale_impl, setMaxScale, setMaxScale_super, setMaxScale_impl, updateModifiers, updateModifiers_super, updateModifiers_impl, getAnimationSize, getAnimationSize_super, getAnimationSize_impl, getSize, getSize_super, getSize_impl, setSequence, setSequence_super, setSequence_impl, getSequence, getSequence_super, getSequence_impl, nextFrame, nextFrame_super, nextFrame_impl, previousFrame, previousFrame_super, previousFrame_impl, paintVectors, paintVectors_super, paintVectors_impl, paintXY, paintXY_super, paintXY_impl, getFrame, getFrame_super, getFrame_impl, setFrame, setFrame_super, setFrame_impl, getPoints, getPoints_super, getPoints_impl, setPoints, setPoints_super, setPoints_impl, currentPoints, circularIndexUtil)
+import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createVectorAnimation, createVectorAnimation_super, createVectorAnimation_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, changeBasicColor, changeBasicColor_super, changeBasicColor_impl, setAlpha, setAlpha_super, setAlpha_impl, setScale, setScale_super, setScale_impl, setMaxScale, setMaxScale_super, setMaxScale_impl, updateModifiers, updateModifiers_super, updateModifiers_impl, getAnimationSize, getAnimationSize_super, getAnimationSize_impl, getSize, getSize_super, getSize_impl, setSequence, setSequence_super, setSequence_impl, getSequence, getSequence_super, getSequence_impl, nextFrame, nextFrame_super, nextFrame_impl, previousFrame, previousFrame_super, previousFrame_impl, paintVectors, paintVectors_super, paintVectors_impl, paintXY, paintXY_super, paintXY_impl, getFrame, getFrame_super, getFrame_impl, setFrame, setFrame_super, setFrame_impl, getPoints, getPoints_super, getPoints_impl, setPoints, setPoints_super, setPoints_impl, getBasicColorP, getBasicColorP_super, getBasicColorP_impl, currentPoints, circularIndexUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified AnimationBehavior -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified BasicColorSetUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified NullImage -- javax.microedition.lcdui.NullImage
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
@@ -93,6 +94,7 @@ newRecord_ = do
     jregisterMethod header_ "setFrame" (\() -> setFrame_impl this)
     jregisterMethod header_ "getPoints" (\() -> getPoints_impl this)
     jregisterMethod header_ "setPoints" (\() -> setPoints_impl this)
+    jregisterMethod header_ "getBasicColorP" (\() -> getBasicColorP_impl this)
     pure this
 
 initFields_ :: VectorAnimation -> IO ()
@@ -136,7 +138,7 @@ setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: Vect
 setBasicColorP_impl :: VectorAnimation -> BasicColor.BasicColor -> IO (())
 setBasicColorP_impl this basicColor = do
         changed <- newIORef (False)
-        when (((jio (IndexedAnimation.getBasicColorP this)) == javaNull) || ((jio (BasicColor.intValue ((jio (IndexedAnimation.getBasicColorP this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
+        when (((jio (VectorAnimation.getBasicColorP this)) == javaNull) || ((jio (BasicColor.intValue ((jio (VectorAnimation.getBasicColorP this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             jset changed (True)
         Control.Monad.void (IndexedAnimation.setBasicColorP_super this.base basicColor)
         when (jget changed) $ do
@@ -369,5 +371,16 @@ setPoints_impl this currentPoints = do
         assignedValue <- (CircularIndexUtil.createInstance (jlength currentPoints))
         jset (this).circularIndexUtil (assignedValue)
         pure ()
+
+
+getBasicColorP :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP object_ = jmethod object_ "getBasicColorP" (\() -> (getBasicColorP_impl (javaCast object_ :: VectorAnimation))) ()
+
+getBasicColorP_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP_super object_ = (getBasicColorP_impl (javaCast object_ :: VectorAnimation))
+
+getBasicColorP_impl :: VectorAnimation -> IO (BasicColor.BasicColor)
+getBasicColorP_impl this = do
+        (IndexedAnimation.getBasicColorP_super this.base)
 
 

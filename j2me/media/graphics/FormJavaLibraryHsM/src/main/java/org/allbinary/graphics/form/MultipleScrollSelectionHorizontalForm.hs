@@ -8,10 +8,10 @@ import ScrollSelectionForm hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -23,10 +23,15 @@ import qualified GHC.Float
 import qualified ItemPaintableFactory -- same package or java.lang
 import qualified FormType -- same package or java.lang
 import qualified ItemIndexPaintable -- same package or java.lang
+import qualified MultipleScrollSelectionFormRectPaintable -- same package or java.lang
 import qualified FormTypeFactory -- same package or java.lang
+import qualified MultipleScrollSelectionFormVerticalPaintable -- same package or java.lang
+import qualified MultipleScrollSelectionFormHorizontalPaintable -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PaintableForm -- same package or java.lang
+import qualified ABCustomForm -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
@@ -95,7 +100,7 @@ initFields_ this = do
     jset this.rectPaintable =<< (NullPaintable.getInstance)
     jset this.multipleScrollSelectionHorizontalFormTypeItemIndexPaintable =<< (ItemIndexPaintable.getInstance)
     jset this.backgroundColor =<< (BasicColor.intValue ((jget ((jio (BasicColorFactory.getInstance))).tRANSPARENT_GREY)))
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.logged (False)
     jset this.fontHeight (0)
     pure ()
@@ -122,9 +127,7 @@ init_6 this title items formPaintableFactory border backgroundBasicColor foregro
         if ((jio (J2MEUtil.isJ2ME)) || (jio (J2MEUtil.isHTML))) then do
             pure ()
         else do
-            -- Java nested class MPaintable: move it to its own module
-
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (MPaintable.new_))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (MultipleScrollSelectionFormRectPaintable.new_1 this))
             jset (this).rectPaintable (assignedValue)
         pure ()
 
@@ -255,6 +258,4 @@ paint_impl this graphics = do
                 jset dx (assignedValue)
         pure ()
 
--- Java nested class MultipleScrollSelectionFormHorizontalPaintable: move it to its own module MultipleScrollSelectionFormHorizontalPaintable
--- Java nested class MultipleScrollSelectionFormVerticalPaintable: move it to its own module MultipleScrollSelectionFormVerticalPaintable
 

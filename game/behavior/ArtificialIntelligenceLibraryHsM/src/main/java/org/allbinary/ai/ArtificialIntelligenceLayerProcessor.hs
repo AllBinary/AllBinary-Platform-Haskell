@@ -20,10 +20,10 @@ import LayerProcessor hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ArtificialIntelligenceLayerManager -- same package or java.lang
 import qualified ArtificialIntelligenceCompositeInterface -- same package or java.lang
+import qualified ArtificialIntelligenceInterface -- same package or java.lang
 import qualified AllBinaryLayer -- org.allbinary.layer.AllBinaryLayer
 import qualified AllBinaryLayerManager -- org.allbinary.layer.AllBinaryLayerManager
 import qualified LayerProcessor -- org.allbinary.layer.LayerProcessor
@@ -78,7 +79,7 @@ new_ = do
 
 init_ :: ArtificialIntelligenceLayerProcessor -> IO ()
 init_ this = do
-        LayerProcessor.init_1 this.base (jio (ArtificialIntelligenceLayerManager.new_))
+        LayerProcessor.init_1 this.base (javaCast (jio (ArtificialIntelligenceLayerManager.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -94,7 +95,7 @@ processAt_super object_ a1 a2 a3 = (processAt_impl (javaCast object_ :: Artifici
 processAt_impl :: ArtificialIntelligenceLayerProcessor -> AllBinaryLayerManager.AllBinaryLayerManager -> AllBinaryLayer.AllBinaryLayer -> Int -> IO (())
 processAt_impl this allBinaryLayerManager layerInterface index = do
         let artificialIntelligenceCompositeInterface = (javaCast layerInterface :: ArtificialIntelligenceCompositeInterface.ArtificialIntelligenceCompositeInterface)
-        Control.Monad.void (ArtificialIntelligenceCompositeInterface.processAI ((jio (ArtificialIntelligenceCompositeInterface.getArtificialIntelligenceInterface artificialIntelligenceCompositeInterface))) allBinaryLayerManager)
+        Control.Monad.void (ArtificialIntelligenceInterface.processAI ((jio (ArtificialIntelligenceCompositeInterface.getArtificialIntelligenceInterface artificialIntelligenceCompositeInterface))) allBinaryLayerManager)
         pure ()
 
 

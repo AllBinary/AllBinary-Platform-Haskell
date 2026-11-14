@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -94,7 +94,7 @@ paint_super object_ a1 = (paint_impl (javaCast object_ :: PaintableComposite)) a
 paint_impl :: PaintableComposite -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
         forM_ [((jlength (jget (this).paintableArray)) - 1), ((jlength (jget (this).paintableArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (paint ((jindex ((jget (this).paintableArray)) (index))) graphics)
+            Control.Monad.void (PaintableInterface.paint ((jindex ((jget (this).paintableArray)) (index))) graphics)
         pure ()
 
 
@@ -107,7 +107,7 @@ paintThreed_super object_ a1 = (paintThreed_impl (javaCast object_ :: PaintableC
 paintThreed_impl :: PaintableComposite -> Graphics.Graphics -> IO (())
 paintThreed_impl this graphics = do
         forM_ [((jlength (jget (this).paintableArray)) - 1), ((jlength (jget (this).paintableArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (paintThreed ((jindex ((jget (this).paintableArray)) (index))) graphics)
+            Control.Monad.void (PaintableInterface.paintThreed ((jindex ((jget (this).paintableArray)) (index))) graphics)
         pure ()
 
 

@@ -16,14 +16,14 @@
 -- package views.admin.orderhistory
 module DateRangeOrderHistoryView (module DateRangeOrderHistoryView, module HttpStoreComponentView) where
 
-import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, addDomNodeInterfaces, addDomNodeInterfaces_super, addDomNodeInterfaces_impl, view, view_super, view_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, logUtil, vIEWALLORDERS, vIEWORDERSINLASTHOUR, vIEWORDERSINLASTDAY, vIEWORDERSINLASTWEEK, vIEWORDERSINLAST30DAYS, request, shipped, partiallyShipped, processing, preprocessing, cancelled, dateType, toDate, fromDate, fromYear, fromMonth, fromDay, fromHour, toYear, toMonth, toDay, toHour, command, oN, mAXLEN)
+import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, addDomNodeInterfaces, addDomNodeInterfaces_super, addDomNodeInterfaces_impl, view, view_super, view_impl, toXmlNode, toXmlNode_super, toXmlNode_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, vIEWALLORDERS, vIEWORDERSINLASTHOUR, vIEWORDERSINLASTDAY, vIEWORDERSINLASTWEEK, vIEWORDERSINLAST30DAYS, request, shipped, partiallyShipped, processing, preprocessing, cancelled, dateType, toDate, fromDate, fromYear, fromMonth, fromDay, fromHour, toYear, toMonth, toDay, toHour, command, oN, mAXLEN)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PageContext -- same package or java.lang
+import qualified OrderHistoryEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -143,6 +145,7 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: DateRangeOrderHistoryView -> IO ()
@@ -368,7 +371,7 @@ isValid_impl this = do
                         jset rangeDate ((javaToString (Prelude.fromIntegral (thirtyDays) :: Int64)))
                     else when ((Prelude.fromEnum (Prelude.compare (jget (this).command) (jget (this).vIEWALLORDERS)) - 1) == 0) $ do
                         jset rangeDate ((javaToString (Prelude.fromIntegral (currentTime) :: Int64)))
-                    let rangeDateLong = (Prelude.fromIntegral ((jget rangeDate)) :: Int64)
+                    let rangeDateLong = (jio (jparseLong (jget rangeDate)))
                     jset (this).fromDate ((javaToString (Prelude.fromIntegral ((currentTime - rangeDateLong)) :: Int64)))
                     time <- (jnewString (javaToString (Prelude.fromIntegral (currentTime) :: Int64)))
                     jset (this).toDate (time)
@@ -437,5 +440,17 @@ validationInfo_impl this = do
             when ((jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) (jget (this).fromDate))) || ((Prelude.length (jget (this).fromDate)) > (jget (this).mAXLEN))) $ do
                 Control.Monad.void (StringMaker.append result "Invalid From Date")
             (StringMaker.toString result)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: DateRangeOrderHistoryView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: DateRangeOrderHistoryView))
+
+getTransformInfoInterface_impl :: DateRangeOrderHistoryView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (HttpStoreComponentView.getTransformInfoInterface_super this.base)
 
 

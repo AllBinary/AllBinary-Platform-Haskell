@@ -20,10 +20,10 @@ import Processor hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AllBinaryGameCanvas -- same package or java.lang
+import qualified TimeDelayHelper -- same package or java.lang
+import qualified IntermissionInterface -- same package or java.lang
 import qualified Processor -- org.allbinary.canvas.Processor
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
@@ -103,7 +105,7 @@ process_super object_ = (process_impl (javaCast object_ :: StartIntermissionProc
 
 process_impl :: StartIntermissionProcessor -> IO (())
 process_impl this = do
-        when (jio (IntermissionInterface.isElapsedTNT ((jio (IntermissionInterface.getTimeDelayHelper ((jio (AllBinaryGameCanvas.getStartIntermissionInterface ((jget (this).gameCanvas)))))))) (jget (this).wAIT))) $ do
+        when (jio (TimeDelayHelper.isElapsedTNT ((jio (IntermissionInterface.getTimeDelayHelper ((jio (AllBinaryGameCanvas.getStartIntermissionInterface ((jget (this).gameCanvas)))))))) (jget (this).wAIT))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Intermission End" this (jget ((jget (this).commonStrings)).pROCESS))
             Control.Monad.void (IntermissionInterface.setEnabled ((jio (AllBinaryGameCanvas.getStartIntermissionInterface ((jget (this).gameCanvas))))) False)
         pure ()

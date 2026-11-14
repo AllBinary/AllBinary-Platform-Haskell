@@ -20,10 +20,10 @@ import Panel hiding (new_, init_, newRecord_, initFields_, header_, base, static
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified JButton -- same package or java.lang
 import qualified GridLayout -- same package or java.lang
 import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
+import qualified GenericProfileActionScript -- same package or java.lang
 import qualified ProfileActionScriptConditionInterface -- org.allbinary.input.automation.actions.script.condition.ProfileActionScriptConditionInterface
 import qualified GenericProfileAction -- org.allbinary.input.automation.module.generic.configuration.profile.actions.GenericProfileAction
 import qualified GenericProfileActionJPanel -- org.allbinary.input.automation.module.generic.configuration.profile.actions.GenericProfileActionJPanel

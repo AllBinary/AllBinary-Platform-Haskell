@@ -20,10 +20,10 @@ import WaypointLogHelper hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,7 @@ instance JavaObjectClass WaypointSelectedLogHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: WaypointSelectedLogHelper
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 
@@ -272,7 +273,7 @@ setCurrentPathGeographicMapCellPosition_super object_ a1 a2 a3 = (setCurrentPath
 setCurrentPathGeographicMapCellPosition_impl :: WaypointSelectedLogHelper -> PathFindingLayerInterface.PathFindingLayerInterface -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (())
 setCurrentPathGeographicMapCellPosition_impl this associatedAdvancedRTSGameLayer existingCurrentPathGeographicMapCellPosition currentPathGeographicMapCellPosition = do
         when (existingCurrentPathGeographicMapCellPosition == javaNull) $ do
-            Control.Monad.void (jio (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (PathFindingLayerInterface.getName associatedAdvancedRTSGameLayer))))) " currentPathGeographicMapCellPosition: "))) (jio (StringUtil.toString ((jget (this).stringUtil)) currentPathGeographicMapCellPosition))))))) this "setCurrentPathGeographicMapCellPosition"))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (PathFindingLayerInterface.getName associatedAdvancedRTSGameLayer))))) " currentPathGeographicMapCellPosition: "))) (jio (StringUtil.toString ((jget (this).stringUtil)) currentPathGeographicMapCellPosition))))))) this "setCurrentPathGeographicMapCellPosition")
         pure ()
 
 
@@ -285,7 +286,7 @@ setNextUnvisitedPathGeographicMapCellPosition_super object_ a1 a2 a3 = (setNextU
 setNextUnvisitedPathGeographicMapCellPosition_impl :: WaypointSelectedLogHelper -> PathFindingLayerInterface.PathFindingLayerInterface -> GeographicMapCellPosition.GeographicMapCellPosition -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (())
 setNextUnvisitedPathGeographicMapCellPosition_impl this associatedAdvancedRTSGameLayer existingNextUnvisitedPathGeographicMapCellPosition nextUnvisitedPathGeographicMapCellPosition = do
         when (existingNextUnvisitedPathGeographicMapCellPosition /= nextUnvisitedPathGeographicMapCellPosition) $ do
-            Control.Monad.void (jio (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (PathFindingLayerInterface.getName associatedAdvancedRTSGameLayer))))) " nextUnvisitedPathGeographicMapCellPosition: "))) (jio (StringUtil.toString ((jget (this).stringUtil)) nextUnvisitedPathGeographicMapCellPosition))))))) this "setNextUnvisitedPathGeographicMapCellPosition"))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (PathFindingLayerInterface.getName associatedAdvancedRTSGameLayer))))) " nextUnvisitedPathGeographicMapCellPosition: "))) (jio (StringUtil.toString ((jget (this).stringUtil)) nextUnvisitedPathGeographicMapCellPosition))))))) this "setNextUnvisitedPathGeographicMapCellPosition")
         pure ()
 
 

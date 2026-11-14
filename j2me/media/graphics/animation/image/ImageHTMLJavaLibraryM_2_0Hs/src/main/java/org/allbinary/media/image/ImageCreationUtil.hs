@@ -19,10 +19,10 @@ module ImageCreationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Class -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified GameFeatureImageCacheFactory -- org.allbinary.image.GameFeatureImageCacheFactory
 
@@ -52,11 +53,15 @@ instance JavaObjectClass ImageCreationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageCreationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageCreationUtil
 newRecord_ = do
@@ -98,7 +103,7 @@ createImageWH_super object_ a1 a2 = (createImageWH_impl (javaCast object_ :: Ima
 
 createImageWH_impl :: ImageCreationUtil -> Int -> Int -> IO (Image.Image)
 createImageWH_impl this width height = do
-        image <- (GameFeatureImageCacheFactory.get ((jio (GameFeatureImageCacheFactory.getInstance))) (jio (Class.getName ((jio (jobjectGetClass this))))) width height)
+        image <- (ImageCache.get ((jio (GameFeatureImageCacheFactory.getInstance))) (jio (Class.getName ((jio (jobjectGetClass this))))) width height)
         pure (image)
 
 
@@ -111,7 +116,7 @@ createImage_super object_ a1 a2 a3 a4 = (createImage_impl (javaCast object_ :: I
 
 createImage_impl :: ImageCreationUtil -> Int -> Int -> Float -> Float -> IO (Image.Image)
 createImage_impl this width height maxScaleX maxScaleY = do
-        image <- (GameFeatureImageCacheFactory.get ((jio (GameFeatureImageCacheFactory.getInstance))) (jio (Class.getName ((jio (jobjectGetClass this))))) ((Prelude.truncate (((Prelude.fromIntegral width) * maxScaleX))) + 1) ((Prelude.truncate (((Prelude.fromIntegral height) * maxScaleY))) + 1))
+        image <- (ImageCache.get ((jio (GameFeatureImageCacheFactory.getInstance))) (jio (Class.getName ((jio (jobjectGetClass this))))) ((Prelude.truncate (((Prelude.fromIntegral width) * maxScaleX))) + 1) ((Prelude.truncate (((Prelude.fromIntegral height) * maxScaleY))) + 1))
         pure (image)
 
 

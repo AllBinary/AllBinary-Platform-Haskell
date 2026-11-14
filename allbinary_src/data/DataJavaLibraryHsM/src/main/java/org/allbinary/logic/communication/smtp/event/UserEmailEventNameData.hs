@@ -19,10 +19,10 @@ module UserEmailEventNameData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,81 +54,107 @@ instance JavaObjectClass UserEmailEventNameData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+userNameEvenNameHashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE userNameEvenNameHashMap #-}
 userNameEvenNameHashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
+nextId :: IORef (Int)
 {-# NOINLINE nextId #-}
 nextId = unsafePerformIO (newIORef (0))
 
+iNSTALLER :: UserEmailEventNameData
 {-# NOINLINE iNSTALLER #-}
 iNSTALLER = unsafePerformIO ((new_1 "Installer"))
 
+eXCEPTION :: UserEmailEventNameData
 {-# NOINLINE eXCEPTION #-}
 eXCEPTION = unsafePerformIO ((new_1 "Exception"))
 
+lOGGEDEXCEPTION :: UserEmailEventNameData
 {-# NOINLINE lOGGEDEXCEPTION #-}
 lOGGEDEXCEPTION = unsafePerformIO ((new_1 "Logged Exception"))
 
+eRROR :: UserEmailEventNameData
 {-# NOINLINE eRROR #-}
 eRROR = unsafePerformIO ((new_1 "Error"))
 
+oUTOFMEMORY :: UserEmailEventNameData
 {-# NOINLINE oUTOFMEMORY #-}
 oUTOFMEMORY = unsafePerformIO ((new_1 "Out Of Memory Error"))
 
+aDMINGENERATINGSTATICPAGES :: UserEmailEventNameData
 {-# NOINLINE aDMINGENERATINGSTATICPAGES #-}
 aDMINGENERATINGSTATICPAGES = unsafePerformIO ((new_1 "Admin Generating Static Pages"))
 
+sTOREERROROCCURRED :: UserEmailEventNameData
 {-# NOINLINE sTOREERROROCCURRED #-}
 sTOREERROROCCURRED = unsafePerformIO ((new_1 "Store Error Occurred"))
 
+sTOREOUTOFMEMORY :: UserEmailEventNameData
 {-# NOINLINE sTOREOUTOFMEMORY #-}
 sTOREOUTOFMEMORY = unsafePerformIO ((new_1 "Store Out Of Memory Error"))
 
+sTORECREATED :: UserEmailEventNameData
 {-# NOINLINE sTORECREATED #-}
 sTORECREATED = unsafePerformIO ((new_1 "Store Created"))
 
+sTOREOPENED :: UserEmailEventNameData
 {-# NOINLINE sTOREOPENED #-}
 sTOREOPENED = unsafePerformIO ((new_1 "Store Opened"))
 
+sTORECLOSED :: UserEmailEventNameData
 {-# NOINLINE sTORECLOSED #-}
 sTORECLOSED = unsafePerformIO ((new_1 "Store Closed"))
 
+sTOREGENERATINGSTATICPAGES :: UserEmailEventNameData
 {-# NOINLINE sTOREGENERATINGSTATICPAGES #-}
 sTOREGENERATINGSTATICPAGES = unsafePerformIO ((new_1 "Store Generating Static Pages"))
 
+pRODUCTISOUT :: UserEmailEventNameData
 {-# NOINLINE pRODUCTISOUT #-}
 pRODUCTISOUT = unsafePerformIO ((new_1 "Product Is Out"))
 
+pRODUCTISAVAILABLE :: UserEmailEventNameData
 {-# NOINLINE pRODUCTISAVAILABLE #-}
 pRODUCTISAVAILABLE = unsafePerformIO ((new_1 "Product Is Available"))
 
+pRODUCTISOLD :: UserEmailEventNameData
 {-# NOINLINE pRODUCTISOLD #-}
 pRODUCTISOLD = unsafePerformIO ((new_1 "Product Is Old"))
 
+pRODUCTISONSALE :: UserEmailEventNameData
 {-# NOINLINE pRODUCTISONSALE #-}
 pRODUCTISONSALE = unsafePerformIO ((new_1 "Product Is On Sale"))
 
+pRODUCTSALEISOVER :: UserEmailEventNameData
 {-# NOINLINE pRODUCTSALEISOVER #-}
 pRODUCTSALEISOVER = unsafePerformIO ((new_1 "Product Sale Is Over"))
 
+oRDERPREPROCESSING :: UserEmailEventNameData
 {-# NOINLINE oRDERPREPROCESSING #-}
 oRDERPREPROCESSING = unsafePerformIO ((new_1 (OrderHistoryData.pREPROCESSING)))
 
+oRDERPROCESSING :: UserEmailEventNameData
 {-# NOINLINE oRDERPROCESSING #-}
 oRDERPROCESSING = unsafePerformIO ((new_1 (OrderHistoryData.pROCESSING)))
 
+oRDERCANCELLED :: UserEmailEventNameData
 {-# NOINLINE oRDERCANCELLED #-}
 oRDERCANCELLED = unsafePerformIO ((new_1 (OrderHistoryData.cANCELLED)))
 
+oRDERPARTIALLYSHIPPED :: UserEmailEventNameData
 {-# NOINLINE oRDERPARTIALLYSHIPPED #-}
 oRDERPARTIALLYSHIPPED = unsafePerformIO ((new_1 (OrderHistoryData.pARTIALLYSHIPPED)))
 
+oRDERSHIPPED :: UserEmailEventNameData
 {-# NOINLINE oRDERSHIPPED #-}
 oRDERSHIPPED = unsafePerformIO ((new_1 (OrderHistoryData.sHIPPED)))
 
+qUOTEREQUEST :: UserEmailEventNameData
 {-# NOINLINE qUOTEREQUEST #-}
 qUOTEREQUEST = unsafePerformIO ((new_1 "Quote Request"))
 
+nEWPASSWORD :: UserEmailEventNameData
 {-# NOINLINE nEWPASSWORD #-}
 nEWPASSWORD = unsafePerformIO ((new_1 "New Password"))
 
@@ -161,7 +187,7 @@ init_1 this eventHandlerName = do
         initFields_ this
         jset (this).eventHandlerName (eventHandlerName)
         Control.Monad.void (UserEmailEventNameData.initNextId this)
-        Control.Monad.void (put ((jget UserEmailEventNameData.userNameEvenNameHashMap)) (jget (this).eventHandlerName) this)
+        Control.Monad.void (HashMap.put ((jget UserEmailEventNameData.userNameEvenNameHashMap)) (jget (this).eventHandlerName) this)
         pure ()
 
 
@@ -186,14 +212,14 @@ isEvent_super object_ a1 = (isEvent_impl (javaCast object_ :: UserEmailEventName
 
 isEvent_impl :: UserEmailEventNameData -> String -> IO (Bool)
 isEvent_impl this userEmailEventNameString = do
-        (containsKey ((jget UserEmailEventNameData.userNameEvenNameHashMap)) userEmailEventNameString)
+        (HashMap.containsKey ((jget UserEmailEventNameData.userNameEvenNameHashMap)) userEmailEventNameString)
 
 
 -- throws Exception
 getInstance :: String -> IO (UserEmailEventNameData)
 getInstance userEmailEventNameString = do
     javaCatchReturn $ do
-        let userEmailEventNameData = (javaCast (jio (get ((jget UserEmailEventNameData.userNameEvenNameHashMap)) userEmailEventNameString)) :: UserEmailEventNameData)
+        let userEmailEventNameData = (javaCast (jio (HashMap.get ((jget UserEmailEventNameData.userNameEvenNameHashMap)) userEmailEventNameString)) :: UserEmailEventNameData)
         if (userEmailEventNameData == javaNull) then do
             javaThrow ((JavaException "Exception" ""))
         else do

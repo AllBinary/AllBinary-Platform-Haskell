@@ -19,10 +19,10 @@ module BasicWorkFlow where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass BasicWorkFlow where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicWorkFlow
 newRecord_ = do
@@ -163,9 +166,9 @@ process_impl this = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this (jget ((jget (this).commonStrings)).pROCESS))
         if (jio (ValidationComponentInterface.booleanValue ((jio (ValidationComponentInterface.isValid ((jget (this).validationDomNodeInterface))))))) then do
             Control.Monad.void (PageContext.print ((jio (PageContext.getOut ((jget (this).pageContext))))) (jio (ValidationComponentInterface.view ((jget (this).validationDomNodeInterface)))))
-            javaReturn ((javaToString (TagSupport.eVAL_BODY_INCLUDE)))
+            javaReturn (((TagSupport.eVAL_BODY_INCLUDE)))
         else do
             Control.Monad.void (PageContext.print ((jio (PageContext.getOut ((jget (this).pageContext))))) (jio (ValidationComponentInterface.validationInfo ((jget (this).validationDomNodeInterface)))))
-            javaReturn ((javaToString (TagSupport.sKIP_BODY)))
+            javaReturn (((TagSupport.sKIP_BODY)))
 
 

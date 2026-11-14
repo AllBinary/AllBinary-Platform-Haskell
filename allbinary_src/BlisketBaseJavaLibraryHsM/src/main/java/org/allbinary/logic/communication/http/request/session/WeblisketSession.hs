@@ -19,10 +19,10 @@ module WeblisketSession where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified WeblisketSessionData -- same package or java.lang
+import qualified BasicUserRole -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified HttpSession -- javax.servlet.http.HttpSession
@@ -73,6 +74,9 @@ instance JavaObjectClass WeblisketSession where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO WeblisketSession
 newRecord_ = do
     header_ <- newJavaHeader
@@ -111,27 +115,40 @@ initFields_ this = do
     jset this.session (javaNull)
     pure ()
 
-new_2 :: HashMap.HashMap -> PageContext.PageContext -> IO WeblisketSession
-new_2 hashMap pageContext = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => HashMap.HashMap -> o2 -> IO WeblisketSession
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = new_2_overload1 a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+init_2 :: (JavaObjectClass o2) => WeblisketSession -> HashMap.HashMap -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: PageContext.PageContext) = init_2_overload1 this a1 (javaCast a2 :: PageContext.PageContext)
+    | jisInstanceOf a2 (javaNull :: HttpServletRequest.HttpServletRequest) = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: HttpServletRequest.HttpServletRequest)
+
+
+new_2_overload1 :: HashMap.HashMap -> PageContext.PageContext -> IO WeblisketSession
+new_2_overload1 hashMap pageContext = do
     this <- newRecord_
-    init_2 this hashMap pageContext
+    init_2_overload1 this hashMap pageContext
     pure this
 
-init_2 :: WeblisketSession -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_2 this hashMap pageContext = do
+init_2_overload1 :: WeblisketSession -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_2_overload1 this hashMap pageContext = do
         init_2 this (hashMap) (javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest)
         pure () -- this(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO WeblisketSession
-new_2 hashMap httpServletRequest = do
+new_2_overload2 :: HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO WeblisketSession
+new_2_overload2 hashMap httpServletRequest = do
     this <- newRecord_
-    init_2 this hashMap httpServletRequest
+    init_2_overload2 this hashMap httpServletRequest
     pure this
 
-init_2 :: WeblisketSession -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
-init_2 this hashMap httpServletRequest = do
+init_2_overload2 :: WeblisketSession -> HashMap.HashMap -> HttpServletRequest.HttpServletRequest -> IO ()
+init_2_overload2 this hashMap httpServletRequest = do
         initFields_ this
         let propertiesHashMap = hashMap
         let request = httpServletRequest
@@ -369,7 +386,7 @@ getOrder_impl this = do
         if (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) basketName))) then do
             orderInterface <- newIORef ((javaCast (jio (HttpSession.getAttribute ((jget (this).session)) basketName)) :: OrderInterface.OrderInterface))
             when ((jget orderInterface) == javaNull) $ do
-                jset orderInterface ((javaCast (jio (Order.new_1 (jio (Basket.new_)))) :: OrderInterface.OrderInterface))
+                jset orderInterface ((javaCast (jio (Order.new_1 (javaCast (jio (Basket.new_))))) :: OrderInterface.OrderInterface))
             Control.Monad.void (HttpSession.setAttribute ((jget (this).session)) basketName (jget orderInterface))
             javaReturn ((jget orderInterface))
         else do

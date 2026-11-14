@@ -19,10 +19,10 @@ module GameConfigurationCentral where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -135,7 +135,7 @@ initFields_ this = do
 getInstance :: IO (GameConfigurationCentral)
 getInstance = do
         when ((jget GameConfigurationCentral.sINGLETON) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset GameConfigurationCentral.sINGLETON (assignedValue)
         pure ((javaCast (jget GameConfigurationCentral.sINGLETON) :: GameConfigurationCentral))
 
@@ -203,7 +203,7 @@ load_impl this abeClientInformation = do
                 hashtable <- (KeyValuePersistance.get keyValuePersistance 0)
                 let anyType = (javaCast (jio (GameConfiguration.getName ((jget (this).sCALE)))) :: Any.Any)
                 let value = (javaCast (jio (ABHashtable.get hashtable anyType)) :: String)
-                Control.Monad.void (GameConfiguration.setValue ((jget (this).sCALE)) (jio (SmallIntegerSingletonFactory.getAt smallIntegerSingletonFactory (javaToString value))))
+                Control.Monad.void (GameConfiguration.setValue ((jget (this).sCALE)) (jio (SmallIntegerSingletonFactory.getAt smallIntegerSingletonFactory (jio (jparseInt value)))))
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "No Game Configuration To Load" this (jget (commonStrings).lOAD))
         pure ()

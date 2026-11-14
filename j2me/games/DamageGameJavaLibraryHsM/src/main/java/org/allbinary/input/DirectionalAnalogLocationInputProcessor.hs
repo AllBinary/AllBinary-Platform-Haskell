@@ -20,10 +20,10 @@ import AnalogLocationInputProcessor hiding (new_, init_, newRecord_, initFields_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -155,17 +155,17 @@ process_impl this allbinaryLayerManager analogLocationInput = do
             leftTrigger <- (AnalogLocationInput.getLeftTrigger analogLocationInput)
             rightTrigger <- (AnalogLocationInput.getRightTrigger analogLocationInput)
             if (x < 0) then do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).leftGameKeyEvent))))))) allbinaryLayerManager (jget (this).leftGameKeyEvent) x)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).leftGameKeyEvent))))))) allbinaryLayerManager (jget (this).leftGameKeyEvent) x)
             else when (x > 0) $ do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).rightGameKeyEvent))))))) allbinaryLayerManager (jget (this).rightGameKeyEvent) x)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).rightGameKeyEvent))))))) allbinaryLayerManager (jget (this).rightGameKeyEvent) x)
             if (y < 0) then do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).downGameKeyEvent))))))) allbinaryLayerManager (jget (this).downGameKeyEvent) y)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).downGameKeyEvent))))))) allbinaryLayerManager (jget (this).downGameKeyEvent) y)
             else when (y > 0) $ do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).upGameKeyEvent))))))) allbinaryLayerManager (jget (this).upGameKeyEvent) y)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).upGameKeyEvent))))))) allbinaryLayerManager (jget (this).upGameKeyEvent) y)
             when (leftTrigger > 0) $ do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).leftTriggerGameKeyEvent))))))) allbinaryLayerManager (jget (this).leftTriggerGameKeyEvent) leftTrigger)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).leftTriggerGameKeyEvent))))))) allbinaryLayerManager (jget (this).leftTriggerGameKeyEvent) leftTrigger)
             when (rightTrigger > 0) $ do
-                Control.Monad.void (processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).rightTriggerGameKeyEvent))))))) allbinaryLayerManager (jget (this).rightTriggerGameKeyEvent) rightTrigger)
+                Control.Monad.void (GameInputProcessor.processAnalog ((jindex ((jget (this).inputProcessorArray)) ((jio (GameKeyEvent.getKey ((jget (this).rightTriggerGameKeyEvent))))))) allbinaryLayerManager (jget (this).rightTriggerGameKeyEvent) rightTrigger)
         pure ()
 
 

@@ -20,10 +20,10 @@ import InputAutomationServiceConsumer hiding (new_, init_, newRecord_, initField
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -75,7 +75,7 @@ new_1 bundleContext = do
 
 init_1 :: InputAutomationRobotServiceConsumer -> BundleContext.BundleContext -> IO ()
 init_1 this bundleContext = do
-        InputAutomationServiceConsumer.init_3 this.base (jio (getName "InputAutomationRobotServiceInterface")) (bundleContext) (jio (InputAutomationRobotOSGIServiceVisitor.new_))
+        InputAutomationServiceConsumer.init_3 this.base (jio (getName ((JavaClass "InputAutomationRobotServiceInterface")))) (bundleContext) (javaCast (jio (InputAutomationRobotOSGIServiceVisitor.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -100,7 +100,7 @@ addDomNodeInterfaces_super object_ = (addDomNodeInterfaces_impl (javaCast object
 
 addDomNodeInterfaces_impl :: UserView -> IO (())
 addDomNodeInterfaces_impl this = do
-        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (javaCast (jio (UserDomNode.new_1 (jget (this).user))) :: DomNodeInterface.DomNodeInterface))
+        Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (javaCast (jio (UserDomNode.new_1 (javaCast (jget (this).user)))) :: DomNodeInterface.DomNodeInterface))
         pure ()
 
 

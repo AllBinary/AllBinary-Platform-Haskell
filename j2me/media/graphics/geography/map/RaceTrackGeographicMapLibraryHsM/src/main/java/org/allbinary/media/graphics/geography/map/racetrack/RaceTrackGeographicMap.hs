@@ -20,10 +20,10 @@ import BaseRaceTrackGeographicMap hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,6 +40,8 @@ import qualified AllBinaryTiledLayerFactoryInterface -- same package or java.lan
 import qualified CustomMapGeneratorBaseFactory -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicGeographicMap -- same package or java.lang
+import qualified SimpleGeographicMap -- same package or java.lang
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified GeographicMapCellPosition -- org.allbinary.media.graphics.geography.map.GeographicMapCellPosition
 import qualified GeographicMapCellPositionBaseFactory -- org.allbinary.media.graphics.geography.map.GeographicMapCellPositionBaseFactory
@@ -123,7 +125,7 @@ isValid_impl this geographicMapCellPosition = do
         if ((jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) >= (jlength (jindex customMapArray (0)))) then do
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer "Column: ")
-            Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)))))
+            Control.Monad.void (StringMaker.appendint stringBuffer (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)))
             Control.Monad.void (StringMaker.append stringBuffer " not in: ")
             Control.Monad.void (StringMaker.appendint stringBuffer (jlength (jindex customMapArray (0))))
             Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget ((jget (this).base.base.base.commonStrings)).iS_VALID))
@@ -134,7 +136,7 @@ isValid_impl this geographicMapCellPosition = do
         else when ((jio (GeographicMapCellPosition.getRow geographicMapCellPosition)) > (jlength customMapArray)) $ do
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer "Row: ")
-            Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (GeographicMapCellPosition.getRow geographicMapCellPosition)))))
+            Control.Monad.void (StringMaker.appendint stringBuffer (jio (GeographicMapCellPosition.getRow geographicMapCellPosition)))
             Control.Monad.void (StringMaker.append stringBuffer " not in: ")
             Control.Monad.void (StringMaker.appendint stringBuffer (jlength customMapArray))
             Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget ((jget (this).base.base.base.commonStrings)).iS_VALID))

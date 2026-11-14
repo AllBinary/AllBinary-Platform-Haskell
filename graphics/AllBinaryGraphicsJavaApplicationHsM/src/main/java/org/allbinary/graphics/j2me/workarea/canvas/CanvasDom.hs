@@ -19,10 +19,10 @@ module CanvasDom where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Grid -- same package or java.lang
 import qualified CanvasJPanel -- same package or java.lang
 import qualified Document -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified VectorCenterGenerator -- org.allbinary.animation.vector.VectorCenterGenerator
 import qualified DomHelper -- org.allbinary.dom.DomHelper
@@ -72,30 +73,44 @@ instance JavaObjectClass CanvasDom where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+fRAME :: String
 fRAME = "frame"
 
+rOTATE :: String
 rOTATE = "rotate"
 
+sIZE :: String
 sIZE = "size"
 
+x :: String
 x = "X"
 
+y :: String
 y = "Y"
 
+zOOM :: String
 zOOM = "zoom"
 
+gRID :: String
 gRID = "grid"
 
+eNABLED :: String
 eNABLED = "enabled"
 
+pOSSIBLE :: String
 pOSSIBLE = "possible"
 
+gRAPHICITEMS :: String
 gRAPHICITEMS = "graphicItems"
 
+rEAL_SIZE :: String
 rEAL_SIZE = "realSize"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CanvasDom
 newRecord_ = do
@@ -128,14 +143,28 @@ initFields_ this = do
     jset this.grid (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO CanvasDom
-new_1 canvasNode = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO CanvasDom
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: CanvasJPanel.CanvasJPanel) = new_1_overload2 (javaCast a1 :: CanvasJPanel.CanvasJPanel)
+    | otherwise = new_1_overload2 (javaCast a1 :: CanvasJPanel.CanvasJPanel)
+
+init_1 :: (JavaObjectClass o1) => CanvasDom -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: CanvasJPanel.CanvasJPanel) = init_1_overload2 this (javaCast a1 :: CanvasJPanel.CanvasJPanel)
+    | otherwise = init_1_overload2 this (javaCast a1 :: CanvasJPanel.CanvasJPanel)
+
+
+new_1_overload1 :: Node.Node -> IO CanvasDom
+new_1_overload1 canvasNode = do
     this <- newRecord_
-    init_1 this canvasNode
+    init_1_overload1 this canvasNode
     pure this
 
-init_1 :: CanvasDom -> Node.Node -> IO ()
-init_1 this canvasNode = do
+init_1_overload1 :: CanvasDom -> Node.Node -> IO ()
+init_1_overload1 this canvasNode = do
         initFields_ this
         assignedValue <- (Grid.new_)
         jset (this).grid (assignedValue)
@@ -145,7 +174,7 @@ init_1 this canvasNode = do
         jset (this).dimension (assignedValue)
         name <- (Node.getNodeName canvasNode)
         if ((Prelude.fromEnum (Prelude.compare name (CanvasDom.fRAME)) - 1) == 0) then do
-            assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             jset (this).graphicItemHashMap (assignedValue)
             angleNode <- (DomHelper.searchNodeList ((jio (DomHelper.getInstance))) rOTATE (jio (Node.getChildNodes canvasNode)))
             angleTextNode <- (Node.getFirstChild angleNode)
@@ -179,21 +208,20 @@ init_1 this canvasNode = do
             jset ((jget (this).grid)).isGridPossible ((jio (Node.getNodeValue possibleTextNode)))
             graphicItemNodeList <- (DomHelper.getChildrenWithoutTextNodes ((jio (DomHelper.getInstance))) gRAPHICITEMS (jio (Node.getChildNodes canvasNode)))
             when (graphicItemNodeList /= javaNull) $ do
-                assignedValue <- (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) graphicItemNodeList)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) graphicItemNodeList))
                 jset (this).graphicItemHashMap (assignedValue)
         else do
             javaThrow ((JavaException "Exception" ("Frame Element Not Found but Found: " ++ name)))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: CanvasJPanel.CanvasJPanel -> IO CanvasDom
-new_1 canvasJPanel = do
+new_1_overload2 :: CanvasJPanel.CanvasJPanel -> IO CanvasDom
+new_1_overload2 canvasJPanel = do
     this <- newRecord_
-    init_1 this canvasJPanel
+    init_1_overload2 this canvasJPanel
     pure this
 
-init_1 :: CanvasDom -> CanvasJPanel.CanvasJPanel -> IO ()
-init_1 this canvasJPanel = do
+init_1_overload2 :: CanvasDom -> CanvasJPanel.CanvasJPanel -> IO ()
+init_1_overload2 this canvasJPanel = do
         initFields_ this
         assignedValue <- (CanvasJPanel.getAngle canvasJPanel)
         jset (this).angle (assignedValue)
@@ -336,7 +364,7 @@ toDom_impl this = do
         Control.Monad.void (Node.appendChild frameNode gridNode)
         Control.Monad.void (Node.appendChild frameNode realSizeNode)
         let graphicItemNode = (javaCast (jio (Document.createElement document gRAPHICITEMS)) :: Node.Node)
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jio (CanvasDom.getGraphicItemHashMap this)))))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jio (CanvasDom.getGraphicItemHashMap this)))))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get ((jget (this).graphicItemHashMap)) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)

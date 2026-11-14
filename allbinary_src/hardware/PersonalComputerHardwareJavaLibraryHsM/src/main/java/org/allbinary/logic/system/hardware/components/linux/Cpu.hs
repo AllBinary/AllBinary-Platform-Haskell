@@ -19,10 +19,10 @@ module Cpu where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -163,12 +163,12 @@ init_2_impl this lineNumberReader filePath = do
         lineNumberReader <- newIORef lineNumberReader
         flip finally (do
             when ((jget lineNumberReader) /= javaNull) $ do
-                Control.Monad.void (jio (LineNumberReader.close ((jget lineNumberReader))))
+                Control.Monad.void (LineNumberReader.close ((jget lineNumberReader)))
             ) $ do
             fileReader <- (FileReader.new_1 filePath)
             assignedValue <- (LineNumberReader.new_1 fileReader)
             jset lineNumberReader (assignedValue)
-            assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             jset (this).cpuHashMap (assignedValue)
             when ((jget lineNumberReader) == javaNull) $ do
                 fileVector <- (SubDirectory.search ((jio (SubDirectory.getInstance))) filePath (jio (AbFile.createAbFile (jget ((jio (FilePathData.getInstance))).pATH_START))))
@@ -187,21 +187,21 @@ init_2_impl this lineNumberReader filePath = do
                         let valueIndex = (index + 1)
                         let value = (Prelude.take (((Prelude.length (jget nextLine))) - (valueIndex)) (Prelude.drop (valueIndex) (jget nextLine)))
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.pROCESSOR)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.pROCESSOR) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.pROCESSOR) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.vENDORID)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.vENDORID) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.vENDORID) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.cPUFAMILY)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cPUFAMILY) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cPUFAMILY) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.mODEL)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.mODEL) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.mODEL) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.mODELNAME)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.mODELNAME) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.mODELNAME) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.sTEPPING)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.sTEPPING) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.sTEPPING) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.cPUMHZ)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cPUMHZ) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cPUMHZ) value)
                         when ((jstringIndexOf key (jio (CpuInfo.toString CpuInfo.cACHESIZE)) 0) >= 0) $ do
-                            Control.Monad.void (jio (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cACHESIZE) value))
+                            Control.Monad.void (HashMap.put ((jget (this).cpuHashMap)) (CpuInfo.cACHESIZE) value)
                     assignedValue <- (LineNumberReader.readLine ((jget lineNumberReader)))
                     jset nextLine (assignedValue)
         pure ()

@@ -19,10 +19,10 @@ module VirtualKeyboardFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,11 +54,15 @@ instance JavaObjectClass VirtualKeyboardFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+virtualKeyboard :: IORef (VirtualKeyboard.VirtualKeyboard)
 {-# NOINLINE virtualKeyboard #-}
 virtualKeyboard = unsafePerformIO (newIORef (VirtualKeyboard.nULL_VIRTUAL_KEYBOARD))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO VirtualKeyboardFactory
 newRecord_ = do
@@ -86,10 +90,10 @@ init :: Activity.Activity -> IO (())
 init activity = do
         sDK_VERSION <- (AndroidInfoFactory.getVersion ((jio (AndroidInfoFactory.getInstance))))
         if (sDK_VERSION <= 2) then do
-            assignedValue <- (VirtualKeyboardAPI1.new_1 activity)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: VirtualKeyboard.VirtualKeyboard) (VirtualKeyboardAPI1.new_1 activity))
             jset VirtualKeyboardFactory.virtualKeyboard (assignedValue)
         else do
-            assignedValue <- (VirtualKeyboardAPI3.new_1 activity)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: VirtualKeyboard.VirtualKeyboard) (VirtualKeyboardAPI3.new_1 activity))
             jset VirtualKeyboardFactory.virtualKeyboard (assignedValue)
         pure ()
 

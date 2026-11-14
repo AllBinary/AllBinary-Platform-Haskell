@@ -19,10 +19,10 @@ module LocalPlayerInputIdFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass LocalPlayerInputIdFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: LocalPlayerInputIdFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LocalPlayerInputIdFactory
 newRecord_ = do
@@ -142,7 +146,8 @@ getPlayerForDevice_impl this deviceId = do
             when (playerInputId /= (Prelude.negate 1)) $ do
                 javaReturn (playerInputId)
         else do
-            forM_ [((jget (this).totalDevicesMapped) - 1), ((jget (this).totalDevicesMapped) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
+            jset index (((jget (this).totalDevicesMapped) - 1))
+            fix $ \loop -> when ((jget index) >= 0) $ javaIteration (do { jset index ((jget index) - 1); loop }) $ do
                 when ((jindex ((jget (this).playerIdToDeviceId)) ((jget index))) == deviceId) $ do
                     javaReturn ((jget index))
         jset index ((jget (this).totalDevicesMapped))

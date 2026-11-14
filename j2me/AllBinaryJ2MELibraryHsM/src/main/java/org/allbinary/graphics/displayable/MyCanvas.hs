@@ -16,14 +16,14 @@
 -- package org.allbinary.graphics.displayable
 module MyCanvas (module MyCanvas, module Canvas) where
 
-import Canvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setFullScreenMode, setFullScreenMode_super, setFullScreenMode_impl, sizeChanged, sizeChanged_super, sizeChanged_impl, getCommandStack, getCommandStack_super, getCommandStack_impl, isCommand, isCommand_super, isCommand_impl, addCommand, addCommand_super, addCommand_impl, removeCommand, removeCommand_super, removeCommand_impl, removeAllCommands, removeAllCommands_super, removeAllCommands_impl, setCommandListener, setCommandListener_super, setCommandListener_impl, getCustomCommandListener, getCustomCommandListener_super, getCustomCommandListener_impl, isPaused, isPaused_super, isPaused_impl, removePauseCommand, removePauseCommand_super, removePauseCommand_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, process, process_super, process_impl, paint, paint_super, paint_impl, draw, draw_super, draw_impl, hasChild, hasChild_super, hasChild_impl, destroy, destroy_super, destroy_impl, setPaused, setPaused_super, setPaused_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, pointerDragged, pointerDragged_super, pointerDragged_impl, pointerPressed, pointerPressed_super, pointerPressed_impl, pointerReleased, pointerReleased_super, pointerReleased_impl, nextSong, nextSong_super, nextSong_impl, logUtil, commonStrings, canvasStrings, stringUtil, displayInfo, name, childNameList, commandStack, commandListener, paused, touchME)
+import Canvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getWidth, getWidth_super, getWidth_impl, getHeight, getHeight_super, getHeight_impl, setFullScreenMode, setFullScreenMode_super, setFullScreenMode_impl, sizeChanged, sizeChanged_super, sizeChanged_impl, getCommandStack, getCommandStack_super, getCommandStack_impl, isCommand, isCommand_super, isCommand_impl, addCommand, addCommand_super, addCommand_impl, removeCommand, removeCommand_super, removeCommand_impl, removeAllCommands, removeAllCommands_super, removeAllCommands_impl, setCommandListener, setCommandListener_super, setCommandListener_impl, getCustomCommandListener, getCustomCommandListener_super, getCustomCommandListener_impl, isPaused, isPaused_super, isPaused_impl, removePauseCommand, removePauseCommand_super, removePauseCommand_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, process, process_super, process_impl, paint, paint_super, paint_impl, draw, draw_super, draw_impl, hasChild, hasChild_super, hasChild_impl, destroy, destroy_super, destroy_impl, setPaused, setPaused_super, setPaused_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, pointerDragged, pointerDragged_super, pointerDragged_impl, pointerPressed, pointerPressed_super, pointerPressed_impl, pointerReleased, pointerReleased_super, pointerReleased_impl, nextSong, nextSong_super, nextSong_impl, logUtil, commonStrings, canvasStrings, stringUtil, displayInfo, name, childNameList, commandStack, commandListener, paused, touchME)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -102,6 +102,8 @@ newRecord_ = do
     jregisterLevel header_ this
     DisplayableInterface.registerInterface_ header_
     MyCommandInterface.registerInterface_ header_
+    jregisterMethod header_ "getWidth" (\() -> getWidth_impl this)
+    jregisterMethod header_ "getHeight" (\() -> getHeight_impl this)
     jregisterMethod header_ "setFullScreenMode" (\() -> setFullScreenMode_impl this)
     jregisterMethod header_ "sizeChanged" (\() -> sizeChanged_impl this)
     jregisterMethod header_ "getCommandStack" (\() -> getCommandStack_impl this)
@@ -162,6 +164,28 @@ init_2 this name childNameList = do
         assignedValue <- (StdUtil.createStack ((jio (StdUtil.getInstance))))
         jset (this).commandStack (assignedValue)
         pure ()
+
+
+getWidth :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth object_ = jmethod object_ "getWidth" (\() -> (getWidth_impl (javaCast object_ :: MyCanvas))) ()
+
+getWidth_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth_super object_ = (getWidth_impl (javaCast object_ :: MyCanvas))
+
+getWidth_impl :: MyCanvas -> IO (Int)
+getWidth_impl this = do
+        (Canvas.getWidth_super this.base)
+
+
+getHeight :: (JavaObjectClass this_) => this_ -> IO (Int)
+getHeight object_ = jmethod object_ "getHeight" (\() -> (getHeight_impl (javaCast object_ :: MyCanvas))) ()
+
+getHeight_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getHeight_super object_ = (getHeight_impl (javaCast object_ :: MyCanvas))
+
+getHeight_impl :: MyCanvas -> IO (Int)
+getHeight_impl this = do
+        (Canvas.getHeight_super this.base)
 
 
 setFullScreenMode :: (JavaObjectClass this_) => this_ -> Bool -> IO (())

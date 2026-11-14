@@ -20,10 +20,10 @@ import InputProcessor hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AllBinaryGameCanvas -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
+import qualified DownGameKeyEventHandlerBase -- same package or java.lang
+import qualified DownKeyEventHandlerBase -- same package or java.lang
+import qualified UpGameKeyEventHandlerBase -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified GameKey -- org.allbinary.game.input.GameKey
@@ -105,7 +109,7 @@ initFields_ this = do
     jset this.upGameKeyEventHandler =<< (UpGameKeyEventHandler.getInstance)
     jset this.downKeyEventHandler =<< (DownKeyEventHandler.getInstance)
     jset this.smallIntegerSingletonFactory =<< (SmallIntegerSingletonFactory.getInstance)
-    jset this.inputToGameKeyMapping =<< (PlatformInputMappingFactory.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
+    jset this.inputToGameKeyMapping =<< (PersistentInputMapping.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
     jset this.nONE ((jget ((jio (GameKeyFactory.getInstance))).nONE))
     jset this.gameKeyEventFactory =<< (GameKeyEventFactory.getInstance)
     pure ()

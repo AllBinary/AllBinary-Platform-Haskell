@@ -19,10 +19,10 @@ module CryptService where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,6 +71,9 @@ instance JavaObjectClass CryptService where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO CryptService
 newRecord_ = do
     header_ <- newJavaHeader
@@ -100,7 +103,7 @@ init_ :: CryptService -> IO ()
 init_ this = do
         initFields_ this
         Control.Monad.void (Globals.init ((jio (Globals.getInstance))) (jio (Class.getClassLoader ((jio (jobjectGetClass this))))) "./")
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Set Globals: " ++ javaToString (jio (URLGLOBALS.getWebappPath))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Set Globals: " ++ (jio (URLGLOBALS.getWebappPath))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ()
 
 

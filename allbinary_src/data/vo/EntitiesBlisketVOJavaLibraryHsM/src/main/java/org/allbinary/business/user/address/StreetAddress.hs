@@ -19,10 +19,10 @@ module StreetAddress where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,6 +76,9 @@ instance JavaObjectClass StreetAddress where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StreetAddress
 newRecord_ = do
@@ -141,14 +144,32 @@ init_ this = do
         pure ()
         pure ()
 
-new_1 :: Node.Node -> IO StreetAddress
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO StreetAddress
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: StreetAddress) = new_1_overload2 (javaCast a1 :: StreetAddress)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload3 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload4 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload4 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => StreetAddress -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: StreetAddress) = init_1_overload2 this (javaCast a1 :: StreetAddress)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload3 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload4 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload4 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Node.Node -> IO StreetAddress
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: StreetAddress -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: StreetAddress -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         nameNode <- (DomSearchHelper.getNode (StreetAddressData.nAME) (jio (Node.getChildNodes node)))
         assignedValue <- (DomNodeHelper.getTextNodeValue nameNode)
@@ -171,15 +192,14 @@ init_1 this node = do
         Control.Monad.void (StreetAddress.log this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: StreetAddress -> IO StreetAddress
-new_1 streetAddress = do
+new_1_overload2 :: StreetAddress -> IO StreetAddress
+new_1_overload2 streetAddress = do
     this <- newRecord_
-    init_1 this streetAddress
+    init_1_overload2 this streetAddress
     pure this
 
-init_1 :: StreetAddress -> StreetAddress -> IO ()
-init_1 this streetAddress = do
+init_1_overload2 :: StreetAddress -> StreetAddress -> IO ()
+init_1_overload2 this streetAddress = do
         initFields_ this
         assignedValue <- (StreetAddress.getId streetAddress)
         jset (this).id (assignedValue)
@@ -200,15 +220,14 @@ init_1 this streetAddress = do
         Control.Monad.void (StreetAddress.log this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HttpServletRequest.HttpServletRequest -> IO StreetAddress
-new_1 request = do
+new_1_overload3 :: HttpServletRequest.HttpServletRequest -> IO StreetAddress
+new_1_overload3 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload3 this request
     pure this
 
-init_1 :: StreetAddress -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this request = do
+init_1_overload3 :: StreetAddress -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload3 this request = do
         initFields_ this
         Control.Monad.void (StreetAddress.setId this (jio (HttpServletRequest.getParameter request (StreetAddressData.iD))))
         Control.Monad.void (StreetAddress.setName this (jio (HttpServletRequest.getParameter request (StreetAddressData.nAME))))
@@ -238,15 +257,14 @@ init_6 this name street city state code country = do
         Control.Monad.void (StreetAddress.log this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO StreetAddress
-new_1 address = do
+new_1_overload4 :: HashMap.HashMap -> IO StreetAddress
+new_1_overload4 address = do
     this <- newRecord_
-    init_1 this address
+    init_1_overload4 this address
     pure this
 
-init_1 :: StreetAddress -> HashMap.HashMap -> IO ()
-init_1 this address = do
+init_1_overload4 :: StreetAddress -> HashMap.HashMap -> IO ()
+init_1_overload4 this address = do
         initFields_ this
         jset (this).id ((javaCast (jio (HashMap.get address (StreetAddressData.iD))) :: String))
         jset (this).name ((javaCast (jio (HashMap.get address (StreetAddressData.nAME))) :: String))
@@ -273,7 +291,7 @@ log_super object_ = (log_impl (javaCast object_ :: StreetAddress))
 log_impl :: StreetAddress -> IO (())
 log_impl this = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created Address: \n" ++ javaToString (jio (StreetAddress.toHashMap this))) this "log")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created Address: \n" ++ jconcatObject HashMap.toString (jio (StreetAddress.toHashMap this))) this "log")
         pure ()
 
 

@@ -20,10 +20,10 @@ import AllBinaryVibrationME hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -90,7 +90,7 @@ initFields_ this = do
     jset this.displayInfoSingleton =<< (DisplayInfoSingleton.getInstance)
     jset this.timeDelayHelper =<< (TimeDelayHelper.new_1 (2147483647 :: Int))
     jset this.vIBRATING ("Vibrating")
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.anchor ((jget Anchor.tOP_LEFT))
     jset this.width (0)
     pure ()

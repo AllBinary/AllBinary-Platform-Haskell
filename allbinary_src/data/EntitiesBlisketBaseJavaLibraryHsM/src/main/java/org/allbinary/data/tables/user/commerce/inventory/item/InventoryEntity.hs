@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.user.commerce.inventory.item
 module InventoryEntity (module InventoryEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, getItems, getItems_super, getItems_impl, getItem, getItem_super, getItem_impl, getWeight, getWeight_super, getWeight_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, logUtil, basicItemData, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, delete, delete_super, delete_impl, getItems, getItems_super, getItems_impl, getItem, getItem_super, getItem_impl, getWeight, getWeight_super, getWeight_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, logUtil, basicItemData, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -93,6 +97,7 @@ newRecord_ = do
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
+    jregisterMethod header_ "deleteWhere" (\() -> deleteWhere_impl this)
     pure this
 
 initFields_ :: InventoryEntity -> IO ()
@@ -110,7 +115,7 @@ new_ = do
 
 init_ :: InventoryEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (InventoryDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (InventoryDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -165,7 +170,7 @@ getItems_impl this storeFrontInterface = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Getting Items For: " ++ (jio (StoreFrontInterface.getName storeFrontInterface))) this "getItems")
         itemVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         itemHashMapVector <- (AbSqlBean.getRows_super this.base keysAndValues)
         size <- (BasicArrayList.size itemHashMapVector)
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
@@ -187,7 +192,7 @@ getItem_super object_ a1 = (getItem_impl (javaCast object_ :: InventoryEntity)) 
 getItem_impl :: InventoryEntity -> String -> IO (ItemInterface.ItemInterface)
 getItem_impl this id = do
     javaCatchReturn $ do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jget this.basicItemData)).iD) id)
         itemHashMap <- (AbSqlBean.getRow_super this.base keysAndValues)
         if (itemHashMap /= javaNull) then do
@@ -315,5 +320,17 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: InventoryEntity))
 dropTable_impl :: InventoryEntity -> IO (String)
 dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
+
+
+deleteWhere :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere object_ a1 a2 = jmethod object_ "deleteWhere" (\() -> (deleteWhere_impl (javaCast object_ :: InventoryEntity))) () a1 a2
+
+deleteWhere_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere_super object_ a1 a2 = (deleteWhere_impl (javaCast object_ :: InventoryEntity)) a1 a2
+
+deleteWhere_impl :: InventoryEntity -> String -> String -> IO (())
+deleteWhere_impl this key value = do
+        Control.Monad.void (AbSqlBean.deleteWhere_super this.base key value)
+        pure ()
 
 

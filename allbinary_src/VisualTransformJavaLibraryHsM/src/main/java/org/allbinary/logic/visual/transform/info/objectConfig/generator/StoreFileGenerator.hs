@@ -20,10 +20,10 @@ import TransformInfoObjectConfigGenerator hiding (new_, init_, newRecord_, initF
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -119,12 +119,11 @@ init_1 this transformInfoInterface = do
         Control.Monad.void (StringMaker.append ((jget stringBuffer)) (jio (WeblisketSession.getStoreName weblisketSession)))
         Control.Monad.void (StringMaker.append ((jget stringBuffer)) (jget ((jio (AbPathData.getInstance))).sEPARATOR))
         abPath <- newIORef =<< (AbPath.new_2 (jio (StringMaker.toString ((jget stringBuffer)))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-        fileName <- newIORef ((javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (InputOutputTypeData.getInstance))).fILE))) :: String))
+        fileName <- newIORef ((javaCast (jio (HashMap.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (InputOutputTypeData.getInstance))).fILE))) :: String))
         stringValidationUtil <- (StringValidationUtil.getInstance)
         when (jio (StringValidationUtil.isEmpty stringValidationUtil (jget fileName))) $ do
             let transformInfoHttpStoreInterface = (javaCast transformInfoInterface :: TransformInfoHttpStoreInterface.TransformInfoHttpStoreInterface)
-            assignedValue <- (TransformInfoInterface.substring ((jio (TransformInfoInterface.getName transformInfoInterface))) ((jio (TransformInfoHttpStoreInterface.length ((jio (TransformInfoHttpStoreInterface.getStoreName transformInfoHttpStoreInterface))))) + 1))
-            jset fileName (assignedValue)
+            jset fileName ((Prelude.drop ((Prelude.length (jio (TransformInfoHttpStoreInterface.getStoreName transformInfoHttpStoreInterface))) + 1) (jio (TransformInfoInterface.getName transformInfoInterface))))
             outputMappingHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put outputMappingHashMap (jget ((jio (TransformInfosData.getInstance))).pREVIEW) "Preview")
             Control.Monad.void (HashMap.put outputMappingHashMap (jget ((jio (TransformInfosData.getInstance))).sMALL_PREVIEW) "SmallPreview")
@@ -134,7 +133,7 @@ init_1 this transformInfoInterface = do
             jset fileName (assignedValue)
         when (jio (StringValidationUtil.isEmpty stringValidationUtil (jget fileName))) $ do
             javaThrow ((JavaException "Exception" "TransformInfoObjectConfigGenerator FileName Not Specified"))
-        tempOutput <- newIORef ((javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (InputOutputTypeData.getInstance))).nAME))) :: String))
+        tempOutput <- newIORef ((javaCast (jio (HashMap.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (InputOutputTypeData.getInstance))).nAME))) :: String))
         when (jio (StringValidationUtil.isEmpty stringValidationUtil (jget tempOutput))) $ do
             jset tempOutput ((jget ((jio (InputOutputTypeData.getInstance))).dEFAULT))
         jset (this).output ((jget tempOutput))

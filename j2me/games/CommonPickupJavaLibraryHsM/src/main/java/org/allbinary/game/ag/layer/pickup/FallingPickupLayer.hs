@@ -20,10 +20,10 @@ import PickupLayer hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,12 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified NullAnimationFactory -- org.allbinary.animation.NullAnimationFactory
 import qualified CountedPickedUpLayerInterfaceFactory -- org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory
 import qualified PickupLayer -- org.allbinary.game.layer.pickup.PickupLayer
@@ -61,6 +67,7 @@ instance JavaObjectClass FallingPickupLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "FallingPickupLayer"
 
 newRecord_ :: IO FallingPickupLayer
@@ -86,7 +93,7 @@ new_1 remoteInfo = do
 
 init_1 :: FallingPickupLayer -> RemoteInfo.RemoteInfo -> IO ()
 init_1 this remoteInfo = do
-        PickupLayer.init_7 this.base (FallingPickupLayer.nAME) (remoteInfo) (0) (CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY) (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (jio (ViewPosition.getInstanceD))
+        PickupLayer.init_7 this.base (FallingPickupLayer.nAME) (remoteInfo) (0) (javaCast CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY) (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (javaCast (jio (ViewPosition.getInstanceD)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

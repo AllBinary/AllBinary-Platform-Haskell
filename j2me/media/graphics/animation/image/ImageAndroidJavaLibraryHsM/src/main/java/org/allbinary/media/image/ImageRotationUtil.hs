@@ -19,10 +19,10 @@ module ImageRotationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageCreationUtil -- same package or java.lang
+import qualified Graphics -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified Anchor -- org.allbinary.graphics.Anchor
 import qualified Bitmap -- android.graphics.Bitmap
@@ -58,11 +59,15 @@ instance JavaObjectClass ImageRotationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageRotationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageRotationUtil
 newRecord_ = do
@@ -110,13 +115,13 @@ createRotatedImage_impl this originalImage rotationInDegrees = do
     javaCatchReturn $ do
         image <- (ImageCreationUtil.createImageWH ((jio (ImageCreationUtil.getInstance))) (jio (Image.getWidth originalImage)) (jio (Image.getHeight originalImage)))
         if (jio (Image.isMutable image)) then do
-            bitmap <- (getBitmap (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
+            bitmap <- (AndroidImageInterface.getBitmap (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
             width <- (Bitmap.getWidth bitmap)
             height <- (Bitmap.getHeight bitmap)
             Control.Monad.void (Matrix.setRotate ((jget (this).matrix)) (Prelude.fromIntegral rotationInDegrees) (Prelude.fromIntegral ((width `Data.Bits.shiftR` 1))) (Prelude.fromIntegral ((height `Data.Bits.shiftR` 1))))
-            canvas <- (getCanvas (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
+            canvas <- (AndroidImageInterface.getCanvas (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
             Control.Monad.void (Canvas.concat canvas (jget (this).matrix))
-            Control.Monad.void (Image.drawImage ((jio (Image.getGraphics image))) originalImage 0 0 (jget (this).anchor))
+            Control.Monad.void (Graphics.drawImage ((jio (Image.getGraphics image))) originalImage 0 0 (jget (this).anchor))
             javaReturn (image)
         else do
             javaThrow ((JavaException "Exception" "Not Mutable"))

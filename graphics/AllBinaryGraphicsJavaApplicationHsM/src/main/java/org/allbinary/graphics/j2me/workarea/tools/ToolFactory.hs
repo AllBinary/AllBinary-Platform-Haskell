@@ -19,10 +19,10 @@ module ToolFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass ToolFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ToolFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ToolFactory
 newRecord_ = do
@@ -131,9 +135,9 @@ getSelectedToolFactory_impl this = do
     javaCatchReturn $ do
         Control.Monad.void (StatusFactory.setStatus ((jio (StatusFactory.getInstance))) ("Tool In Use: " ++ (jget (this).tool)))
         if ((jget (this).tool) /= javaNull) then do
-            assignedValue <- (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) (jget (this).tool))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface) (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) (jget (this).tool)))
             jset (this).selectedTool (assignedValue)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("New Tool: " ++ javaToString (jget (this).selectedTool)) this "getSelectedToolFactory")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("New Tool: " ++ jconcatObject GraphicsItemInterfaceFactoryInterface.toString (jget (this).selectedTool)) this "getSelectedToolFactory")
             javaReturn ((jget (this).selectedTool))
         else do
             javaReturn (javaNull)

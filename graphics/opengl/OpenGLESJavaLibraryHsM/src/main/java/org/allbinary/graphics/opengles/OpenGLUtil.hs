@@ -7,10 +7,10 @@ module OpenGLUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -72,11 +72,15 @@ instance JavaObjectClass OpenGLUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: OpenGLUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO OpenGLUtil
 newRecord_ = do
@@ -185,7 +189,7 @@ onSurfaceChanged_impl this gl graphics = do
         Control.Monad.void (OpenGLESGraphics.update graphics)
         progressCanvas <- (ProgressCanvasFactory.getInstance)
         Control.Monad.void (ProgressCanvas.update progressCanvas (javaCast graphics))
-        Control.Monad.void (update (((javaCast (jio (OpenGLImageCacheFactory.getInstance)) :: OpenGLImageCache.OpenGLImageCache))) gl)
+        Control.Monad.void (OpenGLImageCache.update (((javaCast (jio (OpenGLImageCacheFactory.getInstance)) :: OpenGLImageCache.OpenGLImageCache))) gl)
         Control.Monad.void (OpenGLUtil.processRunnables this)
         Control.Monad.void (OpenGLUtil.set this gl)
         pure ()

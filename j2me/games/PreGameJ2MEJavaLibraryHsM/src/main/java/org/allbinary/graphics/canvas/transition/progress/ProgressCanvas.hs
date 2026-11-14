@@ -20,10 +20,10 @@ import RunnableCanvas hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,10 +32,12 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified ProgressPaintable -- same package or java.lang
 import qualified ProgressEndListener -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -166,7 +168,7 @@ initFields_ this = do
     jset this.maxValue (100.0)
     jset this.gauge (javaNull)
     jset this.tEXT ((jget ((jget (this).base.base.commonStrings)).lOADING))
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.allbinaryMidlet =<< (AllBinaryMidlet.getNullInstance)
     jset this.value (0.0)
@@ -194,7 +196,7 @@ new_3 title backgroundBasicColor foregroundBasicColor = do
 
 init_3 :: ProgressCanvas -> String -> BasicColor.BasicColor -> BasicColor.BasicColor -> IO ()
 init_3 this title backgroundBasicColor foregroundBasicColor = do
-        RunnableCanvas.init_3 this.base (NullCommandListener.nULL_COMMAND_LISTENER) (jget ((jio (CanvasStrings.getInstance))).eMPTY_CHILD_NAME_LIST) (False)
+        RunnableCanvas.init_3 this.base (javaCast NullCommandListener.nULL_COMMAND_LISTENER) (jget ((jio (CanvasStrings.getInstance))).eMPTY_CHILD_NAME_LIST) (False)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).backgroundBasicColor (backgroundBasicColor)
@@ -280,7 +282,7 @@ start_impl this = do
         Control.Monad.void (ProgressCanvas.setValue this 0)
         assignedValue <- (Processor.getInstance)
         jset (this).inGameProcessor (assignedValue)
-        jset (this).paintable ((jget (this).gAUGE_PAINTABLE))
+        jset (this).paintable ((javaCast (jget (this).gAUGE_PAINTABLE) :: PaintableInterface.PaintableInterface))
         jset (this).inProgress (True)
         pure ()
 
@@ -301,7 +303,7 @@ startBackground_impl this background = do
         Control.Monad.void (ProgressCanvas.setValue this 0)
         assignedValue <- (Processor.getInstance)
         jset (this).inGameProcessor (assignedValue)
-        jset (this).paintable ((jget (this).gAUGE_PAINTABLE))
+        jset (this).paintable ((javaCast (jget (this).gAUGE_PAINTABLE) :: PaintableInterface.PaintableInterface))
         pure ()
 
 
@@ -343,7 +345,7 @@ end_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.commonStrings)).eND_METHOD_NAME))
         Control.Monad.void (ABCustomGaugeItem.setValue ((jget (this).gauge)) (jio (ProgressCanvas.getMaxValue this)))
         Control.Monad.void (ProgressCanvas.endActual this)
-        assignedValue <- (NullPaintable.getInstance)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (NullPaintable.getInstance))
         jset (this).paintable (assignedValue)
         pure ()
 
@@ -537,5 +539,4 @@ isBackground_impl :: ProgressCanvas -> IO (Bool)
 isBackground_impl this = do
         pure ((jget (this).background))
 
--- Java nested class ProgressPaintable: move it to its own module ProgressPaintable
 

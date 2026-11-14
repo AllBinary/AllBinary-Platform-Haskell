@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,7 @@ import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified GameKey -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified GameKeyFactory -- org.allbinary.game.input.GameKeyFactory
 import qualified PlayerGameInput -- org.allbinary.game.input.PlayerGameInput
 import qualified GameKeyEvent -- org.allbinary.game.input.event.GameKeyEvent
@@ -69,6 +70,7 @@ instance JavaObjectClass CheatGameInputProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+inputProcessor :: IORef (SpecialGameInputInterface.SpecialGameInputInterface)
 {-# NOINLINE inputProcessor #-}
 inputProcessor = unsafePerformIO (newIORef ((javaCast SpecialGameInputFactory.nO_SPECIAL_GAME_INPUT :: SpecialGameInputInterface.SpecialGameInputInterface)))
 
@@ -99,7 +101,7 @@ new_1 gameCanvas = do
 
 init_1 :: CheatGameInputProcessor -> AllBinaryGameCanvas.AllBinaryGameCanvas -> IO ()
 init_1 this gameCanvas = do
-        PlayerGameInput.init_3 this.base (jio (BasicArrayListD.new_)) (jio (BasicArrayListD.new_)) (Prelude.negate 1)
+        PlayerGameInput.init_3 this.base (javaCast (jio (BasicArrayListD.new_))) (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).gameCanvas (gameCanvas)
@@ -124,28 +126,28 @@ update_impl this = do
                 let anyType = (jindex ((jget (list).objectArray)) (index))
                 key <- (GameKeyEventUtil.getKey anyType)
                 if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).lEVEL_DOWN))))) then do
-                    Control.Monad.void (strafeLeft ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.strafeLeft ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 else when (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).lEVEL_UP))))) $ do
-                    Control.Monad.void (strafeRight ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.strafeRight ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).lEFT))))) then do
-                    Control.Monad.void (left ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.left ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 else if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).rIGHT))))) then do
-                    Control.Monad.void (right ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.right ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 else if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).uP))))) then do
-                    Control.Monad.void (up ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.up ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 else if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).dOWN))))) then do
-                    Control.Monad.void (down ((jget CheatGameInputProcessor.inputProcessor)))
+                    Control.Monad.void (SpecialGameInputInterface.down ((jget CheatGameInputProcessor.inputProcessor)))
                     throwIO JavaBreak
                 else if (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).kEY_NUM1))))) then do
-                    Control.Monad.void (special1 ((jget CheatGameInputProcessor.inputProcessor)) gameLayerManager (GameKeyEvent.nONE))
+                    Control.Monad.void (SpecialGameInputInterface.special1 ((jget CheatGameInputProcessor.inputProcessor)) (javaCast gameLayerManager) (GameKeyEvent.nONE))
                     throwIO JavaBreak
                 else when (key == (jio (GameKey.getId ((jget ((jget (this).gameKeyFactory)).kEY_NUM3))))) $ do
-                    Control.Monad.void (special2 ((jget CheatGameInputProcessor.inputProcessor)) gameLayerManager (GameKeyEvent.nONE))
+                    Control.Monad.void (SpecialGameInputInterface.special2 ((jget CheatGameInputProcessor.inputProcessor)) (javaCast gameLayerManager) (GameKeyEvent.nONE))
                     throwIO JavaBreak
             Control.Monad.void (BasicArrayList.clear list)
         pure ()

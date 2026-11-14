@@ -20,10 +20,10 @@ import ModifyTag hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
 import qualified TagHelperFactoryInterface -- admin.taghelpers.TagHelperFactoryInterface
 import qualified StoreFrontData -- org.allbinary.business.context.modules.storefront.StoreFrontData
@@ -130,7 +131,7 @@ new_ = do
 
 init_ :: TransformInfoTag -> IO ()
 init_ this = do
-        ModifyTag.init_1 this.base (jio (TransformInfoRequestHelperFactory.new_))
+        ModifyTag.init_1 this.base (javaCast (jio (TransformInfoRequestHelperFactory.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

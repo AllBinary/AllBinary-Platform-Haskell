@@ -20,10 +20,10 @@ import MultiPlayerGameLayer hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,12 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CountedPickedUpLayerInterfaceFactory -- same package or java.lang
 import qualified PickedUpLayerInterfaceFactoryInterface -- same package or java.lang
+import qualified BasicLayerProcessor -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified GL -- javax.microedition.khronos.opengles.GL
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Animation -- org.allbinary.animation.Animation

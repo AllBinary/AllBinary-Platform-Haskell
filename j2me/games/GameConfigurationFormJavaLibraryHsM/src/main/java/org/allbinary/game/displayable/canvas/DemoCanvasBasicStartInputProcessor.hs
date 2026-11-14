@@ -20,10 +20,10 @@ import BasicMenuInputProcessor hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
+import qualified CommandListener -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
+import qualified PlayerGameInput -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified NullCanvas -- javax.microedition.lcdui.NullCanvas
 import qualified RunnableCanvas -- org.allbinary.canvas.RunnableCanvas
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
@@ -82,7 +86,7 @@ new_2 gameKeyEventList gameCanvas = do
 
 init_2 :: DemoCanvasBasicStartInputProcessor -> BasicArrayList.BasicArrayList -> RunnableCanvas.RunnableCanvas -> IO ()
 init_2 this gameKeyEventList gameCanvas = do
-        BasicMenuInputProcessor.init_3 this.base (gameKeyEventList) (Prelude.negate 1) (gameCanvas)
+        BasicMenuInputProcessor.init_3 this.base (gameKeyEventList) (Prelude.negate 1) (javaCast gameCanvas)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -103,7 +107,7 @@ processInputList_impl this = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset gameKeyEvent ((javaCast (jindex ((jget (list).objectArray)) (index)) :: GameKeyEvent.GameKeyEvent))
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Start GameKey: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) (jget gameKeyEvent)))))))) this (jget ((jio (GameInputStrings.getInstance))).pROCESS_INPUT))
-        Control.Monad.void (CommandListener.commandAction ((jio (MyCanvas.getCustomCommandListener ((jio (BasicMenuInputProcessor.getCanvas this)))))) (jget ((jio (GameCommandsFactory.getInstance))).sTART_COMMAND) (NullCanvas.nULL_CANVAS))
+        Control.Monad.void (CommandListener.commandAction ((jio (MyCanvas.getCustomCommandListener ((jio (BasicMenuInputProcessor.getCanvas this)))))) (jget ((jio (GameCommandsFactory.getInstance))).sTART_COMMAND) (javaCast NullCanvas.nULL_CANVAS))
         pure (size)
 
 

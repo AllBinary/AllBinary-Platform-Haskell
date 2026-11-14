@@ -20,10 +20,10 @@ import ProcessPaintable hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -175,7 +175,7 @@ onCompleteMotionGestureInputEvent_impl this completeMotionGestureInputEvent = do
                 javaReturn (())
             jset (this).released (False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "GameKey: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) gameKey))))) " MotionGestureInput: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) motionGestureInput))))))) this (jget (this).mETHOD_NAME))
-            Control.Monad.void (InputMappingInterface.processInputMapping ((jget (this).inputMappingInterface)) gameKey motionGestureInput)
+            Control.Monad.void (InputMappingInterface.processInputMapping ((jget (this).inputMappingInterface)) gameKey (javaCast motionGestureInput))
     pure ()
 
 

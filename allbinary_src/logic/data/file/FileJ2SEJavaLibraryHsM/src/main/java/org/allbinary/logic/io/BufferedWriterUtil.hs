@@ -19,10 +19,10 @@ module BufferedWriterUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,11 +62,15 @@ instance JavaObjectClass BufferedWriterUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BufferedWriterUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BufferedWriterUtil
 newRecord_ = do
@@ -151,7 +155,7 @@ overwrite_overload2_super object_ a1 a2 = (overwrite_overload2_impl (javaCast ob
 overwrite_overload2_impl :: BufferedWriterUtil -> AbFile.AbFile -> String -> IO (())
 overwrite_overload2_impl this abFile data_ = do
         if (jio (AbFile.exists abFile)) then do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).rEMOVING_OLD) ++ javaToString (jio (AbFile.getPath abFile))) this (jget ((jget (this).commonStrings)).cREATE))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).rEMOVING_OLD) ++ (jio (AbFile.getPath abFile))) this (jget ((jget (this).commonStrings)).cREATE))
             Control.Monad.void (AbFile.delete abFile)
         else do
             name <- (AbPathData.removeNameFromPath ((jio (AbPathData.getInstance))) (jio (AbFile.getAbsolutePath abFile)))

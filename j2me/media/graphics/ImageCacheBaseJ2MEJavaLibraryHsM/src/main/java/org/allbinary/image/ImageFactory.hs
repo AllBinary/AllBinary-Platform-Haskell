@@ -19,10 +19,10 @@ module ImageFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified Image -- javax.microedition.lcdui.Image
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 
 data ImageFactory = ImageFactory
     { header_ :: JavaHeader
@@ -52,11 +53,15 @@ instance JavaObjectClass ImageFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageFactory
 newRecord_ = do
@@ -110,7 +115,7 @@ createImage_super object_ a1 a2 a3 = (createImage_impl (javaCast object_ :: Imag
 
 createImage_impl :: ImageFactory -> String -> Int -> Int -> IO (Image.Image)
 createImage_impl this caller width height = do
-        (Image.createImage width height)
+        (MIDPUtil.createImageWH ((jio (MIDPUtil.getInstance))) width height)
 
 
 -- throws Exception
@@ -123,7 +128,7 @@ createImageFromInputStream_super object_ a1 a2 = (createImageFromInputStream_imp
 createImageFromInputStream_impl :: ImageFactory -> JavaObject -> InputStream.InputStream -> IO (Image.Image)
 createImageFromInputStream_impl this keyObject_ inputStream = do
         let key = jtoObject keyObject_
-        image <- (Image.createImage inputStream)
+        image <- (MIDPUtil.createImageFromInputStream ((jio (MIDPUtil.getInstance))) inputStream)
         pure (image)
 
 
@@ -136,6 +141,6 @@ createImageFromInputStream_1_super object_ a1 = (createImageFromInputStream_1_im
 
 createImageFromInputStream_1_impl :: ImageFactory -> InputStream.InputStream -> IO (Image.Image)
 createImageFromInputStream_1_impl this inputStream = do
-        (Image.createImage inputStream)
+        (MIDPUtil.createImageFromInputStream ((jio (MIDPUtil.getInstance))) inputStream)
 
 

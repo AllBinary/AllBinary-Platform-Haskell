@@ -20,10 +20,10 @@ import BasePathFindingInfoFactory hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GeographicMapCellHistory -- same package or java.lang
 import qualified AllBinaryTiledLayer -- org.allbinary.game.layer.AllBinaryTiledLayer
 import qualified BasicGeographicMap -- org.allbinary.media.graphics.geography.map.BasicGeographicMap
 import qualified BasicGeographicMapCellPositionFactory -- org.allbinary.media.graphics.geography.map.BasicGeographicMapCellPositionFactory
@@ -63,9 +64,11 @@ instance JavaObjectClass PathFindingInfoFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PathFindingInfoFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+mAX :: IORef (Int)
 {-# NOINLINE mAX #-}
 mAX = unsafePerformIO (newIORef (32768))
 
@@ -110,7 +113,7 @@ init_ :: PathFindingInfoFactory -> IO ()
 init_ this = do
         BasePathFindingInfoFactory.init_ this.base
         initFields_ this
-        assignedValue <- (PathFindingInfo.new_3 (jio (PathFindingNodeCostInfoFactory.new_1 (jget PathFindingInfoFactory.mAX))) (jio (BasicArrayListS.new_1 1)) (jio (BasicArrayListS.new_1 1)))
+        assignedValue <- (PathFindingInfo.new_3 (javaCast (jio (PathFindingNodeCostInfoFactory.new_1 (jget PathFindingInfoFactory.mAX)))) (javaCast (jio (BasicArrayListS.new_1 1))) (javaCast (jio (BasicArrayListS.new_1 1))))
         jset (this).pathFindingInfo (assignedValue)
         assignedValue <- (PathFinder.new_)
         jset (this).pathFinder (assignedValue)
@@ -126,7 +129,7 @@ getInstancePathFindingInfo_super object_ a1 a2 = (getInstancePathFindingInfo_imp
 
 getInstancePathFindingInfo_impl :: PathFindingInfoFactory -> BasicGeographicMap.BasicGeographicMap -> JavaArray (JavaArray (Int)) -> IO (PathFindingInfo.PathFindingInfo)
 getInstancePathFindingInfo_impl this geographicMapInterface mapArray = do
-        pathFindingInfo <- (PathFindingInfo.new_3 (jio (PathFindingInfo.getPathFindingNodeCostInfoFactoryInterface ((jget (this).pathFindingInfo)))) (jio (BasicArrayListS.new_1 1)) (jio (BasicArrayListS.new_1 1)))
+        pathFindingInfo <- (PathFindingInfo.new_3 (jio (PathFindingInfo.getPathFindingNodeCostInfoFactoryInterface ((jget (this).pathFindingInfo)))) (javaCast (jio (BasicArrayListS.new_1 1))) (javaCast (jio (BasicArrayListS.new_1 1))))
         Control.Monad.void (GeographicMapCellHistory.init ((jio (RaceTrackRoadsGeographicMapCellHistoryFactory.getInstance))))
         Control.Monad.void (PathFindingInfoFactory.init this geographicMapInterface pathFindingInfo mapArray)
         Control.Monad.void (PathFinder.init ((jget (this).pathFinder)) geographicMapInterface)

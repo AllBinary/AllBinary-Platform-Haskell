@@ -19,10 +19,10 @@ module PixelDeltaFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,11 +61,15 @@ instance JavaObjectClass PixelDeltaFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+cacheInterface :: IORef (AutomaticCacheInterface.AutomaticCacheInterface)
 {-# NOINLINE cacheInterface #-}
 cacheInterface = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PixelDeltaFactory
 newRecord_ = do
@@ -114,7 +118,7 @@ getInstance :: Int -> Int -> Int -> Int -> IO (PixelDelta.PixelDelta)
 getInstance x y rgb1 rgb2 = do
         point <- (PointFactory.createXY ((jio (PointFactory.getInstance))) x y)
         colorDelta <- (ColorDeltaFactory.getInstance rgb1 rgb2)
-        pixelDelta <- newIORef ((javaCast (jio (get ((jget PixelDeltaFactory.cacheInterface)) (jio (PixelDelta.getKey_2 point colorDelta)))) :: PixelDelta.PixelDelta))
+        pixelDelta <- newIORef ((javaCast (jio (AutomaticCacheInterface.get ((jget PixelDeltaFactory.cacheInterface)) (jio (PixelDelta.getKey_2 point colorDelta)))) :: PixelDelta.PixelDelta))
         when ((jget pixelDelta) == javaNull) $ do
             assignedValue <- (PixelDelta.new_2 point colorDelta)
             jset pixelDelta (assignedValue)

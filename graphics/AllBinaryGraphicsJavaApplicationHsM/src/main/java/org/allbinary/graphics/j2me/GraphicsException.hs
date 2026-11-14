@@ -20,10 +20,10 @@ import Exception hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -73,14 +73,26 @@ initFields_ this = do
     jset this.guiLog =<< (GuiLog.getInstance)
     pure ()
 
+-- Java overloaded constructors with 3 parameters: call the overload for the types of the arguments
 new_3 :: (JavaObjectClass o2) => String -> o2 -> String -> IO GraphicsException
-new_3 msg objObject_ method = do
-    this <- newRecord_
-    init_3 this msg objObject_ method
-    pure this
+new_3 a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: String) = new_3_overload2 a1 (javaCast a2 :: String) a3
+    | otherwise = new_3_overload1 a1 a2 a3
 
 init_3 :: (JavaObjectClass o2) => GraphicsException -> String -> o2 -> String -> IO ()
-init_3 this msg objObject_ method = do
+init_3 this a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: String) = init_3_overload2 this a1 (javaCast a2 :: String) a3
+    | otherwise = init_3_overload1 this a1 a2 a3
+
+
+new_3_overload1 :: (JavaObjectClass o2) => String -> o2 -> String -> IO GraphicsException
+new_3_overload1 msg objObject_ method = do
+    this <- newRecord_
+    init_3_overload1 this msg objObject_ method
+    pure this
+
+init_3_overload1 :: (JavaObjectClass o2) => GraphicsException -> String -> o2 -> String -> IO ()
+init_3_overload1 this msg objObject_ method = do
         let obj = jtoObject objObject_
         Exception.init_1 this.base (msg)
         initFields_ this
@@ -92,15 +104,14 @@ init_3 this msg objObject_ method = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) msg obj method this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: String -> String -> String -> IO GraphicsException
-new_3 msg className method = do
+new_3_overload2 :: String -> String -> String -> IO GraphicsException
+new_3_overload2 msg className method = do
     this <- newRecord_
-    init_3 this msg className method
+    init_3_overload2 this msg className method
     pure this
 
-init_3 :: GraphicsException -> String -> String -> String -> IO ()
-init_3 this msg className method = do
+init_3_overload2 :: GraphicsException -> String -> String -> String -> IO ()
+init_3_overload2 this msg className method = do
         Exception.init_1 this.base (msg)
         initFields_ this
         pure () -- super(...) is in the record above

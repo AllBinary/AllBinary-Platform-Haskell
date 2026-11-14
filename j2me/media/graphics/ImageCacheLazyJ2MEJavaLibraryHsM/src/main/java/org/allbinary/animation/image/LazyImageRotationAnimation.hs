@@ -20,10 +20,10 @@ import RotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified BaseImageAnimationFactory -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified GL -- javax.microedition.khronos.opengles.GL
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
@@ -77,6 +78,7 @@ instance JavaObjectClass LazyImageRotationAnimation where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sET_REAL_ANIMATION :: String
 sET_REAL_ANIMATION = "setRealAnimation"
 
 newRecord_ :: IO LazyImageRotationAnimation
@@ -603,6 +605,6 @@ toString_impl :: LazyImageRotationAnimation -> IO (String)
 toString_impl this = do
         commonSeps <- (CommonSeps.getInstance)
         image <- (BaseImageAnimationFactory.getImage ((jget (this).animationInterfaceFactoryInterface)))
-        (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (RotationAnimation.toString_super this.base))))) (jget (commonSeps).sPACE)))) (jio (Image.getName image))))) (jget (commonSeps).sPACE)))) (Prelude.fromInteger (jnumericInteger (jio (Image.getWidth image))))))) (jget (commonSeps).sPACE)))) (Prelude.fromInteger (jnumericInteger (jio (Image.getHeight image))))))))
+        (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (RotationAnimation.toString_super this.base))))) (jget (commonSeps).sPACE)))) (jio (Image.getName image))))) (jget (commonSeps).sPACE)))) (jio (Image.getWidth image))))) (jget (commonSeps).sPACE)))) (jio (Image.getHeight image))))))
 
 

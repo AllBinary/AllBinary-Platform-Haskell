@@ -19,10 +19,10 @@ module SVGAsJSONSimpleLoader where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,7 +34,6 @@ import qualified GHC.Float
 import qualified ShapeTypeFactory -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified ShapeType -- same package or java.lang
-import qualified Enumeration -- java.util.Enumeration
 import qualified GraphicsStrings -- org.allbinary.graphics.GraphicsStrings
 import qualified PrimitiveIntUtil -- org.allbinary.logic.math.PrimitiveIntUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
@@ -82,11 +81,15 @@ instance JavaObjectClass SVGAsJSONSimpleLoader where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SVGAsJSONSimpleLoader
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SVGAsJSONSimpleLoader
 newRecord_ = do
@@ -146,7 +149,7 @@ initFields_ this = do
     jset this.eRROR_INVALID_NUMBER_PREFIX ("Invalid number for key: ")
     jset this.eRROR_EXPECTED_OBJECT_PREFIX ("Expected object for: ")
     jset this.eMPTY_POINTS =<< (PrimitiveIntUtil.getTwoDimensionalArrayInstance)
-    jset this.sHAPE_SEPARATOR ((jarrayFromList [1000, 1000]))
+    jset this.sHAPE_SEPARATOR ((jarrayFromList [1000, 1000] :: JavaArray Int))
     jset this.cIRCLE_SEGMENTS (16)
     pure ()
 
@@ -185,9 +188,10 @@ load_impl this svgAsJson = do
             svgValue <- (JSONObject.opt root (jget this.kEY_SVG))
             let svg = (if (svgValue == javaNull) then root else (jio (SVGAsJSONSimpleLoader.asObject this svgValue (jget this.kEY_SVG))))
             pointVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-            keys <- (JSONObject.keys svg)
-            fix $ \loop -> when (jio (Enumeration.hasMoreElements keys)) $ javaIteration (loop) $ do
-                let key = (javaCast (jio (Enumeration.nextElement keys)) :: String)
+            objectArray <- (JSONObject.keysAsArray svg)
+            let size = (jlength objectArray)
+            forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
+                let key = (javaCast (jindex objectArray (index)) :: String)
                 value <- (JSONObject.opt svg key)
                 if ((jget ((jget (this).shapeTypeFactory)).kEY_LINE) == key) then do
                     Control.Monad.void (SVGAsJSONSimpleLoader.addShapes this pointVector value (jget ((jget (this).shapeTypeFactory)).lINE))
@@ -304,7 +308,7 @@ addPoint_super object_ a1 a2 a3 = (addPoint_impl (javaCast object_ :: SVGAsJSONS
 
 addPoint_impl :: SVGAsJSONSimpleLoader -> BasicArrayList.BasicArrayList -> Int -> Int -> IO (())
 addPoint_impl this pointVector x y = do
-        Control.Monad.void (BasicArrayList.add pointVector (jarrayFromList [x, y]))
+        Control.Monad.void (BasicArrayList.add pointVector (jarrayFromList [x, y] :: JavaArray Int))
         pure ()
 
 
@@ -316,7 +320,7 @@ addSeparator_super object_ a1 = (addSeparator_impl (javaCast object_ :: SVGAsJSO
 
 addSeparator_impl :: SVGAsJSONSimpleLoader -> BasicArrayList.BasicArrayList -> IO (())
 addSeparator_impl this pointVector = do
-        Control.Monad.void (BasicArrayList.add pointVector (jarrayFromList [(jindex ((jget this.sHAPE_SEPARATOR)) (0)), (jindex ((jget this.sHAPE_SEPARATOR)) (1))]))
+        Control.Monad.void (BasicArrayList.add pointVector (jarrayFromList [(jindex ((jget this.sHAPE_SEPARATOR)) (0)), (jindex ((jget this.sHAPE_SEPARATOR)) (1))] :: JavaArray Int))
         pure ()
 
 
@@ -364,9 +368,9 @@ toInt_impl this valueObject_ key = do
     let value = jtoObject valueObject_
     javaCatchReturn $ do
         when (javaInstanceOf value "Number") $ do
-            javaReturn ((Prelude.fromInteger (jnumericInteger (Prelude.round (jio (doubleValue (((javaCast value :: Number.Number)))))))))
+            javaReturn ((Prelude.fromInteger (jnumericInteger (Prelude.round (jio (Number.doubleValue (((javaCast value :: Number.Number)))))))))
         when (javaInstanceOf value "String") $ do
-            javaReturn ((Prelude.fromInteger (jnumericInteger (Prelude.round (Prelude.read (javaCast value :: String))))))
+            javaReturn ((Prelude.fromInteger (jnumericInteger (Prelude.round (jio (jparseDouble (javaCast value :: String)))))))
         javaThrow ((JavaException "IllegalArgumentException" ((jget this.eRROR_INVALID_NUMBER_PREFIX) ++ key)))
 
 

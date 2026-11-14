@@ -20,10 +20,10 @@ import Validation hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,28 +96,41 @@ init_ this = do
         jset (this).themeVector (assignedValue)
         pure ()
 
-new_1 :: Node.Node -> IO ThemesValidation
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO ThemesValidation
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => ThemesValidation -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Node.Node -> IO ThemesValidation
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: ThemesValidation -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: ThemesValidation -> Node.Node -> IO ()
+init_1_overload1 this node = do
         Validation.init_ this.base
         initFields_ this
         pure ()
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO ThemesValidation
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO ThemesValidation
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: ThemesValidation -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: ThemesValidation -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         Validation.init_ this.base
         initFields_ this
         pure ()

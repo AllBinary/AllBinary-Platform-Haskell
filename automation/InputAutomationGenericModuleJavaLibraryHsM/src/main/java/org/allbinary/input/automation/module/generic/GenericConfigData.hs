@@ -19,10 +19,10 @@ module GenericConfigData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,26 +49,35 @@ instance JavaObjectClass GenericConfigData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rELATIVE_PATH :: IORef (String)
 {-# NOINLINE rELATIVE_PATH #-}
 rELATIVE_PATH = unsafePerformIO (newIORef ("./"))
 
+cONFIG_PATH :: IORef (String)
 {-# NOINLINE cONFIG_PATH #-}
 cONFIG_PATH = unsafePerformIO (newIORef ("modules/configs/"))
 
+mODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE mODULE_RELATIVE_PATH #-}
 mODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString ((jget GenericConfigData.rELATIVE_PATH) + (jget GenericConfigData.cONFIG_PATH)) ++ "allbinary/input/automation/module/")))
 
+gAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE gAME_MODULE_RELATIVE_PATH #-}
 gAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString (jget GenericConfigData.mODULE_RELATIVE_PATH) ++ "game/")))
 
+mMO_GAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE mMO_GAME_MODULE_RELATIVE_PATH #-}
 mMO_GAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString (jget GenericConfigData.gAME_MODULE_RELATIVE_PATH) ++ "mmog/")))
 
+fREE_MMO_GAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE fREE_MMO_GAME_MODULE_RELATIVE_PATH #-}
 fREE_MMO_GAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef ("free/"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GenericConfigData
 newRecord_ = do

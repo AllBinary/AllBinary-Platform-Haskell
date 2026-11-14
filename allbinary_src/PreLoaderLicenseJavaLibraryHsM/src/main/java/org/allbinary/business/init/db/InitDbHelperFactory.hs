@@ -19,10 +19,10 @@ module InitDbHelperFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,10 +55,14 @@ instance JavaObjectClass InitDbHelperFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+cLASSNAME :: String
 cLASSNAME = "org.allbinary.business.installer.InitDbCrypted"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InitDbHelperFactory
 newRecord_ = do
@@ -89,7 +93,7 @@ getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> Da
 getInstance abeClientInformation databaseConnectionInfoInterface = do
         let params = (jnewArray (1) javaNull)
         let classes = (jnewArray (1) javaNull)
-        jsetIndex classes (0) ("DatabaseConnectionInfoInterface")
+        jsetIndex classes (0) ((JavaClass "DatabaseConnectionInfoInterface"))
         jsetIndex params (0) ((jtoObject (javaCast databaseConnectionInfoInterface :: Any.Any)))
         anyType <- (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation cLASSNAME classes params)
         pure ((jtoObject anyType))

@@ -20,10 +20,10 @@ import SimpleWeaponProperties hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,16 +62,21 @@ instance JavaObjectClass WeaponProperties where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_WEAPON_PROPERTIES :: WeaponProperties
 {-# NOINLINE nULL_WEAPON_PROPERTIES #-}
 nULL_WEAPON_PROPERTIES = unsafePerformIO ((new_5 (0) (0) (0) 0 (Prelude.fromIntegral (0 :: Int))))
 
+messageSent :: IORef (Bool)
 {-# NOINLINE messageSent #-}
 messageSent = unsafePerformIO (newIORef (False))
 
+dAMAGE :: String
 dAMAGE = "Damage: "
 
+rANGE :: String
 rANGE = "Range: "
 
+rELOAD :: String
 rELOAD = "Reload: "
 
 newRecord_ :: IO WeaponProperties
@@ -126,8 +131,8 @@ init_5 this reloadTime targetingTime speed damage dissipation = do
         Control.Monad.void (SimpleWeaponProperties.setDissipation this dissipation)
         Control.Monad.void (WeaponProperties.setSpeed this (jio (BasicDecimal.new_1 speed)))
         when (dissipation /= (jget (this).zERO)) $ do
-            let unscaledDamage = ((jio (getUnscaled ((jget (this).speed)))) * damage)
-            let scaledDissipation = (dissipation * (jio (getScaledFactorValue ((jget (this).speed)))))
+            let unscaledDamage = ((jio (BasicDecimal.getUnscaled ((jget (this).speed)))) * (Prelude.fromIntegral damage))
+            let scaledDissipation = ((Prelude.fromIntegral dissipation) * (jio (BasicDecimal.getScaledFactorValue ((jget (this).speed)))))
             let value = ((unscaledDamage `quot` (Prelude.fromIntegral scaledDissipation)))
             Control.Monad.void (SimpleWeaponProperties.setRange this ((Prelude.fromIntegral ((value * 9))) `quot` 10))
         pure ()
@@ -210,7 +215,7 @@ getDamageI_super object_ a1 = (getDamageI_impl (javaCast object_ :: WeaponProper
 
 getDamageI_impl :: WeaponProperties -> Int -> IO (Int)
 getDamageI_impl this range = do
-        pure (((jio (SimpleWeaponProperties.getDamage this)) - (((((jio (SimpleWeaponProperties.getDissipation this)) * range)) / (jio (BasicDecimal.getScaled ((jget (this).speed))))))))
+        pure (((jio (SimpleWeaponProperties.getDamage this)) - (((((Prelude.fromIntegral (jio (SimpleWeaponProperties.getDissipation this))) * range)) `quot` (jio (BasicDecimal.getScaled ((jget (this).speed))))))))
 
 
 toStringArray :: (JavaObjectClass this_) => this_ -> IO (JavaArray (String))
@@ -224,10 +229,10 @@ toStringArray_impl this = do
         index <- newIORef (0)
         let stringArray = (jnewArray (3) javaNull)
         stringBuffer <- (StringMaker.new_)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.dAMAGE)))) (Prelude.fromInteger (jnumericInteger (jio (SimpleWeaponProperties.getDamage this))))))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.dAMAGE)))) (jio (SimpleWeaponProperties.getDamage this))))))
         jsetIndex stringArray ((jpostIncrement index (+ 1))) (assignedValue)
         Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.rANGE)))) (Prelude.fromInteger (jnumericInteger (jio (SimpleWeaponProperties.getRange this))))))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.rANGE)))) (jio (SimpleWeaponProperties.getRange this))))))
         jsetIndex stringArray ((jpostIncrement index (+ 1))) (assignedValue)
         Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
         assignedValue <- (StringMaker.toString ((jio (StringMaker.appendlong ((jio (StringMaker.append stringBuffer (WeaponProperties.rELOAD)))) (jio (WeaponProperties.getReloadTime this))))))
@@ -244,9 +249,9 @@ toString_super object_ = (toString_impl (javaCast object_ :: WeaponProperties))
 toString_impl :: WeaponProperties -> IO (String)
 toString_impl this = do
         stringBuffer <- (StringMaker.new_)
-        Control.Monad.void (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.dAMAGE)))) (Prelude.fromInteger (jnumericInteger (jio (SimpleWeaponProperties.getDamage this)))))
+        Control.Monad.void (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.dAMAGE)))) (jio (SimpleWeaponProperties.getDamage this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
-        Control.Monad.void (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.rANGE)))) (Prelude.fromInteger (jnumericInteger (jio (SimpleWeaponProperties.getRange this)))))
+        Control.Monad.void (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.rANGE)))) (jio (SimpleWeaponProperties.getRange this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.appendlong ((jio (StringMaker.append stringBuffer (WeaponProperties.rELOAD)))) (jio (WeaponProperties.getReloadTime this)))
         (StringMaker.toString stringBuffer)

@@ -19,10 +19,10 @@ module MouseActionScriptInputData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,23 +49,31 @@ instance JavaObjectClass MouseActionScriptInputData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef ("MOUSE_ACTION_INPUT_NAME"))
 
+bUTTONS :: IORef (String)
 {-# NOINLINE bUTTONS #-}
 bUTTONS = unsafePerformIO (newIORef ("MOUSE_ACTION_INPUT_BUTTONS"))
 
+mOVE :: IORef (String)
 {-# NOINLINE mOVE #-}
 mOVE = unsafePerformIO (newIORef ("MOUSE_ACTION_INPUT_MOVE"))
 
+mOVE_X :: IORef (String)
 {-# NOINLINE mOVE_X #-}
 mOVE_X = unsafePerformIO (newIORef ("MOUSE_ACTION_INPUT_MOVE_X"))
 
+mOVE_Y :: IORef (String)
 {-# NOINLINE mOVE_Y #-}
 mOVE_Y = unsafePerformIO (newIORef ("MOUSE_ACTION_INPUT_MOVE_Y"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MouseActionScriptInputData
 newRecord_ = do

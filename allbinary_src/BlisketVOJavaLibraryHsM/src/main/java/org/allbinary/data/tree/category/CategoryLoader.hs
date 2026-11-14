@@ -20,10 +20,10 @@ import CategoryModifierTree hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CategoryHierarchyInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified CategoryPrivateTree -- same package or java.lang
 import qualified CategoryData -- org.allbinary.business.category.CategoryData
 import qualified CategoryFactoryInterface -- org.allbinary.business.category.CategoryFactoryInterface
 import qualified CategoryInterface -- org.allbinary.business.category.CategoryInterface
@@ -126,8 +128,8 @@ getDoc_impl this categoryInterface = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).fAILURE) this "getDoc" e)
             pure (javaNull)
             ) $ do
-            if ((jio (CategoryInterface.getPath ((jio (CategoryInterface.getProperties categoryInterface))) (jio (CategoryInterface.getHierarchy categoryInterface)))) /= javaNull) then do
-                when ((jio (CategoryInterface.getLevel ((jio (CategoryInterface.getHierarchy categoryInterface))))) == 1) $ do
+            if ((jio (CategoryPropertiesInterface.getPath ((jio (CategoryInterface.getProperties categoryInterface))) (jio (CategoryInterface.getHierarchy categoryInterface)))) /= javaNull) then do
+                when ((jio (CategoryHierarchyInterface.getLevel ((jio (CategoryInterface.getHierarchy categoryInterface))))) == 1) $ do
                     rootAbFile <- (AbFile.createAbFileFromAbPath (jio (CategoryInterface.getRootFilePath categoryInterface)))
                     when (Prelude.not (jio (AbFile.isDirectory rootAbFile))) $ do
                         Control.Monad.void (AbFile.mkdirs rootAbFile)
@@ -244,7 +246,7 @@ getAll_2_impl this parentCategoryInterface categoryNodeList = do
                 forM_ [0 .. (jio (NodeList.getLength categoryNodeList)) - 1] $ \index -> javaIteration (pure ()) $ do
                     categoryNode <- (NodeList.item categoryNodeList index)
                     when ((categoryNode /= javaNull) && ((jio (Node.compareTo ((jio (Node.getNodeName categoryNode))) (jget ((jio (CategoryData.getInstance))).nAME))) == 0)) $ do
-                        let categoryInterface = (javaCast (jio (CategoryFactoryInterface.getInstance ((jget (this).base.base.categoryFactoryInterface)) (jio (CategoryInterface.getRoot ((jio (CategoryInterface.getHierarchy parentCategoryInterface))))) parentCategoryInterface categoryNode)) :: CategoryInterface.CategoryInterface)
+                        let categoryInterface = (javaCast (jio (CategoryFactoryInterface.getInstance ((jget (this).base.base.categoryFactoryInterface)) (jio (CategoryHierarchyInterface.getRoot ((jio (CategoryInterface.getHierarchy parentCategoryInterface))))) parentCategoryInterface categoryNode)) :: CategoryInterface.CategoryInterface)
                         Control.Monad.void (CategoryInterface.addChild parentCategoryInterface categoryInterface)
             pure (parentCategoryInterface)
 

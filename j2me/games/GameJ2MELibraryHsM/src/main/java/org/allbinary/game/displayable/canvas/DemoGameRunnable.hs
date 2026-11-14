@@ -20,10 +20,10 @@ import GameRunnable hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified DemoCanvas -- same package or java.lang
+import qualified TimeDelayHelper -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified GameTickTimeDelayHelper -- org.allbinary.time.GameTickTimeDelayHelper

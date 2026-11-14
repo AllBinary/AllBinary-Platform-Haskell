@@ -20,10 +20,10 @@ import CircleAnimation hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified BasicColorSetUtil -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified AndroidUtil -- org.allbinary.AndroidUtil
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor

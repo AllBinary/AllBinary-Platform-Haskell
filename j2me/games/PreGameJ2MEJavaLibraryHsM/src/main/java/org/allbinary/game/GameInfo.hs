@@ -19,10 +19,10 @@ module GameInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -73,9 +73,11 @@ instance JavaObjectClass GameInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nONE :: GameInfo
 {-# NOINLINE nONE #-}
 nONE = unsafePerformIO ((new_5 (jget ((jio (GameTypeFactory.getInstance))).nONE) (jget GameMode.nONE) (jget ((jio (PlayerTypesFactory.getInstance))).pLAYER_TYPE_ONE) (Prelude.negate 1) (Prelude.negate 1)))
 
+lEVEL_NAME :: String
 lEVEL_NAME = "LEVEL"
 
 newRecord_ :: IO GameInfo

@@ -20,10 +20,10 @@ import RootStoreCategoryProperties hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PageContext -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified RootStoreCategoryProperties -- org.allbinary.business.category.properties.root.store.RootStoreCategoryProperties
@@ -91,42 +92,56 @@ init_1 this transformInfoInterface = do
         pure () -- super(...) is in the record above
         pure ()
 
-new_2 :: TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO RootStoreThemeCategoryProperties
-new_2 transformInfoInterface abPath = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => TransformInfoInterface.TransformInfoInterface -> o2 -> IO RootStoreThemeCategoryProperties
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = new_2_overload1 a1 (javaCast a2 :: AbPath.AbPath)
+    | jisInstanceOf a2 (javaNull :: Node.Node) = new_2_overload2 a1 (javaCast a2 :: Node.Node)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = new_2_overload3 a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = new_2_overload3 a1 (javaCast a2 :: HashMap.HashMap)
+
+init_2 :: (JavaObjectClass o2) => RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = init_2_overload1 this a1 (javaCast a2 :: AbPath.AbPath)
+    | jisInstanceOf a2 (javaNull :: Node.Node) = init_2_overload2 this a1 (javaCast a2 :: Node.Node)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = init_2_overload3 this a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = init_2_overload3 this a1 (javaCast a2 :: HashMap.HashMap)
+
+
+new_2_overload1 :: TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO RootStoreThemeCategoryProperties
+new_2_overload1 transformInfoInterface abPath = do
     this <- newRecord_
-    init_2 this transformInfoInterface abPath
+    init_2_overload1 this transformInfoInterface abPath
     pure this
 
-init_2 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO ()
-init_2 this transformInfoInterface abPath = do
+init_2_overload1 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO ()
+init_2_overload1 this transformInfoInterface abPath = do
         RootStoreCategoryProperties.init_2 this.base (transformInfoInterface) (abPath)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO RootStoreThemeCategoryProperties
-new_2 transformInfoInterface node = do
+new_2_overload2 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO RootStoreThemeCategoryProperties
+new_2_overload2 transformInfoInterface node = do
     this <- newRecord_
-    init_2 this transformInfoInterface node
+    init_2_overload2 this transformInfoInterface node
     pure this
 
-init_2 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO ()
-init_2 this transformInfoInterface node = do
+init_2_overload2 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO ()
+init_2_overload2 this transformInfoInterface node = do
         RootStoreCategoryProperties.init_2 this.base (transformInfoInterface) (node)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO RootStoreThemeCategoryProperties
-new_2 transformInfoInterface categoryPropertiesHashMap = do
+new_2_overload3 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO RootStoreThemeCategoryProperties
+new_2_overload3 transformInfoInterface categoryPropertiesHashMap = do
     this <- newRecord_
-    init_2 this transformInfoInterface categoryPropertiesHashMap
+    init_2_overload3 this transformInfoInterface categoryPropertiesHashMap
     pure this
 
-init_2 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
-init_2 this transformInfoInterface categoryPropertiesHashMap = do
+init_2_overload3 :: RootStoreThemeCategoryProperties -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
+init_2_overload3 this transformInfoInterface categoryPropertiesHashMap = do
         RootStoreCategoryProperties.init_2 this.base (transformInfoInterface) (categoryPropertiesHashMap)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -151,10 +166,10 @@ initPath_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (AbPathData.getInstance))).sEPARATOR))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).tHEMEPATH))
         abPath <- (AbPath.new_2 (jio (StringMaker.toString stringBuffer)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-        let httpServletRequest = (javaCast (jio (TransformInfoHttpStoreInterface.getRequest ((jio (TransformInfoHttpStoreInterface.getPageContext transformInfoHttpStoreInterface))))) :: HttpServletRequest.HttpServletRequest)
+        let httpServletRequest = (javaCast (jio (PageContext.getRequest ((jio (TransformInfoHttpStoreInterface.getPageContext transformInfoHttpStoreInterface))))) :: HttpServletRequest.HttpServletRequest)
         assignedValue <- (AbPath.new_2 (javaToString (jio (HttpServletRequest.getContextPath httpServletRequest)) ++ (jio (AbPath.toString abPath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         jset (this).base.webAppAbPath (assignedValue)
-        Control.Monad.void (RootStoreCategoryProperties.setRootFilePath this (jio (AbPath.new_2 (javaToString (jio (URLGLOBALS.getMainPath)) ++ (jio (AbPath.toString abPath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
+        Control.Monad.void (RootStoreCategoryProperties.setRootFilePath this (jio (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ (jio (AbPath.toString abPath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
         pure ()
 
 

@@ -19,10 +19,10 @@ module DirectoryDataModel where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,9 @@ instance JavaObjectClass DirectoryDataModel where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DirectoryDataModel
 newRecord_ = do
@@ -199,7 +202,7 @@ view_super object_ = (view_impl (javaCast object_ :: DirectoryDataModel))
 view_impl :: DirectoryDataModel -> IO (String)
 view_impl this = do
         node <- (DirectoryDataModel.toXmlNode this (jio (TransformDocumentInterface.getDoc ((jio (DirectoryDataModel.getTransformDocumentInterface this))))))
-        Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (DirectoryDataModel.getTransformDocumentInterface this)))))) node)
+        Control.Monad.void (Node.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (DirectoryDataModel.getTransformDocumentInterface this)))))) node)
         (XmlDocumentHelper.toString (jio (TransformDocumentInterface.getDoc ((jio (DirectoryDataModel.getTransformDocumentInterface this))))))
 
 

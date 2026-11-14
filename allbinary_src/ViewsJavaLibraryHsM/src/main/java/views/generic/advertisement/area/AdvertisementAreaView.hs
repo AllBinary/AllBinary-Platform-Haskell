@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified AdvertisementAreaData -- org.allbinary.business.advertisement.area.AdvertisementAreaData
 import qualified AdvertisementAreaInterface -- org.allbinary.business.advertisement.area.AdvertisementAreaInterface
@@ -115,7 +116,7 @@ toXmlNode_impl this document = do
             javaThrow (e)
             ) $ do
             advertisementAreasEntityInterface <- (AdvertisementAreasEntityFactory.getInstance)
-            advertisementAreaInterface <- (AdvertisementAreasEntityInterface.get advertisementAreasEntityInterface (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (jget (this).advertisementAreaName))
+            advertisementAreaInterface <- (fmap (\value_ -> javaCast value_ :: AdvertisementAreaInterface.AdvertisementAreaInterface) (AdvertisementAreasEntityInterface.get_2 advertisementAreasEntityInterface (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (jget (this).advertisementAreaName)))
             pure (javaNull)
 
 

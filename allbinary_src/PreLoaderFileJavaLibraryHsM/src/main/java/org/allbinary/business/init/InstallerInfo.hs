@@ -19,10 +19,10 @@ module InstallerInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,24 +62,33 @@ instance JavaObjectClass InstallerInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: InstallerInfo
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+iNITFILENAME :: String
 iNITFILENAME = "installerdata.dat"
 
+pACKAGE :: String
 pACKAGE = (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)
 
+userName :: IORef (String)
 {-# NOINLINE userName #-}
 userName = unsafePerformIO (newIORef ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))
 
+password :: IORef (String)
 {-# NOINLINE password #-}
 password = unsafePerformIO (newIORef ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))
 
+hasRead :: IORef (Bool)
 {-# NOINLINE hasRead #-}
 hasRead = unsafePerformIO (newIORef (False))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InstallerInfo
 newRecord_ = do
@@ -124,7 +133,7 @@ write_super object_ = (write_impl (javaCast object_ :: InstallerInfo))
 
 write_impl :: InstallerInfo -> IO (())
 write_impl this = do
-        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pRELOADERERROR))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed" this "write")
@@ -150,7 +159,7 @@ read_super object_ = (read_impl (javaCast object_ :: InstallerInfo))
 
 read_impl :: InstallerInfo -> IO (())
 read_impl this = do
-        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pRELOADERERROR))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed" this "read")
@@ -158,7 +167,7 @@ read_impl this = do
             file <- (AbFile.createAbFileFromAbPath fILEABPATH)
             if (jio (AbFile.isFile file)) then do
                 iFile <- (AbFileLocalInputStream.new_1 file)
-                iData <- (AbDataInputStream.new_1 iFile)
+                iData <- (AbDataInputStream.new_1 (javaCast iFile))
                 decryptedUserName <- (jnewString (jio (DatabaseEncoder.decode (jio (AbDataInputStream.readUTF iData)))))
                 decryptedPassword <- (jnewString (jio (DatabaseEncoder.decode (jio (AbDataInputStream.readUTF iData)))))
                 Control.Monad.void (InstallerInfo.setUserName this (jio (WeakCrypt.decrypt ((jio (WeakCrypt.new_1 1))) decryptedUserName)))

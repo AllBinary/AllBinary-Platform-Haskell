@@ -19,10 +19,10 @@ module PaymentGatewayPrimaryKey where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -147,12 +147,12 @@ toString_super object_ = (toString_impl (javaCast object_ :: PaymentGatewayPrima
 toString_impl :: PaymentGatewayPrimaryKey -> IO (String)
 toString_impl this = do
         stringBuffer <- (StringMaker.new_)
-        Control.Monad.void (StringMaker.append stringBuffer (jio (getName "PaymentGatewayPrimaryKey")))
-        Control.Monad.void (StringMaker.append stringBuffer (jio (getName "StoreFront")))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((JavaClass "PaymentGatewayPrimaryKey")))))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((JavaClass "StoreFront")))))
         Control.Monad.void (StringMaker.append stringBuffer " =")
         Control.Monad.void (StringMaker.append stringBuffer (jio (PaymentGatewayPrimaryKey.getStoreName this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
-        Control.Monad.void (StringMaker.append stringBuffer (jio (getName "PaymentGateway")))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((JavaClass "PaymentGateway")))))
         Control.Monad.void (StringMaker.append stringBuffer "=")
         Control.Monad.void (StringMaker.append stringBuffer (jio (PaymentGatewayPrimaryKey.getName this)))
         (StringMaker.toString stringBuffer)

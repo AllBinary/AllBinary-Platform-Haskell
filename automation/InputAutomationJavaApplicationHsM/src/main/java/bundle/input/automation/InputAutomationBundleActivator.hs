@@ -19,10 +19,10 @@ module InputAutomationBundleActivator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,14 +67,19 @@ instance JavaObjectClass InputAutomationBundleActivator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+moduleManagementThread :: IORef (Thread.Thread)
 {-# NOINLINE moduleManagementThread #-}
 moduleManagementThread = unsafePerformIO (newIORef (javaNull))
 
+bundleContext :: IORef (BundleContext.BundleContext)
 {-# NOINLINE bundleContext #-}
 bundleContext = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationBundleActivator
 newRecord_ = do
@@ -130,7 +135,7 @@ start_impl this bundleContext = do
             bundleContext <- pure (bundleContext)
             assignedValue <- (Thread.new_1 (jio (InputAutomationNewBundleRunnable.new_1 this)))
             jset InputAutomationBundleActivator.moduleManagementThread (assignedValue)
-            Control.Monad.void (start ((jget InputAutomationBundleActivator.moduleManagementThread)))
+            Control.Monad.void (Thread.start ((jget InputAutomationBundleActivator.moduleManagementThread)))
             Control.Monad.void (InputAutomationJFrame.create (javaCast this))
         pure ()
 
@@ -144,8 +149,8 @@ registerAsService_super object_ = (registerAsService_impl (javaCast object_ :: I
 
 registerAsService_impl :: InputAutomationBundleActivator -> IO (())
 registerAsService_impl this = do
-        Control.Monad.void (OSGIActivatorUtil.registerAsService (jio (InputAutomationBundleActivator.getBundleContext this)) (jio (InputAutomationServiceFactory.getInstance)) (jio (getName "InputAutomationConfigurationModuleChangeListener")))
-        Control.Monad.void (OSGIActivatorUtil.registerAsService (jio (InputAutomationBundleActivator.getBundleContext this)) (jio (InputAutomationServiceFactory.getInstance)) (jio (getName "InputAutomationRobotChangeListener")))
+        Control.Monad.void (OSGIActivatorUtil.registerAsService (jio (InputAutomationBundleActivator.getBundleContext this)) (jio (InputAutomationServiceFactory.getInstance)) (jio (getName ((JavaClass "InputAutomationConfigurationModuleChangeListener")))))
+        Control.Monad.void (OSGIActivatorUtil.registerAsService (jio (InputAutomationBundleActivator.getBundleContext this)) (jio (InputAutomationServiceFactory.getInstance)) (jio (getName ((JavaClass "InputAutomationRobotChangeListener")))))
         pure ()
 
 

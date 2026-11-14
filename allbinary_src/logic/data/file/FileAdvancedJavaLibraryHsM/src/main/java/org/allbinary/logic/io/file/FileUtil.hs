@@ -19,10 +19,10 @@ module FileUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,11 +82,15 @@ instance JavaObjectClass FileUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: FileUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FileUtil
 newRecord_ = do
@@ -246,7 +250,7 @@ fixPath_impl :: FileUtil -> AbFile.AbFile -> AbPath.AbPath -> AbPath.AbPath -> S
 fixPath_impl this file path realPath cloud = do
         let beginIndex = ((jstringIndexOf (jio (AbFile.getPath file)) cloud 0) + (Prelude.length cloud))
         let endIndex = (jstringIndexOf (jio (AbFile.getPath file)) (jio (AbFile.getName file)) 0)
-        let fixedPathString = (javaToString (jio (AbPath.toFileSystemString realPath)) ++ (Prelude.take ((endIndex) - (beginIndex)) (Prelude.drop (beginIndex) (jio (AbFile.getPath file)))))
+        let fixedPathString = ((jio (AbPath.toFileSystemString realPath)) ++ (Prelude.take ((endIndex) - (beginIndex)) (Prelude.drop (beginIndex) (jio (AbFile.getPath file)))))
         fixedPath <- (AbPath.new_2 fixedPathString (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         Control.Monad.void (Directory.create ((jget (this).directory)) fixedPath)
         string <- (AbPath.toFileSystemString fixedPath)
@@ -486,7 +490,7 @@ copyDirectoryPortion_impl :: FileUtil -> AbPath.AbPath -> AbPath.AbPath -> Bool 
 copyDirectoryPortion_impl this fromDirectoryAbPath toDirectoryAbPath overwriteNewer overwriteAll current total = do
         file <- (AbFile.createAbFileFromAbPath fromDirectoryAbPath)
         when (Prelude.not (jio (AbFile.isDirectory file))) $ do
-            javaThrow ((JavaException "Exception" ("Not a directory: " ++ javaToString (jio (AbFile.getPath file)))))
+            javaThrow ((JavaException "Exception" ("Not a directory: " ++ (jio (AbFile.getPath file)))))
         fileList <- (Directory.search ((jget (this).directory)) file True)
         size <- (BasicArrayList.size fileList)
         stringBuffer <- (StringMaker.new_)
@@ -515,7 +519,7 @@ copyDirectoryPortion_impl this fromDirectoryAbPath toDirectoryAbPath overwriteNe
                 beginIndex <- newIORef ((Prelude.length (jio (AbPath.getPath fromDirectoryAbPath))))
                 when ((jstringIndexOf path (jio (URLGLOBALS.getWebappPath)) 0) < 0) $ do
                     jset beginIndex (((jget beginIndex) - (Prelude.length (jio (AbPath.getPath ((jio (AbPath.new_2 (jio (URLGLOBALS.getWebappPath)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))))))
-                let newPath = (javaToString (jio (AbPath.toFileSystemString toDirectoryAbPath)) ++ (Prelude.drop (jget beginIndex) path))
+                let newPath = ((jio (AbPath.toFileSystemString toDirectoryAbPath)) ++ (Prelude.drop (jget beginIndex) path))
                 toFile <- (AbFile.createAbFileFromAbPath (jio (AbPath.new_2 newPath (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
                 Control.Monad.void (FileUtil.copyFile_4 this (jget nextFile) toFile overwriteNewer overwriteAll)
         pure ()
@@ -548,9 +552,9 @@ copyDirectory_impl this fromFile to = do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (AbFile.getPath to)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) (jio (FileUtil.getInstance)) "copyDirectory")
             newDirectory <- (FileUtil.getNewDirectory fromFile)
-            newDirectoryAbPath <- (AbPath.new_2 (javaToString ((jio (AbFile.getPath to)) + (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ newDirectory) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+            newDirectoryAbPath <- (AbPath.new_2 (((jio (AbFile.getPath to)) ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ newDirectory) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             when (Prelude.not (jio (Directory.create ((jget (this).directory)) newDirectoryAbPath))) $ do
-                javaThrow ((JavaException "Exception" ("Failed to create directory: " ++ javaToString newDirectoryAbPath)))
+                javaThrow ((JavaException "Exception" ("Failed to create directory: " ++ jconcatObject AbPath.toString newDirectoryAbPath)))
             fileArray <- (FileWrapperUtil.wrapFiles (jio (AbFile.listFiles fromFile)))
             let size = (jlength fileArray)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jget (this).logConfigTypeFactory)).fILE))) $ do

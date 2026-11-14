@@ -19,10 +19,10 @@ module ImageCopyUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -79,6 +79,7 @@ instance JavaObjectClass ImageCopyUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageCopyUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -182,11 +183,11 @@ createImage_impl this originalImage = do
         image <- newIORef (javaNull)
         if (jio (Image.isMutable ((jget originalImage2)))) then do
             let originalMutableImage = (javaCast (jget originalImage2) :: SwtMutableImage.SwtMutableImage)
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (jio (SwtDeviceComponent.createImage (jio (getImageData ((jget (originalMutableImage).image))))))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (javaCast (jio (SwtDeviceComponent.createImage_1 (jio (getImageData ((jget (originalMutableImage).image)))))))))
             jset image (assignedValue)
         else do
             let originalImmutableImage = (javaCast (jget originalImage2) :: SwtImmutableImage.SwtImmutableImage)
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (jio (SwtDeviceComponent.createImage (jio (getImageData ((jget (originalImmutableImage).image))))))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (javaCast (jio (SwtDeviceComponent.createImage_1 (jio (getImageData ((jget (originalImmutableImage).image)))))))))
             jset image (assignedValue)
         assignedValue <- (OpenGLUtil.addImage ((jget (this).openGLUtil)) (jget image))
         jset image (assignedValue)
@@ -220,7 +221,7 @@ createImageWH_impl this originalImage width height mutable = do
             if ((jio (SwtMutableImage.getImage originalMutableImage)) /= javaNull) then do
                 imageData2 <- (getImageData ((jget (originalMutableImage).image)))
                 imageData <- (ImageData.scaledTo imageData2 width height)
-                assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (jio (SwtDeviceComponent.createImage imageData))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (javaCast (jio (SwtDeviceComponent.createImage_1 imageData)))))
                 jset image (assignedValue)
             else do
                 assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_2 (jio (SwtMutableImage.getName originalMutableImage)) (jio (PostLoadSwtMutableImageProcessor.new_1 originalMutableImage))))
@@ -231,7 +232,7 @@ createImageWH_impl this originalImage width height mutable = do
                 imageData2 <- (getImageData ((jget (originalImmutableImage).image)))
                 if ((width > 0) && (height > 0)) then do
                     imageData <- (ImageData.scaledTo imageData2 width height)
-                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtImmutableImage.new_2 (jio (Image.getName originalImage)) (jio (SwtDeviceComponent.createImage imageData))))
+                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtImmutableImage.new_2 (jio (Image.getName originalImage)) (jio (SwtDeviceComponent.createImage_1 imageData))))
                     jset image (assignedValue)
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget this.uNABLE) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
@@ -276,16 +277,16 @@ createImage2_impl this originalImage width height mutable = do
                 when (((jio (Image.getHeight originalImage)) `rem` 2) /= 0) $ do
                     jset (openGLESImageProperties).scaleX2 (((jget (openGLESImageProperties).scaleX2) + (1.0 / (Prelude.fromIntegral openGLWidth))))
                     jset (openGLESImageProperties).scaleY2 (((jget (openGLESImageProperties).scaleY2) + (1.0 / (Prelude.fromIntegral openGLHeight))))
-                jset image (openGLESImage)
+                jset image ((javaCast openGLESImage :: Image.Image))
             else do
                 jset image (originalImage)
                 let openGLESImage = (javaCast (jio (OpenGLUtil.addImage ((jget (this).openGLUtil)) (jget image))) :: OpenGLESImage.OpenGLESImage)
                 let openGLESImageProperties = (jget (openGLESImage).openGLESImageProperties)
-                jset (openGLESImageProperties).scaleX2 ((Prelude.realToFrac (jnumericDouble ((((Prelude.fromIntegral width)) / (jio (OpenGLESImage.getWidth openGLESImage)))))))
+                jset (openGLESImageProperties).scaleX2 (((((Prelude.fromIntegral width)) / (Prelude.fromIntegral (jio (OpenGLESImage.getWidth openGLESImage))))))
                 jset (openGLESImageProperties).scaleX ((jget (openGLESImageProperties).scaleX2))
-                jset (openGLESImageProperties).scaleY2 ((Prelude.realToFrac (jnumericDouble ((((Prelude.fromIntegral height)) / (jio (OpenGLESImage.getHeight openGLESImage)))))))
+                jset (openGLESImageProperties).scaleY2 (((((Prelude.fromIntegral height)) / (Prelude.fromIntegral (jio (OpenGLESImage.getHeight openGLESImage))))))
                 jset (openGLESImageProperties).scaleY ((jget (openGLESImageProperties).scaleY2))
-                if (jio (Image.startsWith ((jio (Image.getName ((jget image))))) (jget (this).iNFORMATION))) then do
+                if (Data.List.isPrefixOf (jget (this).iNFORMATION) (jio (Image.getName ((jget image))))) then do
                     assignedValue <- (OpenGLESDeviceImageTranslate.new_)
                     jset (openGLESImage).openGLESImageTranslate (assignedValue)
                     let openGLESDeviceImageTranslate = (javaCast (jget (openGLESImage).openGLESImageTranslate) :: OpenGLESDeviceImageTranslate.OpenGLESDeviceImageTranslate)
@@ -296,24 +297,24 @@ createImage2_impl this originalImage width height mutable = do
                 else do
                     jset (openGLESImageProperties).scaleX (((jget (openGLESImageProperties).scaleX) * 0.75))
                     jset (openGLESImageProperties).scaleY (((jget (openGLESImageProperties).scaleY) * 0.75))
-                    when (jio (Image.startsWith ((jio (Image.getName ((jget image))))) (jget (this).lEADERBOARD))) $ do
+                    when (Data.List.isPrefixOf (jget (this).lEADERBOARD) (jio (Image.getName ((jget image))))) $ do
                         assignedValue <- (OpenGLESDeviceImageTranslate.new_)
                         jset (openGLESImage).openGLESImageTranslate (assignedValue)
                         let openGLESDeviceImageTranslate = (javaCast (jget (openGLESImage).openGLESImageTranslate) :: OpenGLESDeviceImageTranslate.OpenGLESDeviceImageTranslate)
                         jset (openGLESDeviceImageTranslate).translateX (((Prelude.fromIntegral ((Prelude.negate (jio (DisplayInfoSingleton.getLastWidth displayInfoSingleton))) `quot` 40)) / (jget (openGLESImageProperties).scaleX)))
-                    if (jio (Image.startsWith ((jio (Image.getName ((jget image))))) (jget (this).lEADERBOARD))) then do
+                    if (Data.List.isPrefixOf (jget (this).lEADERBOARD) (jio (Image.getName ((jget image))))) then do
                         pure ()
                     else do
                         jset (openGLESImageProperties).scaleX (1.0)
                         jset (openGLESImageProperties).scaleY (1.0)
-                jset image (openGLESImage)
+                jset image ((javaCast openGLESImage :: Image.Image))
         else do
             if ((jio (Image.isMutable originalImage2)) && mutable) then do
                 let originalMutableImage = (javaCast originalImage2 :: SwtMutableImage.SwtMutableImage)
                 if ((jio (SwtMutableImage.getImage originalMutableImage)) /= javaNull) then do
                     imageData2 <- (getImageData ((jget (originalMutableImage).image)))
                     imageData <- (ImageData.scaledTo imageData2 width height)
-                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (jio (SwtDeviceComponent.createImage imageData))))
+                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_1 (javaCast (jio (SwtDeviceComponent.createImage_1 imageData)))))
                     jset image (assignedValue)
                 else do
                     assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtMutableImage.new_2 (jio (SwtMutableImage.getName originalMutableImage)) (jio (PostLoadSwtMutableImageProcessor.new_1 originalMutableImage))))
@@ -323,7 +324,7 @@ createImage2_impl this originalImage width height mutable = do
                 if ((jio (SwtImmutableImage.getImage originalImmutableImage)) /= javaNull) then do
                     imageData2 <- (getImageData ((jget (originalImmutableImage).image)))
                     imageData <- (ImageData.scaledTo imageData2 width height)
-                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtImmutableImage.new_2 (jio (Image.getName originalImage)) (jio (SwtDeviceComponent.createImage imageData))))
+                    assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtImmutableImage.new_2 (jio (Image.getName originalImage)) (jio (SwtDeviceComponent.createImage_1 imageData))))
                     jset image (assignedValue)
                 else do
                     assignedValue <- (fmap (\value_ -> javaCast value_ :: Image.Image) (SwtImmutableImage.new_2 (jio (SwtImmutableImage.getName originalImmutableImage)) (jio (PostLoadSwtImmutableImageProcessor.new_1 originalImmutableImage))))
@@ -346,8 +347,8 @@ createImageScale_impl this originalImage canvasScale resize = do
         when (Prelude.not (jio (Features.isFeature ((jget (this).features)) (jget ((jget (this).gameFeatureFactory)).pOST_IMAGE_LOADING_MODIFICATION)))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (this).nO_COPY) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
             javaReturn (originalImage)
-        newWidth <- newIORef ((Prelude.fromInteger (jnumericInteger (((jio (Image.getWidth originalImage)) * canvasScale)))))
-        newHeight <- newIORef ((Prelude.fromInteger (jnumericInteger (((jio (Image.getHeight originalImage)) * canvasScale)))))
+        newWidth <- newIORef ((Prelude.truncate (((Prelude.fromIntegral (jio (Image.getWidth originalImage))) * canvasScale))))
+        newHeight <- newIORef ((Prelude.truncate (((Prelude.fromIntegral (jio (Image.getHeight originalImage))) * canvasScale))))
         when resize $ do
             when ((jget newWidth) < (jget newHeight)) $ do
                 jset newWidth ((jget newHeight))
@@ -357,8 +358,8 @@ createImageScale_impl this originalImage canvasScale resize = do
         if (jio (Image.isMutable image)) then do
             originalImageData <- (getImageData (((javaCast (jio (Image.getImage originalImage)) :: Image.Image))))
             let mutableImage2 = (javaCast image :: SwtMutableImage.SwtMutableImage)
-            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) / 2)
-            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) / 2)
+            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) `quot` 2)
+            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) `quot` 2)
             let originalPixelArray = (jnewArray (((jio (Image.getWidth originalImage)) * (jio (Image.getHeight originalImage)))) 0)
             let newPixelArray = (jnewArray (((jio (Image.getWidth image)) * (jio (Image.getHeight image)))) 0)
             width <- (Image.getWidth originalImage)
@@ -373,8 +374,8 @@ createImageScale_impl this originalImage canvasScale resize = do
         else do
             let originalImmutableImage = (javaCast image :: SwtImmutableImage.SwtImmutableImage)
             originalImageData <- (getImageData (((javaCast (jio (Image.getImage originalImage)) :: Image.Image))))
-            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) / 2)
-            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) / 2)
+            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) `quot` 2)
+            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) `quot` 2)
             let originalPixelArray = (jnewArray (((jio (Image.getWidth originalImage)) * (jio (Image.getHeight originalImage)))) 0)
             let newPixelArray = (jnewArray (((jio (Image.getWidth image)) * (jio (Image.getHeight image)))) 0)
             width <- (Image.getWidth originalImage)

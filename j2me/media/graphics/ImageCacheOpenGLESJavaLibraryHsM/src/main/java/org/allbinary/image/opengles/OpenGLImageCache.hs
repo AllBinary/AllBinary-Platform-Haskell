@@ -20,10 +20,10 @@ import ImageCache hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Any -- same package or java.lang
 import qualified OpenGLESImage -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ImageCacheBase -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
 import qualified Image -- javax.microedition.lcdui.Image

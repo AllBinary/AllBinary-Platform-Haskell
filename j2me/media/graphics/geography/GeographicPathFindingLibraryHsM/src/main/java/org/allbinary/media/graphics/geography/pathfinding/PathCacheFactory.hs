@@ -19,10 +19,10 @@ module PathCacheFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,11 +56,15 @@ instance JavaObjectClass PathCacheFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pathFactory :: IORef (PathCacheFactory)
 {-# NOINLINE pathFactory #-}
 pathFactory = unsafePerformIO ((new_) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PathCacheFactory
 newRecord_ = do
@@ -161,7 +165,7 @@ getOrCreate_impl :: PathCacheFactory -> Int -> IO (BasicArrayList.BasicArrayList
 getOrCreate_impl this pathIdInteger = do
         listCanBeNull <- newIORef =<< (ABHashtable.get ((jget (this).hashtable)) pathIdInteger)
         when ((jget listCanBeNull) == javaNull) $ do
-            assignedValue <- (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil)))
+            assignedValue <- (fmap jtoObject (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil))))
             jset listCanBeNull (assignedValue)
         pure ((javaCast (jget listCanBeNull) :: BasicArrayList.BasicArrayList))
 

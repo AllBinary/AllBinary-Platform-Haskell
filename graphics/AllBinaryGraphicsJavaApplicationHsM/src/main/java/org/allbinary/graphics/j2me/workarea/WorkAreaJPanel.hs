@@ -16,14 +16,14 @@
 -- package org.allbinary.graphics.j2me.workarea
 module WorkAreaJPanel (module WorkAreaJPanel, module JPanel) where
 
-import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getCanvasHashMap, getCanvasHashMap_super, getCanvasHashMap_impl, play, play_super, play_impl, stop, stop_super, stop_impl, isPlaying, isPlaying_super, isPlaying_impl, getName, getName_super, getName_impl, setName, setName_super, setName_impl, disableCanvas, disableCanvas_super, disableCanvas_impl, enableCanvas, enableCanvas_super, enableCanvas_impl, deselect, deselect_super, deselect_impl, select, select_super, select_impl, changeZoom, changeZoom_super, changeZoom_impl, getCurrentFrame, getCurrentFrame_super, getCurrentFrame_impl, initDuplicate, initDuplicate_super, initDuplicate_impl, duplicate_overload1, duplicate_overload1_super, duplicate_overload1_impl, duplicate, autoRotate, autoRotate_super, autoRotate_impl, explodeAll, explodeAll_super, explodeAll_impl, autoExplode, autoExplode_super, autoExplode_impl, autoMirror, autoMirror_super, autoMirror_impl, select_1_overload1, select_1_overload1_super, select_1_overload1_impl, select, select_1_overload2, select_1_overload2_super, select_1_overload2_impl, select, getDocument, getDocument_super, getDocument_impl, toDocument, toDocument_super, toDocument_impl, initComponents, initComponents_super, initComponents_impl, innerJPanelKeyReleased, innerJPanelKeyReleased_super, innerJPanelKeyReleased_impl, innerJPanelKeyPressed, innerJPanelKeyPressed_super, innerJPanelKeyPressed_impl, innerJPanelKeyTyped, innerJPanelKeyTyped_super, innerJPanelKeyTyped_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, duplicate_overload2, duplicate_overload2_super, duplicate_overload2_impl, duplicate, select_1_overload3, select_1_overload3_super, select_1_overload3_impl, select, rotate, rotate_super, rotate_impl, explode, explode_super, explode_impl, autoExplode_1, autoExplode_1_super, autoExplode_1_impl, autoExplode, center, center_super, center_impl, center_1, center_1_super, center_1_impl, center, run, run_super, run_impl, logUtil, canvasJPanelList, canvasHolderJPanel, name, selectedFrame, document, propertiesJPanel, workAreaJTreeJPanel, isPlaying, innerJPanel)
+import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initMyComponents, initMyComponents_super, initMyComponents_impl, getCanvasHashMap, getCanvasHashMap_super, getCanvasHashMap_impl, play, play_super, play_impl, stop, stop_super, stop_impl, isPlaying, isPlaying_super, isPlaying_impl, getName, getName_super, getName_impl, setName, setName_super, setName_impl, disableCanvas, disableCanvas_super, disableCanvas_impl, enableCanvas, enableCanvas_super, enableCanvas_impl, deselect, deselect_super, deselect_impl, select, select_super, select_impl, changeZoom, changeZoom_super, changeZoom_impl, getCurrentFrame, getCurrentFrame_super, getCurrentFrame_impl, initDuplicate, initDuplicate_super, initDuplicate_impl, duplicate_overload1, duplicate_overload1_super, duplicate_overload1_impl, duplicate, autoRotate, autoRotate_super, autoRotate_impl, explodeAll, explodeAll_super, explodeAll_impl, autoExplode, autoExplode_super, autoExplode_impl, autoMirror, autoMirror_super, autoMirror_impl, select_1_overload1, select_1_overload1_super, select_1_overload1_impl, select, select_1, select_1_overload2, select_1_overload2_super, select_1_overload2_impl, select, select_1, getDocument, getDocument_super, getDocument_impl, toDocument, toDocument_super, toDocument_impl, initComponents, initComponents_super, initComponents_impl, innerJPanelKeyReleased, innerJPanelKeyReleased_super, innerJPanelKeyReleased_impl, innerJPanelKeyPressed, innerJPanelKeyPressed_super, innerJPanelKeyPressed_impl, innerJPanelKeyTyped, innerJPanelKeyTyped_super, innerJPanelKeyTyped_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyTyped, keyTyped_super, keyTyped_impl, delete, delete_super, delete_impl, duplicate_overload2, duplicate_overload2_super, duplicate_overload2_impl, duplicate, select_1_overload3, select_1_overload3_super, select_1_overload3_impl, select, select_1, rotate, rotate_super, rotate_impl, explode, explode_super, explode_impl, autoExplode_1, autoExplode_1_super, autoExplode_1_impl, autoExplode, center, center_super, center_impl, center_1, center_1_super, center_1_impl, center, run, run_super, run_impl, logUtil, canvasJPanelList, canvasHolderJPanel, name, selectedFrame, document, propertiesJPanel, workAreaJTreeJPanel, isPlaying, innerJPanel)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,6 +42,7 @@ import qualified GridBagConstraints -- same package or java.lang
 import qualified KeyAdapter -- same package or java.lang
 import qualified KeyEvent -- same package or java.lang
 import qualified Thread -- same package or java.lang
+import qualified Grid -- same package or java.lang
 import qualified EventListener -- java.util.EventListener
 import qualified HashMap -- java.util.HashMap
 import qualified LinkedList -- java.util.LinkedList
@@ -98,6 +99,7 @@ instance JavaObjectClass WorkAreaJPanel where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+document :: IORef (Document.Document)
 {-# NOINLINE document #-}
 document = unsafePerformIO (newIORef (javaNull))
 
@@ -597,18 +599,18 @@ toDocument_impl :: WorkAreaJPanel -> IO (Document.Document)
 toDocument_impl this = do
         assignedValue <- (DomHelper.createDocument ((jio (DomHelper.getInstance))))
         jset WorkAreaJPanel.document (assignedValue)
-        workAreaNode <- (createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.wORKAREA))
-        nameNode <- (createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.nAME))
-        nameTextNode <- (createTextNode ((jget WorkAreaJPanel.document)) (jget (this).name))
+        workAreaNode <- (Document.createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.wORKAREA))
+        nameNode <- (Document.createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.nAME))
+        nameTextNode <- (Document.createTextNode ((jget WorkAreaJPanel.document)) (jget (this).name))
         Control.Monad.void (Node.appendChild nameNode nameTextNode)
-        framesNode <- (createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.fRAMES))
+        framesNode <- (Document.createElement ((jget WorkAreaJPanel.document)) (WorkAreaDom.fRAMES))
         size <- (LinkedList.size ((jget (this).canvasJPanelList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let canvasJPanel = (javaCast (jio (LinkedList.get ((jget (this).canvasJPanelList)) index)) :: CanvasJPanel.CanvasJPanel)
             Control.Monad.void (Node.appendChild framesNode (jio (CanvasJPanel.toDom canvasJPanel)))
         Control.Monad.void (Node.appendChild workAreaNode nameNode)
         Control.Monad.void (Node.appendChild workAreaNode framesNode)
-        Control.Monad.void (appendChild ((jget WorkAreaJPanel.document)) workAreaNode)
+        Control.Monad.void (Document.appendChild ((jget WorkAreaJPanel.document)) workAreaNode)
         pure ((jget document))
 
 

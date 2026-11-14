@@ -19,10 +19,10 @@ module CountedLayersHudPaintable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,11 +70,15 @@ instance JavaObjectClass CountedLayersHudPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+xXStringWidth :: IORef (Int)
 {-# NOINLINE xXStringWidth #-}
 xXStringWidth = unsafePerformIO (newIORef (0))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CountedLayersHudPaintable
 newRecord_ = do
@@ -104,7 +108,7 @@ initFields_ this = do
     jset this.countedPartsBorder (0)
     jset this.startIndex (0)
     jset this.dropSize (0)
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.height (0)
     pure ()
 
@@ -168,7 +172,7 @@ paint_impl this graphics = do
         forM_ [(jget (this).startIndex) .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset countedLayerInterfaceFactory ((javaCast (jindex ((jget (this).partInterfaceArray)) (index)) :: CountedLayerInterfaceFactoryPart.CountedLayerInterfaceFactoryPart))
             when ((jio (CountedLayerInterfaceFactoryPart.getTotal ((jget countedLayerInterfaceFactory)))) > 0) $ do
-                assignedValue <- (CountedLayerInterfaceFactoryPart.getCountedPickedUpLayerInterfaceFactory ((jget countedLayerInterfaceFactory)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface) (CountedLayerInterfaceFactoryPart.getCountedPickedUpLayerInterfaceFactory ((jget countedLayerInterfaceFactory))))
                 jset pickedUpLayerInterfaceFactoryInterface (assignedValue)
                 assignedValue <- (PickedUpLayerInterfaceFactoryInterface.getIconLayer ((jget pickedUpLayerInterfaceFactoryInterface)))
                 jset layerInterface (assignedValue)

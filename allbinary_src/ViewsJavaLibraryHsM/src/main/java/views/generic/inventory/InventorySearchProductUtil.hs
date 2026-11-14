@@ -19,10 +19,10 @@ module InventorySearchProductUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Node -- same package or java.lang
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified BasicItemView -- org.allbinary.business.user.commerce.inventory.item.BasicItemView
 import qualified ItemInterface -- org.allbinary.business.user.commerce.inventory.item.ItemInterface
@@ -67,11 +68,15 @@ instance JavaObjectClass InventorySearchProductUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: InventorySearchProductUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InventorySearchProductUtil
 newRecord_ = do
@@ -126,7 +131,7 @@ getProduct_impl this abeClientInformation searchRequest product = do
             itemInterface <- (InventoryEntity.getItem inventoryEntityInterface product)
             if (itemInterface /= javaNull) then do
                 viewDocumentInterface <- (TransformStoreDocumentFactory.getInstance_1 searchRequest)
-                Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode viewDocumentInterface))) (jio (BasicItemView.toXmlNode ((jio (BasicItemView.new_2 itemInterface (jio (BasicArrayListD.new_))))) (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))))
+                Control.Monad.void (Node.appendChild ((jio (TransformDocumentInterface.getBaseNode viewDocumentInterface))) (jio (BasicItemView.toXmlNode ((jio (BasicItemView.new_2 itemInterface (javaCast (jio (BasicArrayListD.new_)))))) (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))))
                 success <- (XmlDocumentHelper.toString (jio (TransformDocumentInterface.getDoc viewDocumentInterface)))
                 outputStr <- (StoreTransformer.translate ((jio (StoreTransformer.new_2 abeClientInformation (javaCast (jio (TransformInfoHttpSearch.new_1 searchRequest)) :: TransformInfoInterface.TransformInfoInterface)))) success)
                 javaReturn (outputStr)

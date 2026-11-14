@@ -19,10 +19,10 @@ module ImagesRatioUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,11 +58,15 @@ instance JavaObjectClass ImagesRatioUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImagesRatioUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImagesRatioUtil
 newRecord_ = do
@@ -113,9 +117,9 @@ isEqual_impl this bufferedImageArray totalImages = do
         end <- newIORef (totalImages)
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))
-        let ratio = (((Prelude.realToFrac (jnumericDouble (jio (getWidth ((jindex bufferedImageArray (0))))))) / (jio (getHeight ((jindex bufferedImageArray (0)))))))
+        let ratio = (((Prelude.realToFrac (jnumericDouble (jio (BufferedImage.getWidth ((jindex bufferedImageArray (0))))))) / (jio (BufferedImage.getHeight ((jindex bufferedImageArray (0)))))))
         forM_ [1 .. (jget end) - 1] $ \index -> javaIteration (pure ()) $ do
-            when (ratio /= (((Prelude.realToFrac (jnumericDouble (jio (getWidth ((jindex bufferedImageArray (index))))))) / (jio (getHeight ((jindex bufferedImageArray (index)))))))) $ do
+            when (ratio /= (((Prelude.realToFrac (jnumericDouble (jio (BufferedImage.getWidth ((jindex bufferedImageArray (index))))))) / (jio (BufferedImage.getHeight ((jindex bufferedImageArray (index)))))))) $ do
                 javaReturn (False)
         pure (True)
 
@@ -133,7 +137,7 @@ getAverage_impl this bufferedImageArray totalImages = do
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))
         forM_ [0 .. (jget end) - 1] $ \index -> javaIteration (pure ()) $ do
-            jset ratio (((jget ratio) + (((Prelude.realToFrac (jnumericDouble (jio (getWidth ((jindex bufferedImageArray (index))))))) / (jio (getHeight ((jindex bufferedImageArray (index)))))))))
+            jset ratio (((jget ratio) + (((Prelude.realToFrac (jnumericDouble (jio (BufferedImage.getWidth ((jindex bufferedImageArray (index))))))) / (jio (BufferedImage.getHeight ((jindex bufferedImageArray (index)))))))))
         pure ((((jget ratio) / (Prelude.fromIntegral (jget end)))))
 
 

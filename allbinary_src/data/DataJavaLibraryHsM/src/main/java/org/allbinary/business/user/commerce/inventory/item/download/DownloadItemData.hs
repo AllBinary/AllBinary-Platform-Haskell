@@ -19,10 +19,10 @@ module DownloadItemData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,46 +49,68 @@ instance JavaObjectClass DownloadItemData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "DOWNLOADITEM_NAME"
 
+iD :: String
 iD = "DOWNLOADITEM_ID"
 
+sYSTEM :: String
 sYSTEM = "DOWNLOADITEM_SYSTEM"
 
+pLATFORM :: String
 pLATFORM = "DOWNLOADITEM_PLATFORM"
 
+sPECIAL_NAME :: String
 sPECIAL_NAME = "DOWNLOADITEM_SPECIAL_NAME"
 
+vERSION :: String
 vERSION = "DOWNLOADITEM_VERSION"
 
+cHANGES :: String
 cHANGES = "DOWNLOADITEM_CHANGES"
 
+lICENSE_FILE :: String
 lICENSE_FILE = "DOWNLOADITEM_LICENSE_FILE"
 
+fILE :: String
 fILE = "DOWNLOADITEM_FILE"
 
+eXTRA_FILES :: String
 eXTRA_FILES = "DOWNLOADITEM_EXTRA_FILES"
 
+sIZE :: String
 sIZE = "DOWNLOADITEM_SIZE"
 
+vALID_TIME :: String
 vALID_TIME = "DOWNLOADITEM_VALID_TIME"
 
+vALID_TIME_YEARS :: String
 vALID_TIME_YEARS = "DOWNLOADITEM_VALID_TIME_YEAR"
 
+vALID_TIME_MONTHS :: String
 vALID_TIME_MONTHS = "DOWNLOADITEM_VALID_TIME_MONTH"
 
+vALID_TIME_DAYS :: String
 vALID_TIME_DAYS = "DOWNLOADITEM_VALID_TIME_DAY"
 
+vALID_TIME_HOURS :: String
 vALID_TIME_HOURS = "DOWNLOADITEM_VALID_TIME_HOUR"
 
+vALID_TIME_MINUTES :: String
 vALID_TIME_MINUTES = "DOWNLOADITEM_VALID_TIME_MINUTES"
 
+vALID_TIME_SECONDS :: String
 vALID_TIME_SECONDS = "DOWNLOADITEM_VALID_TIME_SECONDS"
 
+rETRIES :: String
 rETRIES = "DOWNLOADITEM_RETRIES"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DownloadItemData
 newRecord_ = do

@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -101,7 +101,7 @@ newRecord_ = do
 initFields_ :: HighScoresPaintable -> IO ()
 initFields_ this = do
     jset this.displayInfoSingleton =<< (DisplayInfoSingleton.getInstance)
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.basicColor ((jget ((jio (BasicColorFactory.getInstance))).wHITE))
     jset this.highScores =<< (NullHighScoresSingletonFactory.getInstance)
     jset this.anchor ((jget Anchor.tOP_LEFT))
@@ -165,12 +165,12 @@ paint_impl this graphics = do
         height <- (DisplayInfoSingleton.getLastHeight ((jget (this).displayInfoSingleton)))
         Control.Monad.void (Graphics.setColor graphics (jio (BasicColor.intValue ((jio (HighScoresPaintable.getBasicColorP this))))))
         heading <- (HighScores.getHeading ((jget (this).highScores)))
-        let topScoresWidth = (((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) heading)) `Data.Bits.shiftR` 1))
+        let topScoresWidth = (((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) heading)) `Data.Bits.shiftR` 1))
         let charHeight = (jget (this).charHeight)
         Control.Monad.void (Graphics.drawString graphics heading (((width `Data.Bits.shiftR` 1)) - topScoresWidth) charHeight (jget (this).anchor))
         Control.Monad.void (Graphics.drawString graphics (jio (HighScores.getColumnOneHeading ((jget (this).highScores)))) 10 (charHeight * 3) (jget (this).anchor))
         columnTwoHeading <- (HighScores.getColumnTwoHeading ((jget (this).highScores)))
-        columnTwoHeadingWidth <- (Graphics.stringWidth ((jio (Graphics.getFont graphics))) columnTwoHeading)
+        columnTwoHeadingWidth <- (Font.stringWidth ((jio (Graphics.getFont graphics))) columnTwoHeading)
         Control.Monad.void (Graphics.drawString graphics columnTwoHeading ((width - 10) - columnTwoHeadingWidth) (charHeight * 3) (jget (this).anchor))
         index <- newIORef (4)
         largestSecondColumnWidth <- newIORef (columnTwoHeadingWidth)
@@ -180,7 +180,7 @@ paint_impl this graphics = do
         highScore <- newIORef (javaNull)
         fix $ \loop -> when (((jget vectorIndex) < size) && ((charHeight * (jget index)) < (height - ((charHeight * 2))))) $ javaIteration (loop) $ do
             jset highScore ((javaCast (jindex ((jget (list).objectArray)) ((jget vectorIndex))) :: HighScore.HighScore))
-            nextScoreWidth <- (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jio (HighScore.getScoreString ((jget highScore)))))
+            nextScoreWidth <- (Font.stringWidth ((jio (Graphics.getFont graphics))) (jio (HighScore.getScoreString ((jget highScore)))))
             when (nextScoreWidth > (jget largestSecondColumnWidth)) $ do
                 jset largestSecondColumnWidth (nextScoreWidth)
             jset vectorIndex ((jget vectorIndex) + 1)

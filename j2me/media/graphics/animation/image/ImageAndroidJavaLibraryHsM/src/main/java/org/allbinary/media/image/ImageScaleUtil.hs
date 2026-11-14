@@ -19,10 +19,10 @@ module ImageScaleUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Class -- same package or java.lang
+import qualified Graphics -- same package or java.lang
 import qualified Bitmap -- android.graphics.Bitmap
 import qualified Canvas -- android.graphics.Canvas
 import qualified Matrix -- android.graphics.Matrix
@@ -69,11 +70,15 @@ instance JavaObjectClass ImageScaleUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageScaleUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageScaleUtil
 newRecord_ = do
@@ -203,7 +208,7 @@ getScaledImage_impl this imageCache originalImage scaleX scaleY width height cac
         if (jio (Image.isMutable ((jget image)))) then do
             matrix <- (Matrix.new_)
             Control.Monad.void (ImageScaleUtil.scale this (jget image) matrix scaleX scaleY)
-            Control.Monad.void (Image.drawImage ((jio (Image.getGraphics ((jget image))))) originalImage 0 0 (jget (this).anchor))
+            Control.Monad.void (Graphics.drawImage ((jio (Image.getGraphics ((jget image))))) originalImage 0 0 (jget (this).anchor))
             javaReturn ((jget image))
         else do
             javaThrow ((JavaException "Exception" "Not Mutable"))
@@ -218,7 +223,7 @@ scale_super object_ a1 a2 a3 a4 = (scale_impl (javaCast object_ :: ImageScaleUti
 scale_impl :: ImageScaleUtil -> Image.Image -> Matrix.Matrix -> Float -> Float -> IO (())
 scale_impl this image matrix scaleX scaleY = do
         Control.Monad.void (Matrix.setScale matrix scaleX scaleY)
-        canvas <- (getCanvas (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
+        canvas <- (AndroidImageInterface.getCanvas (((javaCast image :: AndroidImageInterface.AndroidImageInterface))))
         Control.Monad.void (Canvas.concat canvas matrix)
         pure ()
 

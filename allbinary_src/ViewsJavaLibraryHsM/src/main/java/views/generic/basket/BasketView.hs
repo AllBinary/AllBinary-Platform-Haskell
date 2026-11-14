@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified PageContext -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
@@ -137,26 +139,26 @@ toXmlNode_impl this document = do
                 product <- (jnewString (javaCast (jindex productArray (index)) :: String))
                 itemInterface <- (InventoryEntity.getItem inventoryEntity product)
                 if (itemInterface /= javaNull) then do
-                    basicItemView <- (BasicItemView.new_2 itemInterface (jio (BasicArrayListD.new_)))
+                    basicItemView <- (BasicItemView.new_2 itemInterface (javaCast (jio (BasicArrayListD.new_))))
                     node <- (BasicItemView.toXmlNode basicItemView document)
-                    numberInBasket <- (BasketInterface.toString ((jio (BasketInterface.getNumberOf basketInterface product))))
+                    let numberInBasket = (javaToString (jio (BasketInterface.getNumberOf basketInterface product)))
                     Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (BasketData.iTEMTOTALINBASKET) numberInBasket)))
                     itemPrice <- (ItemInterface.getPrice itemInterface)
                     itemTotal <- (Money.new_1 itemPrice)
-                    Control.Monad.void (Money.multiply itemTotal (jio (BasketInterface.intValue ((jio (BasketInterface.getNumberOf basketInterface product))))))
+                    Control.Monad.void (Money.multiply itemTotal (jio (BasketInterface.getNumberOf basketInterface product)))
                     Control.Monad.void (Node.appendChild node (jio (ModDomHelper.createNameValueNodes_3 document (BasketData.iTEMTOTAL) (jio (Money.toString itemTotal)))))
                     Control.Monad.void (Node.appendChild basketNode node)
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Product Failed: " ++ product) this "toXmlNode")
                 jset numberOfResults ((jget numberOfResults) + 1)
             totalNumberNode <- (Document.createElement document (SearchData.tOTAL_NUMBER_ITEMS))
-            totalNumberTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getNumberOfItems basketInterface))))))
+            totalNumberTextNode <- (Document.createTextNode document (javaToString (jio (BasketInterface.getNumberOfItems basketInterface))))
             Control.Monad.void (Node.appendChild totalNumberNode totalNumberTextNode)
             totalWeightNode <- (Document.createElement document (BasketData.tOTALWEIGHT))
-            totalWeightTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getTotalWeight basketInterface))))))
+            totalWeightTextNode <- (Document.createTextNode document (jio (BasketInterface.getTotalWeight basketInterface)))
             Control.Monad.void (Node.appendChild totalWeightNode totalWeightTextNode)
             subTotalNode <- (Document.createElement document (BasketData.sUBTOTAL))
-            subTotalTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getSubTotal basketInterface))))))
+            subTotalTextNode <- (Document.createTextNode document (jio (Money.toString ((jio (BasketInterface.getSubTotal basketInterface))))))
             Control.Monad.void (Node.appendChild subTotalNode subTotalTextNode)
             Control.Monad.void (Node.appendChild basketNode totalNumberNode)
             Control.Monad.void (Node.appendChild basketNode totalWeightNode)

@@ -20,10 +20,10 @@ import InitSql hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -86,7 +86,7 @@ new_ = do
 
 init_ :: BasicStoreFrontsEntity -> IO ()
 init_ this = do
-        InitSql.init_1 this.base (jio (UserDbInitInfo.new_))
+        InitSql.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (InitSql.setTable this (jget (this).tableName))

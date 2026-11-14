@@ -19,10 +19,10 @@ module MineVectorData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,10 +50,13 @@ instance JavaObjectClass MineVectorData where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 {-# NOINLINE points #-}
-points = unsafePerformIO (newIORef ((jarrayFromList [(jarrayFromList [(jarrayFromList [10, 5]), (jarrayFromList [2, 6]), (jarrayFromList [1000, 1000]), (jarrayFromList [2, 2]), (jarrayFromList [10, 9]), (jarrayFromList [1000, 1000]), (jarrayFromList [10, 2]), (jarrayFromList [2, 9]), (jarrayFromList [1000, 1000]), (jarrayFromList [2, 5]), (jarrayFromList [10, 6]), (jarrayFromList [1000, 1000]), (jarrayFromList [7, 9]), (jarrayFromList [5, 2]), (jarrayFromList [1000, 1000]), (jarrayFromList [7, 2]), (jarrayFromList [5, 9]), (jarrayFromList [1000, 1000])])])))
+points = unsafePerformIO (newIORef ((jarrayFromList [(jarrayFromList [(jarrayFromList [10, 5] :: JavaArray Int), (jarrayFromList [2, 6] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int), (jarrayFromList [2, 2] :: JavaArray Int), (jarrayFromList [10, 9] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int), (jarrayFromList [10, 2] :: JavaArray Int), (jarrayFromList [2, 9] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int), (jarrayFromList [2, 5] :: JavaArray Int), (jarrayFromList [10, 6] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int), (jarrayFromList [7, 9] :: JavaArray Int), (jarrayFromList [5, 2] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int), (jarrayFromList [7, 2] :: JavaArray Int), (jarrayFromList [5, 9] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int)] :: JavaArray (JavaArray Int))] :: JavaArray (JavaArray (JavaArray Int)))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MineVectorData
 newRecord_ = do

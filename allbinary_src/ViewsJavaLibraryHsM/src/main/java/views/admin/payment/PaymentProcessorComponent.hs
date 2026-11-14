@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WeblisketSessionInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified PaymentProcessorInterface -- org.allbinary.business.user.commerce.money.payment.gateway.processor.PaymentProcessorInterface
 import qualified PaymentProcessorInterfaceFactory -- org.allbinary.business.user.commerce.money.payment.gateway.processor.PaymentProcessorInterfaceFactory
@@ -102,7 +103,7 @@ addDomNodeInterfaces_impl this = do
         paymentProcessorInterface <- (fmap (\value_ -> javaCast value_ :: PaymentProcessorInterface.PaymentProcessorInterface) (PaymentProcessorInterfaceFactory.getInstance_1 ((jio (PaymentProcessorInterfaceFactory.getInstance))) (jio (HttpStoreComponentView.getTransformInfoInterface this))))
         Control.Monad.void (PaymentProcessorInterface.process paymentProcessorInterface)
         let httpTransformInfoInterface = (javaCast (jio (HttpStoreComponentView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        Control.Monad.void (TransformInfoHttpInterface.removeBasket ((jio (TransformInfoHttpInterface.getWeblisketSession httpTransformInfoInterface))))
+        Control.Monad.void (WeblisketSessionInterface.removeBasket ((jio (TransformInfoHttpInterface.getWeblisketSession httpTransformInfoInterface))))
         Control.Monad.void (HttpStoreComponentView.addDomNodeInterface this (javaCast paymentProcessorInterface :: DomNodeInterface.DomNodeInterface))
         pure ()
 

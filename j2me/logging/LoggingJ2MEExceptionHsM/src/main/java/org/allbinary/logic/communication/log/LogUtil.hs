@@ -19,10 +19,10 @@ module LogUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,11 +57,15 @@ instance JavaObjectClass LogUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: LogUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LogUtil
 newRecord_ = do
@@ -71,8 +75,8 @@ newRecord_ = do
     let this = LogUtil header_ logFormatUtil lOG_SUCCESS
     jregisterLevel header_ this
     jregisterMethod header_ "putL" (\() -> putL_impl this)
-    jregisterMethod header_ "putF_overload1" (\() -> putF_overload1_impl this)
-    jregisterMethod header_ "putF_overload2" (\() -> putF_overload2_impl this)
+    jregisterMethod header_ "putF" (\() -> putF_impl this)
+    jregisterMethod header_ "putFS" (\() -> putFS_impl this)
     jregisterMethod header_ "put" (\() -> put_impl this)
     pure this
 
@@ -121,32 +125,26 @@ putL_impl this log = do
     pure ()
 
 
--- Java overloads of putF: calls the overload for the types of the arguments
 putF :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> IO (())
-putF this a1 a2 a3
-    | jisInstanceOf a2 (javaNull :: String) = putF_overload2 this a1 (javaCast a2 :: String) a3
-    | otherwise = putF_overload1 this a1 a2 a3
+putF object_ a1 a2 a3 = jmethod object_ "putF" (\() -> (putF_impl (javaCast object_ :: LogUtil))) () a1 (jtoObject a2) a3
 
-putF_overload1 :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> IO (())
-putF_overload1 object_ a1 a2 a3 = jmethod object_ "putF_overload1" (\() -> (putF_overload1_impl (javaCast object_ :: LogUtil))) () a1 (jtoObject a2) a3
+putF_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> IO (())
+putF_super object_ a1 a2 a3 = (putF_impl (javaCast object_ :: LogUtil)) a1 (jtoObject a2) a3
 
-putF_overload1_super :: (JavaObjectClass this_, JavaObjectClass o2) => this_ -> String -> o2 -> String -> IO (())
-putF_overload1_super object_ a1 a2 a3 = (putF_overload1_impl (javaCast object_ :: LogUtil)) a1 (jtoObject a2) a3
-
-putF_overload1_impl :: LogUtil -> String -> JavaObject -> String -> IO (())
-putF_overload1_impl this specialMessage anyTypeObject_ functionName = do
+putF_impl :: LogUtil -> String -> JavaObject -> String -> IO (())
+putF_impl this specialMessage anyTypeObject_ functionName = do
         let anyType = jtoObject anyTypeObject_
         pure ()
 
 
-putF_overload2 :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (())
-putF_overload2 object_ a1 a2 a3 = jmethod object_ "putF_overload2" (\() -> (putF_overload2_impl (javaCast object_ :: LogUtil))) () a1 a2 a3
+putFS :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (())
+putFS object_ a1 a2 a3 = jmethod object_ "putFS" (\() -> (putFS_impl (javaCast object_ :: LogUtil))) () a1 a2 a3
 
-putF_overload2_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (())
-putF_overload2_super object_ a1 a2 a3 = (putF_overload2_impl (javaCast object_ :: LogUtil)) a1 a2 a3
+putFS_super :: (JavaObjectClass this_) => this_ -> String -> String -> String -> IO (())
+putFS_super object_ a1 a2 a3 = (putFS_impl (javaCast object_ :: LogUtil)) a1 a2 a3
 
-putF_overload2_impl :: LogUtil -> String -> String -> String -> IO (())
-putF_overload2_impl this specialMessage className functionName = do
+putFS_impl :: LogUtil -> String -> String -> String -> IO (())
+putFS_impl this specialMessage className functionName = do
         pure ()
 
 

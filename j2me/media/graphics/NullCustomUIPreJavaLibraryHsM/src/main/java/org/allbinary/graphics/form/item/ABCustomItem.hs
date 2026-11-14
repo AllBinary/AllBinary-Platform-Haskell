@@ -7,10 +7,10 @@ module ABCustomItem where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,6 +50,9 @@ nULL_CUSTOM_ITEM = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance)
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO ABCustomItem
 newRecord_ = do
     header_ <- newJavaHeader
@@ -78,7 +81,7 @@ initFields_ this = do
 getNullInstance :: IO (ABCustomItem)
 getNullInstance = do
         when ((jget ABCustomItem.nULL_CUSTOM_ITEM) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_3 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE))
+            assignedValue <- (fmap jtoObject (new_3 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE)))
             jset ABCustomItem.nULL_CUSTOM_ITEM (assignedValue)
         pure ((javaCast (jget ABCustomItem.nULL_CUSTOM_ITEM) :: ABCustomItem))
 

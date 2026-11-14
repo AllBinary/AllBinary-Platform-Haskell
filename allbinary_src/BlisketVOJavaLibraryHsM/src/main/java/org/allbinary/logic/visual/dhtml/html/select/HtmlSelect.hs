@@ -20,10 +20,10 @@ import HtmlTag hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified HashMap -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified StdUtil -- org.allbinary.logic.StdUtil
@@ -242,7 +243,7 @@ toString_impl :: HtmlSelect -> IO (String)
 toString_impl this = do
         stringUtil <- (StringUtil.getInstance)
         result <- newIORef ((jget (stringUtil).eMPTY_STRING))
-        attributeKeys <- (HashMap.toArray ((jio (HashMap.keySet ((jget (this).base.otherAttributes))))))
+        attributeKeys <- (Set.toArray ((jio (HashMap.keySet ((jget (this).base.otherAttributes))))))
         let attributeSize = (jlength attributeKeys)
         jset result ((jget (this).before))
         jset result (((jget result) ++ javaToString (jget (this).sTARTSELECT)))
@@ -263,7 +264,8 @@ toString_impl this = do
         when (jio (HtmlSelect.isMultiple this)) $ do
             jset result (((jget result) ++ javaToString ((" " ++ (jget (this).multiple)) ++ " ")))
         jset result (((jget result) ++ javaToString (jget (this).eND)))
-        jset result (((jget result) ++ javaToString (HtmlSelect.getOptions this)))
+        assignedValue <- (HtmlSelect.getOptions this)
+        jset result (((jget result) ++ javaToString assignedValue))
         jset result (((jget result) ++ javaToString (jget (this).eNDSELECT)))
         jset result (((jget result) ++ javaToString (jget (this).after)))
         pure ((jget result))

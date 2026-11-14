@@ -19,10 +19,10 @@ module AuthorizeNetSimData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,40 +49,59 @@ instance JavaObjectClass AuthorizeNetSimData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+x_FP_HASH :: String
 x_FP_HASH = "x_fp_hash"
 
+x_FP_SEQUENCE :: String
 x_FP_SEQUENCE = "x_fp_sequence"
 
+x_FP_TIMESTAMP :: String
 x_FP_TIMESTAMP = "x_fp_timestamp"
 
+x_SHOW_FORM :: String
 x_SHOW_FORM = "x_show_form"
 
+x_HEADER_HTML_PAYMENT_FORM :: String
 x_HEADER_HTML_PAYMENT_FORM = "x_header_html_payment_form"
 
+x_FOOTER_HTML_PAYMENT_FORM :: String
 x_FOOTER_HTML_PAYMENT_FORM = "x_footer_html_payment_form"
 
+x_HEADER_HTML_RECEIPT :: String
 x_HEADER_HTML_RECEIPT = "x_header_html_receipt"
 
+x_FOOTER_HTML_RECEIPT :: String
 x_FOOTER_HTML_RECEIPT = "x_footer_html_receipt"
 
+x_RECEIPT_LINK_TEXT :: String
 x_RECEIPT_LINK_TEXT = "x_receipt_link_text"
 
+x_RECEIPT_LINK_URL :: String
 x_RECEIPT_LINK_URL = "x_receipt_link_url"
 
+x_LOGO_URL :: String
 x_LOGO_URL = "x_logo_url"
 
+x_BACKGROUND_URL :: String
 x_BACKGROUND_URL = "x_background_url"
 
+x_COLOR_BACKGROUND :: String
 x_COLOR_BACKGROUND = "x_color_background"
 
+x_COLOR_LINK :: String
 x_COLOR_LINK = "x_color_link"
 
+x_COLOR_TEXT :: String
 x_COLOR_TEXT = "x_color_text"
 
+x_RELAY_URL :: String
 x_RELAY_URL = "x_relay_url"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AuthorizeNetSimData
 newRecord_ = do

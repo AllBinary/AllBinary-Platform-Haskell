@@ -20,10 +20,10 @@ import PaintableForm hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,7 +38,14 @@ import qualified ItemIndexPaintable -- same package or java.lang
 import qualified ItemIndexDx -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
 import qualified FormTypeFactory -- same package or java.lang
+import qualified ScrollSelectionFormTempHorizontalPaintable -- same package or java.lang
+import qualified ScrollSelectionFormTempHorizontalDx -- same package or java.lang
+import qualified ScrollSelectionFormVerticalPaintable -- same package or java.lang
+import qualified ScrollSelectionFormVericalDx -- same package or java.lang
+import qualified ScrollSelectionFormHorizontalPaintable -- same package or java.lang
+import qualified ScrollSelectionFormHorizontalDx -- same package or java.lang
 import qualified FormType -- same package or java.lang
+import qualified ABCustomForm -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified GPoint -- org.allbinary.graphics.GPoint
@@ -88,10 +95,13 @@ nULL_SCROLL_SELECTION_FORM = unsafePerformIO (newIORef ((jget ((jio (NullUtil.ge
 {-# NOINLINE nULL_SCROLL_SELECTION_HORIZONTAL_FORM #-}
 nULL_SCROLL_SELECTION_HORIZONTAL_FORM = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
+iNSIDE_FORM :: String
 iNSIDE_FORM = " inside form"
 
+iS_IN_FORM :: String
 iS_IN_FORM = "isInForm"
 
+gET_SELECTED_INDEX :: String
 gET_SELECTED_INDEX = "getSelectedIndexForPoint"
 
 newRecord_ :: IO ScrollSelectionForm
@@ -165,7 +175,7 @@ createForm title items formPaintableFactory border backgroundBasicColor foregrou
 getNullScrollSelectionForm :: IO (ScrollSelectionForm)
 getNullScrollSelectionForm = do
         when ((jget ScrollSelectionForm.nULL_SCROLL_SELECTION_FORM) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (ScrollSelectionForm.createForm (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jio (ItemPaintableFactory.getInstance)) 0 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE))
+            assignedValue <- (fmap jtoObject (ScrollSelectionForm.createForm (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jio (ItemPaintableFactory.getInstance)) 0 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE)))
             jset ScrollSelectionForm.nULL_SCROLL_SELECTION_FORM (assignedValue)
         pure ((javaCast (jget ScrollSelectionForm.nULL_SCROLL_SELECTION_FORM) :: ScrollSelectionForm))
 
@@ -173,7 +183,7 @@ getNullScrollSelectionForm = do
 getNullScrollSelectionFormHorizontal :: IO (ScrollSelectionForm)
 getNullScrollSelectionFormHorizontal = do
         when ((jget ScrollSelectionForm.nULL_SCROLL_SELECTION_HORIZONTAL_FORM) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (ScrollSelectionForm.createForm (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jio (ItemPaintableFactory.getInstance)) 0 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE))
+            assignedValue <- (fmap jtoObject (ScrollSelectionForm.createForm (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jio (ItemPaintableFactory.getInstance)) 0 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE)))
             jset ScrollSelectionForm.nULL_SCROLL_SELECTION_HORIZONTAL_FORM (assignedValue)
         pure ((javaCast (jget ScrollSelectionForm.nULL_SCROLL_SELECTION_HORIZONTAL_FORM) :: ScrollSelectionForm))
 
@@ -556,10 +566,4 @@ getButtonBasicColor_impl :: ScrollSelectionForm -> IO (BasicColor.BasicColor)
 getButtonBasicColor_impl this = do
         pure ((jget (this).buttonBasicColor))
 
--- Java nested class ScrollSelectionFormHorizontalPaintable: move it to its own module ScrollSelectionFormHorizontalPaintable
--- Java nested class ScrollSelectionFormVerticalPaintable: move it to its own module ScrollSelectionFormVerticalPaintable
--- Java nested class ScrollSelectionFormTempHorizontalPaintable: move it to its own module ScrollSelectionFormTempHorizontalPaintable
--- Java nested class ScrollSelectionFormHorizontalDx: move it to its own module ScrollSelectionFormHorizontalDx
--- Java nested class ScrollSelectionFormVericalDx: move it to its own module ScrollSelectionFormVericalDx
--- Java nested class ScrollSelectionFormTempHorizontalDx: move it to its own module ScrollSelectionFormTempHorizontalDx
 

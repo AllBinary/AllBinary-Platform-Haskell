@@ -16,14 +16,14 @@
 -- package org.allbinary.game.layer.unit
 module Unit2DecalGameResources (module Unit2DecalGameResources, module BasicGameResources) where
 
-import BasicGameResources hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, append, append_super, append_impl, getString, getString_super, getString_impl, getInstance, getInstance_super, getInstance_impl, instance_)
+import BasicGameResources hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, append, append_super, append_impl, getString, getString_super, getString_impl, instance_)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,10 +32,12 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Any -- same package or java.lang
 import qualified BasicGameResources -- org.allbinary.game.layer.resources.BasicGameResources
 import qualified GameGraphicsResourceUtil -- org.allbinary.game.layer.resources.GameGraphicsResourceUtil
 import qualified AndroidUtil -- org.allbinary.AndroidUtil
 import qualified GraphicsFeatureFactory -- org.allbinary.game.configuration.feature.GraphicsFeatureFactory
+import qualified NullUtil -- org.allbinary.logic.NullUtil
 
 data Unit2DecalGameResources = Unit2DecalGameResources
     { header_ :: JavaHeader
@@ -56,7 +58,7 @@ instance JavaObjectClass Unit2DecalGameResources where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 {-# NOINLINE instance_ #-}
-instance_ = unsafePerformIO ((new_))
+instance_ = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
 newRecord_ :: IO Unit2DecalGameResources
 newRecord_ = do
@@ -71,6 +73,14 @@ newRecord_ = do
 initFields_ :: Unit2DecalGameResources -> IO ()
 initFields_ this = do
     pure ()
+
+
+getInstance :: IO (BasicGameResources.BasicGameResources)
+getInstance = do
+        when ((jget Unit2DecalGameResources.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
+            assignedValue <- (fmap jtoObject (new_))
+            jset Unit2DecalGameResources.instance_ (assignedValue)
+        pure ((javaCast (jget Unit2DecalGameResources.instance_) :: Unit2DecalGameResources))
 
 new_ :: IO Unit2DecalGameResources
 new_ = do
@@ -120,10 +130,5 @@ getString_impl this = do
             javaReturn =<< (GameGraphicsResourceUtil.getStringForFeature ((jio (GameGraphicsResourceUtil.getInstance))) (jget ((jio (GraphicsFeatureFactory.getInstance))).sPRITE_QUARTER_ROTATION_GRAPHICS))
         else do
             javaReturn =<< (BasicGameResources.getString_super this.base)
-
-
-getInstance :: IO (BasicGameResources.BasicGameResources)
-getInstance = do
-        pure ((javaCast Unit2DecalGameResources.instance_ :: BasicGameResources.BasicGameResources))
 
 

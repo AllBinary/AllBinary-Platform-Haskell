@@ -19,10 +19,10 @@ module BasicWeaponPart where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,11 +69,15 @@ instance JavaObjectClass BasicWeaponPart where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_BASIC_WEAPON_PART :: BasicWeaponPart
 {-# NOINLINE nULL_BASIC_WEAPON_PART #-}
 nULL_BASIC_WEAPON_PART = unsafePerformIO ((BasicWeaponPart.createBasicWeaponPart (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicWeaponPart
 newRecord_ = do
@@ -112,7 +116,7 @@ initFields_ this = do
 
 createBasicWeaponPart :: Animation.Animation -> IO (BasicWeaponPart)
 createBasicWeaponPart animationInterface = do
-        (new_5 animationInterface (AllBinaryLayer.nULL_ALLBINARY_LAYER) (WeaponProperties.nULL_WEAPON_PROPERTIES) (jio (NoScoreable.getInstance)) (RelativeRelationship.nULL_RELATIVE_RELATIONSHIP))
+        (new_5 animationInterface (AllBinaryLayer.nULL_ALLBINARY_LAYER) (WeaponProperties.nULL_WEAPON_PROPERTIES) (javaCast (jio (NoScoreable.getInstance))) (RelativeRelationship.nULL_RELATIVE_RELATIONSHIP))
 
 new_5 :: Animation.Animation -> AllBinaryLayer.AllBinaryLayer -> WeaponProperties.WeaponProperties -> ScoreableInterface.ScoreableInterface -> RelativeRelationship.RelativeRelationship -> IO BasicWeaponPart
 new_5 animationInterface sourceLayerInterface weaponProperties scoreableInterface relativeRelationship = do

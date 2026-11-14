@@ -19,10 +19,10 @@ module GameConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameConfigurationSingleton -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified GameFeatureEvent -- org.allbinary.game.configuration.event.GameFeatureEvent
 import qualified GameFeatureEventHandler -- org.allbinary.game.configuration.event.GameFeatureEventHandler
 import qualified BooleanFactory -- org.allbinary.logic.java.bool.BooleanFactory

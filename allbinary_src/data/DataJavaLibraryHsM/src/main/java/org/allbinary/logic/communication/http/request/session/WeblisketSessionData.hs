@@ -19,10 +19,10 @@ module WeblisketSessionData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,24 +49,35 @@ instance JavaObjectClass WeblisketSessionData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iNVALIDATESESSION :: String
 iNVALIDATESESSION = "SESSION_INVALIDATE_SESSION"
 
+aTTEMPTS :: String
 aTTEMPTS = "SESSION_ATTEMPTS"
 
+tIMEOUT :: String
 tIMEOUT = "SESSION_TIMEOUT"
 
+rEMOVABLEUSERNAME :: String
 rEMOVABLEUSERNAME = "SESSION_REMOVABLE_USER_NAME"
 
+rEMOVABLEPASSWORD :: String
 rEMOVABLEPASSWORD = "SESSION_REMOVABLE_PASSWORD"
 
+rEMOVABLENEWPASSWORD :: String
 rEMOVABLENEWPASSWORD = "SESSION_REMOVABLE_NEW_PASSWORD"
 
+rEMOVABLEREENTERNEWPASSWORD :: String
 rEMOVABLEREENTERNEWPASSWORD = "SESSION_REMOVABLE_REENTER_NEW_PASSWORD"
 
+aUTHENTICATED :: String
 aUTHENTICATED = "SESSION_AUTHENTICATED"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO WeblisketSessionData
 newRecord_ = do

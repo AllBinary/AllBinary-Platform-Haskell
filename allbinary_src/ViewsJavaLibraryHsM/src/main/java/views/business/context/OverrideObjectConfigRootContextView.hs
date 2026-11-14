@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
+import qualified HttpComponentView -- same package or java.lang
 import qualified XmlDocumentHelper -- org.allbinary.data.tree.dom.document.XmlDocumentHelper
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
@@ -121,13 +122,13 @@ view_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
             nameStart <- (StringMaker.toString stringBuffer)
-            if ((jio (TransformInfoInterface.indexOf ((jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))) (GeneratorTransformInfoData.nAME))) > 0) then do
+            if ((jstringIndexOf (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (GeneratorTransformInfoData.nAME) 0) > 0) then do
                 Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ javaToString GeneratorTransformInfoData.nAME))
-            else if ((jio (TransformInfoInterface.indexOf ((jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))) (RootTransformInfoData.nAME))) > 0) then do
+            else if ((jstringIndexOf (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (RootTransformInfoData.nAME) 0) > 0) then do
                 Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ javaToString RootTransformInfoData.nAME))
             else do
                 javaThrow ((JavaException "Exception" "Override Currently Not Supported"))
-            overrideObjectConfigDocument <- (TransformInfoInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))
+            overrideObjectConfigDocument <- (TransformInfoObjectConfigInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Retrieved OverrideObjectConfig: " ++ (jio (XmlDocumentHelper.toString overrideObjectConfigDocument))) this "view()")
             transformFactory <- (TransformFactory.getInstance)

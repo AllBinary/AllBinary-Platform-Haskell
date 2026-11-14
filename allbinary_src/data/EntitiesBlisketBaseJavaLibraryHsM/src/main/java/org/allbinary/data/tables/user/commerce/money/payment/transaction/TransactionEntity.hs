@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,10 @@ import qualified PaymentTransactionKeys -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -103,7 +107,7 @@ new_ = do
 
 init_ :: TransactionEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -122,10 +126,10 @@ remove_impl this userName orderNumber = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "remove" e)
             ) $ do
-            whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereHashMap (OrderData.iD) (javaCast orderNumber :: String))
             Control.Monad.void (HashMap.put whereHashMap (UserData.uSERNAME) userName)
-            Control.Monad.void (AbSqlBean.deleteWhere_super this.base whereHashMap)
+            Control.Monad.void (AbSqlBean.deleteWhere_1_super this.base whereHashMap)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "remove")
         pure ()

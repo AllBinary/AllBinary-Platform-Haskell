@@ -20,10 +20,10 @@ import CommandFormInputProcessor hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,9 @@ import qualified LogUtil -- same package or java.lang
 import qualified RepaintBehavior -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicMenuInputProcessor -- same package or java.lang
+import qualified PlayerGameInput -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified GameKeyEvent -- org.allbinary.game.input.event.GameKeyEvent
 import qualified ScrollSelectionForm -- org.allbinary.graphics.form.ScrollSelectionForm
 import qualified MotionGestureEvent -- org.allbinary.input.motion.gesture.observer.MotionGestureEvent
@@ -92,7 +95,7 @@ new_4 gameKeyEventList playerInputId gameCommandCanvas form = do
 
 init_4 :: ImmediateCommandFormInputProcessor -> BasicArrayList.BasicArrayList -> Int -> GameCommandCanvas.GameCommandCanvas -> ScrollSelectionForm.ScrollSelectionForm -> IO ()
 init_4 this gameKeyEventList playerInputId gameCommandCanvas form = do
-        CommandFormInputProcessor.init_4 this.base (gameKeyEventList) (playerInputId) (gameCommandCanvas) (form)
+        CommandFormInputProcessor.init_4 this.base (gameKeyEventList) (playerInputId) (javaCast gameCommandCanvas) (form)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).gameCommandCanvas (gameCommandCanvas)

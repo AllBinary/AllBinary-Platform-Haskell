@@ -19,10 +19,10 @@ module QuoteRequest where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -75,6 +75,9 @@ instance JavaObjectClass QuoteRequest where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO QuoteRequest
 newRecord_ = do
@@ -140,7 +143,7 @@ init_2 this userName request = do
         Control.Monad.void (QuoteRequest.setTimeFrame this (javaCast (jio (HttpServletRequest.getParameter request (jget (quoteRequestData).tIMEFRAME))) :: String))
         Control.Monad.void (QuoteRequest.setComments this (javaCast (jio (HttpServletRequest.getParameter request (jget (quoteRequestData).cOMMENTS))) :: String))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created with: " ++ javaToString (jio (QuoteRequest.toHashMap this))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created with: " ++ jconcatObject HashMap.toString (jio (QuoteRequest.toHashMap this))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ()
 
 new_1 :: HashMap.HashMap -> IO QuoteRequest
@@ -161,7 +164,7 @@ init_1 this hashMap = do
         Control.Monad.void (QuoteRequest.setTimeFrame this (javaCast (jio (HashMap.get hashMap (jget (quoteRequestData).tIMEFRAME))) :: String))
         Control.Monad.void (QuoteRequest.setComments this (javaCast (jio (HashMap.get hashMap (jget (quoteRequestData).cOMMENTS))) :: String))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPER))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created with: " ++ javaToString (jio (QuoteRequest.toHashMap this))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Created with: " ++ jconcatObject HashMap.toString (jio (QuoteRequest.toHashMap this))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ()
 
 

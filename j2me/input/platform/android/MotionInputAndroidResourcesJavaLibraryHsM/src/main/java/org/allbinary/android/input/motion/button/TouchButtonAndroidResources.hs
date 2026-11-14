@@ -20,10 +20,10 @@ import Init hiding (new_, init_, newRecord_, initFields_, header_, base, staticI
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GenericOperatingSystem -- same package or java.lang
 import qualified AndroidResources -- org.allbinary.AndroidResources
 import qualified ResourceUtil -- org.allbinary.data.resource.ResourceUtil
 import qualified Init -- org.allbinary.init.Init
@@ -113,8 +114,8 @@ init_impl this = do
             jsetIndex rESOURCE_ARRAY (6) ((jget ((jget (androidResources).raw)).touch_button_turn_right_arrow_128_by_128))
             jsetIndex rESOURCE_ARRAY (7) ((jget ((jget (androidResources).raw)).touch_button_strafe_left_arrow_128_by_128))
             jsetIndex rESOURCE_ARRAY (8) ((jget ((jget (androidResources).raw)).touch_button_strafe_right_arrow_128_by_128))
-            when (jio (OperatingSystemFactory.isOverScan ((jio (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance)))))))) $ do
-                Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jindex rESOURCE_STRING_ARRAY (2))).hINT) (javaToString (jget ((jget (androidResources).raw)).ouya_o)))
+            when (jio (GenericOperatingSystem.isOverScan ((jio (OperatingSystemFactory.getOperatingSystemInstance ((jio (OperatingSystemFactory.getInstance)))))))) $ do
+                Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jindex rESOURCE_STRING_ARRAY (2))).hINT) ((jget ((jget (androidResources).raw)).ouya_o)))
         else do
             jsetIndex rESOURCE_ARRAY (0) ((jget ((jget (androidResources).raw)).touch_button_64_by_64))
             jsetIndex rESOURCE_ARRAY (1) ((jget ((jget (androidResources).raw)).touch_button_generic_action_64_by_64))
@@ -126,7 +127,7 @@ init_impl this = do
             jsetIndex rESOURCE_ARRAY (7) ((jget ((jget (androidResources).raw)).touch_button_strafe_left_arrow_64_by_64))
             jsetIndex rESOURCE_ARRAY (8) ((jget ((jget (androidResources).raw)).touch_button_strafe_right_arrow_64_by_64))
         forM_ [0 .. (jlength rESOURCE_ARRAY) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jindex rESOURCE_STRING_ARRAY (index))).rESOURCE) (javaToString (jindex rESOURCE_ARRAY (index))))
+            Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jindex rESOURCE_STRING_ARRAY (index))).rESOURCE) ((jindex rESOURCE_ARRAY (index))))
         pure ()
 
 

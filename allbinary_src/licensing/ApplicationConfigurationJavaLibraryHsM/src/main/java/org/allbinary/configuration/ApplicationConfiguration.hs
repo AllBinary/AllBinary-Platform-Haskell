@@ -7,10 +7,10 @@ module ApplicationConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -98,7 +98,7 @@ initFields_ this = do
 getInstance :: IO (ApplicationConfiguration)
 getInstance = do
         when ((jget ApplicationConfiguration.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset ApplicationConfiguration.instance_ (assignedValue)
         pure ((javaCast (jget ApplicationConfiguration.instance_) :: ApplicationConfiguration))
 
@@ -132,7 +132,7 @@ read_super object_ = (read_impl (javaCast object_ :: ApplicationConfiguration))
 read_impl :: ApplicationConfiguration -> IO (())
 read_impl this = do
         fileInputStreamFactory <- (FileStreamFactory.getInstance)
-        fileInputStream <- (FileStreamFactory.getFileInputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE))
+        fileInputStream <- (fmap (\value_ -> javaCast value_ :: InputStream.InputStream) (FileStreamFactory.getFileInputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE)))
         dataInputStream <- (AbDataInputStream.new_1 fileInputStream)
         fullScreen <- (AbDataInputStream.readInt dataInputStream)
         if (fullScreen == 0) then do
@@ -168,7 +168,7 @@ write_super object_ = (write_impl (javaCast object_ :: ApplicationConfiguration)
 
 write_impl :: ApplicationConfiguration -> IO (())
 write_impl this = do
-        closeable <- newIORef (NullCloseable.nULL_CLOSEABLE)
+        closeable <- newIORef ((javaCast NullCloseable.nULL_CLOSEABLE :: Closeable.Closeable))
         flip finally (do
             Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (jget closeable))
             ) $ handle (\(e :: JavaException) -> do
@@ -176,9 +176,9 @@ write_impl this = do
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Write Configuration: " ++ (jio (ApplicationConfiguration.toString this))) this "write")
             fileInputStreamFactory <- (FileStreamFactory.getInstance)
-            fileOutputStream <- (FileStreamFactory.getFileOutputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE))
+            fileOutputStream <- (fmap (\value_ -> javaCast value_ :: OutputStream.OutputStream) (FileStreamFactory.getFileOutputStreamInstance fileInputStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).fILE)))
             dataOutputStream <- (AbDataOutputStream.new_1 fileOutputStream)
-            jset closeable (dataOutputStream)
+            jset closeable ((javaCast dataOutputStream :: Closeable.Closeable))
             if (jio (ApplicationConfiguration.isFullscreen this)) then do
                 Control.Monad.void (AbDataOutputStream.writeInt dataOutputStream 1)
             else do

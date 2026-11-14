@@ -20,10 +20,10 @@ import BasicTable hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -127,7 +128,7 @@ init_2 this hashMap pageContext = do
         initFields_ this
         let storeName = (javaCast (jio (HashMap.get hashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String)
         if (storeName /= javaNull) then do
-            assignedValue <- (StoreFrontFactory.getInstance storeName)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
             jset (this).storeFrontInterface (assignedValue)
         else do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFront.new_))
@@ -216,7 +217,7 @@ email_impl this = do
             id <- newIORef (0)
             size <- (BasicArrayList.size vector)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-                nextId <- (intValue (((javaCast (jio (BasicArrayList.get vector index)) :: Int))))
+                let nextId = ((javaCast (jio (BasicArrayList.get vector index)) :: Int))
                 when ((jget id) < nextId) $ do
                     jset id (nextId)
             quoteRequest <- (QuoteRequestEntity.get quoteRequestEntity userName (jget id))

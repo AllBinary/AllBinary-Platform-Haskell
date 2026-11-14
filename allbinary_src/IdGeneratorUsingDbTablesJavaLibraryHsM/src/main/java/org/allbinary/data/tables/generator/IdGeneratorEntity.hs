@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.generator
 module IdGeneratorEntity (module IdGeneratorEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, update_1, update_1_super, update_1_impl, update, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, tableData, nAME, vALUE)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, get, get_super, get_impl, insert, insert_super, insert_impl, delete, delete_super, delete_impl, update, update_super, update_impl, update_1, update_1_super, update_1_impl, update, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, logUtil, tableName, tableData, nAME, vALUE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -88,6 +92,7 @@ newRecord_ = do
     jregisterMethod header_ "update_1" (\() -> update_1_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
+    jregisterMethod header_ "deleteWhere" (\() -> deleteWhere_impl this)
     pure this
 
 initFields_ :: IdGeneratorEntity -> IO ()
@@ -107,7 +112,7 @@ new_ = do
 
 init_ :: IdGeneratorEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.base.base.base.base.sqlStrings)).cREATE_TABLE)))) (jget this.tableName)))) (jget ((jget (this).base.base.base.base.base.sqlStrings)).sTART)))) (jget this.nAME)))) (jget ((jget (this).base.base.base.base.base.sqlTypeStrings)).mAX_CHAR_COLUMN_NOT_NULL)))) (jget this.vALUE)))) (jget ((jget (this).base.base.base.base.base.sqlTypeStrings)).mAX_BIG_INT_UNSIGNED_NOT_NULL)))) (jget ((jget (this).base.base.base.base.base.sqlStrings)).pRIMARY_KEY)))) (jget this.nAME)))) (jget ((jget (this).base.base.base.base.base.sqlStrings)).eND)))))
@@ -125,13 +130,13 @@ get_super object_ a1 = (get_impl (javaCast object_ :: IdGeneratorEntity)) a1
 
 get_impl :: IdGeneratorEntity -> String -> IO (Int64)
 get_impl this name = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget (this).nAME) name)
         hashMap <- (AbSqlBean.getRow_super this.base keysAndValues)
-        when ((jio (compareTo (((javaCast (jio (HashMap.get hashMap (jget (this).nAME))) :: String))) name)) /= 0) $ do
+        when ((Prelude.fromEnum (Prelude.compare ((javaCast (jio (HashMap.get hashMap (jget (this).nAME))) :: String)) name) - 1) /= 0) $ do
             javaThrow ((JavaException "Exception" "results do not match"))
         let value = (javaCast (jio (HashMap.get hashMap (jget (this).vALUE))) :: String)
-        pure ((Prelude.read value))
+        (jparseLong value)
 
 
 insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
@@ -174,7 +179,7 @@ update_super object_ a1 a2 = (update_impl (javaCast object_ :: IdGeneratorEntity
 
 update_impl :: IdGeneratorEntity -> String -> Int64 -> IO (())
 update_impl this name value = do
-        map <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        map <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put map (jget (this).nAME) name)
         Control.Monad.void (HashMap.put map (jget (this).vALUE) (javaToString value))
         Control.Monad.void (IdGeneratorEntity.update_1 this map)
@@ -214,5 +219,17 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: IdGeneratorEntity
 dropTable_impl :: IdGeneratorEntity -> IO (String)
 dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
+
+
+deleteWhere :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere object_ a1 a2 = jmethod object_ "deleteWhere" (\() -> (deleteWhere_impl (javaCast object_ :: IdGeneratorEntity))) () a1 a2
+
+deleteWhere_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere_super object_ a1 a2 = (deleteWhere_impl (javaCast object_ :: IdGeneratorEntity)) a1 a2
+
+deleteWhere_impl :: IdGeneratorEntity -> String -> String -> IO (())
+deleteWhere_impl this key value = do
+        Control.Monad.void (AbSqlBean.deleteWhere_super this.base key value)
+        pure ()
 
 

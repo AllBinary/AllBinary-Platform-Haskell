@@ -19,10 +19,10 @@ module InputRobotFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,11 +71,15 @@ instance JavaObjectClass InputRobotFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+inputRobotFactory :: InputRobotFactory
 {-# NOINLINE inputRobotFactory #-}
 inputRobotFactory = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputRobotFactory
 newRecord_ = do
@@ -201,7 +205,7 @@ loadLibraries_1 collection = do
 loadLibrary :: InputRobotInterface.InputRobotInterface -> IO (())
 loadLibrary inputRobotInterface = do
         logUtil <- (LogUtil.getInstance)
-        when (jio (InterfaceUtil.isImplemented ("SecuredNativeLibraryInterface") inputRobotInterface)) $ do
+        when (jio (InterfaceUtil.isImplemented (JavaClass "SecuredNativeLibraryInterface") inputRobotInterface)) $ do
             Control.Monad.void (LogUtil.putF logUtil ("Loading Library: " ++ (jio (InputRobotInterface.getName inputRobotInterface))) "InputRobotFactory" "loadLibraries")
             let securedNativeLibraryInterface = (javaCast inputRobotInterface :: SecuredNativeLibraryInterface.SecuredNativeLibraryInterface)
             Control.Monad.void (SecuredNativeLibraryInterface.load securedNativeLibraryInterface)
@@ -223,9 +227,9 @@ unloadLibraries_impl this = do
         inputRobotArray <- (Set.toArray set)
         let size = (jlength inputRobotArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            assignedValue <- (InputRobotFactory.get_1 this (javaCast (jindex inputRobotArray (index)) :: String))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: InputRobotInterface.InputRobotInterface) (InputRobotFactory.get_1 this (javaCast (jindex inputRobotArray (index)) :: String)))
             jset inputRobotInterface (assignedValue)
-            when (jio (InterfaceUtil.isImplemented ("SecuredNativeLibraryInterface") (jget inputRobotInterface))) $ do
+            when (jio (InterfaceUtil.isImplemented (JavaClass "SecuredNativeLibraryInterface") (jget inputRobotInterface))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Unloading Library: " ++ (jio (InputRobotInterface.getName ((jget inputRobotInterface))))) this "unloadLibraries")
                 let securedNativeLibraryInterface = (javaCast (jget inputRobotInterface) :: SecuredNativeLibraryInterface.SecuredNativeLibraryInterface)
                 Control.Monad.void (SecuredNativeLibraryInterface.unload securedNativeLibraryInterface)

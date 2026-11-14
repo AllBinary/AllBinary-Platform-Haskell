@@ -19,10 +19,10 @@ module BasicGroupItemData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,28 +49,41 @@ instance JavaObjectClass BasicGroupItemData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iTEM_ONE :: String
 iTEM_ONE = "BASICGROUPITEM_ONE"
 
+iTEM_TWO :: String
 iTEM_TWO = "BASICGROUPITEM_TWO"
 
+iTEM_THREE :: String
 iTEM_THREE = "BASICGROUPITEM_THREE"
 
+iTEM_FOUR :: String
 iTEM_FOUR = "BASICGROUPITEM_FOUR"
 
+iTEM_FIVE :: String
 iTEM_FIVE = "BASICGROUPITEM_FIVE"
 
+iTEM_SIX :: String
 iTEM_SIX = "BASICGROUPITEM_SIX"
 
+iTEM_SEVEN :: String
 iTEM_SEVEN = "BASICGROUPITEM_SEVEN"
 
+iTEM_EIGHT :: String
 iTEM_EIGHT = "BASICGROUPITEM_EIGHT"
 
+iTEM_NINE :: String
 iTEM_NINE = "BASICGROUPITEM_NINE"
 
+iTEM_TEN :: String
 iTEM_TEN = "BASICGROUPITEM_TEN"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicGroupItemData
 newRecord_ = do

@@ -20,10 +20,10 @@ import InitUpdatePaintable hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -90,8 +90,8 @@ newRecord_ = do
 initFields_ :: GamePerformanceInitUpdatePaintable -> IO ()
 initFields_ this = do
     jset this.halfHeight =<< (DisplayInfoSingleton.getLastHalfHeight ((jio (DisplayInfoSingleton.getInstance))))
-    jset this.yArray ((jarrayFromList [((jget (this).halfHeight) + 30), ((jget (this).halfHeight) + 30), (((jget (this).halfHeight) + 30) + 15), (((jget (this).halfHeight) + 30) + 15), (((jget (this).halfHeight) + 30) + 30), (((jget (this).halfHeight) + 30) + 30), (((jget (this).halfHeight) + 30) + 45), (((jget (this).halfHeight) + 30) + 45)]))
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.yArray ((jarrayFromList [((jget (this).halfHeight) + 30), ((jget (this).halfHeight) + 30), (((jget (this).halfHeight) + 30) + 15), (((jget (this).halfHeight) + 30) + 15), (((jget (this).halfHeight) + 30) + 30), (((jget (this).halfHeight) + 30) + 30), (((jget (this).halfHeight) + 30) + 45), (((jget (this).halfHeight) + 30) + 45)] :: JavaArray Int))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.baseRefreshHelperCharArray ((jnewArray2 (0) (0) '\0'))
     jset this.defaultStringWidth (0)
     jset this.rED =<< (BasicColor.intValue ((jget ((jio (BasicColorFactory.getInstance))).rED)))

@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -131,8 +131,8 @@ paint_super object_ a1 = (paint_impl (javaCast object_ :: RTSLayerCompositePaint
 
 paint_impl :: RTSLayerCompositePaintable -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
-        Control.Monad.void (Graphics.drawString graphics (jio (RTSLayerCompositePaintable.getDownGradeCost this)) (jget ((jget (this).upgradableRTSLayerHudPaintable)).textX) (jget ((jget (this).upgradableRTSLayerHudPaintable)).costY1) 0)
-        Control.Monad.void (Graphics.drawString graphics (jio (RTSLayerCompositePaintable.getUpgradeCost this)) (jget ((jget (this).upgradableRTSLayerHudPaintable)).textX) (jget ((jget (this).upgradableRTSLayerHudPaintable)).costY) 0)
+        Control.Monad.void (Graphics.drawString graphics (jio (RTSLayerCompositePaintable.getDownGradeCost this)) (jget ((jget (this).upgradableRTSLayerHudPaintable)).base.textX) (jget ((jget (this).upgradableRTSLayerHudPaintable)).costY1) 0)
+        Control.Monad.void (Graphics.drawString graphics (jio (RTSLayerCompositePaintable.getUpgradeCost this)) (jget ((jget (this).upgradableRTSLayerHudPaintable)).base.textX) (jget ((jget (this).upgradableRTSLayerHudPaintable)).costY) 0)
         pure ()
 
 

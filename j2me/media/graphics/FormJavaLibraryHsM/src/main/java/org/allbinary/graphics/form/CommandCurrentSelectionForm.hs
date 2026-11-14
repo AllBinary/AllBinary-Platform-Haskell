@@ -20,10 +20,10 @@ import ScrollCurrentSelectionForm hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ItemPaintableFactory -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
+import qualified ScrollSelectionForm -- same package or java.lang
+import qualified PaintableForm -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
@@ -205,7 +207,7 @@ updateAll_impl :: CommandCurrentSelectionForm -> Graphics.Graphics -> JavaArray 
 updateAll_impl this graphics items = do
         index <- newIORef ((jlength items))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (preMeasurement ((jindex items ((jget index)))) graphics)
+            Control.Monad.void (ABCustomItem.preMeasurement ((jindex items ((jget index)))) graphics)
             Control.Monad.void (CommandCurrentSelectionForm.updateAt this (jget index) (jindex items ((jget index))))
         pure ()
 
@@ -356,7 +358,7 @@ paintItem_super object_ a1 a2 a3 a4 a5 = (paintItem_impl (javaCast object_ :: Co
 
 paintItem_impl :: CommandCurrentSelectionForm -> Graphics.Graphics -> Int -> ABCustomItem.ABCustomItem -> Int -> Int -> IO (Int)
 paintItem_impl this graphics index item x y = do
-        Control.Monad.void (paintXY ((jindex ((jget (this).selectedAnimationArray)) (index))) graphics x y)
+        Control.Monad.void (Animation.paintXY ((jindex ((jget (this).selectedAnimationArray)) (index))) graphics x y)
         (ScrollCurrentSelectionForm.paintItem_super this.base graphics index item x y)
 
 
@@ -369,7 +371,7 @@ paintUnselectedItem_super object_ a1 a2 a3 a4 a5 = (paintUnselectedItem_impl (ja
 
 paintUnselectedItem_impl :: CommandCurrentSelectionForm -> Graphics.Graphics -> Int -> ABCustomItem.ABCustomItem -> Int -> Int -> IO (Int)
 paintUnselectedItem_impl this graphics index item x y = do
-        Control.Monad.void (paintXY ((jindex ((jget (this).unSelectedAnimationArray)) (index))) graphics x y)
+        Control.Monad.void (Animation.paintXY ((jindex ((jget (this).unSelectedAnimationArray)) (index))) graphics x y)
         (ScrollCurrentSelectionForm.paintUnselectedItem_super this.base graphics index item x y)
 
 

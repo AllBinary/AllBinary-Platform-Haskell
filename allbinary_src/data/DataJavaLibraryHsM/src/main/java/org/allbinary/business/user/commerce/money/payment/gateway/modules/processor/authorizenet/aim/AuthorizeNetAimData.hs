@@ -19,10 +19,10 @@ module AuthorizeNetAimData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,24 +49,35 @@ instance JavaObjectClass AuthorizeNetAimData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+x_DELIM_DATA :: String
 x_DELIM_DATA = "x_delim_data"
 
+x_DELIM_CHAR :: String
 x_DELIM_CHAR = "x_delim_char"
 
+x_ENCAP_CHAR :: String
 x_ENCAP_CHAR = "x_encap_char"
 
+x_AUTHENTICATION_INDICATOR :: String
 x_AUTHENTICATION_INDICATOR = "x_authentication_indicator"
 
+x_CARDHOLDER_AUTHENTICATION_VALUE :: String
 x_CARDHOLDER_AUTHENTICATION_VALUE = "x_cardholder_authentication_value"
 
+x_DRIVERS_LICENSE_NUM :: String
 x_DRIVERS_LICENSE_NUM = "x_drivers_license_num"
 
+x_DRIVERS_LICENSE_STATE :: String
 x_DRIVERS_LICENSE_STATE = "x_drivers_license_state"
 
+x_DRIVERS_LICENSE_DOB :: String
 x_DRIVERS_LICENSE_DOB = "x_drivers_license_dob"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AuthorizeNetAimData
 newRecord_ = do

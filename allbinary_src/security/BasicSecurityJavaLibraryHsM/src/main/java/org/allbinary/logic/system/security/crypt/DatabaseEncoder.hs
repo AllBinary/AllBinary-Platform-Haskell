@@ -19,10 +19,10 @@ module DatabaseEncoder where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,9 @@ instance JavaObjectClass DatabaseEncoder where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DatabaseEncoder
 newRecord_ = do
@@ -110,19 +113,13 @@ decode value = do
             ) $ do
             tokenizer <- (Tokenizer.new_1 (jget ((jio (CommonSeps.getInstance))).sPACE))
             vector <- (Tokenizer.getTokensFromString tokenizer value (javaCast (jio (BasicArrayListD.new_))))
-            byteVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             size <- (BasicArrayList.size vector)
+            let decode = (jnewArray (size) 0)
             byteOfData <- newIORef ("")
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset byteOfData ((javaCast (jindex ((jget (vector).objectArray)) (index)) :: String))
-                Control.Monad.void (BasicArrayList.add byteVector (Prelude.fromIntegral ((jget byteOfData)) :: Int8))
-            let decode = (jnewArray ((jio (BasicArrayList.size byteVector))) 0)
-            decodeIndex <- newIORef (0)
-            aByte <- newIORef (javaNull)
-            forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-                jset aByte ((javaCast (jindex ((jget (byteVector).objectArray)) (index)) :: Byte.Byte))
-                jsetIndex decode ((jget decodeIndex)) ((jget aByte))
-                jset decodeIndex ((jget decodeIndex) + 1)
+                assignedValue <- (jparseByte (jget byteOfData))
+                jsetIndex decode (index) (assignedValue)
             pure (decode)
 
 

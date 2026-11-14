@@ -20,10 +20,10 @@ import BasicPersitance hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -132,7 +132,7 @@ loadAll_impl this abeClientInformation = do
             ) $ do
             assignedValue <- (RecordStore.openRecordStore (jio (BasicPersitance.getRecordId this abeClientInformation)) True)
             jset recordStore (assignedValue)
-            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
+            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (javaCast (jget NullRecordFilter.nULL_RECORD_FILTER)) (javaCast NullRecordComparator.nULL_RECORD_COMPARATOR) True)
             gameActionInputId <- newIORef (0)
             inputId <- newIORef (0)
             gameActionInput <- newIORef (javaNull)
@@ -162,12 +162,14 @@ loadAll_impl this abeClientInformation = do
                     value <- newIORef (0)
                     fix $ \loop -> when ((jio (DataInputStream.available ((jget inputStream)))) > 0) $ javaIteration (loop) $ do
                         gameActionInputIdAsString <- (DataInputStream.readUTF ((jget inputStream)))
-                        jset value ((Prelude.read gameActionInputIdAsString))
+                        assignedValue <- (jparseInt gameActionInputIdAsString)
+                        jset value (assignedValue)
                         jset gameActionInputId ((Prelude.fromIntegral (jget value)))
                         Control.Monad.void (DataInputStream.readUTF ((jget inputStream)))
-                        jset value ((Prelude.read (jio (DataInputStream.readUTF ((jget inputStream))))))
+                        assignedValue <- (jparseInt (jio (DataInputStream.readUTF ((jget inputStream)))))
+                        jset value (assignedValue)
                         jset inputId ((Prelude.fromIntegral (jget value)))
-                        assignedValue <- (GameKeyMappingFactory.getGameKey gameKeyFactory (Prelude.fromIntegral (jget gameActionInputId)))
+                        assignedValue <- (fmap (\value_ -> javaCast value_ :: Input.Input) (GameKeyMappingFactory.getGameKey gameKeyFactory (Prelude.fromIntegral (jget gameActionInputId))))
                         jset gameActionInput (assignedValue)
                         assignedValue <- (InputFactory.getInstanceById inputFactory (Prelude.fromIntegral (jget inputId)))
                         jset input (assignedValue)

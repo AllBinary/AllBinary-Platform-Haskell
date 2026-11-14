@@ -19,10 +19,10 @@ module ParamsUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,6 +53,9 @@ instance JavaObjectClass ParamsUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ParamsUtil
 newRecord_ = do
@@ -85,9 +88,9 @@ viewParams params = do
             stringBuffer <- (StringMaker.new_)
             forM_ [0 .. (jlength params) - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (StringMaker.append stringBuffer " ")
-                Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex params (index))))))
+                Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName ((jindex params (index))))))
             javaReturn =<< (StringMaker.toString stringBuffer)
         else do
-            pure ("Params Null")
+            javaReturn ("Params Null")
 
 

@@ -19,10 +19,10 @@ module StaticPathGenerator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified PathCacheFactory -- same package or java.lang
 import qualified PathFindingInfo -- same package or java.lang
+import qualified AllBinaryTiledLayer -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
@@ -73,6 +74,9 @@ instance JavaObjectClass StaticPathGenerator where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StaticPathGenerator
 newRecord_ = do

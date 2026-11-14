@@ -20,10 +20,10 @@ import MotionRectangles hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified MotionRectangle -- same package or java.lang
 import qualified Rectangle -- same package or java.lang
+import qualified GPoint -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified ImageComparisonResult -- org.allbinary.media.image.comparison.ImageComparisonResult
@@ -59,6 +60,7 @@ instance JavaObjectClass AllMotionRectangles where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "allMotionRectangles_"
 
 newRecord_ :: IO AllMotionRectangles

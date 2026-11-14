@@ -20,10 +20,10 @@ import AndroidGameStatistics hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TimeDelayHelper -- same package or java.lang
 import qualified View -- android.view.View
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified AndroidGameStatistics
@@ -58,6 +59,7 @@ instance JavaObjectClass ProfilingRefreshHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ProfilingRefreshHelper
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 

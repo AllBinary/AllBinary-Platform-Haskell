@@ -19,10 +19,10 @@ module NoGameNotificationHudSingleton where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameNotificationHud -- same package or java.lang
+import qualified NoGameGameNotificationHud -- same package or java.lang
 import qualified BasicHudFactory -- org.allbinary.game.graphics.hud.BasicHudFactory
 import qualified BasicColorFactory -- org.allbinary.graphics.color.BasicColorFactory
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -56,11 +57,15 @@ instance JavaObjectClass NoGameNotificationHudSingleton where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: NoGameNotificationHudSingleton
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NoGameNotificationHudSingleton
 newRecord_ = do
@@ -97,8 +102,6 @@ init_ this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).cONSTRUCTOR) e)
             ) $ do
             basicHudFactory <- (BasicHudFactory.getInstance)
-            -- Java nested class NoGameGameNotificationHud: move it to its own module
-
             assignedValue <- (fmap (\value_ -> javaCast value_ :: GameNotificationHud.GameNotificationHud) (NoGameGameNotificationHud.new_))
             jset (this).gameNotificationHud (assignedValue)
         pure ()

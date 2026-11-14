@@ -20,10 +20,10 @@ import KeyPressesAI hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified GameKeyEventFactory -- same package or java.lang
+import qualified BasicAI -- same package or java.lang
 import qualified GameInput -- org.allbinary.game.input.GameInput
 import qualified AllBinaryLayer -- org.allbinary.layer.AllBinaryLayer
 import qualified AllBinaryLayerManager -- org.allbinary.layer.AllBinaryLayerManager
@@ -125,12 +126,12 @@ update_impl this = do
         let size = (jlength keys)
         if (jio (KeyPressesAI.isOn this)) then do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-                key <- (intValue ((jindex keys (index))))
+                let key = (jindex keys (index))
                 when (key /= (Prelude.negate 1)) $ do
                     Control.Monad.void (GameInput.add gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) this key)))
         else do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-                key <- (intValue ((jindex keys (index))))
+                let key = (jindex keys (index))
                 when (key /= (Prelude.negate 1)) $ do
                     Control.Monad.void (GameInput.addForRemoval gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) this key)))
         pure ()

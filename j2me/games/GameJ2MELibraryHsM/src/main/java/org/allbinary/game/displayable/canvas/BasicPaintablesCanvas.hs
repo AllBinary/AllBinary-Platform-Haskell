@@ -20,10 +20,10 @@ import GameCommandCanvas hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -89,7 +89,7 @@ init_4 this cmdListener name allBinaryGameLayerManager paintableArray = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).paintableArray (paintableArray)
-        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False))
         jset (this).colorFillPaintable (assignedValue)
         pure ()
 
@@ -105,7 +105,7 @@ paint_impl this graphics = do
         Control.Monad.void (ColorFillBasePaintable.paint ((jget (this).colorFillPaintable)) graphics)
         Control.Monad.void (Graphics.setColor graphics (jget (this).base.foregroundColor))
         forM_ [((jlength (jget (this).paintableArray)) - 1), ((jlength (jget (this).paintableArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (paint ((jindex ((jget (this).paintableArray)) (index))) graphics)
+            Control.Monad.void (Paintable.paint ((jindex ((jget (this).paintableArray)) (index))) graphics)
         Control.Monad.void (GameCommandCanvas.paint_super this.base graphics)
         pure ()
 

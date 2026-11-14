@@ -19,10 +19,10 @@ module ShippingMethods where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass ShippingMethods where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ShippingMethods
 newRecord_ = do
@@ -125,6 +128,7 @@ getShippingInterface_super object_ a1 = (getShippingInterface_impl (javaCast obj
 
 getShippingInterface_impl :: ShippingMethods -> String -> IO (ShippingInterface.ShippingInterface)
 getShippingInterface_impl this name = do
+    javaCatchReturn $ do
         shipping <- newIORef (javaNull)
         size <- (BasicArrayList.size ((jget (this).shippingVector)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

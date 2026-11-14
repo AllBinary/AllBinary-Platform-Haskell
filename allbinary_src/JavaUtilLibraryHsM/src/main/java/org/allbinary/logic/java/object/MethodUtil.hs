@@ -19,10 +19,10 @@ module MethodUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,9 @@ instance JavaObjectClass MethodUtil where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO MethodUtil
 newRecord_ = do
     header_ <- newJavaHeader
@@ -87,11 +90,11 @@ viewAll myClass lineBreak = do
         Control.Monad.void (StringMaker.append stringBuffer "Methods: ")
         Control.Monad.void (StringMaker.append stringBuffer lineBreak)
         forM_ [0 .. (jlength method) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jio (getReturnType ((jindex method (index)))))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Method.getName ((jio (Method.getReturnType ((jindex method (index)))))))))
             Control.Monad.void (StringMaker.append stringBuffer " ")
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex method (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Method.getName ((jindex method (index))))))
             Control.Monad.void (StringMaker.append stringBuffer "(")
-            Control.Monad.void (ParamsUtil.viewParams (jio (getParameterTypes ((jindex method (index))))))
+            Control.Monad.void (ParamsUtil.viewParams (jio (Method.getParameterTypes ((jindex method (index))))))
             Control.Monad.void (StringMaker.append stringBuffer ")")
             Control.Monad.void (StringMaker.append stringBuffer lineBreak)
         (StringMaker.toString stringBuffer)

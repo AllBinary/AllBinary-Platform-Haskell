@@ -19,10 +19,10 @@ module HighScoreNamePersistanceSingleton where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -79,11 +79,15 @@ instance JavaObjectClass HighScoreNamePersistanceSingleton where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: IORef (HighScoreNamePersistanceSingleton)
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO HighScoreNamePersistanceSingleton
 newRecord_ = do
@@ -232,7 +236,7 @@ load_impl this abeClientInformation gameInfo = do
                 let lOADING_ID = "Loading id: "
                 assignedValue <- (RecordStore.openRecordStore (jio (HighScoreNamePersistanceSingleton.getRecordId this abeClientInformation)) True)
                 jset recordStore (assignedValue)
-                recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
+                recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (javaCast (jget NullRecordFilter.nULL_RECORD_FILTER)) (javaCast NullRecordComparator.nULL_RECORD_COMPARATOR) True)
                 smallIntegerSingletonFactory <- (SmallIntegerSingletonFactory.getInstance)
                 recordAsBytes <- newIORef (javaNull)
                 byteArrayInputStream <- newIORef (javaNull)

@@ -20,10 +20,10 @@ import ModifyTable hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WorkFlowEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified PageContext -- javax.servlet.jsp.PageContext
@@ -97,7 +98,7 @@ init_2 :: WorkFlowRequestHelper -> HashMap.HashMap -> PageContext.PageContext ->
 init_2 this hashMap pageContext = do
         ModifyTable.init_ this.base
         initFields_ this
-        assignedValue <- (NewWorkFlowFactory.getInstance_3 ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: WorkFlowInterface.WorkFlowInterface) (NewWorkFlowFactory.getInstance_3 ((jio (NewWorkFlowFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext))
         jset (this).workFlowInterface (assignedValue)
         pure ()
 

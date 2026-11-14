@@ -19,10 +19,10 @@ module CompoundAnimationInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,9 @@ instance JavaObjectClass CompoundAnimationInterfaceFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CompoundAnimationInterfaceFactory
 newRecord_ = do
@@ -108,7 +111,7 @@ getInstance_impl this instanceId = do
         let size = (jlength (jget (this).basicAnimationInterfaceFactoryInterfaceArrayP))
         animationInterfaceArray <- (CompoundAnimationInterfaceFactory.createArray this size)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            assignedValue <- (getInstance ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArrayP)) (index))) instanceId)
+            assignedValue <- (AnimationInterfaceFactoryInterface.getInstance ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArrayP)) (index))) instanceId)
             jsetIndex animationInterfaceArray (index) (assignedValue)
         (CompoundAnimationInterfaceFactory.createAnimation this animationInterfaceArray)
 
@@ -156,7 +159,7 @@ setInitialScale_impl :: CompoundAnimationInterfaceFactory -> ScaleProperties.Sca
 setInitialScale_impl this scaleProperties = do
         let size = (jlength (jget (this).basicAnimationInterfaceFactoryInterfaceArrayP))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (setInitialScale ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArrayP)) (index))) scaleProperties)
+            Control.Monad.void (AnimationInterfaceFactoryInterface.setInitialScale ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArrayP)) (index))) scaleProperties)
         pure ()
 
 

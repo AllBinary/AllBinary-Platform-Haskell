@@ -19,10 +19,10 @@ module AbeHttpRequestInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -100,14 +100,28 @@ initFields_ this = do
     jset this.requestedFilePath (javaNull)
     pure ()
 
-new_1 :: HashMap.HashMap -> IO AbeHttpRequestInfo
-new_1 hashMap = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO AbeHttpRequestInfo
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload1 (javaCast a1 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload2 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = new_1_overload2 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+
+init_1 :: (JavaObjectClass o1) => AbeHttpRequestInfo -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload1 this (javaCast a1 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload2 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+
+
+new_1_overload1 :: HashMap.HashMap -> IO AbeHttpRequestInfo
+new_1_overload1 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload1 this hashMap
     pure this
 
-init_1 :: AbeHttpRequestInfo -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload1 :: AbeHttpRequestInfo -> HashMap.HashMap -> IO ()
+init_1_overload1 this hashMap = do
         initFields_ this
         stringUtil <- (StringUtil.getInstance)
         assignedValue <- (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get hashMap (jget ((jget (this).abeHttpRequestInfoData)).hTTP_USER_AGENT))) :: String))
@@ -124,15 +138,14 @@ init_1 this hashMap = do
         jset (this).requestedFilePath (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HttpServletRequest.HttpServletRequest -> IO AbeHttpRequestInfo
-new_1 httpServletRequest = do
+new_1_overload2 :: HttpServletRequest.HttpServletRequest -> IO AbeHttpRequestInfo
+new_1_overload2 httpServletRequest = do
     this <- newRecord_
-    init_1 this httpServletRequest
+    init_1_overload2 this httpServletRequest
     pure this
 
-init_1 :: AbeHttpRequestInfo -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this httpServletRequest = do
+init_1_overload2 :: AbeHttpRequestInfo -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload2 this httpServletRequest = do
         initFields_ this
         stringUtil <- (StringUtil.getInstance)
         jset (this).httpUserAgent ((jget (stringUtil).eMPTY_STRING))

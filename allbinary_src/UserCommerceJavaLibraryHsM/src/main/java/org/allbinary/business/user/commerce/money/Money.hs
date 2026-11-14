@@ -19,10 +19,10 @@ module Money where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,14 +82,30 @@ initFields_ this = do
     jset this.dEFAULT_CURRENCY ("USD")
     pure ()
 
-new_1 :: Money -> IO Money
-new_1 money = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO Money
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Money) = new_1_overload1 (javaCast a1 :: Money)
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload2 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Int64) = new_1_overload3 (javaCast a1 :: Int64)
+    | otherwise = new_1_overload3 (javaCast a1 :: Int64)
+
+init_1 :: (JavaObjectClass o1) => Money -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Money) = init_1_overload1 this (javaCast a1 :: Money)
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload2 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Int64) = init_1_overload3 this (javaCast a1 :: Int64)
+    | otherwise = init_1_overload3 this (javaCast a1 :: Int64)
+
+
+new_1_overload1 :: Money -> IO Money
+new_1_overload1 money = do
     this <- newRecord_
-    init_1 this money
+    init_1_overload1 this money
     pure this
 
-init_1 :: Money -> Money -> IO ()
-init_1 this money = do
+init_1_overload1 :: Money -> Money -> IO ()
+init_1_overload1 this money = do
         initFields_ this
         jset (this).units ((Prelude.fromIntegral ((jio (Money.getUnits money))) :: Int64))
         pure ()
@@ -106,29 +122,27 @@ init_ this = do
         jset (this).units ((Prelude.fromIntegral (0) :: Int64))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: String -> IO Money
-new_1 usDollarStr = do
+new_1_overload2 :: String -> IO Money
+new_1_overload2 usDollarStr = do
     this <- newRecord_
-    init_1 this usDollarStr
+    init_1_overload2 this usDollarStr
     pure this
 
-init_1 :: Money -> String -> IO ()
-init_1 this usDollarStr = do
+init_1_overload2 :: Money -> String -> IO ()
+init_1_overload2 this usDollarStr = do
         initFields_ this
         when ((usDollarStr /= javaNull) && (jio (StringValidationUtil.isNumber ((jio (StringValidationUtil.getInstance))) usDollarStr))) $ do
             jset (this).units ((Prelude.fromIntegral ((jio (Money.convertUsdToUnits this usDollarStr))) :: Int64))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Int64 -> IO Money
-new_1 units = do
+new_1_overload3 :: Int64 -> IO Money
+new_1_overload3 units = do
     this <- newRecord_
-    init_1 this units
+    init_1_overload3 this units
     pure this
 
-init_1 :: Money -> Int64 -> IO ()
-init_1 this units = do
+init_1_overload3 :: Money -> Int64 -> IO ()
+init_1_overload3 this units = do
         initFields_ this
         jset (this).units ((Prelude.fromIntegral (units) :: Int64))
         pure ()
@@ -265,8 +279,8 @@ convertUsdToUnits_impl this usDollarStr = do
             jset dollarStr (assignedValue)
             assignedValue <- (jnewString (Prelude.drop (index + 1) usDollarStr))
             jset centsStr (assignedValue)
-        jset localUnit ((Prelude.fromIntegral (((Prelude.fromIntegral ((jget dollarStr)) :: Int64) * 100)) :: Int64))
-        jset localUnit (((jget localUnit) + (Prelude.fromIntegral ((jget centsStr)) :: Int64)))
+        jset localUnit ((Prelude.fromIntegral (((jio (jparseLong (jget dollarStr))) * 100)) :: Int64))
+        jset localUnit (((jget localUnit) + (jio (jparseLong (jget centsStr)))))
         pure ((jget localUnit))
 
 

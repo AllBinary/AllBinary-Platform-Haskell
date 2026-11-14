@@ -19,10 +19,10 @@ module TransformInfoObjectConfigGeneratorFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified StoreFileGenerator -- same package or java.lang
 import qualified BasicGenerator -- same package or java.lang
 import qualified TransformInfoObjectConfigGenerator -- same package or java.lang
+import qualified TransformInfoObjectConfigInterface -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified InputOutputTypeData -- org.allbinary.logic.io.InputOutputTypeData
 import qualified TransformInfoInterface -- org.allbinary.logic.visual.transform.info.TransformInfoInterface
@@ -59,11 +60,15 @@ instance JavaObjectClass TransformInfoObjectConfigGeneratorFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TransformInfoObjectConfigGeneratorFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformInfoObjectConfigGeneratorFactory
 newRecord_ = do
@@ -108,7 +113,7 @@ getInstance_1_super object_ a1 = (getInstance_1_impl (javaCast object_ :: Transf
 getInstance_1_impl :: TransformInfoObjectConfigGeneratorFactory -> TransformInfoInterface.TransformInfoInterface -> IO (TransformInfoObjectConfigGenerator.TransformInfoObjectConfigGenerator)
 getInstance_1_impl this transformInfoInterface = do
     javaCatchReturn $ do
-        let type_ = (javaCast (jio (TransformInfoInterface.getOutputTypeName ((jio (TransformInfoInterface.getObjectConfigInterface transformInfoInterface))))) :: String)
+        let type_ = (javaCast (jio (TransformInfoObjectConfigInterface.getOutputTypeName ((jio (TransformInfoInterface.getObjectConfigInterface transformInfoInterface))))) :: String)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Generating Instance for type: " ++ type_) this (jget (commonStrings).gET_INSTANCE))

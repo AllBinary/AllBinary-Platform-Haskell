@@ -20,10 +20,10 @@ import BasicMenuInputProcessor hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,7 @@ instance JavaObjectClass NoMenuInputProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: NoMenuInputProcessor
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_))
 
@@ -87,7 +88,7 @@ new_ = do
 
 init_ :: NoMenuInputProcessor -> IO ()
 init_ this = do
-        BasicMenuInputProcessor.init_3 this.base (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))) (Prelude.negate 1) (NullCanvas.nULL_CANVAS)
+        BasicMenuInputProcessor.init_3 this.base (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))) (Prelude.negate 1) (javaCast NullCanvas.nULL_CANVAS)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

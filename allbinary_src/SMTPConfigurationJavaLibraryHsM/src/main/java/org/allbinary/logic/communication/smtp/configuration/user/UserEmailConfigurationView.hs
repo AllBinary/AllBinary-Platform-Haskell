@@ -19,10 +19,10 @@ module UserEmailConfigurationView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -72,6 +72,9 @@ instance JavaObjectClass UserEmailConfigurationView where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO UserEmailConfigurationView
 newRecord_ = do
     header_ <- newJavaHeader
@@ -92,14 +95,28 @@ initFields_ this = do
     jset this.userEmailConfigurationInterface (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO UserEmailConfigurationView
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO UserEmailConfigurationView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserEmailConfigurationInterface.UserEmailConfigurationInterface) = new_1_overload2 (javaCast a1 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface)
+    | otherwise = new_1_overload2 (javaCast a1 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface)
+
+init_1 :: (JavaObjectClass o1) => UserEmailConfigurationView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserEmailConfigurationInterface.UserEmailConfigurationInterface) = init_1_overload2 this (javaCast a1 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface)
+    | otherwise = init_1_overload2 this (javaCast a1 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface)
+
+
+new_1_overload1 :: Node.Node -> IO UserEmailConfigurationView
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: UserEmailConfigurationView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: UserEmailConfigurationView -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
@@ -110,15 +127,14 @@ init_1 this node = do
         Control.Monad.void (UserEmailConfigurationInterface.setUserEmailEventsConfigurationInterface ((jget (this).userEmailConfigurationInterface)) (jio (UserEmailEventsConfigurationView.getUserEmailEventsConfigurationInterface userEmailEventsConfigurationView)))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface -> IO UserEmailConfigurationView
-new_1 userEmailConfigurationInterface = do
+new_1_overload2 :: UserEmailConfigurationInterface.UserEmailConfigurationInterface -> IO UserEmailConfigurationView
+new_1_overload2 userEmailConfigurationInterface = do
     this <- newRecord_
-    init_1 this userEmailConfigurationInterface
+    init_1_overload2 this userEmailConfigurationInterface
     pure this
 
-init_1 :: UserEmailConfigurationView -> UserEmailConfigurationInterface.UserEmailConfigurationInterface -> IO ()
-init_1 this userEmailConfigurationInterface = do
+init_1_overload2 :: UserEmailConfigurationView -> UserEmailConfigurationInterface.UserEmailConfigurationInterface -> IO ()
+init_1_overload2 this userEmailConfigurationInterface = do
         initFields_ this
         jset (this).userEmailConfigurationInterface (userEmailConfigurationInterface)
         pure ()

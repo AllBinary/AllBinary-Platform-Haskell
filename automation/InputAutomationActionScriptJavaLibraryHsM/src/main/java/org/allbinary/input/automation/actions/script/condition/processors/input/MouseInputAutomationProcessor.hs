@@ -19,10 +19,10 @@ module MouseInputAutomationProcessor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Thread -- same package or java.lang
 import qualified MouseActionScriptInputInterface -- same package or java.lang
+import qualified Point -- same package or java.lang
 import qualified InputRobotInterface -- org.allbinary.input.automation.robot.InputRobotInterface
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
@@ -57,6 +58,9 @@ instance JavaObjectClass MouseInputAutomationProcessor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MouseInputAutomationProcessor
 newRecord_ = do
@@ -87,10 +91,10 @@ process :: MouseActionScriptInputInterface.MouseActionScriptInputInterface -> IO
 process mouseActionScriptInputInterface = do
         logUtil <- (LogUtil.getInstance)
         commonStrings <- (CommonStrings.getInstance)
-        Control.Monad.void (LogUtil.putF logUtil (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Start - Processing Mouse Input at: "))) (jio (MouseActionScriptInputInterface.toString ((jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface)))))))) " clicks: "))) (Prelude.fromInteger (jnumericInteger (jio (MouseActionScriptInputInterface.getButtonClicks mouseActionScriptInputInterface))))))))) "MouseInputAutomationProcessor" (jget (commonStrings).pROCESS))
+        Control.Monad.void (LogUtil.putF logUtil (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Start - Processing Mouse Input at: "))) (jio (Point.toString ((jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface)))))))) " clicks: "))) (jio (MouseActionScriptInputInterface.getButtonClicks mouseActionScriptInputInterface))))))) "MouseInputAutomationProcessor" (jget (commonStrings).pROCESS))
         inputRobotInterface <- (MouseActionScriptInputInterface.getInputRobotInterface mouseActionScriptInputInterface)
         when (((jget ((jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface))).x) /= (Prelude.negate 1)) && ((jget ((jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface))).y) /= (Prelude.negate 1))) $ do
-            Control.Monad.void (InputRobotInterface.mouseMove inputRobotInterface (jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface)))
+            Control.Monad.void (InputRobotInterface.mouseMove_1 inputRobotInterface (jio (MouseActionScriptInputInterface.getPoint mouseActionScriptInputInterface)))
         Control.Monad.void (threadDelay (Prelude.fromIntegral (jio (MouseActionScriptInputInterface.getTime mouseActionScriptInputInterface)) * 1000))
         when ((jio (MouseActionScriptInputInterface.getButtonClicks mouseActionScriptInputInterface)) /= 0) $ do
             Control.Monad.void (InputRobotInterface.mousePress inputRobotInterface (jio (MouseActionScriptInputInterface.getButtonClicks mouseActionScriptInputInterface)))

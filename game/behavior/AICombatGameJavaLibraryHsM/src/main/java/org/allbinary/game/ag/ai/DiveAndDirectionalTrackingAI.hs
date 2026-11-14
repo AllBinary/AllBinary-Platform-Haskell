@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,6 +42,7 @@ import qualified BasicAI -- org.allbinary.game.ai.BasicAI
 import qualified DestroyedEvent -- org.allbinary.game.combat.destroy.event.DestroyedEvent
 import qualified DestroyedEventHandler -- org.allbinary.game.combat.destroy.event.DestroyedEventHandler
 import qualified DestroyedEventListenerInterface -- org.allbinary.game.combat.destroy.event.DestroyedEventListenerInterface
+import qualified Group -- org.allbinary.game.identification.Group
 import qualified GameInput -- org.allbinary.game.input.GameInput
 import qualified BasicVelocityProperties -- org.allbinary.game.physics.velocity.BasicVelocityProperties
 import qualified VelocityInterfaceCompositeInterface -- org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface
@@ -155,7 +156,7 @@ initFields_ this = do
     jset this.list =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
     jset this.directionalInterface (javaNull)
     jset this.velocityInterface (javaNull)
-    jset this.directionToKeyMap ((jarrayFromList [Canvas.lEFT, Canvas.dOWN, Canvas.uP, Canvas.rIGHT]))
+    jset this.directionToKeyMap ((jarrayFromList [Canvas.lEFT, Canvas.dOWN, Canvas.uP, Canvas.rIGHT] :: JavaArray Int))
     jset this.initialDropped (False)
     jset this.diveP (False)
     jset this.directionOfTarget =<< (Direction.getInstance 0)
@@ -242,7 +243,9 @@ target_impl this allBinaryLayerManager = do
         jset (this).lastTrackingLayerInterface (assignedValue)
         let layerInterface = (jget (this).lastTrackingLayerInterface)
         ownerLayerInterface <- (BasicAI.getOwnerLayerInterface this)
-        when ((jio (AllBinaryLayer.getGroupInterface layerInterface)) == (jio (AllBinaryLayer.getGroupInterface ownerLayerInterface))) $ do
+        groupArray <- (AllBinaryLayer.getGroupInterface layerInterface)
+        ownerGroupArray <- (AllBinaryLayer.getGroupInterface ownerLayerInterface)
+        when (groupArray == ownerGroupArray) $ do
             javaReturn (())
         x <- (AllBinaryLayer.getXP ((jget (this).lastTrackingLayerInterface)))
         y <- (AllBinaryLayer.getYP ((jget (this).lastTrackingLayerInterface)))

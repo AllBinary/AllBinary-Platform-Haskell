@@ -19,10 +19,10 @@ module CreditCardType where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,6 +50,7 @@ instance JavaObjectClass CreditCardType where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXLEN :: Int
 mAXLEN = 19
 
 newRecord_ :: IO CreditCardType

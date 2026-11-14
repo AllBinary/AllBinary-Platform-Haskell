@@ -19,10 +19,10 @@ module LinuxHardware where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -97,6 +97,7 @@ instance JavaObjectClass LinuxHardware where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pCIFILE :: String
 pCIFILE = "/proc/pci"
 
 newRecord_ :: IO LinuxHardware
@@ -225,7 +226,7 @@ init_2_impl this lineNumberReader filePath = do
         lineNumberReader <- newIORef lineNumberReader
         flip finally (do
             when ((jget lineNumberReader) /= javaNull) $ do
-                Control.Monad.void (jio (LineNumberReader.close ((jget lineNumberReader))))
+                Control.Monad.void (LineNumberReader.close ((jget lineNumberReader)))
             ) $ do
             assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             jset (this).componentInterfaceVector (assignedValue)

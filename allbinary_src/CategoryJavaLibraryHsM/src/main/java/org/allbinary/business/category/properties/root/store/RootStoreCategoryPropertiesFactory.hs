@@ -19,10 +19,10 @@ module RootStoreCategoryPropertiesFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,9 @@ instance JavaObjectClass RootStoreCategoryPropertiesFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO RootStoreCategoryPropertiesFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -93,40 +96,54 @@ init_1 this transformInfoInterface = do
         jset (this).categoryPropertiesInterface ((javaCast (jio (RootStoreCategoryProperties.new_1 transformInfoInterface)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()
 
-new_2 :: TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO RootStoreCategoryPropertiesFactory
-new_2 transformInfoInterface abPath = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => TransformInfoInterface.TransformInfoInterface -> o2 -> IO RootStoreCategoryPropertiesFactory
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = new_2_overload1 a1 (javaCast a2 :: AbPath.AbPath)
+    | jisInstanceOf a2 (javaNull :: Node.Node) = new_2_overload2 a1 (javaCast a2 :: Node.Node)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = new_2_overload3 a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = new_2_overload3 a1 (javaCast a2 :: HashMap.HashMap)
+
+init_2 :: (JavaObjectClass o2) => RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = init_2_overload1 this a1 (javaCast a2 :: AbPath.AbPath)
+    | jisInstanceOf a2 (javaNull :: Node.Node) = init_2_overload2 this a1 (javaCast a2 :: Node.Node)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = init_2_overload3 this a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = init_2_overload3 this a1 (javaCast a2 :: HashMap.HashMap)
+
+
+new_2_overload1 :: TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO RootStoreCategoryPropertiesFactory
+new_2_overload1 transformInfoInterface abPath = do
     this <- newRecord_
-    init_2 this transformInfoInterface abPath
+    init_2_overload1 this transformInfoInterface abPath
     pure this
 
-init_2 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO ()
-init_2 this transformInfoInterface abPath = do
+init_2_overload1 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> AbPath.AbPath -> IO ()
+init_2_overload1 this transformInfoInterface abPath = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (RootStoreCategoryProperties.new_2 transformInfoInterface abPath)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO RootStoreCategoryPropertiesFactory
-new_2 transformInfoInterface node = do
+new_2_overload2 :: TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO RootStoreCategoryPropertiesFactory
+new_2_overload2 transformInfoInterface node = do
     this <- newRecord_
-    init_2 this transformInfoInterface node
+    init_2_overload2 this transformInfoInterface node
     pure this
 
-init_2 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO ()
-init_2 this transformInfoInterface node = do
+init_2_overload2 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> Node.Node -> IO ()
+init_2_overload2 this transformInfoInterface node = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (RootStoreCategoryProperties.new_2 transformInfoInterface node)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO RootStoreCategoryPropertiesFactory
-new_2 transformInfoInterface categoryPropertiesHashMap = do
+new_2_overload3 :: TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO RootStoreCategoryPropertiesFactory
+new_2_overload3 transformInfoInterface categoryPropertiesHashMap = do
     this <- newRecord_
-    init_2 this transformInfoInterface categoryPropertiesHashMap
+    init_2_overload3 this transformInfoInterface categoryPropertiesHashMap
     pure this
 
-init_2 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
-init_2 this transformInfoInterface categoryPropertiesHashMap = do
+init_2_overload3 :: RootStoreCategoryPropertiesFactory -> TransformInfoInterface.TransformInfoInterface -> HashMap.HashMap -> IO ()
+init_2_overload3 this transformInfoInterface categoryPropertiesHashMap = do
         initFields_ this
         jset (this).categoryPropertiesInterface ((javaCast (jio (RootStoreCategoryProperties.new_2 transformInfoInterface categoryPropertiesHashMap)) :: CategoryPropertiesInterface.CategoryPropertiesInterface))
         pure ()

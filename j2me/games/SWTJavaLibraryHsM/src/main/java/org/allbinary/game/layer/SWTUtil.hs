@@ -19,10 +19,10 @@ module SWTUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,14 +49,19 @@ instance JavaObjectClass SWTUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+isSWT :: IORef (Bool)
 {-# NOINLINE isSWT #-}
 isSWT = unsafePerformIO (newIORef (True))
 
+sWT :: IORef (String)
 {-# NOINLINE sWT #-}
 sWT = unsafePerformIO (newIORef ("SWT"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SWTUtil
 newRecord_ = do

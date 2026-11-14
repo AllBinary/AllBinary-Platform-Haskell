@@ -19,10 +19,10 @@ module TransformInfoObjectConfig where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -266,7 +266,7 @@ containsView_impl this transformInfoInterface = do
             viewNode <- (NodeList.item viewNodeList index)
             viewAttributes <- (Node.getAttributes viewNode)
             let attrNode = (javaCast (jio (NamedNodeMap.getNamedItem viewAttributes (jget ((jio (TransformInfoData.getInstance))).nAME))) :: Attr.Attr)
-            when ((jio (TransformInfoInterface.compareTo ((jio (TransformInfoInterface.getName transformInfoInterface))) (jio (Attr.getValue attrNode)))) == 0) $ do
+            when ((Prelude.fromEnum (Prelude.compare (jio (TransformInfoInterface.getName transformInfoInterface)) (jio (Attr.getValue attrNode))) - 1) == 0) $ do
                 javaReturn (True)
         pure (False)
 

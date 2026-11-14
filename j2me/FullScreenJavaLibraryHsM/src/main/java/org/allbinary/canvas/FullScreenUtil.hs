@@ -19,10 +19,10 @@ module FullScreenUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,11 +54,15 @@ instance JavaObjectClass FullScreenUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: FullScreenUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FullScreenUtil
 newRecord_ = do
@@ -100,7 +104,7 @@ initOnRun_super object_ a1 a2 = (initOnRun_impl (javaCast object_ :: FullScreenU
 
 initOnRun_impl :: FullScreenUtil -> Canvas.Canvas -> CommandListener.CommandListener -> IO (())
 initOnRun_impl this fullScreenInterface commandListener = do
-        Control.Monad.void (waitOnNotify (((javaCast fullScreenInterface :: RunnableCanvas.RunnableCanvas))) 0)
+        Control.Monad.void (RunnableCanvas.waitOnNotify (((javaCast fullScreenInterface :: RunnableCanvas.RunnableCanvas))) 0)
         when (commandListener /= javaNull) $ do
             Control.Monad.void (FullScreenUtil.init this fullScreenInterface)
         pure ()

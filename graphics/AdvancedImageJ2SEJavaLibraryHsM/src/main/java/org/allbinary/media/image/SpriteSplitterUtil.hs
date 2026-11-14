@@ -19,10 +19,10 @@ module SpriteSplitterUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,11 +69,15 @@ instance JavaObjectClass SpriteSplitterUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SpriteSplitterUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SpriteSplitterUtil
 newRecord_ = do
@@ -162,9 +166,9 @@ process_impl this imageProcessorInput totalFrames totalAnimations widthReduction
                         Control.Monad.void (ImageProcessedVisitor.visit visitor (jindex ((jindex ((jget generatedBufferedImageArray)) (index2))) (index3)) (jget nameEnding) index)
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Processing Rows from Cells" this (jget ((jget (this).commonStrings)).rUN))
                 imageUnifierProperties <- (ImageUnifierProperties.new_)
-                Control.Monad.void (ImageUnifierProperties.setRows imageUnifierProperties (javaToString 1))
-                Control.Monad.void (ImageUnifierProperties.setColumns imageUnifierProperties (javaToString columns))
-                imageUnifierCell <- (ImageUnifierCell.new_2 (javaToString (cellWidth - ((2 * widthReduction)))) (javaToString (cellHeight - ((2 * heightReduction)))))
+                Control.Monad.void (ImageUnifierProperties.setRows imageUnifierProperties (1))
+                Control.Monad.void (ImageUnifierProperties.setColumns imageUnifierProperties (columns))
+                imageUnifierCell <- (ImageUnifierCell.new_2 ((cellWidth - ((2 * widthReduction)))) ((cellHeight - ((2 * heightReduction)))))
                 Control.Monad.void (ImageUnifierProperties.setImageUnifierCell imageUnifierProperties imageUnifierCell)
                 forM_ [0 .. rows - 1] $ \index2 -> javaIteration (pure ()) $ do
                     jset y ((cellHeight * index2))
@@ -201,9 +205,9 @@ process_impl this imageProcessorInput totalFrames totalAnimations widthReduction
                         jset nameEnding (assignedValue)
                         Control.Monad.void (ImageProcessedVisitor.visit visitor (jindex ((jindex ((jget generatedBufferedImageArray)) (index2))) (index3)) (jget nameEnding) index)
                 imageUnifierProperties <- (ImageUnifierProperties.new_)
-                Control.Monad.void (ImageUnifierProperties.setRows imageUnifierProperties (javaToString 1))
-                Control.Monad.void (ImageUnifierProperties.setColumns imageUnifierProperties (javaToString columns))
-                imageUnifierCell <- (ImageUnifierCell.new_2 ((javaToString (cellWidth - ((2 * widthReduction)))) + increaseWidth) (javaToString ((cellHeight - ((2 * heightReduction))) + increaseHeight)))
+                Control.Monad.void (ImageUnifierProperties.setRows imageUnifierProperties (1))
+                Control.Monad.void (ImageUnifierProperties.setColumns imageUnifierProperties (columns))
+                imageUnifierCell <- (ImageUnifierCell.new_2 (((cellWidth - ((2 * widthReduction)))) + increaseWidth) (((cellHeight - ((2 * heightReduction))) + increaseHeight)))
                 Control.Monad.void (ImageUnifierProperties.setImageUnifierCell imageUnifierProperties imageUnifierCell)
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Processing Rows from Cells for each Direction" this (jget ((jget (this).commonStrings)).rUN))
                 forM_ [0 .. rows - 1] $ \index2 -> javaIteration (pure ()) $ do

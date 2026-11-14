@@ -20,10 +20,10 @@ import CollidableDestroyableDamageableBehavior hiding (new_, init_, newRecord_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,10 @@ import qualified VehiclePropertiesCompositeInterface -- same package or java.lan
 import qualified CollidableCompositeLayer -- same package or java.lang
 import qualified VehicleProperties -- same package or java.lang
 import qualified VehicleFrictionProperties -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
+import qualified PickupBehavior -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
+import qualified VelocityProperties -- same package or java.lang
 import qualified PickedUpLayerInterface -- org.allbinary.game.layer.pickup.PickedUpLayerInterface
 import qualified ForcedLogUtil -- org.allbinary.logic.communication.log.ForcedLogUtil
 import qualified CollidableInterfaceCompositeInterface -- org.allbinary.game.collision.CollidableInterfaceCompositeInterface
@@ -173,8 +177,8 @@ collideFriction_super object_ a1 = (collideFriction_impl (javaCast object_ :: Co
 
 collideFriction_impl :: CollidableVehicleBehavior -> VehiclePropertiesCompositeInterface.VehiclePropertiesCompositeInterface -> IO (())
 collideFriction_impl this vehiclePropertiesCompositeInterface = do
-        vehicleFrictionProperties <- (VehiclePropertiesCompositeInterface.getVehicleFrictionProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface))))
-        Control.Monad.void (VehiclePropertiesCompositeInterface.friction ((jio (VehiclePropertiesCompositeInterface.getVehicleFrictionProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface)))))) (jio (VehiclePropertiesCompositeInterface.getVelocityProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface))))) (jio (VehicleFrictionProperties.getCrashFrictionNominator vehicleFrictionProperties)))
+        vehicleFrictionProperties <- (VehicleProperties.getVehicleFrictionProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface))))
+        Control.Monad.void (VehicleFrictionProperties.friction ((jio (VehicleProperties.getVehicleFrictionProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface)))))) (jio (VehicleProperties.getVelocityProperties ((jio (VehiclePropertiesCompositeInterface.getVehicleProperties vehiclePropertiesCompositeInterface))))) (jio (VehicleFrictionProperties.getCrashFrictionNominator vehicleFrictionProperties)))
         pure ()
 
 

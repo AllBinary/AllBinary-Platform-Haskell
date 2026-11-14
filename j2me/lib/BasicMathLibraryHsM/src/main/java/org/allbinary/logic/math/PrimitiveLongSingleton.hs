@@ -19,10 +19,10 @@ module PrimitiveLongSingleton where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,11 +55,15 @@ instance JavaObjectClass PrimitiveLongSingleton where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PrimitiveLongSingleton
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PrimitiveLongSingleton
 newRecord_ = do
@@ -76,11 +80,11 @@ newRecord_ = do
 
 initFields_ :: PrimitiveLongSingleton -> IO ()
 initFields_ this = do
-    jset this.uNK ((jarrayFromList ['U', 'n', 'k']))
-    jset this.nUMBER_ARRAY ((jarrayFromList [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
-    jset this.nUMBER_CHAR_ARRAY ((jarrayFromList ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']))
-    jset this.nUMBER_CHAR_ARRAYS ((jarrayFromList [(jarrayFromList ['0']), (jarrayFromList ['1']), (jarrayFromList ['2']), (jarrayFromList ['3']), (jarrayFromList ['4']), (jarrayFromList ['5']), (jarrayFromList ['6']), (jarrayFromList ['7']), (jarrayFromList ['8']), (jarrayFromList ['9'])]))
-    jset this.zERO ((jarrayFromList [(jindex ((jget (this).nUMBER_CHAR_ARRAY)) (0))]))
+    jset this.uNK ((jarrayFromList ['U', 'n', 'k'] :: JavaArray Char))
+    jset this.nUMBER_ARRAY ((jarrayFromList [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] :: JavaArray Int8))
+    jset this.nUMBER_CHAR_ARRAY ((jarrayFromList ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] :: JavaArray Char))
+    jset this.nUMBER_CHAR_ARRAYS ((jarrayFromList [(jarrayFromList ['0'] :: JavaArray Char), (jarrayFromList ['1'] :: JavaArray Char), (jarrayFromList ['2'] :: JavaArray Char), (jarrayFromList ['3'] :: JavaArray Char), (jarrayFromList ['4'] :: JavaArray Char), (jarrayFromList ['5'] :: JavaArray Char), (jarrayFromList ['6'] :: JavaArray Char), (jarrayFromList ['7'] :: JavaArray Char), (jarrayFromList ['8'] :: JavaArray Char), (jarrayFromList ['9'] :: JavaArray Char)] :: JavaArray (JavaArray Char)))
+    jset this.zERO ((jarrayFromList [(jindex ((jget (this).nUMBER_CHAR_ARRAY)) (0))] :: JavaArray Char))
     pure ()
 
 new_ :: IO PrimitiveLongSingleton

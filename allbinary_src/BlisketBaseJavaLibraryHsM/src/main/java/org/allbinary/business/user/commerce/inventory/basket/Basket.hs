@@ -19,10 +19,10 @@ module Basket where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass Basket where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Basket
 newRecord_ = do
@@ -113,8 +116,8 @@ addItem_impl :: Basket -> String -> String -> IO (())
 addItem_impl this id num = do
         if (jio (HashMap.containsKey ((jget (this).items)) id)) then do
             oldNumStr <- (jnewString (javaCast (jio (HashMap.get ((jget (this).items)) id)) :: String))
-            let oldNumInt = (javaToString oldNumStr)
-            let numInt = (javaToString num)
+            oldNumInt <- (jparseInt oldNumStr)
+            numInt <- (jparseInt num)
             let newNumInt = (Prelude.fromIntegral ((oldNumInt + numInt)) :: Int)
             Control.Monad.void (HashMap.put ((jget (this).items)) id (javaToString newNumInt))
         else do
@@ -142,7 +145,7 @@ adjustItem_super object_ a1 a2 = (adjustItem_impl (javaCast object_ :: Basket)) 
 
 adjustItem_impl :: Basket -> String -> String -> IO (())
 adjustItem_impl this id num = do
-        if ((javaToString num) > 0) then do
+        if ((jio (jparseInt num)) > 0) then do
             Control.Monad.void (HashMap.put ((jget (this).items)) id num)
         else do
             Control.Monad.void (HashMap.remove ((jget (this).items)) id)
@@ -168,7 +171,8 @@ getTotalWeight_impl this = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 assignedValue <- (jnewString (javaCast (jindex itemArray (index)) :: String))
                 jset product (assignedValue)
-                jset weightFloat ((jio (InventoryEntity.getWeight ((jio (InventoryEntity.new_))) (jget product))))
+                assignedValue <- (jparseFloat (jio (InventoryEntity.getWeight ((jio (InventoryEntity.new_))) (jget product))))
+                jset weightFloat (assignedValue)
                 jset weightFloat (((Prelude.realToFrac (jio (Basket.getNumberOf this (jget product)))) * (jget weightFloat)))
                 Control.Monad.void (Money.add totalWeight (javaToString (jget weightFloat)))
         (Money.toString totalWeight)
@@ -217,7 +221,7 @@ getNumberOf_super object_ a1 = (getNumberOf_impl (javaCast object_ :: Basket)) a
 getNumberOf_impl :: Basket -> String -> IO (Int)
 getNumberOf_impl this product = do
         let numStr = (javaCast (jio (HashMap.get ((jget (this).items)) product)) :: String)
-        pure ((javaToString numStr))
+        (jparseInt numStr)
 
 
 -- throws MoneyException

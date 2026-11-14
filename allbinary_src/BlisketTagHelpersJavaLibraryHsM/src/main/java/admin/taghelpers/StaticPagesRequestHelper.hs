@@ -20,10 +20,10 @@ import AbContext hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified ProductListingInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
@@ -194,7 +195,7 @@ generateStaticPages_impl this = do
             ) $ do
             contentType <- (AcceptableResponseGenerator.get ((jio (AcceptableResponseGenerator.getInstance))) (jget (this).request))
             searchRequest <- (SearchRequest.new_6 javaNull (jget (this).searchParams) (jget (this).xslFile) contentType (jio (AbContext.getPropertiesHashMap this)) (jio (AbContext.getPageContext this)))
-            success <- (ProductListingInterface.generateAll ((jio (ProductListingFactory.getInstance searchRequest))) (jget (this).storeName))
+            success <- (ProductListingInterface.generateAll_1 ((jio (ProductListingFactory.getInstance searchRequest))) (jget (this).storeName))
             Control.Monad.void (StaticPagesRequestHelper.email this)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "generateStaticPages()")
@@ -216,8 +217,8 @@ makePublic_impl this = do
             pure (error)
             ) $ do
             storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jget (this).storeName)))
-            fromAbPath <- (AbPath.new_2 ((jio (StoreFrontInterface.getTestHtmlPath storeFrontInterface)) + (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-            toAbPath <- (AbPath.new_2 (((javaToString (jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFrontInterface.getName storeFrontInterface))) ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ javaToString (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+            fromAbPath <- (AbPath.new_2 ((jio (StoreFrontInterface.getTestHtmlPath storeFrontInterface)) ++ (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+            toAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFrontInterface.getName storeFrontInterface))) ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             Control.Monad.void (FileUtil.copy ((jio (FileUtil.getInstance))) fromAbPath toAbPath)
             let success = "Made Public"
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do

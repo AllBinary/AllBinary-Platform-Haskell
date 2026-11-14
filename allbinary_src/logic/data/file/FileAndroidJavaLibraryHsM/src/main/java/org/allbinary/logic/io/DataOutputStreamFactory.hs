@@ -19,10 +19,10 @@ module DataOutputStreamFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass DataOutputStreamFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: DataOutputStreamFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DataOutputStreamFactory
 newRecord_ = do
@@ -98,7 +102,7 @@ getInstanceForAbFile_super object_ a1 = (getInstanceForAbFile_impl (javaCast obj
 getInstanceForAbFile_impl :: DataOutputStreamFactory -> AbFile.AbFile -> IO (AbDataOutputStream.AbDataOutputStream)
 getInstanceForAbFile_impl this file = do
         idFileOutputStream <- (AbFileOutputStream.createFromAbFile file)
-        idOutData <- (AbDataOutputStream.new_1 idFileOutputStream)
+        idOutData <- (AbDataOutputStream.new_1 (javaCast idFileOutputStream))
         pure (idOutData)
 
 
@@ -113,7 +117,7 @@ getInstance_2_impl :: DataOutputStreamFactory -> String -> String -> IO (AbDataO
 getInstance_2_impl this filePath fileName = do
         fileStreamFactory <- (FileStreamFactory.getInstance)
         fileOutputStream <- (FileStreamFactory.getFileOutputStreamInstance fileStreamFactory filePath fileName)
-        idOutData <- (AbDataOutputStream.new_1 fileOutputStream)
+        idOutData <- (AbDataOutputStream.new_1 (javaCast fileOutputStream))
         pure (idOutData)
 
 

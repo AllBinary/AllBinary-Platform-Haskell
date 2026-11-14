@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -117,7 +121,7 @@ new_ = do
 
 init_ :: WorkFlowEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -154,10 +158,10 @@ delete_impl this name storeName = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget ((jget (this).base.base.base.base.base.commonStrings)).delete) e)
             ) $ do
-            keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (WorkFlowData.getInstance))).nAME) name)
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
-            Control.Monad.void (AbSqlBean.deleteWhere_super this.base keysAndValues)
+            Control.Monad.void (AbSqlBean.deleteWhere_1_super this.base keysAndValues)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this (jget ((jget (this).base.base.base.base.base.commonStrings)).delete))
         pure ()
@@ -177,7 +181,7 @@ get_impl this name storeName = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget this.mETHOD_GET) e)
             javaThrow (e)
             ) $ do
-            keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (WorkFlowData.getInstance))).nAME) name)
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
             hashMap <- (AbSqlBean.getRow_super this.base keysAndValues)
@@ -198,7 +202,7 @@ get_1_impl this storeName = do
             pure (javaNull)
             ) $ do
             workFlowsVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-            keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
             hashMapVector <- (AbSqlBean.getRows_super this.base keysAndValues)
             size <- (BasicArrayList.size hashMapVector)
@@ -221,10 +225,10 @@ update_impl this updatedValues = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget this.mETHOD_UPDATE) e)
             ) $ do
-            wherekeysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            wherekeysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put wherekeysAndValues (jget ((jio (WorkFlowData.getInstance))).nAME) (javaCast (jio (HashMap.get updatedValues (jget ((jio (WorkFlowData.getInstance))).nAME))) :: String))
             Control.Monad.void (HashMap.put wherekeysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) (javaCast (jio (HashMap.get updatedValues (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base wherekeysAndValues updatedValues)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base wherekeysAndValues updatedValues)
         pure ()
 
 

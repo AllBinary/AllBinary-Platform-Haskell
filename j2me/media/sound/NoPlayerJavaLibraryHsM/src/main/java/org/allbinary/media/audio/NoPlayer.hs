@@ -20,10 +20,10 @@ import BasicPlayer hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,6 +55,7 @@ instance JavaObjectClass NoPlayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nO_PLAYER :: NoPlayer
 {-# NOINLINE nO_PLAYER #-}
 nO_PLAYER = unsafePerformIO ((new_))
 

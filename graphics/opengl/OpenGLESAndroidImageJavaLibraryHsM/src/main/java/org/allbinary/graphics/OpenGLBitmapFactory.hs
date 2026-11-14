@@ -8,10 +8,10 @@ import PlatformBitmapBaseFactory hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,6 +49,7 @@ instance JavaObjectClass OpenGLBitmapFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: OpenGLBitmapFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -117,7 +118,7 @@ createBitmap_1_super object_ a1 = (createBitmap_1_impl (javaCast object_ :: Open
 
 createBitmap_1_impl :: OpenGLBitmapFactory -> Image.Image -> IO (PlatformBitmapBase.PlatformBitmapBase)
 createBitmap_1_impl this image = do
-        (fmap (\value_ -> javaCast value_ :: PlatformBitmapBase.PlatformBitmapBase) (OpenGLBitmap.new_1 (jio (getBitmap (((javaCast image :: AndroidImageInterface.AndroidImageInterface)))))))
+        (fmap (\value_ -> javaCast value_ :: PlatformBitmapBase.PlatformBitmapBase) (OpenGLBitmap.new_1 (jio (AndroidImageInterface.getBitmap (((javaCast image :: AndroidImageInterface.AndroidImageInterface)))))))
 
 -- Java nested class Config: move it to its own module Config
 

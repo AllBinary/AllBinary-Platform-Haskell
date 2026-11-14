@@ -20,10 +20,10 @@ import CollidableRTSBehavior hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,10 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified UnitLayer -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
+import qualified UnitWaypointBehavior -- same package or java.lang
+import qualified CollidableDestroyableDamageableBehavior -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified SteeringVisitor -- org.allbinary.game.layer.SteeringVisitor
 import qualified AdvancedRTSGameLayer -- org.allbinary.game.layer.AdvancedRTSGameLayer
@@ -177,7 +181,7 @@ collideUnit_impl :: CollidableUnitBehavior -> CollidableCompositeLayer.Collidabl
 collideUnit_impl this ownerLayer unitLayer = do
         let ownerUnitLayer = (javaCast ownerLayer :: UnitLayer.UnitLayer)
         partialPositionList <- (UnitLayer.getPartialpositionlist)
-        let geographicMapCompositeInterface = (javaCast (jget (ownerUnitLayer).allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
+        let geographicMapCompositeInterface = (javaCast (jget (ownerUnitLayer).base.base.base.base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
         let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
         let basicGeographicMap = geographicMapInterface
         dropCellPositionHistory <- (DropCellPositionHistory.getInstance)

@@ -19,10 +19,10 @@ module SimpleFileUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,16 +31,16 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified CharSequence -- same package or java.lang
 import qualified ByteArrayOutputStream -- java.io.ByteArrayOutputStream
-import qualified IOException -- java.io.IOException
 import qualified InputStream -- java.io.InputStream
 import qualified OutputStream -- java.io.OutputStream
 import qualified Reader -- java.io.Reader
 import qualified Writer -- java.io.Writer
-import qualified CharBuffer -- java.nio.CharBuffer
 import qualified NullUtil -- org.allbinary.logic.NullUtil
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
+import qualified NullOutputStream -- org.allbinary.logic.io.NullOutputStream
+import qualified NullReader -- org.allbinary.logic.io.NullReader
+import qualified NullWriter -- org.allbinary.logic.io.NullWriter
 import qualified StreamUtil -- org.allbinary.logic.io.StreamUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
@@ -70,11 +70,15 @@ instance JavaObjectClass SimpleFileUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SimpleFileUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SimpleFileUtil
 newRecord_ = do
@@ -120,39 +124,17 @@ getInstance = do
 
 nullOutputStream :: IO (OutputStream.OutputStream)
 nullOutputStream = do
-        (OutputStream.new_ {- Java anonymous class body: implement it as a record of functions
-            -- write
-            -- write
-            -- close
--})
+        pure ((javaCast NullOutputStream.nULL_OUTPUT_STREAM :: OutputStream.OutputStream))
 
 
 nullWriter :: IO (Writer.Writer)
 nullWriter = do
-        (Writer.new_ {- Java anonymous class body: implement it as a record of functions
-            jset this.closed (False)
-            -- append
-            -- append
-            -- append
-            -- write
-            -- write
-            -- write
-            -- write
-            -- flush
-            -- close
--})
+        pure ((javaCast NullWriter.nULL_WRITER :: Writer.Writer))
 
 
 nullReader :: IO (Reader.Reader)
 nullReader = do
-        (Reader.new_ {- Java anonymous class body: implement it as a record of functions
-            -- read
-            -- read
-            -- read
-            -- ready
-            -- skip
-            -- close
--})
+        pure ((javaCast NullReader.nULL_READER :: Reader.Reader))
 
 
 loadFileAsList :: (JavaObjectClass this_) => this_ -> InputStream.InputStream -> Int -> JavaArray (Int8) -> IO (BasicArrayList.BasicArrayList)

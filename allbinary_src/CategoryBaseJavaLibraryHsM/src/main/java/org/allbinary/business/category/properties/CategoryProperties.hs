@@ -19,10 +19,10 @@ module CategoryProperties where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified CategoryPropertiesInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified CategoryData -- org.allbinary.business.category.CategoryData
 import qualified CategoryInterface -- org.allbinary.business.category.CategoryInterface
@@ -71,10 +72,14 @@ instance JavaObjectClass CategoryProperties where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXDEPTH :: Int
 mAXDEPTH = 100
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CategoryProperties
 newRecord_ = do
@@ -106,41 +111,55 @@ initFields_ this = do
     jset this.category (javaNull)
     pure ()
 
-new_1 :: String -> IO CategoryProperties
-new_1 name = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO CategoryProperties
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload2 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload3 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload3 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => CategoryProperties -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload2 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload3 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload3 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: String -> IO CategoryProperties
+new_1_overload1 name = do
     this <- newRecord_
-    init_1 this name
+    init_1_overload1 this name
     pure this
 
-init_1 :: CategoryProperties -> String -> IO ()
-init_1 this name = do
+init_1_overload1 :: CategoryProperties -> String -> IO ()
+init_1_overload1 this name = do
         initFields_ this
         jset (this).category (name)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Node.Node -> IO CategoryProperties
-new_1 node = do
+new_1_overload2 :: Node.Node -> IO CategoryProperties
+new_1_overload2 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload2 this node
     pure this
 
-init_1 :: CategoryProperties -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload2 :: CategoryProperties -> Node.Node -> IO ()
+init_1_overload2 this node = do
         initFields_ this
         assignedValue <- (CategoryUtil.getNameFromNode node)
         jset (this).category (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO CategoryProperties
-new_1 categoryPropertiesHashMap = do
+new_1_overload3 :: HashMap.HashMap -> IO CategoryProperties
+new_1_overload3 categoryPropertiesHashMap = do
     this <- newRecord_
-    init_1 this categoryPropertiesHashMap
+    init_1_overload3 this categoryPropertiesHashMap
     pure this
 
-init_1 :: CategoryProperties -> HashMap.HashMap -> IO ()
-init_1 this categoryPropertiesHashMap = do
+init_1_overload3 :: CategoryProperties -> HashMap.HashMap -> IO ()
+init_1_overload3 this categoryPropertiesHashMap = do
         initFields_ this
         assignedValue <- (jnewString (javaCast (jio (HashMap.get categoryPropertiesHashMap (jget ((jio (CategoryData.getInstance))).nAME))) :: String))
         jset (this).category (assignedValue)
@@ -204,19 +223,19 @@ getPath_impl this categoryHierarchyInterface = do
         pathStringBuffer <- (StringMaker.new_)
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         nextParentCategoryInterface <- newIORef =<< (CategoryHierarchyInterface.getParent categoryHierarchyInterface)
-        when (this /= (jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))) $ do
+        when ((jtoObject this) /= (jtoObject (jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface)))))) $ do
             depthIndex <- newIORef (0)
             fix $ \loop -> when ((jget nextParentCategoryInterface) /= javaNull) $ javaIteration (loop) $ do
-                when (jio (CategoryInterface.isRealRoot ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))))) $ do
+                when (jio (CategoryPropertiesInterface.isRealRoot ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))))) $ do
                     throwIO JavaBreak
-                if (jio (CategoryInterface.isRoot ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))))) then do
-                    Control.Monad.void (BasicArrayList.addAt list 0 (jio (CategoryInterface.toString ((jio (CategoryInterface.getPath ((jget nextParentCategoryInterface))))))))
+                if (jio (CategoryPropertiesInterface.isRoot ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))))) then do
+                    Control.Monad.void (BasicArrayList.addAt list 0 (jio (AbPath.toString ((jio (CategoryInterface.getPath ((jget nextParentCategoryInterface))))))))
                 else do
                     Control.Monad.void (StringMaker.delete pathStringBuffer 0 (jio (StringMaker.length pathStringBuffer)))
-                    Control.Monad.void (BasicArrayList.addAt list 0 (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append pathStringBuffer (jget (abPathData).sEPARATOR)))) (jio (CategoryInterface.getValue ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface)))))))))))))
-                when ((jget nextParentCategoryInterface) == (jio (CategoryInterface.getParent ((jio (CategoryInterface.getHierarchy ((jget nextParentCategoryInterface)))))))) $ do
+                    Control.Monad.void (BasicArrayList.addAt list 0 (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append pathStringBuffer (jget (abPathData).sEPARATOR)))) (jio (CategoryPropertiesInterface.getValue ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface)))))))))))))
+                when ((jget nextParentCategoryInterface) == (jio (CategoryHierarchyInterface.getParent ((jio (CategoryInterface.getHierarchy ((jget nextParentCategoryInterface)))))))) $ do
                     throwIO JavaBreak
-                assignedValue <- (CategoryInterface.getParent ((jio (CategoryInterface.getHierarchy ((jget nextParentCategoryInterface))))))
+                assignedValue <- (CategoryHierarchyInterface.getParent ((jio (CategoryInterface.getHierarchy ((jget nextParentCategoryInterface))))))
                 jset nextParentCategoryInterface (assignedValue)
                 jset depthIndex ((jget depthIndex) + 1)
                 when ((jget depthIndex) > CategoryProperties.mAXDEPTH) $ do
@@ -240,7 +259,7 @@ getFileName_super object_ = (getFileName_impl (javaCast object_ :: CategoryPrope
 
 getFileName_impl :: CategoryProperties -> IO (String)
 getFileName_impl this = do
-        pure ((((jio (CategoryProperties.getValue this)) + (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) + (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
+        pure ((((jio (CategoryProperties.getValue this)) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
 
 
 -- throws Exception

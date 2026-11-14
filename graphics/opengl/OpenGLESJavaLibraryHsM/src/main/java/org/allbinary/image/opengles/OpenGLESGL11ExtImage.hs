@@ -20,10 +20,10 @@ import OpenGLESImage hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -101,7 +101,7 @@ init_3 this image bitmapFactory textureFactory = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (OpenGLESGL11ExtImage.onDisplayChangeEvent this (jget ((jio (DisplayInfoSingleton.getInstance))).displayChangeEvent))
-        jset (this).rectangle ((jarrayFromList [0, (jio (OpenGLESImage.getHeight this)), (jio (OpenGLESImage.getWidth this)), (Prelude.negate (jio (OpenGLESImage.getHeight this)))]))
+        jset (this).rectangle ((jarrayFromList [0, (jio (OpenGLESImage.getHeight this)), (jio (OpenGLESImage.getWidth this)), (Prelude.negate (jio (OpenGLESImage.getHeight this)))] :: JavaArray Int))
         pure ()
 
 
@@ -131,7 +131,7 @@ set_impl :: OpenGLESGL11ExtImage -> GL.GL -> IO (())
 set_impl this gl = do
         Control.Monad.void (OpenGLESGL11ExtImage.onDisplayChangeEvent this (jget ((jio (DisplayInfoSingleton.getInstance))).displayChangeEvent))
         let gl11 = (javaCast gl :: GL11.GL11)
-        when (jio (OpenGLESImage.initTexture_super this.base gl11)) $ do
+        when (jio (OpenGLESImage.initTexture_super this.base (javaCast gl11))) $ do
             Control.Monad.void (PlatformTextureBaseFactory.load ((jget (this).base.textureFactory)) (javaCast gl11) (GL10.gL_TEXTURE_2D) 0 (javaCast this) 0 True)
             Control.Monad.void (GL11.glTexParameteriv gl11 (GL10.gL_TEXTURE_2D) (GL11Ext.gL_TEXTURE_CROP_RECT_OES) (jget (this).rectangle) 0)
             Control.Monad.void (GL11.glDisable gl11 (GL10.gL_TEXTURE_2D))
@@ -150,7 +150,7 @@ draw_impl this gl x y z = do
         Control.Monad.void (GL10.glEnable gl (GL10.gL_TEXTURE_2D))
         Control.Monad.void (GL10.glBindTexture gl (GL10.gL_TEXTURE_2D) (jget ((jget (this).base.openGLESImageProperties)).textureID))
         let gl11Ext = (javaCast gl :: GL11Ext.GL11Ext)
-        Control.Monad.void (GL11Ext.glDrawTexfOES gl11Ext (Prelude.fromIntegral x) (Prelude.fromIntegral (((jget (this).a) - y))) (Prelude.fromIntegral z) (Prelude.realToFrac (jnumericDouble (jio (OpenGLESImage.getWidth this)))) (Prelude.realToFrac (jnumericDouble (jio (OpenGLESImage.getHeight this)))))
+        Control.Monad.void (GL11Ext.glDrawTexfOES gl11Ext (Prelude.fromIntegral x) (Prelude.fromIntegral (((jget (this).a) - y))) (Prelude.fromIntegral z) (Prelude.fromIntegral (jio (OpenGLESImage.getWidth this))) (Prelude.fromIntegral (jio (OpenGLESImage.getHeight this))))
         Control.Monad.void (GL10.glDisable gl (GL10.gL_TEXTURE_2D))
         pure ()
 

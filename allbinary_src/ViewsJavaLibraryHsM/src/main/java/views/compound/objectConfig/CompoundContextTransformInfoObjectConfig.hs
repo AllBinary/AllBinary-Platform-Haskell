@@ -20,10 +20,10 @@ import GenericStoreTransformInfoObjectConfig hiding (new_, init_, newRecord_, in
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified ByteArrayInputStream -- java.io.ByteArrayInputStream
 import qualified InputStream -- java.io.InputStream
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -141,7 +142,7 @@ get_impl :: CompoundContextTransformInfoObjectConfig -> IO (String)
 get_impl this = do
         storeName <- (TransformInfoInterface.getStoreName ((jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this))))
         let httpTransformInfoInterface = (javaCast (jio (GenericStoreTransformInfoObjectConfig.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        templateNameOverride <- (StringUtil.getNonNull ((jio (StringUtil.getInstance))) (javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL))) :: String))
+        templateNameOverride <- (StringUtil.getNonNull ((jio (StringUtil.getInstance))) (javaCast (jio (HashMap.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL))) :: String))
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer storeName)
         Control.Monad.void (StringMaker.append stringBuffer templateNameOverride)

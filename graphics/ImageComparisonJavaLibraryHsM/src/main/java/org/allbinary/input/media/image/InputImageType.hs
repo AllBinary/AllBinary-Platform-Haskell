@@ -19,10 +19,10 @@ module InputImageType where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,18 +55,23 @@ instance JavaObjectClass InputImageType where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE hashMap #-}
 hashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
+tYPE_VECTOR :: BasicArrayList.BasicArrayList
 {-# NOINLINE tYPE_VECTOR #-}
 tYPE_VECTOR = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)))
 
+cAPTURE :: IORef (InputImageType)
 {-# NOINLINE cAPTURE #-}
 cAPTURE = unsafePerformIO ((new_2 "Capture" 0) >>= newIORef)
 
+cOMPARISON :: IORef (InputImageType)
 {-# NOINLINE cOMPARISON #-}
 cOMPARISON = unsafePerformIO ((new_2 "Comparison" 1) >>= newIORef)
 
+mOTION :: IORef (InputImageType)
 {-# NOINLINE mOTION #-}
 mOTION = unsafePerformIO ((new_2 "Motion" 2) >>= newIORef)
 
@@ -99,8 +104,8 @@ init_2 this name index = do
         initFields_ this
         jset (this).name (name)
         jset (this).index (index)
-        Control.Monad.void (add InputImageType.tYPE_VECTOR this)
-        Control.Monad.void (put ((jget InputImageType.hashMap)) (jio (InputImageType.getName this)) this)
+        Control.Monad.void (BasicArrayList.add InputImageType.tYPE_VECTOR this)
+        Control.Monad.void (HashMap.put ((jget InputImageType.hashMap)) (jio (InputImageType.getName this)) this)
         pure ()
 
 
@@ -128,7 +133,7 @@ getName_impl this = do
 
 getInstance :: String -> IO (InputImageType)
 getInstance imageTypeString = do
-        pure ((javaCast (jio (get ((jget InputImageType.hashMap)) imageTypeString)) :: InputImageType))
+        pure ((javaCast (jio (HashMap.get ((jget InputImageType.hashMap)) imageTypeString)) :: InputImageType))
 
 
 getAllAsVector :: IO (BasicArrayList.BasicArrayList)

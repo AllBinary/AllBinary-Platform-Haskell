@@ -19,10 +19,10 @@ module ProductListing where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -98,6 +98,9 @@ instance JavaObjectClass ProductListing where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ProductListing
 newRecord_ = do
@@ -239,7 +242,7 @@ create_impl this keywordData keywordFilenameHashMap vector staticPath = do
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (InputOutputTypeData.getInstance))).dEFAULT))
             file <- (StringMaker.toString stringBuffer)
             when (Prelude.not (jio (Directory.create ((jget (this).directory)) staticPath))) $ do
-                javaThrow ((JavaException "Exception" ("Could Not Create Directory: " ++ javaToString staticPath)))
+                javaThrow ((JavaException "Exception" ("Could Not Create Directory: " ++ jconcatObject AbPath.toString staticPath)))
             Control.Monad.void (ProductListing.savePage this file (jindex productListingPages (index)))
         pure ()
 
@@ -287,7 +290,7 @@ generateAll_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jio (StoreFrontInterface.getStaticPath storeFront)))
             staticPath <- (AbPath.new_2 (jio (StringMaker.toString stringBuffer)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sTATICPAGEGENERATIONLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Store Static Pages Path: " ++ javaToString staticPath) this "generateAll()")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Store Static Pages Path: " ++ jconcatObject AbPath.toString staticPath) this "generateAll()")
             keywordHashSet <- (ProductListing.getHashSet this storeFront)
             keywordArray <- (HashSet.toArray keywordHashSet)
             let size = (jlength keywordArray)

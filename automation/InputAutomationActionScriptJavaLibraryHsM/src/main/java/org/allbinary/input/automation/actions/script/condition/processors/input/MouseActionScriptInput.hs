@@ -20,10 +20,10 @@ import BasicProfileActionScriptInput hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,7 +36,11 @@ import qualified Point -- same package or java.lang
 import qualified MouseActionScriptInputJPanel -- same package or java.lang
 import qualified MouseActionScriptInputData -- same package or java.lang
 import qualified MouseInputAutomationProcessor -- same package or java.lang
+import qualified JDialog -- same package or java.lang
+import qualified InputRobotInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicProfileActionScriptProcessor -- same package or java.lang
+import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified InputEvent -- java.awt.event.InputEvent
 import qualified HashMap -- java.util.HashMap
 import qualified DomNodeHelper -- org.allbinary.data.tree.dom.DomNodeHelper
@@ -76,6 +80,7 @@ instance JavaObjectClass MouseActionScriptInput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Mouse"
 
 newRecord_ :: IO MouseActionScriptInput
@@ -129,14 +134,14 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget MouseActionScriptInputData.bUTTONS))) == 0) then do
                     buttons <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (MouseActionScriptInput.setButtonClicks this (javaToString buttons))
+                    Control.Monad.void (MouseActionScriptInput.setButtonClicks this (jio (jparseInt buttons)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget MouseActionScriptInputData.mOVE))) == 0) then do
                     mouseXNode <- (DomSearchHelper.getNode (jget MouseActionScriptInputData.mOVE_X) (jio (Node.getChildNodes childNode)))
                     mouseXString <- (DomNodeHelper.getTextNodeValue mouseXNode)
-                    let mouseXInteger = (javaToString mouseXString)
+                    mouseXInteger <- (jparseInt mouseXString)
                     mouseYNode <- (DomSearchHelper.getNode (jget MouseActionScriptInputData.mOVE_Y) (jio (Node.getChildNodes childNode)))
                     mouseYString <- (DomNodeHelper.getTextNodeValue mouseYNode)
-                    let mouseYInteger = (javaToString mouseYString)
+                    mouseYInteger <- (jparseInt mouseYString)
                     newPoint <- (Point.new_2 (mouseXInteger) (mouseYInteger))
                     Control.Monad.void (MouseActionScriptInput.setPoint this newPoint)
                 else do
@@ -144,7 +149,7 @@ init_1 this node = do
         else do
             javaThrow ((JavaException "Exception" "Action Script Input Node Null"))
         Control.Monad.void (BasicProfileActionScriptInput.setAllowsChildren this False)
-        assignedValue <- (MouseActionScriptInputJPanel.new_1 this)
+        assignedValue <- (MouseActionScriptInputJPanel.new_1 (javaCast this))
         jset (this).mouseActionScriptInputJPanel (assignedValue)
         pure ()
 
@@ -162,7 +167,7 @@ init_ this = do
         assignedValue <- (Point.new_)
         jset (this).point (assignedValue)
         Control.Monad.void (BasicProfileActionScriptInput.setAllowsChildren this False)
-        assignedValue <- (MouseActionScriptInputJPanel.new_1 this)
+        assignedValue <- (MouseActionScriptInputJPanel.new_1 (javaCast this))
         jset (this).mouseActionScriptInputJPanel (assignedValue)
         pure ()
 
@@ -296,7 +301,7 @@ log_impl this = do
             Control.Monad.void (StringMaker.append buttonStringBuffer (jget (booleanFactory).tRUE_STRING))
         else do
             Control.Monad.void (StringMaker.append buttonStringBuffer (jget (booleanFactory).fALSE_STRING))
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("Input Type: " ++ (jio (InputRobotInterface.getName ((jio (BasicProfileActionScriptInput.getInputRobotInterface this)))))) ++ " Point: ") ++ javaToString (jio (MouseActionScriptInput.getPoint this))) ++ " Buttons Clicked: ") ++ (jio (StringMaker.toString buttonStringBuffer))) this "log")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((("Input Type: " ++ (jio (InputRobotInterface.getName ((jio (BasicProfileActionScriptInput.getInputRobotInterface this)))))) ++ " Point: ") ++ jconcatObject Point.toString (jio (MouseActionScriptInput.getPoint this))) ++ " Buttons Clicked: ") ++ (jio (StringMaker.toString buttonStringBuffer))) this "log")
         pure ()
 
 

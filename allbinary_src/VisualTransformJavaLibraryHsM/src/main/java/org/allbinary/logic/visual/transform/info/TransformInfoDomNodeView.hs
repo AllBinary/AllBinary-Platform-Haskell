@@ -20,10 +20,10 @@ import TransformInfoDomNode hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -74,55 +74,81 @@ initFields_ :: TransformInfoDomNodeView -> IO ()
 initFields_ this = do
     pure ()
 
-new_2 :: TransformInfoInterface.TransformInfoInterface -> String -> IO TransformInfoDomNodeView
-new_2 transformInfoInterface mapping = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o1) => o1 -> String -> IO TransformInfoDomNodeView
+new_2 a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = new_2_overload1 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) a2
+    | jisInstanceOf a1 (javaNull :: String) = new_2_overload2 (javaCast a1 :: String) a2
+    | otherwise = new_2_overload2 (javaCast a1 :: String) a2
+
+init_2 :: (JavaObjectClass o1) => TransformInfoDomNodeView -> o1 -> String -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = init_2_overload1 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) a2
+    | jisInstanceOf a1 (javaNull :: String) = init_2_overload2 this (javaCast a1 :: String) a2
+    | otherwise = init_2_overload2 this (javaCast a1 :: String) a2
+
+
+new_2_overload1 :: TransformInfoInterface.TransformInfoInterface -> String -> IO TransformInfoDomNodeView
+new_2_overload1 transformInfoInterface mapping = do
     this <- newRecord_
-    init_2 this transformInfoInterface mapping
+    init_2_overload1 this transformInfoInterface mapping
     pure this
 
-init_2 :: TransformInfoDomNodeView -> TransformInfoInterface.TransformInfoInterface -> String -> IO ()
-init_2 this transformInfoInterface mapping = do
+init_2_overload1 :: TransformInfoDomNodeView -> TransformInfoInterface.TransformInfoInterface -> String -> IO ()
+init_2_overload1 this transformInfoInterface mapping = do
         TransformInfoDomNode.init_2 this.base (transformInfoInterface) (mapping)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
-new_1 :: TransformInfoInterface.TransformInfoInterface -> IO TransformInfoDomNodeView
-new_1 transformInfoInterface = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TransformInfoDomNodeView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = new_1_overload1 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload2 (javaCast a1 :: String)
+    | otherwise = new_1_overload2 (javaCast a1 :: String)
+
+init_1 :: (JavaObjectClass o1) => TransformInfoDomNodeView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = init_1_overload1 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload2 this (javaCast a1 :: String)
+    | otherwise = init_1_overload2 this (javaCast a1 :: String)
+
+
+new_1_overload1 :: TransformInfoInterface.TransformInfoInterface -> IO TransformInfoDomNodeView
+new_1_overload1 transformInfoInterface = do
     this <- newRecord_
-    init_1 this transformInfoInterface
+    init_1_overload1 this transformInfoInterface
     pure this
 
-init_1 :: TransformInfoDomNodeView -> TransformInfoInterface.TransformInfoInterface -> IO ()
-init_1 this transformInfoInterface = do
+init_1_overload1 :: TransformInfoDomNodeView -> TransformInfoInterface.TransformInfoInterface -> IO ()
+init_1_overload1 this transformInfoInterface = do
         TransformInfoDomNode.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: String -> String -> IO TransformInfoDomNodeView
-new_2 name mappedName = do
+new_2_overload2 :: String -> String -> IO TransformInfoDomNodeView
+new_2_overload2 name mappedName = do
     this <- newRecord_
-    init_2 this name mappedName
+    init_2_overload2 this name mappedName
     pure this
 
-init_2 :: TransformInfoDomNodeView -> String -> String -> IO ()
-init_2 this name mappedName = do
+init_2_overload2 :: TransformInfoDomNodeView -> String -> String -> IO ()
+init_2_overload2 this name mappedName = do
         TransformInfoDomNode.init_2 this.base (name) (mappedName)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: String -> IO TransformInfoDomNodeView
-new_1 name = do
+new_1_overload2 :: String -> IO TransformInfoDomNodeView
+new_1_overload2 name = do
     this <- newRecord_
-    init_1 this name
+    init_1_overload2 this name
     pure this
 
-init_1 :: TransformInfoDomNodeView -> String -> IO ()
-init_1 this name = do
+init_1_overload2 :: TransformInfoDomNodeView -> String -> IO ()
+init_1_overload2 this name = do
         TransformInfoDomNode.init_2 this.base (name) (javaNull)
         initFields_ this
         pure () -- super(...) is in the record above

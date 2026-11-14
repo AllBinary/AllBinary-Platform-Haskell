@@ -7,10 +7,10 @@ module ViewSwapper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -45,10 +45,14 @@ instance JavaObjectClass ViewSwapper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_VIEW_ARRAY :: JavaArray (View.View)
 nULL_VIEW_ARRAY = (jnewArray (0) javaNull)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ViewSwapper
 newRecord_ = do
@@ -125,10 +129,10 @@ setMainView_impl this id = do
             forM_ [0 .. (jlength (jget (this).topViewArray)) - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (ViewGroup.removeView viewGroup (jindex ((jget (this).topViewArray)) (index)))
             forM_ [0 .. (jlength (jget (this).mainViewArray)) - 1] $ \index -> javaIteration (pure ()) $ do
-                when (id /= (jio (getId ((jindex ((jget (this).mainViewArray)) (index)))))) $ do
+                when (id /= (jio (View.getId ((jindex ((jget (this).mainViewArray)) (index)))))) $ do
                     Control.Monad.void (ViewGroup.removeView viewGroup (jindex ((jget (this).mainViewArray)) (index)))
             forM_ [0 .. (jlength (jget (this).mainViewArray)) - 1] $ \index -> javaIteration (pure ()) $ do
-                when (id == (jio (getId ((jindex ((jget (this).mainViewArray)) (index)))))) $ do
+                when (id == (jio (View.getId ((jindex ((jget (this).mainViewArray)) (index)))))) $ do
                     Control.Monad.void (ViewGroup.addView viewGroup (jindex ((jget (this).mainViewArray)) (index)))
                     jset (this).currentMainViewId (id)
             forM_ [0 .. (jlength (jget (this).topViewArray)) - 1] $ \index -> javaIteration (pure ()) $ do

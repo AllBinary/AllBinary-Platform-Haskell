@@ -19,10 +19,10 @@ module DemoLimitedCommandTextItemArrayFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,11 +52,15 @@ instance JavaObjectClass DemoLimitedCommandTextItemArrayFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: DemoLimitedCommandTextItemArrayFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DemoLimitedCommandTextItemArrayFactory
 newRecord_ = do
@@ -69,7 +73,7 @@ newRecord_ = do
 
 initFields_ :: DemoLimitedCommandTextItemArrayFactory -> IO ()
 initFields_ this = do
-    jset this.commandTextItemArrayFactory =<< (CommandTextItemArrayFactory.new_1 (jio (LimitCommandsVisitor.new_)))
+    jset this.commandTextItemArrayFactory =<< (CommandTextItemArrayFactory.new_1 (javaCast (jio (LimitCommandsVisitor.new_))))
     pure ()
 
 new_ :: IO DemoLimitedCommandTextItemArrayFactory

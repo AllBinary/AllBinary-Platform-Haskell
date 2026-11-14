@@ -19,10 +19,10 @@ module InputAutomationModuleBundleActivator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass InputAutomationModuleBundleActivator where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationModuleBundleActivator
 newRecord_ = do
@@ -137,14 +140,14 @@ getInputAutomationConfigurationModuleChangeListener_super object_ a1 = (getInput
 getInputAutomationConfigurationModuleChangeListener_impl :: InputAutomationModuleBundleActivator -> BundleContext.BundleContext -> IO (InputAutomationConfigurationModuleChangeListener.InputAutomationConfigurationModuleChangeListener)
 getInputAutomationConfigurationModuleChangeListener_impl this context = do
     javaCatchReturn $ do
-        serviceReference <- (BundleContext.getServiceReference context (jio (getName "InputAutomationConfigurationModuleChangeListener")))
+        serviceReference <- (BundleContext.getServiceReference context (jio (getName ((JavaClass "InputAutomationConfigurationModuleChangeListener")))))
         if (serviceReference /= javaNull) then do
             let inputAutomationConfigurationModuleChangeListener = (javaCast (jio (BundleContext.getService context serviceReference)) :: InputAutomationConfigurationModuleChangeListener.InputAutomationConfigurationModuleChangeListener)
             when (inputAutomationConfigurationModuleChangeListener == javaNull) $ do
                 javaThrow ((JavaException "Exception" "No Service For ServiceReference"))
             javaReturn (inputAutomationConfigurationModuleChangeListener)
         else do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No ServiceReference: " ++ (jio (getName "InputAutomationConfigurationModuleChangeListener"))) this "addModules")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No ServiceReference: " ++ (jio (getName ((JavaClass "InputAutomationConfigurationModuleChangeListener"))))) this "addModules")
             javaReturn (javaNull)
 
 
@@ -177,7 +180,7 @@ registerAsService_super object_ a1 = (registerAsService_impl (javaCast object_ :
 
 registerAsService_impl :: InputAutomationModuleBundleActivator -> BundleContext.BundleContext -> IO (())
 registerAsService_impl this bundleContext = do
-        Control.Monad.void (OSGIActivatorUtil.registerAsService bundleContext (jio (InputAutomationModuleBundleActivator.getServiceFactory this)) (jio (getName "InputAutomationModuleServiceInterface")))
+        Control.Monad.void (OSGIActivatorUtil.registerAsService bundleContext (jio (InputAutomationModuleBundleActivator.getServiceFactory this)) (jio (getName ((JavaClass "InputAutomationModuleServiceInterface")))))
         pure ()
 
 

@@ -20,10 +20,10 @@ import BasicTable hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -309,7 +309,7 @@ delete_impl this = do
             pure (error)
             ) $ do
             let success = "Successfully Removed Shipping Address"
-            Control.Monad.void (ShippingAddressesEntityFactory.remove ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (Prelude.fromIntegral ((jio (StreetAddress.getId ((jget (this).streetAddress))))) :: Int))
+            Control.Monad.void (ShippingAddressesEntityFactory.remove ((jio (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) (jio (jparseInt (jio (StreetAddress.getId ((jget (this).streetAddress)))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "remove()")
             pure (success)

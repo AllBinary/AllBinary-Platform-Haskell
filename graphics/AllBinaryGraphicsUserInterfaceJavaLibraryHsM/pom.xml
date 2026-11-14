@@ -77,11 +77,13 @@
 
         </dependency>
 
+        <!-- Remarked: the polyglot desktop support is only SWT and OpenGL so the Swing library is not used
         <dependency>
             <groupId>org.swinglabs</groupId>
             <artifactId>swing-layout</artifactId>
             <version>1.0.3</version>
         </dependency>
+        -->
 
 
     </dependencies>

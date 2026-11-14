@@ -19,10 +19,10 @@ module GyroSensorFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,11 +51,15 @@ instance JavaObjectClass GyroSensorFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+allBinaryGyroSensor :: IORef (AllBinaryOrientationSensor.AllBinaryOrientationSensor)
 {-# NOINLINE allBinaryGyroSensor #-}
 allBinaryGyroSensor = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GyroSensorFactory
 newRecord_ = do
@@ -82,7 +86,7 @@ init_ this = do
 -- throws Exception
 init :: IO (())
 init = do
-        assignedValue <- (NoGyroSensor.new_)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: AllBinaryOrientationSensor.AllBinaryOrientationSensor) (NoGyroSensor.new_))
         jset GyroSensorFactory.allBinaryGyroSensor (assignedValue)
         pure ()
 

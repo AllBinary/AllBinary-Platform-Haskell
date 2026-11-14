@@ -19,10 +19,10 @@ module StoreFrontViewFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ instance JavaObjectClass StoreFrontViewFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StoreFrontViewFactory
 newRecord_ = do
@@ -95,6 +98,6 @@ getInstance storeName = do
             pure (javaNull)
             ) $ do
             storeFronts <- (StoreFrontsEntityFactory.getStoreFrontsEntityInstance ((jio (StoreFrontsEntityFactory.getInstance))))
-            pure ((javaCast (jio (StoreFrontView.new_1 (jio (StoreFrontsEntity.getStoreFrontInterface storeFronts storeName)))) :: DomNodeInterface.DomNodeInterface))
+            pure ((javaCast (jio (StoreFrontView.new_1 (javaCast (jio (StoreFrontsEntity.getStoreFrontInterface storeFronts storeName))))) :: DomNodeInterface.DomNodeInterface))
 
 

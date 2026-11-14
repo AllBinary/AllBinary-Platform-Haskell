@@ -19,10 +19,10 @@ module AbPathUtilOld where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,13 +59,18 @@ instance JavaObjectClass AbPathUtilOld where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AbPathUtilOld
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+mIN :: Int
 mIN = 4
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbPathUtilOld
 newRecord_ = do
@@ -321,7 +326,7 @@ getNameFromPath_impl this categoryPath = do
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf categoryPath (jget ((jget (this).filePathData)).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do
-            pure (categoryPath)
+            javaReturn (categoryPath)
         if ((Prelude.length categoryPath) == ((jget endIndex) + 1)) then do
             let categoryName = (Prelude.take (((jget endIndex)) - (0)) (Prelude.drop (0) categoryPath))
             javaReturn =<< (AbPathUtilOld.getNameFromPath this categoryName)

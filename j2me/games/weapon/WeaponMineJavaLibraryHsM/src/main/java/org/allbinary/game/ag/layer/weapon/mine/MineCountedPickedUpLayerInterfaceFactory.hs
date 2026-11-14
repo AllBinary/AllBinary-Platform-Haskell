@@ -20,10 +20,10 @@ import CountedPickedUpLayerInterfaceFactory hiding (new_, init_, newRecord_, ini
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified MineLayerCircularStaticPool -- same package or java.lang
 import qualified MineWeaponResources -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified WeaponProperties -- org.allbinary.game.combat.weapon.WeaponProperties
 import qualified CountedPickedUpLayerInterfaceFactory -- org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory
@@ -68,6 +69,7 @@ instance JavaObjectClass MineCountedPickedUpLayerInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pickedUpLayerInterfaceFactoryInterface :: IORef (PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)
 {-# NOINLINE pickedUpLayerInterfaceFactoryInterface #-}
 pickedUpLayerInterfaceFactoryInterface = unsafePerformIO (newIORef ((javaCast CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)))
 
@@ -95,7 +97,7 @@ initFields_ this = do
 -- throws Exception
 init :: IO (())
 init = do
-        assignedValue <- (new_)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface) (new_))
         jset MineCountedPickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface (assignedValue)
         pure ()
 

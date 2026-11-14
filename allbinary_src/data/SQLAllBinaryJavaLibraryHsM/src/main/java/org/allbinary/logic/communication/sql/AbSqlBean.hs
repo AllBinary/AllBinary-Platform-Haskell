@@ -20,10 +20,10 @@ import AbSqlRow hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,9 @@ import qualified Any -- same package or java.lang
 import qualified StringUtil -- same package or java.lang
 import qualified CommonSeps -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified ResultSet -- java.sql.ResultSet
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
@@ -211,13 +214,13 @@ isSubsetOfEntry_impl this key value columnsAndValues = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.base.fAILED_SQL_STATEMENT) ++ sqlStatement) this (jget this.mETHOD_IS_SUBSET_OF_ENTRY) e)
             pure (((jget (this).base.base.base.base.fAILED_SQL_STATEMENT) ++ sqlStatement))
             ) $ do
-            keyArray <- (HashMap.toArray ((jio (HashMap.keySet columnsAndValues))))
+            keyArray <- (Set.toArray ((jio (HashMap.keySet columnsAndValues))))
             let size = (jlength keyArray)
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.base.commonSeps)).sPACE))
             Control.Monad.void (StringMaker.append stringBuffer key)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.base.commonSeps)).sPACE))
-                Control.Monad.void (StringMaker.append stringBuffer (jio (toString ((jindex keyArray (i))))))
+                Control.Monad.void (StringMaker.append stringBuffer (jio (Any.toString ((jindex keyArray (i))))))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.base.sqlStrings)).fROM))
             Control.Monad.void (StringMaker.append stringBuffer (jio (AbSqlRow.getTableName this)))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.base.sqlStrings)).wHERE))
@@ -230,10 +233,10 @@ isSubsetOfEntry_impl this key value columnsAndValues = do
             columnName <- newIORef ("")
             field <- newIORef ("")
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                keyArray2 <- (HashMap.toArray ((jio (HashMap.keySet columnsAndValues))))
+                keyArray2 <- (Set.toArray ((jio (HashMap.keySet columnsAndValues))))
                 let size2 = (jlength keyArray2)
                 forM_ [0 .. size2 - 1] $ \i -> javaIteration (pure ()) $ do
-                    assignedValue <- (toString ((jindex keyArray2 (i))))
+                    assignedValue <- (Any.toString ((jindex keyArray2 (i))))
                     jset columnName (assignedValue)
                     assignedValue <- (ResultSet.toString ((jio (ResultSet.getObject rset (jget columnName)))))
                     jset field (assignedValue)

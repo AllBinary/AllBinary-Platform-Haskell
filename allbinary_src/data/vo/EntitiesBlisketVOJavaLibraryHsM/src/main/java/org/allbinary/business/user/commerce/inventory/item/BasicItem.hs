@@ -19,10 +19,10 @@ module BasicItem where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -102,6 +102,9 @@ instance JavaObjectClass BasicItem where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicItem
 newRecord_ = do
@@ -620,7 +623,7 @@ setDownloads_impl :: BasicItem -> String -> IO (())
 setDownloads_impl this value = do
         jset (this).downloads (value)
         when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) (jget (this).downloads)))) $ do
-            let downloadInteger = (javaToString (jget (this).downloads))
+            downloadInteger <- (jparseInt (jget (this).downloads))
             when (downloadInteger /= 0) $ do
                 Control.Monad.void (BasicItem.setDownloadable this True)
         pure ()
@@ -1037,7 +1040,7 @@ getTotal_super object_ = (getTotal_impl (javaCast object_ :: BasicItem))
 getTotal_impl :: BasicItem -> IO (Money.Money)
 getTotal_impl this = do
         itemTotal <- (Money.new_1 (jget (this).price))
-        Control.Monad.void (Money.multiply itemTotal (Prelude.fromIntegral ((jget (this).number)) :: Int))
+        Control.Monad.void (Money.multiply itemTotal (jio (jparseInt (jget (this).number))))
         pure (itemTotal)
 
 

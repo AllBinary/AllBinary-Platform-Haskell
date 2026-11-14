@@ -19,10 +19,10 @@ module AndroidInfoFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,11 +51,15 @@ instance JavaObjectClass AndroidInfoFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AndroidInfoFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AndroidInfoFactory
 newRecord_ = do
@@ -68,7 +72,7 @@ newRecord_ = do
 
 initFields_ :: AndroidInfoFactory -> IO ()
 initFields_ this = do
-    jset this.version ((Prelude.read (jget (Build.vERSION).sDK)))
+    jset this.version =<< (jparseInt (jget (Build.vERSION).sDK))
     pure ()
 
 new_ :: IO AndroidInfoFactory

@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -112,7 +112,7 @@ processAI_impl :: KeyPressesAI -> AllBinaryLayerManager.AllBinaryLayerManager ->
 processAI_impl this allBinaryLayerManager = do
         when (jget (this).on) $ do
             forM_ [0 .. (jlength (jget (this).keys)) - 1] $ \index -> javaIteration (pure ()) $ do
-                Control.Monad.void (BasicAI.processKeyAI_super this.base (jio (intValue ((jindex ((jget (this).keys)) (index))))))
+                Control.Monad.void (BasicAI.processKeyAI_super this.base (jindex ((jget (this).keys)) (index)))
         pure ()
 
 

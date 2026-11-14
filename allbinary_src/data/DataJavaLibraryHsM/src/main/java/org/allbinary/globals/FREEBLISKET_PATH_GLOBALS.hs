@@ -19,10 +19,10 @@ module FREEBLISKET_PATH_GLOBALS where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PATH_GLOBALS -- same package or java.lang
 import qualified AbPathData -- org.allbinary.logic.io.path.AbPathData
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 
@@ -63,11 +64,15 @@ instance JavaObjectClass FREEBLISKET_PATH_GLOBALS where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: FREEBLISKET_PATH_GLOBALS
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FREEBLISKET_PATH_GLOBALS
 newRecord_ = do
@@ -95,8 +100,8 @@ initFields_ this = do
     jset this.tEMPLATEPATH (("template" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
     jset this.sTYLEPATH ((((jget (this).tEMPLATEPATH) ++ "style") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
     jset this.tHEMEPATH ((((jget (this).sTYLEPATH) ++ "theme") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
-    jset this.dBINITPATH (((javaToString (jget ((jio (getInstance pATH_GLOBALS))).iNIT_PATH) ++ "db") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
-    jset this.lINEDATAPATH (((javaToString (jget ((jio (getInstance pATH_GLOBALS))).iNIT_PATH) ++ "lineData") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
+    jset this.dBINITPATH (((javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH) ++ "db") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
+    jset this.lINEDATAPATH (((javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH) ++ "lineData") ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
     jset this.cONFIGURATIONPATH (javaNull)
     jset this.uSERCONFIGURATIONPATH (javaNull)
     jset this.cONTEXTCONFIGURATIONPATH (javaNull)
@@ -124,7 +129,7 @@ init_ this = do
         assignedValue <- (StringMaker.toString stringBuffer)
         jset (this).iNSTALLPATH (assignedValue)
         Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
-        Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (getInstance pATH_GLOBALS))).iNIT_PATH))
+        Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH))
         Control.Monad.void (StringMaker.append stringBuffer "views")
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (AbPathData.getInstance))).sEPARATOR))
         assignedValue <- (StringMaker.toString stringBuffer)

@@ -20,10 +20,10 @@ import StoreWorkFlowTag hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,13 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified TagStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HelperTag -- same package or java.lang
+import qualified PropertiesTag -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
 import qualified DynamicObjectData -- org.allbinary.business.DynamicObjectData
 import qualified AbResponseHandler -- org.allbinary.logic.communication.http.request.AbResponseHandler

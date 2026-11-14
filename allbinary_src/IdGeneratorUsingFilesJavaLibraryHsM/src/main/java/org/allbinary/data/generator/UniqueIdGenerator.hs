@@ -19,10 +19,10 @@ module UniqueIdGenerator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,10 +64,14 @@ instance JavaObjectClass UniqueIdGenerator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+eXT :: String
 eXT = ".unq"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UniqueIdGenerator
 newRecord_ = do
@@ -156,13 +160,13 @@ getNext_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "getNext" e)
             pure ("Error")
             ) $ do
-            idFile <- (AbFileInputStream.new_1 (jget (this).newFile))
-            assignedValue <- (AbDataInputStream.new_1 idFile)
+            idFile <- (AbFileInputStream.createFromAbFile (jget (this).newFile))
+            assignedValue <- (AbDataInputStream.new_1 (javaCast idFile))
             jset idData (assignedValue)
             assignedValue <- (AbDataInputStream.readLong ((jget idData)))
             jset (this).id (assignedValue)
             idOutFile <- (AbFileOutputStream.createFromAbFile (jget (this).newFile))
-            assignedValue <- (AbDataOutputStream.new_1 idOutFile)
+            assignedValue <- (AbDataOutputStream.new_1 (javaCast idOutFile))
             jset idOutData (assignedValue)
             Control.Monad.void (AbDataOutputStream.writeLong ((jget idOutData)) ((jget (this).id) + 1))
             let idLong = (Prelude.fromIntegral ((jget (this).id)) :: Int64)

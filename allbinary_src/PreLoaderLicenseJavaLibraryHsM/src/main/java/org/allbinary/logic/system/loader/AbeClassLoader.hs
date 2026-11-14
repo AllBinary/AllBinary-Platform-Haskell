@@ -20,10 +20,10 @@ import ClassLoader hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,9 +70,11 @@ instance JavaObjectClass AbeClassLoader where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+classes :: IORef (Map.Map)
 {-# NOINLINE classes #-}
 classes = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: Map.Map) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
+pATH :: IORef (String)
 {-# NOINLINE pATH #-}
 pATH = unsafePerformIO (newIORef (javaNull))
 
@@ -127,7 +129,7 @@ findLoadedClass1_super object_ a1 = (findLoadedClass1_impl (javaCast object_ :: 
 
 findLoadedClass1_impl :: AbeClassLoader -> String -> IO (Class.Class)
 findLoadedClass1_impl this name = do
-        pure ((javaCast (jio (get ((jget AbeClassLoader.classes)) name)) :: Class.Class))
+        pure ((javaCast (jio (Map.get ((jget AbeClassLoader.classes)) name)) :: Class.Class))
 
 
 -- throws ClassNotFoundException
@@ -166,7 +168,7 @@ loadClass_2_impl this name resolve = do
                     Control.Monad.void (LogBuffer.add logBuffer (jio (LogFactory.getInstance ((("Failed to Load Class: " ++ name) ++ "\nwith: ") ++ (jget loadedWith)) this (jget (this).lOAD_CLASS) e)))
                     ) $ do
                     jset loadedWith ("super.loadClass")
-                    normalClass <- (ClassLoader.loadClass_super this.base name resolve)
+                    normalClass <- (ClassLoader.loadClass_2_super this.base name resolve)
                     when (normalClass /= javaNull) $ do
                         javaReturn (normalClass)
                 classBytes <- (AbeClassLoader.loadClassBytesFromFile this name)
@@ -176,7 +178,7 @@ loadClass_2_impl this name resolve = do
                 jset myClass (assignedValue)
                 when ((jget myClass) == javaNull) $ do
                     javaThrow ((JavaException "ClassNotFoundException" ((("My Class Not Defineable for: " ++ name) ++ "\nwith: ") ++ "loadClassBytes")))
-                Control.Monad.void (put ((jget AbeClassLoader.classes)) name (jget myClass))
+                Control.Monad.void (Map.put ((jget AbeClassLoader.classes)) name (jget myClass))
             else do
                 Control.Monad.void (LogBuffer.add logBuffer (jio (LogFactory.getInstanceF ((("Already Loaded: " ++ name) ++ "\nwith: ") ++ (jget loadedWith)) this (jget (this).lOAD_CLASS))))
             Control.Monad.void (ClassLoader.resolveClass this (jget myClass))
@@ -229,7 +231,7 @@ oldLoadClass_impl this name resolve = do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Failed Loaded Class: " ++ name) ++ " with: ") ++ (jget loadedWith)) this (jget (this).lOAD_CLASS))
                     ) $ do
                     jset loadedWith ("super.loadClass")
-                    normalClass <- (ClassLoader.loadClass_super this.base name resolve)
+                    normalClass <- (ClassLoader.loadClass_2_super this.base name resolve)
                     when (normalClass /= javaNull) $ do
                         javaReturn (normalClass)
                 jset loadedWith ("loadClassBytes")
@@ -240,7 +242,7 @@ oldLoadClass_impl this name resolve = do
                 jset myClass (assignedValue)
                 when ((jget myClass) == javaNull) $ do
                     javaThrow ((JavaException "ClassNotFoundException" ("Class Not Defineable for: " ++ name)))
-                Control.Monad.void (put ((jget AbeClassLoader.classes)) name (jget myClass))
+                Control.Monad.void (Map.put ((jget AbeClassLoader.classes)) name (jget myClass))
             else do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).lOADER))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Already Loaded: " ++ name) ++ " with: ") ++ (jget loadedWith)) this (jget (this).lOAD_CLASS))

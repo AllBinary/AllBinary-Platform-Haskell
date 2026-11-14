@@ -19,10 +19,10 @@ module BasicStoreFront where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -89,6 +89,9 @@ instance JavaObjectClass BasicStoreFront where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicStoreFront
 newRecord_ = do
@@ -251,7 +254,7 @@ getTestHtmlPath_super object_ = (getTestHtmlPath_impl (javaCast object_ :: Basic
 
 getTestHtmlPath_impl :: BasicStoreFront -> IO (String)
 getTestHtmlPath_impl this = do
-        pure (((jio (getTestHtmlPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) + (jio (BasicStoreFront.getCurrentHostNamePath this))))
+        pure ((javaToString (jio (getTestHtmlPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) ++ (jio (BasicStoreFront.getCurrentHostNamePath this))))
 
 
 getCurrentHostName :: (JavaObjectClass this_) => this_ -> IO (String)

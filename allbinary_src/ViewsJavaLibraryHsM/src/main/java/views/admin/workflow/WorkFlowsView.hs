@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WorkFlowEntity -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -98,7 +100,7 @@ init_1 this transformInfoInterface = do
         HttpStoreComponentView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (WorkFlowEntity.get_1 ((jio (WorkFlowEntityFactory.create2 ((jio (WorkFlowEntityFactory.getInstance)))))) (jio (WeblisketSession.getStoreName ((jio (HttpStoreComponentView.getWeblisketSession this))))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (WorkFlowEntity.get_1 ((jio (WorkFlowEntityFactory.create2 ((jio (WorkFlowEntityFactory.getInstance)))))) (jio (WeblisketSession.getStoreName ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
         jset (this).workFlowsVector (assignedValue)
         pure ()
 
@@ -150,6 +152,7 @@ toXmlNode_impl this document = do
             size <- (BasicArrayList.size ((jget (this).workFlowsVector)))
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let workFlowInterface = (javaCast (jio (BasicArrayList.get ((jget (this).workFlowsVector)) index)) :: WorkFlowInterface.WorkFlowInterface)
+                pure ()
             pure (node)
 
 

@@ -19,10 +19,10 @@ module BufferedImageInfoFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass BufferedImageInfoFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE hashMap #-}
 hashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BufferedImageInfoFactory
 newRecord_ = do
@@ -90,11 +94,11 @@ getInstance width height type_ = do
         Control.Monad.void (StringMaker.appendint stringbuffer height)
         Control.Monad.void (StringMaker.appendint stringbuffer type_)
         key <- (StringMaker.toString stringbuffer)
-        bufferedImageInfo <- newIORef ((javaCast (jio (get ((jget BufferedImageInfoFactory.hashMap)) key)) :: BufferedImageInfo.BufferedImageInfo))
+        bufferedImageInfo <- newIORef ((javaCast (jio (HashMap.get ((jget BufferedImageInfoFactory.hashMap)) key)) :: BufferedImageInfo.BufferedImageInfo))
         when ((jget bufferedImageInfo) == javaNull) $ do
             assignedValue <- (BufferedImageInfo.new_3 width height type_)
             jset bufferedImageInfo (assignedValue)
-            Control.Monad.void (put ((jget BufferedImageInfoFactory.hashMap)) key (jget bufferedImageInfo))
+            Control.Monad.void (HashMap.put ((jget BufferedImageInfoFactory.hashMap)) key (jget bufferedImageInfo))
         pure ((jget bufferedImageInfo))
 
 

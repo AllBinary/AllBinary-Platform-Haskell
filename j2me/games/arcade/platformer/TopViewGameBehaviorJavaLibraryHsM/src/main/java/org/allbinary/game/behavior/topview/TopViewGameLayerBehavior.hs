@@ -20,10 +20,10 @@ import GameLayerBehavior hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified InitialJumpBehavior -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
 import qualified GameLayerBehavior -- org.allbinary.game.layer.behavior.GameLayerBehavior
 import qualified BasicAccelerationProperties -- org.allbinary.game.physics.acceleration.BasicAccelerationProperties
 import qualified VelocityProperties -- org.allbinary.game.physics.velocity.VelocityProperties
@@ -123,7 +124,7 @@ land_super object_ a1 = (land_impl (javaCast object_ :: TopViewGameLayerBehavior
 
 land_impl :: TopViewGameLayerBehavior -> VelocityProperties.VelocityProperties -> IO (())
 land_impl this velocityProperties = do
-        Control.Monad.void (VelocityProperties.setint ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))) 0)
+        Control.Monad.void (BasicDecimal.setint ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))) 0)
         Control.Monad.void (TopViewGameLayerBehavior.landReset this)
         pure ()
 
@@ -154,7 +155,7 @@ up_impl this velocityProperties acceleration jumpBehavior accelerationMultiplier
         if (Prelude.not (jget (this).isJumpOver)) then do
             if ((jget (this).gravityActionIndex) < (jget (this).maxGravityActionIndex)) then do
                 let acceleration2 = ((Prelude.negate (jio (BasicAccelerationProperties.getForward acceleration))) * accelerationMultiplier)
-                Control.Monad.void (VelocityProperties.addint ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))) acceleration2)
+                Control.Monad.void (BasicDecimal.addint ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))) acceleration2)
                 Control.Monad.void (VelocityProperties.limitXYToForwardAndReverseMaxVelocity velocityProperties)
                 jset (this).gravityActionIndex ((jget (this).gravityActionIndex) + 1)
             else do
@@ -175,7 +176,7 @@ inputFrames_super object_ a1 = (inputFrames_impl (javaCast object_ :: TopViewGam
 
 inputFrames_impl :: TopViewGameLayerBehavior -> VelocityProperties.VelocityProperties -> IO (())
 inputFrames_impl this velocityProperties = do
-        when (((jget (this).gravityActionIndex) > 0) && ((jio (VelocityProperties.getUnscaled ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))))) > 0)) $ do
+        when (((jget (this).gravityActionIndex) > 0) && ((jio (BasicDecimal.getUnscaled ((jio (VelocityProperties.getVelocityYBasicDecimalP velocityProperties))))) > 0)) $ do
             jset (this).isJumpOver (True)
         pure ()
 

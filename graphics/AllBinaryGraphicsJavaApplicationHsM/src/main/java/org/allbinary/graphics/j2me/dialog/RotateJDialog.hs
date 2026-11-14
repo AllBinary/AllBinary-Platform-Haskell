@@ -20,10 +20,10 @@ import JDialog hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -175,9 +175,9 @@ jButton1ActionPerformed_impl this evt = do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "jButton1ActionPerformed")
             ) $ do
-            Control.Monad.void (HashMap.put ((jget (this).hashMap)) (javaToString 0) (javaToString (jio (JTextField.getText ((jget (this).angleIncrementJTextField))))))
-            Control.Monad.void (HashMap.put ((jget (this).hashMap)) (javaToString 1) (javaToString (jio (JTextField.getText ((jget (this).totalRotationJTextField))))))
-            Control.Monad.void (onHashMap (((javaCast (jio (JDialog.getParent this)) :: HashMapJDialogListenerInterface.HashMapJDialogListenerInterface))) (jget (this).hashMap))
+            Control.Monad.void (HashMap.put ((jget (this).hashMap)) (0) ((jio (JTextField.getText ((jget (this).angleIncrementJTextField))))))
+            Control.Monad.void (HashMap.put ((jget (this).hashMap)) (1) ((jio (JTextField.getText ((jget (this).totalRotationJTextField))))))
+            Control.Monad.void (HashMapJDialogListenerInterface.onHashMap (((javaCast (jio (JDialog.getParent this)) :: HashMapJDialogListenerInterface.HashMapJDialogListenerInterface))) (jget (this).hashMap))
             Control.Monad.void (JDialog.setVisible this False)
         pure ()
 

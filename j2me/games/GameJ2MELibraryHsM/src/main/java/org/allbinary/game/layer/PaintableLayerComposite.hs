@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,7 +96,7 @@ paint_impl :: PaintableLayerComposite -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
         index <- newIORef ((jlength (jget (this).paintableArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (paint ((jindex ((jget (this).paintableArray)) ((jget index)))) graphics)
+            Control.Monad.void (Layer.paint ((jindex ((jget (this).paintableArray)) ((jget index)))) graphics)
         pure ()
 
 

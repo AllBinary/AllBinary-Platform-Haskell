@@ -19,10 +19,10 @@ module GameFeatureItemStateListener where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,7 @@ import qualified GameFeatureFactory -- same package or java.lang
 import qualified GameFeature -- same package or java.lang
 import qualified GameFeatureUtil -- same package or java.lang
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified ItemStateListener -- javax.microedition.lcdui.ItemStateListener
 import qualified GameConfigurationGauge -- org.allbinary.game.configuration.GameConfigurationGauge
 import qualified GameConfigurationUtil -- org.allbinary.game.configuration.GameConfigurationUtil
@@ -67,11 +67,15 @@ instance JavaObjectClass GameFeatureItemStateListener where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+toggleList :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE toggleList #-}
 toggleList = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameFeatureItemStateListener
 newRecord_ = do
@@ -114,24 +118,24 @@ init_1 this gameOptionsForm = do
 
 add :: GameFeature.GameFeature -> IO (())
 add gameFeature = do
-        when (Prelude.not (jio (contains ((jget GameFeatureItemStateListener.toggleList)) gameFeature))) $ do
-            Control.Monad.void (add ((jget GameFeatureItemStateListener.toggleList)) gameFeature)
+        when (Prelude.not (jio (BasicArrayList.contains ((jget GameFeatureItemStateListener.toggleList)) gameFeature))) $ do
+            Control.Monad.void (BasicArrayList.add ((jget GameFeatureItemStateListener.toggleList)) gameFeature)
         pure ()
 
 
-itemStateChanged :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged object_ a1 = jmethod object_ "itemStateChanged" (\() -> (itemStateChanged_impl (javaCast object_ :: GameFeatureItemStateListener))) () a1
 
-itemStateChanged_super :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged_super :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_super object_ a1 = (itemStateChanged_impl (javaCast object_ :: GameFeatureItemStateListener)) a1
 
-itemStateChanged_impl :: GameFeatureItemStateListener -> Item.Item -> IO (())
+itemStateChanged_impl :: GameFeatureItemStateListener -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_impl this item = do
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "itemStateChanged" e)
             ) $ do
-            itemLabel <- (Item.getLabel item)
+            itemLabel <- (LcduiItem.getLabel item)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jio (CommonLabels.getInstance))).iTEM_LABEL)))) itemLabel))))) this "itemStateChanged")
             if (javaInstanceOf item "GameConfigurationGauge") then do
                 Control.Monad.void (GameConfigurationUtil.change ((jio (GameConfigurationUtil.getInstance))) (jget (this).gameOptionsForm) (javaCast item :: GameConfigurationGauge.GameConfigurationGauge))

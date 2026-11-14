@@ -20,10 +20,10 @@ import ProgressRunnable hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -101,7 +101,7 @@ run_impl this = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).rUN) e)
             ) $ do
             let progressCanvas = (javaCast (jget (this).base.progressCanvas) :: AndroidBasicTitleProgressBar.AndroidBasicTitleProgressBar)
-            Control.Monad.void (Activity.onSetProgress ((jget (this).base.midletActivity)) (Prelude.truncate (((jio (AndroidBasicTitleProgressBar.getValue ((jget (this).base.progressCanvas)))) + ((jio (AndroidBasicTitleProgressBar.getMaxValue ((jget (this).base.progressCanvas)))) / (Prelude.fromIntegral (jio (AndroidBasicTitleProgressBar.getPortion progressCanvas))))))) (jio (AndroidBasicTitleProgressBar.getText ((jget (this).base.progressCanvas)))))
+            Control.Monad.void (Activity.onSetProgress ((jget (this).base.midletActivity)) (Prelude.truncate (((jio (ProgressCanvas.getValue ((jget (this).base.progressCanvas)))) + ((jio (ProgressCanvas.getMaxValue ((jget (this).base.progressCanvas)))) / (Prelude.fromIntegral (jio (AndroidBasicTitleProgressBar.getPortion progressCanvas))))))) (jio (ProgressCanvas.getText ((jget (this).base.progressCanvas)))))
         pure ()
 
 

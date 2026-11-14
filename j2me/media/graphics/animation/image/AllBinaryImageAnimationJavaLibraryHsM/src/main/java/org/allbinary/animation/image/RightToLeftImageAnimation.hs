@@ -20,10 +20,10 @@ import ImageSegmentAnimation hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -146,7 +146,7 @@ update_super object_ = (update_impl (javaCast object_ :: RightToLeftImageAnimati
 
 update_impl :: RightToLeftImageAnimation -> IO (())
 update_impl this = do
-        jset (this).startWidth ((((jio (ImageSegmentAnimation.getDrawWidth this)) * (jio (ImageSegmentAnimation.getFrame this))) / (jio (ImageSegmentAnimation.getSize this))))
+        jset (this).startWidth ((((jio (ImageSegmentAnimation.getDrawWidth this)) * (jio (ImageSegmentAnimation.getFrame this))) `quot` (jio (ImageSegmentAnimation.getSize this))))
         jset (this).currentWidth (((jio (ImageSegmentAnimation.getDrawWidth this)) - (jget (this).startWidth)))
         pure ()
 

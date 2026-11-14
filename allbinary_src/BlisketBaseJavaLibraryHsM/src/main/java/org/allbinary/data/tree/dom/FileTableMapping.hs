@@ -19,10 +19,10 @@ module FileTableMapping where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance JavaObjectClass FileTableMapping where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FileTableMapping
 newRecord_ = do
@@ -139,10 +142,10 @@ toHashMap_impl this = do
         rootFileName <- (AbPathData.getNameFromPath pathData (jio (PathUtil.getWithoutExtension pathUtil (jio (AbFile.getPath ((jget (this).file)))))))
         fileData <- (FileData.getInstance)
         Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).rOOT_NAME) rootFileName)
-        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSFILE) (javaToString (javaToString (jio (AbFile.isFile ((jget (this).file)))))))
-        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSDIRECTORY) (javaToString (javaToString (jio (AbFile.isDirectory ((jget (this).file)))))))
-        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSHIDDEN) (javaToString (javaToString (jio (AbFile.isHidden ((jget (this).file)))))))
-        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSABSOLUTE) (javaToString (javaToString (jio (AbFile.isAbsolute ((jget (this).file)))))))
+        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSFILE) (javaToString ((jio (AbFile.isFile ((jget (this).file)))))))
+        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSDIRECTORY) (javaToString ((jio (AbFile.isDirectory ((jget (this).file)))))))
+        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSHIDDEN) (javaToString ((jio (AbFile.isHidden ((jget (this).file)))))))
+        Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).iSABSOLUTE) (javaToString ((jio (AbFile.isAbsolute ((jget (this).file)))))))
         Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).aBSOLUTE_PATH) (jio (AbFile.getAbsolutePath ((jget this.file)))))
         Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).cANONICAL_PATH) (jio (AbFile.getCanonicalPath ((jget this.file)))))
         Control.Monad.void (HashMap.put filePropertyHashMap (jget (fileData).nAME) (jio (AbFile.getName ((jget this.file)))))

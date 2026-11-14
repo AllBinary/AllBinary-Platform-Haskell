@@ -20,10 +20,10 @@ import SelectionHudPaintable hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Animation -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified NullPathFindingLayer -- org.allbinary.game.layer.NullPathFindingLayer
@@ -136,7 +137,7 @@ setRtsLayer_super object_ a1 = (setRtsLayer_impl (javaCast object_ :: WaypointIn
 
 setRtsLayer_impl :: WaypointInfoHudPaintable -> RTSLayer.RTSLayer -> IO (())
 setRtsLayer_impl this rtsLayer = do
-        jset (this).rtsLayerP (rtsLayer)
+        jset (this).rtsLayerP ((javaCast rtsLayer :: PathFindingLayerInterface.PathFindingLayerInterface))
         pure ()
 
 

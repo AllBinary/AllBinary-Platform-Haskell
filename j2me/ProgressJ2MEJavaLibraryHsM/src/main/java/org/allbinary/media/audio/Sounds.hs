@@ -19,10 +19,10 @@ module Sounds where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass Sounds where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Sounds
 newRecord_ = do
@@ -155,7 +158,7 @@ stopAll_impl this = do
         player <- newIORef (javaNull)
         forM_ [0 .. (jlength soundInterfaceArray) - 1] $ \index -> javaIteration (pure ()) $ do
             when ((jindex soundInterfaceArray (index)) /= javaNull) $ do
-                assignedValue <- (getPlayerP ((jindex soundInterfaceArray (index))))
+                assignedValue <- (Sound.getPlayerP ((jindex soundInterfaceArray (index))))
                 jset player (assignedValue)
                 when ((jget player) /= javaNull) $ do
                     Control.Monad.void (Player.stop ((jget player)))
@@ -178,7 +181,7 @@ closeAll_impl this = do
         player <- newIORef (javaNull)
         forM_ [0 .. (jlength soundInterfaceArray) - 1] $ \index -> javaIteration (pure ()) $ do
             when ((jindex soundInterfaceArray (index)) /= javaNull) $ do
-                assignedValue <- (getPlayerP ((jindex soundInterfaceArray (index))))
+                assignedValue <- (Sound.getPlayerP ((jindex soundInterfaceArray (index))))
                 jset player (assignedValue)
                 when ((jget player) /= javaNull) $ do
                     Control.Monad.void (Player.close ((jget player)))

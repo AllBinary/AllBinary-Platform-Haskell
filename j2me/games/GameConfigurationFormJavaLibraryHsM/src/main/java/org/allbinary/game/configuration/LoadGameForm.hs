@@ -20,10 +20,10 @@ import CommandForm hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,14 +38,14 @@ import qualified CommonStrings -- same package or java.lang
 import qualified Choice -- javax.microedition.lcdui.Choice
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified NullImage -- javax.microedition.lcdui.NullImage
 import qualified StringItem -- javax.microedition.lcdui.StringItem
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
 import qualified GamePersistanceSingleton -- org.allbinary.game.configuration.persistance.GamePersistanceSingleton
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified CommandForm -- org.allbinary.graphics.displayable.screen.CommandForm
-import qualified MEUtil -- org.allbinary.logic.MEUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified StringUtil -- org.allbinary.logic.string.StringUtil
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -53,7 +53,7 @@ import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 data LoadGameForm = LoadGameForm
     { header_ :: JavaHeader
     , base :: CommandForm.CommandForm
-    , meUtil :: IORef (MEUtil.MEUtil)
+    , meUtil :: IORef (MIDPUtil.MIDPUtil)
     , areChoices :: IORef (Bool)
     }
 
@@ -88,7 +88,7 @@ newRecord_ = do
 
 initFields_ :: LoadGameForm -> IO ()
 initFields_ this = do
-    jset this.meUtil =<< (MEUtil.getInstance)
+    jset this.meUtil =<< (MIDPUtil.getInstance)
     jset this.areChoices (False)
     pure ()
 
@@ -141,7 +141,7 @@ update_impl this = do
             Control.Monad.void (LoadGameForm.add this list "Select A Saved Game" (Choice.eXCLUSIVE))
             jset (this).areChoices (True)
         else do
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (StringItem.new_3 "No Saved Games" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Item.pLAIN)))))
+            Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (StringItem.new_3 "No Saved Games" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (LcduiItem.pLAIN)))))
             jset (this).areChoices (False)
         Control.Monad.void (CommandForm.update_super this.base)
         pure ()
@@ -158,7 +158,7 @@ add_impl this list name option = do
         choiceGroup <- (LoadGameForm.getChoiceGroup this list name option)
         when ((jio (BasicArrayList.size list)) > 0) $ do
             Control.Monad.void (ChoiceGroup.setSelectedIndex choiceGroup 0 True)
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
+        Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
         pure ()
 
 
@@ -208,7 +208,7 @@ getSelectedText_impl this = do
     javaCatchReturn $ do
         if (jget (this).areChoices) then do
             let choiceGroup = (javaCast (jio (CommandForm.get this 0)) :: ChoiceGroup.ChoiceGroup)
-            let value = (javaToString (jio (ChoiceGroup.getString choiceGroup (jio (ChoiceGroup.getSelectedIndex choiceGroup)))))
+            let value = (jio (jparseInt (jio (ChoiceGroup.getString choiceGroup (jio (ChoiceGroup.getSelectedIndex choiceGroup))))))
             javaReturn (value)
         else do
             javaReturn ((Prelude.negate 1))

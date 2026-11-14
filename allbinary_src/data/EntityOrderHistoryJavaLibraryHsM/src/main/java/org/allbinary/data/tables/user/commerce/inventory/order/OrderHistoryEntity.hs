@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,10 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified HashMap -- java.util.HashMap
 import qualified Random -- java.util.Random
@@ -135,7 +139,7 @@ new_ = do
 
 init_ :: OrderHistoryEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (HistoryDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (HistoryDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -153,7 +157,7 @@ insert_impl this userName order = do
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ javaToString vector) this iNSERT e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ jconcatObject BasicArrayList.toString vector) this iNSERT e)
             ) $ do
             paymentInterface <- (PaymentEntity.getDefault ((jio (PaymentEntity.new_))) userName)
             billingAddress <- (BillingAddressesEntity.getDefault ((jio (BillingAddressesEntity.new_1 userName))))
@@ -161,7 +165,7 @@ insert_impl this userName order = do
             abeClientInformation <- (ServiceClientInformationInterfaceFactory.getInstance)
             storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jio (Order.getStoreName order))))
             shippingInterface <- (ShippingMethods.getShippingInterface ((jio (ShippingMethods.new_2 abeClientInformation storeFrontInterface))) (jio (Order.getShippingMethod order)))
-            shippingCost <- (ShippingInterface.getCost shippingInterface order)
+            shippingCost <- (ShippingInterface.getCost shippingInterface (javaCast order))
             basketInterface <- (Order.getBasket order)
             subTotal <- (BasketInterface.getSubTotal basketInterface)
             taxRate <- (TaxFactory.getTaxRate ((jio (TaxFactory.getInstance_2 ((jio (TaxFactory.getInstance))) abeClientInformation storeFrontInterface))) shippingAddress storeFrontInterface)
@@ -255,7 +259,7 @@ insert_1_impl this values = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this iNSERT e)
             ) $ do
-            Control.Monad.void (AbSqlBean.insert_super this.base values)
+            Control.Monad.void (AbSqlBean.insert_1_super this.base values)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this iNSERT)
         pure ()
@@ -275,7 +279,7 @@ setStatus_impl this orderId status = do
             ) $ do
             calendar <- (Calendar.getInstance)
             time <- (jnewString (javaToString (Prelude.fromIntegral ((jio (Calendar.getTimeInMillis calendar))) :: Int64)))
-            updateHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            updateHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put updateHashMap (OrderHistoryData.sTATUS) status)
             if ((Prelude.fromEnum (Prelude.compare status (OrderHistoryData.cANCELLED)) - 1) == 0) then do
                 Control.Monad.void (HashMap.put updateHashMap (OrderHistoryData.cANCELDATE) time)
@@ -299,7 +303,7 @@ setPaymentMethod_impl this orderId paymentMethod = do
             ) $ do
             calendar <- (Calendar.getInstance)
             time <- (jnewString (javaToString (Prelude.fromIntegral ((jio (Calendar.getTimeInMillis calendar))) :: Int64)))
-            updateHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            updateHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put updateHashMap (PaymentData.mETHOD) paymentMethod)
             Control.Monad.void (HashMap.put updateHashMap (OrderHistoryData.tRANSDATE) time)
             Control.Monad.void (AbSqlBean.updateWhere_super this.base (OrderData.iD) orderId updateHashMap)
@@ -316,7 +320,7 @@ getStoreOrders_super object_ a1 = (getStoreOrders_impl (javaCast object_ :: Orde
 getStoreOrders_impl :: OrderHistoryEntity -> StoreFrontInterface.StoreFrontInterface -> IO (BasicArrayList.BasicArrayList)
 getStoreOrders_impl this storeFrontInterface = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put whereHashMap (jget ((jio (StoreFrontData.getInstance))).nAME) (jio (StoreFrontInterface.getName storeFrontInterface)))
         orderHashMapVector <- (AbSqlBean.getRows_super this.base whereHashMap)
         size <- (BasicArrayList.size orderHashMapVector)
@@ -337,7 +341,7 @@ getOrders_super object_ a1 = (getOrders_impl (javaCast object_ :: OrderHistoryEn
 getOrders_impl :: OrderHistoryEntity -> String -> IO (BasicArrayList.BasicArrayList)
 getOrders_impl this userName = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put whereHashMap (UserData.uSERNAME) userName)
         orderHashMapVector <- (AbSqlBean.getRows_super this.base whereHashMap)
         size <- (BasicArrayList.size orderHashMapVector)
@@ -358,7 +362,7 @@ getOrders_3_super object_ a1 a2 a3 = (getOrders_3_impl (javaCast object_ :: Orde
 getOrders_3_impl :: OrderHistoryEntity -> String -> String -> String -> IO (BasicArrayList.BasicArrayList)
 getOrders_3_impl this status fromDate toDate = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put whereHashMap (OrderHistoryData.sTATUS) status)
         orderHashMapVector <- (AbSqlBean.getRowsWhereBetween_super this.base whereHashMap (OrderHistoryData.oRDERDATE) fromDate toDate)
         size <- (BasicArrayList.size orderHashMapVector)
@@ -379,7 +383,7 @@ getOrders_2_super object_ a1 a2 = (getOrders_2_impl (javaCast object_ :: OrderHi
 getOrders_2_impl :: OrderHistoryEntity -> String -> String -> IO (BasicArrayList.BasicArrayList)
 getOrders_2_impl this fromDate toDate = do
         orderReviewVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        orderHashMapVector <- (AbSqlBean.getRowsWhereBetween_super this.base (OrderHistoryData.oRDERDATE) fromDate toDate)
+        orderHashMapVector <- (AbSqlBean.getRowsWhereBetween_3_super this.base (OrderHistoryData.oRDERDATE) fromDate toDate)
         size <- (BasicArrayList.size orderHashMapVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let orderReviewHashMap = (javaCast (jio (BasicArrayList.get orderHashMapVector index)) :: HashMap.HashMap)
@@ -398,7 +402,7 @@ getOrder_super object_ a1 = (getOrder_impl (javaCast object_ :: OrderHistoryEnti
 getOrder_impl :: OrderHistoryEntity -> String -> IO (OrderHistory.OrderHistory)
 getOrder_impl this id = do
     javaCatchReturn $ do
-        whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put whereHashMap (OrderData.iD) id)
         orderReviewHashMap <- (AbSqlBean.getRow_super this.base whereHashMap)
         if (orderReviewHashMap /= javaNull) then do

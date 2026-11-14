@@ -20,10 +20,10 @@ import ViewPosition hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,9 +56,11 @@ instance JavaObjectClass StaticTileLayerIntoPositionViewPosition where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tiledLayer :: IORef (Layer.Layer)
 {-# NOINLINE tiledLayer #-}
 tiledLayer = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: Layer.Layer) (NullLayer.getInstance)) >>= newIORef)
 
+layer :: IORef (AllBinaryLayer.AllBinaryLayer)
 {-# NOINLINE layer #-}
 layer = unsafePerformIO (newIORef (AllBinaryLayer.nULL_ALLBINARY_LAYER))
 
@@ -99,7 +101,7 @@ getX_super object_ = (getX_impl (javaCast object_ :: StaticTileLayerIntoPosition
 
 getX_impl :: StaticTileLayerIntoPositionViewPosition -> IO (Int)
 getX_impl this = do
-        pure (((jio (ViewPosition.getX_super this.base)) - (jio (getXP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
+        pure (((jio (ViewPosition.getX_super this.base)) - (jio (Layer.getXP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
 
 
 getY :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -110,7 +112,7 @@ getY_super object_ = (getY_impl (javaCast object_ :: StaticTileLayerIntoPosition
 
 getY_impl :: StaticTileLayerIntoPositionViewPosition -> IO (Int)
 getY_impl this = do
-        pure (((jio (ViewPosition.getY_super this.base)) - (jio (getYP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
+        pure (((jio (ViewPosition.getY_super this.base)) - (jio (Layer.getYP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
 
 
 getZ :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -121,12 +123,12 @@ getZ_super object_ = (getZ_impl (javaCast object_ :: StaticTileLayerIntoPosition
 
 getZ_impl :: StaticTileLayerIntoPositionViewPosition -> IO (Int)
 getZ_impl this = do
-        pure (((jio (ViewPosition.getZ_super this.base)) - (jio (getZP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
+        pure (((jio (ViewPosition.getZ_super this.base)) - (jio (Layer.getZP ((jget StaticTileLayerIntoPositionViewPosition.tiledLayer))))))
 
 
 setTiledLayer :: AllBinaryTiledLayer.AllBinaryTiledLayer -> IO (())
 setTiledLayer tiledLayer = do
-        jset StaticTileLayerIntoPositionViewPosition.tiledLayer (tiledLayer)
+        jset StaticTileLayerIntoPositionViewPosition.tiledLayer ((javaCast tiledLayer :: Layer.Layer))
         pure ()
 
 

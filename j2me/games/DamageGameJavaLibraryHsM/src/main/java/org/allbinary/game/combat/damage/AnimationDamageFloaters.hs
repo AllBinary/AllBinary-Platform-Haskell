@@ -20,10 +20,10 @@ import DamageFloaters hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -105,7 +105,7 @@ init_4 this layerInterface animationInterfaceArray dx dy = do
         initFields_ this
         jset (this).animationInterfaceArray (animationInterfaceArray)
         forM_ [((jlength (jget (this).animationInterfaceArray)) - 1), ((jlength (jget (this).animationInterfaceArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (setFrame ((jindex ((jget (this).animationInterfaceArray)) (index))) ((jio (getSize ((jindex ((jget (this).animationInterfaceArray)) (index))))) - 1))
+            Control.Monad.void (IndexedAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) (index))) ((jio (IndexedAnimation.getSize ((jindex ((jget (this).animationInterfaceArray)) (index))))) - 1))
         jset (this).layerInterface (layerInterface)
         assignedValue <- (CircularIndexUtil.createInstance (jlength (jget (this).animationInterfaceArray)))
         jset (this).circularIndexUtil (assignedValue)
@@ -123,7 +123,7 @@ add_super object_ a1 = (add_impl (javaCast object_ :: AnimationDamageFloaters)) 
 add_impl :: AnimationDamageFloaters -> Int -> IO (())
 add_impl this damage = do
         i <- (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil)))
-        Control.Monad.void (setFrame ((jindex ((jget (this).animationInterfaceArray)) (i))) 0)
+        Control.Monad.void (IndexedAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) (i))) 0)
         Control.Monad.void (CircularIndexUtil.next ((jget (this).circularIndexUtil)))
         pure ()
 

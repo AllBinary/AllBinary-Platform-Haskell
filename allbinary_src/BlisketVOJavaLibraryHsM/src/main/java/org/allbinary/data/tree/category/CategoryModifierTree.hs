@@ -20,10 +20,10 @@ import CategoryPrivateTree hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -117,7 +117,7 @@ insert_impl this parentCategoryInterface newChildCategoryInterface = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Inserting" this "insert()")
             if (jio (CategoryInterface.booleanValue ((jio (CategoryInterface.isValid parentCategoryInterface))))) then do
                 Control.Monad.void (CategoryInterface.addChild parentCategoryInterface newChildCategoryInterface)
-                directoryToBeCreatedAbPath <- (AbPath.new_2 ((jio (CategoryInterface.toString ((jio (CategoryInterface.getRootFilePath newChildCategoryInterface))))) ++ (jio (CategoryInterface.toString ((jio (CategoryInterface.getPath newChildCategoryInterface)))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+                directoryToBeCreatedAbPath <- (AbPath.new_2 ((jio (AbPath.toString ((jio (CategoryInterface.getRootFilePath newChildCategoryInterface))))) ++ (jio (AbPath.toString ((jio (CategoryInterface.getPath newChildCategoryInterface)))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
                 Control.Monad.void (Directory.create ((jget (this).directory)) directoryToBeCreatedAbPath)
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).cATEGORY))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Saving" this "insert()")
@@ -142,8 +142,8 @@ delete_impl this parentCategoryInterface existingChildCategoryInterface = do
             ) $ do
             if (jio (CategoryInterface.booleanValue ((jio (CategoryInterface.isValid parentCategoryInterface))))) then do
                 Control.Monad.void (CategoryInterface.addChild parentCategoryInterface existingChildCategoryInterface)
-                directoryToBeDeletedAbPath <- (AbPath.new_2 ((jio (CategoryInterface.toString ((jio (CategoryInterface.getRootFilePath existingChildCategoryInterface))))) ++ (jio (CategoryInterface.toString ((jio (CategoryInterface.getPath existingChildCategoryInterface)))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-                Control.Monad.void (CategoryModifierTree.delete this existingChildCategoryInterface)
+                directoryToBeDeletedAbPath <- (AbPath.new_2 ((jio (AbPath.toString ((jio (CategoryInterface.getRootFilePath existingChildCategoryInterface))))) ++ (jio (AbPath.toString ((jio (CategoryInterface.getPath existingChildCategoryInterface)))))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+                Control.Monad.void (CategoryPrivateTree.delete this existingChildCategoryInterface)
                 Control.Monad.void (CategoryInterface.removeChild parentCategoryInterface existingChildCategoryInterface)
                 Control.Monad.void (CategoryPrivateTree.save this parentCategoryInterface)
                 Control.Monad.void (Directory.remove ((jget (this).directory)) directoryToBeDeletedAbPath)

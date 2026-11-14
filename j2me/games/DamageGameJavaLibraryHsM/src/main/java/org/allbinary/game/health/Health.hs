@@ -19,10 +19,10 @@ module Health where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,13 +59,17 @@ instance JavaObjectClass Health where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_HEALTH :: Health
 {-# NOINLINE nULL_HEALTH #-}
 nULL_HEALTH = unsafePerformIO ((new_1 0))
 
+nAME :: String
 nAME = "Health Resource"
 
+hEALTH_LABEL :: String
 hEALTH_LABEL = "Health: "
 
+mAX_HEALTH_LABEL :: String
 mAX_HEALTH_LABEL = " Max: "
 
 newRecord_ :: IO Health

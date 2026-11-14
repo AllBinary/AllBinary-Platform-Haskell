@@ -20,10 +20,10 @@ import ProgressCanvas hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,9 +33,12 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified Paintable -- same package or java.lang
 import qualified PaintableInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified RunnableCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Processor -- org.allbinary.canvas.Processor
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified NullPaintable -- org.allbinary.graphics.paint.NullPaintable
@@ -117,7 +120,7 @@ end_impl this = do
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).sTART) this (jget ((jget (this).base.base.base.commonStrings)).eND_METHOD_NAME))
             Control.Monad.void (ProgressCanvas.endActual this)
-            jset (this).base.paintable ((jget (this).base.gAUGE_PAINTABLE))
+            jset (this).base.paintable ((javaCast (jget (this).base.gAUGE_PAINTABLE) :: PaintableInterface.PaintableInterface))
             Control.Monad.void (ImageCache.runTask ((jio (ImageCacheFactory.getInstance))))
             Control.Monad.void (ImageCache.progressEnded ((jio (ImageCacheFactory.getInstance))))
         pure ()
@@ -145,7 +148,7 @@ endFromInitialLazyLoadingComplete_super object_ = (endFromInitialLazyLoadingComp
 endFromInitialLazyLoadingComplete_impl :: LazyProgressCanvas -> IO (())
 endFromInitialLazyLoadingComplete_impl this = do
         Control.Monad.void (ProgressCanvas.endFromInitialLazyLoadingComplete_super this.base)
-        assignedValue <- (NullPaintable.getInstance)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PaintableInterface.PaintableInterface) (NullPaintable.getInstance))
         jset (this).base.paintable (assignedValue)
         pure ()
 

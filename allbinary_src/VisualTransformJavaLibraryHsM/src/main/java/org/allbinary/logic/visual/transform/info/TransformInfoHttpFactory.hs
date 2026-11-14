@@ -19,10 +19,10 @@ module TransformInfoHttpFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,9 @@ instance JavaObjectClass TransformInfoHttpFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformInfoHttpFactory
 newRecord_ = do
@@ -104,7 +107,7 @@ getInstance propertiesHashMap pageContext = do
                 if (storeFrontInterface /= javaNull) then do
                     javaReturn ((javaCast (jio (TransformInfoHttpStore.new_3 storeFrontInterface propertiesHashMap pageContext)) :: TransformInfoInterface.TransformInfoInterface))
                 else do
-                    javaThrow ((JavaException "Exception" ("No StoreFront with: " ++ javaToString (jio (WeblisketSession.getStoreName weblisketSession)))))
+                    javaThrow ((JavaException "Exception" ("No StoreFront with: " ++ (jio (WeblisketSession.getStoreName weblisketSession)))))
             else do
                 javaReturn ((javaCast (jio (TransformInfoHttpContext.new_2 propertiesHashMap pageContext)) :: TransformInfoInterface.TransformInfoInterface))
 

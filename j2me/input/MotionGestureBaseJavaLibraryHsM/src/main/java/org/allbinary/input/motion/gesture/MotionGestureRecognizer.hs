@@ -19,10 +19,10 @@ module MotionGestureRecognizer where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -77,6 +77,9 @@ instance JavaObjectClass MotionGestureRecognizer where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MotionGestureRecognizer
 newRecord_ = do
@@ -133,11 +136,11 @@ init_1 this id = do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).cONSTRUCTOR) e)
             ) $ do
-            assignedValue <- (BasicMotionGesturesHandler.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicEventHandler.BasicEventHandler) (BasicMotionGesturesHandler.getInstance))
             jset motionGesturesHandler (assignedValue)
-            assignedValue <- (MovedMotionGesturesHandler.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicEventHandler.BasicEventHandler) (MovedMotionGesturesHandler.getInstance))
             jset movedMotionGesturesHandler (assignedValue)
-            assignedValue <- (ScrolledMotionGesturesHandler.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicEventHandler.BasicEventHandler) (ScrolledMotionGesturesHandler.getInstance))
             jset scrolledMotionGesturesHandler (assignedValue)
         jset (this).motionGesturesHandler ((javaCast (jget motionGesturesHandler) :: BasicMotionGesturesHandler.BasicMotionGesturesHandler))
         jset (this).movedMotionGesturesHandler ((jget movedMotionGesturesHandler))

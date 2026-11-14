@@ -19,10 +19,10 @@ module J2MEKeyFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,11 +54,15 @@ instance JavaObjectClass J2MEKeyFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: J2MEKeyFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO J2MEKeyFactory
 newRecord_ = do
@@ -112,7 +116,7 @@ init_impl this = do
         inputFactory <- (InputFactory.getInstance)
         index <- newIORef ((jlength gameKeyArray))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (InputFactory.add inputFactory (jio (getId ((jindex gameKeyArray ((jget index)))))) (jindex gameKeyArray ((jget index))))
+            Control.Monad.void (InputFactory.add inputFactory (jio (GameKey.getId ((jindex gameKeyArray ((jget index)))))) (javaCast (jindex gameKeyArray ((jget index)))))
         pure ()
 
 
@@ -125,7 +129,7 @@ isSubmission_super object_ a1 = (isSubmission_impl (javaCast object_ :: J2MEKeyF
 isSubmission_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isSubmission_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).fIRE)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).fIRE))) $ do
             javaReturn (True)
         pure (False)
 
@@ -139,7 +143,7 @@ isDelete_super object_ a1 = (isDelete_impl (javaCast object_ :: J2MEKeyFactory))
 isDelete_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isDelete_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).gAME_D)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).gAME_D))) $ do
             javaReturn (True)
         pure (False)
 
@@ -164,7 +168,7 @@ isUp_super object_ a1 = (isUp_impl (javaCast object_ :: J2MEKeyFactory)) a1
 isUp_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isUp_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).uP)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).uP))) $ do
             javaReturn (True)
         pure (False)
 
@@ -178,7 +182,7 @@ isDown_super object_ a1 = (isDown_impl (javaCast object_ :: J2MEKeyFactory)) a1
 isDown_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isDown_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).dOWN)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).dOWN))) $ do
             javaReturn (True)
         pure (False)
 
@@ -192,7 +196,7 @@ isLeft_super object_ a1 = (isLeft_impl (javaCast object_ :: J2MEKeyFactory)) a1
 isLeft_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isLeft_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).lEFT)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).lEFT))) $ do
             javaReturn (True)
         pure (False)
 
@@ -206,7 +210,7 @@ isRight_super object_ a1 = (isRight_impl (javaCast object_ :: J2MEKeyFactory)) a
 isRight_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isRight_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).rIGHT)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).rIGHT))) $ do
             javaReturn (True)
         pure (False)
 
@@ -220,7 +224,7 @@ isEnter_super object_ a1 = (isEnter_impl (javaCast object_ :: J2MEKeyFactory)) a
 isEnter_impl :: J2MEKeyFactory -> Input.Input -> IO (Bool)
 isEnter_impl this input = do
     javaCatchReturn $ do
-        when (input == (jget ((jget (this).gameKeyFactory)).fIRE)) $ do
+        when ((jtoObject input) == (jtoObject (jget ((jget (this).gameKeyFactory)).fIRE))) $ do
             javaReturn (True)
         pure (False)
 

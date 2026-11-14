@@ -19,10 +19,10 @@ module ColorCacheFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,11 +56,15 @@ instance JavaObjectClass ColorCacheFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+cacheInterface :: IORef (AutomaticCacheInterface.AutomaticCacheInterface)
 {-# NOINLINE cacheInterface #-}
 cacheInterface = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ColorCacheFactory
 newRecord_ = do
@@ -81,12 +85,12 @@ staticInit_ = do
         commonStrings <- (CommonStrings.getInstance)
         let sTATIC_BLOCK = "Static Block"
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) ("ColorCacheFactory") sTATIC_BLOCK e)
+            Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) (JavaClass "ColorCacheFactory") sTATIC_BLOCK e)
             ) $ do
-            Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).sTART) ("ColorCacheFactory") sTATIC_BLOCK)
+            Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).sTART) (JavaClass "ColorCacheFactory") sTATIC_BLOCK)
             assignedValue <- (AutomaticCacheInterfaceFactory.getInstance (javaCast (jio (ColorCacheableFactory.new_))) (jget ((jio (CacheTypeFactory.getInstance))).cACHE) (jget ((jio (CachePolicyFactory.getInstance))).tHIRTY_MINUTES_TEN_THOUSAND_MAX))
             jset ColorCacheFactory.cacheInterface (assignedValue)
-            Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).eND) ("ColorCacheFactory") sTATIC_BLOCK)
+            Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).eND) (JavaClass "ColorCacheFactory") sTATIC_BLOCK)
         pure ()
 
 new_ :: IO ColorCacheFactory

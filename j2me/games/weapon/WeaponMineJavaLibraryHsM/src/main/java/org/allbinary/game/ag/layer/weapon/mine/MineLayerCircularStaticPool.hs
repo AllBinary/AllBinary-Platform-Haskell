@@ -19,10 +19,10 @@ module MineLayerCircularStaticPool where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass MineLayerCircularStaticPool where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+wEAPON_LAYER_CIRCULAR_STATIC_POOL :: IORef (WeaponLayerCircularPool.WeaponLayerCircularPool)
 {-# NOINLINE wEAPON_LAYER_CIRCULAR_STATIC_POOL #-}
 wEAPON_LAYER_CIRCULAR_STATIC_POOL = unsafePerformIO ((WeaponLayerCircularPool.new_) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MineLayerCircularStaticPool
 newRecord_ = do
@@ -85,7 +89,7 @@ init_ this = do
 init :: ViewPositionFactoryInterface.ViewPositionFactoryInterface -> IO (())
 init viewPositionFactoryInterface = do
         Control.Monad.void (MineCountedPickedUpLayerInterfaceFactory.init)
-        Control.Monad.void (initAllBinaryLayerCircularPool ((jget MineLayerCircularStaticPool.wEAPON_LAYER_CIRCULAR_STATIC_POOL)) (jio (MineLayerFactory.new_1 viewPositionFactoryInterface)) 20)
+        Control.Monad.void (WeaponLayerCircularPool.initAllBinaryLayerCircularPool ((jget MineLayerCircularStaticPool.wEAPON_LAYER_CIRCULAR_STATIC_POOL)) (javaCast (jio (MineLayerFactory.new_1 viewPositionFactoryInterface))) 20)
         pure ()
 
 

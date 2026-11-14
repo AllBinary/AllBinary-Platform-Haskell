@@ -19,10 +19,10 @@ module UploadMediaSingleton where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,11 +63,15 @@ instance JavaObjectClass UploadMediaSingleton where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+uploadMedia :: IORef (UploadMediaSingleton)
 {-# NOINLINE uploadMedia #-}
 uploadMedia = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UploadMediaSingleton
 newRecord_ = do
@@ -104,9 +108,9 @@ new_ = do
 init_ :: UploadMediaSingleton -> IO ()
 init_ this = do
         initFields_ this
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).readerFileTypesHashMap (assignedValue)
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).writerFileTypesHashMap (assignedValue)
         hashMap <- (MediaData.toHashMap)
         set <- (HashMap.keySet hashMap)

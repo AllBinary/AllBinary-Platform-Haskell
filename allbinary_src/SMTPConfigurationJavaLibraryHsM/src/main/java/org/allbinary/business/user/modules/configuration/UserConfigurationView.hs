@@ -19,10 +19,10 @@ module UserConfigurationView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,9 @@ instance JavaObjectClass UserConfigurationView where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO UserConfigurationView
 newRecord_ = do
     header_ <- newJavaHeader
@@ -84,14 +87,28 @@ initFields_ this = do
     jset this.userConfigurationInterface (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO UserConfigurationView
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO UserConfigurationView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserConfigurationInterface.UserConfigurationInterface) = new_1_overload2 (javaCast a1 :: UserConfigurationInterface.UserConfigurationInterface)
+    | otherwise = new_1_overload2 (javaCast a1 :: UserConfigurationInterface.UserConfigurationInterface)
+
+init_1 :: (JavaObjectClass o1) => UserConfigurationView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserConfigurationInterface.UserConfigurationInterface) = init_1_overload2 this (javaCast a1 :: UserConfigurationInterface.UserConfigurationInterface)
+    | otherwise = init_1_overload2 this (javaCast a1 :: UserConfigurationInterface.UserConfigurationInterface)
+
+
+new_1_overload1 :: Node.Node -> IO UserConfigurationView
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: UserConfigurationView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: UserConfigurationView -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         jset (this).userConfigurationInterface ((javaCast (jio (UserConfiguration.new_)) :: UserConfigurationInterface.UserConfigurationInterface))
         childNodeList <- (Node.getChildNodes node)
@@ -107,15 +124,14 @@ init_1 this node = do
         Control.Monad.void (UserConfigurationInterface.setTimeLastModified ((jget (this).userConfigurationInterface)) (jio (TimeLastModifiedView.getTimeLastModified timeLastModifiedView)))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: UserConfigurationInterface.UserConfigurationInterface -> IO UserConfigurationView
-new_1 userConfigurationInterface = do
+new_1_overload2 :: UserConfigurationInterface.UserConfigurationInterface -> IO UserConfigurationView
+new_1_overload2 userConfigurationInterface = do
     this <- newRecord_
-    init_1 this userConfigurationInterface
+    init_1_overload2 this userConfigurationInterface
     pure this
 
-init_1 :: UserConfigurationView -> UserConfigurationInterface.UserConfigurationInterface -> IO ()
-init_1 this userConfigurationInterface = do
+init_1_overload2 :: UserConfigurationView -> UserConfigurationInterface.UserConfigurationInterface -> IO ()
+init_1_overload2 this userConfigurationInterface = do
         initFields_ this
         jset (this).userConfigurationInterface (userConfigurationInterface)
         pure ()

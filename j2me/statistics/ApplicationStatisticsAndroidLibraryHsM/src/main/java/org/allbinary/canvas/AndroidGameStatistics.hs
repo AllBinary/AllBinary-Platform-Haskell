@@ -20,10 +20,10 @@ import BaseGameStatistics hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TimeDelayHelper -- same package or java.lang
 import qualified GameTickTimeDelayHelper -- same package or java.lang
 import qualified View -- android.view.View
 import qualified BaseViewWrapper -- org.allbinary.android.view.BaseViewWrapper
@@ -115,7 +116,7 @@ initView_super object_ a1 = (initView_impl (javaCast object_ :: AndroidGameStati
 initView_impl :: AndroidGameStatistics -> View.View -> IO (())
 initView_impl this view = do
         Control.Monad.void (BaseGameStatistics.init_super this.base)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: View.View) (ViewWrapper.new_1 view))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: BaseViewWrapper.BaseViewWrapper) (ViewWrapper.new_1 view))
         jset (this).view (assignedValue)
         jset (this).totalOnDraws (0)
         pure ()

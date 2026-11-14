@@ -20,10 +20,10 @@ import ScrollSelectionForm hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,11 +35,19 @@ import qualified GHC.Float
 import qualified ItemIndexDx -- same package or java.lang
 import qualified ItemPaintableFactory -- same package or java.lang
 import qualified FormTypeFactory -- same package or java.lang
+import qualified VerticalFormProcessor -- same package or java.lang
+import qualified VerticalItemIndexDx -- same package or java.lang
+import qualified HorizontalFormProcessor -- same package or java.lang
+import qualified HorizontalItemIndexDx -- same package or java.lang
+import qualified TempHorizontalFormProcessor -- same package or java.lang
+import qualified TempHorizontalItemIndexDx -- same package or java.lang
 import qualified FormType -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PaintableForm -- same package or java.lang
+import qualified ABCustomForm -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Processor -- org.allbinary.canvas.Processor
 import qualified Rectangle -- org.allbinary.graphics.Rectangle
@@ -109,7 +117,7 @@ newRecord_ = do
 initFields_ :: ScrollCurrentSelectionForm -> IO ()
 initFields_ this = do
     jset this.moveForSmallScreen (False)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.processor =<< (Processor.getInstance)
     jset this.preItemIndexDx =<< (ItemIndexDx.getInstance)
@@ -353,10 +361,4 @@ paint_impl this graphics = do
                     javaThrow ((JavaException "Exception" (jget (formTypeFactory).uNK)))
         pure ()
 
--- Java nested class TempHorizontalFormProcessor: move it to its own module TempHorizontalFormProcessor
--- Java nested class HorizontalFormProcessor: move it to its own module HorizontalFormProcessor
--- Java nested class VerticalFormProcessor: move it to its own module VerticalFormProcessor
--- Java nested class TempHorizontalItemIndexDx: move it to its own module TempHorizontalItemIndexDx
--- Java nested class HorizontalItemIndexDx: move it to its own module HorizontalItemIndexDx
--- Java nested class VerticalItemIndexDx: move it to its own module VerticalItemIndexDx
 

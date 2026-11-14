@@ -20,10 +20,10 @@ import VectorBaseRotationAnimation hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified AnimationBehavior -- same package or java.lang
 import qualified FrameUtil -- same package or java.lang
 import qualified DirectionUtil -- same package or java.lang
+import qualified AngleIncrementInfo -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
+import qualified IndexedAnimation -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Direction -- org.allbinary.direction.Direction
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified Angle -- org.allbinary.math.Angle

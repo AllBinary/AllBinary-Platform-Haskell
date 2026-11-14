@@ -20,10 +20,10 @@ import AdjustedImageArrayRotationAnimation hiding (new_, init_, newRecord_, init
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -83,7 +83,7 @@ new_2 anyTypeObject_ animationBehavior = do
 init_2 :: (JavaObjectClass o1) => ImageArrayRotationAnimationCacheable -> o1 -> AnimationBehavior.AnimationBehavior -> IO ()
 init_2 this anyTypeObject_ animationBehavior = do
         let anyType = jtoObject anyTypeObject_
-        AdjustedImageArrayRotationAnimation.init_6 this.base (jio (getImageArray (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (getAngleInfoP (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (getTotalAngle (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (getDx (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (getDy (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (animationBehavior)
+        AdjustedImageArrayRotationAnimation.init_6 this.base (jio (ImageArrayRotationAnimationInfo.getImageArray (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (ImageArrayRotationAnimationInfo.getAngleInfoP (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (ImageArrayRotationAnimationInfo.getTotalAngle (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (ImageArrayRotationAnimationInfo.getDx (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (jio (ImageArrayRotationAnimationInfo.getDy (((javaCast anyType :: ImageArrayRotationAnimationInfo.ImageArrayRotationAnimationInfo))))) (animationBehavior)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

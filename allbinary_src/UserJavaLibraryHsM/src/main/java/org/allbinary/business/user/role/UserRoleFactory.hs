@@ -19,10 +19,10 @@ module UserRoleFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -86,11 +86,15 @@ instance JavaObjectClass UserRoleFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: UserRoleFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserRoleFactory
 newRecord_ = do
@@ -121,22 +125,22 @@ initFields_ :: UserRoleFactory -> IO ()
 initFields_ this = do
     jset this.basicUserRoleFactory =<< (BasicUserRoleFactory.getInstance)
     jset this.iNSTALLER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).iNSTALLER) javaNull))
-    jset this.aDMINISTRATOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).aDMINISTRATOR) (jio (AdminUserFactory.new_))))
-    jset this.cUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).cUSTOMER) (jio (UserFactory.new_))))
-    jset this.sUBSCRIBERCUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sUBSCRIBERCUSTOMER) (jio (SubscriberUserFactory.new_))))
-    jset this.wHOLESALECUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wHOLESALECUSTOMER) (jio (WholesaleUserFactory.new_))))
-    jset this.sTOREMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sTOREMANAGER) (jio (StoreAdminUserFactory.new_))))
-    jset this.pRODUCTMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).pRODUCTMANAGER) (jio (ProductStoreAdminUserFactory.new_))))
-    jset this.cUSTOMERMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).cUSTOMERMANAGER) (jio (CustomerStoreAdminUserFactory.new_))))
-    jset this.pAYMENTMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).pAYMENTMANAGER) (jio (PaymentStoreAdminUserFactory.new_))))
-    jset this.oRDERMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).oRDERMANAGER) (jio (OrderStoreAdminUserFactory.new_))))
-    jset this.wEBMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wEBMANAGER) (jio (WebStoreAdminUserFactory.new_))))
-    jset this.rEVIEWER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).rEVIEWER) (jio (ReviewOrderStoreAdminUserFactory.new_))))
-    jset this.sHIPPING =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sHIPPING) (jio (ShipOrderStoreAdminUserFactory.new_))))
-    jset this.aDJUSTER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).aDJUSTER) (jio (AdjustOrderStoreAdminUserFactory.new_))))
-    jset this.wORKFLOWEDITOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wORKFLOWEDITOR) (jio (WorkflowEditorWebStoreAdminUserFactory.new_))))
-    jset this.wIZARD =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wIZARD) (jio (WizardWebStoreAdminUserFactory.new_))))
-    jset this.vIEWEDITOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).vIEWEDITOR) (jio (ViewEditorWebStoreAdminUserFactory.new_))))
+    jset this.aDMINISTRATOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).aDMINISTRATOR) (javaCast (jio (AdminUserFactory.new_)))))
+    jset this.cUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).cUSTOMER) (javaCast (jio (UserFactory.new_)))))
+    jset this.sUBSCRIBERCUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sUBSCRIBERCUSTOMER) (javaCast (jio (SubscriberUserFactory.new_)))))
+    jset this.wHOLESALECUSTOMER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wHOLESALECUSTOMER) (javaCast (jio (WholesaleUserFactory.new_)))))
+    jset this.sTOREMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sTOREMANAGER) (javaCast (jio (StoreAdminUserFactory.new_)))))
+    jset this.pRODUCTMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).pRODUCTMANAGER) (javaCast (jio (ProductStoreAdminUserFactory.new_)))))
+    jset this.cUSTOMERMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).cUSTOMERMANAGER) (javaCast (jio (CustomerStoreAdminUserFactory.new_)))))
+    jset this.pAYMENTMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).pAYMENTMANAGER) (javaCast (jio (PaymentStoreAdminUserFactory.new_)))))
+    jset this.oRDERMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).oRDERMANAGER) (javaCast (jio (OrderStoreAdminUserFactory.new_)))))
+    jset this.wEBMANAGER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wEBMANAGER) (javaCast (jio (WebStoreAdminUserFactory.new_)))))
+    jset this.rEVIEWER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).rEVIEWER) (javaCast (jio (ReviewOrderStoreAdminUserFactory.new_)))))
+    jset this.sHIPPING =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).sHIPPING) (javaCast (jio (ShipOrderStoreAdminUserFactory.new_)))))
+    jset this.aDJUSTER =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).aDJUSTER) (javaCast (jio (AdjustOrderStoreAdminUserFactory.new_)))))
+    jset this.wORKFLOWEDITOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wORKFLOWEDITOR) (javaCast (jio (WorkflowEditorWebStoreAdminUserFactory.new_)))))
+    jset this.wIZARD =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).wIZARD) (javaCast (jio (WizardWebStoreAdminUserFactory.new_)))))
+    jset this.vIEWEDITOR =<< (fmap (\value_ -> javaCast value_ :: UserRole.UserRole) (UserRoleB.new_2 (jget ((jget (this).basicUserRoleFactory)).vIEWEDITOR) (javaCast (jio (ViewEditorWebStoreAdminUserFactory.new_)))))
     pure ()
 
 new_ :: IO UserRoleFactory

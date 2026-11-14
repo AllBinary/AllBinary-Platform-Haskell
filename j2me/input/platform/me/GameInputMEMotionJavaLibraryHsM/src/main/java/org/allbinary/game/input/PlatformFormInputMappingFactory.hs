@@ -19,10 +19,10 @@ module PlatformFormInputMappingFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance_ = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO PlatformFormInputMappingFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -93,7 +96,7 @@ init_ this = do
 getInstance :: IO (PlatformFormInputMappingFactory)
 getInstance = do
         when ((jget PlatformFormInputMappingFactory.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset PlatformFormInputMappingFactory.instance_ (assignedValue)
         pure ((javaCast (jget PlatformFormInputMappingFactory.instance_) :: PlatformFormInputMappingFactory))
 
@@ -113,11 +116,11 @@ getOrCreate_impl this = do
             when ((jget (this).inputToGameKeyMapping) == (jio (InputToGameKeyMapping.getNullInstance))) $ do
                 inputToGameKeyMapping <- (InputToGameKeyMapping.new_)
                 gameKeyFactory <- (GameKeyFactory.getInstance)
-                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (jget (gameKeyFactory).uP) (jget (gameKeyFactory).uP))
-                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (jget (gameKeyFactory).dOWN) (jget (gameKeyFactory).dOWN))
-                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (jget (gameKeyFactory).lEFT) (jget (gameKeyFactory).lEFT))
-                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (jget (gameKeyFactory).rIGHT) (jget (gameKeyFactory).rIGHT))
-                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (jget (gameKeyFactory).kEY_NUM1) (jget (gameKeyFactory).gAME_A))
+                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (javaCast (jget (gameKeyFactory).uP)) (javaCast (jget (gameKeyFactory).uP)))
+                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (javaCast (jget (gameKeyFactory).dOWN)) (javaCast (jget (gameKeyFactory).dOWN)))
+                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (javaCast (jget (gameKeyFactory).lEFT)) (javaCast (jget (gameKeyFactory).lEFT)))
+                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (javaCast (jget (gameKeyFactory).rIGHT)) (javaCast (jget (gameKeyFactory).rIGHT)))
+                Control.Monad.void (InputToGameKeyMapping.add inputToGameKeyMapping (javaCast (jget (gameKeyFactory).kEY_NUM1)) (javaCast (jget (gameKeyFactory).gAME_A)))
                 jset (this).inputToGameKeyMapping (inputToGameKeyMapping)
         pure ((jget (this).inputToGameKeyMapping))
 

@@ -19,10 +19,10 @@ module BasicGeographicMapUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GeographicMapCellPosition -- same package or java.lang
 import qualified BasicGeographicMap -- same package or java.lang
+import qualified AllBinaryTiledLayer -- same package or java.lang
 import qualified Layer -- org.allbinary.layer.Layer
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 
@@ -54,11 +55,15 @@ instance JavaObjectClass BasicGeographicMapUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BasicGeographicMapUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicGeographicMapUtil
 newRecord_ = do

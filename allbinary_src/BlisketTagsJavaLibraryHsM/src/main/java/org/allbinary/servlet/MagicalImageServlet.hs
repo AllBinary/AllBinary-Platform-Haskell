@@ -20,10 +20,10 @@ import HttpServlet hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -119,7 +119,7 @@ processRequest_impl this request response = do
             ) $ do
             Control.Monad.void (BlisketServletUtil.init ((jio (BlisketServletUtil.getInstance))) request)
             requestURI <- (HttpServletRequest.getRequestURI request)
-            file <- (AbFile.createAbFile (javaToString (jio (URLGLOBALS.getWebappPath)) ++ requestURI))
+            file <- (AbFile.createAbFile ((jio (URLGLOBALS.getWebappPath)) ++ requestURI))
             assignedValue <- (CloudStreamUtil.getFileAnyWhere ((jio (CloudStreamUtil.getInstance))) file)
             jset inputStream (assignedValue)
             outputStream <- (ByteArrayOutputStream.new_1 8000)

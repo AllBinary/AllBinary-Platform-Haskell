@@ -19,10 +19,10 @@ module InterfaceUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,6 +55,9 @@ instance JavaObjectClass InterfaceUtil where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InterfaceUtil
 newRecord_ = do
@@ -89,7 +92,7 @@ viewAll myClass lineBreak = do
         Control.Monad.void (StringMaker.append stringBuffer lineBreak)
         forM_ [0 .. (jlength interfaces) - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (StringMaker.append stringBuffer "Interface: ")
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex interfaces (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName ((jindex interfaces (index))))))
             Control.Monad.void (StringMaker.append stringBuffer lineBreak)
         (StringMaker.toString stringBuffer)
 
@@ -99,7 +102,7 @@ getClass interfaceName interfaces = do
     javaCatchReturn $ do
         when (((interfaceName /= javaNull) && (interfaces /= javaNull)) && ((jlength interfaces) > 0)) $ do
             forM_ [0 .. (jlength interfaces) - 1] $ \index -> javaIteration (pure ()) $ do
-                when ((jio (indexOf ((jio (getName ((jindex interfaces (index)))))) interfaceName)) >= 0) $ do
+                when ((jio (Class.indexOf ((jio (Class.getName ((jindex interfaces (index)))))) interfaceName)) >= 0) $ do
                     javaReturn ((jindex interfaces (index)))
         pure (javaNull)
 
@@ -113,10 +116,11 @@ isImplemented a1 a2
 
 isImplemented_overload1 :: (JavaObjectClass o2) => Class.Class -> o2 -> IO (Bool)
 isImplemented_overload1 clazz anyTypeObject_ = do
-        let anyType = jtoObject anyTypeObject_
+    let anyType = jtoObject anyTypeObject_
+    javaCatchReturn $ do
         classes <- (Class.getInterfaces ((jio (jobjectGetClass anyType))))
         forM_ [0 .. (jlength classes) - 1] $ \index -> javaIteration (pure ()) $ do
-            when ((jio (Class.compareTo ((jio (Class.getName clazz))) (jio (getName ((jindex classes (index))))))) == 0) $ do
+            when ((jio (Class.compareTo ((jio (Class.getName clazz))) (jio (Class.getName ((jindex classes (index))))))) == 0) $ do
                 javaReturn (True)
         pure (False)
 
@@ -127,7 +131,7 @@ isImplemented_overload2 className anyTypeObject_ = do
     javaCatchReturn $ do
         classes <- (Class.getInterfaces ((jio (jobjectGetClass anyType))))
         forM_ [0 .. (jlength classes) - 1] $ \index -> javaIteration (pure ()) $ do
-            when ((jio (indexOf ((jio (getName ((jindex classes (index)))))) className)) == 0) $ do
+            when ((jio (Class.indexOf ((jio (Class.getName ((jindex classes (index)))))) className)) == 0) $ do
                 javaReturn (True)
         pure (False)
 
@@ -141,8 +145,8 @@ isImplementedView clazz anyTypeObject_ = do
         forM_ [0 .. (jlength classes) - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName clazz)))
             Control.Monad.void (StringMaker.append stringBuffer " should be = ")
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex classes (index))))))
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getName ((jindex classes (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName ((jindex classes (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Class.getName ((jindex classes (index))))))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).nEW_LINE))
         (StringMaker.toString stringBuffer)
 

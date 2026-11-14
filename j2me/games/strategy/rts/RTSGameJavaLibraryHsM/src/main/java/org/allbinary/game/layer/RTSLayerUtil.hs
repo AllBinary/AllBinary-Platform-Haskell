@@ -19,10 +19,10 @@ module RTSLayerUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified RTSLayer -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified FakeLayerManager -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
 import qualified GroupCommonFactory -- org.allbinary.game.identification.GroupCommonFactory
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -70,11 +71,15 @@ instance JavaObjectClass RTSLayerUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: RTSLayerUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO RTSLayerUtil
 newRecord_ = do
@@ -218,7 +223,8 @@ getCost_impl this rtsLayer = do
             jset partInterface ((javaCast (jindex partInterfaceArray (index)) :: BasicWeaponPart.BasicWeaponPart))
             assignedValue <- (BasicWeaponPart.getWeaponProperties ((jget partInterface)))
             jset weaponProperties (assignedValue)
-            jset total (((jget total) + (RTSLayerUtil.getWeaponPropertiesCost this (jget weaponProperties))))
+            assignedValue <- (RTSLayerUtil.getWeaponPropertiesCost this (jget weaponProperties))
+            jset total (((jget total) + assignedValue))
         pure ((jget total))
 
 

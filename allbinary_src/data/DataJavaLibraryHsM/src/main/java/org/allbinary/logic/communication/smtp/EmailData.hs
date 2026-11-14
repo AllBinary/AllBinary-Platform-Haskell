@@ -19,10 +19,10 @@ module EmailData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,24 +49,35 @@ instance JavaObjectClass EmailData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sERVER :: String
 sERVER = "EMAIL_SERVER"
 
+nAME :: String
 nAME = "EMAIL_NAME"
 
+fROM :: String
 fROM = "EMAIL_FROM"
 
+tO :: String
 tO = "EMAIL_TO"
 
+cC :: String
 cC = "EMAIL_CC"
 
+bCC :: String
 bCC = "EMAIL_BCC"
 
+sUBJECT :: String
 sUBJECT = "EMAIL_SUBJECT"
 
+cONTENT :: String
 cONTENT = "EMAIL_CONTENT"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO EmailData
 newRecord_ = do

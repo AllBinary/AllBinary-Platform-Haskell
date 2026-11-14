@@ -20,10 +20,10 @@ import GeographicMapTopViewLayerBehavior hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified TopViewCharacterInterface -- same package or java.lang
+import qualified BasicGeographicMapCellPositionFactory -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
+import qualified TopViewGameLayerBehavior -- same package or java.lang
 import qualified MultiGeographicMapBehavior -- org.allbinary.media.graphics.geography.map.MultiGeographicMapBehavior
 import qualified AllBinaryTiledLayer -- org.allbinary.game.layer.AllBinaryTiledLayer
 import qualified GravityUtil -- org.allbinary.game.physics.acceleration.GravityUtil
@@ -131,7 +134,7 @@ gravity_impl this velocityProperties geographicMapInterfaceArray geographicMapCe
             Control.Monad.void (MultiGeographicMapBehavior.getCellTypeAt ((jget (this).geographicMapBehavior)) geographicMapInterfaceArray geographicMapCellTypeArray geographicMapCellPosition)
             hasSolidBlock <- (GeographicMapTopViewLayerBehavior.hasSolidBlock this geographicMapInterfaceArray geographicMapCellTypeArray)
             if (Prelude.not hasSolidBlock) then do
-                Control.Monad.void (GravityUtil.process ((jget (this).gravityUtil)) velocityProperties (jget ((jget (this).gravityUtil)).gAME_GRAVITY_VELOCITY))
+                Control.Monad.void (GravityUtil.process ((jget (this).gravityUtil)) (javaCast velocityProperties) (jget ((jget (this).gravityUtil)).gAME_GRAVITY_VELOCITY))
                 Control.Monad.void (VelocityProperties.limitXYToForwardAndReverseMaxVelocity velocityProperties)
                 Control.Monad.void (GeographicMapTopViewGameLayerBehavior2.gravity this)
             else do
@@ -150,7 +153,7 @@ getPositionTopLeft_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray (
 getPositionTopLeft_impl this geographicMapInterfaceArray layer x y = do
         let xCellPosition = ((jio (AllBinaryLayer.getXP layer)) + (Prelude.negate x))
         let yCellPosition = ((jio (AllBinaryLayer.getYP layer)) + (Prelude.negate y))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -164,7 +167,7 @@ getPositionTopRight_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray 
 getPositionTopRight_impl this geographicMapInterfaceArray layer x y = do
         let xCellPosition = (((jio (AllBinaryLayer.getXP layer)) + (Prelude.negate x)) + (jio (AllBinaryLayer.getWidth layer)))
         let yCellPosition = ((jio (AllBinaryLayer.getYP layer)) + (Prelude.negate y))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -178,7 +181,7 @@ getPositionBottomLeft_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArra
 getPositionBottomLeft_impl this geographicMapInterfaceArray layer x y = do
         let xCellPosition = ((jio (AllBinaryLayer.getXP layer)) + (Prelude.negate x))
         let yCellPosition = (((jio (AllBinaryLayer.getYP layer)) + (Prelude.negate y)) + (jio (AllBinaryLayer.getHeight layer)))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -192,7 +195,7 @@ getPositionBottomRight_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArr
 getPositionBottomRight_impl this geographicMapInterfaceArray layer x y = do
         let xCellPosition = (((jio (AllBinaryLayer.getXP layer)) + (Prelude.negate x)) + (jio (AllBinaryLayer.getWidth layer)))
         let yCellPosition = (((jio (AllBinaryLayer.getYP layer)) + (Prelude.negate y)) + (jio (AllBinaryLayer.getHeight layer)))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -206,7 +209,7 @@ getLeftPosition_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray (Bas
 getLeftPosition_impl this geographicMapInterfaceArray layer = do
         xCellPosition <- (AllBinaryLayer.getXP layer)
         let yCellPosition = ((jio (AllBinaryLayer.getYP layer)) + (jio (AllBinaryLayer.getHeight layer)))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -220,7 +223,7 @@ getRightPosition_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray (Ba
 getRightPosition_impl this geographicMapInterfaceArray layer = do
         let xCellPosition = ((jio (AllBinaryLayer.getXP layer)) + (jio (AllBinaryLayer.getWidth layer)))
         let yCellPosition = ((jio (AllBinaryLayer.getYP layer)) + (jio (AllBinaryLayer.getHeight layer)))
-        (getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
+        (BasicGeographicMap.getCellPositionAtXYNoThrow ((jindex geographicMapInterfaceArray (0))) xCellPosition yCellPosition)
 
 
 -- throws Exception
@@ -271,7 +274,7 @@ getGeographicMapCellPositionIfNotSolidBlockOrOffMap_impl this geographicMapInter
     javaCatchReturn $ do
         if (geographicMapCellPosition /= SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION) then do
             let possibleStepGeographicMapCellPosition = geographicMapCellPosition
-            tiledLayer <- (getAllBinaryTiledLayer ((jindex geographicMapInterfaceArray (0))))
+            tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer ((jindex geographicMapInterfaceArray (0))))
             when (((((jio (GeographicMapCellPosition.getColumn possibleStepGeographicMapCellPosition)) > 0) && ((jio (GeographicMapCellPosition.getRow possibleStepGeographicMapCellPosition)) > 0)) && ((jio (GeographicMapCellPosition.getColumn possibleStepGeographicMapCellPosition)) < (jio (AllBinaryTiledLayer.getColumns tiledLayer)))) && ((jio (GeographicMapCellPosition.getRow possibleStepGeographicMapCellPosition)) < (jio (AllBinaryTiledLayer.getRows tiledLayer)))) $ do
                 Control.Monad.void (MultiGeographicMapBehavior.getCellTypeAt ((jget (this).geographicMapBehavior)) geographicMapInterfaceArray geographicMapCellTypeArray possibleStepGeographicMapCellPosition)
                 hasSolidBlock <- (GeographicMapTopViewLayerBehavior.hasSolidBlock this geographicMapInterfaceArray geographicMapCellTypeArray)
@@ -334,7 +337,7 @@ left_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray (BasicGeographi
 left_impl this geographicMapInterfaceArray geographicMapCellTypeArray velocityProperties layer = do
         geographicMapCellPosition <- (GeographicMapTopViewGameLayerBehavior2.getLeftPosition this geographicMapInterfaceArray layer)
         when (geographicMapCellPosition /= SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION) $ do
-            possibleStepGeographicMapCellPosition <- (getAt ((jio (getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0)))))) (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) ((jio (GeographicMapCellPosition.getRow geographicMapCellPosition)) - 1))
+            possibleStepGeographicMapCellPosition <- (BasicGeographicMapCellPositionFactory.getAt ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0)))))) (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) ((jio (GeographicMapCellPosition.getRow geographicMapCellPosition)) - 1))
             Control.Monad.void (MultiGeographicMapBehavior.getCellTypeAt ((jget (this).geographicMapBehavior)) geographicMapInterfaceArray geographicMapCellTypeArray possibleStepGeographicMapCellPosition)
             hasSolidBlock <- (GeographicMapTopViewLayerBehavior.hasSolidBlock this geographicMapInterfaceArray geographicMapCellTypeArray)
             if hasSolidBlock then do
@@ -342,7 +345,7 @@ left_impl this geographicMapInterfaceArray geographicMapCellTypeArray velocityPr
                     let topViewCharacterInterface = ((javaCast layer :: TopViewCharacterInterface.TopViewCharacterInterface))
                     Control.Monad.void (TopViewCharacterInterface.leftp topViewCharacterInterface)
                 else do
-                    Control.Monad.void (VelocityProperties.setint ((jio (VelocityProperties.getVelocityXBasicDecimalP velocityProperties))) 0)
+                    Control.Monad.void (BasicDecimal.setint ((jio (VelocityProperties.getVelocityXBasicDecimalP velocityProperties))) 0)
             else do
                 let topViewCharacterInterface = ((javaCast layer :: TopViewCharacterInterface.TopViewCharacterInterface))
                 Control.Monad.void (TopViewCharacterInterface.leftp topViewCharacterInterface)
@@ -360,7 +363,7 @@ right_impl :: GeographicMapTopViewGameLayerBehavior2 -> JavaArray (BasicGeograph
 right_impl this geographicMapInterfaceArray geographicMapCellTypeArray velocityProperties layer = do
         geographicMapCellPosition <- (GeographicMapTopViewGameLayerBehavior2.getRightPosition this geographicMapInterfaceArray layer)
         when (geographicMapCellPosition /= SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION) $ do
-            possibleStepGeographicMapCellPosition <- (getAt ((jio (getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0)))))) (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) ((jio (GeographicMapCellPosition.getRow geographicMapCellPosition)) - 1))
+            possibleStepGeographicMapCellPosition <- (BasicGeographicMapCellPositionFactory.getAt ((jio (BasicGeographicMap.getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0)))))) (jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) ((jio (GeographicMapCellPosition.getRow geographicMapCellPosition)) - 1))
             Control.Monad.void (MultiGeographicMapBehavior.getCellTypeAt ((jget (this).geographicMapBehavior)) geographicMapInterfaceArray geographicMapCellTypeArray possibleStepGeographicMapCellPosition)
             hasSolidBlock <- (GeographicMapTopViewLayerBehavior.hasSolidBlock this geographicMapInterfaceArray geographicMapCellTypeArray)
             if hasSolidBlock then do
@@ -368,7 +371,7 @@ right_impl this geographicMapInterfaceArray geographicMapCellTypeArray velocityP
                     let topViewCharacterInterface = ((javaCast layer :: TopViewCharacterInterface.TopViewCharacterInterface))
                     Control.Monad.void (TopViewCharacterInterface.rightp topViewCharacterInterface)
                 else do
-                    Control.Monad.void (VelocityProperties.setint ((jio (VelocityProperties.getVelocityXBasicDecimalP velocityProperties))) 0)
+                    Control.Monad.void (BasicDecimal.setint ((jio (VelocityProperties.getVelocityXBasicDecimalP velocityProperties))) 0)
             else do
                 let topViewCharacterInterface = ((javaCast layer :: TopViewCharacterInterface.TopViewCharacterInterface))
                 Control.Monad.void (TopViewCharacterInterface.rightp topViewCharacterInterface)

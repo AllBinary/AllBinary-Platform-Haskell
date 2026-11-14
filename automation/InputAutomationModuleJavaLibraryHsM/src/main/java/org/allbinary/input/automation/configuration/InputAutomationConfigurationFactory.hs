@@ -19,10 +19,10 @@ module InputAutomationConfigurationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,11 +63,15 @@ instance JavaObjectClass InputAutomationConfigurationFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: InputAutomationConfigurationFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationConfigurationFactory
 newRecord_ = do
@@ -118,12 +122,12 @@ init_impl this abeClientInformation = do
         file <- (InputAutomationConfiguration.getFile)
         if (jio (File.isFile file)) then do
             Control.Monad.void (LogUtil.putF logUtil "LoadingConfiguration" iNPUT_AUTOMATION_CONFIGURATION (jget (commonStrings).iNIT))
-            jaxbContext <- (JAXBContext.newInstance ("InputAutomationConfiguration"))
+            jaxbContext <- (JAXBContext.newInstance (JavaClass "InputAutomationConfiguration"))
             unmarshaller <- (JAXBContext.createUnmarshaller jaxbContext)
-            root <- (Unmarshaller.unmarshal unmarshaller (jio (StreamSource.new_1 (jio (FileInputStream.new_1 file)))) ("InputAutomationConfiguration"))
+            root <- (Unmarshaller.unmarshal unmarshaller (jio (StreamSource.new_1 (jio (FileInputStream.new_1 file)))) (JavaClass "InputAutomationConfiguration"))
             jset (this).inputAutomationConfiguration ((javaCast (jio (JAXBElement.getValue root)) :: InputAutomationConfiguration.InputAutomationConfiguration))
             inputAutomationModuleConfigurationList <- (InputAutomationConfiguration.getInputAutomationModuleConfigurationList ((jget (this).inputAutomationConfiguration)))
-            Control.Monad.void (LogUtil.putF logUtil ((("isInstalled: " ++ javaToString (jio (InputAutomationConfiguration.isInstalled ((jget (this).inputAutomationConfiguration))))) ++ " inputAutomationModuleConfigurationList: ") ++ javaToString inputAutomationModuleConfigurationList) iNPUT_AUTOMATION_CONFIGURATION (jget (commonStrings).iNIT))
+            Control.Monad.void (LogUtil.putF logUtil ((("isInstalled: " ++ javaToString (jio (InputAutomationConfiguration.isInstalled ((jget (this).inputAutomationConfiguration))))) ++ " inputAutomationModuleConfigurationList: ") ++ jconcatObject List.toString inputAutomationModuleConfigurationList) iNPUT_AUTOMATION_CONFIGURATION (jget (commonStrings).iNIT))
             when (inputAutomationModuleConfigurationList /= javaNull) $ do
                 size <- (List.size inputAutomationModuleConfigurationList)
                 inputAutomationModuleConfiguration <- newIORef (javaNull)

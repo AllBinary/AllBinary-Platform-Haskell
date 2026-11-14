@@ -20,10 +20,10 @@ import TopViewCharacterBehavior hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified AllBinaryTiledLayer -- same package or java.lang
 import qualified MultiGeographicMapBehavior -- org.allbinary.media.graphics.geography.map.MultiGeographicMapBehavior
 import qualified Direction -- org.allbinary.direction.Direction
 import qualified DirectionFactory -- org.allbinary.direction.DirectionFactory
@@ -83,7 +84,7 @@ newRecord_ = do
 initFields_ :: NonPlayerTopViewCharacterBehavior -> IO ()
 initFields_ this = do
     jset this.geographicMapBehavior =<< (MultiGeographicMapBehavior.new_)
-    jset this.cLIFF =<< (BasicTerrainInfo.new_1 (jget ((jio (AngleFactory.getInstance))).dOWN))
+    jset this.cLIFF =<< (BasicTerrainInfo.new_1 (javaCast (jget ((jio (AngleFactory.getInstance))).dOWN)))
     pure ()
 
 new_ :: IO NonPlayerTopViewCharacterBehavior
@@ -107,10 +108,10 @@ terrainEvent_super object_ a1 a2 a3 a4 a5 a6 a7 = (terrainEvent_impl (javaCast o
 
 terrainEvent_impl :: NonPlayerTopViewCharacterBehavior -> AllBinaryLayer.AllBinaryLayer -> Direction.Direction -> Int -> Int -> JavaArray (BasicGeographicMap.BasicGeographicMap) -> JavaArray (GeographicMapCellType.GeographicMapCellType) -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (())
 terrainEvent_impl this layer direction x y geographicMapInterfaceArray geographicMapCellTypeArray geographicMapCellPosition = do
-        maxColumns <- (getColumns ((jio (getAllBinaryTiledLayer ((jindex geographicMapInterfaceArray (0)))))))
+        maxColumns <- (AllBinaryTiledLayer.getColumns ((jio (BasicGeographicMap.getAllBinaryTiledLayer ((jindex geographicMapInterfaceArray (0)))))))
         when (((jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) > 0) && ((jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) < maxColumns)) $ do
             nextTerrainGeographicMapCellPosition <- newIORef (SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION)
-            geographicMapCellPositionFactory <- (getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0))))
+            geographicMapCellPositionFactory <- (BasicGeographicMap.getGeographicMapCellPositionFactory ((jindex geographicMapInterfaceArray (0))))
             if (direction == (jget ((jio (DirectionFactory.getInstance))).lEFT)) then do
                 assignedValue <- (BasicGeographicMapCellPositionFactory.getAt geographicMapCellPositionFactory ((jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) - 1) (jio (GeographicMapCellPosition.getRow geographicMapCellPosition)))
                 jset nextTerrainGeographicMapCellPosition (assignedValue)
@@ -121,7 +122,7 @@ terrainEvent_impl this layer direction x y geographicMapInterfaceArray geographi
             hasSolidBlock <- (TopViewCharacterBehavior.hasSolidBlock this geographicMapInterfaceArray geographicMapCellTypeArray)
             when (Prelude.not hasSolidBlock) $ do
                 terrainEvent <- (TerrainEventCircularStaticPool.getNext ((jio (TerrainEventCircularStaticPool.getInstance))) (jget (this).cLIFF))
-                Control.Monad.void (TerrainEventHandler.fireEvent ((jio (TerrainEventHandler.getInstance layer))) terrainEvent)
+                Control.Monad.void (TerrainEventHandler.fireEvent ((jio (TerrainEventHandler.getInstance layer))) (javaCast terrainEvent))
         pure ()
 
 

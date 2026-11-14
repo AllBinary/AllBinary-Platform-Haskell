@@ -19,10 +19,10 @@ module UnitItemArrayFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Image -- javax.microedition.lcdui.Image
-import qualified ImageItem -- javax.microedition.lcdui.ImageItem
+import qualified LcduiImageItem -- javax.microedition.lcdui.LcduiImageItem
 import qualified RTSGameStrings -- org.allbinary.game.layer.RTSGameStrings
 import qualified LayerInterfaceFactoryImageItem -- org.allbinary.game.layer.item.LayerInterfaceFactoryImageItem
 import qualified RTSLayerTextAnimation -- org.allbinary.game.layer.item.RTSLayerTextAnimation
@@ -70,10 +70,14 @@ instance JavaObjectClass UnitItemArrayFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iTEMS :: JavaArray (ABCustomItem.ABCustomItem)
 iTEMS = (jget ((jio (CustomItemUtil.getInstance))).cUSTOM_ITEM_ARRAY)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UnitItemArrayFactory
 newRecord_ = do
@@ -138,7 +142,7 @@ createNamedFlagItem_impl :: UnitItemArrayFactory -> FlagGameResources.FlagGameRe
 createNamedFlagItem_impl this flagResources name layerInterfaceFactoryInterface = do
         iMAGE_CACHE <- (GameFeatureImageCacheFactory.getInstance)
         image <- (ImageCache.getWithKey iMAGE_CACHE (jget (flagResources).rESOURCE_ICON))
-        item <- (fmap (\value_ -> javaCast value_ :: ABCustomItem.ABCustomItem) (LayerInterfaceFactoryImageItem.new_7 name image (ImageItem.lAYOUT_DEFAULT) (jget (flagResources).nAME) (jget (this).basicColor) (jarrayFromList [(jio (RTSLayerTextAnimation.new_2 (jget ((jio (RTSGameStrings.getInstance))).dRAGGABLE) image))]) layerInterfaceFactoryInterface))
+        item <- (fmap (\value_ -> javaCast value_ :: ABCustomItem.ABCustomItem) (LayerInterfaceFactoryImageItem.new_7 name image (LcduiImageItem.lAYOUT_DEFAULT) (jget (flagResources).nAME) (jget (this).basicColor) (jarrayFromList [(jio (RTSLayerTextAnimation.new_2 (jget ((jio (RTSGameStrings.getInstance))).dRAGGABLE) image))]) layerInterfaceFactoryInterface))
         pure (item)
 
 

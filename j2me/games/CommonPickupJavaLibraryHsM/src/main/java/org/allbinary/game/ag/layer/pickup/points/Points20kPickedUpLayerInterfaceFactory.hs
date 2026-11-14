@@ -20,10 +20,10 @@ import PickedUpLayerInterfaceFactory hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified PointsLayerCircularStaticPool -- same package or java.lang
 import qualified PointsLayerFactory -- same package or java.lang
 import qualified PointsResources -- same package or java.lang
+import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified GameConfigurationUtil -- org.allbinary.game.configuration.GameConfigurationUtil
 import qualified CountedPickedUpLayerInterfaceFactory -- org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory
@@ -65,6 +66,7 @@ instance JavaObjectClass Points20kPickedUpLayerInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pickedUpLayerInterfaceFactoryInterface :: IORef (PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)
 {-# NOINLINE pickedUpLayerInterfaceFactoryInterface #-}
 pickedUpLayerInterfaceFactoryInterface = unsafePerformIO (newIORef ((javaCast CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)))
 
@@ -82,14 +84,14 @@ newRecord_ = do
 
 initFields_ :: Points20kPickedUpLayerInterfaceFactory -> IO ()
 initFields_ this = do
-    jset this.pool =<< (PointsLayerCircularStaticPool.new_2 (jio (PointsLayerFactory.new_1 ((jio (GameConfigurationUtil.getCompetitionValue ((jio (GameConfigurationUtil.getInstance))))) * 20000))) 1)
+    jset this.pool =<< (PointsLayerCircularStaticPool.new_2 (javaCast (jio (PointsLayerFactory.new_1 ((jio (GameConfigurationUtil.getCompetitionValue ((jio (GameConfigurationUtil.getInstance))))) * 20000)))) 1)
     pure ()
 
 
 -- throws Exception
 init :: IO (())
 init = do
-        assignedValue <- (new_)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface) (new_))
         jset Points20kPickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface (assignedValue)
         pure ()
 

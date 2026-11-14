@@ -19,10 +19,10 @@ module InitSql where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -99,6 +99,9 @@ instance JavaObjectClass InitSql where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InitSql
 newRecord_ = do
@@ -260,7 +263,7 @@ getRow_impl this keysAndValues = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).sqlStrings)).wHERE))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (PreLogUtil.putOE ((jget (this).fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) (jget (this).iNIT_SQL) (jget (this).mETHOD_GET_ROW) e)
+                Control.Monad.void (PreLogUtil.putOE ((jget (this).fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) (jget (this).iNIT_SQL) (jget (this).mETHOD_GET_ROW) e)
             pure (javaNull)
             ) $ do
             result <- newIORef (javaNull)
@@ -282,7 +285,7 @@ getRow_impl this keysAndValues = do
             rset <- (InitSql.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                assignedValue <- (StdUtil.createHashMap ((jget this.stdUtil)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget this.stdUtil))))
                 jset result (assignedValue)
                 columnCount <- (ResultSetMetaData.getColumnCount resultSetMetaData)
                 forM_ [1 .. columnCount] $ \index -> javaIteration (pure ()) $ do
@@ -311,12 +314,12 @@ updateWhere_impl this key value updatedKeyValuePairs = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).sqlStrings)).sET))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (PreLogUtil.putOE ((jget (this).fAILED_SQL_STATEMENT) ++ javaToString stringBuffer) (jget (this).iNIT_SQL) (jget this.mETHOD_UPDATE_WHERE) e)
+                Control.Monad.void (PreLogUtil.putOE ((jget (this).fAILED_SQL_STATEMENT) ++ jconcatObject StringMaker.toString stringBuffer) (jget (this).iNIT_SQL) (jget this.mETHOD_UPDATE_WHERE) e)
             ) $ do
-            columnArray <- (HashMap.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
+            columnArray <- (Set.toArray ((jio (HashMap.keySet updatedKeyValuePairs))))
             let size = (jlength columnArray)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
-                columnName <- (toString ((jindex columnArray (i))))
+                columnName <- (Any.toString ((jindex columnArray (i))))
                 Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).commonSeps)).sPACE))
                 Control.Monad.void (StringMaker.append stringBuffer columnName)
                 Control.Monad.void (StringMaker.append stringBuffer (jget (this).eQUAL_QUOTE))
@@ -448,7 +451,7 @@ initialize_impl this = do
             ) $ do
             handle (\(e :: JavaException) -> do
                 when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).sQLLOGGINGERROR))) $ do
-                    Control.Monad.void (PreLogUtil.putOE ("LoadDriver Failed: " ++ javaToString (jio (DbConnectionInfo.getJdbcDriver ((jget (this).databaseConnectionInfoInterface))))) (jget (this).iNIT_SQL) "initialize()" e)
+                    Control.Monad.void (PreLogUtil.putOE ("LoadDriver Failed: " ++ (jio (DbConnectionInfo.getJdbcDriver ((jget (this).databaseConnectionInfoInterface))))) (jget (this).iNIT_SQL) "initialize()" e)
                 javaThrow (e)
                 ) $ do
                 jdbcDriver <- (DbConnectionInfo.getJdbcDriver ((jget (this).databaseConnectionInfoInterface)))

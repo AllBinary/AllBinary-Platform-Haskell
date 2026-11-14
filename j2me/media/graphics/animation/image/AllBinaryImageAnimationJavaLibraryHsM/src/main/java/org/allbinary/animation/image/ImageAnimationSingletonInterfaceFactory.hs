@@ -20,10 +20,10 @@ import SingletonAnimationInterfaceFactory hiding (new_, init_, newRecord_, initF
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,7 +76,7 @@ new_3 animationInterface width height = do
 
 init_3 :: ImageAnimationSingletonInterfaceFactory -> Animation.Animation -> Int -> Int -> IO ()
 init_3 this animationInterface width height = do
-        SingletonAnimationInterfaceFactory.init_1 this.base (jio (ImageAnimation.new_2 (jio (AnimationFrameToImageUtil.getInstanceWH ((jio (AnimationFrameToImageUtil.getInstance))) width height animationInterface)) (jio (AnimationBehavior.getInstance))))
+        SingletonAnimationInterfaceFactory.init_1 this.base (javaCast (jio (ImageAnimation.new_2 (jio (AnimationFrameToImageUtil.getInstanceWH ((jio (AnimationFrameToImageUtil.getInstance))) width height animationInterface)) (jio (AnimationBehavior.getInstance)))))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

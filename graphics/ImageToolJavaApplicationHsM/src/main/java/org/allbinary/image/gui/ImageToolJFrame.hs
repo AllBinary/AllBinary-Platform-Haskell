@@ -20,10 +20,10 @@ import JFrame hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -126,6 +126,7 @@ instance JavaObjectClass ImageToolJFrame where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+imageProcessorInputCompositeInterface :: IORef (ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface)
 {-# NOINLINE imageProcessorInputCompositeInterface #-}
 imageProcessorInputCompositeInterface = unsafePerformIO (newIORef (javaNull))
 
@@ -437,7 +438,7 @@ createStripImageJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) imageUnifierJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (imageUnifierJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast imageUnifierJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -510,12 +511,12 @@ onFiles_impl this files = do
                 assignedValue <- (ImageIO.read (jindex files (index)))
                 jsetIndex bufferedImageArray (index) (assignedValue)
                 when ((jindex bufferedImageArray (index)) == javaNull) $ do
-                    javaThrow ((JavaException "Exception" ("Unable to read file: " ++ javaToString (jio (getPath ((jindex files (index))))))))
+                    javaThrow ((JavaException "Exception" ("Unable to read file: " ++ javaToString (jio (File.getPath ((jindex files (index))))))))
             assignedValue <- (ImageProcessorInput.new_2 files bufferedImageArray)
             jset (this).imageProcessorInput (assignedValue)
             Control.Monad.void (FileJDialog.setVisible ((jget (this).fileJDialog)) False)
             when ((jget ImageToolJFrame.imageProcessorInputCompositeInterface) /= javaNull) $ do
-                Control.Monad.void (setImageProcessorInput ((jget ImageToolJFrame.imageProcessorInputCompositeInterface)) (jget (this).imageProcessorInput))
+                Control.Monad.void (ImageProcessorInputCompositeInterface.setImageProcessorInput ((jget ImageToolJFrame.imageProcessorInputCompositeInterface)) (jget (this).imageProcessorInput))
         pure ()
 
 
@@ -562,7 +563,7 @@ generateRotationSpriteJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) spriteImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (spriteImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast spriteImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -582,7 +583,7 @@ generateSpriteSplitterMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) imageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (imageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast imageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -602,7 +603,7 @@ generateRotationMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) rotationImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (rotationImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast rotationImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -622,7 +623,7 @@ scaleImagesJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) resizeImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (resizeImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast resizeImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -642,7 +643,7 @@ createIconsJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) createIconImagesJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (createIconImagesJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast createIconImagesJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -662,7 +663,7 @@ canvasImagesJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) resizeImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (resizeImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast resizeImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -682,7 +683,7 @@ generateMirrorSpriteMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) spriteImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (spriteImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast spriteImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 
@@ -702,7 +703,7 @@ mirrorJMenuItemActionPerformed_impl this evt = do
             Control.Monad.void (JPanel.removeAll ((jget (this).jPanel1)))
             Control.Monad.void (JPanel.add ((jget (this).jPanel1)) mirrorImageJPanel)
             Control.Monad.void (JPanel.updateUI ((jget (this).jPanel1)))
-            jset ImageToolJFrame.imageProcessorInputCompositeInterface (mirrorImageJPanel)
+            jset ImageToolJFrame.imageProcessorInputCompositeInterface ((javaCast mirrorImageJPanel :: ImageProcessorInputCompositeInterface.ImageProcessorInputCompositeInterface))
         pure ()
 
 

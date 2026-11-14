@@ -19,10 +19,10 @@ module BasicFileFilterUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,6 +57,9 @@ instance JavaObjectClass BasicFileFilterUtil where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO BasicFileFilterUtil
 newRecord_ = do
     header_ <- newJavaHeader
@@ -86,6 +89,6 @@ getInstance extension = do
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         Control.Monad.void (BasicArrayList.add vector extension)
         includeFileExtensionsBooleanFileVisitor <- (IncludeFileExtensionsBooleanFileVisitor.new_1 vector)
-        pure ((javaCast (jio (VisitorFileFilter.new_1 includeFileExtensionsBooleanFileVisitor)) :: FileFilter.FileFilter))
+        pure ((javaCast (jio (VisitorFileFilter.new_1 (javaCast includeFileExtensionsBooleanFileVisitor))) :: FileFilter.FileFilter))
 
 

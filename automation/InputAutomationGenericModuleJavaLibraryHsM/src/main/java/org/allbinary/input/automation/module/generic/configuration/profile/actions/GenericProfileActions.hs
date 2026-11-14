@@ -19,10 +19,10 @@ module GenericProfileActions where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -81,10 +81,14 @@ instance JavaObjectClass GenericProfileActions where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dEFAULT_PROFILE_ACTIONS_PATH :: String
 dEFAULT_PROFILE_ACTIONS_PATH = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GenericProfileActions
 newRecord_ = do
@@ -144,29 +148,42 @@ init_2 this genericProfileActionsJPanel name = do
         Control.Monad.void (GenericProfileActions.load this)
         pure ()
 
-new_3 :: GenericProfileActionsJPanel.GenericProfileActionsJPanel -> AbPath.AbPath -> String -> IO GenericProfileActions
-new_3 genericProfileActionsJPanel abPath name = do
+-- Java overloaded constructors with 3 parameters: call the overload for the types of the arguments
+new_3 :: (JavaObjectClass o2) => GenericProfileActionsJPanel.GenericProfileActionsJPanel -> o2 -> String -> IO GenericProfileActions
+new_3 a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = new_3_overload1 a1 (javaCast a2 :: AbPath.AbPath) a3
+    | jisInstanceOf a2 (javaNull :: FileInputStream.FileInputStream) = new_3_overload2 a1 (javaCast a2 :: FileInputStream.FileInputStream) a3
+    | otherwise = new_3_overload2 a1 (javaCast a2 :: FileInputStream.FileInputStream) a3
+
+init_3 :: (JavaObjectClass o2) => GenericProfileActions -> GenericProfileActionsJPanel.GenericProfileActionsJPanel -> o2 -> String -> IO ()
+init_3 this a1 a2 a3
+    | jisInstanceOf a2 (javaNull :: AbPath.AbPath) = init_3_overload1 this a1 (javaCast a2 :: AbPath.AbPath) a3
+    | jisInstanceOf a2 (javaNull :: FileInputStream.FileInputStream) = init_3_overload2 this a1 (javaCast a2 :: FileInputStream.FileInputStream) a3
+    | otherwise = init_3_overload2 this a1 (javaCast a2 :: FileInputStream.FileInputStream) a3
+
+
+new_3_overload1 :: GenericProfileActionsJPanel.GenericProfileActionsJPanel -> AbPath.AbPath -> String -> IO GenericProfileActions
+new_3_overload1 genericProfileActionsJPanel abPath name = do
     this <- newRecord_
-    init_3 this genericProfileActionsJPanel abPath name
+    init_3_overload1 this genericProfileActionsJPanel abPath name
     pure this
 
-init_3 :: GenericProfileActions -> GenericProfileActionsJPanel.GenericProfileActionsJPanel -> AbPath.AbPath -> String -> IO ()
-init_3 this genericProfileActionsJPanel abPath name = do
+init_3_overload1 :: GenericProfileActions -> GenericProfileActionsJPanel.GenericProfileActionsJPanel -> AbPath.AbPath -> String -> IO ()
+init_3_overload1 this genericProfileActionsJPanel abPath name = do
         initFields_ this
         Control.Monad.void (GenericProfileActions.setName this name)
         Control.Monad.void (GenericProfileActions.init this genericProfileActionsJPanel)
         Control.Monad.void (GenericProfileActions.load this)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: GenericProfileActionsJPanel.GenericProfileActionsJPanel -> FileInputStream.FileInputStream -> String -> IO GenericProfileActions
-new_3 genericProfileActionsJPanel fileInputStream name = do
+new_3_overload2 :: GenericProfileActionsJPanel.GenericProfileActionsJPanel -> FileInputStream.FileInputStream -> String -> IO GenericProfileActions
+new_3_overload2 genericProfileActionsJPanel fileInputStream name = do
     this <- newRecord_
-    init_3 this genericProfileActionsJPanel fileInputStream name
+    init_3_overload2 this genericProfileActionsJPanel fileInputStream name
     pure this
 
-init_3 :: GenericProfileActions -> GenericProfileActionsJPanel.GenericProfileActionsJPanel -> FileInputStream.FileInputStream -> String -> IO ()
-init_3 this genericProfileActionsJPanel fileInputStream name = do
+init_3_overload2 :: GenericProfileActions -> GenericProfileActionsJPanel.GenericProfileActionsJPanel -> FileInputStream.FileInputStream -> String -> IO ()
+init_3_overload2 this genericProfileActionsJPanel fileInputStream name = do
         initFields_ this
         Control.Monad.void (GenericProfileActions.setName this name)
         Control.Monad.void (GenericProfileActions.init this genericProfileActionsJPanel)

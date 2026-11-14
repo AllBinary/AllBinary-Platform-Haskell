@@ -19,10 +19,10 @@ module AbFile where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,7 @@ instance JavaObjectClass AbFile where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_FILE :: AbFile
 {-# NOINLINE nULL_FILE #-}
 nULL_FILE = unsafePerformIO ((AbFile.createAbFileFromRawPath (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))
 
@@ -373,7 +374,7 @@ length_super object_ = (length_impl (javaCast object_ :: AbFile))
 
 length_impl :: AbFile -> IO (Int64)
 length_impl this = do
-        (Prelude.fromIntegral (File.length ((jget (this).file))))
+        (File.length ((jget (this).file)))
 
 
 -- throws IOException

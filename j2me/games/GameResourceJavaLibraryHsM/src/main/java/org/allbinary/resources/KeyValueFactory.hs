@@ -19,10 +19,10 @@ module KeyValueFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass KeyValueFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: KeyValueFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO KeyValueFactory
 newRecord_ = do
@@ -98,9 +102,8 @@ get_super object_ a1 = (get_impl (javaCast object_ :: KeyValueFactory)) a1
 get_impl :: KeyValueFactory -> String -> IO (String)
 get_impl this key = do
     javaCatchReturn $ do
-        let value = (javaCast (jio (ABHashtable.get ((jget (this).mAP)) (javaCast key :: Any.Any))) :: String)
-        when (value == javaNull) $ do
+        when (Prelude.not (jio (ABHashtable.containsKey ((jget (this).mAP)) (javaCast key :: Any.Any)))) $ do
             javaReturn (key)
-        pure (value)
+        pure ((javaCast (jio (ABHashtable.get ((jget (this).mAP)) (javaCast key :: Any.Any))) :: String))
 
 

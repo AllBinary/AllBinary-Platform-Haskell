@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.user.commerce.money.payment
 module PaymentEntity (module PaymentEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getLastId, getLastId_super, getLastId_impl, setDefault, setDefault_super, setDefault_impl, get, get_super, get_impl, getDefault, getDefault_super, getDefault_impl, remove, remove_super, remove_impl, add, add_super, add_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, logUtil, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getLastId, getLastId_super, getLastId_impl, setDefault, setDefault_super, setDefault_impl, get, get_super, get_impl, getDefault, getDefault_super, getDefault_impl, remove, remove_super, remove_impl, add, add_super, add_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, insert, insert_super, insert_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified HashMap -- java.util.HashMap
 import qualified Random -- java.util.Random
@@ -94,6 +98,8 @@ newRecord_ = do
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "drop" (\() -> drop_impl this)
+    jregisterMethod header_ "insert" (\() -> insert_impl this)
+    jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
     pure this
 
 initFields_ :: PaymentEntity -> IO ()
@@ -110,7 +116,7 @@ new_ = do
 
 init_ :: PaymentEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -140,17 +146,17 @@ setDefault_impl this userName index = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "setDefault" e)
             ) $ do
-            updateKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            whereKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            updateKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            whereKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereKeyAndValue (UserData.uSERNAME) userName)
             paymentInterface <- (PaymentEntity.getDefault this userName)
             when (paymentInterface /= javaNull) $ do
                 Control.Monad.void (HashMap.put updateKeyAndValue (jget ((jio (EntryData.getInstance))).dEFAULT) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
                 Control.Monad.void (HashMap.put whereKeyAndValue (PaymentData.iD) (jio (PaymentInterface.getId paymentInterface)))
-                Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyAndValue updateKeyAndValue)
+                Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyAndValue updateKeyAndValue)
             Control.Monad.void (HashMap.put updateKeyAndValue (jget ((jio (EntryData.getInstance))).dEFAULT) (jget ((jio (EntryData.getInstance))).dEFAULT))
             Control.Monad.void (HashMap.put whereKeyAndValue (PaymentData.iD) (javaToString index))
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyAndValue updateKeyAndValue)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyAndValue updateKeyAndValue)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "setDefault")
         pure ()
@@ -170,7 +176,7 @@ get_impl this userName = do
             pure (javaNull)
             ) $ do
             paymentVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-            keyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keyAndValue (UserData.uSERNAME) userName)
             paymentList <- (AbSqlBean.getRows_super this.base keyAndValue)
             size <- (BasicArrayList.size paymentList)
@@ -196,8 +202,8 @@ getDefault_impl this userName = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "getDefault" e)
             pure (javaNull)
             ) $ do
-            paymentHashMap <- newIORef =<< (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            updateKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            paymentHashMap <- newIORef =<< (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            updateKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put updateKeyAndValue (jget ((jio (EntryData.getInstance))).dEFAULT) (jget ((jio (EntryData.getInstance))).dEFAULT))
             Control.Monad.void (HashMap.put updateKeyAndValue (UserData.uSERNAME) userName)
             assignedValue <- (AbSqlBean.getRow_super this.base updateKeyAndValue)
@@ -223,10 +229,10 @@ remove_impl this userName index = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "remove" e)
             ) $ do
-            whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereHashMap (UserData.uSERNAME) userName)
             Control.Monad.void (HashMap.put whereHashMap (PaymentData.iD) (javaCast (javaToString index) :: String))
-            Control.Monad.void (AbSqlBean.deleteWhere_super this.base whereHashMap)
+            Control.Monad.void (AbSqlBean.deleteWhere_1_super this.base whereHashMap)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "remove")
         pure ()
@@ -296,6 +302,29 @@ drop_super object_ = (drop_impl (javaCast object_ :: PaymentEntity))
 
 drop_impl :: PaymentEntity -> IO (String)
 drop_impl this = do
+        (AbSqlBean.dropTable_super this.base)
+
+
+insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert object_ a1 = jmethod object_ "insert" (\() -> (insert_impl (javaCast object_ :: PaymentEntity))) () a1
+
+insert_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_super object_ a1 = (insert_impl (javaCast object_ :: PaymentEntity)) a1
+
+insert_impl :: PaymentEntity -> BasicArrayList.BasicArrayList -> IO (())
+insert_impl this values = do
+        Control.Monad.void (AbSqlBean.insert_super this.base values)
+        pure ()
+
+
+dropTable :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable object_ = jmethod object_ "dropTable" (\() -> (dropTable_impl (javaCast object_ :: PaymentEntity))) ()
+
+dropTable_super :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable_super object_ = (dropTable_impl (javaCast object_ :: PaymentEntity))
+
+dropTable_impl :: PaymentEntity -> IO (String)
+dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
 
 

@@ -19,10 +19,10 @@ module BasicTerrainInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,11 +52,15 @@ instance JavaObjectClass BasicTerrainInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_BASIC_TERRAIN_INFO :: BasicTerrainInfo
 {-# NOINLINE nULL_BASIC_TERRAIN_INFO #-}
-nULL_BASIC_TERRAIN_INFO = unsafePerformIO ((new_1 (jget ((jio (AngleFactory.getInstance))).nOT_ANGLE)))
+nULL_BASIC_TERRAIN_INFO = unsafePerformIO ((new_1 (javaCast (jget ((jio (AngleFactory.getInstance))).nOT_ANGLE))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicTerrainInfo
 newRecord_ = do

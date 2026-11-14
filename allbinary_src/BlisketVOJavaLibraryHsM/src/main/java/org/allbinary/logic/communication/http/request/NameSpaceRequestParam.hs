@@ -19,10 +19,10 @@ module NameSpaceRequestParam where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass NameSpaceRequestParam where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO NameSpaceRequestParam
 newRecord_ = do
     header_ <- newJavaHeader
@@ -99,7 +102,7 @@ init_2 this nameSpace value = do
         initFields_ this
         assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         jset (this).nameSpaceVector (assignedValue)
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).nameSpacePropertiesHashMap (assignedValue)
         jset (this).value (value)
         let beginIndex = (jstringIndexOf nameSpace (NameSpaceRequestParamData.nAME) 0)
@@ -159,7 +162,7 @@ getPackageProperties_impl :: NameSpaceRequestParam -> Int -> IO (HashMap.HashMap
 getPackageProperties_impl this packageIndex = do
         packagePropertiesHashMap <- newIORef ((javaCast (jio (HashMap.get ((jget (this).nameSpacePropertiesHashMap)) (javaToString packageIndex))) :: HashMap.HashMap))
         when ((jget packagePropertiesHashMap) == javaNull) $ do
-            assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             jset packagePropertiesHashMap (assignedValue)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Package Properties: " ++ (jio (HashMap.toString ((jget packagePropertiesHashMap))))) this "getPackagesProperties()")

@@ -19,10 +19,10 @@ module BasicGeographicMapCellPositionFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass BasicGeographicMapCellPositionFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicGeographicMapCellPositionFactory
 newRecord_ = do
@@ -204,7 +207,7 @@ createInstance_impl :: BasicGeographicMapCellPositionFactory -> Int -> Int -> In
 createInstance_impl this i_column i_row width height = do
         cellPositionCanBeNull <- newIORef ((jindex ((jindex ((jget (this).geographicMapCellPositionArray)) (i_row))) (i_column)))
         when ((jget cellPositionCanBeNull) == javaNull) $ do
-            assignedValue <- (GeographicMapCellPositionFactoryInterface.getInstance ((jget (this).geographicMapCellPositionFactoryInterface)) (jget (this).geographicMapInterface) i_column i_row (jget (this).columns) (jget (this).rows) width height)
+            assignedValue <- (fmap jtoObject (GeographicMapCellPositionFactoryInterface.getInstance ((jget (this).geographicMapCellPositionFactoryInterface)) (jget (this).geographicMapInterface) i_column i_row (jget (this).columns) (jget (this).rows) width height))
             jset cellPositionCanBeNull (assignedValue)
             jsetIndex ((jindex ((jget (this).geographicMapCellPositionArray)) (i_row))) (i_column) ((javaCast (jget cellPositionCanBeNull) :: GeographicMapCellPosition.GeographicMapCellPosition))
         pure ((javaCast (jget cellPositionCanBeNull) :: GeographicMapCellPosition.GeographicMapCellPosition))

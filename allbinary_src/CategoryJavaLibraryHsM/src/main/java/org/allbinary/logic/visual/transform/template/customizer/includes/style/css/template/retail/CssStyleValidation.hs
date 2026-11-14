@@ -20,10 +20,10 @@ import Validation hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -105,32 +105,45 @@ init_ this = do
         jset (this).cssStyleElementVector (assignedValue)
         pure ()
 
-new_1 :: Document.Document -> IO CssStyleValidation
-new_1 document = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO CssStyleValidation
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = new_1_overload1 (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => CssStyleValidation -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Document.Document) = init_1_overload1 this (javaCast a1 :: Document.Document)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Document.Document -> IO CssStyleValidation
+new_1_overload1 document = do
     this <- newRecord_
-    init_1 this document
+    init_1_overload1 this document
     pure this
 
-init_1 :: CssStyleValidation -> Document.Document -> IO ()
-init_1 this document = do
+init_1_overload1 :: CssStyleValidation -> Document.Document -> IO ()
+init_1_overload1 this document = do
         Validation.init_ this.base
         initFields_ this
-        assignedValue <- (StylesValidationFactory.getInstance_1 ((jio (StylesValidationFactory.getInstance))) document)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (StylesValidationFactory.getInstance_1 ((jio (StylesValidationFactory.getInstance))) document))
         jset (this).cssStyleElementVector (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO CssStyleValidation
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO CssStyleValidation
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: CssStyleValidation -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: CssStyleValidation -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         Validation.init_ this.base
         initFields_ this
-        assignedValue <- (StylesValidationFactory.getInstance_1 hashMap)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (StylesValidationFactory.getInstance_1 hashMap))
         jset (this).cssStyleElementVector (assignedValue)
         pure ()
 
@@ -154,7 +167,7 @@ isValid_impl this = do
             size <- (BasicArrayList.size ((jget (this).cssStyleElementVector)))
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
                 let styleValidationInterface = (javaCast (jio (BasicArrayList.get ((jget (this).cssStyleElementVector)) i)) :: ValidationInterface.ValidationInterface)
-                when (Prelude.not (jio (ValidationInterface.booleanValue ((jio (ValidationInterface.isValid styleValidationInterface)))))) $ do
+                when (Prelude.not (jio (ValidationInterface.isValid styleValidationInterface))) $ do
                     jset isValid (False)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("End: " ++ javaToString (jget isValid)) this (jget ((jget (this).base.commonStrings)).iS_VALID))

@@ -19,10 +19,10 @@ module HttpFilePermissions where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass HttpFilePermissions where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO HttpFilePermissions
 newRecord_ = do
     header_ <- newJavaHeader
@@ -98,11 +101,11 @@ init_1 this fullPath = do
         assignedValue <- (AbFile.createAbFileFromAbPath (jio (AbPath.new_2 (jio (AbPath.toFileSystemString fullPath)) (jget ((jio (FileUploadData.getInstance))).fILE))))
         jset (this).file (assignedValue)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Loading Privileges: " ++ javaToString (jio (AbPath.toFileSystemString fullPath))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Loading Privileges: " ++ (jio (AbPath.toFileSystemString fullPath))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         when (jio (HttpFilePermissions.isFile this)) $ do
             Control.Monad.void (BasicArrayList.add ((jget (this).userRoles)) (jget ((jio (BasicUserRoleFactory.getInstance))).aDMINISTRATOR))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("User Roles: " ++ javaToString (jget (this).userRoles)) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("User Roles: " ++ jconcatObject BasicArrayList.toString (jget (this).userRoles)) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         pure ()
 
 

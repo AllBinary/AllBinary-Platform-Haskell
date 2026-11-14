@@ -20,10 +20,10 @@ import BasicMenuInputProcessor hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,8 +34,12 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommandRunnable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PlayerGameInput -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
@@ -134,7 +138,7 @@ new_4 gameKeyEventList playerInputId gameCanvas form = do
 
 init_4 :: CommandFormInputProcessor -> BasicArrayList.BasicArrayList -> Int -> MyCanvas.MyCanvas -> ScrollSelectionForm.ScrollSelectionForm -> IO ()
 init_4 this gameKeyEventList playerInputId gameCanvas form = do
-        BasicMenuInputProcessor.init_3 this.base (gameKeyEventList) (playerInputId) (gameCanvas)
+        BasicMenuInputProcessor.init_3 this.base (gameKeyEventList) (playerInputId) (javaCast gameCanvas)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).form (form)

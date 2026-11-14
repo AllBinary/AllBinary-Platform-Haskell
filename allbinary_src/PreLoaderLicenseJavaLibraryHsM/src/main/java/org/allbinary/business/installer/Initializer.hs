@@ -19,10 +19,10 @@ module Initializer where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -101,16 +101,23 @@ instance JavaObjectClass Initializer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXDB :: Int
 mAXDB = 30
 
+mAX :: Int
 mAX = 16
 
+mIN :: Int
 mIN = 4
 
+mINPASSWORD :: Int
 mINPASSWORD = 0
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Initializer
 newRecord_ = do
@@ -202,14 +209,28 @@ initFields_ this = do
     jset this.staticPagesPort ("")
     pure ()
 
-new_1 :: Map.Map -> IO Initializer
-new_1 map = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO Initializer
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Map.Map) = new_1_overload1 (javaCast a1 :: Map.Map)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => Initializer -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Map.Map) = init_1_overload1 this (javaCast a1 :: Map.Map)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: Map.Map -> IO Initializer
+new_1_overload1 map = do
     this <- newRecord_
-    init_1 this map
+    init_1_overload1 this map
     pure this
 
-init_1 :: Initializer -> Map.Map -> IO ()
-init_1 this map = do
+init_1_overload1 :: Initializer -> Map.Map -> IO ()
+init_1_overload1 this map = do
         initFields_ this
         stringBuffer <- (StringMaker.new_)
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
@@ -229,15 +250,14 @@ init_1 this map = do
         Control.Monad.void (Initializer.getFormData this hashMap)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO Initializer
-new_1 initHashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO Initializer
+new_1_overload2 initHashMap = do
     this <- newRecord_
-    init_1 this initHashMap
+    init_1_overload2 this initHashMap
     pure this
 
-init_1 :: Initializer -> HashMap.HashMap -> IO ()
-init_1 this initHashMap = do
+init_1_overload2 :: Initializer -> HashMap.HashMap -> IO ()
+init_1_overload2 this initHashMap = do
         initFields_ this
         Control.Monad.void (Initializer.getFormData this initHashMap)
         pure ()

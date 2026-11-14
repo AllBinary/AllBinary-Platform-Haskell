@@ -19,10 +19,10 @@ module FileLog where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,41 +61,55 @@ instance JavaObjectClass FileLog where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+stringUtil :: StringUtil.StringUtil
 {-# NOINLINE stringUtil #-}
 stringUtil = unsafePerformIO ((StringUtil.getInstance))
 
+logLength :: Int64
 logLength = 33000000
 
+logPath :: String
 logPath = "g:\\log\\"
 
+extension :: String
 {-# NOINLINE extension #-}
 extension = unsafePerformIO ((jnewString "dat"))
 
+fileName :: String
 {-# NOINLINE fileName #-}
 fileName = unsafePerformIO ((jnewString ("log." ++ javaToString FileLog.extension)))
 
-{-# NOINLINE backupFileName #-}
-backupFileName = unsafePerformIO ((concat FileLog.fileName ".bak"))
+backupFileName :: String
+backupFileName = (FileLog.fileName ++ ".bak")
 
+oRG_ALLBINARY :: String
 oRG_ALLBINARY = "org.allbinary: "
 
+firstTime :: IORef (Bool)
 {-# NOINLINE firstTime #-}
 firstTime = unsafePerformIO (newIORef (True))
 
+logFile :: IORef (File.File)
 {-# NOINLINE logFile #-}
 logFile = unsafePerformIO ((File.new_2 (FileLog.logPath) (FileLog.fileName)) >>= newIORef)
 
+logFileBak :: IORef (File.File)
 {-# NOINLINE logFileBak #-}
 logFileBak = unsafePerformIO (newIORef (javaNull))
 
+fileOut :: IORef (BufferedWriter.BufferedWriter)
 {-# NOINLINE fileOut #-}
 fileOut = unsafePerformIO (newIORef (javaNull))
 
+backupIndex :: IORef (Int)
 {-# NOINLINE backupIndex #-}
 backupIndex = unsafePerformIO (newIORef (0))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FileLog
 newRecord_ = do
@@ -138,7 +152,7 @@ createLogFile = do
                 Control.Monad.void (RandomAccessFile.seek raFile (jio (RandomAccessFile.length raFile)))
                 assignedValue <- (BufferedWriter.new_1 (jio (FileWriter.new_1 (jio (RandomAccessFile.getFD raFile)))))
                 jset FileLog.fileOut (assignedValue)
-            canWrite <- (canWrite ((jget FileLog.logFile)))
+            canWrite <- (File.canWrite ((jget FileLog.logFile)))
             pure (canWrite)
 
 
@@ -151,7 +165,7 @@ createLogFileBackup = do
             stringMaker <- (StringMaker.new_)
             assignedValue <- (File.new_2 logPath (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append stringMaker backupFileName))) (jget ((jio (CommonSeps.getInstance))).pERIOD)))) (jget backupIndex)))))))
             jset FileLog.logFileBak (assignedValue)
-            fix $ \loop -> when (jio (isFile ((jget FileLog.logFileBak)))) $ javaIteration (loop) $ do
+            fix $ \loop -> when (jio (File.isFile ((jget FileLog.logFileBak)))) $ javaIteration (loop) $ do
                 jset FileLog.backupIndex ((jget FileLog.backupIndex) + 1)
                 Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
                 assignedValue <- (File.new_2 logPath (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append stringMaker backupFileName))) (jget ((jio (CommonSeps.getInstance))).pERIOD)))) (jget backupIndex)))))))
@@ -165,7 +179,7 @@ createLogFileBackup = do
             Control.Monad.void (BufferedWriter.flush tmpOut)
             Control.Monad.void (BufferedWriter.close tmpOut)
             Control.Monad.void (BufferedReader.close tmpIn)
-            Control.Monad.void (delete ((jget FileLog.logFile)))
+            Control.Monad.void (File.delete ((jget FileLog.logFile)))
             pure (True)
 
 
@@ -200,24 +214,24 @@ put_4_overload1 specialMessage anyTypeObject_ functionName exception = do
                 Control.Monad.void (FileLog.createLogFileBackup)
                 when ((jio (FileLog.createLogFile)) == False) $ do
                     javaReturn =<< (jnewString "Log File Creation Error")
-            length <- (Prelude.fromIntegral (length ((jget FileLog.logFile))))
+            length <- (File.length ((jget FileLog.logFile)))
             when (length > FileLog.logLength) $ do
                 when ((Prelude.not ((jio (FileLog.createLogFileBackup)))) || ((jio (FileLog.createLogFile)) == False)) $ do
                     javaReturn =<< (jnewString "Couldn't Create a Backup file")
             className <- newIORef =<< (jnewString (jget (stringUtil).nULL_STRING))
             when ((jget functionName) == javaNull) $ do
-                assignedValue <- (jio (jnewString (jget (FileLog.stringUtil).nULL_STRING)))
-            jset functionName (assignedValue)
+                assignedValue <- (jnewString (jget (FileLog.stringUtil).nULL_STRING))
+                jset functionName (assignedValue)
             when ((jget specialMessage) == javaNull) $ do
-                assignedValue <- (jio (jnewString (jget (FileLog.stringUtil).nULL_STRING)))
-            jset specialMessage (assignedValue)
+                assignedValue <- (jnewString (jget (FileLog.stringUtil).nULL_STRING))
+                jset specialMessage (assignedValue)
             when ((jio (Class.getName ((jio (jobjectGetClass anyType))))) /= javaNull) $ do
-                assignedValue <- (jio (jnewString (jio (Class.getName ((jio (jobjectGetClass anyType)))))))
-            jset className (assignedValue)
+                assignedValue <- (jnewString (jio (Class.getName ((jio (jobjectGetClass anyType))))))
+                jset className (assignedValue)
             message <- (LogFormatUtil.get ((jio (LogFormatUtil.getInstance))) (jget className) (jget functionName) (jget specialMessage) exception)
-            Control.Monad.void (write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
-            Control.Monad.void (newLine ((jget FileLog.fileOut)))
-            Control.Monad.void (flush ((jget FileLog.fileOut)))
+            Control.Monad.void (BufferedWriter.write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
+            Control.Monad.void (BufferedWriter.newLine ((jget FileLog.fileOut)))
+            Control.Monad.void (BufferedWriter.flush ((jget FileLog.fileOut)))
             (jnewString (javaToString FileLog.oRG_ALLBINARY ++ message))
 
 
@@ -238,20 +252,20 @@ put_4_overload2 specialMessage className functionName exception = do
                 Control.Monad.void (FileLog.createLogFileBackup)
                 when ((jio (FileLog.createLogFile)) == False) $ do
                     javaReturn =<< (jnewString "Log File Creation Error")
-            length <- (Prelude.fromIntegral (length ((jget FileLog.logFile))))
+            length <- (File.length ((jget FileLog.logFile)))
             when (length > FileLog.logLength) $ do
                 when ((Prelude.not ((jio (FileLog.createLogFileBackup)))) || ((jio (FileLog.createLogFile)) == False)) $ do
                     javaReturn =<< (jnewString "Couldn't Create a Backup file")
             when ((jget functionName) == javaNull) $ do
-                assignedValue <- (jio (jnewString (jget (FileLog.stringUtil).nULL_STRING)))
-            jset functionName (assignedValue)
+                assignedValue <- (jnewString (jget (FileLog.stringUtil).nULL_STRING))
+                jset functionName (assignedValue)
             when ((jget specialMessage) == javaNull) $ do
-                assignedValue <- (jio (jnewString (jget (FileLog.stringUtil).nULL_STRING)))
-            jset specialMessage (assignedValue)
+                assignedValue <- (jnewString (jget (FileLog.stringUtil).nULL_STRING))
+                jset specialMessage (assignedValue)
             message <- (LogFormatUtil.get ((jio (LogFormatUtil.getInstance))) className (jget functionName) (jget specialMessage) exception)
-            Control.Monad.void (write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
-            Control.Monad.void (newLine ((jget FileLog.fileOut)))
-            Control.Monad.void (flush ((jget FileLog.fileOut)))
+            Control.Monad.void (BufferedWriter.write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
+            Control.Monad.void (BufferedWriter.newLine ((jget FileLog.fileOut)))
+            Control.Monad.void (BufferedWriter.flush ((jget FileLog.fileOut)))
             (jnewString (javaToString FileLog.oRG_ALLBINARY ++ message))
 
 

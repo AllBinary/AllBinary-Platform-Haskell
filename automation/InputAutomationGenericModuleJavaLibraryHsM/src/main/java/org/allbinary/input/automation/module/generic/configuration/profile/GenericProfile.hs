@@ -19,10 +19,10 @@ module GenericProfile where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass GenericProfile where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO GenericProfile
 newRecord_ = do
     header_ <- newJavaHeader
@@ -96,14 +99,28 @@ initFields_ this = do
     jset this.genericProfileActions (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO GenericProfile
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO GenericProfile
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload2 (javaCast a1 :: String)
+    | otherwise = new_1_overload2 (javaCast a1 :: String)
+
+init_1 :: (JavaObjectClass o1) => GenericProfile -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload2 this (javaCast a1 :: String)
+    | otherwise = init_1_overload2 this (javaCast a1 :: String)
+
+
+new_1_overload1 :: Node.Node -> IO GenericProfile
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: GenericProfile -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: GenericProfile -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         Control.Monad.void (GenericProfile.setName this (jio (DomNodeHelper.getTextNodeValue node)))
         assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
@@ -118,15 +135,14 @@ init_1 this node = do
                 Control.Monad.void (BasicArrayList.add ((jget (this).vector)) genericProfileDataWorkerType)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: String -> IO GenericProfile
-new_1 name = do
+new_1_overload2 :: String -> IO GenericProfile
+new_1_overload2 name = do
     this <- newRecord_
-    init_1 this name
+    init_1_overload2 this name
     pure this
 
-init_1 :: GenericProfile -> String -> IO ()
-init_1 this name = do
+init_1_overload2 :: GenericProfile -> String -> IO ()
+init_1_overload2 this name = do
         initFields_ this
         Control.Monad.void (GenericProfile.setName this name)
         assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
@@ -154,7 +170,7 @@ add_super object_ a1 = (add_impl (javaCast object_ :: GenericProfile)) a1
 add_impl :: GenericProfile -> GenericProfileDataWorkerType.GenericProfileDataWorkerType -> IO (())
 add_impl this genericProfileDataWorkerType = do
         when (Prelude.not (jio (BasicArrayList.contains ((jget (this).vector)) genericProfileDataWorkerType))) $ do
-            Control.Monad.void (jio (BasicArrayList.add ((jget (this).vector)) genericProfileDataWorkerType))
+            Control.Monad.void (BasicArrayList.add ((jget (this).vector)) genericProfileDataWorkerType)
         pure ()
 
 

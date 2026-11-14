@@ -20,10 +20,10 @@ import StoreValidationTransformTag hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -117,7 +117,7 @@ doStartTag_impl this = do
                 if ((Prelude.fromEnum (Prelude.compare (jio (StoreValidationTransformTag.getCommand this)) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).vIEW)) - 1) == 0) then do
                     pure ()
                 else do
-                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ javaToString (jio (StoreValidationTransformTag.getCommand this)))))
+                    javaThrow ((JavaException "Exception" ("No Such View Command: " ++ (jio (StoreValidationTransformTag.getCommand this)))))
                 javaReturn =<< (StoreValidationTransformTag.doStartTag_super this.base)
             javaThrow ((JavaException "Exception" "Command Null"))
 

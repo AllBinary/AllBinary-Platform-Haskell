@@ -8,10 +8,10 @@ import ABCustomForm hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -88,7 +88,7 @@ initFields_ this = do
 getNullPaintableForm :: IO (PaintableForm)
 getNullPaintableForm = do
         when ((jget PaintableForm.nULL_PAINTABLE_FORM) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_4 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE))
+            assignedValue <- (fmap jtoObject (new_4 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jnewArray (0) javaNull) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE)))
             jset PaintableForm.nULL_PAINTABLE_FORM (assignedValue)
         pure ((javaCast (jget PaintableForm.nULL_PAINTABLE_FORM) :: PaintableForm))
 

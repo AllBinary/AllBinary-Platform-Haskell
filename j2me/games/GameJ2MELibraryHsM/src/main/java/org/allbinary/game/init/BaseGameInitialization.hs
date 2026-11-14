@@ -19,10 +19,10 @@ module BaseGameInitialization where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Feature -- same package or java.lang
 import qualified ResourceLoadingLevel -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified GameConfigurationCentral -- org.allbinary.game.configuration.GameConfigurationCentral
@@ -80,11 +82,15 @@ instance JavaObjectClass BaseGameInitialization where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_BASE_GAME_INITIALIZATION :: BaseGameInitialization
 {-# NOINLINE nULL_BASE_GAME_INITIALIZATION #-}
 nULL_BASE_GAME_INITIALIZATION = unsafePerformIO ((new_2 (jnewArray (0) javaNull) 0))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BaseGameInitialization
 newRecord_ = do
@@ -163,7 +169,7 @@ initKeyMapping_super object_ a1 a2 = (initKeyMapping_impl (javaCast object_ :: B
 initKeyMapping_impl :: BaseGameInitialization -> AbeClientInformationInterface.AbeClientInformationInterface -> Int -> IO (())
 initKeyMapping_impl this abeClientInformation portion = do
         when (jio (ChangedGameFeatureListener.isChangedFeature ((jio (ChangedGameFeatureListener.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING)))) $ do
-            Control.Monad.void (PlatformInputMappingFactory.init ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))) abeClientInformation)
+            Control.Monad.void (PersistentInputMapping.init ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))) abeClientInformation)
             Control.Monad.void (ProgressCanvas.addNormalPortion ((jio (ProgressCanvasFactory.getInstance))) 50 "Game Keys")
             Control.Monad.void (ChangedGameFeatureListener.remove ((jio (ChangedGameFeatureListener.getInstance))) (javaCast (jget ((jio (InputFeatureFactory.getInstance))).iNPUT_MAPPING)))
         pure ()
@@ -189,14 +195,14 @@ init_impl this abeClientInformation commandListener level = do
             Control.Monad.void (GameKeyEventFactory.init ((jio (GameKeyEventFactory.getInstance))))
             progressCanvas <- (ProgressCanvasFactory.getInstance)
             Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas (jget localPortion) "Game Key Events")
-            Control.Monad.void (BasicTouchInputFactory.init ((jio (BasicTouchInputFactory.getInstance))) (jio (PlatformInputMappingFactory.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))))
+            Control.Monad.void (BasicTouchInputFactory.init ((jio (BasicTouchInputFactory.getInstance))) (jio (PersistentInputMapping.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))))
             Control.Monad.void (CancelTouchButtonInputFactory.getInstance)
             Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas (jget localPortion) "Touch Input")
             Control.Monad.void (CompleteMotionGestureInputToGameMotionGestureInput.init ((jio (CompleteMotionGestureInputToGameMotionGestureInput.getInstance))))
             Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas (jget localPortion) "Motion Input")
             Control.Monad.void (GameFeatureImageCacheFactory.init)
             Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas (jget localPortion) "Image Cache")
-            Control.Monad.void (init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_RESOURCES)))))
+            Control.Monad.void (ResourceInitialization.init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_RESOURCES)))))
         pure ()
 
 
@@ -212,13 +218,13 @@ resourceInitialization_impl this level = do
         resourceLoadingLevelFactory <- (ResourceLoadingLevelFactory.getInstance)
         when ((jio (BaseGameInitialization.resourceAnimationChange this)) && (level == (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_EARLY)))))) $ do
             Control.Monad.void (BaseGameInitialization.clearResources this)
-            Control.Monad.void (init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_CHANGABLE_RESOURCES)))))
+            Control.Monad.void (ResourceInitialization.init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_CHANGABLE_RESOURCES)))))
         when ((jio (BaseGameInitialization.resourceAnimationChange this)) && (level == (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_ALL)))))) $ do
             when (jget (this).allLoaded) $ do
                 Control.Monad.void (BaseGameInitialization.clearResources this)
             when ((jio (BasicArrayList.size ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.getList ((jio (FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance)))))))) == 0) $ do
-                Control.Monad.void (init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_CHANGABLE_RESOURCES)))))
-            Control.Monad.void (init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).gAME_CHANGABLE_RESOURCES)))))
+                Control.Monad.void (ResourceInitialization.init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).eARLY_CHANGABLE_RESOURCES)))))
+            Control.Monad.void (ResourceInitialization.init ((jindex ((jget (this).resourceInitializationArray)) ((jget (this).gAME_CHANGABLE_RESOURCES)))))
             jset (this).allLoaded (True)
         pure ()
 

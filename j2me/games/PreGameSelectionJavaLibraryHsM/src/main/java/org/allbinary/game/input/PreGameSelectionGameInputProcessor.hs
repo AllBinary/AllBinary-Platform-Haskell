@@ -20,10 +20,10 @@ import Processor hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,8 @@ import qualified GHC.Float
 import qualified PlayerGameInput -- same package or java.lang
 import qualified GameInputProcessorComposite -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
+import qualified PreGameScrollSelectionForm -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified LockedFeatureNotificationUtil -- org.allbinary.logic.system.security.licensing.LockedFeatureNotificationUtil
@@ -118,9 +120,7 @@ initFields_ this = do
     jset this.nextGameState (javaNull)
     jset this.playerGameInput (javaNull)
     jset this.lockedIndex (0)
-    jset this.abRunnable =<< (ABRunnable.new_ {- Java anonymous class body: implement it as a record of functions
-        -- run
--})
+    jset this.abRunnable =<< (fmap (\value_ -> javaCast value_ :: ABRunnable.ABRunnable) (PreGameSelectionRunnable.new_1 this))
     pure ()
 
 new_4 :: AllBinaryGameCanvas.AllBinaryGameCanvas -> PreGameSelectorPaintable.PreGameSelectorPaintable -> GameState.GameState -> Int -> IO PreGameSelectionGameInputProcessor
@@ -136,7 +136,7 @@ init_4 this gameCanvas preGameSelectorPaintable nextGameState lockedIndex = do
         jset (this).gameCanvas (gameCanvas)
         jset (this).preGameSelectorPaintable (preGameSelectorPaintable)
         jset (this).nextGameState (nextGameState)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: PlayerGameInput.PlayerGameInput) (GameInputProcessorComposite.new_2 "Pre Game Selection" this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PlayerGameInput.PlayerGameInput) (GameInputProcessorComposite.new_2 "Pre Game Selection" (javaCast this)))
         jset (this).playerGameInput (assignedValue)
         jset (this).lockedIndex (lockedIndex)
         pure ()
@@ -178,7 +178,7 @@ onInput_impl this list = do
                 if ((selectedIndex < (jget (this).lockedIndex)) || (Prelude.not (jio (LockedUtil.isLocked ((jio (LockedUtil.getInstance))))))) then do
                     when (Prelude.not (jio (ABRunnable.isRunning ((jget this.abRunnable))))) $ do
                         Control.Monad.void (ABRunnable.setRunning ((jget this.abRunnable)) True)
-                        Control.Monad.void (ThreadObjectUtil.processThread ((jio (ThreadObjectUtil.getInstance))) (jget this.abRunnable))
+                        Control.Monad.void (ThreadObjectUtil.processThread ((jio (ThreadObjectUtil.getInstance))) (javaCast (jget this.abRunnable)))
                     throwIO JavaBreak
                 else do
                     Control.Monad.void (LockedFeatureNotificationUtil.fire ((jio (LockedFeatureNotificationUtil.getInstance))))
@@ -241,4 +241,5 @@ getPlayerGameInput_impl :: PreGameSelectionGameInputProcessor -> IO (PlayerGameI
 getPlayerGameInput_impl this = do
         pure ((jget (this).playerGameInput))
 
+-- Java nested class PreGameSelectionRunnable: move it to its own module PreGameSelectionRunnable
 

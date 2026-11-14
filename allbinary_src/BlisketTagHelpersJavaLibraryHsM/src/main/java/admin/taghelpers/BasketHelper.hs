@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified OrderInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified PageContext -- javax.servlet.jsp.PageContext
@@ -106,7 +107,7 @@ init_2 this hashMap pageContext = do
         jset (this).pageContext (pageContext)
         let storeName = (javaCast (jio (HashMap.get ((jget (this).propertiesHashMap)) (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String)
         when (storeName /= javaNull) $ do
-            assignedValue <- (StoreFrontFactory.getInstance storeName)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
             jset (this).storeFrontInterface (assignedValue)
         assignedValue <- (WeblisketSession.new_2 hashMap pageContext)
         jset (this).weblisketSession (assignedValue)
@@ -128,7 +129,7 @@ isBasketEmpty_impl this = do
             pure (True)
             ) $ do
             basket <- (OrderInterface.getBasket ((jio (WeblisketSession.getOrder ((jget (this).weblisketSession))))))
-            if ((jio (BasketInterface.intValue ((jio (BasketInterface.getNumberOfItems basket))))) <= 0) then do
+            if ((jio (BasketInterface.getNumberOfItems basket)) <= 0) then do
                 javaReturn (True)
             else do
                 javaReturn (False)

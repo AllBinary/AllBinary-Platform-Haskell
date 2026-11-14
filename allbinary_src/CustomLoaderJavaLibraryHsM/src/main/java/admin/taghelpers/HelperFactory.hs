@@ -19,10 +19,10 @@ module HelperFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance JavaObjectClass HelperFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO HelperFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -101,7 +104,7 @@ getInstance_overload1 :: AbeClientInformationInterface.AbeClientInformationInter
 getInstance_overload1 abeClientInformation factoryName className hashMap httpServletRequest = do
         logUtil <- (LogUtil.getInstance)
         handle (\(e :: JavaException) -> do
-            let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " HttpServletRequest=") ++ javaToString httpServletRequest)
+            let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " HttpServletRequest=") ++ jconcatObject HttpServletRequest.toString httpServletRequest)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
                 Control.Monad.void (LogUtil.put logUtil error (factoryName ++ "->HelperFactory") "getInstance(String, String, HashMap, PageContext)" e)
             javaThrow (e)
@@ -125,7 +128,7 @@ getInstance_overload2 abeClientInformation factoryName className hashMap pageCon
         logUtil <- (LogUtil.getInstance)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
-                let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " PageContext=") ++ javaToString pageContext)
+                let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " PageContext=") ++ jconcatObject PageContext.toString pageContext)
                 Control.Monad.void (LogUtil.put logUtil error (factoryName ++ "->HelperFactory") "getInstance(String, String, HashMap, PageContext)" e)
             javaThrow (e)
             ) $ do
@@ -148,7 +151,7 @@ getInstance_6 abeClientInformation factoryName className hashMap specialhashMap 
         logUtil <- (LogUtil.getInstance)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).tAGHELPERFACTORYERROR))) $ do
-                let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " PageContext=") ++ javaToString pageContext)
+                let error = ((("Failed To Get Instance Args: HashMap=" ++ (jio (HashMap.toString hashMap))) ++ " PageContext=") ++ jconcatObject PageContext.toString pageContext)
                 Control.Monad.void (LogUtil.put logUtil error (factoryName ++ "->HelperFactory") "getInstance(String, String, HashMap, PageContext)" e)
             javaThrow (e)
             ) $ do

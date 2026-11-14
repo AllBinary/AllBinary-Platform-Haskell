@@ -19,10 +19,10 @@ import RTSFormInput hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified AssignWaypointsUtil -- same package or java.lang
 import qualified PlayersSingletonFactory -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified ABCustomItem -- org.allbinary.graphics.form.item.ABCustomItem
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified AdvancedPlayerOwnedRTSLayers -- org.allbinary.game.layer.AdvancedPlayerOwnedRTSLayers
@@ -158,7 +159,7 @@ processGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerMa
         let geographicMapCellPositionArea = (jget (associatedRtsLayer2).geographicMapCellPositionAreaBase)
         geographicMapCellPosition <- (GeographicMapCellPositionAreaBase.getNextSurroundingGeographicMapCellPosition geographicMapCellPositionArea)
         Control.Monad.void (ABHashtable.put ((jio (RTSFormInput.getHashtable this))) (Layer.iD) associatedRtsLayer)
-        Control.Monad.void (ABHashtable.put ((jio (RTSFormInput.getHashtable this))) (UnitRTSFormInput.dECAL_ID) (jio (getDecalBasicColor (((javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface))))))
+        Control.Monad.void (ABHashtable.put ((jio (RTSFormInput.getHashtable this))) (UnitRTSFormInput.dECAL_ID) (jio (AdvancedRTSPlayerLayerInterface.getDecalBasicColor (((javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface))))))
         if ((jindex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex)) == (jio (CollidableDestroyableDamageableLayer.getNullInstance))) then do
             assignedValue <- (RTSFormInput.getInstance this layerManager item geographicMapCellPosition)
             jsetIndex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex) (assignedValue)
@@ -166,7 +167,7 @@ processGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerMa
             cellPoint <- (GeographicMapCellPosition.getPoint geographicMapCellPosition)
             let rtsLayer = (javaCast (jindex ((jget (this).base.newUnconstructedRTSLayerInterfaceArray)) (itemIndex)) :: RTSLayer.RTSLayer)
             Control.Monad.void (RTSLayer.setPosition rtsLayer (jio (GPoint.getX cellPoint)) (jio (GPoint.getY cellPoint)) (jio (RTSLayer.getZP rtsLayer)))
-            let geographicMapCompositeInterface = (javaCast (jget (rtsLayer).allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
+            let geographicMapCompositeInterface = (javaCast (jget (rtsLayer).base.base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
             let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
             Control.Monad.void (GeographicMapCellPositionAreaBase.update ((jget (rtsLayer).geographicMapCellPositionAreaBase)) geographicMapInterface)
         cellPoint <- (GeographicMapCellPosition.getMidPoint geographicMapCellPosition)

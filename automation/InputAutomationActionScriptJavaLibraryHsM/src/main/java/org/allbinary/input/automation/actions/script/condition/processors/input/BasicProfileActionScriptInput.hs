@@ -20,10 +20,10 @@ import BasicProfileActionScriptProcessor hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified GenericProfileActionScriptInputData -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Iterator -- java.util.Iterator
 import qualified Set -- java.util.Set
@@ -118,7 +119,7 @@ init_2 this label node = do
         timeNode <- (DomSearchHelper.getNodeNoThrow (jget GenericProfileActionScriptInputData.dELAY) (jio (Node.getChildNodes node)))
         if (timeNode /= javaNull) then do
             delayString <- (DomNodeHelper.getTextNodeValue timeNode)
-            Control.Monad.void (BasicProfileActionScriptInput.setTime this (javaToString delayString))
+            Control.Monad.void (BasicProfileActionScriptInput.setTime this (jio (jparseInt delayString)))
         else do
             Control.Monad.void (BasicProfileActionScriptInput.setTime this 0)
         Control.Monad.void (BasicProfileActionScriptInput.setInputRobotInterface this (javaCast (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) inputTypeString))))

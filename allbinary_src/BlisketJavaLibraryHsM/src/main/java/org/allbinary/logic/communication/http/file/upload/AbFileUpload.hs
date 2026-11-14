@@ -20,10 +20,10 @@ import FileUpload hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -94,6 +94,6 @@ getItemIterator_super object_ a1 = (getItemIterator_impl (javaCast object_ :: Ab
 
 getItemIterator_impl :: AbFileUpload -> HttpServletRequest.HttpServletRequest -> IO (FileItemIterator.FileItemIterator)
 getItemIterator_impl this request = do
-        (FileUpload.getItemIterator_super this.base (jio (ServletRequestContext.new_1 request)))
+        (FileUpload.getItemIterator_super this.base (javaCast (jio (ServletRequestContext.new_1 request))))
 
 

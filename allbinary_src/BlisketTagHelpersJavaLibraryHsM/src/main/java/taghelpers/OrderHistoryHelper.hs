@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -132,7 +132,7 @@ init_2 this propertiesHashMap pageContext = do
         let storeName = (javaCast (jio (HashMap.get propertiesHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String)
         jset (this).newStatus ((javaCast (jio (HashMap.get propertiesHashMap (OrderHistoryData.sTATUS))) :: String))
         when (storeName /= javaNull) $ do
-            assignedValue <- (StoreFrontFactory.getInstance storeName)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
             jset (this).storeFrontInterface (assignedValue)
         Control.Monad.void (OrderHistoryHelper.getFormData this)
         pure ()

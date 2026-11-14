@@ -20,10 +20,10 @@ import ProfileActionScriptItem hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,6 +39,9 @@ import qualified JMenuItem -- same package or java.lang
 import qualified TimeIntervalActionScriptCondition -- same package or java.lang
 import qualified AlwaysActionScriptCondition -- same package or java.lang
 import qualified ColorAtActionScriptCondition -- same package or java.lang
+import qualified JPopupMenu -- same package or java.lang
+import qualified JTreeInterface -- same package or java.lang
+import qualified JTree -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified ActionEvent -- java.awt.event.ActionEvent
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -370,7 +373,7 @@ actionPerformed_impl this actionEvent = do
             if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) dELETE)) == 0) then do
                 when (javaInstanceOf (jio (ProfileActionScriptItem.getParent this)) "ProfileActionScriptNodeInterface") $ do
                     let profileActionScriptNodeInterface = (javaCast (jio (ProfileActionScriptItem.getParent this)) :: ProfileActionScriptNodeInterface.ProfileActionScriptNodeInterface)
-                    Control.Monad.void (ProfileActionScriptNodeInterface.removeCondition profileActionScriptNodeInterface this)
+                    Control.Monad.void (ProfileActionScriptNodeInterface.removeCondition profileActionScriptNodeInterface (javaCast this))
                     Control.Monad.void (JTreeInterface.updateJTree ((jio (JTreeInterfaceFactory.getJTreeInterface ((jio (JTreeInterfaceFactory.getInstance)))))))
             else if ((jio (ActionEvent.compareTo ((jio (ActionEvent.getActionCommand actionEvent))) nEW_COLOR_AT)) == 0) then do
                 Control.Monad.void (BasicProfileActionScriptCondition.addCondition this (javaCast (jio (ColorAtActionScriptCondition.new_))))
@@ -426,7 +429,7 @@ updateTree_impl :: BasicProfileActionScriptCondition -> IO (())
 updateTree_impl this = do
         Control.Monad.void (JTreeInterface.updateJTree ((jio (JTreeInterfaceFactory.getJTreeInterface ((jio (JTreeInterfaceFactory.getInstance)))))))
         treePath <- (TreePath.new_1 this)
-        Control.Monad.void (JTreeInterface.expandPath ((jio (JTreeInterface.getActionScriptJTree ((jio (JTreeInterfaceFactory.getJTreeInterface ((jio (JTreeInterfaceFactory.getInstance))))))))) treePath)
+        Control.Monad.void (JTree.expandPath ((jio (JTreeInterface.getActionScriptJTree ((jio (JTreeInterfaceFactory.getJTreeInterface ((jio (JTreeInterfaceFactory.getInstance))))))))) treePath)
         pure ()
 
 

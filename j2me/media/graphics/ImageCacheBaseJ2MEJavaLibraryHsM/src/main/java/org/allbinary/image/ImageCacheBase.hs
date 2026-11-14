@@ -19,10 +19,10 @@ module ImageCacheBase where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -158,8 +158,8 @@ releaseAll_super object_ = (releaseAll_impl (javaCast object_ :: ImageCacheBase)
 releaseAll_impl :: ImageCacheBase -> IO (())
 releaseAll_impl this = do
         forM_ [((jlength (jget (this).listOfList)) - 1), ((jlength (jget (this).listOfList)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (clear ((jindex ((jget (this).availableListOfList)) (index))))
-            Control.Monad.void (addAllList ((jindex ((jget (this).availableListOfList)) (index))) (jindex ((jget (this).listOfList)) (index)))
+            Control.Monad.void (BasicArrayList.clear ((jindex ((jget (this).availableListOfList)) (index))))
+            Control.Monad.void (BasicArrayList.addAllList ((jindex ((jget (this).availableListOfList)) (index))) (jindex ((jget (this).listOfList)) (index)))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "ImageCache: "))) (jio (ImageCacheBase.toString this))))))) this "releaseAll")
         pure ()
 
@@ -192,7 +192,7 @@ getFromAvailable_impl :: ImageCacheBase -> Int -> Int -> Int -> IO (Image.Image)
 getFromAvailable_impl this foundIndex width height = do
     javaCatchReturn $ do
         when (foundIndex /= (Prelude.negate 1)) $ do
-            when ((jio (size ((jindex ((jget (this).availableListOfList)) (foundIndex))))) > 0) $ do
+            when ((jio (BasicArrayList.size ((jindex ((jget (this).availableListOfList)) (foundIndex))))) > 0) $ do
                 let list = (jindex ((jget (this).availableListOfList)) (foundIndex))
                 javaReturn ((javaCast (jio (BasicArrayList.removeAt list ((jio (BasicArrayList.size list)) - 1))) :: Image.Image))
         pure (NullImage.nULL_IMAGE)
@@ -260,8 +260,8 @@ toString_impl this = do
         forM_ [((jget (this).nextIndex) - 1), ((jget (this).nextIndex) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             let width = (jindex ((jget (this).widths)) (index))
             let height = (jindex ((jget (this).heights)) (index))
-            total <- (size ((jindex ((jget (this).listOfList)) (index))))
-            totalAvailable <- (size ((jindex ((jget (this).availableListOfList)) (index))))
+            total <- (BasicArrayList.size ((jindex ((jget (this).listOfList)) (index))))
+            totalAvailable <- (BasicArrayList.size ((jindex ((jget (this).availableListOfList)) (index))))
             Control.Monad.void (StringMaker.append stringBuffer " w: ")
             Control.Monad.void (StringMaker.appendint stringBuffer width)
             Control.Monad.void (StringMaker.append stringBuffer " h: ")

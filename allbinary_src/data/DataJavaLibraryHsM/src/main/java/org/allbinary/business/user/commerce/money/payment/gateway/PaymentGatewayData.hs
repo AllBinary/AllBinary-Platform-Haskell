@@ -19,10 +19,10 @@ module PaymentGatewayData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,98 +50,130 @@ instance JavaObjectClass PaymentGatewayData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+cRYPTNUM :: Int
 cRYPTNUM = 5
 
+iD :: PaymentGatewayData
 {-# NOINLINE iD #-}
 iD = unsafePerformIO ((new_1 "PAYMENTGATEWAY_ID"))
 
+nAME :: PaymentGatewayData
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO ((new_1 "PAYMENTGATEWAY_NAME"))
 
+vALUE :: PaymentGatewayData
 {-# NOINLINE vALUE #-}
 vALUE = unsafePerformIO ((new_1 "PAYMENTGATEWAY_VALUE"))
 
+pAYMENTTRANSACTIONINTERFACEFACTORYINTERFACE :: PaymentGatewayData
 {-# NOINLINE pAYMENTTRANSACTIONINTERFACEFACTORYINTERFACE #-}
 pAYMENTTRANSACTIONINTERFACEFACTORYINTERFACE = unsafePerformIO ((new_1 "PAYMENTGATEWAY_PAYMENTTRANSACTIONINTERFACEFACTORYINTERFACE"))
 
+pAYMENTPROCESSORINTERFACEFACTORYINTERFACE :: PaymentGatewayData
 {-# NOINLINE pAYMENTPROCESSORINTERFACEFACTORYINTERFACE #-}
 pAYMENTPROCESSORINTERFACEFACTORYINTERFACE = unsafePerformIO ((new_1 "PAYMENTGATEWAY_PAYMENTPROCESSORINTERFACEFACTORYINTERFACE"))
 
+mODE :: PaymentGatewayData
 {-# NOINLINE mODE #-}
 mODE = unsafePerformIO ((new_1 "MODE"))
 
+sERVERPROTOCOL :: PaymentGatewayData
 {-# NOINLINE sERVERPROTOCOL #-}
 sERVERPROTOCOL = unsafePerformIO ((new_1 "SERVERPROTOCOL"))
 
+sERVER :: PaymentGatewayData
 {-# NOINLINE sERVER #-}
 sERVER = unsafePerformIO ((new_1 "SERVER"))
 
+sERVERPORT :: PaymentGatewayData
 {-# NOINLINE sERVERPORT #-}
 sERVERPORT = unsafePerformIO ((new_1 "SERVERPORT"))
 
+sERVERPATH :: PaymentGatewayData
 {-# NOINLINE sERVERPATH #-}
 sERVERPATH = unsafePerformIO ((new_1 "SERVERPATH"))
 
+tESTPROTOCOL :: PaymentGatewayData
 {-# NOINLINE tESTPROTOCOL #-}
 tESTPROTOCOL = unsafePerformIO ((new_1 "TESTSERVERPROTOCOL"))
 
+tESTSERVER :: PaymentGatewayData
 {-# NOINLINE tESTSERVER #-}
 tESTSERVER = unsafePerformIO ((new_1 "TESTSERVER"))
 
+tESTPORT :: PaymentGatewayData
 {-# NOINLINE tESTPORT #-}
 tESTPORT = unsafePerformIO ((new_1 "TESTPORT"))
 
+tESTPATH :: PaymentGatewayData
 {-# NOINLINE tESTPATH #-}
 tESTPATH = unsafePerformIO ((new_1 "TESTSERVERPATH"))
 
+tIMEOUT :: PaymentGatewayData
 {-# NOINLINE tIMEOUT #-}
 tIMEOUT = unsafePerformIO ((new_1 "TIMEOUT"))
 
+pROXYPROTOCOL :: PaymentGatewayData
 {-# NOINLINE pROXYPROTOCOL #-}
 pROXYPROTOCOL = unsafePerformIO ((new_1 "PROXYPROTOCOL"))
 
+pROXYSERVER :: PaymentGatewayData
 {-# NOINLINE pROXYSERVER #-}
 pROXYSERVER = unsafePerformIO ((new_1 "PROXYSERVER"))
 
+pROXYPATH :: PaymentGatewayData
 {-# NOINLINE pROXYPATH #-}
 pROXYPATH = unsafePerformIO ((new_1 "PROXYPATH"))
 
+pROXYUSERNAME :: PaymentGatewayData
 {-# NOINLINE pROXYUSERNAME #-}
 pROXYUSERNAME = unsafePerformIO ((new_1 "PROXYUSERNAME"))
 
+pROXYPASSWORD :: PaymentGatewayData
 {-# NOINLINE pROXYPASSWORD #-}
 pROXYPASSWORD = unsafePerformIO ((new_1 "PROXYPASSWORD"))
 
+pROXYPORT :: PaymentGatewayData
 {-# NOINLINE pROXYPORT #-}
 pROXYPORT = unsafePerformIO ((new_1 "PROXYPORT"))
 
+pROXYTIMEOUT :: PaymentGatewayData
 {-# NOINLINE pROXYTIMEOUT #-}
 pROXYTIMEOUT = unsafePerformIO ((new_1 "PROXYTIMEOUT"))
 
+sPECIAL1 :: PaymentGatewayData
 {-# NOINLINE sPECIAL1 #-}
 sPECIAL1 = unsafePerformIO ((new_1 "SPECIAL1"))
 
+sPECIAL2 :: PaymentGatewayData
 {-# NOINLINE sPECIAL2 #-}
 sPECIAL2 = unsafePerformIO ((new_1 "SPECIAL2"))
 
+sPECIAL3 :: PaymentGatewayData
 {-# NOINLINE sPECIAL3 #-}
 sPECIAL3 = unsafePerformIO ((new_1 "SPECIAL3"))
 
+sPECIAL4 :: PaymentGatewayData
 {-# NOINLINE sPECIAL4 #-}
 sPECIAL4 = unsafePerformIO ((new_1 "SPECIAL4"))
 
+sPECIAL5 :: PaymentGatewayData
 {-# NOINLINE sPECIAL5 #-}
 sPECIAL5 = unsafePerformIO ((new_1 "SPECIAL5"))
 
+sPECIAL6 :: PaymentGatewayData
 {-# NOINLINE sPECIAL6 #-}
 sPECIAL6 = unsafePerformIO ((new_1 "SPECIAL6"))
 
+sPECIAL7 :: PaymentGatewayData
 {-# NOINLINE sPECIAL7 #-}
 sPECIAL7 = unsafePerformIO ((new_1 "SPECIAL7"))
 
+sPECIAL8 :: PaymentGatewayData
 {-# NOINLINE sPECIAL8 #-}
 sPECIAL8 = unsafePerformIO ((new_1 "SPECIAL8"))
 
+sPECIAL9 :: PaymentGatewayData
 {-# NOINLINE sPECIAL9 #-}
 sPECIAL9 = unsafePerformIO ((new_1 "SPECIAL9"))
 

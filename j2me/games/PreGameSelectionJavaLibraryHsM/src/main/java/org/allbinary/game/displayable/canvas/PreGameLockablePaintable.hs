@@ -20,10 +20,10 @@ import LockablePaintable hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Image -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified GameFeatureImageCacheFactory -- org.allbinary.image.GameFeatureImageCacheFactory
 import qualified LockedResources -- org.allbinary.logic.system.security.licensing.LockedResources
@@ -89,7 +92,7 @@ init_2 this paintableForm lockedIndex = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).paintableForm (paintableForm)
-        jset (this).halfWidth (((jio (Image.getWidth ((jio (ImageCache.getWithKey ((jio (GameFeatureImageCacheFactory.getInstance))) (jget ((jio (LockedResources.getInstance))).lOCKED_DEMO_GAME_FEATURE_RESOURCE)))))) / 2))
+        jset (this).halfWidth (((jio (Image.getWidth ((jio (ImageCache.getWithKey ((jio (GameFeatureImageCacheFactory.getInstance))) (jget ((jio (LockedResources.getInstance))).lOCKED_DEMO_GAME_FEATURE_RESOURCE)))))) `quot` 2))
         pure ()
 
 

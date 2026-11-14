@@ -20,10 +20,10 @@ import GeographicMapCellPositionBaseFactory hiding (new_, init_, newRecord_, ini
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,6 +62,7 @@ instance JavaObjectClass GeographicMapCellPositionFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashtable :: ABHashtable.ABHashtable
 {-# NOINLINE hashtable #-}
 hashtable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))))
 
@@ -104,12 +105,12 @@ getInstance_impl this geographicMapInterface = do
     javaCatchReturn $ do
         commonStrings <- (CommonStrings.getInstance)
         allBinaryTiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
-        geographicMapCellPositionFactoryCanBeNull <- newIORef =<< (get GeographicMapCellPositionFactory.hashtable (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer)))
+        geographicMapCellPositionFactoryCanBeNull <- newIORef =<< (ABHashtable.get GeographicMapCellPositionFactory.hashtable (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer)))
         if ((jget geographicMapCellPositionFactoryCanBeNull) == javaNull) then do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "Creating GeographicMapCellPositionFactory for TileLayer: "))) (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer))))))) this (jget (commonStrings).gET_INSTANCE))
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Any.Any) (BasicGeographicMapCellPositionFactory.new_1 geographicMapInterface))
+            assignedValue <- (fmap jtoObject (BasicGeographicMapCellPositionFactory.new_1 geographicMapInterface))
             jset geographicMapCellPositionFactoryCanBeNull (assignedValue)
-            Control.Monad.void (put GeographicMapCellPositionFactory.hashtable (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer)) (jget geographicMapCellPositionFactoryCanBeNull))
+            Control.Monad.void (ABHashtable.put GeographicMapCellPositionFactory.hashtable (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer)) (jget geographicMapCellPositionFactoryCanBeNull))
             javaReturn ((javaCast (jget geographicMapCellPositionFactoryCanBeNull) :: BasicGeographicMapCellPositionFactory.BasicGeographicMapCellPositionFactory))
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "Reusing GeographicMapCellPositionFactory for TileLayer: "))) (jio (AllBinaryTiledLayer.getDataId allBinaryTiledLayer))))))) this (jget (commonStrings).gET_INSTANCE))

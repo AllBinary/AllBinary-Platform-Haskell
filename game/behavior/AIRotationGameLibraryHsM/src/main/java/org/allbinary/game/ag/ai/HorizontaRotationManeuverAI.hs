@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified AngleInfo -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified ArtificialIntelligence -- org.allbinary.ai.ArtificialIntelligence
 import qualified ArtificialIntelligenceTransitionInterface -- org.allbinary.ai.ArtificialIntelligenceTransitionInterface
@@ -114,14 +115,14 @@ init_2 this ownerLayerInterface gameInput = do
         initFields_ this
         pure () -- super(...) is in the record above
         let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
-        assignedValue <- (RotationAnimationInterfaceCompositeInterface.getRotationAnimationInterface rotationAnimationInterfaceCompositeInterface)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: IndexedAnimation.IndexedAnimation) (RotationAnimationInterfaceCompositeInterface.getRotationAnimationInterface rotationAnimationInterfaceCompositeInterface))
         jset (this).rotationAnimationInterface (assignedValue)
         let velocityInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: VelocityInterfaceCompositeInterface.VelocityInterfaceCompositeInterface)
         assignedValue <- (VelocityInterfaceCompositeInterface.getVelocityProperties velocityInterfaceCompositeInterface)
         jset (this).baseVelocityInterface (assignedValue)
         jset (this).velocityInterface ((javaCast (jget (this).baseVelocityInterface) :: VelocityInterface.VelocityInterface))
         let rotationAnimationInterface = (javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface)
-        angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+        angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
         Control.Monad.void (RotationAnimationInterfaceCompositeInterface.setFrame rotationAnimationInterfaceCompositeInterface (jget (angleIncrementInfo).rIGHT_FRAME))
         pure ()
 
@@ -135,7 +136,7 @@ transition_super object_ = (transition_impl (javaCast object_ :: HorizontaRotati
 transition_impl :: HorizontaRotationManeuverAI -> IO (())
 transition_impl this = do
         let rotationAnimationInterface = (javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface)
-        angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+        angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
         let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
         Control.Monad.void (RotationAnimationInterfaceCompositeInterface.setFrame rotationAnimationInterfaceCompositeInterface (jget (angleIncrementInfo).rIGHT_FRAME))
         allbinaryLayer <- (BasicAI.getOwnerLayerInterface this)
@@ -153,8 +154,8 @@ processAI_super object_ a1 = (processAI_impl (javaCast object_ :: HorizontaRotat
 processAI_impl :: HorizontaRotationManeuverAI -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processAI_impl this allBinaryLayerManager = do
         let rotationAnimationInterface = ((javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface))
-        angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
-        frame <- (RotationAnimationInterface.getFrame ((jget (this).rotationAnimationInterface)))
+        angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+        frame <- (IndexedAnimation.getFrame ((jget (this).rotationAnimationInterface)))
         ownerLayerInterface <- (BasicAI.getOwnerLayerInterface this)
         when ((((jio (AllBinaryLayer.getXP ownerLayerInterface)) - (jio (AllBinaryLayer.getWidth ownerLayerInterface))) <= 0) && (frame == (jget (angleIncrementInfo).lEFT_FRAME))) $ do
             Control.Monad.void (HorizontaRotationManeuverAI.reverse this)
@@ -167,7 +168,7 @@ processAI_impl this allBinaryLayerManager = do
         index <- (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil)))
         when (((index `rem` (jget (this).currentSpeedDivisor)) == 0) && ((index `rem` 2) == 0)) $ do
             Control.Monad.void (BasicAI.processKeyAI_super this.base (Canvas.uP))
-            Control.Monad.void (VelocityInterface.limitMaxXYVelocity ((jget (this).velocityInterface)) ((jio (VelocityInterface.getMaxForwardVelocity ((jget (this).velocityInterface)))) / (jget (this).currentSpeedDivisor)))
+            Control.Monad.void (VelocityInterface.limitMaxXYVelocity ((jget (this).velocityInterface)) ((jio (VelocityInterface.getMaxForwardVelocity ((jget (this).velocityInterface)))) `quot` (jget (this).currentSpeedDivisor)))
         Control.Monad.void (CircularIndexUtil.next ((jget (this).circularIndexUtil)))
         if (frame == (jget (angleIncrementInfo).lEFT_FRAME)) then do
             Control.Monad.void (BasicAI.processKeyAI_super this.base (Canvas.kEY_NUM0))
@@ -185,8 +186,8 @@ reverse_super object_ = (reverse_impl (javaCast object_ :: HorizontaRotationMane
 reverse_impl :: HorizontaRotationManeuverAI -> IO (())
 reverse_impl this = do
         let rotationAnimationInterface = (javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface)
-        angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
-        frame <- (RotationAnimationInterface.getFrame ((jget (this).rotationAnimationInterface)))
+        angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+        frame <- (IndexedAnimation.getFrame ((jget (this).rotationAnimationInterface)))
         if (frame == (jget (angleIncrementInfo).lEFT_FRAME)) then do
             let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
             Control.Monad.void (RotationAnimationInterfaceCompositeInterface.setFrame rotationAnimationInterfaceCompositeInterface (jget (angleIncrementInfo).rIGHT_FRAME))

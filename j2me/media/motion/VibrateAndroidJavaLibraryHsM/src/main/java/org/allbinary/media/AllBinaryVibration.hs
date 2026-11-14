@@ -20,10 +20,10 @@ import AllBinaryVibrationME hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,7 @@ instance JavaObjectClass AllBinaryVibration where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+vIBRATION :: IORef (AllBinaryVibrationME.AllBinaryVibrationME)
 {-# NOINLINE vIBRATION #-}
 vIBRATION = unsafePerformIO (newIORef ((jget AllBinaryNoVibration.nO_VIBRATION)))
 
@@ -101,7 +102,7 @@ init = do
         if ((jio (GameConfiguration.getValue ((jget ((jio (GameConfigurationCentral.getInstance))).vIBRATION)))) == 0) then do
             jset AllBinaryVibration.vIBRATION ((jget AllBinaryNoVibration.nO_VIBRATION))
         else do
-            assignedValue <- (new_)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: AllBinaryVibrationME.AllBinaryVibrationME) (new_))
             jset AllBinaryVibration.vIBRATION (assignedValue)
         pure ()
 

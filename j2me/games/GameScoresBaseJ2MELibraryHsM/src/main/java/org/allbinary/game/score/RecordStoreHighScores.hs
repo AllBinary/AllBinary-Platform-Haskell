@@ -20,10 +20,10 @@ import HighScores hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -89,6 +89,7 @@ instance JavaObjectClass RecordStoreHighScores where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashTable :: ABHashtable.ABHashtable
 {-# NOINLINE hashTable #-}
 hashTable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))))
 
@@ -150,10 +151,10 @@ init_6 this abeClientInformation gameInfo name heading columnTwoHeading recordCo
 getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> GameInfo.GameInfo -> String -> String -> String -> RecordComparator.RecordComparator -> IO (HighScores.HighScores)
 getInstance abeClientInformation gameInfo highScoreName heading columnTwoHeading recordComparatorInterface = do
     javaCatchReturn $ do
-        highScoresCanBeNull <- (get RecordStoreHighScores.hashTable (javaCast highScoreName :: Any.Any))
+        highScoresCanBeNull <- (ABHashtable.get RecordStoreHighScores.hashTable (javaCast highScoreName :: Any.Any))
         when (highScoresCanBeNull == javaNull) $ do
             highScores <- (fmap (\value_ -> javaCast value_ :: HighScores.HighScores) (new_6 abeClientInformation gameInfo highScoreName heading columnTwoHeading recordComparatorInterface))
-            Control.Monad.void (put RecordStoreHighScores.hashTable (jio (HighScores.getName highScores)) highScores)
+            Control.Monad.void (ABHashtable.put RecordStoreHighScores.hashTable (jio (HighScores.getName highScores)) highScores)
             javaReturn (highScores)
         pure ((javaCast highScoresCanBeNull :: HighScores.HighScores))
 
@@ -221,7 +222,7 @@ removeLowestHighScore_impl this = do
             ) $ do
             assignedValue <- (RecordStore.openRecordStore (jio (RecordStoreHighScores.getRecordId this (jget (this).abeClientInformation))) True)
             jset recordStore (assignedValue)
-            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
+            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (javaCast (jget NullRecordFilter.nULL_RECORD_FILTER)) (javaCast NullRecordComparator.nULL_RECORD_COMPARATOR) True)
             let scoreComparator = ((javaCast (jget (this).recordComparatorInterface) :: ScoreComparator.ScoreComparator))
             bestHighScore <- newIORef =<< (HighScore.new_4 (Prelude.negate 1) "none" (GameInfo.nONE) (jio (ScoreComparator.getBestScore scoreComparator)))
             recordAsBytes <- newIORef (javaNull)
@@ -269,7 +270,7 @@ load_impl this = do
             assignedValue <- (RecordStore.openRecordStore (jio (RecordStoreHighScores.getRecordId this (jget (this).abeClientInformation))) True)
             jset recordStore (assignedValue)
             Control.Monad.void (HighScores.setList this (javaCast (jio (BasicArrayListD.new_))))
-            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
+            recordEnum <- (RecordStore.enumerateRecords ((jget recordStore)) (javaCast (jget NullRecordFilter.nULL_RECORD_FILTER)) (javaCast NullRecordComparator.nULL_RECORD_COMPARATOR) True)
             recordAsBytes <- newIORef (javaNull)
             byteArrayInputStream <- newIORef (javaNull)
             inputStream <- newIORef (javaNull)

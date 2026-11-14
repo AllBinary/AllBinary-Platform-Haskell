@@ -19,10 +19,10 @@ module KeyValueDrawString where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified Font -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified MyFontProcessor -- org.allbinary.graphics.font.MyFontProcessor
 import qualified UpdateMyFontInterface -- org.allbinary.graphics.font.UpdateMyFontInterface
@@ -63,6 +64,9 @@ instance JavaObjectClass KeyValueDrawString where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO KeyValueDrawString
 newRecord_ = do
     header_ <- newJavaHeader
@@ -81,7 +85,7 @@ newRecord_ = do
 
 initFields_ :: KeyValueDrawString -> IO ()
 initFields_ this = do
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.lABEL (javaNull)
     jset this.labelX (0)
     jset this.valueX (0)
@@ -110,7 +114,7 @@ updateMeasurement_super object_ a1 = (updateMeasurement_impl (javaCast object_ :
 
 updateMeasurement_impl :: KeyValueDrawString -> Graphics.Graphics -> IO (())
 updateMeasurement_impl this graphics = do
-        let labelWidth = ((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).lABEL))) - (Prelude.length (jget (this).lABEL)))
+        let labelWidth = ((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).lABEL))) - (Prelude.length (jget (this).lABEL)))
         jset (this).valueX ((labelWidth + (jget (this).labelX)))
         assignedValue <- (MyFontProcessor.getInstance)
         jset (this).myFontProcessor (assignedValue)
@@ -139,8 +143,7 @@ update_super object_ a1 = (update_impl (javaCast object_ :: KeyValueDrawString))
 
 update_impl :: KeyValueDrawString -> String -> IO (())
 update_impl this value = do
-        when (value /= javaNull) $ do
-            jset (this).value (value)
+        jset (this).value (value)
         pure ()
 
 

@@ -20,10 +20,10 @@ import RaceTrackGeographicMapCellTypeFactory hiding (new_, init_, newRecord_, in
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,6 +55,7 @@ instance JavaObjectClass NormalRaceTrackGeographicMapCellTypeFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: NormalRaceTrackGeographicMapCellTypeFactory
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 
@@ -85,9 +86,9 @@ init_ :: NormalRaceTrackGeographicMapCellTypeFactory -> IO ()
 init_ this = do
         RaceTrackGeographicMapCellTypeFactory.init_ this.base
         initFields_ this
-        jset (this).base.eMPTY_CELL_TYPE ((jget ((jio (EmptyRaceRaceTrackGeographicMapCellTypeFactory.getInstance))).eMPTY_CELL_TYPE))
+        jset (this).base.eMPTY_CELL_TYPE ((jget ((jio (EmptyRaceRaceTrackGeographicMapCellTypeFactory.getInstance))).base.eMPTY_CELL_TYPE))
         jset (this).base.eASY_CELL_TYPE ((jget (this).base.eMPTY_CELL_TYPE))
-        jset (this).base.fINISH_LINE_ROAD_CELL_TYPE ((jget (this).base.dEFAULT_FINISH_LINE_ROAD_CELL_TYPE))
+        jset (this).base.fINISH_LINE_ROAD_CELL_TYPE ((javaCast (jget (this).base.dEFAULT_FINISH_LINE_ROAD_CELL_TYPE) :: GeographicMapCellType.GeographicMapCellType))
         pure ()
 
 

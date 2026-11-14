@@ -19,10 +19,10 @@ module PathFindingNode where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -132,7 +132,7 @@ toString_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jio (GeographicMapCellPosition.toString ((jget (this).geographicMapCellPosition)))))
         pathFindingNode <- newIORef =<< (PathFindingNode.getParentP this)
         fix $ \loop -> when ((jget pathFindingNode) /= javaNull) $ javaIteration (loop) $ do
-            Control.Monad.void (StringMaker.append stringBuffer (jio (toString ((jget ((jget pathFindingNode)).geographicMapCellPosition)))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (GeographicMapCellPosition.toString ((jget ((jget pathFindingNode)).geographicMapCellPosition)))))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
             assignedValue <- (PathFindingNode.getParentP ((jget pathFindingNode)))
             jset pathFindingNode (assignedValue)

@@ -19,10 +19,10 @@ module PermissionItemData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,20 +49,29 @@ instance JavaObjectClass PermissionItemData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+wHO :: String
 wHO = "PERMISSIONSITEM_WHO"
 
+wHAT :: String
 wHAT = "PERMISSIONSITEM_WHAT"
 
+tYPE :: String
 tYPE = "PERMISSIONSITEM_TYPE"
 
+sTART_TIME :: String
 sTART_TIME = "PERMISSIONSITEM_START_TIME"
 
+eND_TIME :: String
 eND_TIME = "PERMISSIONSITEM_END_TIME"
 
+rEMOTE_ADDR :: String
 rEMOTE_ADDR = "PERMISSIONSITEM_REMOTE_ADDR"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PermissionItemData
 newRecord_ = do

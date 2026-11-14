@@ -20,10 +20,10 @@ import Processor hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -92,7 +92,7 @@ process_super object_ = (process_impl (javaCast object_ :: MidletExitProcessor))
 
 process_impl :: MidletExitProcessor -> IO (())
 process_impl this = do
-        Control.Monad.void (System.exit 0)
+        Control.Monad.void (jsystemExit 0)
         pure ()
 
 

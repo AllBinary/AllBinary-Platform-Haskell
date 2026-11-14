@@ -20,10 +20,10 @@ import PaymentGatewayViewAbstract hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,7 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PaymentGatewaysView -- same package or java.lang
+import qualified PaymentGatewayPrimaryKey -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified TransformInfoHttpComposite -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified PaymentGatewayEntityFactory -- org.allbinary.data.tables.user.commerce.money.payment.gateway.PaymentGatewayEntityFactory

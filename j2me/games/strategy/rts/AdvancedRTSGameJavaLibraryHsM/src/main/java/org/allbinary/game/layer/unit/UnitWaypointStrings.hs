@@ -19,10 +19,10 @@ module UnitWaypointStrings where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified CommonLabels -- org.allbinary.string.CommonLabels
 
 data UnitWaypointStrings = UnitWaypointStrings
     { header_ :: JavaHeader
+    , pATHING :: IORef (String)
     , wANDERING :: IORef (String)
     , tHINKING :: IORef (String)
     , tHINKING_ABOUT_TARGET :: IORef (String)
@@ -48,6 +49,10 @@ data UnitWaypointStrings = UnitWaypointStrings
     , aLREADY_THERE_SHORT :: IORef (String)
     , aLREADY_THERE :: IORef (String)
     , nEXT_PATH_NODE :: IORef (String)
+    , _ALL_VISITED_SHORT :: IORef (String)
+    , _ALREADY_THERE_SHORT :: IORef (String)
+    , vISITED_MOST_OF_THE_PATH :: IORef (String)
+    , rETURNING_AS_WAYPOINT_PATH_LIST :: IORef (String)
     }
 
 instance JavaNull UnitWaypointStrings where
@@ -63,15 +68,20 @@ instance JavaObjectClass UnitWaypointStrings where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: UnitWaypointStrings
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO UnitWaypointStrings
 newRecord_ = do
     header_ <- newJavaHeader
+    pATHING <- newIORef ""
     wANDERING <- newIORef ""
     tHINKING <- newIORef ""
     tHINKING_ABOUT_TARGET <- newIORef ""
@@ -85,12 +95,17 @@ newRecord_ = do
     aLREADY_THERE_SHORT <- newIORef ""
     aLREADY_THERE <- newIORef ""
     nEXT_PATH_NODE <- newIORef ""
-    let this = UnitWaypointStrings header_ wANDERING tHINKING tHINKING_ABOUT_TARGET tARGET kILL sTOP wAYPOINT_DESTROYED_SHORT wAYPOINT_DESTROYED aLL_VISITED_SHORT aLL_VISITED aLREADY_THERE_SHORT aLREADY_THERE nEXT_PATH_NODE
+    _ALL_VISITED_SHORT <- newIORef ""
+    _ALREADY_THERE_SHORT <- newIORef ""
+    vISITED_MOST_OF_THE_PATH <- newIORef ""
+    rETURNING_AS_WAYPOINT_PATH_LIST <- newIORef ""
+    let this = UnitWaypointStrings header_ pATHING wANDERING tHINKING tHINKING_ABOUT_TARGET tARGET kILL sTOP wAYPOINT_DESTROYED_SHORT wAYPOINT_DESTROYED aLL_VISITED_SHORT aLL_VISITED aLREADY_THERE_SHORT aLREADY_THERE nEXT_PATH_NODE _ALL_VISITED_SHORT _ALREADY_THERE_SHORT vISITED_MOST_OF_THE_PATH rETURNING_AS_WAYPOINT_PATH_LIST
     jregisterLevel header_ this
     pure this
 
 initFields_ :: UnitWaypointStrings -> IO ()
 initFields_ this = do
+    jset this.pATHING ("Pathing")
     jset this.wANDERING ("Order?")
     jset this.tHINKING ("Thinking")
     jset this.tHINKING_ABOUT_TARGET ("Hmmm")
@@ -104,6 +119,10 @@ initFields_ this = do
     jset this.aLREADY_THERE_SHORT ("Again?")
     jset this.aLREADY_THERE ("Already There")
     jset this.nEXT_PATH_NODE ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Path Node"))
+    jset this._ALL_VISITED_SHORT (" Arrived")
+    jset this._ALREADY_THERE_SHORT (" Again?")
+    jset this.vISITED_MOST_OF_THE_PATH (" visited most of the path")
+    jset this.rETURNING_AS_WAYPOINT_PATH_LIST (" returning as waypointPathsList was runningWaypointPathList")
     pure ()
 
 new_ :: IO UnitWaypointStrings

@@ -19,10 +19,10 @@ module PaymentTypeUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PaymentType -- same package or java.lang
+import qualified BasicPaymentType -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified EntryData -- org.allbinary.business.entry.EntryData
@@ -77,11 +78,15 @@ instance JavaObjectClass PaymentTypeUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PaymentTypeUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PaymentTypeUtil
 newRecord_ = do
@@ -258,7 +263,7 @@ difference_impl this a_PaymentTypeVector = do
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             let paymentType = (javaCast (jio (BasicArrayList.get ((jget (this).paymentTypeVector)) i)) :: PaymentType.PaymentType)
             when (Prelude.not (jio (BasicArrayList.contains a_PaymentTypeVector paymentType))) $ do
-                Control.Monad.void (jio (BasicArrayList.add diff paymentType))
+                Control.Monad.void (BasicArrayList.add diff paymentType)
         pure (diff)
 
 

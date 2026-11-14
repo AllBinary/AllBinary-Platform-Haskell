@@ -20,10 +20,10 @@ import PickedUpLayerInterfaceFactory hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified LifeLayerCircularStaticPool -- same package or java.lang
 import qualified LifeLayerFactory -- same package or java.lang
 import qualified LifeResources -- same package or java.lang
+import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified CountedPickedUpLayerInterfaceFactory -- org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory
 import qualified IconLayerFactory -- org.allbinary.game.layer.pickup.IconLayerFactory
@@ -64,6 +65,7 @@ instance JavaObjectClass LifePickedUpLayerInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pickedUpLayerInterfaceFactoryInterface :: IORef (PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)
 {-# NOINLINE pickedUpLayerInterfaceFactoryInterface #-}
 pickedUpLayerInterfaceFactoryInterface = unsafePerformIO (newIORef ((javaCast CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface)))
 
@@ -81,14 +83,14 @@ newRecord_ = do
 
 initFields_ :: LifePickedUpLayerInterfaceFactory -> IO ()
 initFields_ this = do
-    jset this.pool =<< (LifeLayerCircularStaticPool.new_2 (jio (LifeLayerFactory.new_)) 1)
+    jset this.pool =<< (LifeLayerCircularStaticPool.new_2 (javaCast (jio (LifeLayerFactory.new_))) 1)
     pure ()
 
 
 -- throws Exception
 init :: IO (())
 init = do
-        assignedValue <- (new_)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: PickedUpLayerInterfaceFactoryInterface.PickedUpLayerInterfaceFactoryInterface) (new_))
         jset LifePickedUpLayerInterfaceFactory.pickedUpLayerInterfaceFactoryInterface (assignedValue)
         pure ()
 

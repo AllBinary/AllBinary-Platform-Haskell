@@ -19,10 +19,10 @@ module ExceptionUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,11 +52,15 @@ instance JavaObjectClass ExceptionUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ExceptionUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ExceptionUtil
 newRecord_ = do
@@ -100,12 +104,9 @@ getStackTrace_super object_ a1 = (getStackTrace_impl (javaCast object_ :: Except
 
 getStackTrace_impl :: ExceptionUtil -> JavaException -> IO (String)
 getStackTrace_impl this e = do
-    javaCatchReturn $ do
         bs <- (ByteArrayOutputStream.new_)
         Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
         output <- (ByteArrayOutputStream.toString bs)
-        when (output /= javaNull) $ do
-            javaReturn =<< (jnewString output)
-        pure ((jget (this).nONE))
+        (jnewString output)
 
 

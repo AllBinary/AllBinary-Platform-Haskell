@@ -19,10 +19,10 @@ module Payment where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,6 +82,9 @@ instance JavaObjectClass Payment where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Payment
 newRecord_ = do
@@ -169,20 +172,34 @@ initFields_ this = do
     jset this.isDefault (False)
     pure ()
 
-new_1 :: HashMap.HashMap -> IO Payment
-new_1 payment = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO Payment
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload1 (javaCast a1 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: ServletRequest.ServletRequest) = new_1_overload2 (javaCast a1 :: ServletRequest.ServletRequest)
+    | otherwise = new_1_overload2 (javaCast a1 :: ServletRequest.ServletRequest)
+
+init_1 :: (JavaObjectClass o1) => Payment -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload1 this (javaCast a1 :: HashMap.HashMap)
+    | jisInstanceOf a1 (javaNull :: ServletRequest.ServletRequest) = init_1_overload2 this (javaCast a1 :: ServletRequest.ServletRequest)
+    | otherwise = init_1_overload2 this (javaCast a1 :: ServletRequest.ServletRequest)
+
+
+new_1_overload1 :: HashMap.HashMap -> IO Payment
+new_1_overload1 payment = do
     this <- newRecord_
-    init_1 this payment
+    init_1_overload1 this payment
     pure this
 
-init_1 :: Payment -> HashMap.HashMap -> IO ()
-init_1 this payment = do
+init_1_overload1 :: Payment -> HashMap.HashMap -> IO ()
+init_1_overload1 this payment = do
         initFields_ this
         jset (this).name ((javaCast (jio (HashMap.get payment (PaymentData.nAME))) :: String))
         jset (this).type_ ((javaCast (jio (HashMap.get payment (PaymentData.tYPE))) :: String))
         jset (this).expiration ((javaCast (jio (HashMap.get payment (PaymentData.eXPIRATION))) :: String))
         jset (this).encryption ((javaCast (jio (HashMap.get payment (jget ((jio (EntryData.getInstance))).eNCRYPTION))) :: String))
-        jset (this).number ((javaCast (jio (SuperCrypt.decrypt ((jio (SuperCrypt.new_1 (Prelude.fromIntegral ((jget (this).encryption)) :: Int)))) (javaCast (jio (HashMap.get payment (PaymentData.nUMBER))) :: String))) :: String))
+        jset (this).number ((javaCast (jio (SuperCrypt.decrypt ((jio (SuperCrypt.new_1 (jio (jparseInt (jget (this).encryption)))))) (javaCast (jio (HashMap.get payment (PaymentData.nUMBER))) :: String))) :: String))
         jset (this).id ((javaCast (jio (HashMap.get payment (PaymentData.iD))) :: String))
         let def = (javaCast (jio (HashMap.get payment (jget ((jio (EntryData.getInstance))).dEFAULT))) :: String)
         if ((def /= javaNull) && ((Prelude.fromEnum (Prelude.compare def (jget ((jio (EntryData.getInstance))).dEFAULT)) - 1) == 0)) then do
@@ -201,15 +218,14 @@ init_1 this payment = do
         jset (this).magneticInkCheckReader ((javaCast (jio (HashMap.get payment (PaymentData.mAGNETICINKCHECKREADER))) :: String))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: ServletRequest.ServletRequest -> IO Payment
-new_1 request = do
+new_1_overload2 :: ServletRequest.ServletRequest -> IO Payment
+new_1_overload2 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload2 this request
     pure this
 
-init_1 :: Payment -> ServletRequest.ServletRequest -> IO ()
-init_1 this request = do
+init_1_overload2 :: Payment -> ServletRequest.ServletRequest -> IO ()
+init_1_overload2 this request = do
         initFields_ this
         assignedValue <- (ServletRequest.getParameter request (PaymentData.nAME))
         jset (this).name (assignedValue)

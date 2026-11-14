@@ -20,10 +20,10 @@ import BaseImageLoadingProcessor hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ABRunnable -- same package or java.lang
 import qualified ImageThreadPool -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified ProgressCanvas -- org.allbinary.graphics.canvas.transition.progress.ProgressCanvas
 import qualified ProgressCanvasFactory -- org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory
 import qualified ImageCache -- org.allbinary.image.ImageCache

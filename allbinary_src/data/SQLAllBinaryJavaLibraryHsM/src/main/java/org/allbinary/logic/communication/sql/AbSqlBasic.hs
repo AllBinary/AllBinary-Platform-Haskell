@@ -19,10 +19,10 @@ module AbSqlBasic where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -93,6 +93,9 @@ instance JavaObjectClass AbSqlBasic where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbSqlBasic
 newRecord_ = do
@@ -262,7 +265,7 @@ initialize_impl this = do
             do
                 handle (\(e :: JavaException) -> do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                        Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).lOAD_JDBC_DRIVER_FAILED_LABEL) ++ javaToString (jio (DatabaseConnectionInfoInterface.getJdbcDriver ((jio (AbSqlBasic.getDatabaseConnectionInfoInterface this)))))) this (jget this.mETHOD_INITIALIZE) e)
+                        Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).lOAD_JDBC_DRIVER_FAILED_LABEL) ++ (jio (DatabaseConnectionInfoInterface.getJdbcDriver ((jio (AbSqlBasic.getDatabaseConnectionInfoInterface this)))))) this (jget this.mETHOD_INITIALIZE) e)
                     ) $ do
                     loader <- (Thread.getContextClassLoader ((jio (Thread.currentThread))))
                     jdbcDriverClass <- (ClassLoader.loadClass loader (jio (DatabaseConnectionInfoInterface.getJdbcDriver ((jio (AbSqlBasic.getDatabaseConnectionInfoInterface this))))))

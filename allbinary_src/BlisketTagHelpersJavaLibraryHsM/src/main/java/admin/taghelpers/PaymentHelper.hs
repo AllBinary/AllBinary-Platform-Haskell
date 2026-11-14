@@ -20,10 +20,10 @@ import Table hiding (new_, init_, newRecord_, initFields_, header_, base, static
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -151,7 +151,7 @@ insert_impl this = do
             paymentEntity <- (PaymentEntityFactory.getPaymentEntityInstance ((jio (PaymentEntityFactory.getInstance))))
             paymentInterface <- (PaymentFactory.getInstance (javaCast (jget (this).request)))
             Control.Monad.void (PaymentEntity.add paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) paymentInterface)
-            Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (Prelude.fromIntegral ((jio (PaymentEntity.getLastId paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) :: Int))
+            Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (jio (jparseInt (jio (PaymentEntity.getLastId paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "addPayment()")
             pure (success)
@@ -173,7 +173,7 @@ select_impl this = do
             ) $ do
             let success = "Successfully Selected Payment"
             paymentEntity <- (PaymentEntityFactory.getPaymentEntityInstance ((jio (PaymentEntityFactory.getInstance))))
-            Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (Prelude.fromIntegral ((jget (this).value)) :: Int))
+            Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (jio (jparseInt (jget (this).value))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "selectPayment()")
             pure (success)
@@ -195,10 +195,10 @@ delete_impl this = do
             ) $ do
             let success = "Successfully Removed Payment"
             paymentEntity <- (PaymentEntityFactory.getPaymentEntityInstance ((jio (PaymentEntityFactory.getInstance))))
-            Control.Monad.void (PaymentEntity.remove paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (Prelude.fromIntegral ((jget (this).value)) :: Int))
+            Control.Monad.void (PaymentEntity.remove paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (jio (jparseInt (jget (this).value))))
             paymentInterface <- (PaymentEntity.getDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))))
             when (paymentInterface == javaNull) $ do
-                Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (Prelude.fromIntegral ((jio (PaymentEntity.getLastId paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession))))))) :: Int))
+                Control.Monad.void (PaymentEntity.setDefault paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))) (jio (jparseInt (jio (PaymentEntity.getLastId paymentEntity (jio (WeblisketSession.getUserName ((jget (this).weblisketSession)))))))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "removePayment()")
             pure (success)

@@ -20,10 +20,10 @@ import TagHelper hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -84,7 +84,7 @@ init_2 this propertiesHashMap pageContext = do
         TagHelper.init_ this.base
         initFields_ this
         let transformInfoInterface = (javaCast (jio (TransformInfoHttpFactory.getInstance propertiesHashMap pageContext)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        assignedValue <- (PaymentProcessorComponent.new_1 transformInfoInterface)
+        assignedValue <- (PaymentProcessorComponent.new_1 (javaCast transformInfoInterface))
         jset (this).paymentProcessorComponent (assignedValue)
         pure ()
 

@@ -19,10 +19,10 @@ module InputAutomationModuleConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,6 +76,9 @@ instance JavaObjectClass InputAutomationModuleConfiguration where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationModuleConfiguration
 newRecord_ = do
@@ -281,7 +284,7 @@ setInputAutomationModuleInterface_super object_ a1 = (setInputAutomationModuleIn
 
 setInputAutomationModuleInterface_impl :: InputAutomationModuleConfiguration -> InputAutomationModuleFactoryInterface.InputAutomationModuleFactoryInterface -> IO (())
 setInputAutomationModuleInterface_impl this inputAutomationModuleInterface = do
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("InputAutomationModuleFactoryInterface : " ++ javaToString inputAutomationModuleInterface) this "setInputAutomationModuleInterface")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("InputAutomationModuleFactoryInterface : " ++ jconcatObject InputAutomationModuleFactoryInterface.toString inputAutomationModuleInterface) this "setInputAutomationModuleInterface")
         jset (this).inputAutomationModuleInterface (inputAutomationModuleInterface)
         Control.Monad.void (InputAutomationModuleConfiguration.setName this (jio (InputAutomationModuleFactoryInterface.getName ((jget (this).inputAutomationModuleInterface)))))
         pure ()

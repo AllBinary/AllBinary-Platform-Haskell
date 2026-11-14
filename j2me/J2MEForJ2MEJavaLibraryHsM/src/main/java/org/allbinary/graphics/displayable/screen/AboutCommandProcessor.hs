@@ -19,10 +19,10 @@ module AboutCommandProcessor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,11 +52,15 @@ instance JavaObjectClass AboutCommandProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AboutCommandProcessor
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AboutCommandProcessor
 newRecord_ = do
@@ -94,7 +98,7 @@ process_super object_ a1 a2 a3 = (process_impl (javaCast object_ :: AboutCommand
 
 process_impl :: AboutCommandProcessor -> CommandListener.CommandListener -> Command.Command -> Canvas.Canvas -> IO (())
 process_impl this midletCommandListener command canvas = do
-        Control.Monad.void (CommandListener.commandAction midletCommandListener command canvas)
+        Control.Monad.void (CommandListener.commandAction midletCommandListener command (javaCast canvas))
         pure ()
 
 

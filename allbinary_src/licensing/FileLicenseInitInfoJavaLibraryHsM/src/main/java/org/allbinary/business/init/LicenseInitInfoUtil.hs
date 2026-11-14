@@ -19,10 +19,10 @@ module LicenseInitInfoUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,11 +70,15 @@ instance JavaObjectClass LicenseInitInfoUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: LicenseInitInfoUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LicenseInitInfoUtil
 newRecord_ = do
@@ -142,7 +146,7 @@ write_super object_ a1 = (write_impl (javaCast object_ :: LicenseInitInfoUtil)) 
 write_impl :: LicenseInitInfoUtil -> LicenseInitInfo.LicenseInitInfo -> IO (())
 write_impl this initData = do
         when ((jget (this).filePath) == (jget ((jget (this).stringUtil)).eMPTY_STRING)) $ do
-            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) + (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ (jget (this).iNITFILENAME)) this "write" e)
             Control.Monad.void (FileStreamFactory.delete ((jio (FileStreamFactory.getInstance))) (jget (this).filePath) (jget (this).iNITFILENAME))
@@ -186,7 +190,7 @@ readAgain_impl this initializeCounter = do
     javaCatchReturn $ do
         let mETHOD_NAME = "readAgain"
         when ((jget (this).filePath) == (jget ((jget (this).stringUtil)).eMPTY_STRING)) $ do
-            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) + (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         handle (\(e :: JavaException) -> do
             handle (\(e2 :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("LicenseInitInfo Read Retry: " ++ (jget (this).iNITFILENAME)) this "readAgain()" e2)
@@ -198,7 +202,7 @@ readAgain_impl this initializeCounter = do
             fileStreamFactory <- (FileStreamFactory.getInstance)
             iFile <- (FileStreamFactory.getFileInputStreamInstance fileStreamFactory (jget (this).filePath) (jget (this).iNITFILENAME))
             if (iFile /= javaNull) then do
-                iData <- (AbDataInputStream.new_1 iFile)
+                iData <- (AbDataInputStream.new_1 (javaCast iFile))
                 initInfo <- (LicenseInitInfo.new_)
                 decodedByteArray <- newIORef =<< (DatabaseEncoder.decode (jio (AbDataInputStream.readUTF iData)))
                 licenseIdDecoded <- (jnewString (jget decodedByteArray))
@@ -212,7 +216,7 @@ readAgain_impl this initializeCounter = do
                     assignedValue <- (jnewString (jget decodedByteArray))
                     jset licenseServerDecoded (assignedValue)
                     Control.Monad.void (LicenseInitInfo.setServer initInfo (jio (WeakCrypt.decrypt ((jio (WeakCrypt.new_1 3))) (jget licenseServerDecoded))) index)
-                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (nEXT_FILE ++ javaToString (jio (LicenseInitInfo.getServer initInfo index))) this mETHOD_NAME)
+                    Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (nEXT_FILE ++ (jio (LicenseInitInfo.getServer initInfo index))) this mETHOD_NAME)
                 javaReturn (initInfo)
             else do
                 javaThrow ((JavaException "Exception" ("Could Not Load License InitInfo: " ++ (jget (this).iNITFILENAME))))

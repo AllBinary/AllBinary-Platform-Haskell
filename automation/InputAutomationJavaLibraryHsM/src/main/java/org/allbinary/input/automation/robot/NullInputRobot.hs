@@ -16,14 +16,14 @@
 -- package org.allbinary.input.automation.robot
 module NullInputRobot (module NullInputRobot, module AbstractInputRobot) where
 
-import AbstractInputRobot hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getName, getName_super, getName_impl, getHelpSet, getHelpSet_super, getHelpSet_impl, getMousePoint, getMousePoint_super, getMousePoint_impl, keyPress, keyPress_super, keyPress_impl, keyRelease, keyRelease_super, keyRelease_impl, mouseMove, mouseMove_super, mouseMove_impl, mousePress, mousePress_super, mousePress_impl, mouseRelease, mouseRelease_super, mouseRelease_impl, createScreenCapture, createScreenCapture_super, createScreenCapture_impl, delay, delay_super, delay_impl, getAutoDelay, getAutoDelay_super, getAutoDelay_impl, getPixelColor, getPixelColor_super, getPixelColor_impl, isAutoWaitForIdle, isAutoWaitForIdle_super, isAutoWaitForIdle_impl, mouseWheel, mouseWheel_super, mouseWheel_impl, setAutoDelay, setAutoDelay_super, setAutoDelay_impl, setAutoWaitForIdle, setAutoWaitForIdle_super, setAutoWaitForIdle_impl, toString, toString_super, toString_impl, waitForIdle, waitForIdle_super, waitForIdle_impl, logUtil, lIBRARY_NAME, nAME)
+import AbstractInputRobot hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getName, getName_super, getName_impl, getHelpSet, getHelpSet_super, getHelpSet_impl, getMousePoint, getMousePoint_super, getMousePoint_impl, keyPress, keyPress_super, keyPress_impl, keyRelease, keyRelease_super, keyRelease_impl, mouseMove, mouseMove_super, mouseMove_impl, mousePress, mousePress_super, mousePress_impl, mouseRelease, mouseRelease_super, mouseRelease_impl, createScreenCapture, createScreenCapture_super, createScreenCapture_impl, delay, delay_super, delay_impl, getAutoDelay, getAutoDelay_super, getAutoDelay_impl, getPixelColor, getPixelColor_super, getPixelColor_impl, isAutoWaitForIdle, isAutoWaitForIdle_super, isAutoWaitForIdle_impl, mouseWheel, mouseWheel_super, mouseWheel_impl, setAutoDelay, setAutoDelay_super, setAutoDelay_impl, setAutoWaitForIdle, setAutoWaitForIdle_super, setAutoWaitForIdle_impl, toString, toString_super, toString_impl, waitForIdle, waitForIdle_super, waitForIdle_impl, mouseMove_1, mouseMove_1_super, mouseMove_1_impl, mouseMove, mouseMoveToTarget, mouseMoveToTarget_super, mouseMoveToTarget_impl, mouseMoveToTarget_3, mouseMoveToTarget_3_super, mouseMoveToTarget_3_impl, mouseMoveToTarget, logUtil, lIBRARY_NAME, nAME)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,8 +63,10 @@ instance JavaObjectClass NullInputRobot where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+lIBRARY_NAME :: String
 lIBRARY_NAME = "null"
 
+nAME :: String
 nAME = "NULL"
 
 newRecord_ :: IO NullInputRobot
@@ -93,6 +95,9 @@ newRecord_ = do
     jregisterMethod header_ "setAutoWaitForIdle" (\() -> setAutoWaitForIdle_impl this)
     jregisterMethod header_ "toString" (\() -> toString_impl this)
     jregisterMethod header_ "waitForIdle" (\() -> waitForIdle_impl this)
+    jregisterMethod header_ "mouseMove_1" (\() -> mouseMove_1_impl this)
+    jregisterMethod header_ "mouseMoveToTarget" (\() -> mouseMoveToTarget_impl this)
+    jregisterMethod header_ "mouseMoveToTarget_3" (\() -> mouseMoveToTarget_3_impl this)
     pure this
 
 initFields_ :: NullInputRobot -> IO ()
@@ -314,6 +319,44 @@ waitForIdle_super object_ = (waitForIdle_impl (javaCast object_ :: NullInputRobo
 
 waitForIdle_impl :: NullInputRobot -> IO (())
 waitForIdle_impl this = do
+        pure ()
+
+
+mouseMove_1 :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
+mouseMove_1 object_ a1 = jmethod object_ "mouseMove_1" (\() -> (mouseMove_1_impl (javaCast object_ :: NullInputRobot))) () a1
+
+mouseMove_1_super :: (JavaObjectClass this_) => this_ -> Point.Point -> IO (())
+mouseMove_1_super object_ a1 = (mouseMove_1_impl (javaCast object_ :: NullInputRobot)) a1
+
+mouseMove_1_impl :: NullInputRobot -> Point.Point -> IO (())
+mouseMove_1_impl this point = do
+        Control.Monad.void (AbstractInputRobot.mouseMove_1_super this.base point)
+        pure ()
+
+
+-- throws Exception
+mouseMoveToTarget :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget object_ a1 = jmethod object_ "mouseMoveToTarget" (\() -> (mouseMoveToTarget_impl (javaCast object_ :: NullInputRobot))) () a1
+
+mouseMoveToTarget_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_super object_ a1 = (mouseMoveToTarget_impl (javaCast object_ :: NullInputRobot)) a1
+
+mouseMoveToTarget_impl :: NullInputRobot -> Rectangle.Rectangle -> IO (())
+mouseMoveToTarget_impl this rectangle = do
+        Control.Monad.void (AbstractInputRobot.mouseMoveToTarget_super this.base rectangle)
+        pure ()
+
+
+-- throws Exception
+mouseMoveToTarget_3 :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3 object_ a1 a2 a3 = jmethod object_ "mouseMoveToTarget_3" (\() -> (mouseMoveToTarget_3_impl (javaCast object_ :: NullInputRobot))) () a1 a2 a3
+
+mouseMoveToTarget_3_super :: (JavaObjectClass this_) => this_ -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3_super object_ a1 a2 a3 = (mouseMoveToTarget_3_impl (javaCast object_ :: NullInputRobot)) a1 a2 a3
+
+mouseMoveToTarget_3_impl :: NullInputRobot -> Rectangle.Rectangle -> Int -> Int -> IO (())
+mouseMoveToTarget_3_impl this rectangle x y = do
+        Control.Monad.void (AbstractInputRobot.mouseMoveToTarget_3_super this.base rectangle x y)
         pure ()
 
 

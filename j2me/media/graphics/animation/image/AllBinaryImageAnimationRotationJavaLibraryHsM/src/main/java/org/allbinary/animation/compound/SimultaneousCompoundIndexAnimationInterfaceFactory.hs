@@ -19,10 +19,10 @@ module SimultaneousCompoundIndexAnimationInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,9 @@ instance JavaObjectClass SimultaneousCompoundIndexAnimationInterfaceFactory wher
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SimultaneousCompoundIndexAnimationInterfaceFactory
 newRecord_ = do
@@ -108,7 +111,7 @@ getInstance_impl this instanceId = do
         let size = (jlength (jget (this).basicAnimationInterfaceFactoryInterfaceArray))
         let animationInterfaceArray = (jnewArray (size) javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            jsetIndex animationInterfaceArray (index) ((javaCast (jio (getInstance ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArray)) (index))) instanceId)) :: IndexedAnimation.IndexedAnimation))
+            jsetIndex animationInterfaceArray (index) ((javaCast (jio (AnimationInterfaceFactoryInterface.getInstance ((jindex ((jget (this).basicAnimationInterfaceFactoryInterfaceArray)) (index))) instanceId)) :: IndexedAnimation.IndexedAnimation))
         (SimultaneousCompoundIndexAnimationInterfaceFactory.getOrCreate this animationInterfaceArray)
 
 

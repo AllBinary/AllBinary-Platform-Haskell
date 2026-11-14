@@ -19,10 +19,10 @@ module BufferedIOUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,9 @@ instance JavaObjectClass BufferedIOUtil where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO BufferedIOUtil
 newRecord_ = do
     header_ <- newJavaHeader
@@ -87,11 +90,9 @@ copy backupFile backupFileBak = do
         line <- newIORef ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         tmpOut <- (BufferedWriter.new_1 (jio (FileWriter.new_1 (jio (AbFileNativeUtil.get backupFileBak)))))
         tmpIn <- (BufferedReader.new_1 (jio (FileReader.new_1 (jio (AbFileNativeUtil.get backupFile)))))
-        fix $ \loop -> when True $ javaIteration (loop) $ do
+        fix $ \loop -> when (jio (BufferedReader.ready tmpIn)) $ javaIteration (loop) $ do
             assignedValue <- (BufferedReader.readLine tmpIn)
             jset line (assignedValue)
-            when ((jget line) == javaNull) $ do
-                throwIO JavaBreak
             Control.Monad.void (BufferedWriter.write tmpOut (jget line) 0 (Prelude.length (jget line)))
             Control.Monad.void (BufferedWriter.newLine tmpOut)
         Control.Monad.void (BufferedWriter.flush tmpOut)

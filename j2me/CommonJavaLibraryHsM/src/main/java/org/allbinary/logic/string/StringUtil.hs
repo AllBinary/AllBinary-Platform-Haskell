@@ -19,10 +19,10 @@ module StringUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -43,6 +43,7 @@ data StringUtil = StringUtil
     , nULL_STRING :: IORef (String)
     , eMPTY_STRING :: IORef (String)
     , oNE_EMPTY_STRING_ARRAY :: IORef (JavaArray (String))
+    , oNE_EMPTY_STRING_ARRAY_OF_ARRAYS :: IORef (JavaArray (JavaArray (String)))
     , stringArray :: IORef (JavaArray (String))
     }
 
@@ -59,6 +60,7 @@ instance JavaObjectClass StringUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: StringUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -69,8 +71,9 @@ newRecord_ = do
     nULL_STRING <- newIORef ""
     eMPTY_STRING <- newIORef ""
     oNE_EMPTY_STRING_ARRAY <- newIORef javaNull
+    oNE_EMPTY_STRING_ARRAY_OF_ARRAYS <- newIORef javaNull
     stringArray <- newIORef javaNull
-    let this = StringUtil header_ iNIT_STRING nULL_STRING eMPTY_STRING oNE_EMPTY_STRING_ARRAY stringArray
+    let this = StringUtil header_ iNIT_STRING nULL_STRING eMPTY_STRING oNE_EMPTY_STRING_ARRAY oNE_EMPTY_STRING_ARRAY_OF_ARRAYS stringArray
     jregisterLevel header_ this
     jregisterMethod header_ "getNonNull" (\() -> getNonNull_impl this)
     jregisterMethod header_ "getArrayInstance" (\() -> getArrayInstance_impl this)
@@ -84,6 +87,7 @@ initFields_ this = do
     jset this.nULL_STRING ("null")
     jset this.eMPTY_STRING ("")
     jset this.oNE_EMPTY_STRING_ARRAY ((jarrayFromList [(jget (this).eMPTY_STRING)]))
+    jset this.oNE_EMPTY_STRING_ARRAY_OF_ARRAYS ((jnewArray2 (0) (0) javaNull))
     jset this.stringArray ((jnewArray (0) javaNull))
     pure ()
 
@@ -113,11 +117,7 @@ getNonNull_super object_ a1 = (getNonNull_impl (javaCast object_ :: StringUtil))
 
 getNonNull_impl :: StringUtil -> String -> IO (String)
 getNonNull_impl this string = do
-    javaCatchReturn $ do
-        if (string == javaNull) then do
-            javaReturn ((jget (this).eMPTY_STRING))
-        else do
-            javaReturn (string)
+        pure (string)
 
 
 getArrayInstance :: (JavaObjectClass this_) => this_ -> IO (JavaArray (String))

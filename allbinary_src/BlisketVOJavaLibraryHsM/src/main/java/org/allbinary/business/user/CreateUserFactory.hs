@@ -19,10 +19,10 @@ module CreateUserFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified UserInterface -- same package or java.lang
+import qualified UserFactoryInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified UserRole -- org.allbinary.business.user.role.UserRole
 import qualified UserRoleB -- org.allbinary.business.user.role.UserRoleB
@@ -57,6 +58,9 @@ instance JavaObjectClass CreateUserFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CreateUserFactory
 newRecord_ = do

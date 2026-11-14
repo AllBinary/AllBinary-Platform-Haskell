@@ -20,10 +20,10 @@ import AbTransformer hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TransformInfoObjectConfigInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified URIResolver -- javax.xml.transform.URIResolver
@@ -92,7 +93,7 @@ init_1 this transformInfoInterface = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbTransformer.setURIResolver this (javaCast (jio (StoreUriResolver.new_2 (jio (AbTransformer.getTransformInfoInterface this)) (javaCast (jio (AbTransformer.getURIResolver this)) :: BasicUriResolver.BasicUriResolver))) :: URIResolver.URIResolver))
-        objectConfig <- (CompoundContextTransformInfoObjectConfig.new_3 (jget (this).abeClientInformation) (jio (AbTransformer.getTransformInfoInterface this)) (jio (TransformInfoInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (AbTransformer.getTransformInfoInterface this)))))))))
+        objectConfig <- (CompoundContextTransformInfoObjectConfig.new_3 (jget (this).abeClientInformation) (jio (AbTransformer.getTransformInfoInterface this)) (jio (TransformInfoObjectConfigInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (AbTransformer.getTransformInfoInterface this)))))))))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("\nObjectConfig: \n" ++ (jio (CompoundContextTransformInfoObjectConfig.toString objectConfig))) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         templateInputStream <- (CompoundContextTransformInfoObjectConfig.createInputStream objectConfig)

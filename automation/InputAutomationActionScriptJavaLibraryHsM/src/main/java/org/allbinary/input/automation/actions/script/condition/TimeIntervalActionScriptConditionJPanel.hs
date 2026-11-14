@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -41,6 +41,7 @@ import qualified Dimension -- same package or java.lang
 import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
 import qualified GroupLayout -- same package or java.lang
+import qualified TimeDelayHelper -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified JPanel
@@ -152,7 +153,7 @@ update_super object_ = (update_impl (javaCast object_ :: TimeIntervalActionScrip
 
 update_impl :: TimeIntervalActionScriptConditionJPanel -> IO (())
 update_impl this = do
-        jset ((jio (TimeIntervalActionScriptConditionInterface.getTimeDelayHelper ((jget (this).timeIntervalActionScriptConditionInterface))))).delay ((javaToString (jio (JTextField.getText ((jio (TimeIntervalActionScriptConditionJPanel.getTimeIntervalJTextField this)))))))
+        jset ((jio (TimeIntervalActionScriptConditionInterface.getTimeDelayHelper ((jget (this).timeIntervalActionScriptConditionInterface))))).delay (((jio (JTextField.getText ((jio (TimeIntervalActionScriptConditionJPanel.getTimeIntervalJTextField this)))))))
         Control.Monad.void (TimeIntervalActionScriptConditionInterface.log ((jget (this).timeIntervalActionScriptConditionInterface)))
         pure ()
 

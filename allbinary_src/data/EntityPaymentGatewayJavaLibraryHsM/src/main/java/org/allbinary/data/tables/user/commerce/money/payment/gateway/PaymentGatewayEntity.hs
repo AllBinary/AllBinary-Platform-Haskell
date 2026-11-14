@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -112,7 +116,7 @@ new_ = do
 
 init_ :: PaymentGatewayEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -163,13 +167,13 @@ update_impl this paymentGatewayInterface = do
             calendar <- (Calendar.getInstance)
             time <- (jnewString (javaToString (Prelude.fromIntegral ((jio (Calendar.getTimeInMillis calendar))) :: Int64)))
             Control.Monad.void (PaymentGatewayInterface.setLastModified paymentGatewayInterface time)
-            whereKeyValuePairs <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereKeyValuePairs <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereKeyValuePairs (jget ((jio (StoreFrontData.getInstance))).nAME) (jio (PaymentGatewayInterface.getStoreName paymentGatewayInterface)))
             Control.Monad.void (HashMap.put whereKeyValuePairs (jio (PaymentGatewayData.toString PaymentGatewayData.nAME)) (jio (PaymentGatewayInterface.getName paymentGatewayInterface)))
             when ((jio (HashMap.get whereKeyValuePairs (jget ((jio (EntryData.getInstance))).tIMECREATED))) /= javaNull) $ do
                 javaThrow ((JavaException "Exception" "Don't update TimeCreated for update"))
             updateHashMap <- (PaymentGatewayEncryptedMapping.toHashMap ((jio (PaymentGatewayEncryptedMapping.new_1 paymentGatewayInterface))))
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyValuePairs updateHashMap)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyValuePairs updateHashMap)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "update")
         pure ()
@@ -189,8 +193,8 @@ getPaymentGatewayInterface_impl this storeName paymentType = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed for paymentType: " ++ (jio (BasicPaymentType.getName paymentType))) this "getPaymentGatewayInterface" e)
             pure (javaNull)
             ) $ do
-            paymentGatewayHashMap <- newIORef =<< (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            whereKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            paymentGatewayHashMap <- newIORef =<< (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            whereKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereKeyAndValue (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
             Control.Monad.void (HashMap.put whereKeyAndValue (jio (PaymentGatewayData.toString PaymentGatewayData.nAME)) (jio (BasicPaymentType.getName paymentType)))
             assignedValue <- (AbSqlBean.getRow_super this.base whereKeyAndValue)
@@ -270,10 +274,10 @@ remove_impl this storeName paymentType = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "remove" e)
             ) $ do
-            whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereHashMap (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
             Control.Monad.void (HashMap.put whereHashMap (jio (PaymentGatewayData.toString PaymentGatewayData.nAME)) (jio (BasicPaymentType.getName paymentType)))
-            Control.Monad.void (AbSqlBean.deleteWhere_super this.base whereHashMap)
+            Control.Monad.void (AbSqlBean.deleteWhere_1_super this.base whereHashMap)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "remove")
         pure ()

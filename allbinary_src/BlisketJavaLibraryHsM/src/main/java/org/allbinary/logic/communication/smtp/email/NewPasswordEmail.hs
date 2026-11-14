@@ -19,10 +19,10 @@ module NewPasswordEmail where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass NewPasswordEmail where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NewPasswordEmail
 newRecord_ = do
@@ -136,7 +139,7 @@ notifyStoreAdmin_impl this = do
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "notifyStoreAdmin" this "notifyStoreAdmin")
-            let emailSubject = ("New Password For User: " ++ javaToString (jio (UserInterface.getUserName ((jget (this).userInterface)))))
+            let emailSubject = ("New Password For User: " ++ (jio (UserInterface.getUserName ((jget (this).userInterface)))))
             let emailBody = ("New Password: " ++ (jget (this).newPassword))
             let basicEmailInfo = (javaCast (jio (AdminEmailInfo.new_2 emailSubject emailBody)) :: BasicEmailInfo.BasicEmailInfo)
             emailInfo <- (EmailInfo.new_1 basicEmailInfo)

@@ -20,10 +20,10 @@ import BaseImageAnimationFactory hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageAnimation -- same package or java.lang
+import qualified Bitmap -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified NullImage -- javax.microedition.lcdui.NullImage
 import qualified GameFeatureImageCacheFactory -- org.allbinary.image.GameFeatureImageCacheFactory
@@ -91,7 +92,7 @@ init_2 this image animationBehaviorFactory = do
         pure () -- super(...) is in the record above
         when ((jget (this).lastImage) /= NullImage.nULL_IMAGE) $ do
             let androidImageInterface = (javaCast (jget (this).lastImage) :: AndroidImageInterface.AndroidImageInterface)
-            Control.Monad.void (AndroidImageInterface.recycle ((jio (AndroidImageInterface.getBitmap androidImageInterface))))
+            Control.Monad.void (Bitmap.recycle ((jio (AndroidImageInterface.getBitmap androidImageInterface))))
         scale <- (ScreenRelationalUtil.getScaleImage ((jio (ScreenRelationalUtil.getInstance))) image)
         assignedValue <- (ImageScaleUtil.createImage ((jio (ImageScaleUtil.getInstance))) (jio (GameFeatureImageCacheFactory.getInstance)) (jio (BaseImageAnimationFactory.getImage this)) scale scale False)
         jset (this).lastImage (assignedValue)

@@ -19,10 +19,10 @@ module OrderedIntArrayPermutationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified IntPermutationVisitor -- same package or java.lang
 import qualified Visitor -- org.allbinary.logic.util.visitor.Visitor
+import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 
 data OrderedIntArrayPermutationUtil = OrderedIntArrayPermutationUtil
     { header_ :: JavaHeader
@@ -53,11 +54,15 @@ instance JavaObjectClass OrderedIntArrayPermutationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: OrderedIntArrayPermutationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO OrderedIntArrayPermutationUtil
 newRecord_ = do
@@ -177,7 +182,7 @@ main args = do
         permutationVisitor <- (IntPermutationVisitor.new_1 data_)
         let oRIGINAL_DATA_LABEL = "Original Data: "
         Control.Monad.void (putStr (javaToString oRIGINAL_DATA_LABEL))
-        Control.Monad.void (IntPermutationVisitor.print permutationVisitor data_)
+        Control.Monad.void (IntPermutationVisitor.print_2 permutationVisitor data_ (jio (StringMaker.new_)))
         Control.Monad.void (OrderedIntArrayPermutationUtil.generate ((jio (OrderedIntArrayPermutationUtil.getInstance))) data_ (javaCast permutationVisitor))
         pure ()
 

@@ -20,10 +20,10 @@ import HtmlTag hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified HtmlRow -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified HashMap -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified StdUtil -- org.allbinary.logic.StdUtil
@@ -184,8 +185,8 @@ addRow_super object_ a1 = (addRow_impl (javaCast object_ :: HtmlTable)) a1
 addRow_impl :: HtmlTable -> HtmlRow.HtmlRow -> IO (())
 addRow_impl this htmlRow = do
         when ((jget (this).numberOfColumns) < (jio (HtmlRow.getNumberOfColumns htmlRow))) $ do
-            assignedValue <- (jio (HtmlRow.getNumberOfColumns htmlRow))
-        jset (this).numberOfColumns (assignedValue)
+            assignedValue <- (HtmlRow.getNumberOfColumns htmlRow)
+            jset (this).numberOfColumns (assignedValue)
         Control.Monad.void (BasicArrayList.add ((jget (this).htmlRowsVector)) htmlRow)
         pure ()
 
@@ -200,7 +201,7 @@ toString_impl :: HtmlTable -> IO (String)
 toString_impl this = do
         stringUtil <- (StringUtil.getInstance)
         result <- newIORef ((jget (stringUtil).eMPTY_STRING))
-        attributeKeys <- (HashMap.toArray ((jio (HashMap.keySet ((jget (this).base.otherAttributes))))))
+        attributeKeys <- (Set.toArray ((jio (HashMap.keySet ((jget (this).base.otherAttributes))))))
         jset result ((jget (this).before))
         jset result (((jget result) ++ javaToString (jget (this).sTART)))
         jset result (((jget result) ++ javaToString " "))
@@ -215,7 +216,8 @@ toString_impl this = do
         jset result (((jget result) ++ javaToString (jget (this).eND)))
         size <- (BasicArrayList.size ((jget (this).htmlRowsVector)))
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
-            jset result (((jget result) ++ javaToString (Any.toString ((jio (BasicArrayList.get ((jget (this).htmlRowsVector)) i))))))
+            assignedValue <- (Any.toString ((jio (BasicArrayList.get ((jget (this).htmlRowsVector)) i))))
+            jset result (((jget result) ++ javaToString assignedValue))
             jset result (((jget result) ++ javaToString " "))
         jset result (((jget result) ++ javaToString (jget (this).eNDTAG)))
         jset result (((jget result) ++ javaToString (jget (this).after)))

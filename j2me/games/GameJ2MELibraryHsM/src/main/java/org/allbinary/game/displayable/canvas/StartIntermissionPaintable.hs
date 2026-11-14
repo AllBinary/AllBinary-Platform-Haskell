@@ -20,10 +20,10 @@ import InitUpdatePaintable hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AllBinaryGameCanvas -- same package or java.lang
+import qualified GameInfo -- same package or java.lang
+import qualified AllBinaryGameLayerManager -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Anchor -- org.allbinary.graphics.Anchor
@@ -125,7 +127,7 @@ initFields_ this = do
     jset this.fontSize (0)
     jset this.font (javaNull)
     jset this.lastWidth (javaNull)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.basicColor ((jget ((jio (BasicColorFactory.getInstance))).bLACK))
     jset this.color (0)
@@ -191,7 +193,7 @@ paint_impl this graphics = do
         beginWidth <- newIORef (0)
         forM_ [((jlength (jget (this).lineYOffsetArray)) - 1), ((jlength (jget (this).lineYOffsetArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             when (jget (this).hasChanged) $ do
-                jsetIndex ((jget (this).lastWidth)) (index) ((((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jindex ((jget (this).stringArray)) (index)))) `Data.Bits.shiftR` 1)))
+                jsetIndex ((jget (this).lastWidth)) (index) ((((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jindex ((jget (this).stringArray)) (index)))) `Data.Bits.shiftR` 1)))
             jset beginWidth ((jindex ((jget (this).lastWidth)) (index)))
             Control.Monad.void (Graphics.drawString graphics (jindex ((jget (this).stringArray)) (index)) ((jio (DisplayInfoSingleton.getLastHalfWidth displayInfo)) - (jget beginWidth)) ((jio (DisplayInfoSingleton.getLastHalfHeight displayInfo)) - (jindex ((jget (this).lineYOffsetArray)) (index))) (jget (this).anchor))
         jset (this).hasChanged (False)

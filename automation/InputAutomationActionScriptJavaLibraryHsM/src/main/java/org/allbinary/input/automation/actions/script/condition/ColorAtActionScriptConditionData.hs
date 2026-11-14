@@ -19,10 +19,10 @@ module ColorAtActionScriptConditionData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,35 +49,47 @@ instance JavaObjectClass ColorAtActionScriptConditionData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_NAME"))
 
+lOCATION_X :: IORef (String)
 {-# NOINLINE lOCATION_X #-}
 lOCATION_X = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_LOCATION_X"))
 
+lOCATION_Y :: IORef (String)
 {-# NOINLINE lOCATION_Y #-}
 lOCATION_Y = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_LOCATION_Y"))
 
+mIN_RED :: IORef (String)
 {-# NOINLINE mIN_RED #-}
 mIN_RED = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MIN_RED"))
 
+mAX_RED :: IORef (String)
 {-# NOINLINE mAX_RED #-}
 mAX_RED = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MAX_RED"))
 
+mIN_GREEN :: IORef (String)
 {-# NOINLINE mIN_GREEN #-}
 mIN_GREEN = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MIN_GREEN"))
 
+mAX_GREEN :: IORef (String)
 {-# NOINLINE mAX_GREEN #-}
 mAX_GREEN = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MAX_GREEN"))
 
+mIN_BLUE :: IORef (String)
 {-# NOINLINE mIN_BLUE #-}
 mIN_BLUE = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MIN_BLUE"))
 
+mAX_BLUE :: IORef (String)
 {-# NOINLINE mAX_BLUE #-}
 mAX_BLUE = unsafePerformIO (newIORef ("COLOR_AT_ACTION_CONDITION_MAX_BLUE"))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ColorAtActionScriptConditionData
 newRecord_ = do

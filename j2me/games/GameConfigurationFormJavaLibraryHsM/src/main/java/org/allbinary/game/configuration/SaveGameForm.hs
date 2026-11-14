@@ -20,10 +20,10 @@ import CommandForm hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,16 +36,16 @@ import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified TextField -- javax.microedition.lcdui.TextField
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified CommandForm -- org.allbinary.graphics.displayable.screen.CommandForm
 import qualified ABSystemWrapper -- org.allbinary.logic.ABSystemWrapper
-import qualified MEUtil -- org.allbinary.logic.MEUtil
 
 data SaveGameForm = SaveGameForm
     { header_ :: JavaHeader
     , base :: CommandForm.CommandForm
-    , meUtil :: IORef (MEUtil.MEUtil)
+    , meUtil :: IORef (MIDPUtil.MIDPUtil)
     }
 
 instance JavaNull SaveGameForm where
@@ -61,6 +61,7 @@ instance JavaObjectClass SaveGameForm where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+fORM :: IORef (CommandForm.CommandForm)
 {-# NOINLINE fORM #-}
 fORM = unsafePerformIO ((CommandForm.getNullCommandForm) >>= newIORef)
 
@@ -76,14 +77,14 @@ newRecord_ = do
 
 initFields_ :: SaveGameForm -> IO ()
 initFields_ this = do
-    jset this.meUtil =<< (MEUtil.getInstance)
+    jset this.meUtil =<< (MIDPUtil.getInstance)
     pure ()
 
 
 -- throws Exception
 createForm :: CommandListener.CommandListener -> String -> BasicColor.BasicColor -> BasicColor.BasicColor -> IO (CommandForm.CommandForm)
 createForm commandListener title backgrounBasicColor foregroundBasicColor = do
-        assignedValue <- (new_4 commandListener title backgrounBasicColor foregroundBasicColor)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: CommandForm.CommandForm) (new_4 commandListener title backgrounBasicColor foregroundBasicColor))
         jset SaveGameForm.fORM (assignedValue)
         pure ((jget SaveGameForm.fORM))
 
@@ -105,7 +106,7 @@ init_4 this commandListener title backgrounBasicColor foregroundBasicColor = do
         pure () -- super(...) is in the record above
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         let timeString = (javaToString (jio (ABSystemWrapper.currentTimeMillis ((jio (ABSystemWrapper.getInstance))))))
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (TextField.new_4 "Name: " timeString 30 (TextField.aNY)))))
+        Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jio (TextField.new_4 "Name: " timeString 30 (TextField.aNY)))))
         Control.Monad.void (SaveGameForm.initCommands this commandListener)
         pure ()
 

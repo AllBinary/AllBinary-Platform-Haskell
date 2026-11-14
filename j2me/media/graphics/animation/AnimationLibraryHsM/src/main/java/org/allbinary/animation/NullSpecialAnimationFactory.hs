@@ -19,10 +19,10 @@ module NullSpecialAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,11 +56,15 @@ instance JavaObjectClass NullSpecialAnimationFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_SPECIAL_ANIMATION_FACTORY :: IORef (NullSpecialAnimationFactory)
 {-# NOINLINE nULL_SPECIAL_ANIMATION_FACTORY #-}
 nULL_SPECIAL_ANIMATION_FACTORY = unsafePerformIO ((new_) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NullSpecialAnimationFactory
 newRecord_ = do

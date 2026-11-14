@@ -19,10 +19,10 @@ module StoreUriResolver where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -151,6 +151,6 @@ toString_impl this = do
         handle (\(e :: JavaException) -> do
             pure ("StoreUriResolver - Does not work without webapp path should be changed")
             ) $ do
-            pure ((javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ "{Store Name if Any}/{import url}"))
+            pure ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ "{Store Name if Any}/{import url}"))
 
 

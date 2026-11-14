@@ -19,10 +19,10 @@ module Directory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,11 +58,15 @@ instance JavaObjectClass Directory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: Directory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Directory
 newRecord_ = do
@@ -308,7 +312,7 @@ search_3_overload2_impl this searchValue file isRecursiveSearch = do
             when (files == javaNull) $ do
                 javaReturn (fileList)
             forM_ [0 .. (jlength files) - 1] $ \index -> javaIteration (pure ()) $ do
-                when ((jio (indexOf ((jio (getPath ((jindex files (index)))))) searchValue)) >= 0) $ do
+                when ((jstringIndexOf (jio (AbFile.getPath ((jindex files (index))))) searchValue 0) >= 0) $ do
                     Control.Monad.void (BasicArrayList.add fileList (jindex files (index)))
                 when isRecursiveSearch $ do
                     assignedValue <- (Directory.search_3 this searchValue (jindex files (index)) isRecursiveSearch)

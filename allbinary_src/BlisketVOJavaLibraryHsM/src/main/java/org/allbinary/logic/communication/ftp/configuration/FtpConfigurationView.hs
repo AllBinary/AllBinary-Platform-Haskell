@@ -19,10 +19,10 @@ module FtpConfigurationView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,9 @@ instance JavaObjectClass FtpConfigurationView where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO FtpConfigurationView
 newRecord_ = do
     header_ <- newJavaHeader
@@ -82,14 +85,28 @@ initFields_ this = do
     jset this.ftpConfigurationInterface (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO FtpConfigurationView
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO FtpConfigurationView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: FtpConfigurationInterface.FtpConfigurationInterface) = new_1_overload2 (javaCast a1 :: FtpConfigurationInterface.FtpConfigurationInterface)
+    | otherwise = new_1_overload2 (javaCast a1 :: FtpConfigurationInterface.FtpConfigurationInterface)
+
+init_1 :: (JavaObjectClass o1) => FtpConfigurationView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: FtpConfigurationInterface.FtpConfigurationInterface) = init_1_overload2 this (javaCast a1 :: FtpConfigurationInterface.FtpConfigurationInterface)
+    | otherwise = init_1_overload2 this (javaCast a1 :: FtpConfigurationInterface.FtpConfigurationInterface)
+
+
+new_1_overload1 :: Node.Node -> IO FtpConfigurationView
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: FtpConfigurationView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: FtpConfigurationView -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         Control.Monad.void (FtpConfigurationView.setFtpConfigurationInterface this (javaCast (jio (FtpConfiguration.new_)) :: FtpConfigurationInterface.FtpConfigurationInterface))
         chileNodeList <- (Node.getChildNodes node)
@@ -103,15 +120,14 @@ init_1 this node = do
         Control.Monad.void (FtpConfigurationInterface.setPath ((jio (FtpConfigurationView.getFtpConfigurationInterface this))) path)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: FtpConfigurationInterface.FtpConfigurationInterface -> IO FtpConfigurationView
-new_1 ftpConfigurationInterface = do
+new_1_overload2 :: FtpConfigurationInterface.FtpConfigurationInterface -> IO FtpConfigurationView
+new_1_overload2 ftpConfigurationInterface = do
     this <- newRecord_
-    init_1 this ftpConfigurationInterface
+    init_1_overload2 this ftpConfigurationInterface
     pure this
 
-init_1 :: FtpConfigurationView -> FtpConfigurationInterface.FtpConfigurationInterface -> IO ()
-init_1 this ftpConfigurationInterface = do
+init_1_overload2 :: FtpConfigurationView -> FtpConfigurationInterface.FtpConfigurationInterface -> IO ()
+init_1_overload2 this ftpConfigurationInterface = do
         initFields_ this
         Control.Monad.void (FtpConfigurationView.setFtpConfigurationInterface this ftpConfigurationInterface)
         pure ()

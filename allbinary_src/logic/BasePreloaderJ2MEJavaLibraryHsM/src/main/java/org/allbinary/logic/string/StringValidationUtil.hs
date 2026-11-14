@@ -19,10 +19,10 @@ module StringValidationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass StringValidationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: StringValidationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StringValidationUtil
 newRecord_ = do
@@ -158,7 +162,7 @@ isValidRequired_super object_ a1 a2 a3 = (isValidRequired_impl (javaCast object_
 isValidRequired_impl :: StringValidationUtil -> String -> Int -> Int -> IO (Bool)
 isValidRequired_impl this value min max = do
     javaCatchReturn $ do
-        when (((value == javaNull) || ((Prelude.length value) < min)) || ((Prelude.length value) > max)) $ do
+        when (((Prelude.length value) < min) || ((Prelude.length value) > max)) $ do
             javaReturn (False)
         pure (True)
 
@@ -188,7 +192,7 @@ isValidNotRequired_super object_ a1 a2 a3 = (isValidNotRequired_impl (javaCast o
 isValidNotRequired_impl :: StringValidationUtil -> String -> Int -> Int -> IO (Bool)
 isValidNotRequired_impl this value min max = do
     javaCatchReturn $ do
-        when (value /= javaNull) $ do
+        when ((Prelude.length value) > 0) $ do
             when (((Prelude.length value) < min) || ((Prelude.length value) > max)) $ do
                 javaReturn (False)
         pure (True)
@@ -203,7 +207,7 @@ isValidNotRequiredNumber_super object_ a1 a2 a3 = (isValidNotRequiredNumber_impl
 isValidNotRequiredNumber_impl :: StringValidationUtil -> String -> Int -> Int -> IO (Bool)
 isValidNotRequiredNumber_impl this value min max = do
     javaCatchReturn $ do
-        when (value /= javaNull) $ do
+        when ((Prelude.length value) > 0) $ do
             when ((((jio (TsUtil.compareTo ((jget (this).tsUtil)) value (jget ((jget (this).stringUtil)).nULL_STRING))) == 0) || ((Prelude.length value) < min)) || ((Prelude.length value) > max)) $ do
                 javaReturn (False)
             when (Prelude.not (jio (StringValidationUtil.isNumber this value))) $ do
@@ -220,7 +224,7 @@ isEmpty_super object_ a1 = (isEmpty_impl (javaCast object_ :: StringValidationUt
 isEmpty_impl :: StringValidationUtil -> String -> IO (Bool)
 isEmpty_impl this string = do
     javaCatchReturn $ do
-        if (((string /= javaNull) && ((jio (TsUtil.compareTo ((jget (this).tsUtil)) string (jget ((jget (this).stringUtil)).nULL_STRING))) /= 0)) && ((jio (TsUtil.compareTo ((jget (this).tsUtil)) string (jget ((jget (this).stringUtil)).eMPTY_STRING))) /= 0)) then do
+        if (((jio (TsUtil.compareTo ((jget (this).tsUtil)) string (jget ((jget (this).stringUtil)).nULL_STRING))) /= 0) && ((jio (TsUtil.compareTo ((jget (this).tsUtil)) string (jget ((jget (this).stringUtil)).eMPTY_STRING))) /= 0)) then do
             javaReturn (False)
         else do
             javaReturn (True)

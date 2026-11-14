@@ -19,10 +19,10 @@ module SqlConnectionPool where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,11 +71,15 @@ instance JavaObjectClass SqlConnectionPool where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SqlConnectionPool
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SqlConnectionPool
 newRecord_ = do
@@ -145,7 +149,7 @@ get_impl :: SqlConnectionPool -> String -> IO (Connection.Connection)
 get_impl this url = do
     javaCatchReturn $ do
         if ((jget (this).connectionHashMap) == javaNull) then do
-            assignedValue <- (StdUtil.createHashMap ((jget (this).stdUtil)))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).stdUtil))))
             jset (this).connectionHashMap (assignedValue)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGPOOL))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).fIRST_NEW_CONNECTION_CREATED) ++ url) this (jget this.mETHOD_GET))
@@ -205,7 +209,7 @@ add_impl this url sqlConnection = do
         when (Prelude.not (jio (Connection.isClosed sqlConnection))) $ do
             connectionVector <- newIORef (javaNull)
             if ((jget (this).connectionHashMap) == javaNull) then do
-                assignedValue <- (StdUtil.createHashMap ((jget (this).stdUtil)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).stdUtil))))
                 jset (this).connectionHashMap (assignedValue)
                 assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
                 jset connectionVector (assignedValue)

@@ -19,10 +19,10 @@ module LoggingInitInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,9 +52,11 @@ instance JavaObjectClass LoggingInitInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+logConfigInfoList :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE logConfigInfoList #-}
 logConfigInfoList = unsafePerformIO (newIORef (javaNull))
 
+hasRead :: IORef (Bool)
 {-# NOINLINE hasRead #-}
 hasRead = unsafePerformIO (newIORef (False))
 
@@ -154,7 +156,7 @@ getTypeList :: IO (BasicArrayList.BasicArrayList)
 getTypeList = do
         Control.Monad.void (LoggingInitInfo.updateIfNeeded)
         allLogTypeVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        size <- (size ((jget LoggingInitInfo.logConfigInfoList)))
+        size <- (BasicArrayList.size ((jget LoggingInitInfo.logConfigInfoList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let logConfigInfo = (javaCast (jindex ((jget ((jget LoggingInitInfo.logConfigInfoList)).objectArray)) (index)) :: LogConfig.LogConfig)
             logTypeVector <- (LogConfig.getTypeVector logConfigInfo)
@@ -172,7 +174,7 @@ getNumberOfLogConfigs_super object_ = (getNumberOfLogConfigs_impl (javaCast obje
 
 getNumberOfLogConfigs_impl :: LoggingInitInfo -> IO (Int)
 getNumberOfLogConfigs_impl this = do
-        (size ((jget LoggingInitInfo.logConfigInfoList)))
+        (BasicArrayList.size ((jget LoggingInitInfo.logConfigInfoList)))
 
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)

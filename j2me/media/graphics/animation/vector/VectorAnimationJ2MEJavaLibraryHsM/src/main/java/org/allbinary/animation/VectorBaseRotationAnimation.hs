@@ -16,14 +16,14 @@
 -- package org.allbinary.animation
 module VectorBaseRotationAnimation (module VectorBaseRotationAnimation, module RotationAnimation) where
 
-import RotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getAnimationSize, getAnimationSize_super, getAnimationSize_impl, getFrame, getFrame_super, getFrame_impl, setFrame, setFrame_super, setFrame_impl, nextFrame, nextFrame_super, nextFrame_impl, previousFrame, previousFrame_super, previousFrame_impl, getSize, getSize_super, getSize_impl, setSequence, setSequence_super, setSequence_impl, getSequence, getSequence_super, getSequence_impl, paintXY, paintXY_super, paintXY_impl, getPoints, getPoints_super, getPoints_impl, setPoints, setPoints_super, setPoints_impl, currentPoints)
+import RotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getAnimationSize, getAnimationSize_super, getAnimationSize_impl, getFrame, getFrame_super, getFrame_impl, setFrame, setFrame_super, setFrame_impl, nextFrame, nextFrame_super, nextFrame_impl, previousFrame, previousFrame_super, previousFrame_impl, getSize, getSize_super, getSize_impl, setSequence, setSequence_super, setSequence_impl, getSequence, getSequence_super, getSequence_impl, paintXY, paintXY_super, paintXY_impl, getPoints, getPoints_super, getPoints_impl, setPoints, setPoints_super, setPoints_impl, getBasicColorP, getBasicColorP_super, getBasicColorP_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, currentPoints)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,10 @@ import qualified GHC.Float
 import qualified AnimationBehavior -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified BasicColorSetUtil -- same package or java.lang
+import qualified AngleIncrementInfo -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified IndexedAnimation -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified NullUtil -- org.allbinary.logic.NullUtil
@@ -84,6 +87,8 @@ newRecord_ = do
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     jregisterMethod header_ "getPoints" (\() -> getPoints_impl this)
     jregisterMethod header_ "setPoints" (\() -> setPoints_impl this)
+    jregisterMethod header_ "getBasicColorP" (\() -> getBasicColorP_impl this)
+    jregisterMethod header_ "setBasicColorP" (\() -> setBasicColorP_impl this)
     pure this
 
 initFields_ :: VectorBaseRotationAnimation -> IO ()
@@ -103,7 +108,7 @@ init_4 this angleInfo currentPoints basicColor animationBehavior = do
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (VectorBaseRotationAnimation.setPoints this currentPoints)
-        Control.Monad.void (RotationAnimation.setBasicColorP this basicColor)
+        Control.Monad.void (VectorBaseRotationAnimation.setBasicColorP this basicColor)
         pure ()
 
 
@@ -252,6 +257,29 @@ setPoints_impl this currentPoints = do
         jset (this).currentPoints (currentPoints)
         assignedValue <- (CircularIndexUtil.createInstance (jlength (jget (this).currentPoints)))
         jset (this).base.circularIndexUtil (assignedValue)
+        pure ()
+
+
+getBasicColorP :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP object_ = jmethod object_ "getBasicColorP" (\() -> (getBasicColorP_impl (javaCast object_ :: VectorBaseRotationAnimation))) ()
+
+getBasicColorP_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP_super object_ = (getBasicColorP_impl (javaCast object_ :: VectorBaseRotationAnimation))
+
+getBasicColorP_impl :: VectorBaseRotationAnimation -> IO (BasicColor.BasicColor)
+getBasicColorP_impl this = do
+        (RotationAnimation.getBasicColorP_super this.base)
+
+
+setBasicColorP :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP object_ a1 = jmethod object_ "setBasicColorP" (\() -> (setBasicColorP_impl (javaCast object_ :: VectorBaseRotationAnimation))) () a1
+
+setBasicColorP_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: VectorBaseRotationAnimation)) a1
+
+setBasicColorP_impl :: VectorBaseRotationAnimation -> BasicColor.BasicColor -> IO (())
+setBasicColorP_impl this basicColor = do
+        Control.Monad.void (RotationAnimation.setBasicColorP_super this.base basicColor)
         pure ()
 
 

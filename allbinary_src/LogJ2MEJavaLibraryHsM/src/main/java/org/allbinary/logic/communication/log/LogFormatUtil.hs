@@ -19,10 +19,10 @@ module LogFormatUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,11 +70,15 @@ instance JavaObjectClass LogFormatUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: LogFormatUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LogFormatUtil
 newRecord_ = do
@@ -175,16 +179,13 @@ getF_super object_ a1 a2 = (getF_impl (javaCast object_ :: LogFormatUtil)) a1 a2
 
 getF_impl :: LogFormatUtil -> String -> String -> IO (StringMaker.StringMaker)
 getF_impl this className functionName = do
-        functionName <- newIORef functionName
-        when ((jget functionName) == javaNull) $ do
-            jset functionName ((jget (this).nONE))
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jget (this).tIME))
         Control.Monad.void (StringMaker.append stringBuffer (jio (TimeStampUtil.getAsString ((jget (this).timeStampUtil)))))
         Control.Monad.void (StringMaker.append stringBuffer (jget (this).cLASS_NAME))
         Control.Monad.void (StringMaker.append stringBuffer className)
         Control.Monad.void (StringMaker.append stringBuffer (jget (this).fUNCTION_CALL))
-        Control.Monad.void (StringMaker.append stringBuffer (jget functionName))
+        Control.Monad.void (StringMaker.append stringBuffer functionName)
         pure (stringBuffer)
 
 
@@ -202,10 +203,7 @@ getO_impl this exceptionObject_ = do
             stringBuffer <- (StringMaker.new_)
             Control.Monad.void (StringMaker.append stringBuffer (jget (this).lOG_ERROR))
             exceptionAsString <- (Any.toString exception)
-            if (exceptionAsString /= javaNull) then do
-                Control.Monad.void (StringMaker.append stringBuffer exceptionAsString)
-            else do
-                Control.Monad.void (StringMaker.append stringBuffer (jget (this).eMPTY))
+            Control.Monad.void (StringMaker.append stringBuffer exceptionAsString)
             Control.Monad.void (StringMaker.append stringBuffer (jget (this).sTACK_TRACE))
             if (exception /= (jget ((jget (this).nullUtil)).nULL_OBJECT)) then do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (ExceptionUtil.getStackTrace ((jget (this).exceptionUtil)) (javaCast exception :: JavaException))))

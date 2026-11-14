@@ -19,10 +19,10 @@ module TransformInfoObjectFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass TransformInfoObjectFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TransformInfoObjectFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformInfoObjectFactory
 newRecord_ = do
@@ -121,7 +125,7 @@ getInstance_2_impl this abeClientInformation transformInfoInterface = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Creating View: " ++ (jio (TransformInfoInterface.getName transformInfoInterface))) this (jget (commonStrings).gET_INSTANCE))
             let params = (jnewArray (1) javaNull)
             let classes = (jnewArray (1) javaNull)
-            jsetIndex classes (0) ("TransformInfoInterface")
+            jsetIndex classes (0) ((JavaClass "TransformInfoInterface"))
             jsetIndex params (0) ((jtoObject (javaCast transformInfoInterface :: Any.Any)))
             let anyType = (javaCast (jio (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation (jio (TransformInfoInterface.getObjectFile transformInfoInterface)) classes params)) :: TransformInterface.TransformInterface)
             when (anyType == javaNull) $ do

@@ -20,10 +20,10 @@ import LayerManagerEventListener hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,7 @@ instance JavaObjectClass GroupLayerManagerListener where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: IORef (GroupLayerManagerListener)
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_) >>= newIORef)
 
@@ -299,7 +300,7 @@ onCreateLayerManagerEvent_impl this layerManagerEvent = do
         id <- newIORef (0)
         groupList <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            jset id ((Prelude.fromInteger (jnumericInteger (jio (getGroupId ((jindex groupInterfaceArray (index))))))))
+            jset id ((Prelude.fromIntegral (jio (Group.getGroupId ((jindex groupInterfaceArray (index)))))))
             jset groupList ((javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget id))) :: BasicArrayList.BasicArrayList))
             when ((jget groupList) == javaNull) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) "id: "))) (jget id)))))) this "onCreateLayerManagerEvent")
@@ -325,7 +326,7 @@ onDeleteLayerManagerEvent_impl this layerManagerEvent = do
         id <- newIORef (0)
         groupList <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            jset id ((Prelude.fromInteger (jnumericInteger (jio (getGroupId ((jindex groupInterfaceArray (index))))))))
+            jset id ((Prelude.fromIntegral (jio (Group.getGroupId ((jindex groupInterfaceArray (index)))))))
             jset groupList ((javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget id))) :: BasicArrayList.BasicArrayList))
             Control.Monad.void (BasicArrayList.remove ((jget groupList)) layerInterface)
         pure ()

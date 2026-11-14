@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.user.address
 module StreetAddressesEntity (module StreetAddressesEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, remove, remove_super, remove_impl, add, add_super, add_impl, add_2, add_2_super, add_2_impl, add, update, update_super, update_impl, getLastId, getLastId_super, getLastId_impl, get, get_super, get_impl, get_1, get_1_super, get_1_impl, get, getDefault, getDefault_super, getDefault_impl, setDefault, setDefault_super, setDefault_impl, getUserName, getUserName_super, getUserName_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, logUtil, userName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, remove, remove_super, remove_impl, add, add_super, add_impl, add_2, add_2_super, add_2_impl, add, update, update_super, update_impl, getLastId, getLastId_super, getLastId_impl, get, get_super, get_impl, get_1, get_1_super, get_1_impl, get, getDefault, getDefault_super, getDefault_impl, setDefault, setDefault_super, setDefault_impl, getUserName, getUserName_super, getUserName_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, drop, drop_super, drop_impl, dropTable, dropTable_super, dropTable_impl, logUtil, userName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -95,6 +99,7 @@ newRecord_ = do
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "drop" (\() -> drop_impl this)
+    jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
     pure this
 
 initFields_ :: StreetAddressesEntity -> IO ()
@@ -111,7 +116,7 @@ new_ = do
 
 init_ :: StreetAddressesEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -124,7 +129,7 @@ new_1 userName = do
 
 init_1 :: StreetAddressesEntity -> String -> IO ()
 init_1 this userName = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).userName (userName)
@@ -143,10 +148,10 @@ remove_impl this index = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "remove" e)
             ) $ do
-            whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereHashMap (UserData.uSERNAME) (jget (this).userName))
             Control.Monad.void (HashMap.put whereHashMap (StreetAddressData.iD) (javaCast (javaToString index) :: String))
-            Control.Monad.void (AbSqlBean.deleteWhere_super this.base whereHashMap)
+            Control.Monad.void (AbSqlBean.deleteWhere_1_super this.base whereHashMap)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "remove")
         pure ()
@@ -209,10 +214,10 @@ update_impl this address = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "add" e)
             ) $ do
             addressHashMap <- (StreetAddress.toHashMap address)
-            whereKeyValuePairs <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            whereKeyValuePairs <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereKeyValuePairs (StreetAddressData.iD) (jio (StreetAddress.getId address)))
             Control.Monad.void (HashMap.put whereKeyValuePairs (UserData.uSERNAME) (jget (this).userName))
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyValuePairs addressHashMap)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyValuePairs addressHashMap)
             Control.Monad.void (StreetAddressesEntity.setDefault this (jio (StreetAddress.getId address)))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "update")
@@ -244,7 +249,7 @@ get_impl this = do
             pure (javaNull)
             ) $ do
             streetAddressVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-            keyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keyAndValue (UserData.uSERNAME) (jget (this).userName))
             addressList <- (AbSqlBean.getRows_super this.base keyAndValue)
             size <- (BasicArrayList.size addressList)
@@ -270,7 +275,7 @@ get_1_impl this index = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget ((jget (this).base.base.base.base.base.commonStrings)).gET) e)
             pure (javaNull)
             ) $ do
-            keyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            keyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put keyAndValue (UserData.uSERNAME) (jget (this).userName))
             Control.Monad.void (HashMap.put keyAndValue (StreetAddressData.iD) (javaToString index))
             addressHashMap <- (AbSqlBean.getRow_super this.base keyAndValue)
@@ -294,8 +299,8 @@ getDefault_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "getDefault" e)
             pure (javaNull)
             ) $ do
-            addressHashMap <- newIORef =<< (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            updateKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            addressHashMap <- newIORef =<< (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            updateKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put updateKeyAndValue (StreetAddressData.dEFAULT) (StreetAddressData.dEFAULT))
             Control.Monad.void (HashMap.put updateKeyAndValue (UserData.uSERNAME) (jget (this).userName))
             assignedValue <- (AbSqlBean.getRow_super this.base updateKeyAndValue)
@@ -323,17 +328,17 @@ setDefault_impl this value = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this "setShippingAddress" e)
             ) $ do
-            updateKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
-            whereKeyAndValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            updateKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
+            whereKeyAndValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put whereKeyAndValue (UserData.uSERNAME) (jget (this).userName))
             streetAddress <- (StreetAddressesEntity.getDefault this)
             when (streetAddress /= javaNull) $ do
                 Control.Monad.void (HashMap.put updateKeyAndValue (StreetAddressData.dEFAULT) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
                 Control.Monad.void (HashMap.put whereKeyAndValue (StreetAddressData.iD) (jio (StreetAddress.getId streetAddress)))
-                Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyAndValue updateKeyAndValue)
+                Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyAndValue updateKeyAndValue)
             Control.Monad.void (HashMap.put whereKeyAndValue (StreetAddressData.iD) value)
             Control.Monad.void (HashMap.put updateKeyAndValue (StreetAddressData.dEFAULT) (StreetAddressData.dEFAULT))
-            Control.Monad.void (AbSqlBean.updateWhere_super this.base whereKeyAndValue updateKeyAndValue)
+            Control.Monad.void (AbSqlBean.updateWhere_2_super this.base whereKeyAndValue updateKeyAndValue)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this "setDefault")
         pure ()
@@ -382,6 +387,17 @@ drop_super object_ = (drop_impl (javaCast object_ :: StreetAddressesEntity))
 
 drop_impl :: StreetAddressesEntity -> IO (String)
 drop_impl this = do
+        (AbSqlBean.dropTable_super this.base)
+
+
+dropTable :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable object_ = jmethod object_ "dropTable" (\() -> (dropTable_impl (javaCast object_ :: StreetAddressesEntity))) ()
+
+dropTable_super :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable_super object_ = (dropTable_impl (javaCast object_ :: StreetAddressesEntity))
+
+dropTable_impl :: StreetAddressesEntity -> IO (String)
+dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
 
 

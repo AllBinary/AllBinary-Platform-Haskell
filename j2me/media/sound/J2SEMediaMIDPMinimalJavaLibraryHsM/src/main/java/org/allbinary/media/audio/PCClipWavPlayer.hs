@@ -20,10 +20,10 @@ import BasicPlayer hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified NullAudioFormat -- same package or java.lang
 import qualified NullClip -- same package or java.lang
 import qualified NullControl -- same package or java.lang
 import qualified BasicArrayList -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified ByteArrayInputStream -- java.io.ByteArrayInputStream
@@ -338,7 +339,7 @@ update_impl this event = do
             size <- (BasicArrayList.size ((jget (this).base.listenersList)))
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let listener = (javaCast (jio (BasicArrayList.get ((jget (this).base.listenersList)) size)) :: PlayerListener.PlayerListener)
-                Control.Monad.void (PlayerListener.playerUpdate listener this (PlayerListener.eND_OF_MEDIA) javaNull)
+                Control.Monad.void (PlayerListener.playerUpdate listener (javaCast this) (PlayerListener.eND_OF_MEDIA) javaNull)
         pure ()
 
 

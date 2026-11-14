@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.user
 module UserEntity (module UserEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, getAdministrators, getAdministrators_super, getAdministrators_impl, getStoreManagers, getStoreManagers_super, getStoreManagers_impl, getCustomers, getCustomers_super, getCustomers_impl, getUsersWithRole, getUsersWithRole_super, getUsersWithRole_impl, getUsers, getUsers_super, getUsers_impl, getUser, getUser_super, getUser_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, login, login_super, login_impl, update, update_super, update_impl, dropTables, dropTables_super, dropTables_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, logUtil, tableName, cOMMAND_SUCCESS_FOR_USER, pASSWORD_LABEL, eQUALS, cOMMAND_SUCCESS_BUT_LOGIN_FAILED, iNVALID_PASSWORD_LABEL, nOT_EQUAL, eND_QUOTES)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, insert, insert_super, insert_impl, getAdministrators, getAdministrators_super, getAdministrators_impl, getStoreManagers, getStoreManagers_super, getStoreManagers_impl, getCustomers, getCustomers_super, getCustomers_impl, getUsersWithRole, getUsersWithRole_super, getUsersWithRole_impl, getUsers, getUsers_super, getUsers_impl, getUser, getUser_super, getUser_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, login, login_super, login_impl, update, update_super, update_impl, dropTables, dropTables_super, dropTables_impl, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, cOMMAND_SUCCESS_FOR_USER, pASSWORD_LABEL, eQUALS, cOMMAND_SUCCESS_BUT_LOGIN_FAILED, iNVALID_PASSWORD_LABEL, nOT_EQUAL, eND_QUOTES)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,10 @@ import qualified StringUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -116,6 +120,7 @@ newRecord_ = do
     jregisterMethod header_ "dropTables" (\() -> dropTables_impl this)
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
+    jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
     pure this
 
 initFields_ :: UserEntity -> IO ()
@@ -139,7 +144,7 @@ new_ = do
 
 init_ :: UserEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -185,7 +190,7 @@ getStoreManagers_super object_ a1 = (getStoreManagers_impl (javaCast object_ :: 
 
 getStoreManagers_impl :: UserEntity -> StoreFrontInterface.StoreFrontInterface -> IO (BasicArrayList.BasicArrayList)
 getStoreManagers_impl this storeFrontInterface = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         usersVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         Control.Monad.void (HashMap.put keysAndValues (UserRoleData.nAME) (jio (UserRole.toString ((jget ((jio (UserRoleFactory.getInstance))).sTOREMANAGER)))))
         Control.Monad.void (HashMap.put keysAndValues (UserData.pERMISSIONS) (jio (StoreFrontInterface.getName storeFrontInterface)))
@@ -194,7 +199,7 @@ getStoreManagers_impl this storeFrontInterface = do
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             let userHashMap = (javaCast (jio (BasicArrayList.get usersHashMapVector i)) :: HashMap.HashMap)
             when (userHashMap /= javaNull) $ do
-                Control.Monad.void (jio (BasicArrayList.add usersVector (jio (User.new_1 userHashMap))))
+                Control.Monad.void (BasicArrayList.add usersVector (jio (User.new_1 userHashMap)))
         pure (usersVector)
 
 
@@ -219,7 +224,7 @@ getUsersWithRole_super object_ a1 = (getUsersWithRole_impl (javaCast object_ :: 
 
 getUsersWithRole_impl :: UserEntity -> UserRole.UserRole -> IO (BasicArrayList.BasicArrayList)
 getUsersWithRole_impl this userRole = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         usersVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         Control.Monad.void (HashMap.put keysAndValues (UserRoleData.nAME) (jio (UserRole.toString userRole)))
         usersHashMapVector <- (AbSqlBean.getRows_super this.base keysAndValues)
@@ -227,7 +232,7 @@ getUsersWithRole_impl this userRole = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let userHashMap = (javaCast (jio (BasicArrayList.get usersHashMapVector index)) :: HashMap.HashMap)
             when (userHashMap /= javaNull) $ do
-                Control.Monad.void (jio (BasicArrayList.add usersVector (jio (User.new_1 userHashMap))))
+                Control.Monad.void (BasicArrayList.add usersVector (jio (User.new_1 userHashMap)))
         pure (usersVector)
 
 
@@ -240,7 +245,7 @@ getUsers_super object_ a1 = (getUsers_impl (javaCast object_ :: UserEntity)) a1
 
 getUsers_impl :: UserEntity -> StoreFrontInterface.StoreFrontInterface -> IO (BasicArrayList.BasicArrayList)
 getUsers_impl this storeFrontInterface = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         usersVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) (jio (StoreFrontInterface.getName storeFrontInterface)))
         usersHashMapVector <- (AbSqlBean.getRows_super this.base keysAndValues)
@@ -248,7 +253,7 @@ getUsers_impl this storeFrontInterface = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let userHashMap = (javaCast (jio (BasicArrayList.get usersHashMapVector index)) :: HashMap.HashMap)
             when (userHashMap /= javaNull) $ do
-                Control.Monad.void (jio (BasicArrayList.add usersVector (jio (User.new_1 userHashMap))))
+                Control.Monad.void (BasicArrayList.add usersVector (jio (User.new_1 userHashMap)))
         pure (usersVector)
 
 
@@ -262,7 +267,7 @@ getUser_super object_ a1 = (getUser_impl (javaCast object_ :: UserEntity)) a1
 getUser_impl :: UserEntity -> String -> IO (UserInterface.UserInterface)
 getUser_impl this userName = do
     javaCatchReturn $ do
-        row <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        row <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put row (UserData.uSERNAME) userName)
         userHashMap <- (AbSqlBean.getRow_super this.base row)
         if (userHashMap /= javaNull) then do
@@ -307,7 +312,7 @@ login_impl this userName password = do
             result <- (AbSqlBean.getField_super this.base (UserData.uSERNAME) userName (UserData.pASSWORD))
             encryption <- (AbSqlBean.getField_super this.base (UserData.uSERNAME) userName (jget ((jio (EntryData.getInstance))).eNCRYPTION))
             if ((encryption /= javaNull) && ((Prelude.fromEnum (Prelude.compare encryption (jget ((jget (this).base.base.base.base.base.stringUtil)).eMPTY_STRING)) - 1) /= 0)) then do
-                jset isUserNameAndPasswordCorrect ((Prelude.fromEnum (Prelude.compare result (jio (SuperCrypt.encrypt ((jio (SuperCrypt.new_1 (Prelude.fromIntegral (encryption) :: Int)))) password))) - 1))
+                jset isUserNameAndPasswordCorrect ((Prelude.fromEnum (Prelude.compare result (jio (SuperCrypt.encrypt ((jio (SuperCrypt.new_1 (jio (jparseInt encryption))))) password))) - 1))
             else do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Command Success but login failed for user: " ++ userName) ++ " because user did not exist") this "login")
@@ -329,7 +334,7 @@ login_impl this userName password = do
                     Control.Monad.void (StringMaker.append stringBuffer (jget (this).cOMMAND_SUCCESS_BUT_LOGIN_FAILED))
                     Control.Monad.void (StringMaker.append stringBuffer userName)
                     Control.Monad.void (StringMaker.append stringBuffer (jget (this).iNVALID_PASSWORD_LABEL))
-                    Control.Monad.void (StringMaker.append stringBuffer (jio (SuperCrypt.encrypt ((jio (SuperCrypt.new_1 (Prelude.fromIntegral (encryption) :: Int)))) password)))
+                    Control.Monad.void (StringMaker.append stringBuffer (jio (SuperCrypt.encrypt ((jio (SuperCrypt.new_1 (jio (jparseInt encryption))))) password)))
                     Control.Monad.void (StringMaker.append stringBuffer (jget (this).nOT_EQUAL))
                     Control.Monad.void (StringMaker.append stringBuffer result)
                     Control.Monad.void (StringMaker.append stringBuffer (jget (this).eND_QUOTES))
@@ -383,5 +388,16 @@ createTable_super object_ = (createTable_impl (javaCast object_ :: UserEntity))
 createTable_impl :: UserEntity -> IO (String)
 createTable_impl this = do
         (AbSqlBean.createTable_super this.base (jio (UserEntity.createTableStatement this)))
+
+
+dropTable :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable object_ = jmethod object_ "dropTable" (\() -> (dropTable_impl (javaCast object_ :: UserEntity))) ()
+
+dropTable_super :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable_super object_ = (dropTable_impl (javaCast object_ :: UserEntity))
+
+dropTable_impl :: UserEntity -> IO (String)
+dropTable_impl this = do
+        (AbSqlBean.dropTable_super this.base)
 
 

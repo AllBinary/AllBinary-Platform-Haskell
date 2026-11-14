@@ -19,10 +19,10 @@ module TouchButtonRecognizer where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,10 +34,13 @@ import qualified GHC.Float
 import qualified BasicTouchInputFactory -- same package or java.lang
 import qualified TouchButtonInput -- same package or java.lang
 import qualified CurrentlyPressedTouchButtonSingleton -- same package or java.lang
-import qualified CancelTouchButtonInputFactory -- same package or java.lang
+import qualified ReleaseHelper -- same package or java.lang
 import qualified TouchScreenFactory -- same package or java.lang
+import qualified MultitouchReleaseHelper -- same package or java.lang
 import qualified TouchButtonFactory -- same package or java.lang
 import qualified TouchButton -- same package or java.lang
+import qualified UpGameKeyEventHandlerBase -- same package or java.lang
+import qualified DownGameKeyEventHandlerBase -- same package or java.lang
 import qualified DownGameKeyEventHandler -- org.allbinary.game.input.event.DownGameKeyEventHandler
 import qualified GameKeyEvent -- org.allbinary.game.input.event.GameKeyEvent
 import qualified UpGameKeyEventHandler -- org.allbinary.game.input.event.UpGameKeyEventHandler
@@ -73,6 +76,9 @@ instance JavaObjectClass TouchButtonRecognizer where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TouchButtonRecognizer
 newRecord_ = do
@@ -207,6 +213,4 @@ pressTouchButtonInput_impl this x y deviceId = do
                 javaReturn (True)
         pure (False)
 
--- Java nested class ReleaseHelper: move it to its own module ReleaseHelper
--- Java nested class MultitouchReleaseHelper: move it to its own module MultitouchReleaseHelper
 

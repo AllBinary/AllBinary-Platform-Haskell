@@ -19,10 +19,10 @@ module AllBinaryEventObject where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,11 +56,15 @@ instance JavaObjectClass AllBinaryEventObject where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_EVENT :: AllBinaryEventObject
 {-# NOINLINE nULL_EVENT #-}
 nULL_EVENT = unsafePerformIO ((new_1 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryEventObject
 newRecord_ = do

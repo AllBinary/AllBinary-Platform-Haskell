@@ -16,14 +16,14 @@
 -- package org.allbinary.input.motion.button
 module CurrentlyPressedTouchButtonSingletonDebug (module CurrentlyPressedTouchButtonSingletonDebug, module CurrentlyPressedTouchButtonSingleton) where
 
-import CurrentlyPressedTouchButtonSingleton hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, appendTouchButtonInput, appendTouchButtonInput_super, appendTouchButtonInput_impl, append, append_super, append_impl, clearLog, clearLog_super, clearLog_impl, releaseAndNotFired, releaseAndNotFired_super, releaseAndNotFired_impl, releaseAndFired, releaseAndFired_super, releaseAndFired_impl, releaseAndFired2, releaseAndFired2_super, releaseAndFired2_impl, releaseAndFiredAssociated, releaseAndFiredAssociated_super, releaseAndFiredAssociated_impl, pressedAndFired, pressedAndFired_super, pressedAndFired_impl, pressedAndNotFired, pressedAndNotFired_super, pressedAndNotFired_impl, removeAt, removeAt_super, removeAt_impl, remove, remove_super, remove_impl, add, add_super, add_impl, toString, toString_super, toString_impl, instanceC, string, listString, append, pRESSED_AND_FIRED, pRESSED_AND_NOT_FIRED, aSSOCIATED_RELEASED_AND_FIRED, rELEASED_AND_FIRED, rELEASED_AND_FIRED_2, rELEASED_AND_NOT_FIRED)
+import CurrentlyPressedTouchButtonSingleton hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getInstance, getInstance_super, getInstance_impl, appendTouchButtonInput, appendTouchButtonInput_super, appendTouchButtonInput_impl, append, append_super, append_impl, clearLog, clearLog_super, clearLog_impl, releaseAndNotFired, releaseAndNotFired_super, releaseAndNotFired_impl, releaseAndFired, releaseAndFired_super, releaseAndFired_impl, releaseAndFired2, releaseAndFired2_super, releaseAndFired2_impl, releaseAndFiredAssociated, releaseAndFiredAssociated_super, releaseAndFiredAssociated_impl, pressedAndFired, pressedAndFired_super, pressedAndFired_impl, pressedAndNotFired, pressedAndNotFired_super, pressedAndNotFired_impl, removeAt, removeAt_super, removeAt_impl, remove, remove_super, remove_impl, add, add_super, add_impl, toString, toString_super, toString_impl, instanceC, string, listString, appendText, pRESSED_AND_FIRED, pRESSED_AND_NOT_FIRED, aSSOCIATED_RELEASED_AND_FIRED, rELEASED_AND_FIRED, rELEASED_AND_FIRED_2, rELEASED_AND_NOT_FIRED)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -45,7 +45,7 @@ data CurrentlyPressedTouchButtonSingletonDebug = CurrentlyPressedTouchButtonSing
     , base :: CurrentlyPressedTouchButtonSingleton.CurrentlyPressedTouchButtonSingleton
     , string :: IORef (String)
     , listString :: IORef (String)
-    , append :: IORef (String)
+    , appendText :: IORef (String)
     , pRESSED_AND_FIRED :: IORef (String)
     , pRESSED_AND_NOT_FIRED :: IORef (String)
     , aSSOCIATED_RELEASED_AND_FIRED :: IORef (String)
@@ -67,6 +67,7 @@ instance JavaObjectClass CurrentlyPressedTouchButtonSingletonDebug where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: CurrentlyPressedTouchButtonSingletonDebug
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 
@@ -76,14 +77,14 @@ newRecord_ = do
     let header_ = base.header_
     string <- newIORef ""
     listString <- newIORef ""
-    append <- newIORef ""
+    appendText <- newIORef ""
     pRESSED_AND_FIRED <- newIORef ""
     pRESSED_AND_NOT_FIRED <- newIORef ""
     aSSOCIATED_RELEASED_AND_FIRED <- newIORef ""
     rELEASED_AND_FIRED <- newIORef ""
     rELEASED_AND_FIRED_2 <- newIORef ""
     rELEASED_AND_NOT_FIRED <- newIORef ""
-    let this = CurrentlyPressedTouchButtonSingletonDebug header_ base string listString append pRESSED_AND_FIRED pRESSED_AND_NOT_FIRED aSSOCIATED_RELEASED_AND_FIRED rELEASED_AND_FIRED rELEASED_AND_FIRED_2 rELEASED_AND_NOT_FIRED
+    let this = CurrentlyPressedTouchButtonSingletonDebug header_ base string listString appendText pRESSED_AND_FIRED pRESSED_AND_NOT_FIRED aSSOCIATED_RELEASED_AND_FIRED rELEASED_AND_FIRED rELEASED_AND_FIRED_2 rELEASED_AND_NOT_FIRED
     jregisterLevel header_ this
     jregisterMethod header_ "appendTouchButtonInput" (\() -> appendTouchButtonInput_impl this)
     jregisterMethod header_ "append" (\() -> append_impl this)
@@ -104,7 +105,7 @@ initFields_ :: CurrentlyPressedTouchButtonSingletonDebug -> IO ()
 initFields_ this = do
     jset this.string ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
     jset this.listString ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-    jset this.append ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+    jset this.appendText ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
     jset this.pRESSED_AND_FIRED ("pressed & fired")
     jset this.pRESSED_AND_NOT_FIRED ("pressed in button but not fired")
     jset this.aSSOCIATED_RELEASED_AND_FIRED ("assoc. rel & fired")
@@ -143,8 +144,8 @@ appendTouchButtonInput_impl this append touchButtonInput = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer append)
         assignedValue <- (StringMaker.toString stringBuffer)
-        jset (this).append (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        jset (this).appendText (assignedValue)
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure ()
 
@@ -157,9 +158,9 @@ append_super object_ a1 = (append_impl (javaCast object_ :: CurrentlyPressedTouc
 
 append_impl :: CurrentlyPressedTouchButtonSingletonDebug -> String -> IO (())
 append_impl this append = do
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).append)))) append))))
-        jset (this).append (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).appendText)))) append))))
+        jset (this).appendText (assignedValue)
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure ()
 
@@ -173,8 +174,8 @@ clearLog_super object_ a1 a2 = (clearLog_impl (javaCast object_ :: CurrentlyPres
 clearLog_impl :: CurrentlyPressedTouchButtonSingletonDebug -> Int -> Int -> IO (())
 clearLog_impl this x y = do
         assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (GPoint.toStringStatic x y 0))))) (jget ((jio (CommonSeps.getInstance))).sPACE)))))
-        jset (this).append (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        jset (this).appendText (assignedValue)
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure ()
 
@@ -262,7 +263,7 @@ removeAt_impl this index = do
         touchButtonInput <- (CurrentlyPressedTouchButtonSingleton.removeAt_super this.base index)
         assignedValue <- (BasicArrayList.toString ((jget (this).base.list)))
         jset (this).listString (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure (touchButtonInput)
 
@@ -278,7 +279,7 @@ remove_impl this touchButtonInput = do
         isRemoved <- (CurrentlyPressedTouchButtonSingleton.remove_super this.base touchButtonInput)
         assignedValue <- (BasicArrayList.toString ((jget (this).base.list)))
         jset (this).listString (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure (isRemoved)
 
@@ -294,7 +295,7 @@ add_impl this touchButtonInput = do
         Control.Monad.void (CurrentlyPressedTouchButtonSingleton.add_super this.base touchButtonInput)
         assignedValue <- (BasicArrayList.toString ((jget (this).base.list)))
         jset (this).listString (assignedValue)
-        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).append)))))
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (this).listString)))) (jget (this).appendText)))))
         jset (this).string (assignedValue)
         pure ()
 

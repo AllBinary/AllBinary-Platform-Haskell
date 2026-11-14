@@ -16,14 +16,14 @@
 -- package org.allbinary.animation.vector
 module LineAnimation (module LineAnimation, module Animation) where
 
-import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, init, init_super, init_impl, setPosition, setPosition_super, setPosition_impl, paintXY, paintXY_super, paintXY_impl, nextFrame, nextFrame_super, nextFrame_impl, newLine, tempLine, line)
+import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, init, init_super, init_impl, setPosition, setPosition_super, setPosition_impl, paintXY, paintXY_super, paintXY_impl, nextFrame, nextFrame_super, nextFrame_impl, getBasicColorP, getBasicColorP_super, getBasicColorP_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, newLine, tempLine, line)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -78,6 +78,8 @@ newRecord_ = do
     jregisterMethod header_ "setPosition" (\() -> setPosition_impl this)
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     jregisterMethod header_ "nextFrame" (\() -> nextFrame_impl this)
+    jregisterMethod header_ "getBasicColorP" (\() -> getBasicColorP_impl this)
+    jregisterMethod header_ "setBasicColorP" (\() -> setBasicColorP_impl this)
     pure this
 
 initFields_ :: LineAnimation -> IO ()
@@ -97,7 +99,7 @@ init_1 :: LineAnimation -> BasicColor.BasicColor -> IO ()
 init_1 this basicColor = do
         Animation.init_ this.base
         initFields_ this
-        Control.Monad.void (Animation.setBasicColorP this basicColor)
+        Control.Monad.void (LineAnimation.setBasicColorP this basicColor)
         pure ()
 
 
@@ -146,7 +148,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: LineAnimatio
 paintXY_impl :: LineAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
         let currentLine = (jget (this).line)
-        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (Animation.getBasicColorP this)) (jio (Animation.getColor this)))
+        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (LineAnimation.getBasicColorP this)) (jio (Animation.getColor this)))
         Control.Monad.void (Graphics.drawLine graphics (jindex ((jindex currentLine (0))) (0)) (jindex ((jindex currentLine (0))) (1)) (jindex ((jindex currentLine (1))) (0)) (jindex ((jindex currentLine (1))) (1)))
         pure ()
 
@@ -159,6 +161,29 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: LineAnimation))
 
 nextFrame_impl :: LineAnimation -> IO (())
 nextFrame_impl this = do
+        pure ()
+
+
+getBasicColorP :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP object_ = jmethod object_ "getBasicColorP" (\() -> (getBasicColorP_impl (javaCast object_ :: LineAnimation))) ()
+
+getBasicColorP_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP_super object_ = (getBasicColorP_impl (javaCast object_ :: LineAnimation))
+
+getBasicColorP_impl :: LineAnimation -> IO (BasicColor.BasicColor)
+getBasicColorP_impl this = do
+        (Animation.getBasicColorP_super this.base)
+
+
+setBasicColorP :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP object_ a1 = jmethod object_ "setBasicColorP" (\() -> (setBasicColorP_impl (javaCast object_ :: LineAnimation))) () a1
+
+setBasicColorP_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: LineAnimation)) a1
+
+setBasicColorP_impl :: LineAnimation -> BasicColor.BasicColor -> IO (())
+setBasicColorP_impl this basicColor = do
+        Control.Monad.void (Animation.setBasicColorP_super this.base basicColor)
         pure ()
 
 

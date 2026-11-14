@@ -19,10 +19,10 @@ module AnimationFrameToImageUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameFeatureImageCacheFactory -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified Animation -- org.allbinary.animation.Animation
@@ -54,11 +55,15 @@ instance JavaObjectClass AnimationFrameToImageUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AnimationFrameToImageUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AnimationFrameToImageUtil
 newRecord_ = do

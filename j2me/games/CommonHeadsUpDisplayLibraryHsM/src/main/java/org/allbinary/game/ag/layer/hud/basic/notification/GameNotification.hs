@@ -19,10 +19,10 @@ module GameNotification where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass GameNotification where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GAME_NOTIFICATION_EVENT :: GameNotificationEvent.GameNotificationEvent
 {-# NOINLINE nULL_GAME_NOTIFICATION_EVENT #-}
 nULL_GAME_NOTIFICATION_EVENT = unsafePerformIO ((GameNotificationEvent.new_5 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Prelude.fromIntegral (0) :: Int) (jget ((jio (BasicColorFactory.getInstance))).rED) (jget ((jio (BooleanFactory.getInstance))).fALSE)))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameNotification
 newRecord_ = do

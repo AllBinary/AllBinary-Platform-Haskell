@@ -20,10 +20,10 @@ import Vector hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -363,7 +363,7 @@ add_2_super object_ a1 a2 = (add_2_impl (javaCast object_ :: ABVector)) a1 a2
 
 add_2_impl :: ABVector -> Int -> e -> IO (())
 add_2_impl this index element = do
-        Control.Monad.void (Vector.add this.base index element)
+        Control.Monad.void (Vector.add_2 this.base index element)
         pure ()
 
 

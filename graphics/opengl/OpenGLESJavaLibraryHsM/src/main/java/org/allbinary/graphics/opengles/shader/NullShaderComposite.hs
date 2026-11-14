@@ -20,10 +20,10 @@ import ShaderComposite hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,7 @@ instance JavaObjectClass NullShaderComposite where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: NullShaderComposite
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((NullShaderComposite.new_8 (jget ((jio (OpenGLCapabilities.getInstance))).vERSION_2_0) (jarrayFromList [(jio (Shader.new_)), (jio (Shader.new_))]) (jio (CompositeShaderUpdater.getInstance)) (jio (ShaderInitializer.getInstance)) (jio (ModelViewProjection.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) {- Java anonymous class body: implement it as a record of functions
         -- init

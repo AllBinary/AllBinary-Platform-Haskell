@@ -20,10 +20,10 @@ import BasicHud hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass GameNotificationHud where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GAME_NOTIFICATION :: GameNotificationHud
 {-# NOINLINE nULL_GAME_NOTIFICATION #-}
 nULL_GAME_NOTIFICATION = unsafePerformIO ((new_4 (jget ((jio (BasicHudFactory.getInstance))).tOPCENTER) (jget ((jio (BasicHudFactory.getInstance))).hORIZONTAL) 0 (jget ((jio (BasicColorFactory.getInstance))).rED)))
 

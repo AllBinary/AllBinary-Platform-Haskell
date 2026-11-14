@@ -20,10 +20,10 @@ import CustomTagSupport hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -163,7 +163,7 @@ doStartTag_impl this = do
             pure (sKIP_BODY)
             ) $ do
             when ((jget (this).command) /= javaNull) $ do
-                assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
                 jset (this).propertiesHashMap (assignedValue)
                 Control.Monad.void (HashMap.put ((jget (this).propertiesHashMap)) (jget ((jio (StoreFrontData.getInstance))).nAME) (jget (this).storeName))
                 when ((Prelude.fromEnum (Prelude.compare (jget (this).command) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).sETSHIPPINGTYPE)) - 1) == 0) $ do

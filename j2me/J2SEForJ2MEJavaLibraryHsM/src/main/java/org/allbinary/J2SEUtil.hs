@@ -19,10 +19,10 @@ module J2SEUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass J2SEUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: J2SEUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO J2SEUtil
 newRecord_ = do
@@ -97,7 +101,7 @@ getHashMapAsArray_super object_ a1 = (getHashMapAsArray_impl (javaCast object_ :
 
 getHashMapAsArray_impl :: J2SEUtil -> HashMap.HashMap -> IO (JavaArray (Any.Any))
 getHashMapAsArray_impl this hashMap = do
-        objectArray <- (HashMap.toArray ((jio (HashMap.keySet hashMap))))
+        objectArray <- (Set.toArray ((jio (HashMap.keySet hashMap))))
         pure (objectArray)
 
 
@@ -109,7 +113,7 @@ getMapAsArray_super object_ a1 = (getMapAsArray_impl (javaCast object_ :: J2SEUt
 
 getMapAsArray_impl :: J2SEUtil -> Map.Map -> IO (JavaArray (Any.Any))
 getMapAsArray_impl this map = do
-        objectArray <- (Map.toArray ((jio (Map.keySet map))))
+        objectArray <- (Set.toArray ((jio (Map.keySet map))))
         pure (objectArray)
 
 

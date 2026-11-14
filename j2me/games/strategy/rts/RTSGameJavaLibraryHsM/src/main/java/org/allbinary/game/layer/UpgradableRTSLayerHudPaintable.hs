@@ -20,10 +20,10 @@ import SelectionHudPaintable hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,8 @@ import qualified GHC.Float
 import qualified RTSLayerCompositePaintable -- same package or java.lang
 import qualified UpgradableWideRTSLayerPaintable -- same package or java.lang
 import qualified RTSLayer -- same package or java.lang
+import qualified PrimitiveLongUtil -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified CollidableDestroyableDamageableLayer -- org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer
@@ -74,6 +76,7 @@ instance JavaObjectClass UpgradableRTSLayerHudPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: UpgradableRTSLayerHudPaintable
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -242,7 +245,7 @@ setRtsLayer_super object_ a1 = (setRtsLayer_impl (javaCast object_ :: Upgradable
 
 setRtsLayer_impl :: UpgradableRTSLayerHudPaintable -> RTSLayer.RTSLayer -> IO (())
 setRtsLayer_impl this rtsLayer = do
-        jset (this).rtsLayer (rtsLayer)
+        jset (this).rtsLayer ((javaCast rtsLayer :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer))
         pure ()
 
 

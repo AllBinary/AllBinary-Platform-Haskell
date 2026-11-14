@@ -19,10 +19,10 @@ module PersistentInputMapping where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,6 +80,9 @@ instance_ = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO PersistentInputMapping
 newRecord_ = do
     header_ <- newJavaHeader
@@ -121,7 +124,7 @@ initFields_ this = do
 getNullInstance :: IO (PersistentInputMapping)
 getNullInstance = do
         when ((jget PersistentInputMapping.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_1 (jget ((jio (GamePersistanceStrings.getInstance))).sAVED_INPUT_CONFIGURATION_RECORD_ID))
+            assignedValue <- (fmap jtoObject (new_1 (jget ((jio (GamePersistanceStrings.getInstance))).sAVED_INPUT_CONFIGURATION_RECORD_ID)))
             jset PersistentInputMapping.instance_ (assignedValue)
         pure ((javaCast (jget PersistentInputMapping.instance_) :: PersistentInputMapping))
 

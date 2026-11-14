@@ -20,10 +20,10 @@ import ProfileActionScriptItem hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GenericProfileActionScriptProcessorData -- same package or java.lang
+import qualified JTreeInterface -- same package or java.lang
 import qualified ActionEvent -- java.awt.event.ActionEvent
 import qualified JTreeInterfaceFactory -- org.allbinary.input.automation.actions.script.JTreeInterfaceFactory
 import qualified ProfileActionScriptItem -- org.allbinary.input.automation.actions.script.ProfileActionScriptItem

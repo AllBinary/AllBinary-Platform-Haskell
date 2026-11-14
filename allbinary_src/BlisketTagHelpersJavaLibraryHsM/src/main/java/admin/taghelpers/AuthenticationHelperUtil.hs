@@ -19,10 +19,10 @@ module AuthenticationHelperUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,11 +62,15 @@ instance JavaObjectClass AuthenticationHelperUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AuthenticationHelperUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AuthenticationHelperUtil
 newRecord_ = do
@@ -111,7 +115,7 @@ isAuthorized_impl this authenticationHelper filePath = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ filePath) this "isAuthorized()")
         endIndex <- (HttpRequestUtil.getLastSeparatorIndex ((jio (HttpRequestUtil.getInstance))) filePath)
-        fullPath <- (AbPath.new_2 (javaToString (jio (URLGLOBALS.getWebappPath)) ++ (Prelude.take ((endIndex) - (0)) (Prelude.drop (0) filePath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        fullPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (Prelude.take ((endIndex) - (0)) (Prelude.drop (0) filePath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         downloadFilePermissions <- (HttpFilePermissions.new_1 fullPath)
         userRoles <- (HttpFilePermissions.getUserRoles downloadFilePermissions)
         userRole <- (AuthenticationHelper.getRole authenticationHelper)

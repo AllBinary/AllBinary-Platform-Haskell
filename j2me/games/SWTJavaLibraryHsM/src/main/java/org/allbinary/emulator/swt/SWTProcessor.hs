@@ -19,10 +19,10 @@ module SWTProcessor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,7 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Runnable -- same package or java.lang
 import qualified NullRunnable -- org.allbinary.thread.NullRunnable
-import qualified Display -- org.eclipse.swt.widgets.Display
+import qualified EclipseDisplay -- org.eclipse.swt.widgets.EclipseDisplay
 
 data SWTProcessor = SWTProcessor
     { header_ :: JavaHeader
@@ -53,11 +53,15 @@ instance JavaObjectClass SWTProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: SWTProcessor
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SWTProcessor
 newRecord_ = do
@@ -91,15 +95,15 @@ init_ this = do
         pure ()
 
 
-process :: (JavaObjectClass this_) => this_ -> Display.Display -> IO (())
+process :: (JavaObjectClass this_) => this_ -> EclipseDisplay.EclipseDisplay -> IO (())
 process object_ a1 = jmethod object_ "process" (\() -> (process_impl (javaCast object_ :: SWTProcessor))) () a1
 
-process_super :: (JavaObjectClass this_) => this_ -> Display.Display -> IO (())
+process_super :: (JavaObjectClass this_) => this_ -> EclipseDisplay.EclipseDisplay -> IO (())
 process_super object_ a1 = (process_impl (javaCast object_ :: SWTProcessor)) a1
 
-process_impl :: SWTProcessor -> Display.Display -> IO (())
+process_impl :: SWTProcessor -> EclipseDisplay.EclipseDisplay -> IO (())
 process_impl this display = do
-        Control.Monad.void (Display.sleep display)
+        Control.Monad.void (EclipseDisplay.sleep display)
         pure ()
 
 

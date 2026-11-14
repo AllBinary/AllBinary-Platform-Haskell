@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified TimeFiredInterface -- same package or java.lang
+import qualified GameTickTimeDelayHelper -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified BasicAI -- org.allbinary.game.ai.BasicAI
 import qualified GameInput -- org.allbinary.game.input.GameInput
@@ -107,7 +108,7 @@ processAI_super object_ a1 = (processAI_impl (javaCast object_ :: TimedFireAI)) 
 processAI_impl :: TimedFireAI -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processAI_impl this allBinaryLayerManager = do
         let timeFiredInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: TimeFiredInterface.TimeFiredInterface)
-        when ((jio (TimeDelayHelper.isTime ((jget (this).maxFireDelayTimeHelper)) (jget ((jio (GameTickTimeDelayHelperFactory.getInstance))).startTime))) && (((jio (TimeFiredInterface.getLastFireTime timeFiredInterface)) + (jget ((jget (this).maxFireDelayTimeHelper)).delay)) < (jio (TimeDelayHelper.getStartTime ((jget (this).maxFireDelayTimeHelper)))))) $ do
+        when ((jio (TimeDelayHelper.isTime ((jget (this).maxFireDelayTimeHelper)) (jget ((jio (GameTickTimeDelayHelperFactory.getInstance))).startTime))) && (((jio (TimeFiredInterface.getLastFireTime timeFiredInterface)) + (Prelude.fromIntegral (jget ((jget (this).maxFireDelayTimeHelper)).delay))) < (jio (TimeDelayHelper.getStartTime ((jget (this).maxFireDelayTimeHelper)))))) $ do
             Control.Monad.void (BasicAI.processKeyAI_super this.base (Canvas.kEY_NUM1))
             jset ((jget (this).maxFireDelayTimeHelper)).delay ((jget (this).delay))
         pure ()

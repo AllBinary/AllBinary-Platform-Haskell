@@ -19,10 +19,10 @@ module ResourceLoadingLevelFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,11 +57,15 @@ instance JavaObjectClass ResourceLoadingLevelFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ResourceLoadingLevelFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ResourceLoadingLevelFactory
 newRecord_ = do
@@ -115,8 +119,8 @@ getLevelString_impl :: ResourceLoadingLevelFactory -> Int -> IO (String)
 getLevelString_impl this level = do
     javaCatchReturn $ do
         forM_ [0 .. (jlength (jget (this).rESOURCE_LOADING_LEVEL_ARRAY)) - 1] $ \index -> javaIteration (pure ()) $ do
-            when (level == (jio (getLevel ((jindex ((jget (this).rESOURCE_LOADING_LEVEL_ARRAY)) (index)))))) $ do
-                javaReturn =<< (getName ((jindex ((jget (this).rESOURCE_LOADING_LEVEL_ARRAY)) (index))))
+            when (level == (jio (ResourceLoadingLevel.getLevel ((jindex ((jget (this).rESOURCE_LOADING_LEVEL_ARRAY)) (index)))))) $ do
+                javaReturn =<< (ResourceLoadingLevel.getName ((jindex ((jget (this).rESOURCE_LOADING_LEVEL_ARRAY)) (index))))
         pure ((javaToString level))
 
 

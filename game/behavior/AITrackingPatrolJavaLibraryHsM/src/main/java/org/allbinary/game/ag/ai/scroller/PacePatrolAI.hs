@@ -20,10 +20,10 @@ import BasePatrolAI hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -165,7 +165,7 @@ setFiringDirectionForTargetIfInRange_impl this = do
         size <- (BasicArrayList.size ((jget (this).trackingList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset lastTrackingEvent ((javaCast (jio (BasicArrayList.get ((jget (this).trackingList)) 0)) :: TrackingEvent.TrackingEvent))
-            assignedValue <- (TrackingEvent.getLayerInterface ((jget lastTrackingEvent)))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: LayerInterface.LayerInterface) (TrackingEvent.getLayerInterface ((jget lastTrackingEvent))))
             jset lastTrackingLayerInterface (assignedValue)
             x <- (LayerInterface.getXP ((jget lastTrackingLayerInterface)))
             y <- (LayerInterface.getYP ((jget lastTrackingLayerInterface)))

@@ -19,10 +19,10 @@ module CssPropertyValues where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CssPropertyValueData -- same package or java.lang
 import qualified CssPropertyData -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -70,6 +71,9 @@ instance JavaObjectClass CssPropertyValues where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CssPropertyValues
 newRecord_ = do
@@ -127,7 +131,7 @@ init_1 this node = do
             indexNode <- (DomSearchHelper.getNode (DomData.iNDEX) (jio (Node.getChildNodes cssPropertyValueNode)))
             indexValue <- (DomNodeHelper.getTextNodeValue indexNode)
             Control.Monad.void (HashMap.put indexPropertyValueHashMap indexValue propertyValue)
-        size2 <- (HashMap.size ((jio (HashMap.keySet indexPropertyValueHashMap))))
+        size2 <- (Set.size ((jio (HashMap.keySet indexPropertyValueHashMap))))
         forM_ [0 .. size2 - 1] $ \index -> javaIteration (pure ()) $ do
             let indexInt = (Prelude.fromIntegral (index) :: Int)
             let propertyValue = (javaCast (jio (HashMap.get indexPropertyValueHashMap (javaToString indexInt))) :: String)

@@ -20,10 +20,10 @@ import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AnimationBehavior -- same package or java.lang
+import qualified AngleIncrementInfo -- same package or java.lang
 import qualified Direction -- org.allbinary.direction.Direction
 import qualified DirectionUtil -- org.allbinary.direction.DirectionUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker

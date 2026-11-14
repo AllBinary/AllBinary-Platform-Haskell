@@ -20,10 +20,10 @@ import HealthBarAnimation hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified BasicColor -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified ColorBufferList -- min3d.core.ColorBufferList
@@ -148,8 +149,10 @@ updateSize_impl this = do
         let width5 = ((Prelude.fromIntegral width) / 2.0)
         let height5 = ((Prelude.fromIntegral height) / 2.0)
         index <- newIORef (0)
-        forM_ [0 .. segsH] $ \row -> javaIteration (pure ()) $ do
-            forM_ [0 .. segsW] $ \col -> javaIteration (pure ()) $ do
+        jset row (0)
+        fix $ \loop -> when ((jget row) <= segsH) $ javaIteration (do { jset row ((jget row) + 1); loop }) $ do
+            jset col (0)
+            fix $ \loop -> when ((jget col) <= segsW) $ javaIteration (do { jset col ((jget col) + 1); loop }) $ do
                 Control.Monad.void (Number3dBufferList.set number3dBufferList (jpostIncrement index (+ 1)) (((Prelude.fromIntegral (jget col)) * w) - width5) (((Prelude.fromIntegral (jget row)) * h) - height5) (0.0))
         pure ()
 

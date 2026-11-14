@@ -19,10 +19,10 @@ module RepaintBehavior where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Thread -- same package or java.lang
-import qualified ARunnable -- org.allbinary.thread.ARunnable
+import qualified RepaintRunnable -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified DisplayInfoSingleton -- org.allbinary.graphics.displayable.DisplayInfoSingleton
@@ -60,11 +60,15 @@ instance JavaObjectClass RepaintBehavior where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: RepaintBehavior
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO RepaintBehavior
 newRecord_ = do
@@ -123,9 +127,7 @@ onChangeRepaint_impl this canvas = do
         if (jio (Features.isFeature features (javaCast (jget (openGLFeatureFactory).oPENGL)))) then do
             Control.Monad.void (DisplayInfoSingleton.process ((jio (DisplayInfoSingleton.getInstance))))
         else do
-            thread <- (Thread.new_2 (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-                -- run
--}) (jget (this).nAME))
+            thread <- (Thread.new_2 (jio (RepaintRunnable.new_1 canvas)) (jget (this).nAME))
             Control.Monad.void (Thread.start thread)
         pure ()
 

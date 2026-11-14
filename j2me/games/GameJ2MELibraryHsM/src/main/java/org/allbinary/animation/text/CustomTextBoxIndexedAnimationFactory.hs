@@ -19,10 +19,10 @@ module CustomTextBoxIndexedAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CustomTextBox2 -- same package or java.lang
 import qualified CustomTextBoxIndexedAnimation -- same package or java.lang
+import qualified AllBinaryGameLayerManager -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified TextField -- javax.microedition.lcdui.TextField
 import qualified CustomTextBox -- org.allbinary.graphics.form.item.CustomTextBox
@@ -68,6 +69,9 @@ instance JavaObjectClass CustomTextBoxIndexedAnimationFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CustomTextBoxIndexedAnimationFactory
 newRecord_ = do

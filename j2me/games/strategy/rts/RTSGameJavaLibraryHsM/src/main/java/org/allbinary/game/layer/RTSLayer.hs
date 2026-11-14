@@ -20,10 +20,10 @@ import MultiPlayerGameLayer hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -43,7 +43,12 @@ import qualified RTSLayerUtil -- same package or java.lang
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified SelectionHudPaintable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified BasicLayerProcessor -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified RTSFormInput -- org.allbinary.game.input.form.RTSFormInput
 import qualified MultiPlayerGameLayer -- org.allbinary.game.multiplayer.layer.MultiPlayerGameLayer
@@ -151,10 +156,13 @@ instance JavaObjectClass RTSLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+id :: Int
 id = 0
 
+mAIN_INDEX :: Int
 mAIN_INDEX = 0
 
+sECONDARY_INDEX :: Int
 sECONDARY_INDEX = 1
 
 newRecord_ :: IO RTSLayer
@@ -329,7 +337,7 @@ createSimulatedInstance :: RemoteInfo.RemoteInfo -> IO (RTSLayer)
 createSimulatedInstance remoteInfo = do
         nullAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullAnimationFactory.getFactoryInstance))
         nullIndexedAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullIndexedAnimationFactory.getFactoryInstance))
-        (new_16 (RemoteInfo.rEMOTE_INFO) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (jio (NullIndexedAnimationFactory.getFactoryInstance)) (RectangleFactory.sINGLETON) 0 0 (jio (TileLayerPositionIntoViewPosition.new_)))
+        (new_16 (RemoteInfo.rEMOTE_INFO) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (javaCast (jio (NullIndexedAnimationFactory.getFactoryInstance))) (RectangleFactory.sINGLETON) 0 0 (javaCast (jio (TileLayerPositionIntoViewPosition.new_))))
 
 new_16 :: RemoteInfo.RemoteInfo -> JavaArray (Group.Group) -> String -> String -> Health.Health -> RTSFormInput.RTSFormInput -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Int -> Int -> ViewPositionBase.ViewPositionBase -> IO RTSLayer
 new_16 remoteInfo groupInterface rootName name healthInterface rtsFormInput animationInterfaceFactoryInterface emptyAnimationInterfaceFactoryInterface baseAnimationInterfaceFactoryInterface buildAnimationInterfaceFactoryInterface verticleBuildAnimationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle x y viewPosition = do
@@ -355,14 +363,14 @@ init_16 this remoteInfo groupInterface rootName name healthInterface rtsFormInpu
         jset (this).emptyAnimationInterface ((javaCast (jio (AnimationInterfaceFactoryInterface.getInstance emptyAnimationInterfaceFactoryInterface 0)) :: IndexedAnimation.IndexedAnimation))
         jset (this).indexedButShouldBeRotationAnimationInterface ((javaCast (jio (AnimationInterfaceFactoryInterface.getInstance animationInterfaceFactoryInterface 0)) :: IndexedAnimation.IndexedAnimation))
         jset (this).initAnimationInterface ((jget (this).indexedButShouldBeRotationAnimationInterface))
-        jset (this).destroyAnimationInterface ((javaCast (jio (ProceduralAnimationInterfaceFactoryInterface.getInstanceAnimation proceduralAnimationInterfaceFactoryInterface (jget (this).indexedButShouldBeRotationAnimationInterface))) :: IndexedAnimation.IndexedAnimation))
+        jset (this).destroyAnimationInterface ((javaCast (jio (ProceduralAnimationInterfaceFactoryInterface.getInstanceAnimation proceduralAnimationInterfaceFactoryInterface (javaCast (jget (this).indexedButShouldBeRotationAnimationInterface)))) :: IndexedAnimation.IndexedAnimation))
         animation <- (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
         jset (this).rangeAnimation (animation)
         jset (this).initRangeAnimation (animation)
         jset (this).sensorRangeAnimation (animation)
         jset (this).initSensorRangeAnimation (animation)
-        jset (this).animationInterface ((jget (this).initAnimationInterface))
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GeographicMapCellPositionAreaBase.GeographicMapCellPositionAreaBase) (GeographicMapCellPositionArea.new_1 this))
+        jset (this).animationInterface ((javaCast (jget (this).initAnimationInterface) :: Animation.Animation))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GeographicMapCellPositionAreaBase.GeographicMapCellPositionAreaBase) (GeographicMapCellPositionArea.new_1 (javaCast this)))
         jset (this).geographicMapCellPositionAreaBase (assignedValue)
         pure ()
 
@@ -509,7 +517,7 @@ processBuiltTick_super object_ a1 = (processBuiltTick_impl (javaCast object_ :: 
 
 processBuiltTick_impl :: RTSLayer -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processBuiltTick_impl this allBinaryLayerManager = do
-        jset (this).animationInterface ((jget (this).indexedButShouldBeRotationAnimationInterface))
+        jset (this).animationInterface ((javaCast (jget (this).indexedButShouldBeRotationAnimationInterface) :: Animation.Animation))
         pure ()
 
 
@@ -1315,7 +1323,7 @@ setRotationAnimationInterface_super object_ a1 = (setRotationAnimationInterface_
 
 setRotationAnimationInterface_impl :: RTSLayer -> RotationAnimation.RotationAnimation -> IO (())
 setRotationAnimationInterface_impl this rotationAnimationInterface = do
-        jset (this).indexedButShouldBeRotationAnimationInterface (rotationAnimationInterface)
+        jset (this).indexedButShouldBeRotationAnimationInterface ((javaCast rotationAnimationInterface :: IndexedAnimation.IndexedAnimation))
         pure ()
 
 

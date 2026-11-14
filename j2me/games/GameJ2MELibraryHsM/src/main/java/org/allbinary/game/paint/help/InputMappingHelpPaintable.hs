@@ -20,10 +20,10 @@ import HelpPaintable hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UpdateMyFontProperties -- same package or java.lang
 import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
+import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified GameKey -- org.allbinary.game.input.GameKey
@@ -86,10 +88,13 @@ instance JavaObjectClass InputMappingHelpPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+aND :: String
 aND = " and "
 
+sEP :: String
 sEP = ", "
 
+mORE_THAN_TWO_IN_LIST_AND :: String
 mORE_THAN_TWO_IN_LIST_AND = ", and "
 
 newRecord_ :: IO InputMappingHelpPaintable
@@ -323,7 +328,7 @@ paint_impl this graphics = do
             assignedValue <- (BasicArrayList.size ((jget list)))
             jset size2 (assignedValue)
             jset beginWidth ((jindex ((jget ((jget (this).updateMyFontProperties)).keymappingBeginWidthArray)) (index)))
-            Control.Monad.void (Graphics.setColor graphics (jio (intValue ((jindex ((jget (this).actionBasicColor)) (index))))))
+            Control.Monad.void (Graphics.setColor graphics (jio (BasicColor.intValue ((jindex ((jget (this).actionBasicColor)) (index))))))
             jset actionString ((jindex ((jget ((jget (this).updateMyFontProperties)).actionStringArray)) (index)))
             Control.Monad.void (Graphics.drawString graphics (jget actionString) ((halfWidth - (jget beginWidth)) + (jget deltaX)) (jget y) (jget (this).base.anchor))
             jset deltaX (((jget deltaX) + (jindex ((jget ((jget (this).updateMyFontProperties)).actionStringDeltaXArray)) (index))))
@@ -338,5 +343,4 @@ paint_impl this graphics = do
                 jset deltaX (((jget deltaX) + (jindex ((jindex ((jget ((jget (this).updateMyFontProperties)).sepWidthArray)) (index))) (index2))))
         pure ()
 
--- Java nested class UpdateMyFontProperties: move it to its own module UpdateMyFontProperties
 

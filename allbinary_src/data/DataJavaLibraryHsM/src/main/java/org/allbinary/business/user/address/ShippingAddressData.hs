@@ -19,10 +19,10 @@ module ShippingAddressData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,38 +49,56 @@ instance JavaObjectClass ShippingAddressData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sETTOBILLINGADDRESS :: String
 sETTOBILLINGADDRESS = "Set To Billing Address"
 
+sELECT :: String
 sELECT = "Select Shipping Address"
 
+sELECTNAME :: String
 sELECTNAME = "SELECTSHIPPINGADDRESS"
 
+mULTIPLE :: String
 mULTIPLE = "SHIPPINGADDRESSES"
 
+sHIPPINGADDRESSES :: String
 sHIPPINGADDRESSES = "SHIPPINGADDRESSES"
 
+sHIPPINGADDRESS :: String
 sHIPPINGADDRESS = "SHIPPINGADDRESS"
 
+iD :: String
 iD = "SHIPPINGADDRESS_ID"
 
+aDDRESS :: String
 aDDRESS = "SHIPPINGADDRESS_ADDRESS"
 
+nAME :: String
 nAME = "SHIPPINGADDRESS_NAME"
 
+sTREET :: String
 sTREET = "SHIPPINGADDRESS_STREET"
 
+cITY :: String
 cITY = "SHIPPINGADDRESS_CITY"
 
+sTATE :: String
 sTATE = "SHIPPINGADDRESS_STATE"
 
+cODE :: String
 cODE = "SHIPPINGADDRESS_CODE"
 
+cOUNTRY :: String
 cOUNTRY = "SHIPPINGADDRESS_COUNTRY"
 
+tAX :: String
 tAX = "SHIPPINGADDRESS_TAX"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ShippingAddressData
 newRecord_ = do

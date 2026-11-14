@@ -20,10 +20,10 @@ import ImageCacheBase hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified Thread -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified ABHashtable -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified NullImage -- javax.microedition.lcdui.NullImage
@@ -71,6 +72,7 @@ instance JavaObjectClass ImageCache where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_IMAGE_CACHE :: ImageCache
 {-# NOINLINE nULL_IMAGE_CACHE #-}
 nULL_IMAGE_CACHE = unsafePerformIO ((new_))
 
@@ -129,14 +131,14 @@ get_impl this caller width height = do
             when ((jget (this).base.volume) > 32000) $ do
                 Control.Monad.void (TsUtil.gc ((jget (this).tsUtil)))
                 jset (this).base.volume (0)
-            assignedValue <- (ImageCache.createImage this caller width height)
+            assignedValue <- (ImageCacheBase.createImage this caller width height)
             jset image (assignedValue)
             when ((jget foundIndex) == (Prelude.negate 1)) $ do
                 jset foundIndex ((jget (this).base.nextIndex))
                 jsetIndex ((jget (this).base.widths)) ((jget (this).base.nextIndex)) (width)
                 jsetIndex ((jget (this).base.heights)) ((jget (this).base.nextIndex)) (height)
                 jset (this).base.nextIndex ((jget (this).base.nextIndex) + 1)
-            Control.Monad.void (add ((jindex ((jget (this).base.listOfList)) ((jget foundIndex)))) (jget image))
+            Control.Monad.void (BasicArrayList.add ((jindex ((jget (this).base.listOfList)) ((jget foundIndex)))) (jget image))
         pure ((jget image))
 
 
@@ -186,7 +188,7 @@ getIndex_impl this keyObject_ = do
         let resourceStringArray = (jget (gdResources).resourceStringArray)
         let size = (jlength resourceStringArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            when ((jindex resourceStringArray (index)) == key) $ do
+            when ((jtoObject (jindex resourceStringArray (index))) == (jtoObject key)) $ do
                 javaReturn (index)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "unable to find key: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) key))))))) this (jget ((jget (this).commonStrings)).rUN))
         javaThrow ((JavaException "RuntimeException" ""))

@@ -20,10 +20,10 @@ import BaseDropCellPositionGenerator hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GameTickTimeDelayHelper -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified BasicArrayListUtil -- org.allbinary.util.BasicArrayListUtil
@@ -160,7 +161,7 @@ update_impl :: RaceTrackDropCellPositionGenerator -> AllBinaryGameLayerManager.A
 update_impl this allBinaryGameLayerManager geographicMapInterface = do
         Control.Monad.void (RaceTrackDropCellPositionGenerator.init this)
         let baseRaceTrackGeographicMap = (javaCast geographicMapInterface :: BaseRaceTrackGeographicMap.BaseRaceTrackGeographicMap)
-        jset (this).raceTrackGeographicMap (baseRaceTrackGeographicMap)
+        jset (this).raceTrackGeographicMap ((javaCast baseRaceTrackGeographicMap :: RaceTrackGeographicMapInterface.RaceTrackGeographicMapInterface))
         jset (this).raceTrackGeographicMapCellTypeFactory ((javaCast (jio (BaseRaceTrackGeographicMap.getGeographicMapCellTypeFactory baseRaceTrackGeographicMap)) :: RaceTrackGeographicMapCellTypeFactory.RaceTrackGeographicMapCellTypeFactory))
         roadGeographicMapCellHistory <- (RaceTrackRoadsGeographicMapCellHistoryFactory.getInstance)
         trackedList <- (GeographicMapCellHistory.getTracked roadGeographicMapCellHistory)

@@ -20,10 +20,10 @@ import BaseGameInputMotionEventProcessor hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -96,7 +96,7 @@ initFields_ this = do
 getInstance :: IO (GameInputMotionEventProcessorAPI5)
 getInstance = do
         when ((jget GameInputMotionEventProcessorAPI5.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset GameInputMotionEventProcessorAPI5.instance_ (assignedValue)
         pure ((javaCast (jget GameInputMotionEventProcessorAPI5.instance_) :: GameInputMotionEventProcessorAPI5))
 
@@ -110,7 +110,7 @@ init_ :: GameInputMotionEventProcessorAPI5 -> IO ()
 init_ this = do
         BaseGameInputMotionEventProcessor.init_ this.base
         initFields_ this
-        let size = (jget ((jio (GameInputMotionInfoAPI5.getInstance))).mAX_POINTERS)
+        let size = (jget ((jio (GameInputMotionInfoAPI5.getInstance))).base.mAX_POINTERS)
         jset (this).motionRecognizerArray ((jnewArray (size) javaNull))
         jset (this).tOTAL_MINUS_ONE (size)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -163,7 +163,7 @@ process_impl this motionEvent = do
                         scalableListener <- (DisplayInfoSingleton.getScalableListener ((jget (this).displayInfo)))
                         let x = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getX motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getLeft ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
                         let y = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getY motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getTop ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
-                        Control.Monad.void (processStartMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
+                        Control.Monad.void (MotionRecognizer.processStartMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
             else if ((action == MotionEvent.aCTION_UP) || (action == MotionEvent.aCTION_CANCEL)) then do
                 forM_ [totalMinusOne, totalMinusOne + (-1) .. 0] $ \pointerIndex -> javaIteration (pure ()) $ do
                     pointerId <- (MotionEvent.getPointerId motionEvent pointerIndex)
@@ -171,7 +171,7 @@ process_impl this motionEvent = do
                         scalableListener <- (DisplayInfoSingleton.getScalableListener ((jget (this).displayInfo)))
                         let x = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getX motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getLeft ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
                         let y = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getY motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getTop ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
-                        Control.Monad.void (processEndMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
+                        Control.Monad.void (MotionRecognizer.processEndMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
             else when (action == MotionEvent.aCTION_MOVE) $ do
                 forM_ [totalMinusOne, totalMinusOne + (-1) .. 0] $ \pointerIndex -> javaIteration (pure ()) $ do
                     pointerId <- (MotionEvent.getPointerId motionEvent pointerIndex)
@@ -179,7 +179,7 @@ process_impl this motionEvent = do
                         scalableListener <- (DisplayInfoSingleton.getScalableListener ((jget (this).displayInfo)))
                         let x = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getX motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getLeft ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
                         let y = (Prelude.fromInteger (jnumericInteger (((((jio (MotionEvent.getY motionEvent pointerIndex)) - (jio (DisplayInfoSingleton.getTop ((jget (this).displayInfo)))))) / (jio (ScalableListener.getRatio scalableListener (jio (DisplayInfoSingleton.getRatio ((jget (this).displayInfo))))))))))
-                        Control.Monad.void (processDraggedMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
+                        Control.Monad.void (MotionRecognizer.processDraggedMotionEvent ((jindex ((jget (this).motionRecognizerArray)) (pointerId))) x y (jio (MotionEvent.getDeviceId motionEvent)) 0)
         pure ()
 
 

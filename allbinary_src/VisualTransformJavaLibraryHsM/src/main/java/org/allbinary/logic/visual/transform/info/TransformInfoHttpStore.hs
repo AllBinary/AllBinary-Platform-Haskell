@@ -16,14 +16,14 @@
 -- package org.allbinary.logic.visual.transform.info
 module TransformInfoHttpStore (module TransformInfoHttpStore, module TransformInfoHttp) where
 
-import TransformInfoHttp hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getPath, getPath_super, getPath_impl, getTemplateFilePath, getTemplateFilePath_super, getTemplateFilePath_impl, getObjectConfigFilePath, getObjectConfigFilePath_super, getObjectConfigFilePath_impl, getDataFilePath, getDataFilePath_super, getDataFilePath_impl, logUtil)
+import TransformInfoHttp hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getPath, getPath_super, getPath_impl, getTemplateFilePath, getTemplateFilePath_super, getTemplateFilePath_impl, getObjectConfigFilePath, getObjectConfigFilePath_super, getObjectConfigFilePath_impl, getDataFilePath, getDataFilePath_super, getDataFilePath_impl, setStoreName, setStoreName_super, setStoreName_impl, getStoreName, getStoreName_super, getStoreName_impl, logUtil)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
+import qualified TransformInfo -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified PageContext -- javax.servlet.jsp.PageContext
 import qualified StoreFrontData -- org.allbinary.business.context.modules.storefront.StoreFrontData
@@ -78,6 +79,8 @@ newRecord_ = do
     jregisterMethod header_ "getTemplateFilePath" (\() -> getTemplateFilePath_impl this)
     jregisterMethod header_ "getObjectConfigFilePath" (\() -> getObjectConfigFilePath_impl this)
     jregisterMethod header_ "getDataFilePath" (\() -> getDataFilePath_impl this)
+    jregisterMethod header_ "setStoreName" (\() -> setStoreName_impl this)
+    jregisterMethod header_ "getStoreName" (\() -> getStoreName_impl this)
     pure this
 
 initFields_ :: TransformInfoHttpStore -> IO ()
@@ -100,14 +103,28 @@ init_2 this propertiesHashMap pageContext = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Properties HashMap: " ++ (jio (HashMap.toString propertiesHashMap))) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
         pure ()
 
-new_3 :: HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttpStore
-new_3 databaseHashMap propertiesHashMap pageContext = do
+-- Java overloaded constructors with 3 parameters: call the overload for the types of the arguments
+new_3 :: (JavaObjectClass o1) => o1 -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttpStore
+new_3 a1 a2 a3
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_3_overload1 (javaCast a1 :: HashMap.HashMap) a2 a3
+    | jisInstanceOf a1 (javaNull :: StoreFrontInterface.StoreFrontInterface) = new_3_overload2 (javaCast a1 :: StoreFrontInterface.StoreFrontInterface) a2 a3
+    | otherwise = new_3_overload2 (javaCast a1 :: StoreFrontInterface.StoreFrontInterface) a2 a3
+
+init_3 :: (JavaObjectClass o1) => TransformInfoHttpStore -> o1 -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_3 this a1 a2 a3
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_3_overload1 this (javaCast a1 :: HashMap.HashMap) a2 a3
+    | jisInstanceOf a1 (javaNull :: StoreFrontInterface.StoreFrontInterface) = init_3_overload2 this (javaCast a1 :: StoreFrontInterface.StoreFrontInterface) a2 a3
+    | otherwise = init_3_overload2 this (javaCast a1 :: StoreFrontInterface.StoreFrontInterface) a2 a3
+
+
+new_3_overload1 :: HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttpStore
+new_3_overload1 databaseHashMap propertiesHashMap pageContext = do
     this <- newRecord_
-    init_3 this databaseHashMap propertiesHashMap pageContext
+    init_3_overload1 this databaseHashMap propertiesHashMap pageContext
     pure this
 
-init_3 :: TransformInfoHttpStore -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_3 this databaseHashMap propertiesHashMap pageContext = do
+init_3_overload1 :: TransformInfoHttpStore -> HashMap.HashMap -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_3_overload1 this databaseHashMap propertiesHashMap pageContext = do
         TransformInfoHttp.init_3 this.base (databaseHashMap) (propertiesHashMap) (pageContext)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -118,24 +135,23 @@ init_3 this databaseHashMap propertiesHashMap pageContext = do
             Control.Monad.void (StringMaker.append stringBuffer "\nProperties HashMap: ")
             Control.Monad.void (StringMaker.append stringBuffer (jio (HashMap.toString propertiesHashMap)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "Constructor(HashMap, HashMap , PageContext)")
-        Control.Monad.void (TransformInfoHttp.setStoreName this (javaCast (jio (HashMap.get databaseHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
+        Control.Monad.void (TransformInfoHttpStore.setStoreName this (javaCast (jio (HashMap.get databaseHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_3 :: StoreFrontInterface.StoreFrontInterface -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttpStore
-new_3 storeFrontInterface propertiesHashMap pageContext = do
+new_3_overload2 :: StoreFrontInterface.StoreFrontInterface -> HashMap.HashMap -> PageContext.PageContext -> IO TransformInfoHttpStore
+new_3_overload2 storeFrontInterface propertiesHashMap pageContext = do
     this <- newRecord_
-    init_3 this storeFrontInterface propertiesHashMap pageContext
+    init_3_overload2 this storeFrontInterface propertiesHashMap pageContext
     pure this
 
-init_3 :: TransformInfoHttpStore -> StoreFrontInterface.StoreFrontInterface -> HashMap.HashMap -> PageContext.PageContext -> IO ()
-init_3 this storeFrontInterface propertiesHashMap pageContext = do
+init_3_overload2 :: TransformInfoHttpStore -> StoreFrontInterface.StoreFrontInterface -> HashMap.HashMap -> PageContext.PageContext -> IO ()
+init_3_overload2 this storeFrontInterface propertiesHashMap pageContext = do
         TransformInfoHttp.init_2 this.base (propertiesHashMap) (pageContext)
         initFields_ this
         pure () -- super(...) is in the record above
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Properties HashMap: " ++ (jio (HashMap.toString propertiesHashMap))) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
-        Control.Monad.void (TransformInfoHttp.setStoreName this (jio (StoreFrontInterface.getName storeFrontInterface)))
+        Control.Monad.void (TransformInfoHttpStore.setStoreName this (jio (StoreFrontInterface.getName storeFrontInterface)))
         pure ()
 
 
@@ -151,7 +167,7 @@ getPath_impl this = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getMainPath)))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH))
-        Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoHttp.getStoreName this)))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoHttpStore.getStoreName this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (AbPathData.getInstance))).sEPARATOR))
         (StringMaker.toString stringBuffer)
 
@@ -190,5 +206,28 @@ getDataFilePath_super object_ = (getDataFilePath_impl (javaCast object_ :: Trans
 getDataFilePath_impl :: TransformInfoHttpStore -> IO (AbPath.AbPath)
 getDataFilePath_impl this = do
         (AbPath.new_2 (jio (TransformInfoHttpStore.getPath this)) (jio (TransformInfoHttp.getDataFile this)))
+
+
+setStoreName :: (JavaObjectClass this_) => this_ -> String -> IO (())
+setStoreName object_ a1 = jmethod object_ "setStoreName" (\() -> (setStoreName_impl (javaCast object_ :: TransformInfoHttpStore))) () a1
+
+setStoreName_super :: (JavaObjectClass this_) => this_ -> String -> IO (())
+setStoreName_super object_ a1 = (setStoreName_impl (javaCast object_ :: TransformInfoHttpStore)) a1
+
+setStoreName_impl :: TransformInfoHttpStore -> String -> IO (())
+setStoreName_impl this value = do
+        Control.Monad.void (TransformInfoHttp.setStoreName_super this.base value)
+        pure ()
+
+
+getStoreName :: (JavaObjectClass this_) => this_ -> IO (String)
+getStoreName object_ = jmethod object_ "getStoreName" (\() -> (getStoreName_impl (javaCast object_ :: TransformInfoHttpStore))) ()
+
+getStoreName_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getStoreName_super object_ = (getStoreName_impl (javaCast object_ :: TransformInfoHttpStore))
+
+getStoreName_impl :: TransformInfoHttpStore -> IO (String)
+getStoreName_impl this = do
+        (TransformInfoHttp.getStoreName_super this.base)
 
 

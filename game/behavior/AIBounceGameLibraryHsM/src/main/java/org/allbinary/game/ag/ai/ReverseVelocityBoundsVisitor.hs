@@ -19,10 +19,10 @@ module ReverseVelocityBoundsVisitor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified BasicDecimal -- same package or java.lang
 import qualified BoundsVisitorInterface -- org.allbinary.bounds.BoundsVisitorInterface
 import qualified VelocityInterface -- org.allbinary.game.physics.velocity.VelocityInterface
 import qualified VelocityInterfaceCompositeInterface -- org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface
@@ -60,6 +61,9 @@ instance JavaObjectClass ReverseVelocityBoundsVisitor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ReverseVelocityBoundsVisitor
 newRecord_ = do
@@ -130,8 +134,8 @@ minX_super object_ = (minX_impl (javaCast object_ :: ReverseVelocityBoundsVisito
 
 minX_impl :: ReverseVelocityBoundsVisitor -> IO (())
 minX_impl this = do
-        when ((jio (VelocityInterface.getUnscaled ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))))) < 0) $ do
-            Control.Monad.void (jio (VelocityInterface.multiplyint ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1)))
+        when ((jio (BasicDecimal.getUnscaled ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))))) < 0) $ do
+            Control.Monad.void (BasicDecimal.multiplyint ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1))
         pure ()
 
 
@@ -143,8 +147,8 @@ maxX_super object_ = (maxX_impl (javaCast object_ :: ReverseVelocityBoundsVisito
 
 maxX_impl :: ReverseVelocityBoundsVisitor -> IO (())
 maxX_impl this = do
-        when ((jio (VelocityInterface.getUnscaled ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))))) > 0) $ do
-            Control.Monad.void (jio (VelocityInterface.multiplyint ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1)))
+        when ((jio (BasicDecimal.getUnscaled ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))))) > 0) $ do
+            Control.Monad.void (BasicDecimal.multiplyint ((jio (VelocityInterface.getVelocityXBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1))
         pure ()
 
 
@@ -156,8 +160,8 @@ minY_super object_ = (minY_impl (javaCast object_ :: ReverseVelocityBoundsVisito
 
 minY_impl :: ReverseVelocityBoundsVisitor -> IO (())
 minY_impl this = do
-        when ((jio (VelocityInterface.getUnscaled ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))))) < 0) $ do
-            Control.Monad.void (jio (VelocityInterface.multiplyint ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1)))
+        when ((jio (BasicDecimal.getUnscaled ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))))) < 0) $ do
+            Control.Monad.void (BasicDecimal.multiplyint ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1))
         pure ()
 
 
@@ -169,8 +173,8 @@ maxY_super object_ = (maxY_impl (javaCast object_ :: ReverseVelocityBoundsVisito
 
 maxY_impl :: ReverseVelocityBoundsVisitor -> IO (())
 maxY_impl this = do
-        when ((jio (VelocityInterface.getUnscaled ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))))) > 0) $ do
-            Control.Monad.void (jio (VelocityInterface.multiplyint ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1)))
+        when ((jio (BasicDecimal.getUnscaled ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))))) > 0) $ do
+            Control.Monad.void (BasicDecimal.multiplyint ((jio (VelocityInterface.getVelocityYBasicDecimalP ((jget (this).velocityInterface))))) (Prelude.negate 1))
         pure ()
 
 

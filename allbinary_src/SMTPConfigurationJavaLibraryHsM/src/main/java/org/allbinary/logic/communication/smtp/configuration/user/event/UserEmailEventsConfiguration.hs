@@ -19,10 +19,10 @@ module UserEmailEventsConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass UserEmailEventsConfiguration where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserEmailEventsConfiguration
 newRecord_ = do
@@ -122,7 +125,7 @@ init_super object_ = (init_impl (javaCast object_ :: UserEmailEventsConfiguratio
 
 init_impl :: UserEmailEventsConfiguration -> IO (())
 init_impl this = do
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).emailEventHashMap (assignedValue)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).cONSTRUCTOR) this " Constructor")
@@ -149,7 +152,7 @@ addUserEmailEventConfiguration_super object_ a1 = (addUserEmailEventConfiguratio
 addUserEmailEventConfiguration_impl :: UserEmailEventsConfiguration -> UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface -> IO (())
 addUserEmailEventConfiguration_impl this userEmailEventConfigurationInterface = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding: " ++ javaToString (jio (UserEmailEventConfigurationInterface.log userEmailEventConfigurationInterface))) this "addUserEmailEventConfiguration")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding: " ++ (jio (UserEmailEventConfigurationInterface.log userEmailEventConfigurationInterface))) this "addUserEmailEventConfiguration")
         Control.Monad.void (HashMap.put ((jget (this).emailEventHashMap)) (jio (UserEmailEventConfigurationInterface.getName userEmailEventConfigurationInterface)) userEmailEventConfigurationInterface)
         pure ()
 

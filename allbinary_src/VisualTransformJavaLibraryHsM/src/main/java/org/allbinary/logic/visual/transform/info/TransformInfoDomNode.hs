@@ -19,10 +19,10 @@ module TransformInfoDomNode where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass TransformInfoDomNode where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO TransformInfoDomNode
 newRecord_ = do
     header_ <- newJavaHeader
@@ -86,14 +89,28 @@ initFields_ this = do
     jset this.mappedName (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO TransformInfoDomNode
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TransformInfoDomNode
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = new_1_overload2 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+    | otherwise = new_1_overload2 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+
+init_1 :: (JavaObjectClass o1) => TransformInfoDomNode -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = init_1_overload2 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+    | otherwise = init_1_overload2 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface)
+
+
+new_1_overload1 :: Node.Node -> IO TransformInfoDomNode
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: TransformInfoDomNode -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: TransformInfoDomNode -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Constructing TransformInfo From TransformInfoDomNode: " ++ javaToString (jio (Node.getNodeName node))) this "TransformInfoDomNode(Node node)")
@@ -139,43 +156,55 @@ init_1 this node = do
             jset (this).mappedName (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: TransformInfoInterface.TransformInfoInterface -> IO TransformInfoDomNode
-new_1 transformInfoInterface = do
+new_1_overload2 :: TransformInfoInterface.TransformInfoInterface -> IO TransformInfoDomNode
+new_1_overload2 transformInfoInterface = do
     this <- newRecord_
-    init_1 this transformInfoInterface
+    init_1_overload2 this transformInfoInterface
     pure this
 
-init_1 :: TransformInfoDomNode -> TransformInfoInterface.TransformInfoInterface -> IO ()
-init_1 this transformInfoInterface = do
+init_1_overload2 :: TransformInfoDomNode -> TransformInfoInterface.TransformInfoInterface -> IO ()
+init_1_overload2 this transformInfoInterface = do
         initFields_ this
         jset (this).transformInfoInterface (transformInfoInterface)
         assignedValue <- (TransformInfoInterface.getName transformInfoInterface)
         jset (this).mappedName (assignedValue)
         pure ()
 
-new_2 :: TransformInfoInterface.TransformInfoInterface -> String -> IO TransformInfoDomNode
-new_2 transformInfoInterface mappedName = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o1) => o1 -> String -> IO TransformInfoDomNode
+new_2 a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = new_2_overload1 (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) a2
+    | jisInstanceOf a1 (javaNull :: String) = new_2_overload2 (javaCast a1 :: String) a2
+    | otherwise = new_2_overload2 (javaCast a1 :: String) a2
+
+init_2 :: (JavaObjectClass o1) => TransformInfoDomNode -> o1 -> String -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a1 (javaNull :: TransformInfoInterface.TransformInfoInterface) = init_2_overload1 this (javaCast a1 :: TransformInfoInterface.TransformInfoInterface) a2
+    | jisInstanceOf a1 (javaNull :: String) = init_2_overload2 this (javaCast a1 :: String) a2
+    | otherwise = init_2_overload2 this (javaCast a1 :: String) a2
+
+
+new_2_overload1 :: TransformInfoInterface.TransformInfoInterface -> String -> IO TransformInfoDomNode
+new_2_overload1 transformInfoInterface mappedName = do
     this <- newRecord_
-    init_2 this transformInfoInterface mappedName
+    init_2_overload1 this transformInfoInterface mappedName
     pure this
 
-init_2 :: TransformInfoDomNode -> TransformInfoInterface.TransformInfoInterface -> String -> IO ()
-init_2 this transformInfoInterface mappedName = do
+init_2_overload1 :: TransformInfoDomNode -> TransformInfoInterface.TransformInfoInterface -> String -> IO ()
+init_2_overload1 this transformInfoInterface mappedName = do
         initFields_ this
         jset (this).transformInfoInterface (transformInfoInterface)
         jset (this).mappedName (mappedName)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: String -> String -> IO TransformInfoDomNode
-new_2 name mappedName = do
+new_2_overload2 :: String -> String -> IO TransformInfoDomNode
+new_2_overload2 name mappedName = do
     this <- newRecord_
-    init_2 this name mappedName
+    init_2_overload2 this name mappedName
     pure this
 
-init_2 :: TransformInfoDomNode -> String -> String -> IO ()
-init_2 this name mappedName = do
+init_2_overload2 :: TransformInfoDomNode -> String -> String -> IO ()
+init_2_overload2 this name mappedName = do
         initFields_ this
         assignedValue <- (fmap (\value_ -> javaCast value_ :: TransformInfoInterface.TransformInfoInterface) (TransformInfo.new_1 name))
         jset (this).transformInfoInterface (assignedValue)

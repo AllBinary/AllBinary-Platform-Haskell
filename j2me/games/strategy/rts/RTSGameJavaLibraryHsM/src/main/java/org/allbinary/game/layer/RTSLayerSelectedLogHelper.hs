@@ -20,10 +20,10 @@ import RTSLayerLogHelper hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PathFindingLayerInterface -- same package or java.lang
+import qualified AngleIncrementInfo -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonLabels -- org.allbinary.string.CommonLabels
 import qualified CommonSeps -- org.allbinary.string.CommonSeps
@@ -68,6 +69,7 @@ instance JavaObjectClass RTSLayerSelectedLogHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: RTSLayerSelectedLogHelper
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 

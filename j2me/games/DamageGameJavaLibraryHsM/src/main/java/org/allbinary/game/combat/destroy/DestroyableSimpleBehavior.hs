@@ -20,10 +20,10 @@ import DestroyableBaseBehavior hiding (new_, init_, newRecord_, initFields_, hea
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified DestroyedLayerProcessor -- same package or java.lang
+import qualified BasicLayerProcessor -- same package or java.lang
 import qualified CollidableCompositeLayer -- org.allbinary.game.layer.CollidableCompositeLayer
 import qualified DestroyableBaseBehavior
 

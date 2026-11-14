@@ -19,10 +19,10 @@ module UserConfigurationInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,10 +63,14 @@ instance JavaObjectClass UserConfigurationInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+configurationName :: String
 configurationName = "DefaultUserConfiguration"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserConfigurationInterfaceFactory
 newRecord_ = do
@@ -109,7 +113,7 @@ getInstance_overload1 document = do
 -- throws Exception
 getInstance_overload2 :: UserRole.UserRole -> IO (UserConfigurationInterface.UserConfigurationInterface)
 getInstance_overload2 userRole = do
-        abPath <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).uSERCONFIGURATIONPATH)) (((javaToString UserConfigurationInterfaceFactory.configurationName ++ (jio (UserRole.toString userRole))) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString UserConfigurationData.uNCRYPTED_EXTENSION))
+        abPath <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).uSERCONFIGURATIONPATH)) (((javaToString UserConfigurationInterfaceFactory.configurationName ++ (jio (UserRole.toString userRole))) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString UserConfigurationData.uNCRYPTED_EXTENSION))
         documentString <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (UserConfigurationData.uNCRYPTED_EXTENSION) (UserConfigurationData.eNCRYPTED_EXTENSION)))) abPath)
         document <- (DomDocumentHelper.create_1 documentString)
         (UserConfigurationInterfaceFactory.getInstance document)

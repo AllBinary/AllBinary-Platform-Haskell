@@ -19,10 +19,10 @@ module FileListFetcher where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,11 +58,15 @@ instance JavaObjectClass FileListFetcher where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: FileListFetcher
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO FileListFetcher
 newRecord_ = do
@@ -140,7 +144,7 @@ getFiles_2_overload1_impl this path includeExtensions = do
             let size = (jlength includeExtensions)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (BasicArrayList.add includeExtensionBasicArrayList (jindex includeExtensions (index)))
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_1 includeExtensionBasicArrayList)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_1 includeExtensionBasicArrayList))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
@@ -160,7 +164,7 @@ getFiles_2_overload2_impl this path includeExtension = do
             ) $ do
             includeExtensionBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             Control.Monad.void (BasicArrayList.add includeExtensionBasicArrayList includeExtension)
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_1 includeExtensionBasicArrayList)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_1 includeExtensionBasicArrayList))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
@@ -180,7 +184,7 @@ getFiles_3_impl this path pathIncludes includeExtension = do
             ) $ do
             includeExtensionBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             Control.Monad.void (BasicArrayList.add includeExtensionBasicArrayList includeExtension)
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_2 includeExtensionBasicArrayList pathIncludes)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryOrIncludeFileExtensionBooleanFileVisitor.new_2 includeExtensionBasicArrayList pathIncludes))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
@@ -209,7 +213,7 @@ getTrackedFiles_overload1_impl this path includeExtensions = do
             let size = (jlength includeExtensions)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (BasicArrayList.add includeExtensionBasicArrayList (jindex includeExtensions (index)))
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.new_1 includeExtensionBasicArrayList)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.new_1 includeExtensionBasicArrayList))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
@@ -229,7 +233,7 @@ getTrackedFiles_overload2_impl this path includeExtension = do
             ) $ do
             includeExtensionBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             Control.Monad.void (BasicArrayList.add includeExtensionBasicArrayList includeExtension)
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.new_1 includeExtensionBasicArrayList)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.new_1 includeExtensionBasicArrayList))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)
@@ -247,7 +251,7 @@ getDirectories_impl this path = do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             Control.Monad.void (putStrLn (javaToString ((("Error: " ++ javaToString e) ++ "\nMsg: ") ++ (Control.Exception.displayException e))))
             ) $ do
-            visitorFileFilter <- (VisitorFileFilter.new_1 (jio (DirectoryBooleanFileVisitor.new_)))
+            visitorFileFilter <- (VisitorFileFilter.new_1 (javaCast (jio (DirectoryBooleanFileVisitor.new_))))
             files <- (SubDirectory.search ((jget (this).subDirectory)) visitorFileFilter (jio (AbFile.createAbFile path)))
             pure (files)
         pure (javaNull)

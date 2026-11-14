@@ -20,10 +20,10 @@ import AllBinaryLayerManager hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -108,7 +108,7 @@ initFields_ this = do
 getNullInstance :: IO (AllBinaryGameLayerManager)
 getNullInstance = do
         when ((jget AllBinaryGameLayerManager.nULL_ALLBINARY_LAYER_MANAGER) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_3 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE) (GameInfo.nONE))
+            assignedValue <- (fmap jtoObject (new_3 (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE) (GameInfo.nONE)))
             jset AllBinaryGameLayerManager.nULL_ALLBINARY_LAYER_MANAGER (assignedValue)
         pure ((javaCast (jget AllBinaryGameLayerManager.nULL_ALLBINARY_LAYER_MANAGER) :: AllBinaryGameLayerManager))
 

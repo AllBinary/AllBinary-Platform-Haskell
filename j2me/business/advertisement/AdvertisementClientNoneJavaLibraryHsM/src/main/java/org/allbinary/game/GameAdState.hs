@@ -16,14 +16,14 @@
 -- package org.allbinary.game
 module GameAdState (module GameAdState, module GameAdStateBase) where
 
-import GameAdStateBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, onVirtualKeyboardEvent, onVirtualKeyboardEvent_super, onVirtualKeyboardEvent_impl)
+import GameAdStateBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, onVirtualKeyboardEvent, onVirtualKeyboardEvent_super, onVirtualKeyboardEvent_impl, onEvent, onEvent_super, onEvent_impl)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -37,6 +37,7 @@ import qualified AdConfiguration -- org.allbinary.business.advertisement.AdConfi
 import qualified VirtualKeyboardEvent -- org.allbinary.input.event.VirtualKeyboardEvent
 import qualified VirtualKeyboardEventHandler -- org.allbinary.input.event.VirtualKeyboardEventHandler
 import qualified VirtualKeyboardEventListenerInterface -- org.allbinary.input.event.VirtualKeyboardEventListenerInterface
+import qualified AllBinaryEventObject -- org.allbinary.logic.util.event.AllBinaryEventObject
 
 -- implements VirtualKeyboardEventListenerInterface
 data GameAdState = GameAdState
@@ -65,6 +66,7 @@ newRecord_ = do
     jregisterLevel header_ this
     VirtualKeyboardEventListenerInterface.registerInterface_ header_
     jregisterMethod header_ "onVirtualKeyboardEvent" (\() -> onVirtualKeyboardEvent_impl this)
+    jregisterMethod header_ "onEvent" (\() -> onEvent_impl this)
     pure this
 
 initFields_ :: GameAdState -> IO ()
@@ -95,6 +97,18 @@ onVirtualKeyboardEvent_super object_ a1 = (onVirtualKeyboardEvent_impl (javaCast
 
 onVirtualKeyboardEvent_impl :: GameAdState -> VirtualKeyboardEvent.VirtualKeyboardEvent -> IO (())
 onVirtualKeyboardEvent_impl this virtualKeyboardEvent = do
+        pure ()
+
+
+onEvent :: (JavaObjectClass this_) => this_ -> AllBinaryEventObject.AllBinaryEventObject -> IO (())
+onEvent object_ a1 = jmethod object_ "onEvent" (\() -> (onEvent_impl (javaCast object_ :: GameAdState))) () a1
+
+onEvent_super :: (JavaObjectClass this_) => this_ -> AllBinaryEventObject.AllBinaryEventObject -> IO (())
+onEvent_super object_ a1 = (onEvent_impl (javaCast object_ :: GameAdState)) a1
+
+onEvent_impl :: GameAdState -> AllBinaryEventObject.AllBinaryEventObject -> IO (())
+onEvent_impl this eventObject = do
+        Control.Monad.void (GameAdStateBase.onEvent_super this.base eventObject)
         pure ()
 
 

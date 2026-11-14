@@ -19,10 +19,10 @@ module ImageScaleUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,11 +61,15 @@ instance JavaObjectClass ImageScaleUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageScaleUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageScaleUtil
 newRecord_ = do
@@ -151,7 +155,7 @@ scale2_super object_ a1 a2 a3 a4 a5 a6 a7 a8 = (scale2_impl (javaCast object_ ::
 
 scale2_impl :: ImageScaleUtil -> Image.Image -> JavaArray (Image.Image) -> JavaArray (Image.Image) -> Int -> Float -> Float -> Float -> Float -> IO (())
 scale2_impl this originalImage originalImageArray ximageToShowArray unused scaleX scaleY maxScaleX maxScaleY = do
-        when (((maxScaleX * (jio (Image.getWidth originalImage))) > (jio (getWidth ((jindex originalImageArray (0)))))) || ((maxScaleY * (jio (Image.getHeight originalImage))) > (jio (getHeight ((jindex originalImageArray (0))))))) $ do
+        when (((maxScaleX * (Prelude.fromIntegral (jio (Image.getWidth originalImage)))) > (Prelude.fromIntegral (jio (Image.getWidth ((jindex originalImageArray (0))))))) || ((maxScaleY * (Prelude.fromIntegral (jio (Image.getHeight originalImage)))) > (Prelude.fromIntegral (jio (Image.getHeight ((jindex originalImageArray (0)))))))) $ do
             assignedValue <- (ImageCreationUtil.createImage ((jget (this).imageCreationUtil)) (jio (Image.getWidth originalImage)) (jio (Image.getHeight originalImage)) maxScaleX maxScaleY)
             jsetIndex originalImageArray (0) (assignedValue)
         Control.Monad.void (ImageScaleUtil.scale this originalImage (jindex originalImageArray (0)) scaleX scaleY False)

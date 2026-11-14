@@ -20,10 +20,10 @@ import ShakeAnimationListener hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,6 +52,7 @@ instance JavaObjectClass NoShakeAnimationListener where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nO_SHAKE_ANIMATION_LISTENER :: ShakeAnimationListener.ShakeAnimationListener
 {-# NOINLINE nO_SHAKE_ANIMATION_LISTENER #-}
 nO_SHAKE_ANIMATION_LISTENER = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: ShakeAnimationListener.ShakeAnimationListener) (new_)))
 

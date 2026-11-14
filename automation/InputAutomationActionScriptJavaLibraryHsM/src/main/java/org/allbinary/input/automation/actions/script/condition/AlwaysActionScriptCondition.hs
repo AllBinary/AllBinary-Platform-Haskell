@@ -20,10 +20,10 @@ import BasicProfileActionScriptCondition hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AlwaysActionScriptConditionJPanel -- same package or java.lang
 import qualified AlwaysActionScriptConditionData -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified DomNodeHelper -- org.allbinary.data.tree.dom.DomNodeHelper
 import qualified DomSearchHelper -- org.allbinary.data.tree.dom.DomSearchHelper
@@ -68,6 +69,7 @@ instance JavaObjectClass AlwaysActionScriptCondition where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Always On/Off"
 
 newRecord_ :: IO AlwaysActionScriptCondition
@@ -115,7 +117,7 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget AlwaysActionScriptConditionData.iS_ON))) == 0) then do
                     booleanString <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (AlwaysActionScriptCondition.setIsOn this (booleanString))
+                    Control.Monad.void (AlwaysActionScriptCondition.setIsOn this (Prelude.map Data.Char.toLower booleanString == "true"))
                 else do
                     javaThrow ((JavaException "Exception" "Action Script Condition Unknown Node"))
         else do
@@ -146,7 +148,7 @@ init_super object_ = (init_impl (javaCast object_ :: AlwaysActionScriptCondition
 
 init_impl :: AlwaysActionScriptCondition -> IO (())
 init_impl this = do
-        assignedValue <- (AlwaysActionScriptConditionJPanel.new_1 this)
+        assignedValue <- (AlwaysActionScriptConditionJPanel.new_1 (javaCast this))
         jset (this).alwaysActionScriptConditionJPanel (assignedValue)
         pure ()
 

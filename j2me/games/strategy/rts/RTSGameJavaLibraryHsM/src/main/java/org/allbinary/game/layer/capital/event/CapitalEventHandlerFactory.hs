@@ -19,10 +19,10 @@ module CapitalEventHandlerFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,10 +51,14 @@ instance JavaObjectClass CapitalEventHandlerFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
-capitalEventHandlerArray = javaNull
+capitalEventHandlerArray :: JavaArray (CapitalEventHandler.CapitalEventHandler)
+capitalEventHandlerArray = (jnewArray (10) javaNull)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CapitalEventHandlerFactory
 newRecord_ = do
@@ -81,7 +85,6 @@ init_ this = do
 -- Java static initializer: call this before the class is used
 staticInit_ :: IO ()
 staticInit_ = do
-        capitalEventHandlerArray <- pure ((jnewArray (10) javaNull))
         forM_ [((jlength CapitalEventHandlerFactory.capitalEventHandlerArray) - 1), ((jlength CapitalEventHandlerFactory.capitalEventHandlerArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (CapitalEventHandler.new_)
             jsetIndex CapitalEventHandlerFactory.capitalEventHandlerArray (index) (assignedValue)
@@ -90,7 +93,8 @@ staticInit_ = do
 
 getInstance :: Group.Group -> IO (CapitalEventHandler.CapitalEventHandler)
 getInstance groupInterface = do
-        pure ((jindex CapitalEventHandlerFactory.capitalEventHandlerArray ((Prelude.fromIntegral (jio (Group.getGroupId groupInterface))))))
+        let groupId = (Prelude.fromIntegral (jio (Group.getGroupId groupInterface)))
+        pure ((jindex CapitalEventHandlerFactory.capitalEventHandlerArray (groupId)))
 
 
 removeAll :: IO (())

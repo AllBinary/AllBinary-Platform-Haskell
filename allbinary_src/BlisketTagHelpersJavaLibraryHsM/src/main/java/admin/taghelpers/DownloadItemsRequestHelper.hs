@@ -20,10 +20,10 @@ import ModifyTable hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified InventoryItemViewParentTagHelper -- same package or java.lang
+import qualified DownloadItemsEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -113,14 +114,14 @@ insert_super object_ = (insert_impl (javaCast object_ :: DownloadItemsRequestHel
 insert_impl :: DownloadItemsRequestHelper -> IO (String)
 insert_impl this = do
         handle (\(e :: JavaException) -> do
-            let error = (("Failed to insert " ++ javaToString (jio (DownloadableItem.getId ((jget (this).downloadableItem))))) ++ " into downloaditems table")
+            let error = (("Failed to insert " ++ (jio (DownloadableItem.getId ((jget (this).downloadableItem))))) ++ " into downloaditems table")
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "inserts()" e)
             pure (error)
             ) $ do
             vector <- (DownloadableItem.toVector ((jget (this).downloadableItem)))
             Control.Monad.void (DownloadItemsEntity.insert ((jio (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance)))))) vector)
-            let success = (("Successfully inserted " ++ javaToString (jio (DownloadableItem.getId ((jget (this).downloadableItem))))) ++ " into downloaditems table")
+            let success = (("Successfully inserted " ++ (jio (DownloadableItem.getId ((jget (this).downloadableItem))))) ++ " into downloaditems table")
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "insert()")
             pure (success)
@@ -156,7 +157,7 @@ update_super object_ = (update_impl (javaCast object_ :: DownloadItemsRequestHel
 update_impl :: DownloadItemsRequestHelper -> IO (String)
 update_impl this = do
         handle (\(e :: JavaException) -> do
-            let error = ("Failed to update: " ++ javaToString (jio (DownloadableItem.getId ((jget (this).downloadableItem)))))
+            let error = ("Failed to update: " ++ (jio (DownloadableItem.getId ((jget (this).downloadableItem)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "update()" e)
             pure (error)
@@ -165,7 +166,7 @@ update_impl this = do
             values <- (DownloadableItem.toHashMap ((jget (this).downloadableItem)))
             Control.Monad.void (DownloadItemsEntity.update ((jio (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance)))))) values)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString ((jio (DownloadableItem.getId ((jget (this).downloadableItem)))) + (jget ((jio (CommonSeps.getInstance))).sPACE)) ++ success) this "update()")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((jio (DownloadableItem.getId ((jget (this).downloadableItem)))) ++ javaToString (jget ((jio (CommonSeps.getInstance))).sPACE)) ++ success) this "update()")
             pure (success)
 
 

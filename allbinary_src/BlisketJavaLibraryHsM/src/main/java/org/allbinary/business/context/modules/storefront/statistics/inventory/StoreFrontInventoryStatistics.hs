@@ -19,10 +19,10 @@ module StoreFrontInventoryStatistics where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass StoreFrontInventoryStatistics where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO StoreFrontInventoryStatistics
 newRecord_ = do
     header_ <- newJavaHeader
@@ -104,7 +107,7 @@ init_1 this storeFrontInterface = do
         size <- (BasicArrayList.size itemVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let itemInterface = (javaCast (jio (BasicArrayList.get itemVector index)) :: ItemInterface.ItemInterface)
-            let numberInStock = (javaToString (jio (ItemInterface.getNumber itemInterface)))
+            let numberInStock = (jio (jparseInt (jio (ItemInterface.getNumber itemInterface))))
             jset (this).totalNumberOfItems (((jget (this).totalNumberOfItems) + (Prelude.fromIntegral numberInStock)))
             itemPriceMoney <- (ItemInterface.getPrice itemInterface)
             Control.Monad.void (Money.multiply itemPriceMoney numberInStock)

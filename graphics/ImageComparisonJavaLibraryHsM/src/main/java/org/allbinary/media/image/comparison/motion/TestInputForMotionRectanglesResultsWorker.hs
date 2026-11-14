@@ -19,10 +19,10 @@ module TestInputForMotionRectanglesResultsWorker where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,6 +76,9 @@ instance JavaObjectClass TestInputForMotionRectanglesResultsWorker where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TestInputForMotionRectanglesResultsWorker
 newRecord_ = do
@@ -204,7 +207,7 @@ run_impl this = do
                     let inputTypeNameString = (javaCast (jindex inputTypeNameArray (index)) :: String)
                     let inputRobotInterface = (javaCast (jio (ABHashtable.get robotHashtable inputTypeNameString)) :: InputRobotInterface.InputRobotInterface)
                     Control.Monad.void (InputRobotInterface.mouseMoveToTarget inputRobotInterface rectangle)
-                    when ((jio (InputRobotInterface.compareTo ((jio (InputRobotInterface.getName inputRobotInterface))) (TempInputRobotNames.dX_NAME))) == 0) $ do
+                    when ((Prelude.fromEnum (Prelude.compare (jio (InputRobotInterface.getName inputRobotInterface)) (TempInputRobotNames.dX_NAME)) - 1) == 0) $ do
                         Control.Monad.void (InputRobotInterface.mousePress inputRobotInterface (InputEvent.bUTTON1_MASK))
                         Control.Monad.void (threadDelay (Prelude.fromIntegral 300 * 1000))
                         Control.Monad.void (InputRobotInterface.mouseRelease inputRobotInterface (InputEvent.bUTTON1_MASK))

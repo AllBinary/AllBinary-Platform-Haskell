@@ -20,10 +20,10 @@ import OpenGLESImage hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -94,7 +94,7 @@ initFields_ this = do
         jset this.textureVertexFloatBuffer ((jget (this).textureVertexFloatBuffer))
         jset this.regionTextureRectangleFloatArray ((jnewArray (8) 0.0))
         jset this.regionTextureVertexFloatBuffer =<< (ByteBuffer.asFloatBuffer ((jio (ByteBuffer.order ((jio (ByteBuffer.allocateDirect ((4 * 4) * 2)))) (jio (ByteOrder.nativeOrder))))))
-        jset this.regionRectangleFloatArray ((jarrayFromList [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
+        jset this.regionRectangleFloatArray ((jarrayFromList [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] :: JavaArray Float))
         jset this.regionRectangleVertexFloatBuffer =<< (ByteBuffer.asFloatBuffer ((jio (ByteBuffer.order ((jio (ByteBuffer.allocateDirect ((4 * 4) * 3)))) (jio (ByteOrder.nativeOrder))))))
         jset this.openGLESImageProperties ((jget (this).base.openGLESImageProperties))
         -- drawRegion

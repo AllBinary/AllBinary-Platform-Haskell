@@ -19,10 +19,10 @@ module WaypointEventHandlerFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,10 +51,14 @@ instance JavaObjectClass WaypointEventHandlerFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+eventHandlerArray :: JavaArray (WaypointEventHandler.WaypointEventHandler)
 eventHandlerArray = (jarrayFromList [(jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_)), (jio (WaypointEventHandler.new_))])
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO WaypointEventHandlerFactory
 newRecord_ = do
@@ -80,7 +84,8 @@ init_ this = do
 
 getInstance :: Group.Group -> IO (WaypointEventHandler.WaypointEventHandler)
 getInstance groupInterface = do
-        pure ((jindex WaypointEventHandlerFactory.eventHandlerArray ((Prelude.fromIntegral (jio (Group.getGroupId groupInterface))))))
+        let groupId = (Prelude.fromIntegral (jio (Group.getGroupId groupInterface)))
+        pure ((jindex WaypointEventHandlerFactory.eventHandlerArray (groupId)))
 
 
 removeAll :: IO (())

@@ -19,10 +19,10 @@ module GameConfigurationTextInput where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,17 +56,23 @@ instance JavaObjectClass GameConfigurationTextInput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashtable :: IORef (ABHashtable.ABHashtable)
 {-# NOINLINE hashtable #-}
 hashtable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))) >>= newIORef)
 
+sIMULATOR_IP :: IORef (GameConfigurationTextInput)
 {-# NOINLINE sIMULATOR_IP #-}
 sIMULATOR_IP = unsafePerformIO ((new_2 "IP: " "192.168.1.3") >>= newIORef)
 
+sIMULATOR_PORT :: IORef (GameConfigurationTextInput)
 {-# NOINLINE sIMULATOR_PORT #-}
 sIMULATOR_PORT = unsafePerformIO ((new_2 "Port: " "8010") >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameConfigurationTextInput
 newRecord_ = do
@@ -98,14 +104,14 @@ init_2 this label text = do
         initFields_ this
         Control.Monad.void (GameConfigurationTextInput.setText this text)
         Control.Monad.void (GameConfigurationTextInput.setLabel this label)
-        Control.Monad.void (put ((jget GameConfigurationTextInput.hashtable)) (jio (GameConfigurationTextInput.getLabel this)) this)
+        Control.Monad.void (ABHashtable.put ((jget GameConfigurationTextInput.hashtable)) (jio (GameConfigurationTextInput.getLabel this)) this)
         pure ()
 
 
 update :: TextField.TextField -> IO (())
 update textField = do
         let anyType = (javaCast (jio (TextField.getLabel textField)) :: Any.Any)
-        let gameConfigurationTextInput = (javaCast (jio (get ((jget GameConfigurationTextInput.hashtable)) anyType)) :: GameConfigurationTextInput)
+        let gameConfigurationTextInput = (javaCast (jio (ABHashtable.get ((jget GameConfigurationTextInput.hashtable)) anyType)) :: GameConfigurationTextInput)
         Control.Monad.void (GameConfigurationTextInput.setText gameConfigurationTextInput (jio (TextField.getString textField)))
         pure ()
 

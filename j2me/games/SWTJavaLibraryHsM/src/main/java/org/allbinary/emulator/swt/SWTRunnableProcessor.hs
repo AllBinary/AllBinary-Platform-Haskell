@@ -20,10 +20,10 @@ import SWTProcessor hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,7 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Runnable -- same package or java.lang
-import qualified Display -- org.eclipse.swt.widgets.Display
+import qualified EclipseDisplay -- org.eclipse.swt.widgets.EclipseDisplay
 import qualified SWTProcessor
 
 data SWTRunnableProcessor = SWTRunnableProcessor
@@ -54,6 +54,7 @@ instance JavaObjectClass SWTRunnableProcessor where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceR :: SWTRunnableProcessor
 {-# NOINLINE instanceR #-}
 instanceR = unsafePerformIO ((new_))
 
@@ -89,13 +90,13 @@ init_ this = do
         pure ()
 
 
-process :: (JavaObjectClass this_) => this_ -> Display.Display -> IO (())
+process :: (JavaObjectClass this_) => this_ -> EclipseDisplay.EclipseDisplay -> IO (())
 process object_ a1 = jmethod object_ "process" (\() -> (process_impl (javaCast object_ :: SWTRunnableProcessor))) () a1
 
-process_super :: (JavaObjectClass this_) => this_ -> Display.Display -> IO (())
+process_super :: (JavaObjectClass this_) => this_ -> EclipseDisplay.EclipseDisplay -> IO (())
 process_super object_ a1 = (process_impl (javaCast object_ :: SWTRunnableProcessor)) a1
 
-process_impl :: SWTRunnableProcessor -> Display.Display -> IO (())
+process_impl :: SWTRunnableProcessor -> EclipseDisplay.EclipseDisplay -> IO (())
 process_impl this display = do
         Control.Monad.void (Runnable.run ((jget (this).base.runnable)))
         pure ()

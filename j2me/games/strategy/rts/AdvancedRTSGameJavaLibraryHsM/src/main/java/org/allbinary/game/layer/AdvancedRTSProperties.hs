@@ -19,10 +19,10 @@ module AdvancedRTSProperties where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass AdvancedRTSProperties where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO AdvancedRTSProperties
 newRecord_ = do
     header_ <- newJavaHeader
@@ -88,12 +91,12 @@ initFields_ this = do
 
 createPropertiesSimulated :: IO (AdvancedRTSProperties)
 createPropertiesSimulated = do
-        (new_4 (NoShakeAnimationListener.nO_SHAKE_ANIMATION_LISTENER) (jget AllBinaryNoVibration.nO_VIBRATION) 0 (jio (WaypointBehaviorBase.new_)))
+        (new_4 (NoShakeAnimationListener.nO_SHAKE_ANIMATION_LISTENER) (jget AllBinaryNoVibration.nO_VIBRATION) 0 (javaCast (jio (WaypointBehaviorBase.new_))))
 
 
 createProperties :: IO (AdvancedRTSProperties)
 createProperties = do
-        (new_4 (jio (ShakeAnimationListenerFactory.getInstance)) (jio (AllBinaryVibration.getInstance)) ((jio (GameConfiguration.getValue ((jget ((jio (GameConfigurationCentral.getInstance))).vIBRATION)))) * 100) (jio (WaypointBehaviorBase.new_)))
+        (new_4 (jio (ShakeAnimationListenerFactory.getInstance)) (jio (AllBinaryVibration.getInstance)) ((jio (GameConfiguration.getValue ((jget ((jio (GameConfigurationCentral.getInstance))).vIBRATION)))) * 100) (javaCast (jio (WaypointBehaviorBase.new_))))
 
 new_4 :: ShakeAnimationListener.ShakeAnimationListener -> AllBinaryVibrationME.AllBinaryVibrationME -> Int -> TickableInterface.TickableInterface -> IO AdvancedRTSProperties
 new_4 shakeListener vibration duration waypointBehaviorBase = do

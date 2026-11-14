@@ -20,10 +20,10 @@ import AbstractInputAutomationWorker hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,8 @@ import qualified GHC.Float
 import qualified GenericProfileCaptureWorkerFactory -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified CaptureWorkerUtil -- same package or java.lang
+import qualified CaptureWorkerInterface -- same package or java.lang
+import qualified GenericProfileActions -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
@@ -126,7 +128,7 @@ init_4 this inputAutomationActionInterface genericProfile motionRectangleConstra
         size <- (BasicArrayList.size vector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let genericProfileDataWorkerType = (javaCast (jio (BasicArrayList.get vector index)) :: GenericProfileDataWorkerType.GenericProfileDataWorkerType)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding Listener: " ++ javaToString genericProfileDataWorkerType) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Adding Listener: " ++ jconcatObject GenericProfileDataWorkerType.toString genericProfileDataWorkerType) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
             if (genericProfileDataWorkerType == (jget GenericProfileDataWorkerType.cOMPARISON)) then do
                 Control.Monad.void (CaptureWorkerInterface.addListenerInterface ((jio (AbstractInputAutomationWorker.getCaptureWorker this))) (jio (AbstractInputAutomationWorker.getImageComparisonWorker this)))
             else when (genericProfileDataWorkerType == (jget GenericProfileDataWorkerType.mOTION)) $ do
@@ -146,7 +148,7 @@ processDataWorkerResults_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget (this).pROCESS_DATA_WORKER_RESULTS))
         Control.Monad.void (AbstractInputAutomationWorker.waitForDataWorkers this)
         let cacheInterface = (javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: J2SECacheInterface.J2SECacheInterface)
-        keyArray <- (J2SECacheInterface.toArray ((jio (J2SECacheInterface.keySet cacheInterface))))
+        keyArray <- (Set.toArray ((jio (J2SECacheInterface.keySet cacheInterface))))
         if ((jlength keyArray) > 0) then do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Image Available" this (jget (this).pROCESS_DATA_WORKER_RESULTS))
             Control.Monad.void (GenericInputAutomationWorker.setFrame this (javaCast (jindex keyArray (((jlength keyArray) - 1))) :: Int64))

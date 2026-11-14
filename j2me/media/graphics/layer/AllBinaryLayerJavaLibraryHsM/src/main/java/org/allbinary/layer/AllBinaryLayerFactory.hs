@@ -19,10 +19,10 @@ module AllBinaryLayerFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,9 @@ instance JavaObjectClass AllBinaryLayerFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryLayerFactory
 newRecord_ = do
@@ -95,6 +98,6 @@ getInstance_super object_ = (getInstance_impl (javaCast object_ :: AllBinaryLaye
 
 getInstance_impl :: AllBinaryLayerFactory -> IO (AllBinaryLayer.AllBinaryLayer)
 getInstance_impl this = do
-        (AllBinaryLayer.new_3 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).rectangle) (jio (ViewPosition.getInstanceD)))
+        (AllBinaryLayer.new_3 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget (this).rectangle) (javaCast (jio (ViewPosition.getInstanceD))))
 
 

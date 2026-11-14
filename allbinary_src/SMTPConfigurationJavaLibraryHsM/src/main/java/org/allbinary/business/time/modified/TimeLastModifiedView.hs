@@ -19,10 +19,10 @@ module TimeLastModifiedView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,9 @@ instance JavaObjectClass TimeLastModifiedView where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO TimeLastModifiedView
 newRecord_ = do
     header_ <- newJavaHeader
@@ -78,27 +81,40 @@ initFields_ this = do
     jset this.timeLastModified (javaNull)
     pure ()
 
-new_1 :: TimeLastModified.TimeLastModified -> IO TimeLastModifiedView
-new_1 timeLastModified = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TimeLastModifiedView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: TimeLastModified.TimeLastModified) = new_1_overload1 (javaCast a1 :: TimeLastModified.TimeLastModified)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload2 (javaCast a1 :: Node.Node)
+    | otherwise = new_1_overload2 (javaCast a1 :: Node.Node)
+
+init_1 :: (JavaObjectClass o1) => TimeLastModifiedView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: TimeLastModified.TimeLastModified) = init_1_overload1 this (javaCast a1 :: TimeLastModified.TimeLastModified)
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload2 this (javaCast a1 :: Node.Node)
+    | otherwise = init_1_overload2 this (javaCast a1 :: Node.Node)
+
+
+new_1_overload1 :: TimeLastModified.TimeLastModified -> IO TimeLastModifiedView
+new_1_overload1 timeLastModified = do
     this <- newRecord_
-    init_1 this timeLastModified
+    init_1_overload1 this timeLastModified
     pure this
 
-init_1 :: TimeLastModifiedView -> TimeLastModified.TimeLastModified -> IO ()
-init_1 this timeLastModified = do
+init_1_overload1 :: TimeLastModifiedView -> TimeLastModified.TimeLastModified -> IO ()
+init_1_overload1 this timeLastModified = do
         initFields_ this
         Control.Monad.void (TimeLastModifiedView.setTimeLastModified this timeLastModified)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Node.Node -> IO TimeLastModifiedView
-new_1 node = do
+new_1_overload2 :: Node.Node -> IO TimeLastModifiedView
+new_1_overload2 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload2 this node
     pure this
 
-init_1 :: TimeLastModifiedView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload2 :: TimeLastModifiedView -> Node.Node -> IO ()
+init_1_overload2 this node = do
         initFields_ this
         Control.Monad.void (TimeLastModifiedView.setTimeLastModified this (jio (TimeLastModified.new_1 (jio (DomNodeHelper.getTextNodeValue node)))))
         pure ()

@@ -20,10 +20,10 @@ import LayerProcessor hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,7 +80,7 @@ new_ = do
 
 init_ :: OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer -> IO ()
 init_ this = do
-        LayerProcessor.init_1 this.base (jio (OptimizedAllBinaryCollisionLayerManager.new_))
+        LayerProcessor.init_1 this.base (javaCast (jio (OptimizedAllBinaryCollisionLayerManager.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

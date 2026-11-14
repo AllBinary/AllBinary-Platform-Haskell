@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,6 +42,7 @@ import qualified ConstrainedMotionRectangles -- same package or java.lang
 import qualified ConstrainedMotionRectanglesResultsCacheSingleton -- same package or java.lang
 import qualified MotionRectanglesResultsEvent -- same package or java.lang
 import qualified MotionRectangles -- same package or java.lang
+import qualified CacheInterface -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified StdUtil -- org.allbinary.logic.StdUtil
@@ -191,12 +192,12 @@ run_impl this = do
             let imageComparisonInfo = (javaCast (jio (ImageComparisonResultsEvent.getImageComparisonResult imageComparisonResultsEvent)) :: ImageComparisonResult.ImageComparisonResult)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (ImageComparisonResult.toString imageComparisonInfo)) this (jget ((jget (this).commonStrings)).rUN))
             allMotionRectangles <- (AllMotionRectangles.new_1 imageComparisonInfo)
-            Control.Monad.void (CacheInterface.add ((jio (AllMotionRectanglesResultsCacheSingleton.getInstance))) (jio (MotionRectanglesResultsFrameCacheable.new_2 allMotionRectangles (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)))))
-            consolidatedMotionRectangles <- (ConsolidateMotionRectangles.new_1 allMotionRectangles)
-            Control.Monad.void (CacheInterface.add ((jio (ConsolidatedMotionRectanglesResultsCacheSingleton.getInstance))) (jio (MotionRectanglesResultsFrameCacheable.new_2 consolidatedMotionRectangles (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)))))
-            constrainedMotionRectangles <- (ConstrainedMotionRectangles.new_2 (jget (this).motionRectangleConstraintsInterface) consolidatedMotionRectangles)
+            Control.Monad.void (CacheInterface.add ((jio (AllMotionRectanglesResultsCacheSingleton.getInstance))) (javaCast (jio (MotionRectanglesResultsFrameCacheable.new_2 (javaCast allMotionRectangles) (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo))))))
+            consolidatedMotionRectangles <- (ConsolidateMotionRectangles.new_1 (javaCast allMotionRectangles))
+            Control.Monad.void (CacheInterface.add ((jio (ConsolidatedMotionRectanglesResultsCacheSingleton.getInstance))) (javaCast (jio (MotionRectanglesResultsFrameCacheable.new_2 (javaCast consolidatedMotionRectangles) (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo))))))
+            constrainedMotionRectangles <- (ConstrainedMotionRectangles.new_2 (jget (this).motionRectangleConstraintsInterface) (javaCast consolidatedMotionRectangles))
             Control.Monad.void (ConstrainedMotionRectangles.applyMotionRectangleConstraints constrainedMotionRectangles (javaCast consolidatedMotionRectangles))
-            Control.Monad.void (CacheInterface.add ((jio (ConstrainedMotionRectanglesResultsCacheSingleton.getInstance))) (jio (MotionRectanglesResultsFrameCacheable.new_2 constrainedMotionRectangles (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)))))
+            Control.Monad.void (CacheInterface.add ((jio (ConstrainedMotionRectanglesResultsCacheSingleton.getInstance))) (javaCast (jio (MotionRectanglesResultsFrameCacheable.new_2 (javaCast constrainedMotionRectangles) (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo))))))
             Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jio (MotionRectanglesResultsEvent.new_3 this (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)) (javaCast constrainedMotionRectangles :: MotionRectangles.MotionRectangles)))))
             Control.Monad.void (BasicArrayList.remove ((jget (this).imageComparisonInfoVector)) imageComparisonResultsEvent)
             jset (this).index ((jget (this).index) + 1)

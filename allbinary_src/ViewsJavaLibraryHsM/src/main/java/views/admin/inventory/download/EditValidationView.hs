@@ -16,14 +16,14 @@
 -- package views.admin.inventory.download
 module EditValidationView (module EditValidationView, module DownloadableInventoryItemView) where
 
-import DownloadableInventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, downloadItemId)
+import DownloadableInventoryItemView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getFormData, getFormData_super, getFormData_impl, isValid, isValid_super, isValid_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, validationInfo, validationInfo_super, validationInfo_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, downloadItemId)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ItemInterface -- same package or java.lang
+import qualified InventoryEntity -- same package or java.lang
 import qualified HttpServletRequest -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -87,6 +88,7 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: EditValidationView -> IO ()
@@ -142,7 +144,7 @@ isValid_impl this = do
         jset (this).base.itemInterface (assignedValue)
         when ((jget (this).base.itemInterface) == javaNull) $ do
             javaReturn (False)
-        let downloadable = (Prelude.read (jio (ItemInterface.getDownloads ((jget (this).base.itemInterface)))))
+        downloadable <- (jparseInt (jio (ItemInterface.getDownloads ((jget (this).base.itemInterface)))))
         if (downloadable /= 0) then do
             downloadItemsEntity <- (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance))))
             vector <- (DownloadItemsEntity.getForItem_2 downloadItemsEntity (jget (this).base.id) (jget (this).downloadItemId))
@@ -190,12 +192,24 @@ validationInfo_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer "Id is not valid.<br />")
         when ((jio (InventoryEntity.getItem ((jio (InventoryEntityFactory.getInventoryEntityInstance ((jio (InventoryEntityFactory.getInstance)))))) (jget (this).base.id))) == javaNull) $ do
             Control.Monad.void (StringMaker.append stringBuffer "Item does not exist.<br />")
-        let downloadable = (Prelude.read (jio (ItemInterface.getDownloads ((jget (this).base.itemInterface)))))
+        downloadable <- (jparseInt (jio (ItemInterface.getDownloads ((jget (this).base.itemInterface)))))
         if (downloadable /= 0) then do
             when ((jget (this).base.downloadableItem) == javaNull) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "DownloadableItem does not exist for item.<br />")
         else do
             Control.Monad.void (StringMaker.append stringBuffer "Item should not have DownloadableItem.<br />")
         (StringMaker.toString stringBuffer)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: EditValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: EditValidationView))
+
+getTransformInfoInterface_impl :: EditValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (DownloadableInventoryItemView.getTransformInfoInterface_super this.base)
 
 

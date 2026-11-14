@@ -19,10 +19,10 @@ module HtmlForm where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -189,7 +189,8 @@ toString_impl this = do
         jset result (((jget result) ++ javaToString "\" "))
         jset result (((jget result) ++ javaToString (jget (this).eND)))
         forM_ [0 .. inputSize - 1] $ \i -> javaIteration (pure ()) $ do
-            jset result (((jget result) ++ javaToString (toString ((jindex inputArray (i))))))
+            assignedValue <- (Any.toString ((jindex inputArray (i))))
+            jset result (((jget result) ++ javaToString assignedValue))
             jset result (((jget result) ++ javaToString " "))
         jset result (((jget result) ++ javaToString (jget (this).fORMEND)))
         pure ((jget result))

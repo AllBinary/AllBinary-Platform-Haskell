@@ -19,10 +19,10 @@ module ImageTypes where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -162,7 +162,7 @@ toString_impl this = do
             let imageType = (javaCast (jio (BasicArrayList.get ((jget (this).vector)) index)) :: InputImageType.InputImageType)
             Control.Monad.void (StringMaker.append stringBuffer (jio (InputImageType.getName imageType)))
             when (index < (size - 1)) $ do
-                Control.Monad.void (jio (StringMaker.append stringBuffer ", "))
+                Control.Monad.void (StringMaker.append stringBuffer ", ")
         (StringMaker.toString stringBuffer)
 
 

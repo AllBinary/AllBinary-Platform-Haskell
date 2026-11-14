@@ -19,10 +19,10 @@ module SensorGameUpdateProcessor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified GyroSensorFactory -- same package or java.lang
+import qualified AllBinaryOrientationSensor -- same package or java.lang
 import qualified NoCompleteMotionGestureInputEventListener -- org.allbinary.game.input.motion.action.NoCompleteMotionGestureInputEventListener
 import qualified AllBinarySensor -- org.allbinary.input.AllBinarySensor
 import qualified NoAllBinarySensor -- org.allbinary.input.NoAllBinarySensor
@@ -58,6 +59,9 @@ instance JavaObjectClass SensorGameUpdateProcessor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SensorGameUpdateProcessor
 newRecord_ = do

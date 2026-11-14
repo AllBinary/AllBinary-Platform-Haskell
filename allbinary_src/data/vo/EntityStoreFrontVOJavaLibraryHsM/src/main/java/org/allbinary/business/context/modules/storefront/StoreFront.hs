@@ -19,10 +19,10 @@ module StoreFront where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -126,10 +126,14 @@ instance JavaObjectClass StoreFront where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rESOURCES :: String
 rESOURCES = (" Resources" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StoreFront
 newRecord_ = do
@@ -311,14 +315,28 @@ init_ this = do
         jset (this).contextConfigurationInterface (assignedValue)
         pure ()
 
-new_1 :: HttpServletRequest.HttpServletRequest -> IO StoreFront
-new_1 request = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO StoreFront
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload1 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => StoreFront -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload1 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: HttpServletRequest.HttpServletRequest -> IO StoreFront
+new_1_overload1 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload1 this request
     pure this
 
-init_1 :: StoreFront -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this request = do
+init_1_overload1 :: StoreFront -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload1 this request = do
         initFields_ this
         Control.Monad.void (StoreFront.getFormData this (jio (RequestParams.toHashMap ((jio (RequestParams.new_1 request))))))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
@@ -326,15 +344,14 @@ init_1 this request = do
         Control.Monad.void (StoreFront.setContextConfigurationInterface this (javaCast (jio (ContextConfigurationInterfaceFactory.getInstance_1 ((jio (ContextConfigurationInterfaceFactory.getInstance))) "Admin"))))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO StoreFront
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO StoreFront
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: StoreFront -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: StoreFront -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         initFields_ this
         Control.Monad.void (StoreFront.getFormData this hashMap)
         let domDocumentString = (javaCast (jio (HashMap.get hashMap (jget ((jio (StoreFrontData.getInstance))).cONFIGURATION))) :: String)
@@ -661,7 +678,7 @@ getTestHtmlPath_super object_ = (getTestHtmlPath_impl (javaCast object_ :: Store
 
 getTestHtmlPath_impl :: StoreFront -> IO (String)
 getTestHtmlPath_impl this = do
-        pure (((jio (getTestHtmlPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) + (jio (StoreFront.getCurrentHostNamePath this))))
+        pure ((javaToString (jio (getTestHtmlPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) ++ (jio (StoreFront.getCurrentHostNamePath this))))
 
 
 getCurrentHostName :: (JavaObjectClass this_) => this_ -> IO (String)
@@ -1392,12 +1409,12 @@ createDirectories_super object_ = (createDirectories_impl (javaCast object_ :: S
 createDirectories_impl :: StoreFront -> IO (Bool)
 createDirectories_impl this = do
     javaCatchReturn $ do
-        storeAbPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) + (jio (StoreFront.getCurrentHomeHostNamePath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        storeAbPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFront.getCurrentHomeHostNamePath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         when (Prelude.not (jio (Directory.create ((jget (this).directory)) storeAbPath))) $ do
             javaReturn (False)
-        when (Prelude.not (jio (Directory.create ((jget (this).directory)) (jio (AbPath.new_2 (storeAbPath + (jio (StoreFront.getCategoryPath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))) $ do
+        when (Prelude.not (jio (Directory.create ((jget (this).directory)) (jio (AbPath.new_2 (jconcatObject AbPath.toString storeAbPath ++ (jio (StoreFront.getCategoryPath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))) $ do
             javaReturn (False)
-        when (Prelude.not (jio (Directory.create ((jget (this).directory)) (jio (AbPath.new_2 (storeAbPath + (jio (StoreFront.getStaticPath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))) $ do
+        when (Prelude.not (jio (Directory.create ((jget (this).directory)) (jio (AbPath.new_2 (jconcatObject AbPath.toString storeAbPath ++ (jio (StoreFront.getStaticPath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))) $ do
             javaReturn (False)
         pure (True)
 
@@ -1513,7 +1530,7 @@ installMedia_impl this fromDirectoryAbPath current total = do
         Control.Monad.void (StringMaker.append stringBuffer "images")
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (AbPathData.getInstance))).sEPARATOR))
         viewStoreImagesDirectoryAbPath <- (AbPath.new_2 (jio (StringMaker.toString stringBuffer)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-        storeAbPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) + (jio (StoreFront.getCurrentHomeHostNamePath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+        storeAbPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFront.getCurrentHomeHostNamePath this))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         Control.Monad.void (FileUtil.copyDirectoryPortion ((jio (FileUtil.getInstance))) viewStoreImagesDirectoryAbPath storeAbPath True False current total)
         pure ()
 

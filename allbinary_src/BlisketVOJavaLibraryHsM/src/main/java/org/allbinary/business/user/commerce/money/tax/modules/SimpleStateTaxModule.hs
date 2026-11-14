@@ -19,10 +19,10 @@ module SimpleStateTaxModule where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -83,6 +83,9 @@ instance JavaObjectClass SimpleStateTaxModule where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO SimpleStateTaxModule
 newRecord_ = do
     header_ <- newJavaHeader
@@ -138,7 +141,7 @@ getTaxRate_impl this streetAddress storeFrontInterface = do
     javaCatchReturn $ do
         jset (this).streetAddress (streetAddress)
         jset (this).storeFrontInterface (storeFrontInterface)
-        fileAbPath <- (AbPath.new_2 ((javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
+        fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
         data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
         assignedValue <- (DomDocumentHelper.create_1 data_)
         jset (this).document (assignedValue)
@@ -158,7 +161,7 @@ getTaxRate_impl this streetAddress storeFrontInterface = do
                 when ((((jget state) /= javaNull) && ((jio (StreetAddress.getState taxableStreetAddress)) /= javaNull)) && ((Prelude.fromEnum (Prelude.compare (jget state) (jio (StreetAddress.getState taxableStreetAddress))) - 1) == 0)) $ do
                     rateNode <- (DomSearchHelper.getNode (TaxData.rATE) taxNodeChildren)
                     taxRate <- (DomNodeHelper.getTextNodeValue rateNode)
-                    let taxRateFloat = ((Prelude.realToFrac taxRate) * 0.01)
+                    let taxRateFloat = ((Prelude.realToFrac (jio (jparseFloat taxRate))) * 0.01)
                     javaReturn (taxRateFloat)
         pure (0)
 
@@ -179,7 +182,7 @@ isValid_impl this streetAddress storeFrontInterface = do
             ) $ do
             jset (this).streetAddress (streetAddress)
             jset (this).storeFrontInterface (storeFrontInterface)
-            fileAbPath <- (AbPath.new_2 ((javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
+            fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
             data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
             assignedValue <- (DomDocumentHelper.create_1 data_)
             jset (this).document (assignedValue)

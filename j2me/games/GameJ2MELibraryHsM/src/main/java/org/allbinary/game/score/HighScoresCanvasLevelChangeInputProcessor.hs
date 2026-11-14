@@ -20,10 +20,10 @@ import HighScoresCanvasInputProcessor hiding (new_, init_, newRecord_, initField
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified GameInfo -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -94,7 +95,7 @@ initFields_ :: HighScoresCanvasLevelChangeInputProcessor -> IO ()
 initFields_ this = do
     jset this.displayInfoSingleton =<< (DisplayInfoSingleton.getInstance)
     jset this.iNSTRUCTIONS ("(Right = Next Track, Left = Previous Track)")
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.anchor ((jget Anchor.tOP_LEFT))
     jset this.fontHeight (0)
     pure ()
@@ -185,7 +186,7 @@ paint_impl :: HighScoresCanvasLevelChangeInputProcessor -> Graphics.Graphics -> 
 paint_impl this graphics = do
         Control.Monad.void (MyFontProcessor.process ((jget (this).myFontProcessor)) graphics)
         width <- (DisplayInfoSingleton.getLastWidth ((jget (this).displayInfoSingleton)))
-        let topScoresWidth = (((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).iNSTRUCTIONS))) `Data.Bits.shiftR` 1))
+        let topScoresWidth = (((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).iNSTRUCTIONS))) `Data.Bits.shiftR` 1))
         Control.Monad.void (Graphics.drawString graphics (jget (this).iNSTRUCTIONS) (((width `Data.Bits.shiftR` 1)) - topScoresWidth) ((jget (this).fontHeight) * 2) (jget (this).anchor))
         pure ()
 

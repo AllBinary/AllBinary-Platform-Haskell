@@ -20,10 +20,10 @@ import Validation hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -87,29 +87,42 @@ initFields_ this = do
     jset this.storeFrontInterface (javaNull)
     pure ()
 
-new_1 :: String -> IO GlobalsValidation
-new_1 storeName = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO GlobalsValidation
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Document.Document) = new_1_overload2 (javaCast a1 :: Document.Document)
+    | otherwise = new_1_overload2 (javaCast a1 :: Document.Document)
+
+init_1 :: (JavaObjectClass o1) => GlobalsValidation -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Document.Document) = init_1_overload2 this (javaCast a1 :: Document.Document)
+    | otherwise = init_1_overload2 this (javaCast a1 :: Document.Document)
+
+
+new_1_overload1 :: String -> IO GlobalsValidation
+new_1_overload1 storeName = do
     this <- newRecord_
-    init_1 this storeName
+    init_1_overload1 this storeName
     pure this
 
-init_1 :: GlobalsValidation -> String -> IO ()
-init_1 this storeName = do
+init_1_overload1 :: GlobalsValidation -> String -> IO ()
+init_1_overload1 this storeName = do
         Validation.init_ this.base
         initFields_ this
-        assignedValue <- (StoreFrontFactory.getInstance storeName)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
         jset (this).storeFrontInterface (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Document.Document -> IO GlobalsValidation
-new_1 document = do
+new_1_overload2 :: Document.Document -> IO GlobalsValidation
+new_1_overload2 document = do
     this <- newRecord_
-    init_1 this document
+    init_1_overload2 this document
     pure this
 
-init_1 :: GlobalsValidation -> Document.Document -> IO ()
-init_1 this document = do
+init_1_overload2 :: GlobalsValidation -> Document.Document -> IO ()
+init_1_overload2 this document = do
         Validation.init_ this.base
         initFields_ this
         javaThrow ((JavaException "Exception" (jget ((jio (CommonStrings.getInstance))).nOT_IMPLEMENTED)))

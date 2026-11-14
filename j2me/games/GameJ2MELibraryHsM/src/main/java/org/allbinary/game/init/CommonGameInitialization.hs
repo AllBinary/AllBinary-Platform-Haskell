@@ -20,10 +20,10 @@ import BaseGameInitialization hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -115,7 +115,7 @@ init_impl this abeClientInformation commandListener level = do
             Control.Monad.void (AngleFactory.getInstance)
             Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas 50 "Angles")
             Control.Monad.void (CommonGameInitialization.initGame this)
-            Control.Monad.void (init ((jindex ((jget (this).base.resourceInitializationArray)) ((jget (this).base.gAME_RESOURCES)))))
+            Control.Monad.void (ResourceInitialization.init ((jindex ((jget (this).base.resourceInitializationArray)) ((jget (this).base.gAME_RESOURCES)))))
         Control.Monad.void (BaseGameInitialization.resourceInitialization_super this.base level)
         pure ()
 

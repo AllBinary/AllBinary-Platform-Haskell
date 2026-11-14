@@ -16,14 +16,14 @@
 -- package org.allbinary.game.layer.building
 module BuildingLayer (module BuildingLayer, module AdvancedRTSGameLayer) where
 
-import AdvancedRTSGameLayer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createSimulated, createSimulated_super, createSimulated_impl, initVisibility, initVisibility_super, initVisibility_impl, construct, construct_super, construct_impl, onMovement, onMovement_super, onMovement_impl, processBuiltTick, processBuiltTick_super, processBuiltTick_impl, calculateEfficiency, calculateEfficiency_super, calculateEfficiency_impl, getCost, getCost_super, getCost_impl, getDowngradeCost, getDowngradeCost_super, getDowngradeCost_impl, getUpgradeCost, getUpgradeCost_super, getUpgradeCost_impl, downgrade, downgrade_super, downgrade_impl, upgrade, upgrade_super, upgrade_impl, getBuildingLevelCost, getBuildingLevelCost_super, getBuildingLevelCost_impl, setBuildingLevelCost, setBuildingLevelCost_super, setBuildingLevelCost_impl, getProductivity, getProductivity_super, getProductivity_impl, setProductivity, setProductivity_super, setProductivity_impl, getEfficiency, getEfficiency_super, getEfficiency_impl, setEfficiency, setEfficiency_super, setEfficiency_impl, generateMoveOutOfBuildAreaPaths, generateMoveOutOfBuildAreaPaths_super, generateMoveOutOfBuildAreaPaths_impl, getMoveOutOfBuildAreaPath, getMoveOutOfBuildAreaPath_super, getMoveOutOfBuildAreaPath_impl, getEndGeographicMapCellPositionList, getEndGeographicMapCellPositionList_super, getEndGeographicMapCellPositionList_impl, shouldHandleStartSameAsEnd, shouldHandleStartSameAsEnd_super, shouldHandleStartSameAsEnd_impl, paint, paint_super, paint_impl, damage, damage_super, damage_impl, getDamage, getDamage_super, getDamage_impl, addVisibility, addVisibility_super, addVisibility_impl, removeVisibility, removeVisibility_super, removeVisibility_impl, setDestroyed, setDestroyed_super, setDestroyed_impl, createHudPaintable, createHudPaintable_super, createHudPaintable_impl, getHudPaintable, getHudPaintable_super, getHudPaintable_impl, getType, getType_super, getType_impl, getStaticType, getStaticType_super, getStaticType_impl, buildingLevelCost, productivity, efficiency, efficiencyPerLevel, trackingEvent, damageFloaters, damageFloatersPaintableInterface, healthBar, pathsHashtable, local, timeDelayHelper)
+import AdvancedRTSGameLayer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createSimulated, createSimulated_super, createSimulated_impl, initVisibility, initVisibility_super, initVisibility_impl, construct, construct_super, construct_impl, onMovement, onMovement_super, onMovement_impl, processBuiltTick, processBuiltTick_super, processBuiltTick_impl, calculateEfficiency, calculateEfficiency_super, calculateEfficiency_impl, getCost, getCost_super, getCost_impl, getDowngradeCost, getDowngradeCost_super, getDowngradeCost_impl, getUpgradeCost, getUpgradeCost_super, getUpgradeCost_impl, downgrade, downgrade_super, downgrade_impl, upgrade, upgrade_super, upgrade_impl, getBuildingLevelCost, getBuildingLevelCost_super, getBuildingLevelCost_impl, setBuildingLevelCost, setBuildingLevelCost_super, setBuildingLevelCost_impl, getProductivity, getProductivity_super, getProductivity_impl, setProductivity, setProductivity_super, setProductivity_impl, getEfficiency, getEfficiency_super, getEfficiency_impl, setEfficiency, setEfficiency_super, setEfficiency_impl, generateMoveOutOfBuildAreaPaths, generateMoveOutOfBuildAreaPaths_super, generateMoveOutOfBuildAreaPaths_impl, getMoveOutOfBuildAreaPath, getMoveOutOfBuildAreaPath_super, getMoveOutOfBuildAreaPath_impl, getEndGeographicMapCellPositionList, getEndGeographicMapCellPositionList_super, getEndGeographicMapCellPositionList_impl, shouldHandleStartSameAsEnd, shouldHandleStartSameAsEnd_super, shouldHandleStartSameAsEnd_impl, paint, paint_super, paint_impl, damage, damage_super, damage_impl, getDamage, getDamage_super, getDamage_impl, addVisibility, addVisibility_super, addVisibility_impl, removeVisibility, removeVisibility_super, removeVisibility_impl, setDestroyed, setDestroyed_super, setDestroyed_impl, createHudPaintable, createHudPaintable_super, createHudPaintable_impl, getHudPaintable, getHudPaintable_super, getHudPaintable_impl, getType, getType_super, getType_impl, getStaticType, getStaticType_super, getStaticType_impl, getRotationAnimationInterface, getRotationAnimationInterface_super, getRotationAnimationInterface_impl, setFrame, setFrame_super, setFrame_impl, buildingLevelCost, productivity, efficiency, efficiencyPerLevel, trackingEvent, damageFloaters, damageFloatersPaintableInterface, healthBar, pathsHashtable, local, timeDelayHelper)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -41,7 +41,16 @@ import qualified AllBinaryVibrationME -- same package or java.lang
 import qualified IndexedAnimation -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified WaypointBehaviorBase -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified RTSLayer -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified ExplosionBasicSound -- org.allbinary.ag.weapon.media.audio.ExplosionBasicSound
 import qualified NullAnimationFactory -- org.allbinary.animation.NullAnimationFactory
@@ -88,6 +97,7 @@ import qualified TimeDelayHelper -- org.allbinary.time.TimeDelayHelper
 import qualified BasicArrayListS -- org.allbinary.util.BasicArrayListS
 import qualified RemoteInfo -- org.allbinary.game.multiplayer.layer.RemoteInfo
 import qualified ABHashtable -- org.allbinary.util.ABHashtable
+import qualified RotationAnimation -- org.allbinary.animation.RotationAnimation
 
 -- implements RotationAnimationInterfaceCompositeInterface
 -- implements TrackingEventListenerInterface
@@ -168,6 +178,8 @@ newRecord_ = do
     jregisterMethod header_ "createHudPaintable" (\() -> createHudPaintable_impl this)
     jregisterMethod header_ "getHudPaintable" (\() -> getHudPaintable_impl this)
     jregisterMethod header_ "getType" (\() -> getType_impl this)
+    jregisterMethod header_ "getRotationAnimationInterface" (\() -> getRotationAnimationInterface_impl this)
+    jregisterMethod header_ "setFrame" (\() -> setFrame_impl this)
     pure this
 
 initFields_ :: BuildingLayer -> IO ()
@@ -191,7 +203,7 @@ createSimulated :: IO (BuildingLayer)
 createSimulated = do
         nullAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullAnimationFactory.getFactoryInstance))
         nullIndexedAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullIndexedAnimationFactory.getFactoryInstance))
-        (new_17 (RemoteInfo.rEMOTE_INFO) (jio (SimulatedBuildingPropertiesFactory.getInstance)) (jio (AdvancedRTSProperties.createPropertiesSimulated)) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (jio (NullIndexedAnimationFactory.getFactoryInstance)) (RectangleFactory.sINGLETON) 0 0)
+        (new_17 (RemoteInfo.rEMOTE_INFO) (javaCast (jio (SimulatedBuildingPropertiesFactory.getInstance))) (jio (AdvancedRTSProperties.createPropertiesSimulated)) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (javaCast (jio (NullIndexedAnimationFactory.getFactoryInstance))) (RectangleFactory.sINGLETON) 0 0)
 
 new_17 :: RemoteInfo.RemoteInfo -> BuildingPropertiesFactory.BuildingPropertiesFactory -> AdvancedRTSProperties.AdvancedRTSProperties -> JavaArray (Group.Group) -> String -> String -> Health.Health -> RTSFormInput.RTSFormInput -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Int -> Int -> IO BuildingLayer
 new_17 remoteInfo buildingPropertiesFactory advancedRTSProperties groupInterface rootName name healthInterface rtsFormInput animationInterfaceFactoryInterface emptyAnimationInterfaceFactoryInterface baseAnimationInterfaceFactoryInterface buildAnimationInterfaceFactoryInterface verticleBuildAnimationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle x y = do
@@ -201,11 +213,11 @@ new_17 remoteInfo buildingPropertiesFactory advancedRTSProperties groupInterface
 
 init_17 :: BuildingLayer -> RemoteInfo.RemoteInfo -> BuildingPropertiesFactory.BuildingPropertiesFactory -> AdvancedRTSProperties.AdvancedRTSProperties -> JavaArray (Group.Group) -> String -> String -> Health.Health -> RTSFormInput.RTSFormInput -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Int -> Int -> IO ()
 init_17 this remoteInfo buildingPropertiesFactory advancedRTSProperties groupInterface rootName name healthInterface rtsFormInput animationInterfaceFactoryInterface emptyAnimationInterfaceFactoryInterface baseAnimationInterfaceFactoryInterface buildAnimationInterfaceFactoryInterface verticleBuildAnimationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle x y = do
-        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (NullPathFindingLayer.nULL_PATH_FINDING_LAYER) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (rtsFormInput) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (jio (TileLayerPositionIntoViewPosition.new_))
+        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (javaCast NullPathFindingLayer.nULL_PATH_FINDING_LAYER) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (rtsFormInput) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (javaCast (jio (TileLayerPositionIntoViewPosition.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableRTSBehavior.new_1 True))))
-        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 this (jio (SelectSound.getInstance))))))
+        Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) (javaCast (jio (Waypoint.new_2 (javaCast this) (jio (SelectSound.getInstance))))))
         assignedValue <- (BuildingPropertiesFactory.getDamageFloaters buildingPropertiesFactory this)
         jset (this).damageFloaters (assignedValue)
         jset (this).damageFloatersPaintableInterface ((jget (buildingPropertiesFactory).damageFloatersPaintableInterface))
@@ -326,7 +338,7 @@ getCost_super object_ = (getCost_impl (javaCast object_ :: BuildingLayer))
 
 getCost_impl :: BuildingLayer -> IO (Int)
 getCost_impl this = do
-        total <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromInteger (jnumericInteger (((jio (AdvancedRTSGameLayer.getLevel this)) * (jio (BuildingLayer.getBuildingLevelCost this)))))))
+        total <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromIntegral (((jio (AdvancedRTSGameLayer.getLevel this)) * (jio (BuildingLayer.getBuildingLevelCost this))))))
         pure ((Prelude.fromIntegral total))
 
 
@@ -338,7 +350,7 @@ getDowngradeCost_super object_ = (getDowngradeCost_impl (javaCast object_ :: Bui
 
 getDowngradeCost_impl :: BuildingLayer -> IO (Int)
 getDowngradeCost_impl this = do
-        downgradeCost <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromInteger (jnumericInteger (((((jio (AdvancedRTSGameLayer.getLevel this)) - 1)) * (jio (BuildingLayer.getBuildingLevelCost this)))))))
+        downgradeCost <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromIntegral (((((jio (AdvancedRTSGameLayer.getLevel this)) - 1)) * (jio (BuildingLayer.getBuildingLevelCost this))))))
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.base.base.base.base.base.logUtil)) ("Cost: " ++ javaToString downgradeCost) this "getDowngradeCost")
         pure ((((Prelude.fromIntegral downgradeCost) * 9) `quot` 10))
 
@@ -351,7 +363,7 @@ getUpgradeCost_super object_ = (getUpgradeCost_impl (javaCast object_ :: Buildin
 
 getUpgradeCost_impl :: BuildingLayer -> IO (Int)
 getUpgradeCost_impl this = do
-        upgradeCost <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromInteger (jnumericInteger (((((jio (AdvancedRTSGameLayer.getLevel this)) + 1)) * (jio (BuildingLayer.getBuildingLevelCost this)))))))
+        upgradeCost <- (RTSLayerUtil.getCostExponential ((jio (RTSLayerUtil.getInstance))) (Prelude.fromIntegral (((((jio (AdvancedRTSGameLayer.getLevel this)) + 1)) * (jio (BuildingLayer.getBuildingLevelCost this))))))
         pure ((Prelude.fromIntegral upgradeCost))
 
 
@@ -547,7 +559,7 @@ damage_impl this damage damageType = do
         Control.Monad.void (AdvancedRTSGameLayer.damage_super this.base damage damageType)
         Control.Monad.void (DamageFloaters.add ((jget (this).damageFloaters)) damage)
         when (damage > 0) $ do
-            Control.Monad.void (jio (Health.damage ((jio (AdvancedRTSGameLayer.getHealthInterface this))) damage))
+            Control.Monad.void (Health.damage ((jio (AdvancedRTSGameLayer.getHealthInterface this))) damage)
         pure ()
 
 
@@ -665,5 +677,28 @@ getType_impl this = do
 getStaticType :: IO (Int)
 getStaticType = do
         pure (2)
+
+
+getRotationAnimationInterface :: (JavaObjectClass this_) => this_ -> IO (RotationAnimation.RotationAnimation)
+getRotationAnimationInterface object_ = jmethod object_ "getRotationAnimationInterface" (\() -> (getRotationAnimationInterface_impl (javaCast object_ :: BuildingLayer))) ()
+
+getRotationAnimationInterface_super :: (JavaObjectClass this_) => this_ -> IO (RotationAnimation.RotationAnimation)
+getRotationAnimationInterface_super object_ = (getRotationAnimationInterface_impl (javaCast object_ :: BuildingLayer))
+
+getRotationAnimationInterface_impl :: BuildingLayer -> IO (RotationAnimation.RotationAnimation)
+getRotationAnimationInterface_impl this = do
+        (AdvancedRTSGameLayer.getRotationAnimationInterface_super this.base)
+
+
+setFrame :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+setFrame object_ a1 = jmethod object_ "setFrame" (\() -> (setFrame_impl (javaCast object_ :: BuildingLayer))) () a1
+
+setFrame_super :: (JavaObjectClass this_) => this_ -> Int -> IO (())
+setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: BuildingLayer)) a1
+
+setFrame_impl :: BuildingLayer -> Int -> IO (())
+setFrame_impl this index = do
+        Control.Monad.void (AdvancedRTSGameLayer.setFrame_super this.base index)
+        pure ()
 
 

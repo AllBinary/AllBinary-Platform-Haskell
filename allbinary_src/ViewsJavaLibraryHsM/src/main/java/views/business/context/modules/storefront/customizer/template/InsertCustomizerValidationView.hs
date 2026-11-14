@@ -16,14 +16,14 @@
 -- package views.business.context.modules.storefront.customizer.template
 module InsertCustomizerValidationView (module InsertCustomizerValidationView, module HttpStoreComponentView) where
 
-import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, view, view_super, view_impl, logUtil, viewName)
+import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, view, view_super, view_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, viewName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,11 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TransformInfoObjectConfigInterface -- same package or java.lang
+import qualified TransformInfoEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
+import qualified HttpComponentView -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -92,6 +95,7 @@ newRecord_ = do
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
     jregisterMethod header_ "view" (\() -> view_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: InsertCustomizerValidationView -> IO ()
@@ -137,7 +141,7 @@ isValid_impl this = do
             if (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) (jget (this).viewName))) then do
                 jset isValid (False)
             else do
-                objectConfig <- (NoTemplateTransformInfoObjectConfig.new_2 (jio (HttpStoreComponentView.getTransformInfoInterface this)) (jio (TransformInfoInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))))
+                objectConfig <- (NoTemplateTransformInfoObjectConfig.new_2 (jio (InsertCustomizerValidationView.getTransformInfoInterface this)) (jio (TransformInfoObjectConfigInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (InsertCustomizerValidationView.getTransformInfoInterface this)))))))))
                 componentVector <- (NoTemplateTransformInfoObjectConfig.getGroupTransforms objectConfig)
                 size <- (BasicArrayList.size componentVector)
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
@@ -151,9 +155,9 @@ isValid_impl this = do
                     transformInfoName <- (TransformInfo.getName transformInfo)
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Setting Template Component with ViewName: " ++ transformInfoName) this (jget ((jget (this).base.commonStrings)).iS_VALID))
-                    componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).base.base.abeClientInformation) transformInfoName (jio (HttpStoreComponentView.getTransformInfoInterface this))))
+                    componentInterface <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).base.base.abeClientInformation) transformInfoName (jio (InsertCustomizerValidationView.getTransformInfoInterface this))))
                     templateViewObjectConfig <- (InsertTemplateCustomizerTransformInfoObjectConfig.new_2 (jio (TransformInterface.getTransformInfoInterface componentInterface)) (jio (TransformInterface.toXmlDoc ((jio (TransformInterface.getObjectConfigInterface ((jio (TransformInterface.getTransformInfoInterface componentInterface)))))))))
-                    storeName <- (TransformInfoInterface.getStoreName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))
+                    storeName <- (TransformInfoInterface.getStoreName ((jio (InsertCustomizerValidationView.getTransformInfoInterface this))))
                     let endIndex = ((jstringIndexOf (jget (this).viewName) storeName 0) + (Prelude.length storeName))
                     let storePrepend = (Prelude.take ((endIndex) - (0)) (Prelude.drop (0) (jget (this).viewName)))
                     let viewNamePostfix = (Prelude.take (((Prelude.length (jget (this).viewName))) - (endIndex)) (Prelude.drop (endIndex) (jget (this).viewName)))
@@ -244,5 +248,17 @@ view_super object_ = (view_impl (javaCast object_ :: InsertCustomizerValidationV
 view_impl :: InsertCustomizerValidationView -> IO (String)
 view_impl this = do
         (view ((jio (getInstance ((jget ((jget this.base.views)).validationOnlyTempUtil))))) this)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: InsertCustomizerValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: InsertCustomizerValidationView))
+
+getTransformInfoInterface_impl :: InsertCustomizerValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (HttpStoreComponentView.getTransformInfoInterface_super this.base)
 
 

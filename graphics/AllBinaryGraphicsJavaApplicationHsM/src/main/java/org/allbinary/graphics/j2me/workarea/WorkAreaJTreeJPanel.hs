@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -247,7 +247,7 @@ deselectAll_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("size: " ++ javaToString size) this "deselectAll")
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let node = (javaCast (jio (BasicArrayList.get ((jget (this).highlightedBasicArrayList)) index)) :: DefaultMutableTreeNode.DefaultMutableTreeNode)
-            Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dESELECT) node)) :: Any.Any))))
+            Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dESELECT) (javaCast node))) :: Any.Any))))
         Control.Monad.void (BasicArrayList.clear ((jget (this).highlightedBasicArrayList)))
         pure ()
 
@@ -262,7 +262,7 @@ selectGraphicItem_super object_ a1 = (selectGraphicItem_impl (javaCast object_ :
 selectGraphicItem_impl :: WorkAreaJTreeJPanel -> DefaultMutableTreeNode.DefaultMutableTreeNode -> IO (())
 selectGraphicItem_impl this node = do
         Control.Monad.void (BasicArrayList.add ((jget (this).highlightedBasicArrayList)) node)
-        Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.sELECT) node)) :: Any.Any))))
+        Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.sELECT) (javaCast node))) :: Any.Any))))
         pure ()
 
 
@@ -275,7 +275,7 @@ removeGraphicItem_super object_ a1 = (removeGraphicItem_impl (javaCast object_ :
 
 removeGraphicItem_impl :: WorkAreaJTreeJPanel -> DefaultMutableTreeNode.DefaultMutableTreeNode -> IO (())
 removeGraphicItem_impl this node = do
-        Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dELETE) node)) :: Any.Any))))
+        Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dELETE) (javaCast node))) :: Any.Any))))
         pure ()
 
 
@@ -288,7 +288,7 @@ removeCanvas_super object_ a1 = (removeCanvas_impl (javaCast object_ :: WorkArea
 
 removeCanvas_impl :: WorkAreaJTreeJPanel -> DefaultMutableTreeNode.DefaultMutableTreeNode -> IO (())
 removeCanvas_impl this node = do
-        Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.dELETE) node)) :: Any.Any))))
+        Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.dELETE) (javaCast node))) :: Any.Any))))
         pure ()
 
 
@@ -341,9 +341,9 @@ copy_1_impl this treePath = do
         node <- (fmap (\value_ -> javaCast value_ :: DefaultMutableTreeNode.DefaultMutableTreeNode) (WorkAreaJTreeJPanel.getNode this treePath))
         when (node /= javaNull) $ do
             if (javaInstanceOf (jio (DefaultMutableTreeNode.getUserObject node)) "CanvasTreeLabel") then do
-                Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.dUPLICATE) node)) :: Any.Any))))
+                Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.dUPLICATE) (javaCast node))) :: Any.Any))))
             else do
-                Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dUPLICATE) node)) :: Any.Any))))
+                Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_2 (jget MyGraphicItemEventService.dUPLICATE) (javaCast node))) :: Any.Any))))
         pure ()
 
 
@@ -359,9 +359,9 @@ rotate_impl this treePath angle = do
         node <- (fmap (\value_ -> javaCast value_ :: DefaultMutableTreeNode.DefaultMutableTreeNode) (WorkAreaJTreeJPanel.getNode this treePath))
         when (node /= javaNull) $ do
             if (javaInstanceOf (jio (DefaultMutableTreeNode.getUserObject node)) "CanvasTreeLabel") then do
-                Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_3 (jget MyCanvasEventService.rOTATE) angle node)) :: Any.Any))))
+                Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_3 (jget MyCanvasEventService.rOTATE) angle (javaCast node))) :: Any.Any))))
             else do
-                Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_3 (jget MyGraphicItemEventService.rOTATE) angle node)) :: Any.Any))))
+                Control.Monad.void (MyGraphicItemEventService.fire (jio (MyGraphicItemEvent.new_1 (javaCast (jio (MyGraphicItemEventSource.new_3 (jget MyGraphicItemEventService.rOTATE) angle (javaCast node))) :: Any.Any))))
         pure ()
 
 
@@ -496,7 +496,7 @@ workAreaJTreeMousePressed_impl this evt = do
                     forM_ [0 .. (jlength selectedTreePathArray) - 1] $ \index -> javaIteration (pure ()) $ do
                         let defaultMutableTreeNode = (javaCast (jio (BasicArrayList.get list index)) :: DefaultMutableTreeNode.DefaultMutableTreeNode)
                         if (javaInstanceOf (jio (DefaultMutableTreeNode.getUserObject defaultMutableTreeNode)) "CanvasTreeLabel") then do
-                            Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.sELECT) defaultMutableTreeNode)) :: Any.Any))))
+                            Control.Monad.void (MyCanvasEventService.fire (jio (MyCanvasEvent.new_1 (javaCast (jio (MyCanvasEventSource.new_2 (jget MyCanvasEventService.sELECT) (javaCast defaultMutableTreeNode))) :: Any.Any))))
                         else do
                             Control.Monad.void (WorkAreaJTreeJPanel.selectGraphicItem this defaultMutableTreeNode)
         pure ()

@@ -20,10 +20,10 @@ import Form hiding (new_, init_, newRecord_, initFields_, header_, base, staticI
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -110,7 +110,7 @@ initFields_ this = do
 getNullCommandForm :: IO (CommandForm)
 getNullCommandForm = do
         when ((jget CommandForm.nULL_COMMAND_FORM) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_4 (NullCommandListener.nULL_COMMAND_LISTENER) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE))
+            assignedValue <- (fmap jtoObject (new_4 (javaCast NullCommandListener.nULL_COMMAND_LISTENER) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (BasicColorFactory.getInstance))).bLACK) (jget ((jio (BasicColorFactory.getInstance))).wHITE)))
             jset CommandForm.nULL_COMMAND_FORM (assignedValue)
         pure ((javaCast (jget CommandForm.nULL_COMMAND_FORM) :: CommandForm))
 

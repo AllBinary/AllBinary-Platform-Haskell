@@ -20,10 +20,10 @@ import BasicHud hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -173,7 +173,7 @@ onHealthChange_super object_ = (onHealthChange_impl (javaCast object_ :: HealthH
 onHealthChange_impl :: HealthHudWidget -> IO (())
 onHealthChange_impl this = do
         jset (this).max ((((jio (Health.getHealth ((jget (this).healthInterface)))) `quot` (jget (this).healthScale))))
-        jset (this).timeDelayHelper (NoTimeDelayHelper.sINGLETON)
+        jset (this).timeDelayHelper ((javaCast NoTimeDelayHelper.sINGLETON :: TimeDelayHelper.TimeDelayHelper))
         when (((jget (this).max) <= 1) && (jio (Health.isAlive ((jget (this).healthInterface))))) $ do
             jset (this).max (1)
             if (((jget (this).healthScale) - (jio (Health.getHealth ((jget (this).healthInterface))))) > ((((jget (this).healthScale) * 2)) `quot` 3)) then do

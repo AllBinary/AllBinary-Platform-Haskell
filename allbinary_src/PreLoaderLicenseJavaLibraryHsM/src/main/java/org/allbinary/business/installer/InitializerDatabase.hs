@@ -19,10 +19,10 @@ module InitializerDatabase where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -73,16 +73,23 @@ instance JavaObjectClass InitializerDatabase where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAXDB :: Int
 mAXDB = 30
 
+mAX :: Int
 mAX = 16
 
+mIN :: Int
 mIN = 4
 
+mINPASSWORD :: Int
 mINPASSWORD = 0
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InitializerDatabase
 newRecord_ = do
@@ -131,14 +138,28 @@ initFields_ this = do
     jset this.initDb (javaNull)
     pure ()
 
-new_2 :: AbeClientInformationInterface.AbeClientInformationInterface -> Map.Map -> IO InitializerDatabase
-new_2 abeClientInformation map = do
+-- Java overloaded constructors with 2 parameters: call the overload for the types of the arguments
+new_2 :: (JavaObjectClass o2) => AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> IO InitializerDatabase
+new_2 a1 a2
+    | jisInstanceOf a2 (javaNull :: Map.Map) = new_2_overload1 a1 (javaCast a2 :: Map.Map)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = new_2_overload2 a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = new_2_overload2 a1 (javaCast a2 :: HashMap.HashMap)
+
+init_2 :: (JavaObjectClass o2) => InitializerDatabase -> AbeClientInformationInterface.AbeClientInformationInterface -> o2 -> IO ()
+init_2 this a1 a2
+    | jisInstanceOf a2 (javaNull :: Map.Map) = init_2_overload1 this a1 (javaCast a2 :: Map.Map)
+    | jisInstanceOf a2 (javaNull :: HashMap.HashMap) = init_2_overload2 this a1 (javaCast a2 :: HashMap.HashMap)
+    | otherwise = init_2_overload2 this a1 (javaCast a2 :: HashMap.HashMap)
+
+
+new_2_overload1 :: AbeClientInformationInterface.AbeClientInformationInterface -> Map.Map -> IO InitializerDatabase
+new_2_overload1 abeClientInformation map = do
     this <- newRecord_
-    init_2 this abeClientInformation map
+    init_2_overload1 this abeClientInformation map
     pure this
 
-init_2 :: InitializerDatabase -> AbeClientInformationInterface.AbeClientInformationInterface -> Map.Map -> IO ()
-init_2 this abeClientInformation map = do
+init_2_overload1 :: InitializerDatabase -> AbeClientInformationInterface.AbeClientInformationInterface -> Map.Map -> IO ()
+init_2_overload1 this abeClientInformation map = do
         initFields_ this
         stringBuffer <- (StringMaker.new_)
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
@@ -158,15 +179,14 @@ init_2 this abeClientInformation map = do
         Control.Monad.void (InitializerDatabase.getFormData this abeClientInformation hashMap)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_2 :: AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO InitializerDatabase
-new_2 abeClientInformation initHashMap = do
+new_2_overload2 :: AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO InitializerDatabase
+new_2_overload2 abeClientInformation initHashMap = do
     this <- newRecord_
-    init_2 this abeClientInformation initHashMap
+    init_2_overload2 this abeClientInformation initHashMap
     pure this
 
-init_2 :: InitializerDatabase -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO ()
-init_2 this abeClientInformation initHashMap = do
+init_2_overload2 :: InitializerDatabase -> AbeClientInformationInterface.AbeClientInformationInterface -> HashMap.HashMap -> IO ()
+init_2_overload2 this abeClientInformation initHashMap = do
         initFields_ this
         Control.Monad.void (InitializerDatabase.getFormData this abeClientInformation initHashMap)
         pure ()

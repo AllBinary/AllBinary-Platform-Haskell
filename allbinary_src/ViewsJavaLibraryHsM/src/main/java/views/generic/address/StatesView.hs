@@ -19,10 +19,10 @@ module StatesView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,9 @@ instance JavaObjectClass StatesView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StatesView
 newRecord_ = do
@@ -109,7 +112,7 @@ toXmlNode_impl this document = do
             pure (javaNull)
             ) $ do
             node <- (Document.createElement document (StreetAddressData.sTATES))
-            let statesFile = (javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).lINEDATAPATH)) ++ "states.txt")
+            let statesFile = (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).lINEDATAPATH)) ++ "states.txt")
             lineReader <- (LineReader.new_1 statesFile)
             fix $ \loop -> when (jio (LineReader.hasNext lineReader)) $ javaIteration (loop) $ do
                 option <- (LineReader.next lineReader)

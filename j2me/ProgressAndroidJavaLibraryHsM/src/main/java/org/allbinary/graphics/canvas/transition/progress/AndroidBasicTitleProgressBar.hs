@@ -20,10 +20,10 @@ import ProgressCanvas hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -38,8 +38,11 @@ import qualified TitleProgressBarSetProgressRunnable -- same package or java.lan
 import qualified TitleProgressBarPortionSetProgressRunnable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified SimpleProgressActivityInterface -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
+import qualified RunnableCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified NullImage -- javax.microedition.lcdui.NullImage
@@ -97,8 +100,10 @@ instance JavaObjectClass AndroidBasicTitleProgressBar where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+rESOURCE :: String
 rESOURCE = "ProgressImage"
 
+background :: IORef (Int)
 {-# NOINLINE background #-}
 background = unsafePerformIO (newIORef (0))
 
@@ -206,13 +211,13 @@ initActivity_impl this activity = do
             ) $ do
             when ((jget (this).midletActivity) /= activity) $ do
                 jset (this).midletActivity (activity)
-                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (ShowTitleProgressBarRunnable.new_2 (jget (this).midletActivity) this))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (ShowTitleProgressBarRunnable.new_2 (jget (this).midletActivity) (javaCast this)))
                 jset (this).showTitleProgressBarRunnable (assignedValue)
-                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (DismissTitleProgressBarRunnable.new_2 (jget (this).midletActivity) this))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (DismissTitleProgressBarRunnable.new_2 (jget (this).midletActivity) (javaCast this)))
                 jset (this).dismissTitleProgressBarRunnable (assignedValue)
-                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (TitleProgressBarSetProgressRunnable.new_2 (jget (this).midletActivity) this))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (TitleProgressBarSetProgressRunnable.new_2 (jget (this).midletActivity) (javaCast this)))
                 jset (this).titleProgressDialogSetProgressRunnable (assignedValue)
-                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (TitleProgressBarPortionSetProgressRunnable.new_2 (jget (this).midletActivity) this))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: ARunnable.ARunnable) (TitleProgressBarPortionSetProgressRunnable.new_2 (jget (this).midletActivity) (javaCast this)))
                 jset (this).titleProgressDialogPortionSetProgressRunnable (assignedValue)
                 Control.Monad.void (AndroidBasicTitleProgressBar.loadProgressImages this)
             Control.Monad.void (AndroidBasicTitleProgressBar.updateCurrent this)
@@ -272,7 +277,7 @@ onDisplayChangeEvent_super object_ a1 = (onDisplayChangeEvent_impl (javaCast obj
 onDisplayChangeEvent_impl :: AndroidBasicTitleProgressBar -> DisplayChangeEvent.DisplayChangeEvent -> IO (())
 onDisplayChangeEvent_impl this displayChangeEvent = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) ((jget ((jget (this).base.base.base.commonStrings)).eXCEPTION_LABEL) + (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.base.base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT))
+            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (javaToString (jget ((jget (this).base.base.base.commonStrings)).eXCEPTION_LABEL) ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.base.base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT))
             assignedValue <- (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
             jset (this).animation (assignedValue)
             ) $ do
@@ -290,7 +295,7 @@ loadProgressImages_super object_ = (loadProgressImages_impl (javaCast object_ ::
 loadProgressImages_impl :: AndroidBasicTitleProgressBar -> IO (())
 loadProgressImages_impl this = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) ("IllegalArgumentException " ++ javaToString (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this "loadProgressImages")
+            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) ("IllegalArgumentException " ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this "loadProgressImages")
             assignedValue <- (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
             jset (this).animation (assignedValue)
             ) $ do
@@ -445,12 +450,12 @@ setImages_impl this index lastWidth lastHeight = do
         when (image /= NullImage.nULL_IMAGE) $ do
             if (jio (Features.isFeature ((jio (Features.getInstance))) (jget ((jio (MainFeatureFactory.getInstance))).fULL_SCREEN))) then do
                 when ((jindex ((jget (this).iMAGE)) (index)) == NullImage.nULL_IMAGE) $ do
-                    assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (ImageCacheFactory.getInstance)) image (Prelude.fromIntegral lastWidth) (Prelude.realToFrac (jnumericDouble (jio (Image.getWidth image)))) ((Prelude.fromIntegral lastHeight) - 20.0) (Prelude.realToFrac (jnumericDouble (jio (Image.getHeight image)))) False)
+                    assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (ImageCacheFactory.getInstance)) image (Prelude.fromIntegral lastWidth) (Prelude.fromIntegral (jio (Image.getWidth image))) ((Prelude.fromIntegral lastHeight) - 20.0) (Prelude.fromIntegral (jio (Image.getHeight image))) False)
                     jsetIndex ((jget (this).iMAGE)) (index) (assignedValue)
             else do
                 let nextIndex = (index + 1)
                 when ((jindex ((jget (this).iMAGE)) (nextIndex)) == NullImage.nULL_IMAGE) $ do
-                    assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (ImageCacheFactory.getInstance)) image (Prelude.fromIntegral lastWidth) (Prelude.realToFrac (jnumericDouble (jio (Image.getWidth image)))) ((Prelude.fromIntegral lastHeight) - 28.0) (Prelude.realToFrac (jnumericDouble (jio (Image.getHeight image)))) False)
+                    assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (ImageCacheFactory.getInstance)) image (Prelude.fromIntegral lastWidth) (Prelude.fromIntegral (jio (Image.getWidth image))) ((Prelude.fromIntegral lastHeight) - 28.0) (Prelude.fromIntegral (jio (Image.getHeight image))) False)
                     jsetIndex ((jget (this).iMAGE)) (nextIndex) (assignedValue)
         pure ()
 

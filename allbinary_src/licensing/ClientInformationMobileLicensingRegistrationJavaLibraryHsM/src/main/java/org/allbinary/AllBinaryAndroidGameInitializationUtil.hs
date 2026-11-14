@@ -19,10 +19,10 @@ module AllBinaryAndroidGameInitializationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,6 +56,9 @@ instance JavaObjectClass AllBinaryAndroidGameInitializationUtil where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO AllBinaryAndroidGameInitializationUtil
 newRecord_ = do
     header_ <- newJavaHeader
@@ -83,8 +86,9 @@ init = do
         resourceUtil <- (ResourceUtil.getInstance)
         androidResources <- (AndroidResources.getInstance)
         licenseInitInfoUtil <- (LicenseInitInfoUtil.getInstance)
-        Control.Monad.void (ResourceUtil.addResource resourceUtil (jget (licenseInitInfoUtil).iNITFILENAME) (javaToString (jget ((jget (androidResources).raw)).licenseinitdata)))
-        Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jio (PartnerIdentifierFileUtil.getInstance))).fILE_NAME) (javaToString (jget ((jget (androidResources).raw)).partner)))
+        Control.Monad.void (ResourceUtil.addResource resourceUtil (jget (licenseInitInfoUtil).iNITFILENAME) ((jget ((jget (androidResources).raw)).licenseinitdata)))
+        Control.Monad.void (ResourceUtil.addResource resourceUtil (jget ((jio (PartnerIdentifierFileUtil.getInstance))).fILE_NAME) ((jget ((jget (androidResources).raw)).partner)))
+        Control.Monad.void (ResourceUtil.addResource resourceUtil (jget (licenseInitInfoUtil).aBOUT) ((jget ((jget (androidResources).raw)).about)))
         pure ()
 
 

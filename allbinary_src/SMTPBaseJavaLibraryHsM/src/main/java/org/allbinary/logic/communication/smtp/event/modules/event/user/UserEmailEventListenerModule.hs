@@ -19,10 +19,10 @@ module UserEmailEventListenerModule where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified EmailQueueInterface -- same package or java.lang
 import qualified UserInterface -- org.allbinary.business.user.UserInterface
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified BasicEmail -- org.allbinary.logic.communication.smtp.BasicEmail
@@ -61,6 +62,9 @@ instance JavaObjectClass UserEmailEventListenerModule where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UserEmailEventListenerModule
 newRecord_ = do

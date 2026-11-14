@@ -20,10 +20,10 @@ import UpGameKeyEventHandlerBase hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,9 +55,11 @@ instance JavaObjectClass UpGameKeyEventHandler where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: UpGameKeyEventHandler
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+instanceArray :: JavaArray (UpGameKeyEventHandlerBase.UpGameKeyEventHandlerBase)
 instanceArray = (jarrayFromList [(jio (UpGameKeyEventHandlerBase.new_)), (jio (UpGameKeyEventHandlerBase.new_)), (jio (UpGameKeyEventHandlerBase.new_)), (jio (UpGameKeyEventHandlerBase.new_)), (jio (UpGameKeyEventHandlerBase.new_)), (jio (UpGameKeyEventHandlerBase.new_))])
 
 newRecord_ :: IO UpGameKeyEventHandler

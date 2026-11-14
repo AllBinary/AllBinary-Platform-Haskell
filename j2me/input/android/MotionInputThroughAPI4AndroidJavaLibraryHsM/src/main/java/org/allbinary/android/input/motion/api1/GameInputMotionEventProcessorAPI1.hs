@@ -20,10 +20,10 @@ import BaseGameInputMotionEventProcessor hiding (new_, init_, newRecord_, initFi
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -85,7 +85,7 @@ initFields_ this = do
 getInstance :: IO (GameInputMotionEventProcessorAPI1)
 getInstance = do
         when ((jget GameInputMotionEventProcessorAPI1.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset GameInputMotionEventProcessorAPI1.instance_ (assignedValue)
         pure ((javaCast (jget GameInputMotionEventProcessorAPI1.instance_) :: GameInputMotionEventProcessorAPI1))
 

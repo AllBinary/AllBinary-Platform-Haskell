@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,6 +65,7 @@ instance JavaObjectClass LayerManagerEventHandler where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: IORef (LayerManagerEventHandler)
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_) >>= newIORef)
 
@@ -189,15 +190,15 @@ fireDeleteEvent_impl this eventObject = do
         let eventListenerInterfaceList = (jget (this).base.eventListenerInterfaceList)
         eventListenerInterface <- newIORef (javaNull)
         layerManagerEventListenerInterface <- newIORef (javaNull)
-        index <- newIORef (0)
-        fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size eventListenerInterfaceList))) $ javaIteration (loop) $ do
+        listenerIndex <- newIORef (0)
+        fix $ \loop -> when ((jget listenerIndex) < (jio (BasicArrayList.size eventListenerInterfaceList))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jio (EventStrings.getInstance))).fIRE_EVENT) e)
                 ) $ do
-                jset eventListenerInterface ((javaCast (jindex ((jget (eventListenerInterfaceList).objectArray)) ((jget index))) :: EventListenerInterface.EventListenerInterface))
+                jset eventListenerInterface ((javaCast (jindex ((jget (eventListenerInterfaceList).objectArray)) ((jget listenerIndex))) :: EventListenerInterface.EventListenerInterface))
                 jset layerManagerEventListenerInterface (((javaCast (jget eventListenerInterface) :: LayerManagerEventListenerInterface.LayerManagerEventListenerInterface)))
                 Control.Monad.void (LayerManagerEventListenerInterface.onDeleteLayerManagerEvent ((jget layerManagerEventListenerInterface)) (javaCast eventObject :: LayerManagerEvent.LayerManagerEvent))
-            jset index ((jget index) + 1)
+            jset listenerIndex ((jget listenerIndex) + 1)
         pure ()
 
 

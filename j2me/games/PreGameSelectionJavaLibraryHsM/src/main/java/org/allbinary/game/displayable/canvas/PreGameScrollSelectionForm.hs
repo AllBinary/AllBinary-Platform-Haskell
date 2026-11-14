@@ -20,10 +20,10 @@ import ScrollCurrentSelectionForm hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified ScrollSelectionForm -- same package or java.lang
+import qualified PaintableForm -- same package or java.lang
 import qualified ABCustomItem -- org.allbinary.graphics.form.item.ABCustomItem
 import qualified Rectangle -- org.allbinary.graphics.Rectangle
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor

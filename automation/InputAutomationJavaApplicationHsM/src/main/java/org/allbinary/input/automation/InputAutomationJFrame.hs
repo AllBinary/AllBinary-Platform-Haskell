@@ -20,10 +20,10 @@ import JFrame hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,6 +53,7 @@ import qualified ListSelectionEvent -- same package or java.lang
 import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified InputAutomationRobotInterfaceWrapper -- same package or java.lang
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified URI -- java.net.URI
 import qualified URL -- java.net.URL
@@ -138,6 +139,7 @@ instance JavaObjectClass InputAutomationJFrame where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iNPUTAUTOMATION_JFRAME :: IORef (InputAutomationJFrame)
 {-# NOINLINE iNPUTAUTOMATION_JFRAME #-}
 iNPUTAUTOMATION_JFRAME = unsafePerformIO (newIORef (javaNull))
 
@@ -248,7 +250,7 @@ init_ this = do
         initFields_ this
         Control.Monad.void (InputAutomationJFrame.initComponents this)
         url <- newIORef =<< (Class.getResource ((jio (jobjectGetClass this))) "/help/Help.hs")
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("URL: " ++ javaToString (jget url)) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("URL: " ++ jconcatObject URL.toString (jget url)) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         assignedValue <- (JavaHelpUtil.getHelpSet ((jio (JavaHelpUtil.getInstance))) (jget url))
         jset (this).helpSet (assignedValue)
         assignedValue <- (Class.getResource ((jio (jobjectGetClass this))) "/resources/allbinaryicon8bit.jpg")
@@ -300,7 +302,7 @@ init_impl this = do
         else do
             assignedValue <- (InputAutomationModuleConfigurations.new_1 inputAutomationModuleConfigurationList)
             jset (this).inputAutomationModuleConfigurations (assignedValue)
-        assignedValue <- (InputAutomationModuleFactoryFactory.new_2 (jget this.inputAutomationModuleConfigurations) this)
+        assignedValue <- (InputAutomationModuleFactoryFactory.new_2 (jget this.inputAutomationModuleConfigurations) (javaCast this))
         jset (this).inputAutomationModuleFactory (assignedValue)
         Control.Monad.void (execute (((jio (JListSwingWorker.new_2 (jget (this).inputAutomationModuleJList) (jio (InputAutomationModuleFactoryFactory.getListModel ((jget (this).inputAutomationModuleFactory)))))))))
         Control.Monad.void (JTabbedPane.setEnabledAt ((jget (this).gameRobotJTabbedPane)) 1 False)
@@ -671,7 +673,7 @@ getInstance = do
 
 destroy :: IO (())
 destroy = do
-        Control.Monad.void (setVisible ((jget InputAutomationJFrame.iNPUTAUTOMATION_JFRAME)) False)
+        Control.Monad.void (JFrame.setVisible ((jget InputAutomationJFrame.iNPUTAUTOMATION_JFRAME)) False)
         pure ()
 
 
@@ -798,7 +800,7 @@ onRemove_overload2_impl this inputAutomationConfigurationChangeEvent = do
             when (inputAutomationModuleConfigurationList == javaNull) $ do
                 logUtil <- (LogUtil.getInstance)
                 commonStrings <- (CommonStrings.getInstance)
-                Control.Monad.void (LogUtil.putF logUtil ("inputAutomationModuleConfigurationList: " ++ javaToString inputAutomationModuleConfigurationList) this (jget (commonStrings).iNIT))
+                Control.Monad.void (LogUtil.putF logUtil ("inputAutomationModuleConfigurationList: " ++ jconcatObject List.toString inputAutomationModuleConfigurationList) this (jget (commonStrings).iNIT))
                 javaThrow ((JavaException "Exception" ""))
             inputAutomationModuleConfigurations <- (InputAutomationModuleConfigurations.new_1 (jio (InputAutomationConfiguration.getInputAutomationModuleConfigurationList inputAutomationConfiguration)))
             Control.Monad.void (InputAutomationModuleConfigurations.remove inputAutomationModuleConfigurations (jio (InputAutomationConfigurationModuleChangeEvent.getInputAutomationModuleConfiguration inputAutomationConfigurationChangeEvent)))

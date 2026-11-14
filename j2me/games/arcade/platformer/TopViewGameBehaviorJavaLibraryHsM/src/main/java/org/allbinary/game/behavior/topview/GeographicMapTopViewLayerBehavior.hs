@@ -20,10 +20,10 @@ import TopViewGameLayerBehavior hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified BasicTopViewGeographicMapCellType -- same package or java.lang
 import qualified VelocityProperties -- org.allbinary.game.physics.velocity.VelocityProperties
 import qualified AllBinaryLayer -- org.allbinary.layer.AllBinaryLayer
 import qualified BasicGeographicMap -- org.allbinary.media.graphics.geography.map.BasicGeographicMap
@@ -204,8 +205,8 @@ hasSolidBlock_impl this geographicMapInterfaceArray geographicMapCellTypeArray =
         let size = (jlength geographicMapInterfaceArray)
         basicTopViewGeographicMapCellTypeFactory <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            jset basicTopViewGeographicMapCellTypeFactory ((javaCast (jio (getGeographicMapCellTypeFactory ((jindex geographicMapInterfaceArray (index))))) :: BasicTopViewGeographicMapCellTypeFactory.BasicTopViewGeographicMapCellTypeFactory))
-            when (jio (isType ((jget ((jget basicTopViewGeographicMapCellTypeFactory)).bLOCK_CELL_TYPE)) (jindex geographicMapCellTypeArray (index)))) $ do
+            jset basicTopViewGeographicMapCellTypeFactory ((javaCast (jio (BasicGeographicMap.getGeographicMapCellTypeFactory ((jindex geographicMapInterfaceArray (index))))) :: BasicTopViewGeographicMapCellTypeFactory.BasicTopViewGeographicMapCellTypeFactory))
+            when (jio (BasicTopViewGeographicMapCellType.isType ((jget ((jget basicTopViewGeographicMapCellTypeFactory)).bLOCK_CELL_TYPE)) (jindex geographicMapCellTypeArray (index)))) $ do
                 javaReturn (True)
         pure (False)
 
@@ -222,8 +223,8 @@ isOffMap_impl this geographicMapInterfaceArray geographicMapCellTypeArray = do
         let size = (jlength geographicMapInterfaceArray)
         basicTopViewGeographicMapCellTypeFactory <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            jset basicTopViewGeographicMapCellTypeFactory ((javaCast (jio (getGeographicMapCellTypeFactory ((jindex geographicMapInterfaceArray (index))))) :: BasicTopViewGeographicMapCellTypeFactory.BasicTopViewGeographicMapCellTypeFactory))
-            when (jio (isType ((jget ((jget basicTopViewGeographicMapCellTypeFactory)).oFF_MAP_CELL_TYPE)) (jindex geographicMapCellTypeArray (index)))) $ do
+            jset basicTopViewGeographicMapCellTypeFactory ((javaCast (jio (BasicGeographicMap.getGeographicMapCellTypeFactory ((jindex geographicMapInterfaceArray (index))))) :: BasicTopViewGeographicMapCellTypeFactory.BasicTopViewGeographicMapCellTypeFactory))
+            when (jio (BasicTopViewGeographicMapCellType.isType ((jget ((jget basicTopViewGeographicMapCellTypeFactory)).oFF_MAP_CELL_TYPE)) (jindex geographicMapCellTypeArray (index)))) $ do
                 javaReturn (True)
         pure (False)
 

@@ -20,10 +20,10 @@ import BaseDropCellPositionGenerator hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -104,7 +104,7 @@ update_super object_ a1 a2 = (update_impl (javaCast object_ :: AnyRandomDropCell
 
 update_impl :: AnyRandomDropCellPositionGenerator -> AllBinaryGameLayerManager.AllBinaryGameLayerManager -> BasicGeographicMap.BasicGeographicMap -> IO (())
 update_impl this allBinaryGameLayerManager geographicMapInterface = do
-        jset (this).geographicMapInterface (geographicMapInterface)
+        jset (this).geographicMapInterface ((jtoObject geographicMapInterface))
         basicGeographicMapCellPositionFactory <- (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface)
         randomFactory <- (MyRandomFactory.getInstance)
         tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)

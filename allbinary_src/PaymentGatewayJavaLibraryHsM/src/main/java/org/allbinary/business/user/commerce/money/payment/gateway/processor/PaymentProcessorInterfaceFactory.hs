@@ -19,10 +19,10 @@ module PaymentProcessorInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PaymentProcessorInterfaceFactoryInterface -- same package or java.lang
 import qualified PaymentProcessorInterface -- same package or java.lang
+import qualified OrderHistory -- same package or java.lang
 import qualified PaymentTransactionInterface -- org.allbinary.business.user.commerce.money.payment.gateway.transaction.PaymentTransactionInterface
 import qualified PaymentTransactionInterfaceRequestFactory -- org.allbinary.business.user.commerce.money.payment.gateway.transaction.PaymentTransactionInterfaceRequestFactory
 import qualified PaymentType -- org.allbinary.business.user.commerce.money.payment.types.PaymentType
@@ -60,11 +61,15 @@ instance JavaObjectClass PaymentProcessorInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PaymentProcessorInterfaceFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PaymentProcessorInterfaceFactory
 newRecord_ = do
@@ -115,7 +120,7 @@ getInstance_1_impl this transformInfoInterface = do
             javaThrow (e)
             ) $ do
             paymentTransactionInterface <- (fmap (\value_ -> javaCast value_ :: PaymentTransactionInterface.PaymentTransactionInterface) (PaymentTransactionInterfaceRequestFactory.getInstance_1 ((jio (PaymentTransactionInterfaceRequestFactory.getInstance))) transformInfoInterface))
-            gatewayName <- (PaymentTransactionInterface.getPaymentMethod ((jio (PaymentTransactionInterface.getOrderHistory paymentTransactionInterface))))
+            gatewayName <- (OrderHistory.getPaymentMethod ((jio (PaymentTransactionInterface.getOrderHistory paymentTransactionInterface))))
             when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) gatewayName))) $ do
                 paymentType <- (PaymentTypeUtil.get ((jio (PaymentTypeUtil.getInstance))) gatewayName)
                 paymentProcessorInterfaceFactoryInterface <- (PaymentType.getPaymentProcessorInterfaceFactoryInterface paymentType)

@@ -20,10 +20,10 @@ import Validation hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ItemInterface -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified AbSqlData -- org.allbinary.logic.communication.sql.AbSqlData
@@ -116,50 +117,50 @@ isValid_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) "Failed to validate form" this (jget ((jget (this).base.commonStrings)).iS_VALID) e)
             pure (False)
             ) $ do
-            when ((((jio (ItemInterface.getId ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getId ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getId ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getId ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getId ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getId ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
             stringValidationUtil <- (StringValidationUtil.getInstance)
             when (((jio (ItemInterface.getId ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getId ((jget (this).itemInterface)))))))) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getNumber ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getNumber ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getNumber ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getNumber ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
             when (((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getNumber ((jget (this).itemInterface)))))))) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
             when (((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))))))) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getWeight ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getWeight ((jget (this).itemInterface))))))) > (jget (this).mAXWEIGHT))) $ do
+            when ((((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getWeight ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getWeight ((jget (this).itemInterface))))) > (jget (this).mAXWEIGHT))) $ do
                 javaReturn (False)
             when (((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getWeight ((jget (this).itemInterface)))))))) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getEnabled ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getEnabled ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getEnabled ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getEnabled ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getEnabled ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getEnabled ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getSummary ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getSummary ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getSummary ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getSummary ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getSummary ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getSummary ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getDescription ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getDescription ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getDescription ((jget (this).itemInterface))))))) > AbSqlData.mAXBLOB)) $ do
+            when ((((jio (ItemInterface.getDescription ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getDescription ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getDescription ((jget (this).itemInterface))))) > AbSqlData.mAXBLOB)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getKeywords ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getKeywords ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getKeywords ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getKeywords ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getKeywords ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getKeywords ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getCategory ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getCategory ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getCategory ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getCategory ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getCategory ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getCategory ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getType ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getType ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getType ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getType ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getType ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getType ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 javaReturn (False)
-            when (((jio (ItemInterface.getPrice ((jget (this).itemInterface)))) == javaNull) || (Prelude.not (jio (ItemInterface.isValid ((jio (ItemInterface.getPrice ((jget (this).itemInterface))))))))) $ do
+            when (((jio (ItemInterface.getPrice ((jget (this).itemInterface)))) == javaNull) || (Prelude.not (jio (Money.isValid ((jio (ItemInterface.getPrice ((jget (this).itemInterface))))))))) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getCustoms ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getCustoms ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getCustoms ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getCustoms ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getCustoms ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getCustoms ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getDownloads ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getDownloads ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getDownloads ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getDownloads ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getDownloads ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getDownloads ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getGroups ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getGroups ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getGroups ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getGroups ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getGroups ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getGroups ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getOptions ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getOptions ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getOptions ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getOptions ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getOptions ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getOptions ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getPermissions ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getPermissions ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getPermissions ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getPermissions ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getPermissions ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getPermissions ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
-            when ((((jio (ItemInterface.getSpecials ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getSpecials ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getSpecials ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getSpecials ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getSpecials ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getSpecials ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 javaReturn (False)
             pure (True)
 
@@ -178,50 +179,50 @@ validationInfo_impl this = do
             pure ("Error Validating Form")
             ) $ do
             stringBuffer <- (StringMaker.new_)
-            when ((((jio (ItemInterface.getId ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getId ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getId ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getId ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getId ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getId ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Id is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
             stringValidationUtil <- (StringValidationUtil.getInstance)
             when (((jio (ItemInterface.getId ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getId ((jget (this).itemInterface)))))))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "Id is invalid. Must be > 0.<br />")
-            when ((((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getNumber ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getNumber ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getNumber ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getNumber ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Number of items is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
             when (((jio (ItemInterface.getNumber ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getNumber ((jget (this).itemInterface)))))))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "Number of items value is not a valid number.<br />")
-            when ((((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getInBaskets ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Number in baskets is invalid. Must be < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
             when (((jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getInBaskets ((jget (this).itemInterface)))))))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "In Baskets value is not a valid number.<br />")
-            when ((((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getWeight ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getWeight ((jget (this).itemInterface))))))) > (jget (this).mAXWEIGHT))) $ do
+            when ((((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getWeight ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getWeight ((jget (this).itemInterface))))) > (jget (this).mAXWEIGHT))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Weight value is invalid. Must be < " ++ javaToString (jget (this).mAXWEIGHT)) ++ " and > 0 digits.<br />"))
             when (((jio (ItemInterface.getWeight ((jget (this).itemInterface)))) /= javaNull) && (Prelude.not (jio (StringValidationUtil.isNumber stringValidationUtil (jio (ItemInterface.getWeight ((jget (this).itemInterface)))))))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer "Weight value is not a valid number.<br />")
-            when ((((jio (ItemInterface.getEnabled ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getEnabled ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getEnabled ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getEnabled ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getEnabled ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getEnabled ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("For Sale value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getNewOrUsed ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("New Or Used value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getSummary ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getSummary ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getSummary ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getSummary ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getSummary ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getSummary ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Summary value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getDescription ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getDescription ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getDescription ((jget (this).itemInterface))))))) > AbSqlData.mAXBLOB)) $ do
+            when ((((jio (ItemInterface.getDescription ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getDescription ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getDescription ((jget (this).itemInterface))))) > AbSqlData.mAXBLOB)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Description value is invalid. Must be < " ++ javaToString AbSqlData.mAXBLOB) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getKeywords ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getKeywords ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getKeywords ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getKeywords ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getKeywords ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getKeywords ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Keywords value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getCategory ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getCategory ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getCategory ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getCategory ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getCategory ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getCategory ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Category value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when ((((jio (ItemInterface.getType ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getType ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getType ((jget (this).itemInterface))))))) > AbSqlData.mAXSTRING)) $ do
+            when ((((jio (ItemInterface.getType ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getType ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getType ((jget (this).itemInterface))))) > AbSqlData.mAXSTRING)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Type value is invalid. Must be < " ++ javaToString AbSqlData.mAXSTRING) ++ " and > 0 characters long.<br />"))
-            when (((jio (ItemInterface.getPrice ((jget (this).itemInterface)))) == javaNull) || (Prelude.not (jio (ItemInterface.isValid ((jio (ItemInterface.getPrice ((jget (this).itemInterface))))))))) $ do
+            when (((jio (ItemInterface.getPrice ((jget (this).itemInterface)))) == javaNull) || (Prelude.not (jio (Money.isValid ((jio (ItemInterface.getPrice ((jget (this).itemInterface))))))))) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Price value is invalid. Must be < " ++ javaToString (jget (this).mAXPRICE)) ++ " and > 0 in length.<br />"))
-            when ((((jio (ItemInterface.getCustoms ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getCustoms ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getCustoms ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getCustoms ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getCustoms ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getCustoms ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Custom items value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
-            when ((((jio (ItemInterface.getDownloads ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getDownloads ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getDownloads ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getDownloads ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getDownloads ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getDownloads ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Downloadable item value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
-            when ((((jio (ItemInterface.getGroups ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getGroups ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getGroups ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getGroups ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getGroups ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getGroups ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Group item value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
-            when ((((jio (ItemInterface.getOptions ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getOptions ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getOptions ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getOptions ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getOptions ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getOptions ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Option item value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
-            when ((((jio (ItemInterface.getPermissions ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getPermissions ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getPermissions ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getPermissions ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getPermissions ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getPermissions ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Permission item value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
-            when ((((jio (ItemInterface.getSpecials ((jget (this).itemInterface)))) == javaNull) || ((jio (ItemInterface.length ((jio (ItemInterface.getSpecials ((jget (this).itemInterface))))))) < 1)) || ((jio (ItemInterface.length ((jio (ItemInterface.getSpecials ((jget (this).itemInterface))))))) > AbSqlData.mAXNUM)) $ do
+            when ((((jio (ItemInterface.getSpecials ((jget (this).itemInterface)))) == javaNull) || ((Prelude.length (jio (ItemInterface.getSpecials ((jget (this).itemInterface))))) < 1)) || ((Prelude.length (jio (ItemInterface.getSpecials ((jget (this).itemInterface))))) > AbSqlData.mAXNUM)) $ do
                 Control.Monad.void (StringMaker.append stringBuffer (("Special item value is invalid. Must be number < " ++ javaToString AbSqlData.mAXNUM) ++ " and > 0 digits.<br />"))
             (StringMaker.toString stringBuffer)
 

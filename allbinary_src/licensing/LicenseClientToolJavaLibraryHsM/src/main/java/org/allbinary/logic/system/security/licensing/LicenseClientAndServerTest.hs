@@ -19,10 +19,10 @@ module LicenseClientAndServerTest where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -46,6 +46,7 @@ import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified XmlRpcAbeLicenseRetrievalClient -- org.allbinary.logic.system.security.licensing.client.XmlRpcAbeLicenseRetrievalClient
 import qualified PATH_GLOBALS -- org.allbinary.globals.PATH_GLOBALS
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
+import qualified CommonStrings -- org.allbinary.string.CommonStrings
 
 data LicenseClientAndServerTest = LicenseClientAndServerTest
     { header_ :: JavaHeader
@@ -68,6 +69,9 @@ instance JavaObjectClass LicenseClientAndServerTest where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LicenseClientAndServerTest
 newRecord_ = do
@@ -155,7 +159,7 @@ main :: JavaArray (String) -> IO (())
 main args = do
         handle (\(e :: JavaException) -> do
             logUtil <- (LogUtil.getInstance)
-            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) "main()" "main()" e)
+            Control.Monad.void (LogUtil.put logUtil (jget ((jio (CommonStrings.getInstance))).eXCEPTION) "main()" "main()" e)
             ) $ do
             licensingTest <- (new_1 args)
             Control.Monad.void (LicenseClientAndServerTest.test licensingTest)

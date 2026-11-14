@@ -19,10 +19,10 @@ module AllBinaryPreloaderActivator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -62,13 +62,18 @@ instance JavaObjectClass AllBinaryPreloaderActivator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+context :: IORef (BundleContext.BundleContext)
 {-# NOINLINE context #-}
 context = unsafePerformIO (newIORef (javaNull))
 
+cRYPT_REGISTRY_NAME :: String
 cRYPT_REGISTRY_NAME = "bundle.abcs.logic.system.loader.CryptService"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AllBinaryPreloaderActivator
 newRecord_ = do
@@ -136,9 +141,9 @@ registerAsService_super object_ = (registerAsService_impl (javaCast object_ :: A
 registerAsService_impl :: AllBinaryPreloaderActivator -> IO (())
 registerAsService_impl this = do
         properties <- (StdUtil.createHashtable ((jio (StdUtil.getInstance))))
-        serviceRegistration <- (registerService ((jget AllBinaryPreloaderActivator.context)) cRYPT_REGISTRY_NAME (jio (CryptServiceFactory.new_)) properties)
+        serviceRegistration <- (BundleContext.registerService ((jget AllBinaryPreloaderActivator.context)) cRYPT_REGISTRY_NAME (jio (CryptServiceFactory.new_)) (javaCast properties))
         serviceReference <- newIORef =<< (ServiceRegistration.getReference serviceRegistration)
-        assignedValue <- (getServiceReference ((jget AllBinaryPreloaderActivator.context)) cRYPT_REGISTRY_NAME)
+        assignedValue <- (BundleContext.getServiceReference ((jget AllBinaryPreloaderActivator.context)) cRYPT_REGISTRY_NAME)
         jset serviceReference (assignedValue)
         when ((jget serviceReference) == javaNull) $ do
             javaThrow ((JavaException "Exception" "No Such Service Reference"))

@@ -16,14 +16,14 @@
 -- package org.allbinary.animation.text
 module CustomTextBoxIndexedAnimation (module CustomTextBoxIndexedAnimation, module IndexedAnimation) where
 
-import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, setBackgroundBasicColorP, setBackgroundBasicColorP_super, setBackgroundBasicColorP_impl, setTextWithOnMeasure, setTextWithOnMeasure_super, setTextWithOnMeasure_impl, updateMeasurement, updateMeasurement_super, updateMeasurement_impl, setText, setText_super, setText_impl, getText, getText_super, getText_impl, onEventRaw, onEventRaw_super, onEventRaw_impl, getFontHeight, getFontHeight_super, getFontHeight_impl, paintXY, paintXY_super, paintXY_impl, paintThreedXYZ, paintThreedXYZ_super, paintThreedXYZ_impl, customTextBox, lastText, hasChanged, textChangeListener)
+import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, setBackgroundBasicColorP, setBackgroundBasicColorP_super, setBackgroundBasicColorP_impl, setTextWithOnMeasure, setTextWithOnMeasure_super, setTextWithOnMeasure_impl, updateMeasurement, updateMeasurement_super, updateMeasurement_impl, setText, setText_super, setText_impl, getText, getText_super, getText_impl, onEventRaw, onEventRaw_super, onEventRaw_impl, getFontHeight, getFontHeight_super, getFontHeight_impl, paintXY, paintXY_super, paintXY_impl, paintThreedXYZ, paintThreedXYZ_super, paintThreedXYZ_impl, getWidth, getWidth_super, getWidth_impl, customTextBox, lastText, hasChanged, textChangeListener)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified TextChangeListener -- same package or java.lang
+import qualified ABTextFieldItem -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -92,6 +94,7 @@ newRecord_ = do
     jregisterMethod header_ "getFontHeight" (\() -> getFontHeight_impl this)
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     jregisterMethod header_ "paintThreedXYZ" (\() -> paintThreedXYZ_impl this)
+    jregisterMethod header_ "getWidth" (\() -> getWidth_impl this)
     pure this
 
 initFields_ :: CustomTextBoxIndexedAnimation -> IO ()
@@ -239,5 +242,16 @@ paintThreedXYZ_super object_ a1 a2 a3 a4 = (paintThreedXYZ_impl (javaCast object
 paintThreedXYZ_impl :: CustomTextBoxIndexedAnimation -> Graphics.Graphics -> Int -> Int -> Int -> IO (())
 paintThreedXYZ_impl this graphics x y z = do
         pure ()
+
+
+getWidth :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth object_ = jmethod object_ "getWidth" (\() -> (getWidth_impl (javaCast object_ :: CustomTextBoxIndexedAnimation))) ()
+
+getWidth_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth_super object_ = (getWidth_impl (javaCast object_ :: CustomTextBoxIndexedAnimation))
+
+getWidth_impl :: CustomTextBoxIndexedAnimation -> IO (Int)
+getWidth_impl this = do
+        (IndexedAnimation.getWidth_super this.base)
 
 

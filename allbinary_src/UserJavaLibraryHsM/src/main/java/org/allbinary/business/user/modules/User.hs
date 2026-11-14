@@ -19,10 +19,10 @@ module User where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -105,6 +105,9 @@ instance JavaObjectClass User where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO User
 newRecord_ = do
@@ -240,29 +243,42 @@ init_ this = do
         jset (this).password (assignedValue)
         pure ()
 
-new_1 :: HttpServletRequest.HttpServletRequest -> IO User
-new_1 request = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO User
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload1 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => User -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload1 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: HttpServletRequest.HttpServletRequest -> IO User
+new_1_overload1 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload1 this request
     pure this
 
-init_1 :: User -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this request = do
+init_1_overload1 :: User -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload1 this request = do
         initFields_ this
         Control.Monad.void (User.getFormData this (jio (RequestParams.toHashMap ((jio (RequestParams.new_1 request))))))
         assignedValue <- (UserConfigurationInterfaceFactory.getInstance (jio (User.getRole this)))
         jset (this).userConfigurationInterface (assignedValue)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO User
-new_1 userHashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO User
+new_1_overload2 userHashMap = do
     this <- newRecord_
-    init_1 this userHashMap
+    init_1_overload2 this userHashMap
     pure this
 
-init_1 :: User -> HashMap.HashMap -> IO ()
-init_1 this userHashMap = do
+init_1_overload2 :: User -> HashMap.HashMap -> IO ()
+init_1_overload2 this userHashMap = do
         initFields_ this
         Control.Monad.void (User.getFormData this userHashMap)
         assignedValue <- (UserConfigurationInterfaceFactory.getInstance (jio (User.getRole this)))
@@ -328,8 +344,8 @@ getFormData_impl this userHashMap = do
         assignedValue <- (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get userHashMap (UserData.pERMISSIONS))) :: String))
         jset (this).permissions (assignedValue)
         if ((Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil (jget (this).permissions)))) && ((Prelude.fromEnum (Prelude.compare (jget (this).permissions) (jget ((jio (StoreFrontData.getInstance))).nAME)) - 1) == 0)) then do
-            assignedValue <- (jio (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get userHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String)))
-        jset (this).permissions (assignedValue)
+            assignedValue <- (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get userHashMap (jget ((jio (StoreFrontData.getInstance))).nAME))) :: String))
+            jset (this).permissions (assignedValue)
         else when ((jget (this).permissions) == javaNull) $ do
             jset (this).permissions ("No Permissions")
         assignedValue <- (StringUtil.getNonNull stringUtil (javaCast (jio (HashMap.get userHashMap (jget ((jio (EntryData.getInstance))).eNABLE))) :: String))

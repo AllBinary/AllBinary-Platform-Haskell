@@ -19,10 +19,10 @@ module DownloadableItem where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -77,6 +77,9 @@ instance JavaObjectClass DownloadableItem where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO DownloadableItem
 newRecord_ = do
     header_ <- newJavaHeader
@@ -127,14 +130,28 @@ initFields_ this = do
     jset this.retries (javaNull)
     pure ()
 
-new_1 :: String -> IO DownloadableItem
-new_1 id = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO DownloadableItem
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => DownloadableItem -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: String -> IO DownloadableItem
+new_1_overload1 id = do
     this <- newRecord_
-    init_1 this id
+    init_1_overload1 this id
     pure this
 
-init_1 :: DownloadableItem -> String -> IO ()
-init_1 this id = do
+init_1_overload1 :: DownloadableItem -> String -> IO ()
+init_1_overload1 this id = do
         initFields_ this
         let eMPTY_STRING = (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)
         assignedValue <- (ProductIdGenerator.getNext ((jio (ProductIdGenerator.new_))))
@@ -148,20 +165,19 @@ init_1 this id = do
         jset (this).changes (eMPTY_STRING)
         jset (this).licenseFile (eMPTY_STRING)
         jset (this).file (eMPTY_STRING)
-        jset (this).size ((javaToString 0))
-        jset (this).validTime ((javaToString 0))
+        jset (this).size ((Prelude.fromIntegral 0 :: Int64))
+        jset (this).validTime ((Prelude.fromIntegral 0 :: Int64))
         jset (this).retries (eMPTY_STRING)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO DownloadableItem
-new_1 hashMap = do
+new_1_overload2 :: HashMap.HashMap -> IO DownloadableItem
+new_1_overload2 hashMap = do
     this <- newRecord_
-    init_1 this hashMap
+    init_1_overload2 this hashMap
     pure this
 
-init_1 :: DownloadableItem -> HashMap.HashMap -> IO ()
-init_1 this hashMap = do
+init_1_overload2 :: DownloadableItem -> HashMap.HashMap -> IO ()
+init_1_overload2 this hashMap = do
         initFields_ this
         jset (this).id ((javaCast (jio (HashMap.get hashMap (DownloadItemData.iD))) :: String))
         jset (this).basicItemId ((javaCast (jio (HashMap.get hashMap (jget ((jio (BasicItemData.getInstance))).iD))) :: String))
@@ -175,12 +191,14 @@ init_1 this hashMap = do
         jset (this).file ((javaCast (jio (HashMap.get hashMap (DownloadItemData.fILE))) :: String))
         let value = (javaCast (jio (HashMap.get hashMap (DownloadItemData.sIZE))) :: String)
         if (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) value))) then do
-            jset (this).size ((javaToString value))
+            assignedValue <- (jparseLong value)
+            jset (this).size (assignedValue)
         else do
             jset (this).size ((Prelude.fromIntegral (0) :: Int64))
         let validTime = (javaCast (jio (HashMap.get hashMap (DownloadItemData.vALID_TIME))) :: String)
         if (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) validTime))) then do
-            jset (this).validTime ((javaToString validTime))
+            assignedValue <- (jparseLong validTime)
+            jset (this).validTime (assignedValue)
         else do
             let totalYears = (javaCast (jio (HashMap.get hashMap (DownloadItemData.vALID_TIME_YEARS))) :: String)
             let totalMonths = (javaCast (jio (HashMap.get hashMap (DownloadItemData.vALID_TIME_MONTHS))) :: String)

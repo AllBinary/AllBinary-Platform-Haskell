@@ -16,14 +16,14 @@
 -- package views.generic.address.billing
 module DeleteValidationView (module DeleteValidationView, module BillingAddressView) where
 
-import BillingAddressView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, value)
+import BillingAddressView hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, isValid, isValid_super, isValid_impl, validationInfo, validationInfo_super, validationInfo_impl, toValidationInfoDoc, toValidationInfoDoc_super, toValidationInfoDoc_impl, toValidationInfoNode, toValidationInfoNode_super, toValidationInfoNode_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, value)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified StreetAddress -- same package or java.lang
+import qualified PageContext -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified StreetAddressData -- org.allbinary.business.user.address.StreetAddressData
 import qualified BillingAddressesEntity -- org.allbinary.data.tables.user.address.billing.BillingAddressesEntity
 import qualified ValidationComponentInterface -- org.allbinary.logic.control.validate.ValidationComponentInterface
@@ -74,6 +76,7 @@ newRecord_ = do
     jregisterMethod header_ "validationInfo" (\() -> validationInfo_impl this)
     jregisterMethod header_ "toValidationInfoDoc" (\() -> toValidationInfoDoc_impl this)
     jregisterMethod header_ "toValidationInfoNode" (\() -> toValidationInfoNode_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: DeleteValidationView -> IO ()
@@ -92,8 +95,8 @@ init_1 this transformInfoInterface = do
         BillingAddressView.init_1 this.base (transformInfoInterface)
         initFields_ this
         pure () -- super(...) is in the record above
-        let httpTransformInfoInterface = (javaCast (jio (BillingAddressView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        assignedValue <- (TransformInfoHttpInterface.getParameter ((jio (TransformInfoHttpInterface.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface)))))) (StreetAddressData.iD))
+        let httpTransformInfoInterface = (javaCast (jio (DeleteValidationView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
+        assignedValue <- (PageContext.getParameter ((jio (PageContext.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface)))))) (StreetAddressData.iD))
         jset (this).value (assignedValue)
         pure ()
 
@@ -110,7 +113,7 @@ isValid_impl this = do
         when ((jio (WeblisketSession.getUserName ((jio (BillingAddressView.getWeblisketSession this))))) /= javaNull) $ do
             javaReturn (False)
         billingAddressesEntity <- (BillingAddressesEntity.new_1 (jio (WeblisketSession.getUserName ((jio (BillingAddressView.getWeblisketSession this))))))
-        assignedValue <- (BillingAddressesEntity.get_1 billingAddressesEntity (Prelude.fromIntegral ((jget (this).value)) :: Int))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: StreetAddress.StreetAddress) (BillingAddressesEntity.get_1 billingAddressesEntity (jio (jparseInt (jget (this).value)))))
         jset (this).base.streetAddress (assignedValue)
         when ((jget (this).base.streetAddress) == javaNull) $ do
             javaReturn (False)
@@ -148,5 +151,17 @@ toValidationInfoNode_super object_ a1 = (toValidationInfoNode_impl (javaCast obj
 toValidationInfoNode_impl :: DeleteValidationView -> Document.Document -> IO (Node.Node)
 toValidationInfoNode_impl this document = do
         pure (javaNull)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: DeleteValidationView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: DeleteValidationView))
+
+getTransformInfoInterface_impl :: DeleteValidationView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (BillingAddressView.getTransformInfoInterface_super this.base)
 
 

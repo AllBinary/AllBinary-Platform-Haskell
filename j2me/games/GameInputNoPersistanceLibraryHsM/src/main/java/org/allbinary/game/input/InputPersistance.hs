@@ -20,10 +20,10 @@ import BasicPersitance hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -111,7 +111,7 @@ loadAll_super object_ a1 = (loadAll_impl (javaCast object_ :: InputPersistance))
 loadAll_impl :: InputPersistance -> AbeClientInformationInterface.AbeClientInformationInterface -> IO (())
 loadAll_impl this abeClientInformation = do
         recordStore <- (RecordStore.openRecordStore (jio (BasicPersitance.getRecordId this abeClientInformation)) True)
-        recordEnum <- (RecordStore.enumerateRecords recordStore (jget NullRecordFilter.nULL_RECORD_FILTER) (NullRecordComparator.nULL_RECORD_COMPARATOR) True)
+        recordEnum <- (RecordStore.enumerateRecords recordStore (javaCast (jget NullRecordFilter.nULL_RECORD_FILTER)) (javaCast NullRecordComparator.nULL_RECORD_COMPARATOR) True)
         hashtable <- newIORef (javaNull)
         stringBuffer <- (StringMaker.new_)
         smallIntegerSingletonFactory <- (SmallIntegerSingletonFactory.getInstance)

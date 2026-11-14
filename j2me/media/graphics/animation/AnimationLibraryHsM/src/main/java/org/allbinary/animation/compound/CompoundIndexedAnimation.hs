@@ -20,10 +20,10 @@ import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -193,7 +193,7 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: CompoundIndexedAn
 
 nextFrame_impl :: CompoundIndexedAnimation -> IO (())
 nextFrame_impl this = do
-        Control.Monad.void (nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))))
+        Control.Monad.void (Animation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))))
         pure ()
 
 
@@ -205,7 +205,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: CompoundInde
 
 paintXY_impl :: CompoundIndexedAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        Control.Monad.void (paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))) graphics x y)
+        Control.Monad.void (Animation.paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))) graphics x y)
         pure ()
 
 
@@ -217,7 +217,7 @@ paintThreedXYZ_super object_ a1 a2 a3 a4 = (paintThreedXYZ_impl (javaCast object
 
 paintThreedXYZ_impl :: CompoundIndexedAnimation -> Graphics.Graphics -> Int -> Int -> Int -> IO (())
 paintThreedXYZ_impl this graphics x y z = do
-        Control.Monad.void (paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))) graphics x y z)
+        Control.Monad.void (Animation.paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))) graphics x y z)
         pure ()
 
 
@@ -308,7 +308,7 @@ set_impl :: CompoundIndexedAnimation -> GL.GL -> IO (())
 set_impl this gl = do
         index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
+            Control.Monad.void (Animation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()
 
 

@@ -7,10 +7,10 @@ module BasicArrayList where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,6 +51,7 @@ instance JavaObjectClass BasicArrayList where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sIZE :: String
 sIZE = ", Size: "
 
 newRecord_ :: IO BasicArrayList
@@ -472,7 +473,7 @@ toString_impl this = do
         let cOMMA_SEP = (jget ((jio (CommonSeps.getInstance))).cOMMA_SEP)
         stringBuffer <- (StringMaker.new_)
         forM_ [0 .. (jget (this).currentIndex) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (StringMaker.append stringBuffer (jio (toString ((jindex ((jget (this).objectArray)) (index))))))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (Any.toString ((jindex ((jget (this).objectArray)) (index))))))
             Control.Monad.void (StringMaker.append stringBuffer cOMMA_SEP)
         (StringMaker.toString stringBuffer)
 

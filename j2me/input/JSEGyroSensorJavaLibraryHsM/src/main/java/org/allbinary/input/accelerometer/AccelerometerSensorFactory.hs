@@ -19,10 +19,10 @@ module AccelerometerSensorFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,11 +53,15 @@ instance JavaObjectClass AccelerometerSensorFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+allBinaryAccelerometerSensor :: IORef (AllBinaryOrientationSensor.AllBinaryOrientationSensor)
 {-# NOINLINE allBinaryAccelerometerSensor #-}
 allBinaryAccelerometerSensor = unsafePerformIO (newIORef (javaNull))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AccelerometerSensorFactory
 newRecord_ = do
@@ -91,7 +95,7 @@ init = do
         else if (jio (Features.isFeature features (javaCast (jget (sensorFeatureFactory).sIMULATED_ORIENTATION_SENSORS)))) then do
             javaThrow ((JavaException "Exception" "No Simulation Sensors"))
         else if (jio (Features.isFeature features (javaCast (jget (sensorFeatureFactory).nO_ORIENTATION)))) then do
-            assignedValue <- (NoAccelerometerSensor.new_)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: AllBinaryOrientationSensor.AllBinaryOrientationSensor) (NoAccelerometerSensor.new_))
             jset AccelerometerSensorFactory.allBinaryAccelerometerSensor (assignedValue)
         else do
             javaThrow ((JavaException "Exception" "Not Such SensorFeature"))

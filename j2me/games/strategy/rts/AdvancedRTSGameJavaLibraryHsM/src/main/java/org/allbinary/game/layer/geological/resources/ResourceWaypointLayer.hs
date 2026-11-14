@@ -20,10 +20,10 @@ import WaypointLayer hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,14 @@ import qualified GHC.Float
 import qualified GeologicalResourceInfoHudPaintableSingleton -- same package or java.lang
 import qualified GeologicalResourceInfoHudPaintable -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
+import qualified AdvancedRTSGameLayer -- same package or java.lang
+import qualified RTSLayer -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified SelectionHudPaintable -- org.allbinary.game.layer.SelectionHudPaintable
 import qualified WaypointLayer -- org.allbinary.game.layer.waypoint.WaypointLayer
 import qualified AnimationInterfaceFactoryInterface -- org.allbinary.animation.AnimationInterfaceFactoryInterface

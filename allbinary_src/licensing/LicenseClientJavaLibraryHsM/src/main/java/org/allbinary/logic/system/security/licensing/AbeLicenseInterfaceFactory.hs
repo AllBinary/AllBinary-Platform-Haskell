@@ -19,10 +19,10 @@ module AbeLicenseInterfaceFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,11 +65,15 @@ instance JavaObjectClass AbeLicenseInterfaceFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: AbeLicenseInterfaceFactory
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AbeLicenseInterfaceFactory
 newRecord_ = do
@@ -147,13 +151,13 @@ get_impl this abeClientInformation = do
             javaThrow ((JavaException "LicensingException" "License Server Connection Error"))
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Getting Keys" this (jget ((jget (this).commonStrings)).gET))
-            assignedValue <- (AbeNoLicense.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: AbeLicenseInterface.AbeLicenseInterface) (AbeNoLicense.getInstance))
             jset (this).abeLicenseInterface (assignedValue)
             licenseClient <- (AbeLicenseClient.new_)
             assignedValue <- (AbeLicenseClient.get licenseClient abeClientInformation)
             jset (this).abeLicenseInterface (assignedValue)
             when ((jget (this).abeLicenseInterface) /= javaNull) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Default Key: " ++ javaToString (jio (AbeLicenseInterface.getKey ((jget (this).abeLicenseInterface)) (jget ((jio (AbeClientInformationData.getInstance))).kEY)))) this (jget ((jget (this).commonStrings)).gET))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Default Key: " ++ (jio (AbeLicenseInterface.getKey ((jget (this).abeLicenseInterface)) (jget ((jio (AbeClientInformationData.getInstance))).kEY)))) this (jget ((jget (this).commonStrings)).gET))
             pure ((jget (this).abeLicenseInterface))
 
 
@@ -173,7 +177,7 @@ isTimeToGetKey_impl this = do
             jset (this).time (currentTime)
             javaReturn (True)
         else do
-            pure (False)
+            javaReturn (False)
 
 
 setCheck :: (JavaObjectClass this_) => this_ -> Bool -> IO (())

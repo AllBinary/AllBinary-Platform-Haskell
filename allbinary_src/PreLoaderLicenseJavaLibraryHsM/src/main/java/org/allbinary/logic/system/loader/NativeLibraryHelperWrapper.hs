@@ -19,10 +19,10 @@ module NativeLibraryHelperWrapper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -144,7 +144,7 @@ toString_super object_ = (toString_impl (javaCast object_ :: NativeLibraryHelper
 
 toString_impl :: NativeLibraryHelperWrapper -> IO (String)
 toString_impl this = do
-        pure (("Library: " ++ javaToString (jio (NativeLibraryHelperWrapper.getLibraryName this))))
+        pure (("Library: " ++ (jio (NativeLibraryHelperWrapper.getLibraryName this))))
 
 
 getLibraryName :: (JavaObjectClass this_) => this_ -> IO (String)

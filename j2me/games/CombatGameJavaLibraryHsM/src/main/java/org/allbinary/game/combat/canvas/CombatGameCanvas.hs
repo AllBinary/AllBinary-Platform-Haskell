@@ -20,10 +20,10 @@ import AllBinaryGameCanvas hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified ProgressCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified DestroyedLayerProcessor -- org.allbinary.game.combat.destroy.DestroyedLayerProcessor
 import qualified DestroyEventCircularStaticPool -- org.allbinary.game.combat.destroy.event.DestroyEventCircularStaticPool
@@ -66,6 +67,7 @@ instance JavaObjectClass CombatGameCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+basicLayerProcessor :: IORef (JavaArray (BasicLayerProcessor.BasicLayerProcessor))
 {-# NOINLINE basicLayerProcessor #-}
 basicLayerProcessor = unsafePerformIO (newIORef ((jnewArray (0) javaNull)))
 

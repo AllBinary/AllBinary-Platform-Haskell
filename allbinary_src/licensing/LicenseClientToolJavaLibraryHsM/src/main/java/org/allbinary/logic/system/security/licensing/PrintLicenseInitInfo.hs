@@ -19,10 +19,10 @@ module PrintLicenseInitInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,10 +54,14 @@ instance JavaObjectClass PrintLicenseInitInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+pATH :: String
 pATH = "G:\\mnt\\bc\\mydev\\work\\allbinary_src\\licensing\\data\\"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PrintLicenseInitInfo
 newRecord_ = do
@@ -99,7 +103,7 @@ getLicenseInitInfo_impl this = do
         if (jio (FileFactory.isFile ((jio (FileFactory.getInstance))) (jio (LicenseInitInfoUtil.getFilePath licenseInitInfoUtil)))) then do
             javaReturn =<< (LicenseInitInfoUtil.read licenseInitInfoUtil)
         else do
-            Control.Monad.void (putStrLn (javaToString ("No Licence File at: " ++ javaToString (jio (LicenseInitInfoUtil.getFilePath licenseInitInfoUtil)))))
+            Control.Monad.void (putStrLn (javaToString ("No Licence File at: " ++ (jio (LicenseInitInfoUtil.getFilePath licenseInitInfoUtil)))))
             javaReturn =<< (LicenseInitInfo.new_)
 
 
@@ -116,7 +120,7 @@ printInitInfo_impl this = do
             Control.Monad.void (hPutStrLn System.IO.stderr (Prelude.show e))
             ) $ do
             licenseInitInfo <- (PrintLicenseInitInfo.getLicenseInitInfo this)
-            Control.Monad.void (putStrLn (javaToString ("License ID: " ++ javaToString (jio (LicenseInitInfo.getLicenseId licenseInitInfo)))))
+            Control.Monad.void (putStrLn (javaToString ("License ID: " ++ (jio (LicenseInitInfo.getLicenseId licenseInitInfo)))))
             list <- (LicenseInitInfo.getServerList licenseInitInfo)
             size <- (BasicArrayList.size list)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

@@ -19,10 +19,10 @@ module LapInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,6 +52,7 @@ instance JavaObjectClass LapInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_LAP_INFO :: IORef (LapInfo)
 {-# NOINLINE nULL_LAP_INFO #-}
 nULL_LAP_INFO = unsafePerformIO ((new_1 (Prelude.negate 1)) >>= newIORef)
 

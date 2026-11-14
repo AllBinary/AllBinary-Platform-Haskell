@@ -20,10 +20,10 @@ import InputMapping hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -113,7 +113,7 @@ initFields_ this = do
 getNullInstance :: IO (InputToGameKeyMapping)
 getNullInstance = do
         when ((jget InputToGameKeyMapping.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset InputToGameKeyMapping.instance_ (assignedValue)
         pure ((javaCast (jget InputToGameKeyMapping.instance_) :: InputToGameKeyMapping))
 
@@ -169,7 +169,7 @@ addMapping_impl this inputToGameKeyMapping = do
         forM_ [((jio (InputToGameKeyMapping.getMaxMappable inputToGameKeyMapping)) - 1), ((jio (InputToGameKeyMapping.getMaxMappable inputToGameKeyMapping)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             input <- (fmap (\value_ -> javaCast value_ :: Input.Input) (InputToGameKeyMapping.getInstance inputToGameKeyMapping index))
             when ((jtoObject input) /= (jtoObject (jget ((jget (this).gameKeyFactory)).nONE))) $ do
-                Control.Monad.void (InputToGameKeyMapping.addAll this input (jio (InputToGameKeyMapping.getMappedInput inputToGameKeyMapping input)))
+                Control.Monad.void (InputToGameKeyMapping.addAll this input (jio (InputMapping.getMappedInput inputToGameKeyMapping input)))
         pure ()
 
 
@@ -250,7 +250,7 @@ getReverseInstance_impl this id = do
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         inputFactory <- (InputFactory.getInstance)
         forM_ [0 .. (jlength (jget (this).platformToGameKeyMapping)) - 1] $ \index -> javaIteration (pure ()) $ do
-            when ((jio (getId ((jindex ((jget (this).platformToGameKeyMapping)) (index))))) == id) $ do
+            when ((jio (GameKey.getId ((jindex ((jget (this).platformToGameKeyMapping)) (index))))) == id) $ do
                 input <- (InputFactory.getInstanceById inputFactory index)
                 when (input /= javaNull) $ do
                     Control.Monad.void (BasicArrayList.add list input)
@@ -290,7 +290,7 @@ getSmallestCanvasGameKeyCode_impl this canvas = do
         smallestKey <- newIORef (0)
         index <- newIORef ((jlength (jget (this).mappedGameKeys)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            assignedValue <- (Canvas.getKeyCode canvas (jio (getId ((jindex ((jget (this).mappedGameKeys)) ((jget index)))))))
+            assignedValue <- (Canvas.getKeyCode canvas (jio (GameKey.getId ((jindex ((jget (this).mappedGameKeys)) ((jget index)))))))
             jset nextKey (assignedValue)
             when ((jget nextKey) < (jget smallestKey)) $ do
                 jset smallestKey ((jget nextKey))

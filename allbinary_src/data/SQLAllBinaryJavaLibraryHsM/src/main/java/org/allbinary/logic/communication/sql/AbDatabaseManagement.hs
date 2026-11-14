@@ -12,10 +12,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -26,6 +26,10 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CommonSeps -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified InetAddress -- java.net.InetAddress
 import qualified DatabaseConnectionInfoInterface -- org.allbinary.business.init.db.DatabaseConnectionInfoInterface
 import qualified DbConnectionInfo -- org.allbinary.business.init.db.DbConnectionInfo
@@ -128,28 +132,41 @@ initFields_ this = do
     jset this.aDD_TABLES_RESULTS_LABEL ("Add Table Results: ")
     pure ()
 
-new_1 :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface -> IO AbDatabaseManagement
-new_1 databaseConnectionInfoInterface = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO AbDatabaseManagement
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface) = new_1_overload1 (javaCast a1 :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface)
+    | jisInstanceOf a1 (javaNull :: DbConnectionInfo.DbConnectionInfo) = new_1_overload2 (javaCast a1 :: DbConnectionInfo.DbConnectionInfo)
+    | otherwise = new_1_overload2 (javaCast a1 :: DbConnectionInfo.DbConnectionInfo)
+
+init_1 :: (JavaObjectClass o1) => AbDatabaseManagement -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface) = init_1_overload1 this (javaCast a1 :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface)
+    | jisInstanceOf a1 (javaNull :: DbConnectionInfo.DbConnectionInfo) = init_1_overload2 this (javaCast a1 :: DbConnectionInfo.DbConnectionInfo)
+    | otherwise = init_1_overload2 this (javaCast a1 :: DbConnectionInfo.DbConnectionInfo)
+
+
+new_1_overload1 :: DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface -> IO AbDatabaseManagement
+new_1_overload1 databaseConnectionInfoInterface = do
     this <- newRecord_
-    init_1 this databaseConnectionInfoInterface
+    init_1_overload1 this databaseConnectionInfoInterface
     pure this
 
-init_1 :: AbDatabaseManagement -> DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface -> IO ()
-init_1 this databaseConnectionInfoInterface = do
+init_1_overload1 :: AbDatabaseManagement -> DatabaseConnectionInfoInterface.DatabaseConnectionInfoInterface -> IO ()
+init_1_overload1 this databaseConnectionInfoInterface = do
         AbSqlBean.init_1 this.base (javaCast databaseConnectionInfoInterface :: DbConnectionInfo.DbConnectionInfo)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: DbConnectionInfo.DbConnectionInfo -> IO AbDatabaseManagement
-new_1 connectionInfo = do
+new_1_overload2 :: DbConnectionInfo.DbConnectionInfo -> IO AbDatabaseManagement
+new_1_overload2 connectionInfo = do
     this <- newRecord_
-    init_1 this connectionInfo
+    init_1_overload2 this connectionInfo
     pure this
 
-init_1 :: AbDatabaseManagement -> DbConnectionInfo.DbConnectionInfo -> IO ()
-init_1 this connectionInfo = do
+init_1_overload2 :: AbDatabaseManagement -> DbConnectionInfo.DbConnectionInfo -> IO ()
+init_1_overload2 this connectionInfo = do
         AbSqlBean.init_1 this.base (connectionInfo)
         initFields_ this
         pure () -- super(...) is in the record above

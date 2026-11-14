@@ -20,10 +20,10 @@ import GeneratorStoreFrontContextView hiding (new_, init_, newRecord_, initField
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HashMap -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HttpStoreComponentView -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified TransformInfoData -- org.allbinary.logic.visual.transform.info.TransformInfoData
 import qualified TransformInfoHttpInterface -- org.allbinary.logic.visual.transform.info.TransformInfoHttpInterface
@@ -104,7 +106,7 @@ view_impl this = do
             javaThrow (e)
             ) $ do
             let httpTransformInfoInterface = (javaCast (jio (GeneratorStoreFrontContextView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-            Control.Monad.void (TransformInfoHttpInterface.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL) ((jget ((jio (CommonSeps.getInstance))).sPACE) + (jget ((jio (TransformInfosData.getInstance))).pREVIEW)))
-            (PreviewGeneratorStoreFrontContextView.view this (jget ((jio (TransformInfosData.getInstance))).pREVIEW))
+            Control.Monad.void (HashMap.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL) ((jget ((jio (CommonSeps.getInstance))).sPACE) + (jget ((jio (TransformInfosData.getInstance))).pREVIEW)))
+            (GeneratorStoreFrontContextView.view this (jget ((jio (TransformInfosData.getInstance))).pREVIEW))
 
 

@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -105,7 +105,7 @@ initFields_ this = do
     jset this.pRESS_START ("Press Screen To Start")
     jset this.kEY_START ("Press or Click F2 To Begin")
     jset this.mENU_START ("Press Start From The Menu To Begin")
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.startString ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
     jset this.timeDelayHelper =<< (TimeDelayHelper.new_1 1100)
     jset this.flash (False)
@@ -142,7 +142,7 @@ updateMeasurement_super object_ a1 = (updateMeasurement_impl (javaCast object_ :
 updateMeasurement_impl :: PressStartMenuPaintable -> Graphics.Graphics -> IO (())
 updateMeasurement_impl this graphics = do
         font <- (Graphics.getFont graphics)
-        jset (this).beginWidth ((((jio (Graphics.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).startString))) `Data.Bits.shiftR` 1)))
+        jset (this).beginWidth ((((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jget (this).startString))) `Data.Bits.shiftR` 1)))
         jset (this).line ((((4 * (jio (MyFontProcessor.defaultCharWidth font)))) + (((jio (Font.getHeight font)) `Data.Bits.shiftR` 1))))
         assignedValue <- (MyFontProcessor.getInstance)
         jset (this).myFontProcessor (assignedValue)

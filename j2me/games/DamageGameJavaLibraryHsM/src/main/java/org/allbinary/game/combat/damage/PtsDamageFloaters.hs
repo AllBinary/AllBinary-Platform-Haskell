@@ -20,10 +20,10 @@ import DamageFloaters hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -72,6 +72,7 @@ instance JavaObjectClass PtsDamageFloaters where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+basicColorArrayIndexer :: BasicColorArrayIndexer.BasicColorArrayIndexer
 {-# NOINLINE basicColorArrayIndexer #-}
 basicColorArrayIndexer = unsafePerformIO ((BasicColorArrayIndexer.new_1 (jarrayFromList [(jget ((jio (BasicColorFactory.getInstance))).wHITE), (jget ((jio (BasicColorFactory.getInstance))).rED), (jget ((jio (BasicColorFactory.getInstance))).yELLOW), (jget ((jio (BasicColorFactory.getInstance))).bLUE)])))
 
@@ -156,9 +157,9 @@ paint_impl this graphics = do
         forM_ [((jlength (jget (this).lastDamage)) - 1), ((jlength (jget (this).lastDamage)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             when ((jindex ((jget (this).lastDamage)) (index)) /= 0) $ do
                 let delta = (10 * ((index + 2)))
-                Control.Monad.void (BasicColorSetUtil.setBasicColorP ((jget (this).basicSetColorUtil)) graphics (jio (get PtsDamageFloaters.basicColorArrayIndexer)))
+                Control.Monad.void (BasicColorSetUtil.setBasicColorP ((jget (this).basicSetColorUtil)) graphics (jio (BasicColorArrayIndexer.get PtsDamageFloaters.basicColorArrayIndexer)))
                 Control.Monad.void (Graphics.drawChars graphics (jindex ((jget (this).lastDamageString)) (index)) 0 (jindex ((jget (this).lastDamageStringSizeArray)) (index)) (x - (jio (MyRandomFactory.getNextInt ((jget (this).myRandomFactory)) delta))) (y - delta) 0)
-                Control.Monad.void (next PtsDamageFloaters.basicColorArrayIndexer)
+                Control.Monad.void (BasicColorArrayIndexer.next PtsDamageFloaters.basicColorArrayIndexer)
             jsetIndex ((jget (this).lastDamage)) (index) (0)
         pure ()
 

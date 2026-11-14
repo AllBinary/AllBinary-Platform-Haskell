@@ -19,10 +19,10 @@ module CanvasDrawLineString where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,11 +61,15 @@ instance JavaObjectClass CanvasDrawLineString where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_CANVAS_DRAW_LINE_STRING :: CanvasDrawLineString
 {-# NOINLINE nULL_CANVAS_DRAW_LINE_STRING #-}
 nULL_CANVAS_DRAW_LINE_STRING = unsafePerformIO ((new_2 0 0))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CanvasDrawLineString
 newRecord_ = do
@@ -85,7 +89,7 @@ newRecord_ = do
 initFields_ :: CanvasDrawLineString -> IO ()
 initFields_ this = do
     jset this.drawStringUtil =<< (DrawStringUtil.getInstance)
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.x (0)
     jset this.y (0)
     jset this.fontHeight (0)

@@ -19,10 +19,10 @@ module XmlOptionItemData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,12 +49,17 @@ instance JavaObjectClass XmlOptionItemData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+xML_FILE_STATUS :: String
 xML_FILE_STATUS = "XMLOPTIONITEM_XML_FILE_STATUS"
 
+oPTION_XML_FILE :: String
 oPTION_XML_FILE = "XMLOPTIONITEM_OPTION_XML_FILE"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO XmlOptionItemData
 newRecord_ = do

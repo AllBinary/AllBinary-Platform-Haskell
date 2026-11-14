@@ -19,10 +19,10 @@ module ImageModifierUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified ImageUtil -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified ImageCreationUtil -- same package or java.lang
+import qualified Graphics -- same package or java.lang
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified ColorModel -- java.awt.image.ColorModel
 import qualified WritableRaster -- java.awt.image.WritableRaster
@@ -62,11 +63,15 @@ instance JavaObjectClass ImageModifierUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageModifierUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageModifierUtil
 newRecord_ = do
@@ -191,9 +196,9 @@ changeColor_impl this unusedOriginalImage image imageIndex basicColor = do
                 jset gx (assignedValue)
                 assignedValue <- (ColorModel.getBlue ((jget colorModel)) (jget dataElements))
                 jset bx (assignedValue)
-                jset rx ((Prelude.truncate ((jget rx) * r)))
-                jset gx ((Prelude.truncate ((jget gx) * g)))
-                jset bx ((Prelude.truncate ((jget bx) * b)))
+                jset rx ((javaCast (Prelude.truncate ((jget rx) * r)) :: INT.INT))
+                jset gx ((javaCast (Prelude.truncate ((jget gx) * g)) :: INT.INT))
+                jset bx ((javaCast (Prelude.truncate ((jget bx) * b)) :: INT.INT))
                 Control.Monad.void (BufferedImage.setRGB newBufferedImage index index2 ((((((jget ax) `Data.Bits.shiftL` 24)) Data.Bits..|. (((jget rx) `Data.Bits.shiftL` 16))) Data.Bits..|. (((jget gx) `Data.Bits.shiftL` 8))) Data.Bits..|. ((jget bx))))
         pure ()
 
@@ -238,7 +243,7 @@ getImageArray_impl this originalImageArray = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset originalImage ((jindex originalImageArray (index)))
                 image <- (ImageCreationUtil.createImageWH ((jio (ImageCreationUtil.getInstance))) (jio (Image.getWidth ((jget originalImage)))) (jio (Image.getHeight ((jget originalImage)))))
-                Control.Monad.void (Image.drawImage ((jio (Image.getGraphics image))) (jget originalImage) 0 0 (jget Anchor.tOP_LEFT))
+                Control.Monad.void (Graphics.drawImage ((jio (Image.getGraphics image))) (jget originalImage) 0 0 (jget Anchor.tOP_LEFT))
                 jsetIndex newImageArray (index) (image)
             pure (newImageArray)
 

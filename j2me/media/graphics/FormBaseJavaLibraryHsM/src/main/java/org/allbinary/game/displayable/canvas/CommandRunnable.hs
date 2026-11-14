@@ -19,10 +19,10 @@ module CommandRunnable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance JavaObjectClass CommandRunnable where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CommandRunnable
 newRecord_ = do
@@ -113,7 +116,7 @@ run_impl this = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART_RUNNABLE) this (jget ((jget (this).commonStrings)).rUN))
             canvas <- (CommandFormInputProcessor.getCanvas ((jget (this).commandFormInputProcessor)))
             commandListener <- (MyCanvas.getCustomCommandListener canvas)
-            Control.Monad.void (CommandListener.commandAction commandListener (jget (this).command) canvas)
+            Control.Monad.void (CommandListener.commandAction commandListener (jget (this).command) (javaCast canvas))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND_RUNNABLE) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 

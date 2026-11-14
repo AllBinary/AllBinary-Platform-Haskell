@@ -19,10 +19,10 @@ module XslHelper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified ByteArrayOutputStream -- java.io.ByteArrayOutputStream
 import qualified File -- java.io.File
 import qualified OutputStream -- java.io.OutputStream
 import qualified StringBufferInputStream -- java.io.StringBufferInputStream
+import qualified Templates -- javax.xml.transform.Templates
 import qualified Transformer -- javax.xml.transform.Transformer
 import qualified TransformerFactory -- javax.xml.transform.TransformerFactory
 import qualified URIResolver -- javax.xml.transform.URIResolver
@@ -60,11 +61,15 @@ instance JavaObjectClass XslHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: XslHelper
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO XslHelper
 newRecord_ = do
@@ -73,6 +78,7 @@ newRecord_ = do
     jregisterLevel header_ this
     jregisterMethod header_ "translate_overload1" (\() -> translate_overload1_impl this)
     jregisterMethod header_ "translate_4" (\() -> translate_4_impl this)
+    jregisterMethod header_ "translateTemplate" (\() -> translateTemplate_impl this)
     jregisterMethod header_ "translate_2_overload1" (\() -> translate_2_overload1_impl this)
     jregisterMethod header_ "translate_2_overload2" (\() -> translate_2_overload2_impl this)
     jregisterMethod header_ "translate_overload2" (\() -> translate_overload2_impl this)
@@ -143,6 +149,24 @@ translate_4_impl this resolver xsltStreamSource xmlStreamSource streamResult = d
             transformer <- (TransformerFactory.newTransformer tFactory xsltStreamSource)
             Control.Monad.void (Transformer.transform transformer xmlStreamSource streamResult)
             (StreamResult.getOutputStream streamResult)
+
+
+-- throws Exception
+translateTemplate :: (JavaObjectClass this_) => this_ -> Templates.Templates -> StreamSource.StreamSource -> IO (String)
+translateTemplate object_ a1 a2 = jmethod object_ "translateTemplate" (\() -> (translateTemplate_impl (javaCast object_ :: XslHelper))) () a1 a2
+
+translateTemplate_super :: (JavaObjectClass this_) => this_ -> Templates.Templates -> StreamSource.StreamSource -> IO (String)
+translateTemplate_super object_ a1 a2 = (translateTemplate_impl (javaCast object_ :: XslHelper)) a1 a2
+
+translateTemplate_impl :: XslHelper -> Templates.Templates -> StreamSource.StreamSource -> IO (String)
+translateTemplate_impl this templates xmlStreamSource = do
+        handle (\(e :: JavaException) -> do
+            javaThrow (e)
+            ) $ do
+            outputStream <- (ByteArrayOutputStream.new_)
+            streamResult <- (StreamResult.new_1 outputStream)
+            Control.Monad.void (Templates.transform ((jio (Templates.newTransformer templates))) xmlStreamSource streamResult)
+            (StreamResult.toString ((jio (StreamResult.getOutputStream streamResult))))
 
 
 -- Java overloads of translate: calls the overload for the types of the arguments

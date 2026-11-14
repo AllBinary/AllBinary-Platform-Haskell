@@ -19,10 +19,10 @@ module ViewHelper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,6 +70,9 @@ instance JavaObjectClass ViewHelper where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO ViewHelper
 newRecord_ = do
     header_ <- newJavaHeader
@@ -108,7 +111,7 @@ new_2 hashMap pageContext = do
 init_2 :: ViewHelper -> HashMap.HashMap -> PageContext.PageContext -> IO ()
 init_2 this hashMap pageContext = do
         initFields_ this
-        assignedValue <- (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: TransformInterface.TransformInterface) (TransformFactory.getInstance_3 ((jio (TransformFactory.getInstance))) (jget (this).abeClientInformation) hashMap pageContext))
         jset (this).componentInterface (assignedValue)
         pure ()
 
@@ -136,7 +139,8 @@ view_impl this = do
         handle (\(e :: JavaException) -> do
             error <- newIORef ("Failed to View: ")
             if ((jget (this).componentInterface) /= javaNull) then do
-                jset error (((jget error) ++ javaToString (jio (Class.getName ((jio (jobjectGetClass (jget (this).componentInterface))))))))
+                assignedValue <- (Class.getName ((jio (jobjectGetClass (jget (this).componentInterface)))))
+                jset error (((jget error) ++ javaToString assignedValue))
             else do
                 jset error (((jget error) ++ javaToString "Unknown"))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
@@ -158,14 +162,15 @@ toXmlDoc_impl this = do
         handle (\(e :: JavaException) -> do
             error <- newIORef ("Failed to View: ")
             if ((jget (this).componentInterface) /= javaNull) then do
-                jset error (((jget error) ++ javaToString (jio (Class.getName ((jio (jobjectGetClass (jget (this).componentInterface))))))))
+                assignedValue <- (Class.getName ((jio (jobjectGetClass (jget (this).componentInterface)))))
+                jset error (((jget error) ++ javaToString assignedValue))
             else do
                 jset error (((jget error) ++ javaToString "Unknown"))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "view()" e)
             javaThrow (e)
             ) $ do
-            javaThrow ((JavaException "Exception" ("Hmm: " ++ javaToString (jio (TransformInterface.getDoc ((jio (TransformInterface.getTransformDocumentInterface ((jget (this).componentInterface))))))))))
+            javaThrow ((JavaException "Exception" ("Hmm: " ++ jconcatObject Document.toString (jio (TransformDocumentInterface.getDoc ((jio (TransformInterface.getTransformDocumentInterface ((jget (this).componentInterface))))))))))
 
 
 getViewObject :: (JavaObjectClass this_) => this_ -> IO (TransformInterface.TransformInterface)

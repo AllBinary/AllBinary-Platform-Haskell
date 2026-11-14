@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PageContext -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified StreetAddress -- org.allbinary.business.user.address.StreetAddress
@@ -102,7 +103,7 @@ init_1 this transformInfoInterface = do
         initFields_ this
         pure () -- super(...) is in the record above
         let httpTransformInfoInterface = (javaCast (jio (HttpStoreComponentView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        jset (this).request ((javaCast (jio (TransformInfoHttpInterface.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface))))) :: HttpServletRequest.HttpServletRequest))
+        jset (this).request ((javaCast (jio (PageContext.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface))))) :: HttpServletRequest.HttpServletRequest))
         pure ()
 
 

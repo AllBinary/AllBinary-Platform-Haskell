@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Thread -- same package or java.lang
 import qualified MediaData -- same package or java.lang
+import qualified CacheInterface -- same package or java.lang
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified File -- java.io.File
 import qualified ImageIO -- javax.imageio.ImageIO
@@ -77,6 +78,7 @@ instance JavaObjectClass SavedCaptureImagesWorker where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+index :: IORef (Int64)
 {-# NOINLINE index #-}
 index = unsafePerformIO (newIORef (0))
 
@@ -187,7 +189,7 @@ run_impl this = do
                 if (jio (File.isFile file)) then do
                     bufferedImage <- (ImageIO.read file)
                     jset SavedCaptureImagesWorker.index ((jget SavedCaptureImagesWorker.index) + 1)
-                    Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame)))
+                    Control.Monad.void (CacheInterface.add ((jio (CapturedBufferedImagesCacheSingleton.getInstance))) (javaCast (jio (BufferedImageFrameCacheable.new_2 bufferedImage frame))))
                     capturedImageEvent <- (CapturedImageWorkerResultsEvent.new_3 this frame bufferedImage)
                     Control.Monad.void (BasicEventHandler.fireEvent this (javaCast capturedImageEvent))
                 else do

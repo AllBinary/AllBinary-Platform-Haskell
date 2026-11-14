@@ -19,10 +19,10 @@ module UrlGlobalsData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,18 +49,26 @@ instance JavaObjectClass UrlGlobalsData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "URLGLOBALS_NAME"
 
+wEBAPPPATH :: String
 wEBAPPPATH = "URLGLOBALS_WEBAPPPATH"
 
+tESTINGMODE :: String
 tESTINGMODE = "URLGLOBALS_TESTINGMODE"
 
+tESTINGHTMLPATH :: String
 tESTINGHTMLPATH = "URLGLOBALS_TESTINGHTMLPATH"
 
+mAINPATH :: String
 mAINPATH = "URLGLOBALS_MAINPATH"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UrlGlobalsData
 newRecord_ = do

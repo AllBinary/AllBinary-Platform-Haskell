@@ -16,14 +16,14 @@
 -- package org.allbinary.game.layer.unit
 module UnitWaypointBehavior (module UnitWaypointBehavior, module WaypointBehaviorBase) where
 
-import WaypointBehaviorBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initRange, initRange_super, initRange_impl, onEvent, onEvent_super, onEvent_impl, onWaypointEvent, onWaypointEvent_super, onWaypointEvent_impl, addWaypointFromUser, addWaypointFromUser_super, addWaypointFromUser_impl, addWaypointFromBuilding, addWaypointFromBuilding_super, addWaypointFromBuilding_impl, isWaypointListEmptyOrOnlyTargets, isWaypointListEmptyOrOnlyTargets_super, isWaypointListEmptyOrOnlyTargets_impl, insertWaypoint, insertWaypoint_super, insertWaypoint_impl, move, move_super, move_impl, setRandomGeographicMapCellHistory, setRandomGeographicMapCellHistory_super, setRandomGeographicMapCellHistory_impl, setGeographicMapCellHistoryPath, setGeographicMapCellHistoryPath_super, setGeographicMapCellHistoryPath_impl, canInsertWaypoint, canInsertWaypoint_super, canInsertWaypoint_impl, addBuildingChase, addBuildingChase_super, addBuildingChase_impl, moveAwayFromBuilding, moveAwayFromBuilding_super, moveAwayFromBuilding_impl, needToMove, needToMove_super, needToMove_impl, getMovementLogicAsString, getMovementLogicAsString_super, getMovementLogicAsString_impl, isMovingFromStopped, isMovingFromStopped_super, isMovingFromStopped_impl, setMovingFromStopped, setMovingFromStopped_super, setMovingFromStopped_impl, setWaypointPathsList, setWaypointPathsList_super, setWaypointPathsList_impl, getWaypointPathsList, getWaypointPathsList_super, getWaypointPathsList_impl, isMoving, isMoving_super, isMoving_impl, setMoving, setMoving_super, setMoving_impl, isTrackingWaypoint, isTrackingWaypoint_super, isTrackingWaypoint_impl, getPossibleTargetList, getPossibleTargetList_super, getPossibleTargetList_impl, setLastPathGeographicMapCellPosition, setLastPathGeographicMapCellPosition_super, setLastPathGeographicMapCellPosition_impl, getLastPathGeographicMapCellPosition, getLastPathGeographicMapCellPosition_super, getLastPathGeographicMapCellPosition_impl, setCurrentPathGeographicMapCellPosition, setCurrentPathGeographicMapCellPosition_super, setCurrentPathGeographicMapCellPosition_impl, getCurrentPathGeographicMapCellPosition, getCurrentPathGeographicMapCellPosition_super, getCurrentPathGeographicMapCellPosition_impl, setSensorAction, setSensorAction_super, setSensorAction_impl, getSensorAction, getSensorAction_super, getSensorAction_impl, setCurrentTargetLayerInterface, setCurrentTargetLayerInterface_super, setCurrentTargetLayerInterface_impl, getCurrentTargetLayerInterface, getCurrentTargetLayerInterface_super, getCurrentTargetLayerInterface_impl, setCurrentTargetDistance, setCurrentTargetDistance_super, setCurrentTargetDistance_impl, getCurrentTargetDistance, getCurrentTargetDistance_super, getCurrentTargetDistance_impl, getCompleteTimeDelayHelper, getCompleteTimeDelayHelper_super, getCompleteTimeDelayHelper_impl, getCurrentGeographicMapCellHistory, getCurrentGeographicMapCellHistory_super, getCurrentGeographicMapCellHistory_impl, setTrackingWaypoint, setTrackingWaypoint_super, setTrackingWaypoint_impl, pATHING, commonSeps, longWeaponRange, sensorAction, completeTimeDelayHelper, currentGeographicMapCellHistoryP, lastPathGeographicMapCellPosition, currentPathGeographicMapCellPosition, fAKE_WAYPOINT_LAYER, targetList, possibleTargetList, associatedAdvancedRTSGameLayer, moving, movingFromStopped, waypointPathsListP, currentTargetDistance, currentTargetLayerInterfaceP, trackingWaypoint, repeatedToLong)
+import WaypointBehaviorBase hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, initRange, initRange_super, initRange_impl, onEvent, onEvent_super, onEvent_impl, onWaypointEvent, onWaypointEvent_super, onWaypointEvent_impl, addWaypointFromUser, addWaypointFromUser_super, addWaypointFromUser_impl, addWaypointFromBuilding, addWaypointFromBuilding_super, addWaypointFromBuilding_impl, isWaypointListEmptyOrOnlyTargets, isWaypointListEmptyOrOnlyTargets_super, isWaypointListEmptyOrOnlyTargets_impl, insertWaypoint, insertWaypoint_super, insertWaypoint_impl, move, move_super, move_impl, setRandomGeographicMapCellHistory, setRandomGeographicMapCellHistory_super, setRandomGeographicMapCellHistory_impl, setGeographicMapCellHistoryPath, setGeographicMapCellHistoryPath_super, setGeographicMapCellHistoryPath_impl, canInsertWaypoint, canInsertWaypoint_super, canInsertWaypoint_impl, addBuildingChase, addBuildingChase_super, addBuildingChase_impl, moveAwayFromBuilding, moveAwayFromBuilding_super, moveAwayFromBuilding_impl, needToMove, needToMove_super, needToMove_impl, getMovementLogicAsString, getMovementLogicAsString_super, getMovementLogicAsString_impl, isMovingFromStopped, isMovingFromStopped_super, isMovingFromStopped_impl, setMovingFromStopped, setMovingFromStopped_super, setMovingFromStopped_impl, setWaypointPathsList, setWaypointPathsList_super, setWaypointPathsList_impl, getWaypointPathsList, getWaypointPathsList_super, getWaypointPathsList_impl, isMoving, isMoving_super, isMoving_impl, setMoving, setMoving_super, setMoving_impl, isTrackingWaypoint, isTrackingWaypoint_super, isTrackingWaypoint_impl, getPossibleTargetList, getPossibleTargetList_super, getPossibleTargetList_impl, setLastPathGeographicMapCellPosition, setLastPathGeographicMapCellPosition_super, setLastPathGeographicMapCellPosition_impl, getLastPathGeographicMapCellPosition, getLastPathGeographicMapCellPosition_super, getLastPathGeographicMapCellPosition_impl, setCurrentPathGeographicMapCellPosition, setCurrentPathGeographicMapCellPosition_super, setCurrentPathGeographicMapCellPosition_impl, getCurrentPathGeographicMapCellPosition, getCurrentPathGeographicMapCellPosition_super, getCurrentPathGeographicMapCellPosition_impl, setSensorAction, setSensorAction_super, setSensorAction_impl, getSensorAction, getSensorAction_super, getSensorAction_impl, setCurrentTargetLayerInterface, setCurrentTargetLayerInterface_super, setCurrentTargetLayerInterface_impl, getCurrentTargetLayerInterface, getCurrentTargetLayerInterface_super, getCurrentTargetLayerInterface_impl, setCurrentTargetDistance, setCurrentTargetDistance_super, setCurrentTargetDistance_impl, getCurrentTargetDistance, getCurrentTargetDistance_super, getCurrentTargetDistance_impl, getCompleteTimeDelayHelper, getCompleteTimeDelayHelper_super, getCompleteTimeDelayHelper_impl, getCurrentGeographicMapCellHistory, getCurrentGeographicMapCellHistory_super, getCurrentGeographicMapCellHistory_impl, setTrackingWaypoint, setTrackingWaypoint_super, setTrackingWaypoint_impl, commonSeps, unitWaypointStrings, longWeaponRange, sensorAction, completeTimeDelayHelper, currentGeographicMapCellHistoryP, lastPathGeographicMapCellPosition, currentPathGeographicMapCellPosition, fAKE_WAYPOINT_LAYER, targetList, possibleTargetList, associatedAdvancedRTSGameLayer, moving, movingFromStopped, waypointPathsListP, currentTargetDistance, currentTargetLayerInterfaceP, trackingWaypoint, repeatedToLong)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,9 +32,11 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UnitWaypointStrings -- same package or java.lang
 import qualified UnitLayer -- same package or java.lang
 import qualified WaypointLogHelper -- same package or java.lang
 import qualified GeographicMapCellPositionAreaBase -- same package or java.lang
+import qualified CaptionAnimationHelperBase -- same package or java.lang
 import qualified PrimaryWaypointHelper -- org.allbinary.game.input.form.PrimaryWaypointHelper
 import qualified AdvancedRTSGameLayer -- org.allbinary.game.layer.AdvancedRTSGameLayer
 import qualified RTSLayerEvent -- org.allbinary.game.layer.RTSLayerEvent
@@ -65,6 +67,7 @@ data UnitWaypointBehavior = UnitWaypointBehavior
     { header_ :: JavaHeader
     , base :: WaypointBehaviorBase.WaypointBehaviorBase
     , commonSeps :: IORef (CommonSeps.CommonSeps)
+    , unitWaypointStrings :: IORef (UnitWaypointStrings.UnitWaypointStrings)
     , longWeaponRange :: IORef (Int)
     , sensorAction :: IORef (SensorAction.SensorAction)
     , completeTimeDelayHelper :: IORef (TimeDelayHelper.TimeDelayHelper)
@@ -97,13 +100,12 @@ instance JavaObjectClass UnitWaypointBehavior where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
-pATHING = "Pathing"
-
 newRecord_ :: IO UnitWaypointBehavior
 newRecord_ = do
     base <- WaypointBehaviorBase.newRecord_
     let header_ = base.header_
     commonSeps <- newIORef javaNull
+    unitWaypointStrings <- newIORef javaNull
     longWeaponRange <- newIORef 0
     sensorAction <- newIORef javaNull
     completeTimeDelayHelper <- newIORef javaNull
@@ -121,7 +123,7 @@ newRecord_ = do
     currentTargetLayerInterfaceP <- newIORef javaNull
     trackingWaypoint <- newIORef False
     repeatedToLong <- newIORef javaNull
-    let this = UnitWaypointBehavior header_ base commonSeps longWeaponRange sensorAction completeTimeDelayHelper currentGeographicMapCellHistoryP lastPathGeographicMapCellPosition currentPathGeographicMapCellPosition fAKE_WAYPOINT_LAYER targetList possibleTargetList associatedAdvancedRTSGameLayer moving movingFromStopped waypointPathsListP currentTargetDistance currentTargetLayerInterfaceP trackingWaypoint repeatedToLong
+    let this = UnitWaypointBehavior header_ base commonSeps unitWaypointStrings longWeaponRange sensorAction completeTimeDelayHelper currentGeographicMapCellHistoryP lastPathGeographicMapCellPosition currentPathGeographicMapCellPosition fAKE_WAYPOINT_LAYER targetList possibleTargetList associatedAdvancedRTSGameLayer moving movingFromStopped waypointPathsListP currentTargetDistance currentTargetLayerInterfaceP trackingWaypoint repeatedToLong
     jregisterLevel header_ this
     WaypointEventListenerInterface.registerInterface_ header_
     jregisterMethod header_ "initRange" (\() -> initRange_impl this)
@@ -165,6 +167,7 @@ newRecord_ = do
 initFields_ :: UnitWaypointBehavior -> IO ()
 initFields_ this = do
     jset this.commonSeps =<< (CommonSeps.getInstance)
+    jset this.unitWaypointStrings =<< (UnitWaypointStrings.getInstance)
     jset this.longWeaponRange (0)
     jset this.sensorAction ((jget ((jio (SensorActionFactory.getInstance))).aTTACK))
     jset this.completeTimeDelayHelper (javaNull)
@@ -242,7 +245,7 @@ onWaypointEvent_super object_ a1 = (onWaypointEvent_impl (javaCast object_ :: Un
 onWaypointEvent_impl :: UnitWaypointBehavior -> RTSLayerEvent.RTSLayerEvent -> IO (())
 onWaypointEvent_impl this event = do
         let advancedRTSGameLayer = (javaCast (jio (RTSLayerEvent.getRtsLayer event)) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
-        Control.Monad.void (WaypointLogHelper.onWaypointEvent ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
+        Control.Monad.void (WaypointLogHelper.onWaypointEvent ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
         if (jio (UnitLayer.isSelected ((jget (this).associatedAdvancedRTSGameLayer)))) then do
             Control.Monad.void (UnitWaypointBehavior.addWaypointFromUser this advancedRTSGameLayer)
         else when (jio (AdvancedRTSGameLayer.shouldAddWaypointFromBuilding advancedRTSGameLayer)) $ do
@@ -273,11 +276,11 @@ addWaypointFromBuilding_impl :: UnitWaypointBehavior -> AdvancedRTSGameLayer.Adv
 addWaypointFromBuilding_impl this advancedRTSGameLayer = do
         when (((jtoObject advancedRTSGameLayer) == (jtoObject (jio (PrimaryWaypointHelper.getWaypointLayer ((jio (PrimaryWaypointHelper.getInstance))))))) || ((jio (AdvancedRTSGameLayer.getParentLayer advancedRTSGameLayer)) == (jio (UnitLayer.getParentLayer ((jget (this).associatedAdvancedRTSGameLayer)))))) $ do
             when (Prelude.not (jio (BasicArrayList.contains ((jget (this).targetList)) advancedRTSGameLayer))) $ do
-                Control.Monad.void (WaypointLogHelper.addWaypointFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
+                Control.Monad.void (WaypointLogHelper.addWaypointFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer))
                 when (jio (AdvancedRTSGameLayer.isDestroyed advancedRTSGameLayer)) $ do
-                    javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ javaToString advancedRTSGameLayer)))
+                    javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ jconcatObject AdvancedRTSGameLayer.toString advancedRTSGameLayer)))
                 Control.Monad.void (BasicArrayList.add ((jget (this).targetList)) advancedRTSGameLayer)
-                Control.Monad.void (WaypointLogHelper.addWaypointFromBuildingList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer) (jget (this).targetList))
+                Control.Monad.void (WaypointLogHelper.addWaypointFromBuildingList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast advancedRTSGameLayer) (jget (this).targetList))
         pure ()
 
 
@@ -303,11 +306,11 @@ insertWaypoint_impl :: UnitWaypointBehavior -> Int -> CollidableDestroyableDamag
 insertWaypoint_impl this index rtsLayer = do
     javaCatchReturn $ do
         when (jio (UnitWaypointBehavior.canInsertWaypoint this index rtsLayer)) $ do
-            Control.Monad.void (WaypointLogHelper.insertWaypoint ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)))
+            Control.Monad.void (WaypointLogHelper.insertWaypoint ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)))
             when (jio (CollidableDestroyableDamageableLayer.isDestroyed rtsLayer)) $ do
-                javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ javaToString rtsLayer)))
+                javaThrow ((JavaException "Exception" ("Trying to add a dead: " ++ jconcatObject CollidableDestroyableDamageableLayer.toString rtsLayer)))
             Control.Monad.void (BasicArrayList.addAt ((jget (this).targetList)) index rtsLayer)
-            Control.Monad.void (WaypointLogHelper.insertWaypointList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)) (jget (this).targetList))
+            Control.Monad.void (WaypointLogHelper.insertWaypointList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) index rtsLayer (jio (WaypointBehaviorBase.getName this)) (jget (this).targetList))
             javaReturn (True)
         pure (False)
 
@@ -338,7 +341,7 @@ setRandomGeographicMapCellHistory_super object_ a1 = (setRandomGeographicMapCell
 setRandomGeographicMapCellHistory_impl :: UnitWaypointBehavior -> BasicArrayList.BasicArrayList -> IO (())
 setRandomGeographicMapCellHistory_impl this pathsList = do
         size <- (BasicArrayList.size pathsList)
-        Control.Monad.void (WaypointLogHelper.setRandomGeographicMapCellHistoryList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) pathsList)
+        Control.Monad.void (WaypointLogHelper.setRandomGeographicMapCellHistoryList ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) pathsList)
         when (size > 0) $ do
             let geographicMapCellPositionBasicArrayList = (javaCast (jio (BasicArrayListUtil.getRandom ((jio (BasicArrayListUtil.getInstance))) pathsList)) :: BasicArrayList.BasicArrayList)
             Control.Monad.void (UnitWaypointBehavior.setGeographicMapCellHistoryPath this geographicMapCellPositionBasicArrayList)
@@ -355,8 +358,8 @@ setGeographicMapCellHistoryPath_super object_ a1 = (setGeographicMapCellHistoryP
 setGeographicMapCellHistoryPath_impl :: UnitWaypointBehavior -> BasicArrayList.BasicArrayList -> IO (())
 setGeographicMapCellHistoryPath_impl this geographicMapCellPositionBasicArrayList = do
         jset (this).lastPathGeographicMapCellPosition (SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION)
-        when (jget ((jget (this).associatedAdvancedRTSGameLayer)).showMoreCaptionStates) $ do
-            Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).associatedAdvancedRTSGameLayer))))) (UnitWaypointBehavior.pATHING) (jget ((jio (BasicColorFactory.getInstance))).gREEN))
+        when (jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.showMoreCaptionStates) $ do
+            Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).pATHING) (jget ((jio (BasicColorFactory.getInstance))).gREEN))
         Control.Monad.void (GeographicMapCellHistory.init ((jget (this).currentGeographicMapCellHistoryP)))
         Control.Monad.void (UnitLayer.init ((jget (this).associatedAdvancedRTSGameLayer)) (jget (this).currentGeographicMapCellHistoryP) geographicMapCellPositionBasicArrayList)
         Control.Monad.void (UnitWaypointBehavior.setTrackingWaypoint this True)
@@ -404,10 +407,10 @@ moveAwayFromBuilding_super object_ a1 = (moveAwayFromBuilding_impl (javaCast obj
 moveAwayFromBuilding_impl :: UnitWaypointBehavior -> BuildingLayer.BuildingLayer -> IO (())
 moveAwayFromBuilding_impl this buildingLayer = do
         geographicMapCellPosition <- (UnitLayer.getCurrentGeographicMapCellPosition ((jget (this).associatedAdvancedRTSGameLayer)))
-        list <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jget (buildingLayer).geographicMapCellPositionAreaBase)))
+        list <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jget (buildingLayer).base.base.geographicMapCellPositionAreaBase)))
         when (jio (BasicArrayList.contains list geographicMapCellPosition)) $ do
             when (jio (UnitWaypointBehavior.insertWaypoint this 0 (jget (this).fAKE_WAYPOINT_LAYER))) $ do
-                Control.Monad.void (WaypointLogHelper.moveAwayFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)))
+                Control.Monad.void (WaypointLogHelper.moveAwayFromBuilding ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)))
                 Control.Monad.void (UnitWaypointBehavior.setCurrentTargetLayerInterface this (javaCast (jget (this).fAKE_WAYPOINT_LAYER) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer))
                 pathsList <- (BuildingLayer.getMoveOutOfBuildAreaPath buildingLayer geographicMapCellPosition)
                 Control.Monad.void (UnitLayer.setClosestGeographicMapCellHistory ((jget (this).associatedAdvancedRTSGameLayer)) pathsList)
@@ -423,12 +426,12 @@ needToMove_super object_ = (needToMove_impl (javaCast object_ :: UnitWaypointBeh
 needToMove_impl :: UnitWaypointBehavior -> IO (Bool)
 needToMove_impl this = do
     javaCatchReturn $ do
-        Control.Monad.void (WaypointLogHelper.needToMove ((jget ((jget (this).associatedAdvancedRTSGameLayer)).waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast this))
+        Control.Monad.void (WaypointLogHelper.needToMove ((jget ((jget (this).associatedAdvancedRTSGameLayer)).base.base.waypointLogHelperP)) (javaCast (jget (this).associatedAdvancedRTSGameLayer)) (javaCast this))
         when (((jio (UnitWaypointBehavior.isTrackingWaypoint this)) || ((jget (this).sensorAction) == (jget ((jio (SensorActionFactory.getInstance))).eVADE))) || ((((jget (this).currentTargetLayerInterfaceP) /= (jio (CollidableDestroyableDamageableLayer.getNullInstance))) && ((jio (UnitWaypointBehavior.getCurrentTargetDistance this)) >= ((jget (this).longWeaponRange) + (jio (CollidableDestroyableDamageableLayer.getHalfHeight ((jget (this).currentTargetLayerInterfaceP))))))))) $ do
             Control.Monad.void (TimeDelayHelper.setStartTimeTNT ((jget (this).repeatedToLong)))
             javaReturn (True)
         when (jio (TimeDelayHelper.isTimeTNT ((jget (this).repeatedToLong)))) $ do
-            let message = ("Repeating too long: " ++ javaToString (jio (UnitWaypointBehavior.getMovementLogicAsString this)))
+            let message = ("Repeating too long: " ++ (jio (UnitWaypointBehavior.getMovementLogicAsString this)))
             Control.Monad.void (ForcedLogUtil.log message (jget (this).associatedAdvancedRTSGameLayer))
         pure (False)
 
@@ -452,7 +455,7 @@ getMovementLogicAsString_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer " Target Range: ")
             Control.Monad.void (StringMaker.appendint stringBuffer (jio (UnitWaypointBehavior.getCurrentTargetDistance this)))
             Control.Monad.void (StringMaker.append stringBuffer " >= ")
-            Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger ((jget (this).longWeaponRange) + (jio (CollidableDestroyableDamageableLayer.getHalfHeight ((jget (this).currentTargetLayerInterfaceP))))))))
+            Control.Monad.void (StringMaker.appendint stringBuffer ((jget (this).longWeaponRange) + (jio (CollidableDestroyableDamageableLayer.getHalfHeight ((jget (this).currentTargetLayerInterfaceP))))))
         (StringMaker.toString stringBuffer)
 
 

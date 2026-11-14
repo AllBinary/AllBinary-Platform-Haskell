@@ -19,10 +19,10 @@ module MultiGeographicMapBehavior where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,6 +54,9 @@ instance JavaObjectClass MultiGeographicMapBehavior where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO MultiGeographicMapBehavior
 newRecord_ = do
@@ -91,7 +94,7 @@ getCellTypeAt_impl this geographicMapInterfaceArray geographicMapCellTypeArray g
         cellType <- newIORef (GeographicMapCellType.nULL_GEOGRAPHIC_MAP_CELL_TYPE)
         index <- newIORef (size)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            assignedValue <- (getCellTypeAt ((jindex geographicMapInterfaceArray ((jget index)))) geographicMapCellPosition)
+            assignedValue <- (BasicGeographicMap.getCellTypeAt ((jindex geographicMapInterfaceArray ((jget index)))) geographicMapCellPosition)
             jset cellType (assignedValue)
             jsetIndex geographicMapCellTypeArray ((jget index)) ((jget cellType))
         pure (geographicMapCellTypeArray)

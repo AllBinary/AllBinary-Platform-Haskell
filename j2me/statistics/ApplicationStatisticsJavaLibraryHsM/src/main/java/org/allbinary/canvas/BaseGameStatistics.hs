@@ -19,10 +19,10 @@ module BaseGameStatistics where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -117,7 +117,7 @@ initFields_ this = do
     jset this.sPACE_CHAR (' ')
     jset this.pLUS_CHAR ('+')
     jset this.x_CHAR ('X')
-    jset this.cHAR_ARRAY ((jarrayFromList [(jarrayFromList ['F', 'r', 'a', 'm', 'e', 's', '/', '1', '0', ' ', 'S', 'e', 'c', ':']), (jarrayFromList ['X', 'X']), (jarrayFromList ['P', 'a', 'i', 'n', 't', 's', '/', '1', '0', ' ', 'S', 'e', 'c', ':']), (jarrayFromList ['X', 'X'])]))
+    jset this.cHAR_ARRAY ((jarrayFromList [(jarrayFromList ['F', 'r', 'a', 'm', 'e', 's', '/', '1', '0', ' ', 'S', 'e', 'c', ':'] :: JavaArray Char), (jarrayFromList ['X', 'X'] :: JavaArray Char), (jarrayFromList ['P', 'a', 'i', 'n', 't', 's', '/', '1', '0', ' ', 'S', 'e', 'c', ':'] :: JavaArray Char), (jarrayFromList ['X', 'X'] :: JavaArray Char)] :: JavaArray (JavaArray Char)))
     jset this.primitiveLongSingleton =<< (PrimitiveLongSingleton.getInstance)
     pure ()
 

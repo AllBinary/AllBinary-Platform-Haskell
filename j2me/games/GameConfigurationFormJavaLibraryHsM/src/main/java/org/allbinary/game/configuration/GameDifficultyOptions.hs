@@ -20,10 +20,10 @@ import CommandForm hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,11 +39,11 @@ import qualified Choice -- javax.microedition.lcdui.Choice
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified NullImage -- javax.microedition.lcdui.NullImage
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
 import qualified GameDifficultyFactory -- org.allbinary.game.configuration.persistance.GameDifficultyFactory
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified CommandForm -- org.allbinary.graphics.displayable.screen.CommandForm
-import qualified MEUtil -- org.allbinary.logic.MEUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified StringUtil -- org.allbinary.logic.string.StringUtil
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -51,7 +51,7 @@ import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 data GameDifficultyOptions = GameDifficultyOptions
     { header_ :: JavaHeader
     , base :: CommandForm.CommandForm
-    , meUtil :: IORef (MEUtil.MEUtil)
+    , meUtil :: IORef (MIDPUtil.MIDPUtil)
     , list :: IORef (BasicArrayList.BasicArrayList)
     }
 
@@ -90,7 +90,7 @@ newRecord_ = do
 
 initFields_ :: GameDifficultyOptions -> IO ()
 initFields_ this = do
-    jset this.meUtil =<< (MEUtil.getInstance)
+    jset this.meUtil =<< (MIDPUtil.getInstance)
     jset this.list (javaNull)
     pure ()
 
@@ -195,7 +195,7 @@ add_impl this list name option = do
         choiceGroup <- (GameDifficultyOptions.getChoiceGroup this list name option)
         when ((jio (BasicArrayList.size list)) > 0) $ do
             Control.Monad.void (ChoiceGroup.setSelectedIndex choiceGroup 0 True)
-        Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
+        Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast choiceGroup))
         pure ()
 
 
@@ -253,7 +253,7 @@ getSelectedText_super object_ = (getSelectedText_impl (javaCast object_ :: GameD
 getSelectedText_impl :: GameDifficultyOptions -> IO (Int)
 getSelectedText_impl this = do
         let choiceGroup = (javaCast (jio (CommandForm.get this 0)) :: ChoiceGroup.ChoiceGroup)
-        let value = (javaToString (jio (ChoiceGroup.getString choiceGroup (jio (ChoiceGroup.getSelectedIndex choiceGroup)))))
+        let value = (jio (jparseInt (jio (ChoiceGroup.getString choiceGroup (jio (ChoiceGroup.getSelectedIndex choiceGroup))))))
         pure (value)
 
 

@@ -19,10 +19,10 @@ module ImageCopyUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,11 +57,15 @@ instance JavaObjectClass ImageCopyUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageCopyUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageCopyUtil
 newRecord_ = do
@@ -80,7 +84,7 @@ initFields_ :: ImageCopyUtil -> IO ()
 initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
     jset this.imageCreationUtil =<< (ImageCreationUtil.getInstance)
-    jset this.anchor (Anchor.tOP_LEFT)
+    jset this.anchor ((jget Anchor.tOP_LEFT))
     pure ()
 
 
@@ -125,7 +129,7 @@ createImage_impl this originalImage = do
     javaCatchReturn $ do
         image <- (ImageCreationUtil.createImageWH ((jget (this).imageCreationUtil)) (jio (Image.getWidth originalImage)) (jio (Image.getHeight originalImage)))
         if (jio (Image.isMutable image)) then do
-            Control.Monad.void (Image.drawImage ((jio (Image.getGraphics image))) originalImage 0 0 (jget (this).anchor))
+            Control.Monad.void (Graphics.drawImage ((jio (Image.getGraphics image))) originalImage 0 0 (jget (this).anchor))
             javaReturn (image)
         else do
             javaThrow ((JavaException "Exception" "Not Mutable"))
@@ -141,8 +145,8 @@ createImageScale_super object_ a1 a2 a3 = (createImageScale_impl (javaCast objec
 createImageScale_impl :: ImageCopyUtil -> Image.Image -> Float -> Bool -> IO (Image.Image)
 createImageScale_impl this originalImage canvasScale resize = do
     javaCatchReturn $ do
-        newWidth <- newIORef ((Prelude.fromInteger (jnumericInteger (((jio (Image.getWidth originalImage)) * canvasScale)))))
-        newHeight <- newIORef ((Prelude.fromInteger (jnumericInteger (((jio (Image.getHeight originalImage)) * canvasScale)))))
+        newWidth <- newIORef ((Prelude.truncate (((Prelude.fromIntegral (jio (Image.getWidth originalImage))) * canvasScale))))
+        newHeight <- newIORef ((Prelude.truncate (((Prelude.fromIntegral (jio (Image.getHeight originalImage))) * canvasScale))))
         when resize $ do
             when ((jget newWidth) < (jget newHeight)) $ do
                 jset newWidth ((jget newHeight))
@@ -150,8 +154,8 @@ createImageScale_impl this originalImage canvasScale resize = do
                 jset newHeight ((jget newWidth))
         image <- (ImageCreationUtil.createImageWH ((jget (this).imageCreationUtil)) (jget newWidth) (jget newHeight))
         if (jio (Image.isMutable image)) then do
-            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) / 2)
-            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) / 2)
+            let halfWidthDelta = ((((jget newWidth) - (jio (Image.getWidth originalImage)))) `quot` 2)
+            let halfHeightDelta = ((((jget newHeight) - (jio (Image.getHeight originalImage)))) `quot` 2)
             graphics <- (Image.getGraphics image)
             Control.Monad.void (Graphics.drawImage graphics originalImage halfWidthDelta halfHeightDelta (jget (this).anchor))
             javaReturn (image)

@@ -19,10 +19,10 @@ module PooledImageArrayRotationAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass PooledImageArrayRotationAnimationFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PooledImageArrayRotationAnimationFactory
 newRecord_ = do
@@ -113,7 +116,7 @@ init_7 this image width height dx dy angleIncrement animationBehaviorFactory = d
         jset (this).animationBehaviorFactory (animationBehaviorFactory)
         let totalAngle = (Prelude.fromIntegral (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE))
         imageArray <- (ImageToRotationImageArrayUtil.generate ((jio (ImageToRotationImageArrayUtil.getInstance))) image angleIncrement totalAngle)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: Any.Any) (ImageArrayRotationAnimationInfo.new_5 imageArray angleIncrement totalAngle dx dy))
+        assignedValue <- (fmap jtoObject (ImageArrayRotationAnimationInfo.new_5 imageArray angleIncrement totalAngle dx dy))
         jset (this).allBinaryImageRotationAnimationInfo (assignedValue)
         pure ()
 

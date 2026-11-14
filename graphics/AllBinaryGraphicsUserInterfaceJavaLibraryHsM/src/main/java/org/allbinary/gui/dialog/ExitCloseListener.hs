@@ -19,10 +19,10 @@ module ExitCloseListener where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -53,6 +53,9 @@ instance JavaObjectClass ExitCloseListener where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ExitCloseListener
 newRecord_ = do
@@ -88,7 +91,7 @@ onClose_super object_ = (onClose_impl (javaCast object_ :: ExitCloseListener))
 
 onClose_impl :: ExitCloseListener -> IO (())
 onClose_impl this = do
-        Control.Monad.void (System.exit (Prelude.negate 1))
+        Control.Monad.void (jsystemExit (Prelude.negate 1))
         pure ()
 
 

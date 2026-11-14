@@ -20,10 +20,10 @@ import GameKeyCompleteMotionGestureInputEvent hiding (new_, init_, newRecord_, i
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
 import qualified PlatformInputMappingFactory -- org.allbinary.game.input.PlatformInputMappingFactory
 import qualified GameKeyCompleteMotionGestureInputEvent -- org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEvent
 import qualified TouchMotionGestureFactory -- org.allbinary.input.motion.gesture.TouchMotionGestureFactory
@@ -75,7 +76,7 @@ initFields_ this = do
 getInstance :: IO (GameKeyCompleteMotionGestureInputEvent.GameKeyCompleteMotionGestureInputEvent)
 getInstance = do
         when ((jget DiagonalUpLeftTouchInputToGameKeyEventAction.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset DiagonalUpLeftTouchInputToGameKeyEventAction.instance_ (assignedValue)
         pure ((javaCast (jget DiagonalUpLeftTouchInputToGameKeyEventAction.instance_) :: GameKeyCompleteMotionGestureInputEvent.GameKeyCompleteMotionGestureInputEvent))
 
@@ -87,7 +88,7 @@ new_ = do
 
 init_ :: DiagonalUpLeftTouchInputToGameKeyEventAction -> IO ()
 init_ this = do
-        GameKeyCompleteMotionGestureInputEvent.init_3 this.base ("Diagonal Up Left Action") (jget ((jio (TouchMotionGestureFactory.getInstance))).dIAGONAL_UP_LEFT) (jio (PlatformInputMappingFactory.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance))))))))
+        GameKeyCompleteMotionGestureInputEvent.init_3 this.base ("Diagonal Up Left Action") (jget ((jio (TouchMotionGestureFactory.getInstance))).dIAGONAL_UP_LEFT) (jio (PersistentInputMapping.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance))))))))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

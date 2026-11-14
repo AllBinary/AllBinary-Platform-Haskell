@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WeblisketSession -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified BasketData -- org.allbinary.business.user.commerce.inventory.basket.BasketData
 import qualified BasketInterface -- org.allbinary.business.user.commerce.inventory.basket.BasketInterface
@@ -112,13 +114,13 @@ toXmlNode_impl this document = do
             basketInterface <- (WeblisketSession.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             basketNode <- (Document.createElement document (BasketData.bASKET))
             totalNumberNode <- (Document.createElement document (SearchData.tOTAL_NUMBER_ITEMS))
-            totalNumberTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getNumberOfItems basketInterface))))))
+            totalNumberTextNode <- (Document.createTextNode document (javaToString (jio (BasketInterface.getNumberOfItems basketInterface))))
             Control.Monad.void (Node.appendChild totalNumberNode totalNumberTextNode)
             totalWeightNode <- (Document.createElement document (BasketData.tOTALWEIGHT))
-            totalWeightTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getTotalWeight basketInterface))))))
+            totalWeightTextNode <- (Document.createTextNode document (jio (BasketInterface.getTotalWeight basketInterface)))
             Control.Monad.void (Node.appendChild totalWeightNode totalWeightTextNode)
             subTotalNode <- (Document.createElement document (BasketData.sUBTOTAL))
-            subTotalTextNode <- (Document.createTextNode document (jio (BasketInterface.toString ((jio (BasketInterface.getSubTotal basketInterface))))))
+            subTotalTextNode <- (Document.createTextNode document (jio (Money.toString ((jio (BasketInterface.getSubTotal basketInterface))))))
             Control.Monad.void (Node.appendChild subTotalNode subTotalTextNode)
             Control.Monad.void (Node.appendChild basketNode totalNumberNode)
             Control.Monad.void (Node.appendChild basketNode totalWeightNode)

@@ -20,10 +20,10 @@ import LurchAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified AngleInfo -- same package or java.lang
 import qualified IndexedAnimation -- org.allbinary.animation.IndexedAnimation
 import qualified RotationAnimationInterface -- org.allbinary.animation.RotationAnimationInterface
 import qualified RotationAnimationInterfaceCompositeInterface -- org.allbinary.animation.RotationAnimationInterfaceCompositeInterface
@@ -87,7 +88,7 @@ init_2 this ownerLayerInterface gameInput = do
         initFields_ this
         pure () -- super(...) is in the record above
         let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (LurchAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
-        assignedValue <- (RotationAnimationInterfaceCompositeInterface.getRotationAnimationInterface rotationAnimationInterfaceCompositeInterface)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: IndexedAnimation.IndexedAnimation) (RotationAnimationInterfaceCompositeInterface.getRotationAnimationInterface rotationAnimationInterfaceCompositeInterface))
         jset (this).rotationAnimationInterface (assignedValue)
         Control.Monad.void (LurchRotationAI.update this)
         pure ()
@@ -116,12 +117,12 @@ update_impl :: LurchRotationAI -> IO (())
 update_impl this = do
         if ((jget (this).base.currentRelativeAngle) == 0) then do
             let rotationAnimationInterface = (javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface)
-            angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+            angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
             let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (LurchAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
             Control.Monad.void (RotationAnimationInterfaceCompositeInterface.setFrame rotationAnimationInterfaceCompositeInterface (jget (angleIncrementInfo).rIGHT_FRAME))
         else when ((jget (this).base.currentRelativeAngle) == 180) $ do
             let rotationAnimationInterface = (javaCast (jget (this).rotationAnimationInterface) :: RotationAnimationInterface.RotationAnimationInterface)
-            angleIncrementInfo <- (RotationAnimationInterface.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
+            angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jio (RotationAnimationInterface.getAngleInfoP rotationAnimationInterface))))
             let rotationAnimationInterfaceCompositeInterface = (javaCast (jio (LurchAI.getOwnerLayerInterface this)) :: RotationAnimationInterfaceCompositeInterface.RotationAnimationInterfaceCompositeInterface)
             Control.Monad.void (RotationAnimationInterfaceCompositeInterface.setFrame rotationAnimationInterfaceCompositeInterface (jget (angleIncrementInfo).lEFT_FRAME))
         pure ()

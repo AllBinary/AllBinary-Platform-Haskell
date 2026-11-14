@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.log
 module LogTableEntity (module LogTableEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, tableName)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, deleteWhere, deleteWhere_super, deleteWhere_impl, insert, insert_super, insert_impl, dropTable, dropTable_super, dropTable_impl, tableName)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,11 +34,16 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified EntryData -- org.allbinary.business.entry.EntryData
 import qualified LogDbInitInfo -- org.allbinary.business.init.db.LogDbInitInfo
 import qualified AbeHttpRequestInfoData -- org.allbinary.logic.communication.http.request.AbeHttpRequestInfoData
 import qualified AbSqlBean -- org.allbinary.logic.communication.sql.AbSqlBean
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
+import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified LogTableEntityInterface
 
 -- implements LogTableEntityInterface
@@ -71,6 +76,9 @@ newRecord_ = do
     LogTableEntityInterface.registerInterface_ header_
     jregisterMethod header_ "createTableStatement" (\() -> createTableStatement_impl this)
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
+    jregisterMethod header_ "deleteWhere" (\() -> deleteWhere_impl this)
+    jregisterMethod header_ "insert" (\() -> insert_impl this)
+    jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
     pure this
 
 initFields_ :: LogTableEntity -> IO ()
@@ -86,7 +94,7 @@ new_ = do
 
 init_ :: LogTableEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (LogDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (LogDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -116,5 +124,40 @@ createTable_super object_ = (createTable_impl (javaCast object_ :: LogTableEntit
 createTable_impl :: LogTableEntity -> IO (String)
 createTable_impl this = do
         (AbSqlBean.createTable_super this.base (jio (LogTableEntity.createTableStatement this)))
+
+
+deleteWhere :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere object_ a1 a2 = jmethod object_ "deleteWhere" (\() -> (deleteWhere_impl (javaCast object_ :: LogTableEntity))) () a1 a2
+
+deleteWhere_super :: (JavaObjectClass this_) => this_ -> String -> String -> IO (())
+deleteWhere_super object_ a1 a2 = (deleteWhere_impl (javaCast object_ :: LogTableEntity)) a1 a2
+
+deleteWhere_impl :: LogTableEntity -> String -> String -> IO (())
+deleteWhere_impl this key value = do
+        Control.Monad.void (AbSqlBean.deleteWhere_super this.base key value)
+        pure ()
+
+
+insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert object_ a1 = jmethod object_ "insert" (\() -> (insert_impl (javaCast object_ :: LogTableEntity))) () a1
+
+insert_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_super object_ a1 = (insert_impl (javaCast object_ :: LogTableEntity)) a1
+
+insert_impl :: LogTableEntity -> BasicArrayList.BasicArrayList -> IO (())
+insert_impl this values = do
+        Control.Monad.void (AbSqlBean.insert_super this.base values)
+        pure ()
+
+
+dropTable :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable object_ = jmethod object_ "dropTable" (\() -> (dropTable_impl (javaCast object_ :: LogTableEntity))) ()
+
+dropTable_super :: (JavaObjectClass this_) => this_ -> IO (String)
+dropTable_super object_ = (dropTable_impl (javaCast object_ :: LogTableEntity))
+
+dropTable_impl :: LogTableEntity -> IO (String)
+dropTable_impl this = do
+        (AbSqlBean.dropTable_super this.base)
 
 

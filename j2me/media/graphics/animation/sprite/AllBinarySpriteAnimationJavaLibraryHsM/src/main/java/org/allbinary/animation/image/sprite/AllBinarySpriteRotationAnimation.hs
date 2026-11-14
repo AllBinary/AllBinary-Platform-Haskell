@@ -20,10 +20,10 @@ import HackRotationSpriteIndexedAnimation hiding (new_, init_, newRecord_, initF
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified FrameUtil -- same package or java.lang
 import qualified DirectionUtil -- same package or java.lang
+import qualified AngleIncrementInfo -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified Sprite -- javax.microedition.lcdui.game.Sprite
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -88,7 +90,7 @@ new_3 sprite image animationBehavior = do
 
 init_3 :: AllBinarySpriteRotationAnimation -> Sprite.Sprite -> Image.Image -> AnimationBehavior.AnimationBehavior -> IO ()
 init_3 this sprite image animationBehavior = do
-        HackRotationSpriteIndexedAnimation.init_4 this.base (sprite) (image) (jio (AngleInfo.getInstance (Prelude.fromInteger (jnumericInteger (((jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE) / (jio (Sprite.getRawFrameCount sprite)))))))) (animationBehavior)
+        HackRotationSpriteIndexedAnimation.init_4 this.base (sprite) (image) (jio (AngleInfo.getInstance (Prelude.fromIntegral (((Prelude.fromIntegral (jget ((jio (AngleFactory.getInstance))).tOTAL_ANGLE)) `quot` (jio (Sprite.getRawFrameCount sprite))))))) (animationBehavior)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AngleInfo.adjustAngle ((jget (this).base.base.angleInfo)) (jio (Sprite.getFrame ((jget (this).base.sprite)))))

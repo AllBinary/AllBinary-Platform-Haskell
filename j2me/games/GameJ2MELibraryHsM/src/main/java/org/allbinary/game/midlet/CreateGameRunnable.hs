@@ -19,10 +19,10 @@ module CreateGameRunnable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Any -- same package or java.lang
 import qualified DemoGameMidletEvent -- same package or java.lang
 import qualified DemoGameMidletStateFactory -- same package or java.lang
 import qualified DemoGameMidletEventHandler -- same package or java.lang
+import qualified GameCanvasRunnableInterface -- same package or java.lang
 import qualified ProgressCanvas -- org.allbinary.graphics.canvas.transition.progress.ProgressCanvas
 import qualified ProgressCanvasFactory -- org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory
 import qualified MyCommandsFactory -- org.allbinary.graphics.displayable.command.MyCommandsFactory
@@ -69,6 +70,9 @@ instance JavaObjectClass CreateGameRunnable where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CreateGameRunnable
 newRecord_ = do

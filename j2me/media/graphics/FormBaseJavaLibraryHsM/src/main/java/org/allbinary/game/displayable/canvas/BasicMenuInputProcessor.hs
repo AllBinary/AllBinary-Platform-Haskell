@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -92,7 +92,7 @@ new_3 gameKeyEventList playerInputId gameCanvas = do
 
 init_3 :: BasicMenuInputProcessor -> BasicArrayList.BasicArrayList -> Int -> Canvas.Canvas -> IO ()
 init_3 this gameKeyEventList playerInputId gameCanvas = do
-        PlayerGameInput.init_3 this.base (gameKeyEventList) (jio (BasicArrayListD.new_)) (playerInputId)
+        PlayerGameInput.init_3 this.base (gameKeyEventList) (javaCast (jio (BasicArrayListD.new_))) (playerInputId)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).canvas (gameCanvas)
@@ -130,7 +130,7 @@ setCanvas_super object_ a1 = (setCanvas_impl (javaCast object_ :: BasicMenuInput
 
 setCanvas_impl :: BasicMenuInputProcessor -> MyCanvas.MyCanvas -> IO (())
 setCanvas_impl this canvas = do
-        jset (this).canvas (canvas)
+        jset (this).canvas ((javaCast canvas :: Canvas.Canvas))
         pure ()
 
 

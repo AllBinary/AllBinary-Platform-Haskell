@@ -19,10 +19,10 @@ module ReleaseControlledMotionGestureListener where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,6 +71,9 @@ instance JavaObjectClass ReleaseControlledMotionGestureListener where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ReleaseControlledMotionGestureListener
 newRecord_ = do
@@ -264,15 +267,16 @@ released_super object_ a1 = (released_impl (javaCast object_ :: ReleaseControlle
 
 released_impl :: ReleaseControlledMotionGestureListener -> MotionGestureEvent.MotionGestureEvent -> IO (())
 released_impl this ev = do
+    javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).commonStrings)).eXCEPTION_LABEL)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) (jio (MotionGestureEvent.getMotionGesture ev))))))))) this "release" e)
             ) $ do
             when ((jget (this).isMouseGestureOccurring) == False) $ do
-                pure (())
+                javaReturn (())
             jset (this).isMouseGestureOccurring (False)
             Control.Monad.void (CompleteMotionGestureListenerInterface.onMotionGestureCompleted ((jget (this).signed)) (jget (this).motionGestureCollection))
             Control.Monad.void (BasicArrayList.clear ((jget (this).motionGestureCollection)))
-        pure ()
+    pure ()
 
 
 onMotionGestureEvent :: (JavaObjectClass this_) => this_ -> MotionGestureEvent.MotionGestureEvent -> IO (())
@@ -283,8 +287,9 @@ onMotionGestureEvent_super object_ a1 = (onMotionGestureEvent_impl (javaCast obj
 
 onMotionGestureEvent_impl :: ReleaseControlledMotionGestureListener -> MotionGestureEvent.MotionGestureEvent -> IO (())
 onMotionGestureEvent_impl this ev = do
+    javaCatchReturn $ do
         when ((jget (this).isMouseGestureOccurring) == False) $ do
-            pure (())
+            javaReturn (())
         motionGestureInput <- (MotionGestureEvent.getMotionGesture ev)
         if (motionGestureInput == (jget ((jio (TouchMotionGestureFactory.getInstance))).pRESSED)) then do
             Control.Monad.void (ReleaseControlledMotionGestureListener.onPressedMotionGestureEvent this ev)
@@ -294,6 +299,6 @@ onMotionGestureEvent_impl this ev = do
             when ((jget (this).currentMotionGesture) /= motionGestureInput) $ do
                 jset (this).currentMotionGesture (motionGestureInput)
                 Control.Monad.void (BasicArrayList.add ((jget (this).motionGestureCollection)) (jio (MotionGestureEvent.getMotionGesture ev)))
-        pure ()
+    pure ()
 
 

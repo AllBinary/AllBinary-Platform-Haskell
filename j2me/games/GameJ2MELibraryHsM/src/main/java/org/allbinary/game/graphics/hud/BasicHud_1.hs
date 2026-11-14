@@ -19,10 +19,10 @@ module BasicHud_1 where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -92,6 +92,9 @@ instance JavaObjectClass BasicHud_1 where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO BasicHud_1
 newRecord_ = do
     header_ <- newJavaHeader
@@ -150,7 +153,7 @@ initFields_ this = do
     jset this.canvasStrings =<< (CanvasStrings.getInstance)
     jset this.basicSetColorUtil =<< (BasicColorSetUtil.getInstance)
     jset this.displayInfo =<< (DisplayInfoSingleton.getInstance)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.location (0)
     jset this.direction (0)

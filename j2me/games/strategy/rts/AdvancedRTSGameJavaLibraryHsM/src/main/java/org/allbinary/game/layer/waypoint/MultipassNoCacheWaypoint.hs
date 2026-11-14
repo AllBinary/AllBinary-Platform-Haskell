@@ -20,10 +20,10 @@ import WaypointBase hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -162,7 +162,7 @@ getPathFindingInfo_impl this geographicMapCellPosition = do
             if (jio (PathFindingLayerInterface.shouldHandleStartSameAsEnd ((jget (this).ownerLayer)))) then do
                 javaReturn (PathFindingInfo.nULL_PATH_FINDING_INFO)
             else do
-                javaThrow ((JavaException "Exception" ("Start should not be End: " ++ javaToString endGeographicMapCellPosition)))
+                javaThrow ((JavaException "Exception" ("Start should not be End: " ++ jconcatObject GeographicMapCellPosition.toString endGeographicMapCellPosition)))
         let geographicMapCompositeInterface = (javaCast (jget (this).base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
         let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
         let raceTrackGeographicMap = (javaCast geographicMapInterface :: RaceTrackGeographicMap.RaceTrackGeographicMap)
@@ -194,7 +194,7 @@ getPathsList_impl this geographicMapCellPosition pathFindingInfo multipassState 
             (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))
             ) $ do
             when (pathFindingInfo == javaNull) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("pathFindingInfo: " ++ javaToString pathFindingInfo) this "getPathsList")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("pathFindingInfo: " ++ jconcatObject PathFindingInfo.toString pathFindingInfo) this "getPathsList")
                 javaReturn =<< (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))
             let geographicMapCompositeInterface = (javaCast (jget (this).base.allBinaryGameLayerManagerP) :: GeographicMapCompositeInterface.GeographicMapCompositeInterface)
             let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
@@ -257,7 +257,7 @@ reset_super object_ = (reset_impl (javaCast object_ :: MultipassNoCacheWaypoint)
 
 reset_impl :: MultipassNoCacheWaypoint -> IO (())
 reset_impl this = do
-        Control.Monad.void (WaypointBase.clear ((jio (WaypointBase.getConnectedWaypointList this))))
+        Control.Monad.void (BasicArrayList.clear ((jio (WaypointBase.getConnectedWaypointList this))))
         pure ()
 
 
@@ -273,13 +273,13 @@ visit_impl this unitLayer = do
     javaCatchReturn $ do
         when ((jindex ((jio (PathFindingLayerInterface.getGroupInterface unitLayer))) (0)) /= (jindex ((jio (PathFindingLayerInterface.getGroupInterface ((jget (this).ownerLayer))))) (0))) $ do
             javaReturn (())
-        size <- (WaypointBase.size ((jio (WaypointBase.getConnectedWaypointList this))))
+        size <- (BasicArrayList.size ((jio (WaypointBase.getConnectedWaypointList this))))
         when (size > 0) $ do
             let unitWaypointBehavior = (javaCast (jio (PathFindingLayerInterface.getWaypointBehavior unitLayer)) :: UnitWaypointBehavior.UnitWaypointBehavior)
-            fix $ \loop -> when ((jio (WaypointBase.size ((jio (WaypointBase.getConnectedWaypointList this))))) > 0) $ javaIteration (loop) $ do
-                let rtsLayer = (javaCast (jio (WaypointBase.get ((jio (WaypointBase.getConnectedWaypointList this))) 0)) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer)
+            fix $ \loop -> when ((jio (BasicArrayList.size ((jio (WaypointBase.getConnectedWaypointList this))))) > 0) $ javaIteration (loop) $ do
+                let rtsLayer = (javaCast (jio (BasicArrayList.get ((jio (WaypointBase.getConnectedWaypointList this))) 0)) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer)
                 if (jio (CollidableDestroyableDamageableLayer.isDestroyed rtsLayer)) then do
-                    Control.Monad.void (WaypointBase.remove ((jio (WaypointBase.getConnectedWaypointList this))) rtsLayer)
+                    Control.Monad.void (BasicArrayList.remove ((jio (WaypointBase.getConnectedWaypointList this))) rtsLayer)
                 else do
                     Control.Monad.void (PathFindingLayerInterface.handleCost unitLayer (jget (this).ownerLayer))
                     Control.Monad.void (UnitWaypointBehavior.insertWaypoint unitWaypointBehavior 0 rtsLayer)

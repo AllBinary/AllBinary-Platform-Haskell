@@ -20,10 +20,10 @@ import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -186,7 +186,7 @@ nextFrame_impl :: SimultaneousCompoundIndexedAnimation -> IO (())
 nextFrame_impl this = do
         index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
+            Control.Monad.void (Animation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
 
 
@@ -200,7 +200,7 @@ paintXY_impl :: SimultaneousCompoundIndexedAnimation -> Graphics.Graphics -> Int
 paintXY_impl this graphics x y = do
         let size = (jlength (jget (this).animationInterfaceArray))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (paintXY ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics x y)
+            Control.Monad.void (Animation.paintXY ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics x y)
         pure ()
 
 
@@ -214,7 +214,7 @@ paintThreedXYZ_impl :: SimultaneousCompoundIndexedAnimation -> Graphics.Graphics
 paintThreedXYZ_impl this graphics x y z = do
         let size = (jlength (jget (this).animationInterfaceArray))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics x y z)
+            Control.Monad.void (Animation.paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics x y z)
         pure ()
 
 

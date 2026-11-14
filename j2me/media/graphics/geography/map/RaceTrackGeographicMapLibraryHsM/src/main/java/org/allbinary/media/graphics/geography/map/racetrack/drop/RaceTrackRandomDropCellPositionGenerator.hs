@@ -20,10 +20,10 @@ import RaceTrackDropCellPositionGenerator hiding (new_, init_, newRecord_, initF
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -72,6 +72,7 @@ instance JavaObjectClass RaceTrackRandomDropCellPositionGenerator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: IORef (RaceTrackRandomDropCellPositionGenerator)
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_) >>= newIORef)
 
@@ -97,8 +98,8 @@ initFields_ this = do
     jset this.myRandomFactory =<< (MyRandomFactory.getInstance)
     jset this.cellsPerRowOrColumn (3)
     jset this.totalCells (((jget (this).cellsPerRowOrColumn) * (jget (this).cellsPerRowOrColumn)))
-    jset this.rowArray ((jarrayFromList [0, 1, 2, 0, 1, 2, 0, 1, 2]))
-    jset this.columnArray ((jarrayFromList [0, 0, 0, 1, 1, 1, 2, 2, 2]))
+    jset this.rowArray ((jarrayFromList [0, 1, 2, 0, 1, 2, 0, 1, 2] :: JavaArray Int))
+    jset this.columnArray ((jarrayFromList [0, 0, 0, 1, 1, 1, 2, 2, 2] :: JavaArray Int))
     jset this.cellWidth (0)
     jset this.cellHeight (0)
     pure ()

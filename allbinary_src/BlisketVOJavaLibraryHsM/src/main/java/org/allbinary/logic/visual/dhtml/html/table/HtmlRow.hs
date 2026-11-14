@@ -20,10 +20,10 @@ import HtmlTag hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified HtmlCell -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified HashMap -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified StdUtil -- org.allbinary.logic.StdUtil
@@ -147,7 +149,7 @@ toString_impl :: HtmlRow -> IO (String)
 toString_impl this = do
         stringUtil <- (StringUtil.getInstance)
         result <- newIORef ((jget (stringUtil).eMPTY_STRING))
-        attributeKeys <- (toArray ((jio (keySet ((jget (this).base.otherAttributes))))))
+        attributeKeys <- (Set.toArray ((jio (HashMap.keySet ((jget (this).base.otherAttributes))))))
         let attributeSize = (jlength attributeKeys)
         cellSize <- (BasicArrayList.size ((jget (this).htmlCellsVector)))
         jset result ((jget (this).before))
@@ -155,7 +157,7 @@ toString_impl this = do
         jset result (((jget result) ++ javaToString " "))
         forM_ [0 .. attributeSize - 1] $ \i -> javaIteration (pure ()) $ do
             let key = (javaCast (jindex attributeKeys (i)) :: String)
-            let value = (javaCast (jio (get ((jget this.base.otherAttributes)) key)) :: String)
+            let value = (javaCast (jio (HashMap.get ((jget this.base.otherAttributes)) key)) :: String)
             when ((value /= javaNull) && ((Prelude.fromEnum (Prelude.compare value (jget (stringUtil).eMPTY_STRING)) - 1) /= 0)) $ do
                 jset result (((jget result) ++ javaToString key))
                 jset result (((jget result) ++ javaToString "=\""))
@@ -163,7 +165,8 @@ toString_impl this = do
                 jset result (((jget result) ++ javaToString "\" "))
         jset result (((jget result) ++ javaToString (jget (this).eND)))
         forM_ [0 .. cellSize - 1] $ \i -> javaIteration (pure ()) $ do
-            jset result (((jget result) ++ javaToString (BasicArrayList.toString ((jio (BasicArrayList.get ((jget (this).htmlCellsVector)) i))))))
+            assignedValue <- (Any.toString ((jio (BasicArrayList.get ((jget (this).htmlCellsVector)) i))))
+            jset result (((jget result) ++ javaToString assignedValue))
             jset result (((jget result) ++ javaToString " "))
         jset result (((jget result) ++ javaToString (jget (this).eNDTAG)))
         jset result (((jget result) ++ javaToString (jget (this).after)))

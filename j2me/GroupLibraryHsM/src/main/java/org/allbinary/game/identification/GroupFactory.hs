@@ -11,7 +11,7 @@
 -- AllBinary or the root directory of AllBinary's AllBinary Platform repository.
 -- 
 -- Created By: Travis Berthelot
---  
+--   
 -- Generated Code Do Not Modify
 -- package org.allbinary.game.identification
 module GroupFactory where
@@ -19,10 +19,10 @@ module GroupFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass GroupFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: GroupFactory
 {-# NOINLINE instance_ #-}
-instance_ = unsafePerformIO ((new_) >>= newIORef)
+instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GroupFactory
 newRecord_ = do
@@ -100,7 +104,7 @@ init_ this = do
 
 getInstance :: IO (GroupFactory)
 getInstance = do
-        pure ((jget GroupFactory.instance_))
+        pure (GroupFactory.instance_)
 
 
 getNextGroup :: (JavaObjectClass this_) => this_ -> IO (Group.Group)
@@ -143,8 +147,9 @@ init_impl this groups nameArray = do
         Control.Monad.void (BasicArrayList.clear ((jget (this).list)))
         jset (this).index (0)
         size <- newIORef =<< (BasicArrayList.size ((jget (this).list)))
+        name <- newIORef ("")
         fix $ \loop -> when ((jget size) < (Prelude.fromIntegral groups)) $ javaIteration (loop) $ do
-            name <- newIORef ((jget (stringUtil).eMPTY_STRING))
+            jset name ((jget (stringUtil).eMPTY_STRING))
             if ((jget size) < (jlength nameArray)) then do
                 jset name ((jindex nameArray ((jget size))))
             else do

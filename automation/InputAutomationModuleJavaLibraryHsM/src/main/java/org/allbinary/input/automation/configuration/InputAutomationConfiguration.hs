@@ -19,10 +19,10 @@ module InputAutomationConfiguration where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,10 +70,14 @@ instance JavaObjectClass InputAutomationConfiguration where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+fILENAME :: String
 fILENAME = "InputAutomationConfig.xml"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationConfiguration
 newRecord_ = do
@@ -161,7 +165,7 @@ save_impl this = do
         document <- (DomDocumentHelper.create)
         file <- (File.new_1 fILENAME)
         Control.Monad.void (FileUtil.copy ((jio (FileUtil.getInstance))) (jio (AbPath.new_2 (jio (File.getAbsolutePath file)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))) (jio (AbPath.new_2 (javaToString (jio (File.getAbsolutePath file)) ++ ".bak.xml") (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
-        jaxbContext <- (JAXBContext.newInstance ("InputAutomationConfiguration"))
+        jaxbContext <- (JAXBContext.newInstance (JavaClass "InputAutomationConfiguration"))
         marshaller <- (JAXBContext.createMarshaller jaxbContext)
         Control.Monad.void (Marshaller.setProperty marshaller (Marshaller.jAXB_FORMATTED_OUTPUT) True)
         Control.Monad.void (Marshaller.marshal marshaller this document)

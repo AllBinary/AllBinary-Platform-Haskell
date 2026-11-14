@@ -20,10 +20,10 @@ import SpecialAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified BasicColorSetUtil -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
 import qualified IndexedAnimation -- org.allbinary.animation.IndexedAnimation
@@ -131,7 +132,7 @@ initFields_ this = do
 
 createAnimation :: JavaArray (IndexedAnimation.IndexedAnimation) -> JavaArray (BasicColor.BasicColor) -> JavaArray (Int) -> JavaArray (Int) -> Int -> Int -> IO (TitleAnimation)
 createAnimation animationInterfaceArray basicColorArray dxArray dyArray y width = do
-        (new_7 animationInterfaceArray basicColorArray dxArray dyArray y width (jio (IndexedAnimationBehavior.new_2 1 250)))
+        (new_7 animationInterfaceArray basicColorArray dxArray dyArray y width (javaCast (jio (IndexedAnimationBehavior.new_2 1 250))))
 
 new_7 :: JavaArray (IndexedAnimation.IndexedAnimation) -> JavaArray (BasicColor.BasicColor) -> JavaArray (Int) -> JavaArray (Int) -> Int -> Int -> AnimationBehavior.AnimationBehavior -> IO TitleAnimation
 new_7 animationInterfaceArray basicColorArray dxArray dyArray y width animationBehavior = do
@@ -171,7 +172,7 @@ nextFrame_impl this = do
         when (totalTimeElapsed > (jget (indexedAnimationBehavior).frameDelayTime)) $ do
             Control.Monad.void (TitleAnimation.previousFrame this)
             jset (this).lastFrameStartTime (currentTime)
-        when ((jio (getFrame ((jindex ((jget (this).animationInterfaceArray)) (0))))) == 0) $ do
+        when ((jio (IndexedAnimation.getFrame ((jindex ((jget (this).animationInterfaceArray)) (0))))) == 0) $ do
             jset (indexedAnimationBehavior).loopIndex ((jget (indexedAnimationBehavior).loopIndex) + 1)
         pure ()
 
@@ -222,7 +223,7 @@ getSize_super object_ = (getSize_impl (javaCast object_ :: TitleAnimation))
 
 getSize_impl :: TitleAnimation -> IO (Int)
 getSize_impl this = do
-        (getSize ((jindex ((jget (this).animationInterfaceArray)) (0))))
+        (IndexedAnimation.getSize ((jindex ((jget (this).animationInterfaceArray)) (0))))
 
 
 getFrame :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -233,7 +234,7 @@ getFrame_super object_ = (getFrame_impl (javaCast object_ :: TitleAnimation))
 
 getFrame_impl :: TitleAnimation -> IO (Int)
 getFrame_impl this = do
-        (getFrame ((jindex ((jget (this).animationInterfaceArray)) (0))))
+        (IndexedAnimation.getFrame ((jindex ((jget (this).animationInterfaceArray)) (0))))
 
 
 setFrame :: (JavaObjectClass this_) => this_ -> Int -> IO (())
@@ -245,7 +246,7 @@ setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: TitleAnimation))
 setFrame_impl :: TitleAnimation -> Int -> IO (())
 setFrame_impl this frame = do
         forM_ [0 .. (jget (this).sizeP) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (setFrame ((jindex ((jget (this).animationInterfaceArray)) (index))) frame)
+            Control.Monad.void (IndexedAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) (index))) frame)
         pure ()
 
 
@@ -284,7 +285,7 @@ previousFrame_super object_ = (previousFrame_impl (javaCast object_ :: TitleAnim
 previousFrame_impl :: TitleAnimation -> IO (())
 previousFrame_impl this = do
         forM_ [0 .. (jget (this).sizeP) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (previousFrame ((jindex ((jget (this).animationInterfaceArray)) (index))))
+            Control.Monad.void (IndexedAnimation.previousFrame ((jindex ((jget (this).animationInterfaceArray)) (index))))
         pure ()
 
 
@@ -319,7 +320,7 @@ paintXY_impl this graphics ax ay = do
             jset deltaY (((jindex ((jget (this).dyArray)) (index)) + (jget (this).y)))
             when ((jindex ((jget (this).basicColorArray)) (index)) /= (jget (this).cLEAR_COLOR)) $ do
                 Control.Monad.void (BasicColorSetUtil.setBasicColorP ((jget (this).base.base.base.basicSetColorUtil)) graphics (jindex ((jget (this).basicColorArray)) (index)))
-            Control.Monad.void (paintXY ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics (jget deltaX) (jget deltaY))
+            Control.Monad.void (IndexedAnimation.paintXY ((jindex ((jget (this).animationInterfaceArray)) (index))) graphics (jget deltaX) (jget deltaY))
         pure ()
 
 

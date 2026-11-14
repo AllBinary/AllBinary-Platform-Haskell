@@ -20,10 +20,10 @@ import CommandForm hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -44,8 +44,9 @@ import qualified CommonStrings -- same package or java.lang
 import qualified Choice -- javax.microedition.lcdui.Choice
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified TextField -- javax.microedition.lcdui.TextField
+import qualified MIDPUtil -- org.allbinary.MIDPUtil
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
 import qualified GameFeatureChoiceGroups -- org.allbinary.game.configuration.feature.GameFeatureChoiceGroups
 import qualified GameFeatureFormUtil -- org.allbinary.game.configuration.feature.GameFeatureFormUtil
@@ -58,7 +59,6 @@ import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified MyCommandsFactory -- org.allbinary.graphics.displayable.command.MyCommandsFactory
 import qualified CommandForm -- org.allbinary.graphics.displayable.screen.CommandForm
 import qualified OrientationData -- org.allbinary.input.gyro.OrientationData
-import qualified MEUtil -- org.allbinary.logic.MEUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified AbeClientInformationInterface -- org.allbinary.logic.system.security.licensing.AbeClientInformationInterface
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -69,7 +69,7 @@ import qualified ABHashtable -- org.allbinary.util.ABHashtable
 data GameOptionsForm = GameOptionsForm
     { header_ :: JavaHeader
     , base :: CommandForm.CommandForm
-    , meUtil :: IORef (MEUtil.MEUtil)
+    , meUtil :: IORef (MIDPUtil.MIDPUtil)
     }
 
 instance JavaNull GameOptionsForm where
@@ -102,7 +102,7 @@ newRecord_ = do
 
 initFields_ :: GameOptionsForm -> IO ()
 initFields_ this = do
-    jset this.meUtil =<< (MEUtil.getInstance)
+    jset this.meUtil =<< (MIDPUtil.getInstance)
     pure ()
 
 new_4 :: CommandListener.CommandListener -> String -> BasicColor.BasicColor -> BasicColor.BasicColor -> IO GameOptionsForm
@@ -122,7 +122,7 @@ init_4 this commandListener title backgrounBasicColor foregroundBasicColor = do
         Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getExclusiveInstance))))) (Choice.eXCLUSIVE))
         Control.Monad.void (GameFeatureFormUtil.addChoiceGroup gameFeatureFormUtil (javaCast this) (jio (GameFeatureChoiceGroups.get ((jio (GameFeatureChoiceGroups.getMultipleInstance))))) (Choice.mULTIPLE))
         Control.Monad.void (GameOptionsForm.initCommands this commandListener)
-        Control.Monad.void (CommandForm.setItemStateListener this (jio (GameFeatureItemStateListener.new_1 this)))
+        Control.Monad.void (CommandForm.setItemStateListener this (javaCast (jio (GameFeatureItemStateListener.new_1 this))))
         Control.Monad.void (GameOptionsForm.addTextFieldsIfSimulated this)
         pure ()
 
@@ -177,7 +177,7 @@ addTextFields_impl this = do
             jset gameConfigurationTextInput ((javaCast (jio (ABHashtable.get hashtable (javaCast (jindex objectArray (index)) :: Any.Any))) :: GameConfigurationTextInput.GameConfigurationTextInput))
             assignedValue <- (TextField.new_4 (jio (GameConfigurationTextInput.getLabel ((jget gameConfigurationTextInput)))) (jio (GameConfigurationTextInput.getText ((jget gameConfigurationTextInput)))) 30 (TextField.aNY))
             jset textField (assignedValue)
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget textField)))
+            Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget textField)))
         pure ()
 
 
@@ -204,8 +204,8 @@ addConfiguration_impl this = do
             assignedValue <- (GameConfigurationGauge.new_1 (jget gameConfiguration))
             jset gauge (assignedValue)
             Control.Monad.void (GameConfigurationGauge.setDefaultCommand ((jget gauge)) gAUGE_CHANGE)
-            Control.Monad.void (GameConfigurationGauge.setItemCommandListener ((jget gauge)) (jio (GameFeatureItemCommandListener.new_1 this)))
-            Control.Monad.void (MEUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget gauge)))
+            Control.Monad.void (GameConfigurationGauge.setItemCommandListener ((jget gauge)) (javaCast (jio (GameFeatureItemCommandListener.new_1 this))))
+            Control.Monad.void (MIDPUtil.appendItem ((jget (this).meUtil)) (javaCast this) (javaCast (jget gauge)))
         pure ()
 
 

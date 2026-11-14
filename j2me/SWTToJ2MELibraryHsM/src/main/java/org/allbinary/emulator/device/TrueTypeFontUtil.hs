@@ -20,10 +20,10 @@ import TrueTypeFontUtilBase hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GPoint -- same package or java.lang
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
@@ -76,6 +77,7 @@ instance JavaObjectClass TrueTypeFontUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TrueTypeFontUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 

@@ -19,10 +19,10 @@ module TransactionType where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -86,10 +86,11 @@ isEqual_super object_ a1 = (isEqual_impl (javaCast object_ :: TransactionType)) 
 
 isEqual_impl :: TransactionType -> TransactionType -> IO (Bool)
 isEqual_impl this transactionType = do
+    javaCatchReturn $ do
         if ((Prelude.fromEnum (Prelude.compare (jio (TransactionType.toString this)) (jio (TransactionType.toString transactionType))) - 1) == 0) then do
-            pure (True)
+            javaReturn (True)
         else do
-            pure (False)
+            javaReturn (False)
 
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)

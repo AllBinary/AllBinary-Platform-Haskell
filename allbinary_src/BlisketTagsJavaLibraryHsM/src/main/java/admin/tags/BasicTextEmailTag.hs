@@ -20,10 +20,10 @@ import CustomTagSupport hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified Method -- java.lang.reflect.Method
 import qualified HashMap -- java.util.HashMap
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
@@ -138,7 +139,7 @@ send_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "send()" e)
             pure (error)
             ) $ do
-            propertiesHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+            propertiesHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
             Control.Monad.void (HashMap.put propertiesHashMap "Subject" (jget (this).subject))
             Control.Monad.void (HashMap.put propertiesHashMap "Body" (jget (this).body))
             anyType <- (BasicTextEmailHelperFactory.getInstance ((jio (BasicTextEmailHelperFactory.new_))) propertiesHashMap (jget (this).base.pageContext))

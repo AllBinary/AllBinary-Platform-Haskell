@@ -20,10 +20,10 @@ import GameCommandCanvas hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,13 +32,15 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified HighScoreRunnable -- same package or java.lang
 import qualified RepaintBehavior -- same package or java.lang
 import qualified StringUtil -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
-import qualified J2MEUtil -- org.allbinary.J2MEUtil
 import qualified GameInfo -- org.allbinary.game.GameInfo
 import qualified GameCommandsFactory -- org.allbinary.game.commands.GameCommandsFactory
 import qualified GameCommandCanvas -- org.allbinary.game.displayable.canvas.GameCommandCanvas
@@ -62,9 +64,7 @@ import qualified SimpleTextPaintable -- org.allbinary.graphics.paint.SimpleTextP
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
-import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified SecondaryThreadPool -- org.allbinary.thread.SecondaryThreadPool
-import qualified ABSystemWrapper -- org.allbinary.logic.ABSystemWrapper
 
 -- implements HighScoresResultsListener
 data HighScoresCanvas = HighScoresCanvas
@@ -96,6 +96,7 @@ instance JavaObjectClass HighScoresCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "HighScoresCanvas"
 
 newRecord_ :: IO HighScoresCanvas
@@ -139,7 +140,7 @@ initFields_ this = do
     jset this.highScoresHelper =<< (HighScoresHelperBase.new_)
     jset this.gameInfo (javaNull)
     jset this.highScoresCanvasInputProcessor (javaNull)
-    jset this.currentCommand ((jindex ((jget ((jget (this).highScoreCommandsFactory)).hIGH_SCORE_COMMANDS)) (0)))
+    jset this.currentCommand ((jindex ((jget ((jget (this).highScoreCommandsFactory)).base.hIGH_SCORE_COMMANDS)) (0)))
     jset this.hasPainted (False)
     pure ()
 
@@ -162,16 +163,14 @@ init_6 this commandListener allBinaryGameLayerManager gameInfo paintable highSco
         jset (this).gameInfo (gameInfo)
         Control.Monad.void (SimpleTextPaintable.setBasicColorP ((jget (this).waitPaintable)) (jio (AllBinaryGameLayerManager.getForegroundBasicColor allBinaryGameLayerManager)))
         Control.Monad.void (HighScoresPaintable.setBasicColorP ((jio (HighScoresCanvas.getHighScoresPaintable this))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor allBinaryGameLayerManager)))
-        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False))
         jset (this).colorFillPaintable (assignedValue)
-        if ((jio (HighScoresHelperBase.getHighScoresArray ((jget (this).highScoresHelper)))) == (jget ((jio (NoHighScoresFactory.getInstance))).nO_HIGH_SCORES)) then do
+        if ((jlength (jio (HighScoresHelperBase.getHighScoresArray ((jget (this).highScoresHelper))))) == (jlength (jget ((jio (NoHighScoresFactory.getInstance))).nO_HIGH_SCORES))) then do
             Control.Monad.void (HighScoresCanvas.setPaintable this (javaCast (jget (this).waitPaintable)))
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) "Show HighScores that are already loaded" this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
             Control.Monad.void (HighScoresCanvas.updateCommand this (jget (this).currentCommand))
             Control.Monad.void (HighScoresCanvas.setPaintable this (javaCast (jio (HighScoresCanvas.getHighScoresPaintable this))))
-        -- Java nested class HighScoreRunnable: move it to its own module
-
         Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (HighScoreRunnable.new_1 this))))
         pure ()
 
@@ -245,7 +244,7 @@ executeUpdate_impl this = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.base.commonStrings)).uPDATE) e)
             ) $ do
-            Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jio (HighScoresCanvas.getGameInfo this)) this)
+            Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jio (HighScoresCanvas.getGameInfo this)) (javaCast this))
         pure ()
 
 
@@ -305,7 +304,7 @@ updateCommand_impl this command = do
             when (index /= (jget nextIndex)) $ do
                 Control.Monad.void (GameCommandCanvas.removeAllCommands this)
                 Control.Monad.void (GameCommandCanvas.addCommand this (jget (gameCommandsFactory).cLOSE_AND_SHOW_GAME_CANVAS))
-                Control.Monad.void (GameCommandCanvas.addCommand this (jindex ((jget ((jget (this).highScoreCommandsFactory)).hIGH_SCORE_COMMANDS)) ((jget nextIndex))))
+                Control.Monad.void (GameCommandCanvas.addCommand this (jindex ((jget ((jget (this).highScoreCommandsFactory)).base.hIGH_SCORE_COMMANDS)) ((jget nextIndex))))
         jset (this).currentCommand (command)
         Control.Monad.void (HighScoresCanvas.close this)
         Control.Monad.void (GameCommandCanvas.initMenu_super this.base)

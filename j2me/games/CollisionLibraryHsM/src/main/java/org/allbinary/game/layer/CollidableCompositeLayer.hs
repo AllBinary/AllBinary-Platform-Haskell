@@ -20,10 +20,10 @@ import AllBinaryGameLayer hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -98,7 +98,7 @@ initFields_ this = do
 getNullInstance :: IO (CollidableCompositeLayer)
 getNullInstance = do
         when ((jget CollidableCompositeLayer.nULL_COLLIDABLE_COMPOSITE_LAYER) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_4 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (ViewPositionBase.nULL_VIEW_POSITION) (jio (CollidableNeverCollideBehaviorFactory.getInstance)))
+            assignedValue <- (fmap jtoObject (new_4 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (ViewPositionBase.nULL_VIEW_POSITION) (javaCast (jio (CollidableNeverCollideBehaviorFactory.getInstance)))))
             jset CollidableCompositeLayer.nULL_COLLIDABLE_COMPOSITE_LAYER (assignedValue)
         pure ((javaCast (jget CollidableCompositeLayer.nULL_COLLIDABLE_COMPOSITE_LAYER) :: CollidableCompositeLayer))
 

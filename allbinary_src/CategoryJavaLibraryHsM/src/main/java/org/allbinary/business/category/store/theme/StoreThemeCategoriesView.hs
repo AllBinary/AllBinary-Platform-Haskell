@@ -19,10 +19,10 @@ module StoreThemeCategoriesView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified StoreThemeCategoryInterface -- same package or java.lang
 import qualified StoreThemeCategoryView -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified CategoryInterface -- org.allbinary.business.category.CategoryInterface
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface
 import qualified Document -- org.w3c.dom.Document
@@ -60,6 +61,9 @@ instance JavaObjectClass StoreThemeCategoriesView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO StoreThemeCategoriesView
 newRecord_ = do
@@ -99,7 +103,7 @@ toXmlNode_super object_ a1 = (toXmlNode_impl (javaCast object_ :: StoreThemeCate
 toXmlNode_impl :: StoreThemeCategoriesView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         node <- (StoreThemeCategoryView.toXmlNode ((jio (StoreThemeCategoryView.new_1 (jget (this).categoryInterface)))) document)
-        childArray <- (StoreThemeCategoryInterface.toArray ((jio (StoreThemeCategoryInterface.getChildNodes ((jget (this).categoryInterface))))))
+        childArray <- (BasicArrayList.toArray ((jio (StoreThemeCategoryInterface.getChildNodes ((jget (this).categoryInterface))))))
         let size = (jlength childArray)
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             let childCategoryInterface = (javaCast (jindex childArray (i)) :: CategoryInterface.CategoryInterface)

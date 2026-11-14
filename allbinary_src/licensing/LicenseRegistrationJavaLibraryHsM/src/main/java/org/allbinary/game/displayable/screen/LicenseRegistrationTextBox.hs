@@ -20,10 +20,10 @@ import CustomTextBox hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GameCommandCanvas -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
@@ -70,9 +72,11 @@ instance JavaObjectClass LicenseRegistrationTextBox where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dISPLAY_COMMAND :: Command.Command
 {-# NOINLINE dISPLAY_COMMAND #-}
 dISPLAY_COMMAND = unsafePerformIO ((Command.new_4 "Register" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 3))
 
+sUBMIT_COMMAND :: Command.Command
 {-# NOINLINE sUBMIT_COMMAND #-}
 sUBMIT_COMMAND = unsafePerformIO ((Command.new_4 "Submit" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 3))
 
@@ -191,7 +195,7 @@ submit_super object_ = (submit_impl (javaCast object_ :: LicenseRegistrationText
 submit_impl :: LicenseRegistrationTextBox -> IO (())
 submit_impl this = do
         commandListener <- (CustomTextBox.getCustomCommandListener this)
-        Control.Monad.void (CommandListener.commandAction commandListener sUBMIT_COMMAND this)
+        Control.Monad.void (CommandListener.commandAction commandListener sUBMIT_COMMAND (javaCast this))
         pure ()
 
 

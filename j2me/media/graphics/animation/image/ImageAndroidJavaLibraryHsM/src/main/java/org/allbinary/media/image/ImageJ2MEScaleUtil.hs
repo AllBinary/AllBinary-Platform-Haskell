@@ -19,10 +19,10 @@ module ImageJ2MEScaleUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,11 +52,15 @@ instance JavaObjectClass ImageJ2MEScaleUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageJ2MEScaleUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageJ2MEScaleUtil
 newRecord_ = do
@@ -100,7 +104,7 @@ scaleArray_impl :: ImageJ2MEScaleUtil -> JavaArray (Image.Image) -> Int -> Int -
 scaleArray_impl this images width height = do
         forM_ [0 .. (jlength images) - 1] $ \index -> javaIteration (pure ()) $ do
             let image = (jindex images (index))
-            assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (GameFeatureImageCacheFactory.getInstance)) image ((Prelude.fromIntegral width) / 2.0) (Prelude.realToFrac (jnumericDouble (jio (Image.getWidth image)))) (Prelude.fromIntegral height) (Prelude.realToFrac (jnumericDouble (jio (Image.getHeight image)))) False)
+            assignedValue <- (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (GameFeatureImageCacheFactory.getInstance)) image ((Prelude.fromIntegral width) / 2.0) (Prelude.fromIntegral (jio (Image.getWidth image))) (Prelude.fromIntegral height) (Prelude.fromIntegral (jio (Image.getHeight image))) False)
             jsetIndex images (index) (assignedValue)
         pure (images)
 
@@ -114,6 +118,6 @@ scale_super object_ a1 a2 a3 = (scale_impl (javaCast object_ :: ImageJ2MEScaleUt
 
 scale_impl :: ImageJ2MEScaleUtil -> Image.Image -> Int -> Int -> IO (Image.Image)
 scale_impl this image width height = do
-        (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (GameFeatureImageCacheFactory.getInstance)) image (Prelude.fromIntegral width) (Prelude.realToFrac (jnumericDouble (jio (Image.getWidth image)))) (Prelude.fromIntegral height) (Prelude.realToFrac (jnumericDouble (jio (Image.getHeight image)))) False)
+        (ImageScaleUtil.createImage2 ((jio (ImageScaleUtil.getInstance))) (jio (GameFeatureImageCacheFactory.getInstance)) image (Prelude.fromIntegral width) (Prelude.fromIntegral (jio (Image.getWidth image))) (Prelude.fromIntegral height) (Prelude.fromIntegral (jio (Image.getHeight image))) False)
 
 

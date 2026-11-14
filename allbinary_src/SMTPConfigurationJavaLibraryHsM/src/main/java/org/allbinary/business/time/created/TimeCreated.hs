@@ -20,10 +20,10 @@ import Time hiding (new_, init_, newRecord_, initFields_, header_, base, staticI
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,28 +64,41 @@ initFields_ :: TimeCreated -> IO ()
 initFields_ this = do
     pure ()
 
-new_1 :: String -> IO TimeCreated
-new_1 time = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TimeCreated
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Int64) = new_1_overload2 (javaCast a1 :: Int64)
+    | otherwise = new_1_overload2 (javaCast a1 :: Int64)
+
+init_1 :: (JavaObjectClass o1) => TimeCreated -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: Int64) = init_1_overload2 this (javaCast a1 :: Int64)
+    | otherwise = init_1_overload2 this (javaCast a1 :: Int64)
+
+
+new_1_overload1 :: String -> IO TimeCreated
+new_1_overload1 time = do
     this <- newRecord_
-    init_1 this time
+    init_1_overload1 this time
     pure this
 
-init_1 :: TimeCreated -> String -> IO ()
-init_1 this time = do
+init_1_overload1 :: TimeCreated -> String -> IO ()
+init_1_overload1 this time = do
         Time.init_1 this.base (time)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: Int64 -> IO TimeCreated
-new_1 time = do
+new_1_overload2 :: Int64 -> IO TimeCreated
+new_1_overload2 time = do
     this <- newRecord_
-    init_1 this time
+    init_1_overload2 this time
     pure this
 
-init_1 :: TimeCreated -> Int64 -> IO ()
-init_1 this time = do
+init_1_overload2 :: TimeCreated -> Int64 -> IO ()
+init_1_overload2 this time = do
         Time.init_1 this.base (time)
         initFields_ this
         pure () -- super(...) is in the record above

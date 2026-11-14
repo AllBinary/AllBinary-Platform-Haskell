@@ -19,10 +19,10 @@ module OpenGLESImage where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,16 +66,22 @@ instance JavaObjectClass OpenGLESImage where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_OPENGL_IMAGE :: OpenGLESImage
 {-# NOINLINE nULL_OPENGL_IMAGE #-}
 nULL_OPENGL_IMAGE = unsafePerformIO ((new_3 (NullImage.nULL_IMAGE) (PlatformBitmapBaseFactory.nULL_PLATFORM_BITMAP_BASE_FACTORY) (PlatformTextureBaseFactory.nULL_PLATFORM_TEXTURE_BASE_FACTORY)))
 
+texture2dList :: BasicArrayList.BasicArrayList
 {-# NOINLINE texture2dList #-}
 texture2dList = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)))
 
+tYPE :: Int
 tYPE = 4
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO OpenGLESImage
 newRecord_ = do

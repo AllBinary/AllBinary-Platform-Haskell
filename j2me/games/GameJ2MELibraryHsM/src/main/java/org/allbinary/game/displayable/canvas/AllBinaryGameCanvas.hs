@@ -16,14 +16,14 @@
 -- package org.allbinary.game.displayable.canvas
 module AllBinaryGameCanvas (module AllBinaryGameCanvas, module RunnableCanvas) where
 
-import RunnableCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, updateMeasurement, updateMeasurement_super, updateMeasurement_impl, getInGameMenuBehavior, getInGameMenuBehavior_super, getInGameMenuBehavior_impl, setCurrentThread, setCurrentThread_super, setCurrentThread_impl, onEvent, onEvent_super, onEvent_impl, onDisplayChangeEvent, onDisplayChangeEvent_super, onDisplayChangeEvent_impl, updateMenuFromEvent, updateMenuFromEvent_super, updateMenuFromEvent_impl, processSleep, processSleep_super, processSleep_impl, initPopupMenu, initPopupMenu_super, initPopupMenu_impl, initMenu, initMenu_super, initMenu_impl, initMenu2, initMenu2_super, initMenu2_impl, updateMenu, updateMenu_super, updateMenu_impl, updateMenu2, updateMenu2_super, updateMenu2_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, isPausable, isPausable_super, isPausable_impl, popupMenu, popupMenu_super, popupMenu_impl, popupMenu2, popupMenu2_super, popupMenu2_impl, toggleMenu, toggleMenu_super, toggleMenu_impl, closeMenu, closeMenu_super, closeMenu_impl, closeMenu2, closeMenu2_super, closeMenu2_impl, open, open_super, open_impl, close, close_super, close_impl, processorInit, processorInit_super, processorInit_impl, setProcessGameProcessorInit, setProcessGameProcessorInit_super, setProcessGameProcessorInit_impl, initSpecialPaint, initSpecialPaint_super, initSpecialPaint_impl, init, init_super, init_impl, notifyIntermission, notifyIntermission_super, notifyIntermission_impl, mediaInit, mediaInit_super, mediaInit_impl, initConfigurable, initConfigurable_super, initConfigurable_impl, initApp, initApp_super, initApp_impl, initTouch, initTouch_super, initTouch_impl, updateCurrentTouchInputFactory, updateCurrentTouchInputFactory_super, updateCurrentTouchInputFactory_impl, updateTouch, updateTouch_super, updateTouch_impl, updateTouch2, updateTouch2_super, updateTouch2_impl, postInitTouch, postInitTouch_super, postInitTouch_impl, initCommands, initCommands_super, initCommands_impl, addCommands, addCommands_super, addCommands_impl, itemStateChanged, itemStateChanged_super, itemStateChanged_impl, updateScreenButtonPaintable, updateScreenButtonPaintable_super, updateScreenButtonPaintable_impl, updateScreenButtonPaintable2, updateScreenButtonPaintable2_super, updateScreenButtonPaintable2_impl, getLayerManager, getLayerManager_super, getLayerManager_impl, setLayerManager, setLayerManager_super, setLayerManager_impl, isGameOver, isGameOver_super, isGameOver_impl, setGameOver, setGameOver_super, setGameOver_impl, processGameOver, processGameOver_super, processGameOver_impl, isHighScoreSubmitted, isHighScoreSubmitted_super, isHighScoreSubmitted_impl, setHighScoreSubmitted, setHighScoreSubmitted_super, setHighScoreSubmitted_impl, getGameState, getGameState_super, getGameState_impl, setGameState, setGameState_super, setGameState_impl, updateGameState, updateGameState_super, updateGameState_impl, updateGameKeyEventProcessor, updateGameKeyEventProcessor_super, updateGameKeyEventProcessor_impl, removeAllGameKeyInputListenersOnBuild, removeAllGameKeyInputListenersOnBuild_super, removeAllGameKeyInputListenersOnBuild_impl, removeAllGameKeyInputListeners, removeAllGameKeyInputListeners_super, removeAllGameKeyInputListeners_impl, removeAllGameKeyInputListeners2, removeAllGameKeyInputListeners2_super, removeAllGameKeyInputListeners2_impl, removeKeyInputListener, removeKeyInputListener_super, removeKeyInputListener_impl, updateEndGameProcessor, updateEndGameProcessor_super, updateEndGameProcessor_impl, updateEndGameProcessor2, updateEndGameProcessor2_super, updateEndGameProcessor2_impl, buildGameInit, buildGameInit_super, buildGameInit_impl, cleanupGame, cleanupGame_super, cleanupGame_impl, loadResourceLoadingLevel, loadResourceLoadingLevel_super, loadResourceLoadingLevel_impl, loadResources, loadResources_super, loadResources_impl, updateColor, updateColor_super, updateColor_impl, buildGame, buildGame_super, buildGame_impl, buildGame2, buildGame2_super, buildGame2_impl, addKeyInputListener, addKeyInputListener_super, addKeyInputListener_impl, setGameCanvasStartListener, setGameCanvasStartListener_super, setGameCanvasStartListener_impl, loadState, loadState_super, loadState_impl, getLoadStateHashtable, getLoadStateHashtable_super, getLoadStateHashtable_impl, setLoadStateHashtable, setLoadStateHashtable_super, setLoadStateHashtable_impl, getCurrentStateHashtable, getCurrentStateHashtable_super, getCurrentStateHashtable_impl, paintGameOver, paintGameOver_super, paintGameOver_impl, draw, draw_super, draw_impl, clear, clear_super, clear_impl, paint, paint_super, paint_impl, paintThreed, paintThreed_super, paintThreed_impl, processEndLevelIntermissionGameState, processEndLevelIntermissionGameState_super, processEndLevelIntermissionGameState_impl, nonBotPaint, nonBotPaint_super, nonBotPaint_impl, paintIntermission, paintIntermission_super, paintIntermission_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyRepeated, keyRepeated_super, keyRepeated_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, handleRawKey, handleRawKey_super, handleRawKey_impl, endProgress, endProgress_super, endProgress_impl, processPlayingGame, processPlayingGame_super, processPlayingGame_impl, threadInit, threadInit_super, threadInit_impl, processGame, processGame_super, processGame_impl, notifyDonePainting, notifyDonePainting_super, notifyDonePainting_impl, shouldWait, shouldWait_super, shouldWait_impl, run, run_super, run_impl, run2, run2_super, run2_impl, run3, run3_super, run3_impl, setRunning, setRunning_super, setRunning_impl, end, end_super, end_impl, endGameThread, endGameThread_super, endGameThread_impl, createHighScore, createHighScore_super, createHighScore_impl, setHighScore, setHighScore_super, setHighScore_impl, setHighScore2, setHighScore2_super, setHighScore2_impl, getGameStateTimeHelper, getGameStateTimeHelper_super, getGameStateTimeHelper_impl, setInitialized, setInitialized_super, setInitialized_impl, isInitialized, isInitialized_super, isInitialized_impl, getSourceId, getSourceId_super, getSourceId_impl, setProgressPaintable, setProgressPaintable_super, setProgressPaintable_impl, getStartIntermissionInterface, getStartIntermissionInterface_super, getStartIntermissionInterface_impl, getEndLevelIntermissionInterface, getEndLevelIntermissionInterface_super, getEndLevelIntermissionInterface_impl, setTouchPaintableP, setTouchPaintableP_super, setTouchPaintableP_impl, getTouchPaintableP, getTouchPaintableP_super, getTouchPaintableP_impl, setEndGamePaintable, setEndGamePaintable_super, setEndGamePaintable_impl, getEndGamePaintable, getEndGamePaintable_super, getEndGamePaintable_impl, setIntermissionPaintable, setIntermissionPaintable_super, setIntermissionPaintable_impl, getIntermissionPaintable, getIntermissionPaintable_super, getIntermissionPaintable_impl, getEndGameInfoP, getEndGameInfoP_super, getEndGameInfoP_impl, setHighScoresPaintable, setHighScoresPaintable_super, setHighScoresPaintable_impl, getHighScoresPaintable, getHighScoresPaintable_super, getHighScoresPaintable_impl, getRealHighScoresPaintable, getRealHighScoresPaintable_super, getRealHighScoresPaintable_impl, clearPlayerGameInputList, clearPlayerGameInputList_super, clearPlayerGameInputList_impl, addPlayerGameInput, addPlayerGameInput_super, addPlayerGameInput_impl, setMenuInputProcessor, setMenuInputProcessor_super, setMenuInputProcessor_impl, getMenuInputProcessor, getMenuInputProcessor_super, getMenuInputProcessor_impl, getMenuForm, getMenuForm_super, getMenuForm_impl, setMenuForm, setMenuForm_super, setMenuForm_impl, getStartLevel, getStartLevel_super, getStartLevel_impl, setStartLevel, setStartLevel_super, setStartLevel_impl, setTouchButtonsPaintable, setTouchButtonsPaintable_super, setTouchButtonsPaintable_impl, getTouchButtonsPaintable, getTouchButtonsPaintable_super, getTouchButtonsPaintable_impl, setGameInputProcessor, setGameInputProcessor_super, setGameInputProcessor_impl, getGameInputProcessor, getGameInputProcessor_super, getGameInputProcessor_impl, setEndGameProcessor, setEndGameProcessor_super, setEndGameProcessor_impl, getEndGameProcessor, getEndGameProcessor_super, getEndGameProcessor_impl, setEndGameStatePaintable, setEndGameStatePaintable_super, setEndGameStatePaintable_impl, getEndGameStatePaintable, getEndGameStatePaintable_super, getEndGameStatePaintable_impl, setNonBotPaintableP, setNonBotPaintableP_super, setNonBotPaintableP_impl, getNonBotPaintableP, getNonBotPaintableP_super, getNonBotPaintableP_impl, setStartIntermissionPaintable, setStartIntermissionPaintable_super, setStartIntermissionPaintable_impl, getStartIntermissionPaintable, getStartIntermissionPaintable_super, getStartIntermissionPaintable_impl, setMainStateProcessor, setMainStateProcessor_super, setMainStateProcessor_impl, getMainStateProcessor, getMainStateProcessor_super, getMainStateProcessor_impl, setProcessGameProcessor, setProcessGameProcessor_super, setProcessGameProcessor_impl, getProcessGameProcessor, getProcessGameProcessor_super, getProcessGameProcessor_impl, setOpenMenuPaintable, setOpenMenuPaintable_super, setOpenMenuPaintable_impl, getOpenMenuPaintable, getOpenMenuPaintable_super, getOpenMenuPaintable_impl, setPopupMenuInputProcessor, setPopupMenuInputProcessor_super, setPopupMenuInputProcessor_impl, getPopupMenuInputProcessor, getPopupMenuInputProcessor_super, getPopupMenuInputProcessor_impl, getSensorGameUpdateProcessor, getSensorGameUpdateProcessor_super, getSensorGameUpdateProcessor_impl, getRawGameInputProcessor, getRawGameInputProcessor_super, getRawGameInputProcessor_impl, getRawInputProcessor, getRawInputProcessor_super, getRawInputProcessor_impl, setInputProcessor, setInputProcessor_super, setInputProcessor_impl, getInputProcessor, getInputProcessor_super, getInputProcessor_impl, setMenuPaintable, setMenuPaintable_super, setMenuPaintable_impl, getMenuPaintable, getMenuPaintable_super, getMenuPaintable_impl, setFormPaintable, setFormPaintable_super, setFormPaintable_impl, getFormPaintable, getFormPaintable_super, getFormPaintable_impl, setGameSpecificPaintableP, setGameSpecificPaintableP_super, setGameSpecificPaintableP_impl, getGameSpecificPaintableP, getGameSpecificPaintableP_super, getGameSpecificPaintableP_impl, isSingleThread, isSingleThread_super, isSingleThread_impl, isRunningInAnotherThread, isRunningInAnotherThread_super, isRunningInAnotherThread_impl, getType, getType_super, getType_impl, basicColorFactory, basicSetColorUtil, touchFeatureFactory, openGLFeatureFactory, touchButtonFactory, gameAdStateFactory, gameStrings, gameInputStrings, gameStateFactory, gameTickTimeDelayHelper, gameTickDisplayInfoSingleton, gameRunnable, gamePauseRunnable, formUtil, myFormUtil, updateMyFontProcessor, myFontProcessor, gameSpecificPaintable, sensorGameUpdateProcessor, endGameInfo, startIntermissionInterface, endLevelIntermissionInterface, id, gameLayerManager, gameState, gameOver, initialized, gameStateTimeHelper, highScoresHelper, highScoreSubmitted, realHighScoresPaintable, highScoresPaintable, localPlayerGameInputList, isCheating, hashtable, isSingleKeyRepeatableProcessing, gameInitializationInterfaceFactoryInterface, touchButtonsPaintable, touchPaintable, cheatProcessor, gameInputProcessor, endGameProcessor, realEndGameProcessor, startIntermissionProcessor, realStartIntermissionProcessor, endGamePaintable, endGameStatePaintable, nonBotPaintable, intermissionPaintable, startIntermissionPaintable, mainStateProcessor, processGameProcessor, highScoresFactoryInterface, startLevel, mainMenuInputProcessor, popupMenuInputProcessor, menuInputProcessor, menuForm, formPaintable, openMenuPaintable, menuPaintable, currentTouchInputFactory, colorFillPaintable, baseGameStatistics, primaryPlayerQueue, secondaryPlayerQueue, bUILD_GAME, gameTypeFactory, screenCapture, basicMotionGesturesHandler, gameKeyEventHandler, gameBehavior, menuBehavior, progressPaintable, fontHeightP, gameCanvasStartListener, rawGameInputProcessor, rawInputProcessor, inputProcessor, yIELD_SLEEP, tYPE)
+import RunnableCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, updateMeasurement, updateMeasurement_super, updateMeasurement_impl, getInGameMenuBehavior, getInGameMenuBehavior_super, getInGameMenuBehavior_impl, setCurrentThread, setCurrentThread_super, setCurrentThread_impl, onEvent, onEvent_super, onEvent_impl, onDisplayChangeEvent, onDisplayChangeEvent_super, onDisplayChangeEvent_impl, updateMenuFromEvent, updateMenuFromEvent_super, updateMenuFromEvent_impl, processSleep, processSleep_super, processSleep_impl, initPopupMenu, initPopupMenu_super, initPopupMenu_impl, initMenu, initMenu_super, initMenu_impl, initMenu2, initMenu2_super, initMenu2_impl, updateMenu, updateMenu_super, updateMenu_impl, updateMenu2, updateMenu2_super, updateMenu2_impl, pause, pause_super, pause_impl, unPause, unPause_super, unPause_impl, isPausable, isPausable_super, isPausable_impl, popupMenu, popupMenu_super, popupMenu_impl, popupMenu2, popupMenu2_super, popupMenu2_impl, toggleMenu, toggleMenu_super, toggleMenu_impl, closeMenu, closeMenu_super, closeMenu_impl, closeMenu2, closeMenu2_super, closeMenu2_impl, open, open_super, open_impl, close, close_super, close_impl, processorInit, processorInit_super, processorInit_impl, setProcessGameProcessorInit, setProcessGameProcessorInit_super, setProcessGameProcessorInit_impl, initSpecialPaint, initSpecialPaint_super, initSpecialPaint_impl, init, init_super, init_impl, notifyIntermission, notifyIntermission_super, notifyIntermission_impl, mediaInit, mediaInit_super, mediaInit_impl, initConfigurable, initConfigurable_super, initConfigurable_impl, initApp, initApp_super, initApp_impl, initTouch, initTouch_super, initTouch_impl, updateCurrentTouchInputFactory, updateCurrentTouchInputFactory_super, updateCurrentTouchInputFactory_impl, updateTouch, updateTouch_super, updateTouch_impl, updateTouch2, updateTouch2_super, updateTouch2_impl, postInitTouch, postInitTouch_super, postInitTouch_impl, initCommands, initCommands_super, initCommands_impl, addCommands, addCommands_super, addCommands_impl, itemStateChanged, itemStateChanged_super, itemStateChanged_impl, updateScreenButtonPaintable, updateScreenButtonPaintable_super, updateScreenButtonPaintable_impl, updateScreenButtonPaintable2, updateScreenButtonPaintable2_super, updateScreenButtonPaintable2_impl, getLayerManager, getLayerManager_super, getLayerManager_impl, setLayerManager, setLayerManager_super, setLayerManager_impl, isGameOver, isGameOver_super, isGameOver_impl, setGameOver, setGameOver_super, setGameOver_impl, processGameOver, processGameOver_super, processGameOver_impl, isHighScoreSubmitted, isHighScoreSubmitted_super, isHighScoreSubmitted_impl, setHighScoreSubmitted, setHighScoreSubmitted_super, setHighScoreSubmitted_impl, getGameState, getGameState_super, getGameState_impl, setGameState, setGameState_super, setGameState_impl, updateGameState, updateGameState_super, updateGameState_impl, updateGameKeyEventProcessor, updateGameKeyEventProcessor_super, updateGameKeyEventProcessor_impl, removeAllGameKeyInputListenersOnBuild, removeAllGameKeyInputListenersOnBuild_super, removeAllGameKeyInputListenersOnBuild_impl, removeAllGameKeyInputListeners, removeAllGameKeyInputListeners_super, removeAllGameKeyInputListeners_impl, removeAllGameKeyInputListeners2, removeAllGameKeyInputListeners2_super, removeAllGameKeyInputListeners2_impl, removeKeyInputListener, removeKeyInputListener_super, removeKeyInputListener_impl, updateEndGameProcessor, updateEndGameProcessor_super, updateEndGameProcessor_impl, updateEndGameProcessor2, updateEndGameProcessor2_super, updateEndGameProcessor2_impl, buildGameInit, buildGameInit_super, buildGameInit_impl, cleanupGame, cleanupGame_super, cleanupGame_impl, loadResourceLoadingLevel, loadResourceLoadingLevel_super, loadResourceLoadingLevel_impl, loadResources, loadResources_super, loadResources_impl, updateColor, updateColor_super, updateColor_impl, buildGame, buildGame_super, buildGame_impl, buildGame2, buildGame2_super, buildGame2_impl, addKeyInputListener, addKeyInputListener_super, addKeyInputListener_impl, setGameCanvasStartListener, setGameCanvasStartListener_super, setGameCanvasStartListener_impl, loadState, loadState_super, loadState_impl, getLoadStateHashtable, getLoadStateHashtable_super, getLoadStateHashtable_impl, setLoadStateHashtable, setLoadStateHashtable_super, setLoadStateHashtable_impl, getCurrentStateHashtable, getCurrentStateHashtable_super, getCurrentStateHashtable_impl, paintGameOver, paintGameOver_super, paintGameOver_impl, draw, draw_super, draw_impl, clear, clear_super, clear_impl, paint, paint_super, paint_impl, paintThreed, paintThreed_super, paintThreed_impl, processEndLevelIntermissionGameState, processEndLevelIntermissionGameState_super, processEndLevelIntermissionGameState_impl, nonBotPaint, nonBotPaint_super, nonBotPaint_impl, paintIntermission, paintIntermission_super, paintIntermission_impl, keyPressed, keyPressed_super, keyPressed_impl, keyReleased, keyReleased_super, keyReleased_impl, keyRepeated, keyRepeated_super, keyRepeated_impl, keyPressedByDevice, keyPressedByDevice_super, keyPressedByDevice_impl, keyRepeatedByDevice, keyRepeatedByDevice_super, keyRepeatedByDevice_impl, keyReleasedByDevice, keyReleasedByDevice_super, keyReleasedByDevice_impl, handleRawKey, handleRawKey_super, handleRawKey_impl, endProgress, endProgress_super, endProgress_impl, processPlayingGame, processPlayingGame_super, processPlayingGame_impl, threadInit, threadInit_super, threadInit_impl, processGame, processGame_super, processGame_impl, notifyDonePainting, notifyDonePainting_super, notifyDonePainting_impl, shouldWait, shouldWait_super, shouldWait_impl, run, run_super, run_impl, run2, run2_super, run2_impl, run3, run3_super, run3_impl, setRunning, setRunning_super, setRunning_impl, end, end_super, end_impl, endGameThread, endGameThread_super, endGameThread_impl, createHighScore, createHighScore_super, createHighScore_impl, setHighScore, setHighScore_super, setHighScore_impl, setHighScore2, setHighScore2_super, setHighScore2_impl, getGameStateTimeHelper, getGameStateTimeHelper_super, getGameStateTimeHelper_impl, setInitialized, setInitialized_super, setInitialized_impl, isInitialized, isInitialized_super, isInitialized_impl, getSourceId, getSourceId_super, getSourceId_impl, setProgressPaintable, setProgressPaintable_super, setProgressPaintable_impl, getStartIntermissionInterface, getStartIntermissionInterface_super, getStartIntermissionInterface_impl, getEndLevelIntermissionInterface, getEndLevelIntermissionInterface_super, getEndLevelIntermissionInterface_impl, setTouchPaintableP, setTouchPaintableP_super, setTouchPaintableP_impl, getTouchPaintableP, getTouchPaintableP_super, getTouchPaintableP_impl, setEndGamePaintable, setEndGamePaintable_super, setEndGamePaintable_impl, getEndGamePaintable, getEndGamePaintable_super, getEndGamePaintable_impl, setIntermissionPaintable, setIntermissionPaintable_super, setIntermissionPaintable_impl, getIntermissionPaintable, getIntermissionPaintable_super, getIntermissionPaintable_impl, getEndGameInfoP, getEndGameInfoP_super, getEndGameInfoP_impl, setHighScoresPaintable, setHighScoresPaintable_super, setHighScoresPaintable_impl, getHighScoresPaintable, getHighScoresPaintable_super, getHighScoresPaintable_impl, getRealHighScoresPaintable, getRealHighScoresPaintable_super, getRealHighScoresPaintable_impl, clearPlayerGameInputList, clearPlayerGameInputList_super, clearPlayerGameInputList_impl, addPlayerGameInput, addPlayerGameInput_super, addPlayerGameInput_impl, setMenuInputProcessor, setMenuInputProcessor_super, setMenuInputProcessor_impl, getMenuInputProcessor, getMenuInputProcessor_super, getMenuInputProcessor_impl, getMenuForm, getMenuForm_super, getMenuForm_impl, setMenuForm, setMenuForm_super, setMenuForm_impl, getStartLevel, getStartLevel_super, getStartLevel_impl, setStartLevel, setStartLevel_super, setStartLevel_impl, setTouchButtonsPaintable, setTouchButtonsPaintable_super, setTouchButtonsPaintable_impl, getTouchButtonsPaintable, getTouchButtonsPaintable_super, getTouchButtonsPaintable_impl, setGameInputProcessor, setGameInputProcessor_super, setGameInputProcessor_impl, getGameInputProcessor, getGameInputProcessor_super, getGameInputProcessor_impl, setEndGameProcessor, setEndGameProcessor_super, setEndGameProcessor_impl, getEndGameProcessor, getEndGameProcessor_super, getEndGameProcessor_impl, setEndGameStatePaintable, setEndGameStatePaintable_super, setEndGameStatePaintable_impl, getEndGameStatePaintable, getEndGameStatePaintable_super, getEndGameStatePaintable_impl, setNonBotPaintableP, setNonBotPaintableP_super, setNonBotPaintableP_impl, getNonBotPaintableP, getNonBotPaintableP_super, getNonBotPaintableP_impl, setStartIntermissionPaintable, setStartIntermissionPaintable_super, setStartIntermissionPaintable_impl, getStartIntermissionPaintable, getStartIntermissionPaintable_super, getStartIntermissionPaintable_impl, setMainStateProcessor, setMainStateProcessor_super, setMainStateProcessor_impl, getMainStateProcessor, getMainStateProcessor_super, getMainStateProcessor_impl, setProcessGameProcessor, setProcessGameProcessor_super, setProcessGameProcessor_impl, getProcessGameProcessor, getProcessGameProcessor_super, getProcessGameProcessor_impl, setOpenMenuPaintable, setOpenMenuPaintable_super, setOpenMenuPaintable_impl, getOpenMenuPaintable, getOpenMenuPaintable_super, getOpenMenuPaintable_impl, setPopupMenuInputProcessor, setPopupMenuInputProcessor_super, setPopupMenuInputProcessor_impl, getPopupMenuInputProcessor, getPopupMenuInputProcessor_super, getPopupMenuInputProcessor_impl, getSensorGameUpdateProcessor, getSensorGameUpdateProcessor_super, getSensorGameUpdateProcessor_impl, getRawGameInputProcessor, getRawGameInputProcessor_super, getRawGameInputProcessor_impl, getRawInputProcessor, getRawInputProcessor_super, getRawInputProcessor_impl, setInputProcessor, setInputProcessor_super, setInputProcessor_impl, getInputProcessor, getInputProcessor_super, getInputProcessor_impl, setMenuPaintable, setMenuPaintable_super, setMenuPaintable_impl, getMenuPaintable, getMenuPaintable_super, getMenuPaintable_impl, setFormPaintable, setFormPaintable_super, setFormPaintable_impl, getFormPaintable, getFormPaintable_super, getFormPaintable_impl, setGameSpecificPaintableP, setGameSpecificPaintableP_super, setGameSpecificPaintableP_impl, getGameSpecificPaintableP, getGameSpecificPaintableP_super, getGameSpecificPaintableP_impl, isSingleThread, isSingleThread_super, isSingleThread_impl, isRunningInAnotherThread, isRunningInAnotherThread_super, isRunningInAnotherThread_impl, getType, getType_super, getType_impl, getTitle, getTitle_super, getTitle_impl, isPaused, isPaused_super, isPaused_impl, basicColorFactory, basicSetColorUtil, touchFeatureFactory, openGLFeatureFactory, touchButtonFactory, gameAdStateFactory, gameStrings, gameInputStrings, gameStateFactory, gameTickTimeDelayHelper, gameTickDisplayInfoSingleton, gameRunnable, gamePauseRunnable, formUtil, myFormUtil, updateMyFontProcessor, myFontProcessor, gameSpecificPaintable, sensorGameUpdateProcessor, endGameInfo, startIntermissionInterface, endLevelIntermissionInterface, id, gameLayerManager, gameState, gameOver, initialized, gameStateTimeHelper, highScoresHelper, highScoreSubmitted, realHighScoresPaintable, highScoresPaintable, localPlayerGameInputList, isCheating, hashtable, isSingleKeyRepeatableProcessing, gameInitializationInterfaceFactoryInterface, touchButtonsPaintable, touchPaintable, cheatProcessor, gameInputProcessor, endGameProcessor, realEndGameProcessor, startIntermissionProcessor, realStartIntermissionProcessor, endGamePaintable, endGameStatePaintable, nonBotPaintable, intermissionPaintable, startIntermissionPaintable, mainStateProcessor, processGameProcessor, highScoresFactoryInterface, startLevel, mainMenuInputProcessor, popupMenuInputProcessor, menuInputProcessor, menuForm, formPaintable, openMenuPaintable, menuPaintable, currentTouchInputFactory, colorFillPaintable, baseGameStatistics, primaryPlayerQueue, secondaryPlayerQueue, bUILD_GAME, gameTypeFactory, screenCapture, basicMotionGesturesHandler, gameKeyEventHandler, gameBehavior, menuBehavior, progressPaintable, fontHeightP, gameCanvasStartListener, rawGameInputProcessor, rawInputProcessor, inputProcessor, yIELD_SLEEP, tYPE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,18 +59,22 @@ import qualified DemoPaintableInterface -- same package or java.lang
 import qualified GameCanvasInputProcessor -- same package or java.lang
 import qualified FormInputProcessor -- same package or java.lang
 import qualified Thread -- same package or java.lang
-import qualified Runnable -- same package or java.lang
+import qualified SaveHighScoreRunnable -- same package or java.lang
 import qualified SpecialGameInputInterface -- same package or java.lang
 import qualified OpenGLFeature -- same package or java.lang
 import qualified StdUtil -- same package or java.lang
 import qualified TsUtil -- same package or java.lang
 import qualified ThreadObjectUtil -- same package or java.lang
+import qualified GenericOperatingSystem -- same package or java.lang
+import qualified AllBinarySensor -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified CommonLabels -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified NullCommandListener -- javax.microedition.lcdui.NullCommandListener
 import qualified AndroidUtil -- org.allbinary.AndroidUtil
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
@@ -304,8 +308,10 @@ instance JavaObjectClass AllBinaryGameCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+id :: Int
 id = 0
 
+tYPE :: Int
 tYPE = 2
 
 newRecord_ :: IO AllBinaryGameCanvas
@@ -560,6 +566,8 @@ newRecord_ = do
     jregisterMethod header_ "isSingleThread" (\() -> isSingleThread_impl this)
     jregisterMethod header_ "isRunningInAnotherThread" (\() -> isRunningInAnotherThread_impl this)
     jregisterMethod header_ "getType" (\() -> getType_impl this)
+    jregisterMethod header_ "getTitle" (\() -> getTitle_impl this)
+    jregisterMethod header_ "isPaused" (\() -> isPaused_impl this)
     pure this
 
 initFields_ :: AllBinaryGameCanvas -> IO ()
@@ -579,7 +587,7 @@ initFields_ this = do
     jset this.gamePauseRunnable =<< (GameCanvasPauseRunnable.new_1 this)
     jset this.formUtil =<< (FormUtil.getInstance)
     jset this.myFormUtil =<< (MyFormUtil.getInstance)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.gameSpecificPaintable =<< (NullPaintable.getInstance)
     jset this.sensorGameUpdateProcessor =<< (fmap (\value_ -> javaCast value_ :: SensorGameUpdateProcessor.SensorGameUpdateProcessor) (SingleSensorGameUpdateProcessor.new_))
@@ -690,7 +698,7 @@ updateMeasurement_impl this graphics = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT) e)
             ) $ do
             font <- (Graphics.getFont graphics)
-            Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.base.commonStrings)).sTART)))) (jget ((jget (this).base.base.canvasStrings)).fD_WIDTH)))) (Prelude.fromInteger (jnumericInteger (jio (MyFontProcessor.defaultCharWidth font))))))) (jget ((jget (this).base.base.canvasStrings)).fD_HEIGHT)))) (Prelude.fromInteger (jnumericInteger (jio (Font.getHeight font))))))))) this (jget ((jget (this).base.base.canvasStrings)).uPDATE_MEASUREMENT))
+            Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.base.commonStrings)).sTART)))) (jget ((jget (this).base.base.canvasStrings)).fD_WIDTH)))) (jio (MyFontProcessor.defaultCharWidth font))))) (jget ((jget (this).base.base.canvasStrings)).fD_HEIGHT)))) (jio (Font.getHeight font))))))) this (jget ((jget (this).base.base.canvasStrings)).uPDATE_MEASUREMENT))
             assignedValue <- (Font.getHeight font)
             jset (this).fontHeightP (assignedValue)
             Control.Monad.void (MyFormUtil.updateMeasurement ((jget (this).myFormUtil)) graphics)
@@ -773,7 +781,7 @@ updateMenuFromEvent_impl this displayChangeEvent = do
         rectangle <- (FormUtil.createFormRectangle ((jget (this).formUtil)))
         Control.Monad.void (ScrollSelectionForm.init ((jget (this).menuForm)) rectangle formType)
         when ((jget (this).currentTouchInputFactory) /= (jio (NoButtonsTouchInputFactory.getInstance))) $ do
-            Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (RunnableCanvas.isPaused this)) (jio (BaseTouchInput.getList ((jget (this).currentTouchInputFactory)))))
+            Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (AllBinaryGameCanvas.isPaused this)) (jio (BaseTouchInput.getList ((jget (this).currentTouchInputFactory)))))
         jset (this).myFontProcessor ((jget (this).updateMyFontProcessor))
         pure ()
 
@@ -810,7 +818,7 @@ initPopupMenu_impl this = do
             popupMenuRectangle <- (MyFormUtil.getPopupMenuRectangle ((jget (this).myFormUtil)))
             when (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED)))) $ do
                 Control.Monad.void (AllBinaryGameCanvas.setOpenMenuPaintable this (javaCast (jio (BasicPopupMenuPaintable.new_3 popupMenuRectangle (jio (AllBinaryGameLayerManager.getBackgroundBasicColor ((jget (this).gameLayerManager)))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).gameLayerManager))))))))
-                Control.Monad.void (AllBinaryGameCanvas.setPopupMenuInputProcessor this (javaCast (jio (PopupMenuInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this popupMenuRectangle))))
+                Control.Monad.void (AllBinaryGameCanvas.setPopupMenuInputProcessor this (javaCast (jio (PopupMenuInputProcessor.new_4 (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1) (javaCast this) popupMenuRectangle))))
         else do
             pure ()
         pure ()
@@ -850,13 +858,13 @@ initMenu2_impl this = do
         scrollSelectionForm <- (AllBinaryGameCanvas.getMenuForm this)
         features <- (Features.getInstance)
         if (jio (Features.isFeature features (javaCast (jget ((jget (this).touchFeatureFactory)).tOUCH_ENABLED)))) then do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicMenuInputProcessor.BasicMenuInputProcessor) (PopupCommandFormInputProcessor.new_5 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this scrollSelectionForm (javaCast (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)) :: PopupMenuInputProcessor.PopupMenuInputProcessor)))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicMenuInputProcessor.BasicMenuInputProcessor) (PopupCommandFormInputProcessor.new_5 (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1) (javaCast this) scrollSelectionForm (javaCast (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)) :: PopupMenuInputProcessor.PopupMenuInputProcessor)))
             jset (this).mainMenuInputProcessor (assignedValue)
         else do
             pure ()
         Control.Monad.void (AllBinaryGameCanvas.setMenuInputProcessor this (jio (AllBinaryGameCanvas.getPopupMenuInputProcessor this)))
         if (scrollSelectionForm /= (jio (ScrollSelectionFormNoneFactory.getInstance))) then do
-            Control.Monad.void (AllBinaryGameCanvas.setFormPaintable this (javaCast (jio (FormPaintable.new_1 scrollSelectionForm))))
+            Control.Monad.void (AllBinaryGameCanvas.setFormPaintable this (javaCast (jio (FormPaintable.new_1 (javaCast scrollSelectionForm)))))
         else do
             pure ()
         Control.Monad.void (AllBinaryGameCanvas.closeMenu this)
@@ -912,7 +920,7 @@ pause_impl this = do
         Control.Monad.void (DemoGameBehavior.pause ((jget (this).gameBehavior)) this)
         Control.Monad.void (AllBinaryGameCanvas.closeMenu this)
         Control.Monad.void (RunnableCanvas.pause_super this.base)
-        Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (RunnableCanvas.isPaused this)) (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))))
+        Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (AllBinaryGameCanvas.isPaused this)) (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))))
         Control.Monad.void (TsUtil.gc ((jget (this).base.tsUtil)))
         pure ()
 
@@ -929,7 +937,7 @@ unPause_impl this = do
         Control.Monad.void (AllBinaryGameCanvas.closeMenu this)
         Control.Monad.void (TsUtil.gc ((jget (this).base.tsUtil)))
         Control.Monad.void (RunnableCanvas.unPause_super this.base)
-        Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (RunnableCanvas.isPaused this)) (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))))
+        Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (AllBinaryGameCanvas.isPaused this)) (jio (BasicArrayListUtil.getImmutableInstance ((jio (BasicArrayListUtil.getInstance))))))
         Control.Monad.void (DemoGameBehavior.unPause ((jget (this).gameBehavior)) this)
         pure ()
 
@@ -1118,7 +1126,7 @@ init_impl this gameLayerManager buffered = do
             Control.Monad.void (GameKeyEventHandler.addListener ((jget (this).gameKeyEventHandler)) (javaCast (jget (this).cheatProcessor)))
         else do
             jset (this).isCheating (False)
-            assignedValue <- (NoPlayerGameInput.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: PlayerGameInput.PlayerGameInput) (NoPlayerGameInput.getInstance))
             jset (this).cheatProcessor (assignedValue)
         assignedValue <- (fmap (\value_ -> javaCast value_ :: Processor.Processor) (EndGameProcessor.new_1 this))
         jset (this).realEndGameProcessor (assignedValue)
@@ -1130,7 +1138,7 @@ init_impl this gameLayerManager buffered = do
         Control.Monad.void (AllBinaryGameCanvas.setEndGameStatePaintable this (javaCast (jio (EndGamePaintable.new_1 this))))
         Control.Monad.void (AllBinaryGameCanvas.setEndGamePaintable this (jio (NullPaintable.getInstance)))
         Control.Monad.void (AllBinaryGameCanvas.setIntermissionPaintable this (jio (NullPaintable.getInstance)))
-        Control.Monad.void (IntermissionInterface.setListener ((jio (AllBinaryGameCanvas.getStartIntermissionInterface this))) this)
+        Control.Monad.void (IntermissionInterface.setListener ((jio (AllBinaryGameCanvas.getStartIntermissionInterface this))) (javaCast this))
         pure ()
 
 
@@ -1244,7 +1252,7 @@ updateCurrentTouchInputFactory_impl this nextTouchInput = do
         when (nextTouchInput /= (jget (this).currentTouchInputFactory)) $ do
             jset (this).currentTouchInputFactory (nextTouchInput)
             Control.Monad.void (PreLogUtil.put (jio (BaseTouchInput.toString ((jget (this).currentTouchInputFactory)))) this (jget ((jget (this).gameInputStrings)).uDPATE_CURRENT_TOUCH_INPUT_FACTORY))
-            Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (RunnableCanvas.isPaused this)) (jio (BaseTouchInput.getList ((jget (this).currentTouchInputFactory)))))
+            Control.Monad.void (TouchButtonFactory.toggle ((jget (this).touchButtonFactory)) (jio (AllBinaryGameCanvas.isPaused this)) (jio (BaseTouchInput.getList ((jget (this).currentTouchInputFactory)))))
         pure ()
 
 
@@ -1333,18 +1341,18 @@ addCommands_impl this = do
         pure ()
 
 
-itemStateChanged :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged object_ a1 = jmethod object_ "itemStateChanged" (\() -> (itemStateChanged_impl (javaCast object_ :: AllBinaryGameCanvas))) () a1
 
-itemStateChanged_super :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged_super :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_super object_ a1 = (itemStateChanged_impl (javaCast object_ :: AllBinaryGameCanvas)) a1
 
-itemStateChanged_impl :: AllBinaryGameCanvas -> Item.Item -> IO (())
+itemStateChanged_impl :: AllBinaryGameCanvas -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_impl this item = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this "itemStateChanged" e)
             ) $ do
-            itemLabel <- (Item.getLabel item)
+            itemLabel <- (LcduiItem.getLabel item)
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.commonLabels)).iTEM_LABEL)))) itemLabel))))) this "itemStateChanged")
             when (javaInstanceOf item "ChoiceGroup") $ do
                 gameFeatureUtil <- (GameFeatureUtil.getInstance)
@@ -1714,7 +1722,7 @@ buildGame_impl this portion = do
         Control.Monad.void (AllBinaryGameCanvas.removeAllGameKeyInputListenersOnBuild this)
         Control.Monad.void (AllBinaryGameCanvas.updateTouch this)
         Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas portion "High Scores")
-        Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager)))) (jget (this).highScoresHelper))
+        Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager)))) (javaCast (jget (this).highScoresHelper)))
         Control.Monad.void (AllBinaryGameCanvas.setHighScoresPaintable this (jio (NullPaintable.getInstance)))
         Control.Monad.void (ProgressCanvas.addNormalPortion progressCanvas portion "Finishing.")
         Control.Monad.void (EndGameInfo.update ((jio (AllBinaryGameCanvas.getEndGameInfoP this))) (jio (AllBinaryGameLayerManager.getGameInfo ((jio (AllBinaryGameCanvas.getLayerManager this))))) (javaCast this))
@@ -1799,7 +1807,7 @@ loadState_impl this = do
         hashtable <- (AllBinaryGameCanvas.getLoadStateHashtable this)
         when ((hashtable /= javaNull) && ((jio (ABHashtable.size hashtable)) > 0)) $ do
             let levelAsString = (javaCast (jio (ABHashtable.get hashtable (javaCast GameInfo.lEVEL_NAME :: Any.Any))) :: String)
-            let level = (javaToString levelAsString)
+            let level = (jio (jparseInt levelAsString))
             gameInfo <- (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager)))
             Control.Monad.void (GameInfo.setCurrentLevel gameInfo level)
         pure ()
@@ -2047,7 +2055,7 @@ endProgress_impl this isProgress = do
             myCommandsFactory <- (MyCommandsFactory.getInstance)
             progressCanvas <- (ProgressCanvasFactory.getInstance)
             Control.Monad.void (ProgressCanvas.start progressCanvas)
-            Control.Monad.void (CommandListener.commandAction ((jio (RunnableCanvas.getCustomCommandListener this))) (jget (myCommandsFactory).sET_DISPLAYABLE) progressCanvas)
+            Control.Monad.void (CommandListener.commandAction ((jio (RunnableCanvas.getCustomCommandListener this))) (jget (myCommandsFactory).sET_DISPLAYABLE) (javaCast progressCanvas))
             jset portion (4)
         pure ((jget portion))
 
@@ -2312,11 +2320,9 @@ setHighScore2_impl this abeClientInformation name score autoSubmit isLast = do
         highScore <- (AllBinaryGameCanvas.createHighScore this score)
         textBox <- (HighScoreTextBox.new_9 (jget (this).highScoresFactoryInterface) (jget (this).highScoresHelper) abeClientInformation (jio (AllBinaryGameLayerManager.getGameInfo ((jget (this).gameLayerManager)))) (jio (RunnableCanvas.getCustomCommandListener this)) name highScore (jio (AllBinaryGameLayerManager.getBackgroundBasicColor ((jget (this).gameLayerManager)))) (jio (AllBinaryGameLayerManager.getForegroundBasicColor ((jget (this).gameLayerManager)))))
         when isLast $ do
-            Control.Monad.void (CommandListener.commandAction ((jio (RunnableCanvas.getCustomCommandListener this))) (jget ((jio (GameCommandsFactory.getInstance))).sET_MENU_DISPLAYABLE) textBox)
+            Control.Monad.void (CommandListener.commandAction ((jio (RunnableCanvas.getCustomCommandListener this))) (jget ((jio (GameCommandsFactory.getInstance))).sET_MENU_DISPLAYABLE) (javaCast textBox))
         when autoSubmit $ do
-            -- Java nested class SaveHighScoreRunnable: move it to its own module
-
-            Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (SaveHighScoreRunnable.new_))))
+            Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (SaveHighScoreRunnable.new_2 isLast textBox))))
         pure ()
 
 
@@ -3002,5 +3008,27 @@ getType_super object_ = (getType_impl (javaCast object_ :: AllBinaryGameCanvas))
 getType_impl :: AllBinaryGameCanvas -> IO (Int)
 getType_impl this = do
         pure (AllBinaryGameCanvas.tYPE)
+
+
+getTitle :: (JavaObjectClass this_) => this_ -> IO (String)
+getTitle object_ = jmethod object_ "getTitle" (\() -> (getTitle_impl (javaCast object_ :: AllBinaryGameCanvas))) ()
+
+getTitle_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getTitle_super object_ = (getTitle_impl (javaCast object_ :: AllBinaryGameCanvas))
+
+getTitle_impl :: AllBinaryGameCanvas -> IO (String)
+getTitle_impl this = do
+        (RunnableCanvas.getTitle_super this.base)
+
+
+isPaused :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isPaused object_ = jmethod object_ "isPaused" (\() -> (isPaused_impl (javaCast object_ :: AllBinaryGameCanvas))) ()
+
+isPaused_super :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isPaused_super object_ = (isPaused_impl (javaCast object_ :: AllBinaryGameCanvas))
+
+isPaused_impl :: AllBinaryGameCanvas -> IO (Bool)
+isPaused_impl this = do
+        (RunnableCanvas.isPaused_super this.base)
 
 

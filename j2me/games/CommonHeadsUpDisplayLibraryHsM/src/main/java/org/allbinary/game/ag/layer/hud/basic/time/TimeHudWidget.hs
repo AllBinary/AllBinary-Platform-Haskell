@@ -20,10 +20,10 @@ import BasicHud hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified Timer -- same package or java.lang
+import qualified HudTimer -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified BasicHud -- org.allbinary.game.graphics.hud.BasicHud
@@ -48,7 +48,7 @@ data TimeHudWidget = TimeHudWidget
     , offset :: IORef (Int)
     , string :: IORef (JavaArray (Char))
     , totalDigits :: IORef (Int)
-    , timer :: IORef (Timer.Timer)
+    , timer :: IORef (HudTimer.HudTimer)
     }
 
 instance JavaNull TimeHudWidget where
@@ -86,7 +86,7 @@ newRecord_ = do
 initFields_ :: TimeHudWidget -> IO ()
 initFields_ this = do
     jset this.tIME_STRING ("Time ")
-    jset this.tIME_CHAR_ARRAY ((jarrayFromList ['T', 'i', 'm', 'e', ' ']))
+    jset this.tIME_CHAR_ARRAY ((jarrayFromList ['T', 'i', 'm', 'e', ' '] :: JavaArray Char))
     jset this.offset (0)
     jset this.string ((jget ((jio (PrimitiveLongSingleton.getInstance))).zERO))
     jset this.totalDigits (1)
@@ -95,17 +95,17 @@ initFields_ this = do
 
 
 -- throws Exception
-getInstance :: Int -> Int -> BasicColor.BasicColor -> Timer.Timer -> IO (TimeHudWidget)
+getInstance :: Int -> Int -> BasicColor.BasicColor -> HudTimer.HudTimer -> IO (TimeHudWidget)
 getInstance location direction basicColor timer = do
         (new_5 location direction 2 basicColor timer)
 
-new_5 :: Int -> Int -> Int -> BasicColor.BasicColor -> Timer.Timer -> IO TimeHudWidget
+new_5 :: Int -> Int -> Int -> BasicColor.BasicColor -> HudTimer.HudTimer -> IO TimeHudWidget
 new_5 location direction bufferZone basicColor timer = do
     this <- newRecord_
     init_5 this location direction bufferZone basicColor timer
     pure this
 
-init_5 :: TimeHudWidget -> Int -> Int -> Int -> BasicColor.BasicColor -> Timer.Timer -> IO ()
+init_5 :: TimeHudWidget -> Int -> Int -> Int -> BasicColor.BasicColor -> HudTimer.HudTimer -> IO ()
 init_5 this location direction bufferZone basicColor timer = do
         BasicHud.init_4 this.base (location) (direction) (bufferZone) (basicColor)
         initFields_ this
@@ -139,7 +139,7 @@ update_super object_ = (update_impl (javaCast object_ :: TimeHudWidget))
 
 update_impl :: TimeHudWidget -> IO (())
 update_impl this = do
-        Control.Monad.void (Timer.update ((jget (this).timer)))
+        Control.Monad.void (HudTimer.update ((jget (this).timer)))
         Control.Monad.void (TimeHudWidget.set this)
         pure ()
 
@@ -152,20 +152,20 @@ set_super object_ = (set_impl (javaCast object_ :: TimeHudWidget))
 
 set_impl :: TimeHudWidget -> IO (())
 set_impl this = do
-        assignedValue <- (Timer.getTimeChars ((jget (this).timer)))
+        assignedValue <- (HudTimer.getTimeChars ((jget (this).timer)))
         jset (this).string (assignedValue)
-        assignedValue <- (Timer.getCurrentTotalDigits ((jget (this).timer)))
+        assignedValue <- (HudTimer.getCurrentTotalDigits ((jget (this).timer)))
         jset (this).totalDigits (assignedValue)
         pure ()
 
 
-getTimer :: (JavaObjectClass this_) => this_ -> IO (Timer.Timer)
+getTimer :: (JavaObjectClass this_) => this_ -> IO (HudTimer.HudTimer)
 getTimer object_ = jmethod object_ "getTimer" (\() -> (getTimer_impl (javaCast object_ :: TimeHudWidget))) ()
 
-getTimer_super :: (JavaObjectClass this_) => this_ -> IO (Timer.Timer)
+getTimer_super :: (JavaObjectClass this_) => this_ -> IO (HudTimer.HudTimer)
 getTimer_super object_ = (getTimer_impl (javaCast object_ :: TimeHudWidget))
 
-getTimer_impl :: TimeHudWidget -> IO (Timer.Timer)
+getTimer_impl :: TimeHudWidget -> IO (HudTimer.HudTimer)
 getTimer_impl this = do
         pure ((jget (this).timer))
 

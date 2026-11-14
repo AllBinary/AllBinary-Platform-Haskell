@@ -19,10 +19,10 @@ module PlayerQueue where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Sound -- same package or java.lang
 import qualified NoSound -- same package or java.lang
+import qualified Player -- same package or java.lang
 import qualified PreLogUtil -- org.allbinary.logic.communication.log.PreLogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified StringUtil -- org.allbinary.logic.string.StringUtil
@@ -60,6 +61,7 @@ instance JavaObjectClass PlayerQueue where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tOTAL :: String
 tOTAL = "Sounds In Queue: "
 
 newRecord_ :: IO PlayerQueue

@@ -19,10 +19,10 @@ module DownloadableItemView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,9 @@ instance JavaObjectClass DownloadableItemView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DownloadableItemView
 newRecord_ = do
@@ -130,12 +133,12 @@ toXmlNode_impl this document = do
         hourDelta <- (Calendar.get calendar (Calendar.hOUR))
         minuteDelta <- (Calendar.get calendar (Calendar.mINUTE))
         secondDelta <- (Calendar.get calendar (Calendar.sECOND))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_YEARS) (javaToString (yearDelta - year)))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_MONTHS) (javaToString (monthDelta - month)))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_DAYS) (javaToString (dayDelta - day)))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_HOURS) (javaToString (hourDelta - hour)))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_MINUTES) (javaToString (minuteDelta - minute)))
-        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_SECONDS) (javaToString (secondDelta - second)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_YEARS) ((yearDelta - year)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_MONTHS) ((monthDelta - month)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_DAYS) ((dayDelta - day)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_HOURS) ((hourDelta - hour)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_MINUTES) ((minuteDelta - minute)))
+        Control.Monad.void (HashMap.put hashMap (DownloadItemData.vALID_TIME_SECONDS) ((secondDelta - second)))
         keySet <- (HashMap.keySet hashMap)
         node <- (Document.createElement document (DownloadItemData.nAME))
         stringUtil <- (StringUtil.getInstance)

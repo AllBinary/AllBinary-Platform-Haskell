@@ -19,10 +19,10 @@ module HealthVectorData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,10 +50,13 @@ instance JavaObjectClass HealthVectorData where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 {-# NOINLINE points #-}
-points = unsafePerformIO (newIORef ((jarrayFromList [(jarrayFromList [(jarrayFromList [2, 1]), (jarrayFromList [3, 2]), (jarrayFromList [3, 2]), (jarrayFromList [4, 1]), (jarrayFromList [4, 1]), (jarrayFromList [5, 1]), (jarrayFromList [5, 1]), (jarrayFromList [6, 2]), (jarrayFromList [6, 2]), (jarrayFromList [6, 3]), (jarrayFromList [6, 3]), (jarrayFromList [3, 6]), (jarrayFromList [3, 6]), (jarrayFromList [0, 3]), (jarrayFromList [0, 3]), (jarrayFromList [0, 2]), (jarrayFromList [0, 2]), (jarrayFromList [1, 1]), (jarrayFromList [1, 1]), (jarrayFromList [2, 1]), (jarrayFromList [1000, 1000])])])))
+points = unsafePerformIO (newIORef ((jarrayFromList [(jarrayFromList [(jarrayFromList [2, 1] :: JavaArray Int), (jarrayFromList [3, 2] :: JavaArray Int), (jarrayFromList [3, 2] :: JavaArray Int), (jarrayFromList [4, 1] :: JavaArray Int), (jarrayFromList [4, 1] :: JavaArray Int), (jarrayFromList [5, 1] :: JavaArray Int), (jarrayFromList [5, 1] :: JavaArray Int), (jarrayFromList [6, 2] :: JavaArray Int), (jarrayFromList [6, 2] :: JavaArray Int), (jarrayFromList [6, 3] :: JavaArray Int), (jarrayFromList [6, 3] :: JavaArray Int), (jarrayFromList [3, 6] :: JavaArray Int), (jarrayFromList [3, 6] :: JavaArray Int), (jarrayFromList [0, 3] :: JavaArray Int), (jarrayFromList [0, 3] :: JavaArray Int), (jarrayFromList [0, 2] :: JavaArray Int), (jarrayFromList [0, 2] :: JavaArray Int), (jarrayFromList [1, 1] :: JavaArray Int), (jarrayFromList [1, 1] :: JavaArray Int), (jarrayFromList [2, 1] :: JavaArray Int), (jarrayFromList [1000, 1000] :: JavaArray Int)] :: JavaArray (JavaArray Int))] :: JavaArray (JavaArray (JavaArray Int)))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO HealthVectorData
 newRecord_ = do

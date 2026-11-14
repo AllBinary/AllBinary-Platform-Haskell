@@ -16,14 +16,14 @@
 -- package org.allbinary.animation.vector
 module CircleFilledAnimation (module CircleFilledAnimation, module Animation) where
 
-import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, nextFrame, nextFrame_super, nextFrame_impl, paintXY, paintXY_super, paintXY_impl, width, height)
+import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, nextFrame, nextFrame_super, nextFrame_impl, paintXY, paintXY_super, paintXY_impl, getBasicColorP, getBasicColorP_super, getBasicColorP_impl, setBasicColorP, setBasicColorP_super, setBasicColorP_impl, width, height)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,6 +70,8 @@ newRecord_ = do
     ColorCompositeInterface.registerInterface_ header_
     jregisterMethod header_ "nextFrame" (\() -> nextFrame_impl this)
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
+    jregisterMethod header_ "getBasicColorP" (\() -> getBasicColorP_impl this)
+    jregisterMethod header_ "setBasicColorP" (\() -> setBasicColorP_impl this)
     pure this
 
 initFields_ :: CircleFilledAnimation -> IO ()
@@ -91,7 +93,7 @@ init_3 this width height basicColor = do
         pure () -- super(...) is in the record above
         jset (this).width (width)
         jset (this).height (height)
-        Control.Monad.void (Animation.setBasicColorP this basicColor)
+        Control.Monad.void (CircleFilledAnimation.setBasicColorP this basicColor)
         pure ()
 
 
@@ -114,8 +116,31 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: CircleFilled
 
 paintXY_impl :: CircleFilledAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (Animation.getBasicColorP this)) (jio (Animation.getColor this)))
+        Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).base.basicSetColorUtil)) graphics (jio (CircleFilledAnimation.getBasicColorP this)) (jio (Animation.getColor this)))
         Control.Monad.void (Graphics.fillRect graphics x y (jget (this).width) (jget (this).height))
+        pure ()
+
+
+getBasicColorP :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP object_ = jmethod object_ "getBasicColorP" (\() -> (getBasicColorP_impl (javaCast object_ :: CircleFilledAnimation))) ()
+
+getBasicColorP_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBasicColorP_super object_ = (getBasicColorP_impl (javaCast object_ :: CircleFilledAnimation))
+
+getBasicColorP_impl :: CircleFilledAnimation -> IO (BasicColor.BasicColor)
+getBasicColorP_impl this = do
+        (Animation.getBasicColorP_super this.base)
+
+
+setBasicColorP :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP object_ a1 = jmethod object_ "setBasicColorP" (\() -> (setBasicColorP_impl (javaCast object_ :: CircleFilledAnimation))) () a1
+
+setBasicColorP_super :: (JavaObjectClass this_) => this_ -> BasicColor.BasicColor -> IO (())
+setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: CircleFilledAnimation)) a1
+
+setBasicColorP_impl :: CircleFilledAnimation -> BasicColor.BasicColor -> IO (())
+setBasicColorP_impl this basicColor = do
+        Control.Monad.void (Animation.setBasicColorP_super this.base basicColor)
         pure ()
 
 

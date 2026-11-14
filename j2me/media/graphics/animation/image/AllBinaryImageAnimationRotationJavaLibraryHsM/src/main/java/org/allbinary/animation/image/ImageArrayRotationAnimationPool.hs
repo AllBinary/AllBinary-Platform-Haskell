@@ -20,10 +20,10 @@ import BasicArrayListResetablePool hiding (new_, init_, newRecord_, initFields_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified ImageArrayRotationAnimationCacheableInterfaceFactory -- same pa
 import qualified ImageArrayRotationAnimationInfo -- same package or java.lang
 import qualified ImageArrayRotationAnimationCacheable -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified AbstractArrayListPool -- same package or java.lang
 import qualified BasicArrayListResetablePool -- org.allbinary.logic.util.cache.BasicArrayListResetablePool
 import qualified CacheableInterface -- org.allbinary.logic.util.cache.CacheableInterface
 import qualified CacheableInterfaceFactoryInterface -- org.allbinary.logic.util.cache.CacheableInterfaceFactoryInterface
@@ -59,8 +60,9 @@ instance JavaObjectClass ImageArrayRotationAnimationPool where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iMAGE_ROTATION_ANIMATION_POOL :: IORef (PoolInterface.PoolInterface)
 {-# NOINLINE iMAGE_ROTATION_ANIMATION_POOL #-}
-iMAGE_ROTATION_ANIMATION_POOL = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: PoolInterface.PoolInterface) (new_1 (jio (ImageArrayRotationAnimationCacheableInterfaceFactory.new_)))) >>= newIORef)
+iMAGE_ROTATION_ANIMATION_POOL = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: PoolInterface.PoolInterface) (new_1 (javaCast (jio (ImageArrayRotationAnimationCacheableInterfaceFactory.new_))))) >>= newIORef)
 
 newRecord_ :: IO ImageArrayRotationAnimationPool
 newRecord_ = do

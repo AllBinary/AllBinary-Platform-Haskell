@@ -20,10 +20,10 @@ import BasicTable hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PaymentGatewayEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
@@ -163,7 +164,7 @@ update_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer "Gateway Name: ")
                 Control.Monad.void (StringMaker.append stringBuffer (jio (PaymentGatewayInterface.getName paymentGatewayInterface)))
                 Control.Monad.void (StringMaker.append stringBuffer " HashMap=")
-                Control.Monad.void (StringMaker.append stringBuffer (jio (PaymentGatewayInterface.toString ((jio (PaymentGatewayInterface.toHashMap paymentGatewayInterface True))))))
+                Control.Monad.void (StringMaker.append stringBuffer (jio (HashMap.toString ((jio (PaymentGatewayInterface.toHashMap paymentGatewayInterface True))))))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "update()")
             Control.Monad.void (PaymentGatewayEntity.update ((jio (PaymentGatewayEntityFactory.getInstance))) paymentGatewayInterface)
             let success = "Successfully Updated Payment Gateway information"

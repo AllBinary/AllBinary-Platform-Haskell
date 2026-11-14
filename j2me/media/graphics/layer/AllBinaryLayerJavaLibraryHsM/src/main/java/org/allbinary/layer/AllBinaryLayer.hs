@@ -16,14 +16,14 @@
 -- package org.allbinary.layer
 module AllBinaryLayer (module AllBinaryLayer, module Layer) where
 
-import Layer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, onChangeEvent, onChangeEvent_super, onChangeEvent_impl, paintThreed, paintThreed_super, paintThreed_impl, getX2, getX2_super, getX2_impl, getY2, getY2_super, getY2_impl, getZ2, getZ2_super, getZ2_impl, getName, getName_super, getName_impl, setHalfWidth, setHalfWidth_super, setHalfWidth_impl, getHalfWidth, getHalfWidth_super, getHalfWidth_impl, setHalfHeight, setHalfHeight_super, setHalfHeight_impl, getHalfHeight, getHalfHeight_super, getHalfHeight_impl, getHalfDepth, getHalfDepth_super, getHalfDepth_impl, getViewPosition, getViewPosition_super, getViewPosition_impl, setViewPosition, setViewPosition_super, setViewPosition_impl, getGroupInterface, getGroupInterface_super, getGroupInterface_impl, implmentsTickableInterface, implmentsTickableInterface_super, implmentsTickableInterface_impl, implmentsGameInputInterface, implmentsGameInputInterface_super, implmentsGameInputInterface_impl, implmentsArtificialIntelligenceCompositeInterface, implmentsArtificialIntelligenceCompositeInterface_super, implmentsArtificialIntelligenceCompositeInterface_impl, implmentsCollidableInterface, implmentsCollidableInterface_super, implmentsCollidableInterface_impl, implementsThreedInterface, implementsThreedInterface_super, implementsThreedInterface_impl, getType, getType_super, getType_impl, getMultiPlayerType, getMultiPlayerType_super, getMultiPlayerType_impl, toStringAppend, toStringAppend_super, toStringAppend_impl, toString, toString_super, toString_impl, nULL_ALLBINARY_LAYER, viewPositionEvent, halfWidth, halfHeight, name, viewPosition, tYPE)
+import Layer hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setPosition, setPosition_super, setPosition_impl, moveDXYZ, moveDXYZ_super, moveDXYZ_impl, getXP, getXP_super, getXP_impl, getYP, getYP_super, getYP_impl, getZP, getZP_super, getZP_impl, getWidth, getWidth_super, getWidth_impl, getHeight, getHeight_super, getHeight_impl, setVisible, setVisible_super, setVisible_impl, isVisible, isVisible_super, isVisible_impl, paint, paint_super, paint_impl, onChangeEvent, onChangeEvent_super, onChangeEvent_impl, paintThreed, paintThreed_super, paintThreed_impl, getX2, getX2_super, getX2_impl, getY2, getY2_super, getY2_impl, getZ2, getZ2_super, getZ2_impl, getName, getName_super, getName_impl, setHalfWidth, setHalfWidth_super, setHalfWidth_impl, getHalfWidth, getHalfWidth_super, getHalfWidth_impl, setHalfHeight, setHalfHeight_super, setHalfHeight_impl, getHalfHeight, getHalfHeight_super, getHalfHeight_impl, getHalfDepth, getHalfDepth_super, getHalfDepth_impl, getViewPosition, getViewPosition_super, getViewPosition_impl, setViewPosition, setViewPosition_super, setViewPosition_impl, getGroupInterface, getGroupInterface_super, getGroupInterface_impl, implmentsTickableInterface, implmentsTickableInterface_super, implmentsTickableInterface_impl, implmentsGameInputInterface, implmentsGameInputInterface_super, implmentsGameInputInterface_impl, implmentsArtificialIntelligenceCompositeInterface, implmentsArtificialIntelligenceCompositeInterface_super, implmentsArtificialIntelligenceCompositeInterface_impl, implmentsCollidableInterface, implmentsCollidableInterface_super, implmentsCollidableInterface_impl, implementsThreedInterface, implementsThreedInterface_super, implementsThreedInterface_impl, getType, getType_super, getType_impl, getMultiPlayerType, getMultiPlayerType_super, getMultiPlayerType_impl, toStringAppend, toStringAppend_super, toStringAppend_impl, toString, toString_super, toString_impl, nULL_ALLBINARY_LAYER, viewPositionEvent, halfWidth, halfHeight, name, viewPosition, tYPE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,7 +32,6 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified Class -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified BasicGroupFactory -- org.allbinary.game.identification.BasicGroupFactory
 import qualified Group -- org.allbinary.game.identification.Group
@@ -75,9 +74,11 @@ instance JavaObjectClass AllBinaryLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_ALLBINARY_LAYER :: AllBinaryLayer
 {-# NOINLINE nULL_ALLBINARY_LAYER #-}
 nULL_ALLBINARY_LAYER = unsafePerformIO ((new_3 (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (RectangleFactory.sINGLETON) (ViewPositionBase.nULL_VIEW_POSITION)))
 
+tYPE :: String
 tYPE = "Type: "
 
 newRecord_ :: IO AllBinaryLayer
@@ -92,6 +93,16 @@ newRecord_ = do
     let this = AllBinaryLayer header_ base viewPositionEvent halfWidth halfHeight name viewPosition
     jregisterLevel header_ this
     LayerInterface.registerInterface_ header_
+    jregisterMethod header_ "setPosition" (\() -> setPosition_impl this)
+    jregisterMethod header_ "moveDXYZ" (\() -> moveDXYZ_impl this)
+    jregisterMethod header_ "getXP" (\() -> getXP_impl this)
+    jregisterMethod header_ "getYP" (\() -> getYP_impl this)
+    jregisterMethod header_ "getZP" (\() -> getZP_impl this)
+    jregisterMethod header_ "getWidth" (\() -> getWidth_impl this)
+    jregisterMethod header_ "getHeight" (\() -> getHeight_impl this)
+    jregisterMethod header_ "setVisible" (\() -> setVisible_impl this)
+    jregisterMethod header_ "isVisible" (\() -> isVisible_impl this)
+    jregisterMethod header_ "paint" (\() -> paint_impl this)
     jregisterMethod header_ "onChangeEvent" (\() -> onChangeEvent_impl this)
     jregisterMethod header_ "paintThreed" (\() -> paintThreed_impl this)
     jregisterMethod header_ "getX2" (\() -> getX2_impl this)
@@ -138,19 +149,129 @@ init_3 this name rectangle viewPosition = do
         initFields_ this
         pure () -- super(...) is in the record above
         localName <- newIORef ("")
-        if (name == javaNull) then do
-            assignedValue <- (Class.getName ((jio (jobjectGetClass this))))
-            jset localName (assignedValue)
-        else do
-            assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) name))) (jget ((jio (CommonSeps.getInstance))).cOLON)))) (Numeric.showHex (jio (TsUtil.hashCode ((jio (TsUtil.getInstance))) this)) "")))))
-            jset localName (assignedValue)
+        assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) name))) (jget ((jio (CommonSeps.getInstance))).cOLON)))) (Numeric.showHex (jio (TsUtil.hashCode ((jio (TsUtil.getInstance))) this)) "")))))
+        jset localName (assignedValue)
         jset (this).name ((jget localName))
         point <- (Rectangle.getPoint rectangle)
-        Control.Monad.void (Layer.setPosition this (jio (GPoint.getX point)) (jio (GPoint.getY point)) (jio (GPoint.getZ point)))
-        Control.Monad.void (AllBinaryLayer.setHalfWidth this (((jio (Layer.getWidth this)) `Data.Bits.shiftR` 1)))
-        Control.Monad.void (AllBinaryLayer.setHalfHeight this (((jio (Layer.getHeight this)) `Data.Bits.shiftR` 1)))
+        Control.Monad.void (AllBinaryLayer.setPosition this (jio (GPoint.getX point)) (jio (GPoint.getY point)) (jio (GPoint.getZ point)))
+        Control.Monad.void (AllBinaryLayer.setHalfWidth this (((jio (AllBinaryLayer.getWidth this)) `Data.Bits.shiftR` 1)))
+        Control.Monad.void (AllBinaryLayer.setHalfHeight this (((jio (AllBinaryLayer.getHeight this)) `Data.Bits.shiftR` 1)))
         jset (this).viewPosition (viewPosition)
         Control.Monad.void (ViewPositionBase.setAllbinaryLayer ((jget (this).viewPosition)) this)
+        pure ()
+
+
+setPosition :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> IO (())
+setPosition object_ a1 a2 a3 = jmethod object_ "setPosition" (\() -> (setPosition_impl (javaCast object_ :: AllBinaryLayer))) () a1 a2 a3
+
+setPosition_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> IO (())
+setPosition_super object_ a1 a2 a3 = (setPosition_impl (javaCast object_ :: AllBinaryLayer)) a1 a2 a3
+
+setPosition_impl :: AllBinaryLayer -> Int -> Int -> Int -> IO (())
+setPosition_impl this x y z = do
+        Control.Monad.void (Layer.setPosition_super this.base x y z)
+        pure ()
+
+
+moveDXYZ :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> IO (())
+moveDXYZ object_ a1 a2 a3 = jmethod object_ "moveDXYZ" (\() -> (moveDXYZ_impl (javaCast object_ :: AllBinaryLayer))) () a1 a2 a3
+
+moveDXYZ_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> Int -> IO (())
+moveDXYZ_super object_ a1 a2 a3 = (moveDXYZ_impl (javaCast object_ :: AllBinaryLayer)) a1 a2 a3
+
+moveDXYZ_impl :: AllBinaryLayer -> Int -> Int -> Int -> IO (())
+moveDXYZ_impl this dx dy dz = do
+        Control.Monad.void (Layer.moveDXYZ_super this.base dx dy dz)
+        pure ()
+
+
+getXP :: (JavaObjectClass this_) => this_ -> IO (Int)
+getXP object_ = jmethod object_ "getXP" (\() -> (getXP_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+getXP_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getXP_super object_ = (getXP_impl (javaCast object_ :: AllBinaryLayer))
+
+getXP_impl :: AllBinaryLayer -> IO (Int)
+getXP_impl this = do
+        (Layer.getXP_super this.base)
+
+
+getYP :: (JavaObjectClass this_) => this_ -> IO (Int)
+getYP object_ = jmethod object_ "getYP" (\() -> (getYP_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+getYP_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getYP_super object_ = (getYP_impl (javaCast object_ :: AllBinaryLayer))
+
+getYP_impl :: AllBinaryLayer -> IO (Int)
+getYP_impl this = do
+        (Layer.getYP_super this.base)
+
+
+getZP :: (JavaObjectClass this_) => this_ -> IO (Int)
+getZP object_ = jmethod object_ "getZP" (\() -> (getZP_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+getZP_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getZP_super object_ = (getZP_impl (javaCast object_ :: AllBinaryLayer))
+
+getZP_impl :: AllBinaryLayer -> IO (Int)
+getZP_impl this = do
+        (Layer.getZP_super this.base)
+
+
+getWidth :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth object_ = jmethod object_ "getWidth" (\() -> (getWidth_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+getWidth_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getWidth_super object_ = (getWidth_impl (javaCast object_ :: AllBinaryLayer))
+
+getWidth_impl :: AllBinaryLayer -> IO (Int)
+getWidth_impl this = do
+        (Layer.getWidth_super this.base)
+
+
+getHeight :: (JavaObjectClass this_) => this_ -> IO (Int)
+getHeight object_ = jmethod object_ "getHeight" (\() -> (getHeight_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+getHeight_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getHeight_super object_ = (getHeight_impl (javaCast object_ :: AllBinaryLayer))
+
+getHeight_impl :: AllBinaryLayer -> IO (Int)
+getHeight_impl this = do
+        (Layer.getHeight_super this.base)
+
+
+setVisible :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setVisible object_ a1 = jmethod object_ "setVisible" (\() -> (setVisible_impl (javaCast object_ :: AllBinaryLayer))) () a1
+
+setVisible_super :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
+setVisible_super object_ a1 = (setVisible_impl (javaCast object_ :: AllBinaryLayer)) a1
+
+setVisible_impl :: AllBinaryLayer -> Bool -> IO (())
+setVisible_impl this visible = do
+        Control.Monad.void (Layer.setVisible_super this.base visible)
+        pure ()
+
+
+isVisible :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isVisible object_ = jmethod object_ "isVisible" (\() -> (isVisible_impl (javaCast object_ :: AllBinaryLayer))) ()
+
+isVisible_super :: (JavaObjectClass this_) => this_ -> IO (Bool)
+isVisible_super object_ = (isVisible_impl (javaCast object_ :: AllBinaryLayer))
+
+isVisible_impl :: AllBinaryLayer -> IO (Bool)
+isVisible_impl this = do
+        (Layer.isVisible_super this.base)
+
+
+paint :: (JavaObjectClass this_) => this_ -> Graphics.Graphics -> IO (())
+paint object_ a1 = jmethod object_ "paint" (\() -> (paint_impl (javaCast object_ :: AllBinaryLayer))) () a1
+
+paint_super :: (JavaObjectClass this_) => this_ -> Graphics.Graphics -> IO (())
+paint_super object_ a1 = (paint_impl (javaCast object_ :: AllBinaryLayer)) a1
+
+paint_impl :: AllBinaryLayer -> Graphics.Graphics -> IO (())
+paint_impl this graphics = do
+        Control.Monad.void (Layer.paint_super this.base graphics)
         pure ()
 
 
@@ -185,7 +306,7 @@ getX2_super object_ = (getX2_impl (javaCast object_ :: AllBinaryLayer))
 
 getX2_impl :: AllBinaryLayer -> IO (Int)
 getX2_impl this = do
-        pure (((jio (Layer.getXP this)) + (jio (Layer.getWidth this))))
+        pure (((jio (AllBinaryLayer.getXP this)) + (jio (AllBinaryLayer.getWidth this))))
 
 
 getY2 :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -196,7 +317,7 @@ getY2_super object_ = (getY2_impl (javaCast object_ :: AllBinaryLayer))
 
 getY2_impl :: AllBinaryLayer -> IO (Int)
 getY2_impl this = do
-        pure (((jio (Layer.getYP this)) + (jio (Layer.getHeight this))))
+        pure (((jio (AllBinaryLayer.getYP this)) + (jio (AllBinaryLayer.getHeight this))))
 
 
 getZ2 :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -207,7 +328,7 @@ getZ2_super object_ = (getZ2_impl (javaCast object_ :: AllBinaryLayer))
 
 getZ2_impl :: AllBinaryLayer -> IO (Int)
 getZ2_impl this = do
-        pure ((Prelude.fromInteger (jnumericInteger (((jio (Layer.getZP this)) + (jio (Layer.getDepth this)))))))
+        pure ((Prelude.fromIntegral (((Prelude.fromIntegral (jio (AllBinaryLayer.getZP this))) + (jio (Layer.getDepth this))))))
 
 
 getName :: (JavaObjectClass this_) => this_ -> IO (String)
@@ -275,7 +396,7 @@ getHalfDepth_super object_ = (getHalfDepth_impl (javaCast object_ :: AllBinaryLa
 
 getHalfDepth_impl :: AllBinaryLayer -> IO (Int)
 getHalfDepth_impl this = do
-        pure (((Prelude.fromInteger (jnumericInteger (jio (Layer.getDepth this)))) `quot` 2))
+        pure (((Prelude.fromIntegral (jio (Layer.getDepth this))) `quot` 2))
 
 
 getViewPosition :: (JavaObjectClass this_) => this_ -> IO (ViewPositionBase.ViewPositionBase)
@@ -406,19 +527,19 @@ toStringAppend_impl this stringBuffer = do
         Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getType this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jget (positionStrings).x_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Layer.getXP this)))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getXP this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jget (positionStrings).y_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Layer.getYP this)))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getYP this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jget (positionStrings).z_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Layer.getZP this)))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getZP this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).wIDTH_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Layer.getWidth this)))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getWidth this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).hEIGHT_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Layer.getHeight this)))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (AllBinaryLayer.getHeight this)))
         pure ()
 
 

@@ -19,10 +19,10 @@ module NullGameCanvasRunnable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,7 @@ import qualified Any -- same package or java.lang
 import qualified Thread -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
-import qualified Item -- javax.microedition.lcdui.Item
+import qualified LcduiItem -- javax.microedition.lcdui.LcduiItem
 import qualified GameState -- org.allbinary.game.state.GameState
 import qualified GameStateFactory -- org.allbinary.game.state.GameStateFactory
 import qualified StdUtil -- org.allbinary.logic.StdUtil
@@ -62,11 +62,15 @@ instance JavaObjectClass NullGameCanvasRunnable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_GAME_CANVAS_RUNNABLE :: NullGameCanvasRunnable
 {-# NOINLINE nULL_GAME_CANVAS_RUNNABLE #-}
 nULL_GAME_CANVAS_RUNNABLE = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NullGameCanvasRunnable
 newRecord_ = do
@@ -298,13 +302,13 @@ getGameState_impl this = do
         pure ((jget ((jget (this).gameStateFactory)).nO_GAME_STATE))
 
 
-itemStateChanged :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged object_ a1 = jmethod object_ "itemStateChanged" (\() -> (itemStateChanged_impl (javaCast object_ :: NullGameCanvasRunnable))) () a1
 
-itemStateChanged_super :: (JavaObjectClass this_) => this_ -> Item.Item -> IO (())
+itemStateChanged_super :: (JavaObjectClass this_) => this_ -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_super object_ a1 = (itemStateChanged_impl (javaCast object_ :: NullGameCanvasRunnable)) a1
 
-itemStateChanged_impl :: NullGameCanvasRunnable -> Item.Item -> IO (())
+itemStateChanged_impl :: NullGameCanvasRunnable -> LcduiItem.LcduiItem -> IO (())
 itemStateChanged_impl this item = do
         pure ()
 

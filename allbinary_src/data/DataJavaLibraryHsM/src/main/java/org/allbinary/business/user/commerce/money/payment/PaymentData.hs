@@ -19,10 +19,10 @@ module PaymentData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,54 +49,80 @@ instance JavaObjectClass PaymentData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mIN :: Int
 mIN = 4
 
+mAX :: Int
 mAX = 19
 
+aDDNEW :: String
 aDDNEW = "Add New Payment"
 
+vIEW :: String
 vIEW = "View Payment"
 
+sELECT :: String
 sELECT = "Select Payment"
 
+cHANGE :: String
 cHANGE = "Change Payment"
 
+pAYMENT :: String
 pAYMENT = "PAYMENT"
 
+mETHOD :: String
 mETHOD = "PAYMENT_METHOD"
 
+iD :: String
 iD = "PAYMENT_ID"
 
+nUMBER :: String
 nUMBER = "PAYMENT_NUMBER"
 
+nAME :: String
 nAME = "PAYMENT_NAME"
 
+tYPE :: String
 tYPE = "PAYMENT_TYPE"
 
+eXPIRATION :: String
 eXPIRATION = "PAYMENT_EXPIRATION"
 
+tENDERTYPE :: String
 tENDERTYPE = "PAYMENT_TENDERTYPE"
 
+tRANSACTIONTYPE :: String
 tRANSACTIONTYPE = "PAYMENT_TRANSACTIONTYPE"
 
+aBA :: String
 aBA = "PAYMENT_ABA"
 
+aCCOUNT :: String
 aCCOUNT = "PAYMENT_ACCOUNT"
 
+aCCOUNTTYPE :: String
 aCCOUNTTYPE = "PAYMENT_ACCOUNTTYPE"
 
+aUTHORIZATIONCODE :: String
 aUTHORIZATIONCODE = "PAYMENT_AUTHORIZATIONCODE"
 
+cHECKNUMBER :: String
 cHECKNUMBER = "PAYMENT_CHECKNUMBER"
 
+cHECKTYPE :: String
 cHECKTYPE = "PAYMENT_CHECKTYPE"
 
+dRIVERSLICENSE :: String
 dRIVERSLICENSE = "PAYMENT_DRIVERSLICENSE"
 
+mAGNETICINKCHECKREADER :: String
 mAGNETICINKCHECKREADER = "PAYMENT_MAGNETICINKCHECKREADER"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PaymentData
 newRecord_ = do

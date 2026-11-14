@@ -20,10 +20,10 @@ import MotionRectangles hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified MotionRectangleConstraintsInterface -- same package or java.lang
 import qualified MotionRectangle -- same package or java.lang
+import qualified ImageComparisonResult -- same package or java.lang
 import qualified Rectangle -- java.awt.Rectangle
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -62,6 +63,7 @@ instance JavaObjectClass ConstrainedMotionRectangles where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "constrainedMotionRectangles_"
 
 newRecord_ :: IO ConstrainedMotionRectangles
@@ -129,7 +131,7 @@ applyMotionRectangleConstraints_impl this motionRectangles = do
             when (Prelude.not isValid) $ do
                 throwIO JavaContinue
             when ((((Prelude.not isTooSmall) && (Prelude.not isAreaTooSmall)) && (Prelude.not isTooBig)) && isValid) $ do
-                Control.Monad.void (jio (BasicArrayList.add vector motionRectangle))
+                Control.Monad.void (BasicArrayList.add vector motionRectangle)
         Control.Monad.void (MotionRectangles.setVector this vector)
         pure ()
 

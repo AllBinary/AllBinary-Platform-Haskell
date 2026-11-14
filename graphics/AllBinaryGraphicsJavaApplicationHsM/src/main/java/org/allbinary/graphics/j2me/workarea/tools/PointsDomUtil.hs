@@ -19,10 +19,10 @@ module PointsDomUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PointsUtil -- same package or java.lang
 import qualified Document -- same package or java.lang
+import qualified IntegerDimension -- same package or java.lang
 import qualified GPoint -- org.allbinary.graphics.GPoint
 import qualified PointFactory -- org.allbinary.graphics.PointFactory
 import qualified WorkAreaJPanel -- org.allbinary.graphics.j2me.workarea.WorkAreaJPanel
@@ -64,11 +65,15 @@ instance JavaObjectClass PointsDomUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: PointsDomUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PointsDomUtil
 newRecord_ = do

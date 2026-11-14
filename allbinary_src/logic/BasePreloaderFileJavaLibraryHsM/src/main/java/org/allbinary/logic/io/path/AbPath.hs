@@ -19,10 +19,10 @@ module AbPath where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass AbPath where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nETWORK_SEP :: String
 nETWORK_SEP = ":/"
 
 newRecord_ :: IO AbPath
@@ -267,7 +268,7 @@ toFileSystemString_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jget (this).nameP))
             javaReturn =<< (StringMaker.toString stringBuffer)
         else do
-            javaReturn ((javaToString (jio (FilePathUtil.adjust (jio (AbPath.getPath this)))) ++ (jget (this).nameP)))
+            javaReturn (((jio (FilePathUtil.adjust (jio (AbPath.getPath this)))) ++ (jget (this).nameP)))
 
 
 getPath :: (JavaObjectClass this_) => this_ -> IO (String)

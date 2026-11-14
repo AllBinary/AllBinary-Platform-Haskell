@@ -20,10 +20,10 @@ import BasicQueue hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,9 +60,11 @@ instance JavaObjectClass BasicEmailQueue where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BasicEmailQueue
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+basicEmailQueue :: IORef (BasicEmailQueue)
 {-# NOINLINE basicEmailQueue #-}
 basicEmailQueue = unsafePerformIO (newIORef (javaNull))
 
@@ -189,14 +191,14 @@ send_impl :: BasicEmailQueue -> EmailInterface.EmailInterface -> IO (Bool)
 send_impl this emailInterface = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Failed Email Send Debug: " ++ javaToString (jio (EmailInterface.getDebugInfo emailInterface))) this "send" e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Failed Email Send Debug: " ++ (jio (EmailInterface.getDebugInfo emailInterface))) this "send" e)
             pure (False)
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Sending: " ++ javaToString (jio (EmailInterface.log emailInterface))) this "send")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Sending: " ++ (jio (EmailInterface.log emailInterface))) this "send")
             Control.Monad.void (Transport.send (jio (EmailInterface.getMimeMessage emailInterface)))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Email Send Debug: " ++ javaToString (jio (EmailInterface.getDebugInfo emailInterface))) this "send")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Email Send Debug: " ++ (jio (EmailInterface.getDebugInfo emailInterface))) this "send")
             pure (True)
 
 

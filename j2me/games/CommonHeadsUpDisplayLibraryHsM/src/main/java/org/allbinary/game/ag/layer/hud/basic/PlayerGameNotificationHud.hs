@@ -20,10 +20,10 @@ import GameNotificationHud hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,11 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified SetAndRemoveProcessor -- same package or java.lang
+import qualified NextUnremoveableProcessor -- same package or java.lang
 import qualified BasicArrayList -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
+import qualified BasicHud -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified GameAdStateFactory -- org.allbinary.business.advertisement.GameAdStateFactory
@@ -338,6 +341,4 @@ paint_impl this graphics = do
         Control.Monad.void (GameNotificationHud.paintString_super this.base graphics (jget (this).string))
         pure ()
 
--- Java nested class SetAndRemoveProcessor: move it to its own module SetAndRemoveProcessor
--- Java nested class NextUnremoveableProcessor: move it to its own module NextUnremoveableProcessor
 

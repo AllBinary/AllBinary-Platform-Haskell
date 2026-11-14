@@ -19,10 +19,10 @@ module CustomUriTransformView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -70,6 +70,9 @@ instance JavaObjectClass CustomUriTransformView where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CustomUriTransformView
 newRecord_ = do
@@ -197,9 +200,9 @@ getDoc_super object_ = (getDoc_impl (javaCast object_ :: CustomUriTransformView)
 getDoc_impl :: CustomUriTransformView -> IO (Document.Document)
 getDoc_impl this = do
         document <- (TransformInfoInterface.getDataDocument ((jio (CustomUriTransformView.getTransformInfoInterface this))))
-        dataNode <- (TransformDocumentInterface.importNode ((jio (TransformDocumentInterface.getDoc ((jio (CustomUriTransformView.getTransformDocumentInterface this)))))) (jio (Document.getFirstChild document)) True)
+        dataNode <- (Document.importNode ((jio (TransformDocumentInterface.getDoc ((jio (CustomUriTransformView.getTransformDocumentInterface this)))))) (jio (Document.getFirstChild document)) True)
         when (dataNode /= javaNull) $ do
-            Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (CustomUriTransformView.getTransformDocumentInterface this)))))) dataNode)
+            Control.Monad.void (Node.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (CustomUriTransformView.getTransformDocumentInterface this)))))) dataNode)
         (TransformDocumentInterface.getDoc ((jio (CustomUriTransformView.getTransformDocumentInterface this))))
 
 

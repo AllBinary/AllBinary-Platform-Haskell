@@ -20,10 +20,10 @@ import TrueTypeFontUtilBase hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PlatformBitmapBase -- same package or java.lang
+import qualified Context -- same package or java.lang
 import qualified File -- java.io.File
 import qualified FileOutputStream -- java.io.FileOutputStream
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
@@ -76,6 +77,7 @@ instance JavaObjectClass TrueTypeFontUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TrueTypeFontUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -162,7 +164,7 @@ getFontBitmapGL_impl this gl filename cellSize basicColor = do
             let typeface = Typeface.dEFAULT
             textureSize <- (TrueTypeFontUtilBase.getAsTextureSize this ((jget (this).base.cELLS_PER_ROW) * cellSize))
             bitmap <- (Bitmap.createBitmap textureSize textureSize (jget (Bitmap.config).aRGB_8888))
-            canvas <- (Canvas.new_1 bitmap)
+            canvas <- (Canvas.new_1 (javaCast bitmap))
             paint <- (Paint.new_)
             Control.Monad.void (Paint.setTypeface paint typeface)
             Control.Monad.void (Paint.setTextSize paint (Prelude.fromIntegral (jget (this).realFontSize)))

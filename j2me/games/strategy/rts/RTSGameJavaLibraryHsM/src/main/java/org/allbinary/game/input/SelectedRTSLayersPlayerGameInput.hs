@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,6 +42,7 @@ import qualified GameInputProcessorUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified RTSGameStrings -- org.allbinary.game.layer.RTSGameStrings
 import qualified RTSLayer -- org.allbinary.game.layer.RTSLayer
@@ -159,7 +160,7 @@ new_5 towerInfoPaintable rtsPlayerLayerInterface list playerInputId selectRTSLay
 
 init_5 :: SelectedRTSLayersPlayerGameInput -> RTSLayerInfoPaintable.RTSLayerInfoPaintable -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> BasicArrayList.BasicArrayList -> Int -> SelectRTSLayerVisitorFactoryInterface.SelectRTSLayerVisitorFactoryInterface -> IO ()
 init_5 this towerInfoPaintable rtsPlayerLayerInterface list playerInputId selectRTSLayerVisitorFactoryInterface = do
-        PlayerGameInput.init_3 this.base (list) (jio (BasicArrayListD.new_)) (playerInputId)
+        PlayerGameInput.init_3 this.base (list) (javaCast (jio (BasicArrayListD.new_))) (playerInputId)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (SelectedRTSLayersPlayerGameInput.initInputProcessors this)
@@ -296,7 +297,7 @@ processInputKey_super object_ a1 = (processInputKey_impl (javaCast object_ :: Se
 processInputKey_impl :: SelectedRTSLayersPlayerGameInput -> Int -> IO (())
 processInputKey_impl this key = do
         when ((jget (this).selectedRTSLayersList) /= javaNull) $ do
-            Control.Monad.void (processEvent ((jindex ((jget (this).inputProcessorArray)) (key))) (jio (AllBinaryGameLayerManager.getNullInstance)) (GameKeyEvent.nONE))
+            Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).inputProcessorArray)) (key))) (javaCast (jio (AllBinaryGameLayerManager.getNullInstance))) (GameKeyEvent.nONE))
         pure ()
 
 

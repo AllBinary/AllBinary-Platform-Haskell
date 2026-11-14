@@ -7,10 +7,10 @@ module XmlRpcClient where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -51,6 +51,9 @@ instance JavaObjectClass XmlRpcClient where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO XmlRpcClient
 newRecord_ = do
     header_ <- newJavaHeader
@@ -61,7 +64,7 @@ newRecord_ = do
     jregisterMethod header_ "getURL" (\() -> getURL_impl this)
     jregisterMethod header_ "setBasicAuthentication" (\() -> setBasicAuthentication_impl this)
     jregisterMethod header_ "execute" (\() -> execute_impl this)
-    jregisterMethod header_ "execute_3" (\() -> execute_3_impl this)
+    jregisterMethod header_ "executeWithCrypt" (\() -> executeWithCrypt_impl this)
     pure this
 
 initFields_ :: XmlRpcClient -> IO ()
@@ -118,14 +121,14 @@ execute_impl this method params = do
 
 
 -- throws XmlRpcException, IOException
-execute_3 :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute_3 object_ a1 a2 a3 = jmethod object_ "execute_3" (\() -> (execute_3_impl (javaCast object_ :: XmlRpcClient))) () a1 a2 a3
+executeWithCrypt :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+executeWithCrypt object_ a1 a2 a3 = jmethod object_ "executeWithCrypt" (\() -> (executeWithCrypt_impl (javaCast object_ :: XmlRpcClient))) () a1 a2 a3
 
-execute_3_super :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute_3_super object_ a1 a2 a3 = (execute_3_impl (javaCast object_ :: XmlRpcClient)) a1 a2 a3
+executeWithCrypt_super :: (JavaObjectClass this_) => this_ -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+executeWithCrypt_super object_ a1 a2 a3 = (executeWithCrypt_impl (javaCast object_ :: XmlRpcClient)) a1 a2 a3
 
-execute_3_impl :: XmlRpcClient -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
-execute_3_impl this method params cryptInterface = do
+executeWithCrypt_impl :: XmlRpcClient -> String -> BasicArrayList.BasicArrayList -> CryptInterface.CryptInterface -> IO (Any.Any)
+executeWithCrypt_impl this method params cryptInterface = do
         pure ((jtoObject (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
 

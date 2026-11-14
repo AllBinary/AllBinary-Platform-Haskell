@@ -20,10 +20,10 @@ import LayerManager hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -73,7 +73,7 @@ new_ = do
 
 init_ :: GameInputLayerManager -> IO ()
 init_ this = do
-        LayerManager.init_1 this.base (jio (LayerManagerNoDebug.getInstance))
+        LayerManager.init_1 this.base (javaCast (jio (LayerManagerNoDebug.getInstance)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

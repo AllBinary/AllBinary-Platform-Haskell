@@ -16,14 +16,14 @@
 -- package org.allbinary.media.graphics.geography.map.racetrack
 module BaseRaceTrackGeographicMap (module BaseRaceTrackGeographicMap, module BasicGeographicMap) where
 
-import BasicGeographicMap hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getRaceTrackInfo, getRaceTrackInfo_super, getRaceTrackInfo_impl, setRaceTrackInfo, setRaceTrackInfo_super, setRaceTrackInfo_impl, setMiniBasicGeographicMap, setMiniBasicGeographicMap_super, setMiniBasicGeographicMap_impl, getMiniBasicGeographicMap, getMiniBasicGeographicMap_super, getMiniBasicGeographicMap_impl, getRaceTrackData, getRaceTrackData_super, getRaceTrackData_impl, setRaceTrackData, setRaceTrackData_super, setRaceTrackData_impl, logUtil, raceTrackInfo, raceTrackData, miniGeographicMap)
+import BasicGeographicMap hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getRaceTrackInfo, getRaceTrackInfo_super, getRaceTrackInfo_impl, setRaceTrackInfo, setRaceTrackInfo_super, setRaceTrackInfo_impl, setMiniBasicGeographicMap, setMiniBasicGeographicMap_super, setMiniBasicGeographicMap_impl, getMiniBasicGeographicMap, getMiniBasicGeographicMap_super, getMiniBasicGeographicMap_impl, getRaceTrackData, getRaceTrackData_super, getRaceTrackData_impl, setRaceTrackData, setRaceTrackData_super, setRaceTrackData_impl, getId, getId_super, getId_impl, getName, getName_super, getName_impl, reset, reset_super, reset_impl, getAllBinaryTiledLayer, getAllBinaryTiledLayer_super, getAllBinaryTiledLayer_impl, getCellTypeFromMapCellTypeInt, getCellTypeFromMapCellTypeInt_super, getCellTypeFromMapCellTypeInt_impl, getCellTypeAt, getCellTypeAt_super, getCellTypeAt_impl, getForegroundBasicColor, getForegroundBasicColor_super, getForegroundBasicColor_impl, getBackgroundBasicColor, getBackgroundBasicColor_super, getBackgroundBasicColor_impl, logUtil, raceTrackInfo, raceTrackData, miniGeographicMap)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified RaceTrackInfo -- same package or java.lang
 import qualified RaceTrackData -- same package or java.lang
+import qualified BasicGeographicMapCellPositionFactory -- same package or java.lang
+import qualified SimpleGeographicMap -- same package or java.lang
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified AllBinaryTiledLayer -- org.allbinary.game.layer.AllBinaryTiledLayer
@@ -42,6 +44,9 @@ import qualified BasicGeographicMap -- org.allbinary.media.graphics.geography.ma
 import qualified GeographicMapCellPositionBaseFactory -- org.allbinary.media.graphics.geography.map.GeographicMapCellPositionBaseFactory
 import qualified GeographicMapCellPositionFactoryInterface -- org.allbinary.media.graphics.geography.map.GeographicMapCellPositionFactoryInterface
 import qualified GeographicMapCellTypeFactory -- org.allbinary.media.graphics.geography.map.GeographicMapCellTypeFactory
+import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
+import qualified GeographicMapCellPosition -- org.allbinary.media.graphics.geography.map.GeographicMapCellPosition
+import qualified GeographicMapCellType -- org.allbinary.media.graphics.geography.map.GeographicMapCellType
 import qualified RaceTrackGeographicMapInterface
 
 -- implements RaceTrackGeographicMapInterface
@@ -84,6 +89,14 @@ newRecord_ = do
     jregisterMethod header_ "getMiniBasicGeographicMap" (\() -> getMiniBasicGeographicMap_impl this)
     jregisterMethod header_ "getRaceTrackData" (\() -> getRaceTrackData_impl this)
     jregisterMethod header_ "setRaceTrackData" (\() -> setRaceTrackData_impl this)
+    jregisterMethod header_ "getId" (\() -> getId_impl this)
+    jregisterMethod header_ "getName" (\() -> getName_impl this)
+    jregisterMethod header_ "reset" (\() -> reset_impl this)
+    jregisterMethod header_ "getAllBinaryTiledLayer" (\() -> getAllBinaryTiledLayer_impl this)
+    jregisterMethod header_ "getCellTypeFromMapCellTypeInt" (\() -> getCellTypeFromMapCellTypeInt_impl this)
+    jregisterMethod header_ "getCellTypeAt" (\() -> getCellTypeAt_impl this)
+    jregisterMethod header_ "getForegroundBasicColor" (\() -> getForegroundBasicColor_impl this)
+    jregisterMethod header_ "getBackgroundBasicColor" (\() -> getBackgroundBasicColor_impl this)
     pure this
 
 initFields_ :: BaseRaceTrackGeographicMap -> IO ()
@@ -189,5 +202,95 @@ setRaceTrackData_impl :: BaseRaceTrackGeographicMap -> RaceTrackData.RaceTrackDa
 setRaceTrackData_impl this raceTrackData = do
         jset (this).raceTrackData (raceTrackData)
         pure ()
+
+
+getId :: (JavaObjectClass this_) => this_ -> IO (Int)
+getId object_ = jmethod object_ "getId" (\() -> (getId_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+getId_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getId_super object_ = (getId_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+getId_impl :: BaseRaceTrackGeographicMap -> IO (Int)
+getId_impl this = do
+        (BasicGeographicMap.getId_super this.base)
+
+
+getName :: (JavaObjectClass this_) => this_ -> IO (String)
+getName object_ = jmethod object_ "getName" (\() -> (getName_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+getName_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getName_super object_ = (getName_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+getName_impl :: BaseRaceTrackGeographicMap -> IO (String)
+getName_impl this = do
+        (BasicGeographicMap.getName_super this.base)
+
+
+reset :: (JavaObjectClass this_) => this_ -> IO (())
+reset object_ = jmethod object_ "reset" (\() -> (reset_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+reset_super :: (JavaObjectClass this_) => this_ -> IO (())
+reset_super object_ = (reset_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+reset_impl :: BaseRaceTrackGeographicMap -> IO (())
+reset_impl this = do
+        Control.Monad.void (BasicGeographicMap.reset_super this.base)
+        pure ()
+
+
+getAllBinaryTiledLayer :: (JavaObjectClass this_) => this_ -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getAllBinaryTiledLayer object_ = jmethod object_ "getAllBinaryTiledLayer" (\() -> (getAllBinaryTiledLayer_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+getAllBinaryTiledLayer_super :: (JavaObjectClass this_) => this_ -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getAllBinaryTiledLayer_super object_ = (getAllBinaryTiledLayer_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+getAllBinaryTiledLayer_impl :: BaseRaceTrackGeographicMap -> IO (AllBinaryTiledLayer.AllBinaryTiledLayer)
+getAllBinaryTiledLayer_impl this = do
+        (BasicGeographicMap.getAllBinaryTiledLayer_super this.base)
+
+
+getCellTypeFromMapCellTypeInt :: (JavaObjectClass this_) => this_ -> Int -> IO (Int)
+getCellTypeFromMapCellTypeInt object_ a1 = jmethod object_ "getCellTypeFromMapCellTypeInt" (\() -> (getCellTypeFromMapCellTypeInt_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) () a1
+
+getCellTypeFromMapCellTypeInt_super :: (JavaObjectClass this_) => this_ -> Int -> IO (Int)
+getCellTypeFromMapCellTypeInt_super object_ a1 = (getCellTypeFromMapCellTypeInt_impl (javaCast object_ :: BaseRaceTrackGeographicMap)) a1
+
+getCellTypeFromMapCellTypeInt_impl :: BaseRaceTrackGeographicMap -> Int -> IO (Int)
+getCellTypeFromMapCellTypeInt_impl this cellTypeId = do
+        (BasicGeographicMap.getCellTypeFromMapCellTypeInt_super this.base cellTypeId)
+
+
+-- throws Exception
+getCellTypeAt :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (GeographicMapCellType.GeographicMapCellType)
+getCellTypeAt object_ a1 = jmethod object_ "getCellTypeAt" (\() -> (getCellTypeAt_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) () a1
+
+getCellTypeAt_super :: (JavaObjectClass this_) => this_ -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (GeographicMapCellType.GeographicMapCellType)
+getCellTypeAt_super object_ a1 = (getCellTypeAt_impl (javaCast object_ :: BaseRaceTrackGeographicMap)) a1
+
+getCellTypeAt_impl :: BaseRaceTrackGeographicMap -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (GeographicMapCellType.GeographicMapCellType)
+getCellTypeAt_impl this cellPosition = do
+        (BasicGeographicMap.getCellTypeAt_super this.base cellPosition)
+
+
+getForegroundBasicColor :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getForegroundBasicColor object_ = jmethod object_ "getForegroundBasicColor" (\() -> (getForegroundBasicColor_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+getForegroundBasicColor_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getForegroundBasicColor_super object_ = (getForegroundBasicColor_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+getForegroundBasicColor_impl :: BaseRaceTrackGeographicMap -> IO (BasicColor.BasicColor)
+getForegroundBasicColor_impl this = do
+        (BasicGeographicMap.getForegroundBasicColor_super this.base)
+
+
+getBackgroundBasicColor :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBackgroundBasicColor object_ = jmethod object_ "getBackgroundBasicColor" (\() -> (getBackgroundBasicColor_impl (javaCast object_ :: BaseRaceTrackGeographicMap))) ()
+
+getBackgroundBasicColor_super :: (JavaObjectClass this_) => this_ -> IO (BasicColor.BasicColor)
+getBackgroundBasicColor_super object_ = (getBackgroundBasicColor_impl (javaCast object_ :: BaseRaceTrackGeographicMap))
+
+getBackgroundBasicColor_impl :: BaseRaceTrackGeographicMap -> IO (BasicColor.BasicColor)
+getBackgroundBasicColor_impl this = do
+        (BasicGeographicMap.getBackgroundBasicColor_super this.base)
 
 

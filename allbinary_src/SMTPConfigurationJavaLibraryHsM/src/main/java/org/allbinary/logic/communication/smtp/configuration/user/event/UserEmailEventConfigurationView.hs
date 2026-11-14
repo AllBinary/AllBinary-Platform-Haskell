@@ -19,10 +19,10 @@ module UserEmailEventConfigurationView where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass UserEmailEventConfigurationView where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO UserEmailEventConfigurationView
 newRecord_ = do
     header_ <- newJavaHeader
@@ -83,14 +86,28 @@ initFields_ this = do
     jset this.userEmailEventConfigurationInterface (javaNull)
     pure ()
 
-new_1 :: Node.Node -> IO UserEmailEventConfigurationView
-new_1 node = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO UserEmailEventConfigurationView
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = new_1_overload1 (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface) = new_1_overload2 (javaCast a1 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface)
+    | otherwise = new_1_overload2 (javaCast a1 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface)
+
+init_1 :: (JavaObjectClass o1) => UserEmailEventConfigurationView -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: Node.Node) = init_1_overload1 this (javaCast a1 :: Node.Node)
+    | jisInstanceOf a1 (javaNull :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface) = init_1_overload2 this (javaCast a1 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface)
+    | otherwise = init_1_overload2 this (javaCast a1 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface)
+
+
+new_1_overload1 :: Node.Node -> IO UserEmailEventConfigurationView
+new_1_overload1 node = do
     this <- newRecord_
-    init_1 this node
+    init_1_overload1 this node
     pure this
 
-init_1 :: UserEmailEventConfigurationView -> Node.Node -> IO ()
-init_1 this node = do
+init_1_overload1 :: UserEmailEventConfigurationView -> Node.Node -> IO ()
+init_1_overload1 this node = do
         initFields_ this
         childNodeList <- (Node.getChildNodes node)
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
@@ -101,15 +118,14 @@ init_1 this node = do
         Control.Monad.void (UserEmailEventConfigurationView.setUserEmailEventConfigurationInterface this (javaCast (jio (UserEmailEventConfiguration.new_1 hashMap)) :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface -> IO UserEmailEventConfigurationView
-new_1 userEmailEventConfigurationInterface = do
+new_1_overload2 :: UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface -> IO UserEmailEventConfigurationView
+new_1_overload2 userEmailEventConfigurationInterface = do
     this <- newRecord_
-    init_1 this userEmailEventConfigurationInterface
+    init_1_overload2 this userEmailEventConfigurationInterface
     pure this
 
-init_1 :: UserEmailEventConfigurationView -> UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface -> IO ()
-init_1 this userEmailEventConfigurationInterface = do
+init_1_overload2 :: UserEmailEventConfigurationView -> UserEmailEventConfigurationInterface.UserEmailEventConfigurationInterface -> IO ()
+init_1_overload2 this userEmailEventConfigurationInterface = do
         initFields_ this
         Control.Monad.void (UserEmailEventConfigurationView.setUserEmailEventConfigurationInterface this userEmailEventConfigurationInterface)
         pure ()

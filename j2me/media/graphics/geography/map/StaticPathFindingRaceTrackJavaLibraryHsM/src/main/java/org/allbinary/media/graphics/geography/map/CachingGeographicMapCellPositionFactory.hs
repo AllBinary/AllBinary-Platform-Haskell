@@ -20,10 +20,10 @@ import BasicGeographicMapCellPositionFactory hiding (new_, init_, newRecord_, in
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -99,7 +99,7 @@ createInstance_impl this i_column i_row width height = do
         cellPositionKey <- (CellPosition.toStringColRow i_column i_row)
         cellPositionCanBeNull <- newIORef =<< (ABHashtable.get hashtable cellPositionKey)
         when ((jget cellPositionCanBeNull) == javaNull) $ do
-            assignedValue <- (GeographicMapCellPositionFactoryInterface.getInstance ((jget (this).base.geographicMapCellPositionFactoryInterface)) (jget (this).base.geographicMapInterface) i_column i_row (jio (BasicGeographicMapCellPositionFactory.getColumns this)) (jio (BasicGeographicMapCellPositionFactory.getRows this)) width height)
+            assignedValue <- (fmap jtoObject (GeographicMapCellPositionFactoryInterface.getInstance ((jget (this).base.geographicMapCellPositionFactoryInterface)) (jget (this).base.geographicMapInterface) i_column i_row (jio (BasicGeographicMapCellPositionFactory.getColumns this)) (jio (BasicGeographicMapCellPositionFactory.getRows this)) width height))
             jset cellPositionCanBeNull (assignedValue)
             jsetIndex ((jindex ((jget (this).base.geographicMapCellPositionArray)) (i_row))) (i_column) ((javaCast (jget cellPositionCanBeNull) :: GeographicMapCellPosition.GeographicMapCellPosition))
             Control.Monad.void (ABHashtable.put hashtable cellPositionKey (jget cellPositionCanBeNull))

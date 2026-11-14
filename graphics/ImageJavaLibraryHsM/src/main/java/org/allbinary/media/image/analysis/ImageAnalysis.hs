@@ -19,10 +19,10 @@ module ImageAnalysis where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,9 @@ import qualified ColorRangeInterface -- same package or java.lang
 import qualified Color -- same package or java.lang
 import qualified ColorAverage -- same package or java.lang
 import qualified ImageColorResults -- same package or java.lang
+import qualified AutomaticCacheInterface -- same package or java.lang
+import qualified ImageColorRangeResults -- same package or java.lang
+import qualified ColorRange -- same package or java.lang
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified ColorCacheFactory -- org.allbinary.graphics.color.ColorCacheFactory
 import qualified ColorCacheable -- org.allbinary.graphics.color.ColorCacheable
@@ -62,11 +65,15 @@ instance JavaObjectClass ImageAnalysis where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageAnalysis
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageAnalysis
 newRecord_ = do
@@ -134,14 +141,17 @@ process_overload2 bufferedImage colorRangeInterface = do
         blueTotal <- newIORef (0)
         forM_ [0 .. (jio (BufferedImage.getHeight bufferedImage)) - 1] $ \indexY -> javaIteration (pure ()) $ do
             forM_ [0 .. (jio (BufferedImage.getWidth bufferedImage)) - 1] $ \indexX -> javaIteration (pure ()) $ do
-                let keyInteger = (javaToString (jio (BufferedImage.getRGB bufferedImage indexX indexY)))
+                let keyInteger = ((jio (BufferedImage.getRGB bufferedImage indexX indexY)))
                 let colorCacheable = (javaCast (jio (AutomaticCacheInterface.get ((jio (ColorCacheFactory.getInstance))) keyInteger)) :: ColorCacheable.ColorCacheable)
                 color <- (ColorCacheable.getColor colorCacheable)
                 Control.Monad.void (ImageAnalysis.processColorRangeResults imageAnalysisResults colorRangeInterface color)
                 Control.Monad.void (ImageAnalysis.processImageColorResults (jio (ImageAnalysisResults.getImageColorResults imageAnalysisResults)) colorRangeInterface color)
-                jset redTotal (((jget redTotal) + (Color.getRed color)))
-                jset greenTotal (((jget greenTotal) + (Color.getGreen color)))
-                jset blueTotal (((jget blueTotal) + (Color.getBlue color)))
+                assignedValue <- (Color.getRed color)
+                jset redTotal (((jget redTotal) + assignedValue))
+                assignedValue <- (Color.getGreen color)
+                jset greenTotal (((jget greenTotal) + assignedValue))
+                assignedValue <- (Color.getBlue color)
+                jset blueTotal (((jget blueTotal) + assignedValue))
         totalPixels <- (ImageColorRangeResults.getTotalPixelsChecked ((jio (ImageAnalysisResults.getImageColorRangeResults imageAnalysisResults))))
         colorAverage <- (ImageColorResults.getColorAverage ((jio (ImageAnalysisResults.getImageColorResults imageAnalysisResults))))
         Control.Monad.void (ColorAverage.setAvgRed colorAverage ((Prelude.fromIntegral (jget redTotal)) / (Prelude.fromIntegral totalPixels)))

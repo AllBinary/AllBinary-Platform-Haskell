@@ -20,10 +20,10 @@ import AdvancedRTSGameLayer hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,9 +40,19 @@ import qualified ShakeAnimationListener -- same package or java.lang
 import qualified AllBinaryVibrationME -- same package or java.lang
 import qualified TimeDelayHelper -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified WaypointEventHandler -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
+import qualified GameInputProcessor -- same package or java.lang
+import qualified Angle -- same package or java.lang
+import qualified CapitalEventHandler -- same package or java.lang
 import qualified TickableInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
+import qualified RTSLayer -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
@@ -205,11 +215,14 @@ instance JavaObjectClass UnitLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+partialPositionList :: BasicArrayList.BasicArrayList
 {-# NOINLINE partialPositionList #-}
 partialPositionList = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListS.new_1 4)))
 
+sENSOR_RANGE_MULTIPLIER :: Int
 sENSOR_RANGE_MULTIPLIER = 6
 
+mOVE :: String
 mOVE = "Moving"
 
 newRecord_ :: IO UnitLayer
@@ -350,7 +363,7 @@ new_25 remoteInfo parentLayer advancedRTSProperties groupInterface rootName name
 
 init_25 :: UnitLayer -> RemoteInfo.RemoteInfo -> PathFindingLayerInterface.PathFindingLayerInterface -> AdvancedRTSProperties.AdvancedRTSProperties -> JavaArray (Group.Group) -> String -> String -> VehicleProperties.VehicleProperties -> Health.Health -> Int -> Sound.Sound -> LayerInterfaceFactoryInterface.LayerInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Direction.Direction -> Int -> Int -> Int -> ViewPositionBase.ViewPositionBase -> IO ()
 init_25 this remoteInfo parentLayer advancedRTSProperties groupInterface rootName name vehicleProperties healthInterface maxResourceLoad moveSoundInterface waypointLayerInterfaceFactoryInterface animationInterfaceFactoryInterface emptyAnimationInterfaceFactoryInterface baseAnimationInterfaceFactoryInterface buildAnimationInterfaceFactoryInterface verticleBuildAnimationInterfaceFactoryInterface decalAnimationInterfaceFactoryInterface resourceAnimationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle direction x y z viewPosition = do
-        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (jio (WaypointRTSFormInput.new_2 groupInterface True)) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (viewPosition)
+        AdvancedRTSGameLayer.init_18 this.base (remoteInfo) (parentLayer) (advancedRTSProperties) (groupInterface) (rootName) (name) (healthInterface) (javaCast (jio (WaypointRTSFormInput.new_2 groupInterface True))) (animationInterfaceFactoryInterface) (emptyAnimationInterfaceFactoryInterface) (baseAnimationInterfaceFactoryInterface) (buildAnimationInterfaceFactoryInterface) (verticleBuildAnimationInterfaceFactoryInterface) (proceduralAnimationInterfaceFactoryInterface) (rectangle) (x) (y) (viewPosition)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AdvancedRTSGameLayer.setCollidableInferface this (javaCast (jio (CollidableUnitBehavior.new_1 True))))
@@ -358,16 +371,16 @@ init_25 this remoteInfo parentLayer advancedRTSProperties groupInterface rootNam
         jset (this).maxResourceLoad ((Prelude.fromIntegral maxResourceLoad))
         jset (this).moveSoundInterface (moveSoundInterface)
         if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).dAMAGE_FLOATERS)))) then do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 this))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: DamageFloaters.DamageFloaters) (PtsDamageFloaters.new_1 (javaCast this)))
             jset (this).damageFloaters (assignedValue)
-            jset (this).damageFloatersPaintableInterface ((jget (this).damageFloaters))
+            jset (this).damageFloatersPaintableInterface ((javaCast (jget (this).damageFloaters) :: Paintable.Paintable))
         else do
             assignedValue <- (NullPaintable.getInstance)
             jset (this).damageFloatersPaintableInterface (assignedValue)
             assignedValue <- (DamageFloaters.new_)
             jset (this).damageFloaters (assignedValue)
         if (jio (Features.isFeature ((jio (Features.getInstance))) (javaCast (jget ((jio (GameFeatureFactory.getInstance))).hEALTH_BARS)))) then do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 this (jio (AdvancedRTSGameLayer.getHealthInterface this)) (jio (HealthBarTwodAnimation.new_2 (javaCast this :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT))) (Prelude.negate 1)))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (HealthBar.new_4 (javaCast this) (jio (AdvancedRTSGameLayer.getHealthInterface this)) (javaCast (jio (HealthBarTwodAnimation.new_2 (javaCast this :: AllBinaryLayer.AllBinaryLayer) (jget ((jio (BasicHudFactory.getInstance))).bOTTOMLEFT)))) (Prelude.negate 1)))
             jset (this).healthBar (assignedValue)
         else do
             assignedValue <- (NullPaintable.getInstance)
@@ -382,7 +395,7 @@ init_25 this remoteInfo parentLayer advancedRTSProperties groupInterface rootNam
         jset (this).vehicleProperties (vehicleProperties)
         assignedValue <- (TrackingEvent.new_1 this)
         jset (this).trackingEvent (assignedValue)
-        assignedValue <- (PathAnimation.new_2 this (jio (LinePathRelativeAnimation.getInstance)))
+        assignedValue <- (PathAnimation.new_2 (javaCast this) (jio (LinePathRelativeAnimation.getInstance)))
         jset (this).initPathAnimation (assignedValue)
         pure ()
 
@@ -416,7 +429,7 @@ updateWaypointBehavior_impl this geographicMapInterface = do
         Control.Monad.void (ABHashtable.put hashtable (AllBinaryGameLayerManager.iD) (jget (this).base.base.base.base.allBinaryGameLayerManagerP))
         Control.Monad.void (AdvancedRTSGameLayer.setWaypointBehavior this (javaCast (jio (UnitWaypointBehavior2.new_2 this (javaCast (jio (LayerInterfaceFactoryInterface.getNextInstance ((jget (this).waypointLayerInterfaceFactoryInterface)) hashtable (jget (this).base.base.base.base.base.base.base.base.x) (jget (this).base.base.base.base.base.base.base.base.y) (jget (this).base.base.base.base.base.base.base.base.z))) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)))))
         features <- (Features.getInstance)
-        let waypoint = (if (jio (J2MEUtil.isHTML)) then (jio (MultipassNoCacheWaypoint.new_2 this (jio (AttackSound.getInstance)))) else (jio (NoCacheWaypoint.new_2 this (jio (AttackSound.getInstance)))))
+        let waypoint = (if (jio (J2MEUtil.isHTML)) then (jio (MultipassNoCacheWaypoint.new_2 (javaCast this) (jio (AttackSound.getInstance)))) else (jio (NoCacheWaypoint.new_2 (javaCast this) (jio (AttackSound.getInstance)))))
         Control.Monad.void (WaypointBehaviorBase.setWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior this))) waypoint)
         Control.Monad.void (AdvancedRTSGameLayer.updateWaypointBehavior_super this.base geographicMapInterface)
         Control.Monad.void (UnitLayer.initRangeHack this)
@@ -504,7 +517,7 @@ select_super object_ = (select_impl (javaCast object_ :: UnitLayer))
 
 select_impl :: UnitLayer -> IO (())
 select_impl this = do
-        jset (this).pathAnimation ((jget (this).initPathAnimation))
+        jset (this).pathAnimation ((javaCast (jget (this).initPathAnimation) :: Animation.Animation))
         Control.Monad.void (AdvancedRTSGameLayer.select_super this.base)
         pure ()
 
@@ -534,9 +547,9 @@ setSelected_impl this selected = do
         Control.Monad.void (AdvancedRTSGameLayer.setSelected_super this.base selected)
         if selected then do
             when (jget (this).base.base.debug) $ do
-                assignedValue <- (RTSLayerSelectedLogHelper.getInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: RTSLayerLogHelper.RTSLayerLogHelper) (RTSLayerSelectedLogHelper.getInstance))
                 jset (this).rtsLogHelper (assignedValue)
-            assignedValue <- (RTSLayer2SelectedLogHelper.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: RTSLayer2LogHelper.RTSLayer2LogHelper) (RTSLayer2SelectedLogHelper.getInstance))
             jset (this).base.base.rtsLayer2LogHelper (assignedValue)
         else do
             when (jget (this).base.base.debug) $ do
@@ -633,10 +646,10 @@ initRangeHack_impl this = do
         weaponProperties <- (BasicWeaponPart.getWeaponProperties basicWeaponPart)
         assignedValue <- (WeaponProperties.getRange weaponProperties)
         jset (this).weaponRange (assignedValue)
-        assignedValue <- (AdjustedCircleAnimation.createW (jget (this).weaponRange) (jget (this).weaponRange) (jio (AdvancedRTSGameLayer.getWidth this)) (jget ((jget (this).basicColorFactory)).gREEN))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AdjustedCircleAnimation.createW (jget (this).weaponRange) (jget (this).weaponRange) (jio (AdvancedRTSGameLayer.getWidth this)) (jget ((jget (this).basicColorFactory)).gREEN)))
         jset (this).base.base.initRangeAnimation (assignedValue)
         let sensorRange = ((jget (this).weaponRange) * UnitLayer.sENSOR_RANGE_MULTIPLIER)
-        assignedValue <- (AdjustedCircleAnimation.createW sensorRange sensorRange (jio (AdvancedRTSGameLayer.getWidth this)) (jget ((jget (this).basicColorFactory)).rED))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: Animation.Animation) (AdjustedCircleAnimation.createW sensorRange sensorRange (jio (AdvancedRTSGameLayer.getWidth this)) (jget ((jget (this).basicColorFactory)).rED)))
         jset (this).base.base.initSensorRangeAnimation (assignedValue)
         Control.Monad.void (UnitWaypointBehavior.initRange ((jio (UnitLayer.getUnitWaypointBehavior this))) (jget (this).weaponRange))
         jset ((jget (this).base.base.fireTimeHelper)).delay (((Prelude.fromIntegral (jio (WeaponProperties.getReloadTime weaponProperties)))))
@@ -701,7 +714,7 @@ getCurrentGeographicMapCellPosition_impl this = do
         geographicMapCellPosition <- (BasicGeographicMap.getCellPositionAtXY geographicMapInterface ((jget (this).base.base.base.base.base.base.base.base.x) + (jio (AdvancedRTSGameLayer.getHalfWidth this))) ((jget (this).base.base.base.base.base.base.base.base.y) + (jio (AdvancedRTSGameLayer.getHalfHeight this))))
         let raceTrackGeographicMap = (javaCast geographicMapInterface :: RaceTrackGeographicMap.RaceTrackGeographicMap)
         when (Prelude.not (jio (RaceTrackGeographicMap.isValid raceTrackGeographicMap geographicMapCellPosition))) $ do
-            javaThrow ((JavaException "Exception" ("Position is not really on the map: " ++ javaToString geographicMapCellPosition)))
+            javaThrow ((JavaException "Exception" ("Position is not really on the map: " ++ jconcatObject GeographicMapCellPosition.toString geographicMapCellPosition)))
         pure (geographicMapCellPosition)
 
 
@@ -787,16 +800,16 @@ initInputProcessors_super object_ = (initInputProcessors_impl (javaCast object_ 
 
 initInputProcessors_impl :: UnitLayer -> IO (())
 initInputProcessors_impl this = do
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialRightGameInputProcessor.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialRightGameInputProcessor.new_1 (javaCast this)))
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.rIGHT) (assignedValue)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialLeftGameInputProcessor.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialLeftGameInputProcessor.new_1 (javaCast this)))
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.lEFT) (assignedValue)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialFireGameInputProcessor.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialFireGameInputProcessor.new_1 (javaCast this)))
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.kEY_NUM0) (assignedValue)
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.kEY_POUND) ((jindex ((jget (this).base.base.inputProcessorArray)) (Canvas.kEY_NUM0)))
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialDownGameInputProcessor.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialDownGameInputProcessor.new_1 (javaCast this)))
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.dOWN) (assignedValue)
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialUpGameInputProcessor.new_1 this))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: GameInputProcessor.GameInputProcessor) (SpecialUpGameInputProcessor.new_1 (javaCast this)))
         jsetIndex ((jget (this).base.base.inputProcessorArray)) (Canvas.uP) (assignedValue)
         Control.Monad.void (AdvancedRTSGameLayer.initInputProcessors_super this.base)
         pure ()
@@ -816,7 +829,7 @@ processInput_impl this layerManager = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             anyType <- (BasicArrayList.get list index)
             key <- (GameKeyEventUtil.getKey anyType)
-            Control.Monad.void (processEvent ((jindex ((jget (this).base.base.inputProcessorArray)) (key))) layerManager (GameKeyEvent.nONE))
+            Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).base.base.inputProcessorArray)) (key))) layerManager (GameKeyEvent.nONE))
         Control.Monad.void (BasicArrayList.clear list)
         Control.Monad.void (UnitLayer.groundFriction this)
         Control.Monad.void (UnitLayer.move this)
@@ -831,7 +844,7 @@ accelerate_super object_ a1 = (accelerate_impl (javaCast object_ :: UnitLayer)) 
 
 accelerate_impl :: UnitLayer -> BasicDecimal.BasicDecimal -> IO (())
 accelerate_impl this accelerate = do
-        Control.Monad.void (VelocityProperties.addVelocityi ((jio (VehicleProperties.getVelocityProperties ((jio (UnitLayer.getVehicleProperties this)))))) (jio (BasicDecimal.getUnscaled accelerate)) (Prelude.fromInteger (jnumericInteger (jio (RotationAnimation.getAngle ((jio (RotationAnimation.getAngleInfoP ((jget (this).rotationAnimationInterfaceP))))))))) 90)
+        Control.Monad.void (VelocityProperties.addVelocityi ((jio (VehicleProperties.getVelocityProperties ((jio (UnitLayer.getVehicleProperties this)))))) (jio (BasicDecimal.getUnscaled accelerate)) (Prelude.fromIntegral (jio (AngleInfo.getAngle ((jio (RotationAnimation.getAngleInfoP ((jget (this).rotationAnimationInterfaceP)))))))) 90)
         pure ()
 
 
@@ -1276,7 +1289,7 @@ setLoad_super object_ a1 = (setLoad_impl (javaCast object_ :: UnitLayer)) a1
 setLoad_impl :: UnitLayer -> Int -> IO (())
 setLoad_impl this resource = do
         if (resource > 0) then do
-            jset (this).resourceAnimation ((jget (this).initResourceAnimation))
+            jset (this).resourceAnimation ((javaCast (jget (this).initResourceAnimation) :: IndexedAnimation.IndexedAnimation))
         else do
             Control.Monad.void (UnitLayer.clearResourceAnimation this)
         jset (this).resourceLoad (resource)
@@ -1345,7 +1358,7 @@ getType_super object_ = (getType_impl (javaCast object_ :: UnitLayer))
 
 getType_impl :: UnitLayer -> IO (Int)
 getType_impl this = do
-        (UnitLayer.getStaticType)
+        pure (1)
 
 
 getStaticType :: IO (Int)

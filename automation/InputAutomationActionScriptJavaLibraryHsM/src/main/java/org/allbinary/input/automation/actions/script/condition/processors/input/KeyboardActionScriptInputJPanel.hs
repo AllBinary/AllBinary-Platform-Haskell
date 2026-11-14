@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -48,6 +48,8 @@ import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
 import qualified Insets -- same package or java.lang
 import qualified GroupLayout -- same package or java.lang
+import qualified InputRobotInterface -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified KeySingletonFactory -- org.allbinary.input.KeySingletonFactory
 import qualified InputRobot -- org.allbinary.input.automation.robot.InputRobot
 import qualified InputRobotFactory -- org.allbinary.input.automation.robot.InputRobotFactory
@@ -226,7 +228,7 @@ set_super object_ = (set_impl (javaCast object_ :: KeyboardActionScriptInputJPan
 set_impl :: KeyboardActionScriptInputJPanel -> IO (())
 set_impl this = do
         inputTypeComboBoxModel <- (JComboBox.getModel ((jget (this).inputAutomationTypeJComboBox)))
-        Control.Monad.void (ComboBoxModel.setSelectedItem inputTypeComboBoxModel (jio (KeyboardActionScriptInputInterface.getName ((jio (KeyboardActionScriptInputInterface.getInputRobotInterface ((jget (this).keyActionScriptInputInterface))))))))
+        Control.Monad.void (ComboBoxModel.setSelectedItem inputTypeComboBoxModel (jio (InputRobotInterface.getName ((jio (KeyboardActionScriptInputInterface.getInputRobotInterface ((jget (this).keyActionScriptInputInterface))))))))
         Control.Monad.void (JTextField.setText ((jget (this).textJTextField)) (jio (KeyboardActionScriptInputInterface.getText ((jget (this).keyActionScriptInputInterface)))))
         Control.Monad.void (JTextField.setText ((jget (this).delayJTextField)) (javaToString (jio (KeyboardActionScriptInputInterface.getDelayBetweenKeys ((jget (this).keyActionScriptInputInterface))))))
         Control.Monad.void (JTextField.setText ((jget (this).timeJTextField)) (javaToString (jio (KeyboardActionScriptInputInterface.getTime ((jget (this).keyActionScriptInputInterface))))))
@@ -246,7 +248,7 @@ updateInputType_impl this = do
         comboBoxModel <- (JComboBox.getModel ((jget (this).inputAutomationTypeJComboBox)))
         let selectedItem = (javaCast (jio (ComboBoxModel.getSelectedItem comboBoxModel)) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) selectedItem))) $ do
-            Control.Monad.void (KeyboardActionScriptInputInterface.setInputRobotInterface ((jget (this).keyActionScriptInputInterface)) (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) selectedItem)))
+            Control.Monad.void (KeyboardActionScriptInputInterface.setInputRobotInterface ((jget (this).keyActionScriptInputInterface)) (javaCast (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) selectedItem))))
         pure ()
 
 
@@ -290,7 +292,7 @@ update_impl :: KeyboardActionScriptInputJPanel -> IO (())
 update_impl this = do
         Control.Monad.void (KeyboardActionScriptInputJPanel.updateInputType this)
         Control.Monad.void (KeyboardActionScriptInputJPanel.updateKeys this)
-        Control.Monad.void (KeyboardActionScriptInputInterface.setTime ((jget (this).keyActionScriptInputInterface)) (javaToString (jio (JTextField.getText ((jget (this).timeJTextField))))))
+        Control.Monad.void (KeyboardActionScriptInputInterface.setTime ((jget (this).keyActionScriptInputInterface)) ((jio (JTextField.getText ((jget (this).timeJTextField))))))
         Control.Monad.void (KeyboardActionScriptInputInterface.log ((jget (this).keyActionScriptInputInterface)))
         pure ()
 

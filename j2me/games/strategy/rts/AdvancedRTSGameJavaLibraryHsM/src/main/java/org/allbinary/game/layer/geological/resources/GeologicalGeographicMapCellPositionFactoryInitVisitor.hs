@@ -19,10 +19,10 @@ module GeologicalGeographicMapCellPositionFactoryInitVisitor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GeologicalGeographicMapCellPosition -- same package or java.lang
+import qualified GeologicalResource -- same package or java.lang
 import qualified AllBinaryTiledLayer -- org.allbinary.game.layer.AllBinaryTiledLayer
 import qualified GeographicMapCellPosition -- org.allbinary.media.graphics.geography.map.GeographicMapCellPosition
 import qualified GeographicMapCellPositionFactoryInitVisitorInterface -- org.allbinary.media.graphics.geography.map.GeographicMapCellPositionFactoryInitVisitorInterface
@@ -56,6 +57,9 @@ instance JavaObjectClass GeologicalGeographicMapCellPositionFactoryInitVisitor w
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GeologicalGeographicMapCellPositionFactoryInitVisitor
 newRecord_ = do

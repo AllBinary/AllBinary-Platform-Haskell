@@ -20,10 +20,10 @@ import CustomTagSupport hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -289,7 +289,7 @@ isRoleValid_impl this = do
             addressHelperClass <- (jobjectGetClass anyType)
             let methodParams = (jarrayFromList [(jio (jobjectGetClass (jget (this).userName))), (jio (jobjectGetClass (jget (this).password))), (jio (jobjectGetClass (jget (this).roles)))])
             method <- (Class.getMethod addressHelperClass "isRoleValid" methodParams)
-            let methodArgs = (jarrayFromList [(jget (this).userName), (jget (this).password), (jget (this).roles)])
+            let methodArgs = (jarrayFromList [(jtoObject (jget (this).userName)), (jtoObject (jget (this).password)), (jtoObject (jget (this).roles))])
             let resultBoolean = (javaCast (jio (Method.invoke method anyType methodArgs)) :: Bool)
             pure (resultBoolean)
 
@@ -348,7 +348,7 @@ isAuthenticationSessionValid_impl this = do
             addressHelperClass <- (jobjectGetClass anyType)
             let methodParams = (jarrayFromList [(jio (jobjectGetClass (jget (this).roles)))])
             method <- (Class.getMethod addressHelperClass "isAuthenticationSessionValid" methodParams)
-            let methodArgs = (jarrayFromList [(jget (this).roles)])
+            let methodArgs = (jarrayFromList [(jtoObject (jget (this).roles))])
             let resultBoolean = (javaCast (jio (Method.invoke method anyType methodArgs)) :: Bool)
             pure (resultBoolean)
 
@@ -369,7 +369,7 @@ processIfNewLogin_impl this = do
             helperClass <- (jobjectGetClass anyType)
             let methodParams = (jarrayFromList [(jio (jobjectGetClass (jget (this).userName))), (jio (jobjectGetClass (jget (this).password)))])
             method <- (Class.getMethod helperClass "processIfNewLogin" methodParams)
-            let methodArgs = (jarrayFromList [(jget (this).userName), (jget (this).password)])
+            let methodArgs = (jarrayFromList [(jtoObject (jget (this).userName)), (jtoObject (jget (this).password))])
             let resultBoolean = (javaCast (jio (Method.invoke method anyType methodArgs)) :: Bool)
             pure (resultBoolean)
 
@@ -415,7 +415,7 @@ doStartTag_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (HttpServletRequest.getRequestURI request)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget ((jget this.base.tagStrings)).dO_START_TAG))
             when ((jget (this).command) /= javaNull) $ do
-                assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
                 jset (this).propertiesHashMap (assignedValue)
                 if ((Prelude.fromEnum (Prelude.compare (jget (this).command) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).nEWPASSWORD)) - 1) == 0) then do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do

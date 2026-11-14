@@ -20,10 +20,10 @@ import GameCommandCanvas hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,6 +39,7 @@ import qualified RepaintBehavior -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -90,11 +91,14 @@ instance JavaObjectClass GameInputMappingCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "GameInputMappingCanvas"
 
+dISPLAY :: Command.Command
 {-# NOINLINE dISPLAY #-}
 dISPLAY = unsafePerformIO ((Command.new_4 "Controls" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 2))
 
+dEFAULT :: Command.Command
 {-# NOINLINE dEFAULT #-}
 dEFAULT = unsafePerformIO ((Command.new_4 "Default" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 2))
 
@@ -164,7 +168,7 @@ init_4 this abeClientInformation commandListener allBinaryGameLayerManager helpP
         jset (this).inputMapping (assignedValue)
         assignedValue <- (ProcessPaintable.new_)
         jset (this).paintable (assignedValue)
-        assignedValue <- (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: ColorFillBasePaintable.ColorFillBasePaintable) (ColorFillPaintableFactory.getInstance_2 ((jio (ColorFillPaintableFactory.getInstance))) (jio (AllBinaryGameLayerManager.getBackgroundBasicColor allBinaryGameLayerManager)) False))
         jset (this).colorFillPaintable (assignedValue)
         pure ()
 
@@ -181,7 +185,7 @@ close_impl this = do
         Control.Monad.void (GameCommandCanvas.close_super this.base)
         Control.Monad.void (ProcessPaintable.process ((jget (this).paintable)))
         jset (this).selectedGameKey ((jget (this).nONE))
-        jset (this).selectedInput ((jget (this).nONE))
+        jset (this).selectedInput ((javaCast (jget (this).nONE) :: Input.Input))
         Control.Monad.void (GameInputMappingCanvas.update this)
         pure ()
 
@@ -301,7 +305,7 @@ setSelectedAction_impl :: GameInputMappingCanvas -> GameKey.GameKey -> IO (())
 setSelectedAction_impl this gameKey = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Selected GameKey: "))) (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) gameKey))))))) this "setSelectedAction")
         jset (this).selectedGameKey (gameKey)
-        jset (this).selectedInput ((jget (this).nONE))
+        jset (this).selectedInput ((javaCast (jget (this).nONE) :: Input.Input))
         Control.Monad.void (InputMappingHelpPaintable.update ((jget (this).helpPaintable)) (jget (this).selectedGameKey) (jget (this).selectedInput))
         Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.repaintBehavior)) (javaCast this))
         pure ()
@@ -387,7 +391,7 @@ deleteCurrentMapping_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jget (this).base.base.stringUtil)) (jget (this).selectedInput))))
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString stringBuffer)) this mETHOD_NAME)
             Control.Monad.void (InputToGameKeyMapping.remove ((jio (PersistentInputMapping.getInputMapping ((jget (this).inputMapping))))) (javaCast (jget (this).selectedGameKey)) (jget (this).selectedInput))
-            jset (this).selectedInput ((jget (this).nONE))
+            jset (this).selectedInput ((javaCast (jget (this).nONE) :: Input.Input))
             Control.Monad.void (GameInputMappingCanvas.update this)
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) "Can't Remove Last Key Mapping" this mETHOD_NAME)

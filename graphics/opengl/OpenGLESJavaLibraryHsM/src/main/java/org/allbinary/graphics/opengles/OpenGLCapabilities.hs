@@ -19,10 +19,10 @@ module OpenGLCapabilities where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -97,6 +97,7 @@ instance JavaObjectClass OpenGLCapabilities where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: OpenGLCapabilities
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -258,7 +259,8 @@ initCapabilities_impl this gl = do
                     let startIndex = (jstringLastIndexOf (jget (this).glShaderVersionString) ' ')
                     when (startIndex >= 0) $ do
                         jset (this).glShaderVersionString ((Prelude.drop (startIndex + 1) (jget (this).glShaderVersionString)))
-                    jset (this).shaderVersion ((Prelude.read (jstringReplace (jget (this).glShaderVersionString) (jget ((jio (CommonSeps.getInstance))).pERIOD) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))))
+                    assignedValue <- (jparseInt (jstringReplace (jget (this).glShaderVersionString) (jget ((jio (CommonSeps.getInstance))).pERIOD) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))
+                    jset (this).shaderVersion (assignedValue)
             assignedValue <- (GL10.glGetString gl (GL10.gL_RENDERER))
             jset (this).glRenderer (assignedValue)
             assignedValue <- (GL10.glGetString gl (GL10.gL_VENDOR))

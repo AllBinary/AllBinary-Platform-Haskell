@@ -20,10 +20,10 @@ import RequestParams hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -84,29 +84,42 @@ initFields_ this = do
     jset this.special (False)
     pure ()
 
-new_1 :: HttpServletRequest.HttpServletRequest -> IO MultipartRequestParams
-new_1 request = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO MultipartRequestParams
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload1 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: PageContext.PageContext) = new_1_overload2 (javaCast a1 :: PageContext.PageContext)
+    | otherwise = new_1_overload2 (javaCast a1 :: PageContext.PageContext)
+
+init_1 :: (JavaObjectClass o1) => MultipartRequestParams -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload1 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: PageContext.PageContext) = init_1_overload2 this (javaCast a1 :: PageContext.PageContext)
+    | otherwise = init_1_overload2 this (javaCast a1 :: PageContext.PageContext)
+
+
+new_1_overload1 :: HttpServletRequest.HttpServletRequest -> IO MultipartRequestParams
+new_1_overload1 request = do
     this <- newRecord_
-    init_1 this request
+    init_1_overload1 this request
     pure this
 
-init_1 :: MultipartRequestParams -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this request = do
+init_1_overload1 :: MultipartRequestParams -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload1 this request = do
         RequestParams.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (MultipartRequestParams.processMultipartRequest this request)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: PageContext.PageContext -> IO MultipartRequestParams
-new_1 pageContext = do
+new_1_overload2 :: PageContext.PageContext -> IO MultipartRequestParams
+new_1_overload2 pageContext = do
     this <- newRecord_
-    init_1 this pageContext
+    init_1_overload2 this pageContext
     pure this
 
-init_1 :: MultipartRequestParams -> PageContext.PageContext -> IO ()
-init_1 this pageContext = do
+init_1_overload2 :: MultipartRequestParams -> PageContext.PageContext -> IO ()
+init_1_overload2 this pageContext = do
         RequestParams.init_ this.base
         initFields_ this
         pure () -- super(...) is in the record above

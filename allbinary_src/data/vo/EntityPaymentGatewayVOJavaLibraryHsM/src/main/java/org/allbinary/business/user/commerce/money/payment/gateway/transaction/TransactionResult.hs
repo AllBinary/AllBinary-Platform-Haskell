@@ -19,10 +19,10 @@ module TransactionResult where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -112,14 +112,28 @@ initFields_ this = do
     jset this.result (javaNull)
     pure ()
 
-new_1 :: String -> IO TransactionResult
-new_1 result = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO TransactionResult
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: String) = new_1_overload1 (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+    | otherwise = new_1_overload2 (javaCast a1 :: HashMap.HashMap)
+
+init_1 :: (JavaObjectClass o1) => TransactionResult -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: String) = init_1_overload1 this (javaCast a1 :: String)
+    | jisInstanceOf a1 (javaNull :: HashMap.HashMap) = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+    | otherwise = init_1_overload2 this (javaCast a1 :: HashMap.HashMap)
+
+
+new_1_overload1 :: String -> IO TransactionResult
+new_1_overload1 result = do
     this <- newRecord_
-    init_1 this result
+    init_1_overload1 this result
     pure this
 
-init_1 :: TransactionResult -> String -> IO ()
-init_1 this result = do
+init_1_overload1 :: TransactionResult -> String -> IO ()
+init_1_overload1 this result = do
         initFields_ this
         handle (\(e :: JavaException) -> do
             let exceptionMessage = "TransactionResult Constructor Failed"
@@ -133,15 +147,14 @@ init_1 this result = do
             Control.Monad.void (HashMap.putAll ((jget (this).keyValuePairs)) hashtable)
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: HashMap.HashMap -> IO TransactionResult
-new_1 keyValuePairs = do
+new_1_overload2 :: HashMap.HashMap -> IO TransactionResult
+new_1_overload2 keyValuePairs = do
     this <- newRecord_
-    init_1 this keyValuePairs
+    init_1_overload2 this keyValuePairs
     pure this
 
-init_1 :: TransactionResult -> HashMap.HashMap -> IO ()
-init_1 this keyValuePairs = do
+init_1_overload2 :: TransactionResult -> HashMap.HashMap -> IO ()
+init_1_overload2 this keyValuePairs = do
         initFields_ this
         keyValuePairs <- newIORef keyValuePairs
         jset keyValuePairs ((jget keyValuePairs))

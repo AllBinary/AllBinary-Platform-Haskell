@@ -19,10 +19,10 @@ module GameSkill where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,7 @@ instance JavaObjectClass GameSkill where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashMap :: IORef (HashMap.HashMap)
 {-# NOINLINE hashMap #-}
 hashMap = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance))))) >>= newIORef)
 
@@ -115,7 +116,7 @@ init_3 this gameSkillType extra time = do
         Control.Monad.void (GameSkill.setTime this time)
         assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         jset (this).vector (assignedValue)
-        Control.Monad.void (put ((jget GameSkill.hashMap)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (GameSkillType.getName ((jio (GameSkill.getGameSkillType this)))))))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) extra))))) this)
+        Control.Monad.void (HashMap.put ((jget GameSkill.hashMap)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (GameSkillType.getName ((jio (GameSkill.getGameSkillType this)))))))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) extra))))) this)
         pure ()
 
 
@@ -213,7 +214,7 @@ getProperties_impl this = do
 
 getInstance :: GameSkillType.GameSkillType -> String -> IO (GameSkill)
 getInstance gameSkillType extra = do
-        pure ((javaCast (jio (get ((jget GameSkill.hashMap)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (GameSkillType.getName gameSkillType))))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) extra))))))) :: GameSkill))
+        pure ((javaCast (jio (HashMap.get ((jget GameSkill.hashMap)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (GameSkillType.getName gameSkillType))))) (jget ((jio (CommonSeps.getInstance))).sPACE)))) extra))))))) :: GameSkill))
 
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)

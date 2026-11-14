@@ -20,10 +20,10 @@ import SelectionHudPaintable hiding (new_, init_, newRecord_, initFields_, heade
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified RTSLayer -- same package or java.lang
+import qualified WeaponProperties -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -67,6 +68,7 @@ instance JavaObjectClass RTSLayerHudPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: RTSLayerHudPaintable
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -176,7 +178,7 @@ setRtsLayer_super object_ a1 = (setRtsLayer_impl (javaCast object_ :: RTSLayerHu
 
 setRtsLayer_impl :: RTSLayerHudPaintable -> RTSLayer.RTSLayer -> IO (())
 setRtsLayer_impl this rtsLayer = do
-        jset (this).rtsLayer (rtsLayer)
+        jset (this).rtsLayer ((javaCast rtsLayer :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer))
         pure ()
 
 

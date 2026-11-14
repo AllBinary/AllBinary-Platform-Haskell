@@ -19,10 +19,10 @@ module PickupBehavior where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -39,6 +39,7 @@ import qualified PickedUpLayerTypeFactory -- same package or java.lang
 import qualified CountedPickedUpLayerInterfaceFactoryInterface -- same package or java.lang
 import qualified PickedUpLayerInterface -- same package or java.lang
 import qualified CountedPickedUpLayerInterfaceFactory -- same package or java.lang
+import qualified Health -- same package or java.lang
 import qualified HealthInterfaceCompositeInterface -- org.allbinary.game.health.HealthInterfaceCompositeInterface
 import qualified CollidableCompositeLayer -- org.allbinary.game.layer.CollidableCompositeLayer
 import qualified CollidableDestroyableDamageableLayer -- org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer
@@ -77,6 +78,9 @@ nULL_PICKUP_BEHAVIOR = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInsta
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO PickupBehavior
 newRecord_ = do
     header_ <- newJavaHeader
@@ -106,7 +110,7 @@ initFields_ this = do
 getNullInstance :: IO (PickupBehavior)
 getNullInstance = do
         when ((jget PickupBehavior.nULL_PICKUP_BEHAVIOR) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_2 (jio (CollidableCompositeLayer.getNullInstance)) 0)
+            assignedValue <- (fmap jtoObject (new_2 (jio (CollidableCompositeLayer.getNullInstance)) 0))
             jset PickupBehavior.nULL_PICKUP_BEHAVIOR (assignedValue)
         pure ((javaCast (jget PickupBehavior.nULL_PICKUP_BEHAVIOR) :: PickupBehavior))
 
@@ -137,8 +141,8 @@ doPickup_impl this pickupProcessorInterface = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "doPickup" e)
             ) $ do
             let healthInterfaceCompositeInterface = (javaCast (jget (this).ownerLayerInterface) :: HealthInterfaceCompositeInterface.HealthInterfaceCompositeInterface)
-            when (jio (HealthInterfaceCompositeInterface.isAlive ((jio (HealthInterfaceCompositeInterface.getHealthInterface healthInterfaceCompositeInterface))))) $ do
-                Control.Monad.void (PickupProcessorInterface.process pickupProcessorInterface (jget (this).ownerLayerInterface))
+            when (jio (Health.isAlive ((jio (HealthInterfaceCompositeInterface.getHealthInterface healthInterfaceCompositeInterface))))) $ do
+                Control.Monad.void (PickupProcessorInterface.process pickupProcessorInterface (javaCast (jget (this).ownerLayerInterface)))
         pure ()
 
 

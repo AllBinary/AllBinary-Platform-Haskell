@@ -19,10 +19,10 @@ module XmlRpcAbeClient where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -84,11 +84,15 @@ instance JavaObjectClass XmlRpcAbeClient where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+isOnline :: IORef (Bool)
 {-# NOINLINE isOnline #-}
 isOnline = unsafePerformIO (newIORef (True))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO XmlRpcAbeClient
 newRecord_ = do
@@ -253,7 +257,7 @@ setClient_super object_ a1 = (setClient_impl (javaCast object_ :: XmlRpcAbeClien
 
 setClient_impl :: XmlRpcAbeClient -> XmlRpcClient.XmlRpcClient -> IO (())
 setClient_impl this client = do
-        jset (this).client (client)
+        jset (this).client ((javaCast client :: XmlRpcHandler.XmlRpcHandler))
         pure ()
 
 

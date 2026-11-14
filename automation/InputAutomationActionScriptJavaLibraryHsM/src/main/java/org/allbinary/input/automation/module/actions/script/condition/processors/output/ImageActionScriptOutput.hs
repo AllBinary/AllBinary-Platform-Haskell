@@ -20,10 +20,10 @@ import BasicProfileActionScriptOutput hiding (new_, init_, newRecord_, initField
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,7 +36,10 @@ import qualified ImageTypes -- same package or java.lang
 import qualified ImageActionScriptOutputJPanel -- same package or java.lang
 import qualified ImageActionScriptOutputData -- same package or java.lang
 import qualified ImageActionScriptOutputProcessor -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicProfileActionScriptProcessor -- same package or java.lang
+import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified DomNodeHelper -- org.allbinary.data.tree.dom.DomNodeHelper
 import qualified DomSearchHelper -- org.allbinary.data.tree.dom.DomSearchHelper
@@ -74,6 +77,7 @@ instance JavaObjectClass ImageActionScriptOutput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Captures"
 
 newRecord_ :: IO ImageActionScriptOutput
@@ -131,10 +135,10 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ImageActionScriptOutputData.sAVE))) == 0) then do
                     booleanString <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ImageActionScriptOutput.setSaved this (booleanString))
+                    Control.Monad.void (ImageActionScriptOutput.setSaved this (Prelude.map Data.Char.toLower booleanString == "true"))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ImageActionScriptOutputData.dISPLAY))) == 0) then do
                     booleanString <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (ImageActionScriptOutput.setSaved this (booleanString))
+                    Control.Monad.void (ImageActionScriptOutput.setSaved this (Prelude.map Data.Char.toLower booleanString == "true"))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget ImageActionScriptOutputData.tYPES))) == 0) then do
                     Control.Monad.void (ImageActionScriptOutput.setImageTypes this (jio (ImageTypes.new_1 childNode)))
                 else do
@@ -142,7 +146,7 @@ init_1 this node = do
         else do
             javaThrow ((JavaException "Exception" "Action Script Output Node Null"))
         Control.Monad.void (BasicProfileActionScriptOutput.setAllowsChildren this False)
-        assignedValue <- (ImageActionScriptOutputJPanel.new_1 this)
+        assignedValue <- (ImageActionScriptOutputJPanel.new_1 (javaCast this))
         jset (this).actionScriptOutputJPanel (assignedValue)
         pure ()
 
@@ -159,7 +163,7 @@ init_ this = do
         pure () -- super(...) is in the record above
         Control.Monad.void (ImageActionScriptOutput.setImageTypes this (jio (ImageTypes.new_)))
         Control.Monad.void (BasicProfileActionScriptOutput.setAllowsChildren this False)
-        assignedValue <- (ImageActionScriptOutputJPanel.new_1 this)
+        assignedValue <- (ImageActionScriptOutputJPanel.new_1 (javaCast this))
         jset (this).actionScriptOutputJPanel (assignedValue)
         pure ()
 

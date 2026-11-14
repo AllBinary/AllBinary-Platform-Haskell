@@ -19,10 +19,10 @@ module Orientation where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,9 +54,11 @@ instance JavaObjectClass Orientation where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nONE :: IORef (Orientation)
 {-# NOINLINE nONE #-}
 nONE = unsafePerformIO ((new_3 0 0 0) >>= newIORef)
 
+sINGLETON :: IORef (Orientation)
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_3 0 0 0) >>= newIORef)
 
@@ -81,9 +83,9 @@ initFields_ this = do
 
 getInstance :: Int -> Int -> Int -> IO (Orientation)
 getInstance yaw pitch roll = do
-        Control.Monad.void (setint ((jget ((jget Orientation.sINGLETON)).yaw)) yaw)
-        Control.Monad.void (setint ((jget ((jget Orientation.sINGLETON)).pitch)) pitch)
-        Control.Monad.void (setint ((jget ((jget Orientation.sINGLETON)).roll)) roll)
+        Control.Monad.void (BasicDecimal.setint ((jget ((jget Orientation.sINGLETON)).yaw)) yaw)
+        Control.Monad.void (BasicDecimal.setint ((jget ((jget Orientation.sINGLETON)).pitch)) pitch)
+        Control.Monad.void (BasicDecimal.setint ((jget ((jget Orientation.sINGLETON)).roll)) roll)
         pure ((jget Orientation.sINGLETON))
 
 new_3 :: Int -> Int -> Int -> IO Orientation
@@ -95,9 +97,9 @@ new_3 yaw pitch roll = do
 init_3 :: Orientation -> Int -> Int -> Int -> IO ()
 init_3 this yaw pitch roll = do
         initFields_ this
-        Control.Monad.void (setint ((jget (this).yaw)) yaw)
-        Control.Monad.void (setint ((jget (this).pitch)) pitch)
-        Control.Monad.void (setint ((jget (this).roll)) roll)
+        Control.Monad.void (BasicDecimal.setint ((jget (this).yaw)) yaw)
+        Control.Monad.void (BasicDecimal.setint ((jget (this).pitch)) pitch)
+        Control.Monad.void (BasicDecimal.setint ((jget (this).roll)) roll)
         pure ()
 
 

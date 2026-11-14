@@ -20,10 +20,10 @@ import ProcessPaintable hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,7 @@ instance JavaObjectClass BufferedGameCanvasPaintHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAX_IMAGES :: Int
 mAX_IMAGES = 4
 
 newRecord_ :: IO BufferedGameCanvasPaintHelper
@@ -118,7 +119,7 @@ process_super object_ = (process_impl (javaCast object_ :: BufferedGameCanvasPai
 process_impl :: BufferedGameCanvasPaintHelper -> IO (())
 process_impl this = do
         let myCanvas = ((javaCast (jget (this).gameCanvas) :: MyCanvas.MyCanvas))
-        Control.Monad.void (MyCanvas.draw myCanvas (jio (getGraphics ((jindex ((jget (this).offScreenImage)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))))))
+        Control.Monad.void (MyCanvas.draw myCanvas (jio (Image.getGraphics ((jindex ((jget (this).offScreenImage)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))))))
         Control.Monad.void (CircularIndexUtil.next ((jget (this).circularIndexUtil)))
         Control.Monad.void (CircularIndexUtil.next ((jget (this).drawCircularIndexUtil)))
         pure ()

@@ -20,10 +20,10 @@ import ImageBaseRotationAnimation hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AlphaBaseProcessor -- same package or java.lang
 import qualified AlphaProcessor -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
+import qualified IndexedAnimation -- same package or java.lang
+import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified AnimationBehavior -- org.allbinary.animation.AnimationBehavior
@@ -144,7 +147,7 @@ getCanvasSurface_impl this image = do
         let htmlImage = (javaCast image :: PlaynMutableImage.PlaynMutableImage)
         let canvasImage = (javaCast (jio (PlaynMutableImage.getImage htmlImage)) :: CanvasImage.CanvasImage)
         canvasSurface <- (PlaynMutableImage.getCanvasSurface htmlImage canvasImage)
-        Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth ((jget (this).originalImage)))) / 2) ((jio (Image.getHeight ((jget (this).originalImage)))) / 2))
+        Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth ((jget (this).originalImage)))) `quot` 2) ((jio (Image.getHeight ((jget (this).originalImage)))) `quot` 2))
         pure (canvasSurface)
 
 
@@ -178,7 +181,7 @@ setAlpha_impl this alpha = do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setAlpha_super this.base alpha)
         when (jget changed) $ do
-            assignedValue <- (AlphaProcessor.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: AlphaBaseProcessor.AlphaBaseProcessor) (AlphaProcessor.getInstance))
             jset (this).alphaProcessor (assignedValue)
             Control.Monad.void (AllBinaryHTMLImageRotationAnimation.updateImage this)
         pure ()

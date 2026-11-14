@@ -19,10 +19,10 @@ module BasicGameResources where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,11 +59,15 @@ instance JavaObjectClass BasicGameResources where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+stringBuffer :: StringMaker.StringMaker
 {-# NOINLINE stringBuffer #-}
 stringBuffer = unsafePerformIO ((StringMaker.new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicGameResources
 newRecord_ = do
@@ -129,18 +133,18 @@ append_impl :: BasicGameResources -> String -> String -> IO (())
 append_impl this rOOT sizeString = do
         let dESTROY = "_destroy"
         string <- (BasicGameResources.getString this)
-        Control.Monad.void (delete BasicGameResources.stringBuffer 0 (jio (length BasicGameResources.stringBuffer)))
-        Control.Monad.void (append BasicGameResources.stringBuffer rOOT)
-        Control.Monad.void (append BasicGameResources.stringBuffer string)
-        Control.Monad.void (append BasicGameResources.stringBuffer sizeString)
-        assignedValue <- (toString BasicGameResources.stringBuffer)
+        Control.Monad.void (StringMaker.delete BasicGameResources.stringBuffer 0 (jio (StringMaker.length BasicGameResources.stringBuffer)))
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer rOOT)
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer string)
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer sizeString)
+        assignedValue <- (StringMaker.toString BasicGameResources.stringBuffer)
         jset (this).rESOURCE (assignedValue)
-        Control.Monad.void (delete BasicGameResources.stringBuffer 0 (jio (length BasicGameResources.stringBuffer)))
-        Control.Monad.void (append BasicGameResources.stringBuffer rOOT)
-        Control.Monad.void (append BasicGameResources.stringBuffer dESTROY)
-        Control.Monad.void (append BasicGameResources.stringBuffer string)
-        Control.Monad.void (append BasicGameResources.stringBuffer sizeString)
-        assignedValue <- (toString BasicGameResources.stringBuffer)
+        Control.Monad.void (StringMaker.delete BasicGameResources.stringBuffer 0 (jio (StringMaker.length BasicGameResources.stringBuffer)))
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer rOOT)
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer dESTROY)
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer string)
+        Control.Monad.void (StringMaker.append BasicGameResources.stringBuffer sizeString)
+        assignedValue <- (StringMaker.toString BasicGameResources.stringBuffer)
         jset (this).rESOURCE_DESTROY (assignedValue)
         pure ()
 

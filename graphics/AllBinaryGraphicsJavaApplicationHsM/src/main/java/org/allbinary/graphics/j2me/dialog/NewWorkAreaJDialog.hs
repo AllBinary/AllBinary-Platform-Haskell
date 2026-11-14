@@ -20,10 +20,10 @@ import JDialog hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -40,6 +40,7 @@ import qualified GridLayout -- same package or java.lang
 import qualified JLabel -- same package or java.lang
 import qualified WindowAdapter -- same package or java.lang
 import qualified WindowEvent -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified ActionEvent -- java.awt.event.ActionEvent
 import qualified ActionListener -- java.awt.event.ActionListener
 import qualified GraphicsException -- org.allbinary.graphics.j2me.GraphicsException
@@ -197,7 +198,7 @@ main args = do
         handle (\(e :: JavaException) -> do
             pure ()
             ) $ do
-            Control.Monad.void (NewWorkAreaJDialog.show ((jio (new_4 (jio (MyFrame.new_)) True (jio (Dimension.new_2 100 100)) "testing"))))
+            Control.Monad.void (JDialog.show ((jio (new_4 (jio (MyFrame.new_)) True (jio (Dimension.new_2 100 100)) "testing"))))
         pure ()
 
 

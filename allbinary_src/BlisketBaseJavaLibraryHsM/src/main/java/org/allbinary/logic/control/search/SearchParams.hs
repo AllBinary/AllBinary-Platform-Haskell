@@ -19,10 +19,10 @@ module SearchParams where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -67,6 +67,9 @@ instance JavaObjectClass SearchParams where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SearchParams
 newRecord_ = do
@@ -120,7 +123,7 @@ new_1 request = do
 init_1 :: SearchParams -> HttpServletRequest.HttpServletRequest -> IO ()
 init_1 this request = do
         initFields_ this
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).columnsAndSearchValues (assignedValue)
         Control.Monad.void (SearchParams.setLength this (jio (HttpServletRequest.getParameter request (SearchData.lENGTH))))
         Control.Monad.void (SearchParams.setOrder this (jio (HttpServletRequest.getParameter request (SearchData.oRDER))))
@@ -267,9 +270,9 @@ getLengthInt_impl :: SearchParams -> IO (Int)
 getLengthInt_impl this = do
     javaCatchReturn $ do
         if ((jget (this).listLength) /= javaNull) then do
-            javaReturn ((Prelude.fromIntegral ((jget (this).listLength)) :: Int))
+            javaReturn =<< (jparseInt (jget (this).listLength))
         else do
-            pure ((Prelude.fromIntegral (0) :: Int))
+            javaReturn ((Prelude.fromIntegral (0) :: Int))
 
 
 getStartPage :: (JavaObjectClass this_) => this_ -> IO (String)
@@ -304,9 +307,9 @@ getStartPageInt_impl :: SearchParams -> IO (Int)
 getStartPageInt_impl this = do
     javaCatchReturn $ do
         if ((jget (this).startPage) /= javaNull) then do
-            javaReturn ((Prelude.fromIntegral ((jget (this).startPage)) :: Int))
+            javaReturn =<< (jparseInt (jget (this).startPage))
         else do
-            pure ((Prelude.fromIntegral (0) :: Int))
+            javaReturn ((Prelude.fromIntegral (0) :: Int))
 
 
 getEndPageInt :: (JavaObjectClass this_) => this_ -> IO (Int)
@@ -319,9 +322,9 @@ getEndPageInt_impl :: SearchParams -> IO (Int)
 getEndPageInt_impl this = do
     javaCatchReturn $ do
         if ((jget (this).endPage) /= javaNull) then do
-            javaReturn ((Prelude.fromIntegral ((jget (this).endPage)) :: Int))
+            javaReturn =<< (jparseInt (jget (this).endPage))
         else do
-            pure ((Prelude.fromIntegral (0) :: Int))
+            javaReturn ((Prelude.fromIntegral (0) :: Int))
 
 
 -- throws Exception

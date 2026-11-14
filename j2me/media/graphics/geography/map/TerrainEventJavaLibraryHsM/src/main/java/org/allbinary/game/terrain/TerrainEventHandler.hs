@@ -20,10 +20,10 @@ import BasicEventHandler hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,7 @@ instance JavaObjectClass TerrainEventHandler where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashtable :: IORef (ABHashtable.ABHashtable)
 {-# NOINLINE hashtable #-}
 hashtable = unsafePerformIO (newIORef ((jget ((jio (StdUtil.getInstance))).nULL_TABLE)))
 
@@ -99,11 +100,11 @@ init = do
 getInstance :: (JavaObjectClass o1) => o1 -> IO (TerrainEventHandler)
 getInstance anyTypeObject_ = do
         let anyType = jtoObject anyTypeObject_
-        eventHandlerCanBeNull <- newIORef =<< (get ((jget TerrainEventHandler.hashtable)) anyType)
+        eventHandlerCanBeNull <- newIORef =<< (ABHashtable.get ((jget TerrainEventHandler.hashtable)) anyType)
         when ((jget eventHandlerCanBeNull) == javaNull) $ do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Any.Any) (new_))
+            assignedValue <- (fmap jtoObject (new_))
             jset eventHandlerCanBeNull (assignedValue)
-            Control.Monad.void (put ((jget TerrainEventHandler.hashtable)) anyType (jget eventHandlerCanBeNull))
+            Control.Monad.void (ABHashtable.put ((jget TerrainEventHandler.hashtable)) anyType (jget eventHandlerCanBeNull))
         pure ((javaCast (jget eventHandlerCanBeNull) :: TerrainEventHandler))
 
 new_ :: IO TerrainEventHandler

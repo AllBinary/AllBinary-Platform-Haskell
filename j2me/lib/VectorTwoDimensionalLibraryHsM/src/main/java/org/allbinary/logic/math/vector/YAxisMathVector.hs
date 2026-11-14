@@ -20,10 +20,10 @@ import MathVector hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified YAxisMathVectorUtil -- same package or java.lang
+import qualified MathVector -- same package or java.lang
 import qualified BasicDecimal -- org.allbinary.logic.math.BasicDecimal
 import qualified MathVector
 

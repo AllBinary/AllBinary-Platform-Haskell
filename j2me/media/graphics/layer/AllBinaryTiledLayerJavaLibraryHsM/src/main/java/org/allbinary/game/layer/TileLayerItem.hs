@@ -16,14 +16,14 @@
 -- package org.allbinary.game.layer
 module TileLayerItem (module TileLayerItem, module ABCustomItem) where
 
-import ABCustomItem hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setOwner, setOwner_super, setOwner_impl, getMinimumWidth, getMinimumWidth_super, getMinimumWidth_impl, getMinimumHeight, getMinimumHeight_super, getMinimumHeight_impl, getMinContentHeight, getMinContentHeight_super, getMinContentHeight_impl, getMinContentWidth, getMinContentWidth_super, getMinContentWidth_impl, getPrefContentHeight, getPrefContentHeight_super, getPrefContentHeight_impl, getPrefContentWidth, getPrefContentWidth_super, getPrefContentWidth_impl, paintXY, paintXY_super, paintXY_impl, paintUnselected, paintUnselected_super, paintUnselected_impl, tiledLayer)
+import ABCustomItem hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, setOwner, setOwner_super, setOwner_impl, getMinimumWidth, getMinimumWidth_super, getMinimumWidth_impl, getMinimumHeight, getMinimumHeight_super, getMinimumHeight_impl, getMinContentHeight, getMinContentHeight_super, getMinContentHeight_impl, getMinContentWidth, getMinContentWidth_super, getMinContentWidth_impl, getPrefContentHeight, getPrefContentHeight_super, getPrefContentHeight_impl, getPrefContentWidth, getPrefContentWidth_super, getPrefContentWidth_impl, paintXY, paintXY_super, paintXY_impl, paintUnselected, paintUnselected_super, paintUnselected_impl, getLabel, getLabel_super, getLabel_impl, tiledLayer)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -76,6 +76,7 @@ newRecord_ = do
     jregisterMethod header_ "getPrefContentWidth" (\() -> getPrefContentWidth_impl this)
     jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     jregisterMethod header_ "paintUnselected" (\() -> paintUnselected_impl this)
+    jregisterMethod header_ "getLabel" (\() -> getLabel_impl this)
     pure this
 
 initFields_ :: TileLayerItem -> IO ()
@@ -197,5 +198,16 @@ paintUnselected_super object_ a1 a2 a3 = (paintUnselected_impl (javaCast object_
 paintUnselected_impl :: TileLayerItem -> Graphics.Graphics -> Int -> Int -> IO (())
 paintUnselected_impl this graphics x y = do
         pure ()
+
+
+getLabel :: (JavaObjectClass this_) => this_ -> IO (String)
+getLabel object_ = jmethod object_ "getLabel" (\() -> (getLabel_impl (javaCast object_ :: TileLayerItem))) ()
+
+getLabel_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getLabel_super object_ = (getLabel_impl (javaCast object_ :: TileLayerItem))
+
+getLabel_impl :: TileLayerItem -> IO (String)
+getLabel_impl this = do
+        (ABCustomItem.getLabel_super this.base)
 
 

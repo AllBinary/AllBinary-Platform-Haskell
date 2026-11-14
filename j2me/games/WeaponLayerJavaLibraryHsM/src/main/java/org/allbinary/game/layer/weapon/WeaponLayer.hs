@@ -20,10 +20,10 @@ import MultiPlayerGameLayer hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,11 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CollidableWeaponBehavior -- same package or java.lang
+import qualified BasicLayerProcessor -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified GL -- javax.microedition.khronos.opengles.GL
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified Animation -- org.allbinary.animation.Animation
@@ -266,7 +271,8 @@ processTick_impl this allBinaryLayerManager = do
                 else do
                     Control.Monad.void (WeaponLayer.setDestroyed this True)
         Control.Monad.void (Movement.process ((jget (this).movement)) (javaCast this))
-        jset (this).totalDamage (((jget (this).totalDamage) + (Prelude.fromIntegral (WeaponProperties.getDissipation ((jget (this).weaponProperties))))))
+        assignedValue <- (Prelude.fromIntegral (WeaponProperties.getDissipation ((jget (this).weaponProperties))))
+        jset (this).totalDamage (((jget (this).totalDamage) + assignedValue))
         pure ()
 
 
@@ -346,7 +352,7 @@ setDestroyed_impl :: WeaponLayer -> Bool -> IO (())
 setDestroyed_impl this destroyed = do
         jset (this).destroyed (destroyed)
         when (jio (WeaponLayer.isDestroyed this)) $ do
-            assignedValue <- (NoScoreable.getInstance)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: ScoreableInterface.ScoreableInterface) (NoScoreable.getInstance))
             jset (this).scoreableInterface (assignedValue)
             Control.Monad.void (BasicLayerProcessor.add ((jio (DestroyedLayerProcessor.getInstance))) (javaCast this))
         pure ()

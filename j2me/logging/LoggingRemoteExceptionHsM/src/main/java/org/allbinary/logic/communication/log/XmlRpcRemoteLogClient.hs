@@ -20,10 +20,10 @@ import XmlRpcAbeClient hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -120,7 +120,7 @@ get_impl this anyTypeObject_ = do
             Control.Monad.void (XmlRpcClient.setBasicAuthentication xmlRpcClient javaNull javaNull)
             let hashtable = (javaCast anyType :: ABHashtable.ABHashtable)
             Control.Monad.void (BasicArrayList.add param hashtable)
-            result <- (XmlRpcClient.execute_3 xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param (javaCast (jget (this).noCrypt)))
+            result <- (XmlRpcClient.execute xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param (jget (this).noCrypt))
             Control.Monad.void (putStrLn (javaToString (javaToString ((jget ((jio (CommonLabels.getInstance))).rESULT_) + (jget ((jio (CommonSeps.getInstance))).nEW_LINE)) ++ (jio (Any.toString result)))))
             pure ((jtoObject result))
 

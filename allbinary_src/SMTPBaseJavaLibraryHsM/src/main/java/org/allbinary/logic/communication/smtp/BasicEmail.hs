@@ -19,10 +19,10 @@ module BasicEmail where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AbEmail -- same package or java.lang
 import qualified Email -- same package or java.lang
+import qualified EmailServerConfigurationInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified MimeMessage -- javax.mail.internet.MimeMessage
 import qualified BasicEmailInfo -- org.allbinary.logic.communication.smtp.info.BasicEmailInfo
@@ -62,6 +63,9 @@ instance JavaObjectClass BasicEmail where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasicEmail
 newRecord_ = do

@@ -20,10 +20,10 @@ import CustomTagSupport hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -145,7 +145,7 @@ setCustomLoaderWebappPath_impl this = do
             anyType <- (CustomLoaderHelperFactory.getInstance ((jio (CustomLoaderHelperFactory.new_))) (jget (this).propertiesHashMap) (jget this.base.pageContext))
             helperClass <- (jobjectGetClass anyType)
             let methodParams = (jarrayFromList [(jio (jobjectGetClass (jget (this).webappPath)))])
-            let methodArgs = (jarrayFromList [(jget (this).webappPath)])
+            let methodArgs = (jarrayFromList [(jtoObject (jget (this).webappPath))])
             setMethod <- (Class.getMethod helperClass "setWebappPath" methodParams)
             Control.Monad.void (Method.invoke setMethod anyType methodArgs)
         pure ()
@@ -167,7 +167,7 @@ doStartTag_impl this = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget this.base.tagStrings)).dO_START_TAG))
             when ((jget (this).command) /= javaNull) $ do
-                assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
                 jset (this).propertiesHashMap (assignedValue)
                 when ((Prelude.fromEnum (Prelude.compare (jget (this).command) (jget ((jget ((jget (org.allbinary).globals)).gLOBALS2)).sET)) - 1) == 0) $ do
                     Control.Monad.void (CustomLoaderTag.setCustomLoaderWebappPath this)

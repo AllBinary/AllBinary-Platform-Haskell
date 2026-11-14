@@ -19,10 +19,10 @@ module NewUserFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified UserInterface -- same package or java.lang
 import qualified CreateUserFactory -- same package or java.lang
+import qualified PageContext -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified User -- org.allbinary.business.user.modules.User
@@ -60,6 +61,9 @@ instance JavaObjectClass NewUserFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NewUserFactory
 newRecord_ = do
@@ -95,9 +99,9 @@ getInstance = do
 getInstance_1 :: TransformInfoInterface.TransformInfoInterface -> IO (UserInterface.UserInterface)
 getInstance_1 transformInfoInterface = do
         let httpTransformInfoInterface = (javaCast transformInfoInterface :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-        let httpServletRequest = (javaCast (jio (TransformInfoHttpInterface.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface))))) :: HttpServletRequest.HttpServletRequest)
+        let httpServletRequest = (javaCast (jio (PageContext.getRequest ((jio (TransformInfoHttpInterface.getPageContext httpTransformInfoInterface))))) :: HttpServletRequest.HttpServletRequest)
         hashMap <- (RequestParams.toHashMap ((jio (RequestParams.new_1 httpServletRequest))))
-        let role = (javaCast (jio (TransformInfoHttpInterface.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (UserRoleData.nAME))) :: String)
+        let role = (javaCast (jio (HashMap.get ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (UserRoleData.nAME))) :: String)
         Control.Monad.void (HashMap.put hashMap (UserRoleData.nAME) role)
         (CreateUserFactory.getInstance hashMap)
 

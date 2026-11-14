@@ -20,10 +20,10 @@ import LayerProcessor hiding (new_, init_, newRecord_, initFields_, header_, bas
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CollidableInterfaceLayerManager -- same package or java.lang
 import qualified AllBinaryCollisionManager -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
 import qualified CollidableInterfaceCompositeInterface -- org.allbinary.game.collision.CollidableInterfaceCompositeInterface
 import qualified CollidableCompositeLayer -- org.allbinary.game.layer.CollidableCompositeLayer
 import qualified AllBinaryLayer -- org.allbinary.layer.AllBinaryLayer
@@ -80,7 +81,7 @@ new_ = do
 
 init_ :: CollidableInterfaceLayerProcessor -> IO ()
 init_ this = do
-        LayerProcessor.init_1 this.base (jio (CollidableInterfaceLayerManager.new_))
+        LayerProcessor.init_1 this.base (javaCast (jio (CollidableInterfaceLayerManager.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -96,7 +97,7 @@ processAt_super object_ a1 a2 a3 = (processAt_impl (javaCast object_ :: Collidab
 processAt_impl :: CollidableInterfaceLayerProcessor -> AllBinaryLayerManager.AllBinaryLayerManager -> AllBinaryLayer.AllBinaryLayer -> Int -> IO (())
 processAt_impl this allBinaryLayerManager layerInterface index = do
         let collidableInterfaceCompositeInterface = (javaCast layerInterface :: CollidableInterfaceCompositeInterface.CollidableInterfaceCompositeInterface)
-        when (jio (CollidableInterfaceCompositeInterface.isCollidable ((jio (CollidableInterfaceCompositeInterface.getCollidableInferface collidableInterfaceCompositeInterface))) (javaCast collidableInterfaceCompositeInterface :: CollidableCompositeLayer.CollidableCompositeLayer))) $ do
+        when (jio (CollidableBaseBehavior.isCollidable ((jio (CollidableInterfaceCompositeInterface.getCollidableInferface collidableInterfaceCompositeInterface))) (javaCast collidableInterfaceCompositeInterface :: CollidableCompositeLayer.CollidableCompositeLayer))) $ do
             Control.Monad.void (AllBinaryCollisionManager.process ((jio (AllBinaryCollisionManager.getInstance))) (jio (LayerProcessor.getLayerManager this)) collidableInterfaceCompositeInterface index)
         pure ()
 

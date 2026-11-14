@@ -20,10 +20,10 @@ import MyCanvas hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,9 @@ import qualified NoMenuInputProcessor -- same package or java.lang
 import qualified BasicMenuInputProcessor -- same package or java.lang
 import qualified ImmediateCommandFormInputProcessor -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
+import qualified DownGameKeyEventHandlerBase -- same package or java.lang
+import qualified UpGameKeyEventHandlerBase -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
@@ -130,6 +133,7 @@ instance JavaObjectClass GameCommandCanvas where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+id :: Int
 id = 0
 
 newRecord_ :: IO GameCommandCanvas
@@ -190,13 +194,13 @@ initFields_ this = do
     jset this.gameInputStrings =<< (GameInputStrings.getInstance)
     jset this.foregroundBasicColor (javaNull)
     jset this.backgroundBasicColor (javaNull)
-    jset this.inputToGameKeyMapping =<< (PlatformInputMappingFactory.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
+    jset this.inputToGameKeyMapping =<< (PersistentInputMapping.getInputMapping ((jio (PlatformInputMappingFactory.getPersistentInputMappingInstance ((jio (PlatformInputMappingFactory.getInstance)))))))
     jset this.gameKeyFactory =<< (GameKeyFactory.getInstance)
     jset this.gameKeyEventFactory =<< (GameKeyEventFactory.getInstance)
     jset this.downGameKeyEventHandler =<< (DownGameKeyEventHandler.getInstance)
     jset this.upGameKeyEventHandler =<< (UpGameKeyEventHandler.getInstance)
     jset this.repaintBehavior (javaNull)
-    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.updateMyFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.myFontProcessor ((jget (this).updateMyFontProcessor))
     jset this.foregroundColor (0)
     jset this.backgroundColor (0)
@@ -248,7 +252,7 @@ updateMeasurement_impl this graphics = do
             Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT) e)
             ) $ do
             font <- (Graphics.getFont graphics)
-            Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.commonStrings)).sTART)))) (jget ((jget (this).base.canvasStrings)).fD_WIDTH)))) (jio (MyFontProcessor.defaultCharWidth font))))) (jget ((jget (this).base.canvasStrings)).fD_HEIGHT)))) (Prelude.fromInteger (jnumericInteger (jio (Font.getHeight font))))))))) this (jget ((jget (this).base.canvasStrings)).uPDATE_MEASUREMENT))
+            Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).base.commonStrings)).sTART)))) (jget ((jget (this).base.canvasStrings)).fD_WIDTH)))) (jio (MyFontProcessor.defaultCharWidth font))))) (jget ((jget (this).base.canvasStrings)).fD_HEIGHT)))) (jio (Font.getHeight font))))))) this (jget ((jget (this).base.canvasStrings)).uPDATE_MEASUREMENT))
             assignedValue <- (Font.getHeight font)
             jset (this).fontHeight (assignedValue)
             rectangle <- (GameCommandCanvas.createRectangle this (jio (PaintableForm.size ((jget (this).menuForm)))))
@@ -308,10 +312,10 @@ initMenu_super object_ = (initMenu_impl (javaCast object_ :: GameCommandCanvas))
 initMenu_impl :: GameCommandCanvas -> IO (())
 initMenu_impl this = do
         form <- (GameCommandCanvas.createForm this)
-        jset (this).menuForm (form)
+        jset (this).menuForm ((javaCast form :: PaintableForm.PaintableForm))
         when (form /= (jio (ScrollSelectionFormNoneFactory.getInstance))) $ do
-            Control.Monad.void (GameCommandCanvas.setMenuInputProcessor this (javaCast (jio (ImmediateCommandFormInputProcessor.new_4 (jio (BasicArrayListD.new_)) (Prelude.negate 1) this form))))
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (FormPaintable.new_1 form))
+            Control.Monad.void (GameCommandCanvas.setMenuInputProcessor this (javaCast (jio (ImmediateCommandFormInputProcessor.new_4 (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1) this form))))
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (FormPaintable.new_1 (javaCast form)))
             jset (this).menuPaintable (assignedValue)
         Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).repaintBehavior)) (javaCast this))
         pure ()
@@ -326,7 +330,7 @@ createForm_super object_ = (createForm_impl (javaCast object_ :: GameCommandCanv
 
 createForm_impl :: GameCommandCanvas -> IO (ScrollSelectionForm.ScrollSelectionForm)
 createForm_impl this = do
-        items <- (CommandTextItemArrayFactory.getInstance ((jio (CommandTextItemArrayFactory.new_1 (jio (AllCommandsVisitor.new_))))) (jio (MyCanvas.getCommandStack this)) (jget (this).backgroundBasicColor) (jget (this).foregroundBasicColor))
+        items <- (CommandTextItemArrayFactory.getInstance ((jio (CommandTextItemArrayFactory.new_1 (javaCast (jio (AllCommandsVisitor.new_)))))) (jio (MyCanvas.getCommandStack this)) (jget (this).backgroundBasicColor) (jget (this).foregroundBasicColor))
         rectangle <- (GameCommandCanvas.createRectangle this (jlength items))
         (CommandCurrentSelectionFormFactory.getInstance (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) items rectangle (jget ((jio (FormTypeFactory.getInstance))).vERTICAL_CENTER_FORM) 15 False (jget (this).backgroundBasicColor) (jget (this).foregroundBasicColor))
 
@@ -355,7 +359,7 @@ open_super object_ = (open_impl (javaCast object_ :: GameCommandCanvas))
 open_impl :: GameCommandCanvas -> IO (())
 open_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this "open")
-        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jio (BasicMotionGesturesHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
+        Control.Monad.void (BasicMotionGesturesHandler.addListenerInterface ((jio (BasicMotionGesturesHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
         Control.Monad.void (GameKeyEventHandler.addListener ((jio (GameKeyEventHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
         Control.Monad.void (DisplayChangeEventHandler.addListenerInterface ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         pure ()
@@ -371,7 +375,7 @@ close_super object_ = (close_impl (javaCast object_ :: GameCommandCanvas))
 close_impl :: GameCommandCanvas -> IO (())
 close_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).sTART) this (jget ((jget (this).base.commonStrings)).cLOSE))
-        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jio (BasicMotionGesturesHandler.getInstance))) (jio (GameCommandCanvas.getMenuInputProcessor this)))
+        Control.Monad.void (BasicMotionGesturesHandler.removeListener ((jio (BasicMotionGesturesHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
         Control.Monad.void (GameKeyEventHandler.removeListener ((jio (GameKeyEventHandler.getInstance))) (javaCast (jio (GameCommandCanvas.getMenuInputProcessor this))))
         Control.Monad.void (DisplayChangeEventHandler.removeListener ((jio (DisplayChangeEventHandler.getInstance))) (javaCast this))
         pure ()

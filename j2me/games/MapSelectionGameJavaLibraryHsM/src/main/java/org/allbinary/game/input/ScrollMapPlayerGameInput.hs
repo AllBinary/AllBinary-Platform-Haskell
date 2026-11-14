@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,6 +42,7 @@ import qualified GameInputProcessorUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -137,7 +138,7 @@ new_3 geographicMapInterface list playerInputId = do
 
 init_3 :: ScrollMapPlayerGameInput -> BasicGeographicMap.BasicGeographicMap -> BasicArrayList.BasicArrayList -> Int -> IO ()
 init_3 this geographicMapInterface list playerInputId = do
-        PlayerGameInput.init_3 this.base (list) (jio (BasicArrayListD.new_)) (playerInputId)
+        PlayerGameInput.init_3 this.base (list) (javaCast (jio (BasicArrayListD.new_))) (playerInputId)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (ScrollMapPlayerGameInput.initInputProcessors this)
@@ -314,7 +315,7 @@ processInputKey_super object_ a1 = (processInputKey_impl (javaCast object_ :: Sc
 
 processInputKey_impl :: ScrollMapPlayerGameInput -> Int -> IO (())
 processInputKey_impl this key = do
-        Control.Monad.void (processEvent ((jindex ((jget (this).inputProcessorArray)) (key))) (jio (AllBinaryGameLayerManager.getNullInstance)) (GameKeyEvent.nONE))
+        Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).inputProcessorArray)) (key))) (javaCast (jio (AllBinaryGameLayerManager.getNullInstance))) (GameKeyEvent.nONE))
         pure ()
 
 

@@ -20,10 +20,10 @@ import AllBinaryGameLayer hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
+import qualified AllBinaryLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified PlayerGameInput -- org.allbinary.game.input.PlayerGameInput
 import qualified PlayerGameInputCompositeInterface -- org.allbinary.game.input.PlayerGameInputCompositeInterface
@@ -92,10 +94,10 @@ new_1 playerInputId = do
 
 init_1 :: PlayerGameInputGameLayer -> Int -> IO ()
 init_1 this playerInputId = do
-        AllBinaryGameLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (jio (StaticViewPosition.new_3 0 0 0))
+        AllBinaryGameLayer.init_3 this.base (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (javaCast (jio (StaticViewPosition.new_3 0 0 0)))
         initFields_ this
         pure () -- super(...) is in the record above
-        assignedValue <- (PlayerGameInput.new_3 (jio (AllBinaryGameLayer.getGameKeyEventList this)) (jio (BasicArrayListD.new_)) playerInputId)
+        assignedValue <- (PlayerGameInput.new_3 (jio (AllBinaryGameLayer.getGameKeyEventList this)) (javaCast (jio (BasicArrayListD.new_))) playerInputId)
         jset (this).playerGameInput (assignedValue)
         canvasStrings <- (CanvasStrings.getInstance)
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) "Danger Danger Danger: Should Not Be Called Except For Testing Input" this (jget (canvasStrings).pAINT))

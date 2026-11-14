@@ -19,10 +19,10 @@ module DomDocumentHelper where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified InputStream -- java.io.InputStream
 import qualified StringBufferInputStream -- java.io.StringBufferInputStream
 import qualified DocumentBuilder -- javax.xml.parsers.DocumentBuilder
 import qualified DocumentBuilderFactory -- javax.xml.parsers.DocumentBuilderFactory
+import qualified CommonPhoneStrings -- org.allbinary.string.CommonPhoneStrings
 import qualified Document -- org.w3c.dom.Document
 
 data DomDocumentHelper = DomDocumentHelper
@@ -56,6 +57,9 @@ instance JavaObjectClass DomDocumentHelper where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO DomDocumentHelper
 newRecord_ = do
@@ -83,9 +87,10 @@ init_ this = do
 
 init :: IO (())
 init = do
-        Control.Monad.void (System.setProperty "jdk.xml.maxElementDepth" "0")
-        Control.Monad.void (System.setProperty "jdk.xml.xpathExprOpLimit" "0")
-        Control.Monad.void (System.setProperty "jdk.xml.xpathTotalOpLimit" "0")
+        commonPhoneStrings <- (CommonPhoneStrings.getInstance)
+        Control.Monad.void (System.setProperty "jdk.xml.maxElementDepth" (jget (commonPhoneStrings).zERO))
+        Control.Monad.void (System.setProperty "jdk.xml.xpathExprOpLimit" (jget (commonPhoneStrings).zERO))
+        Control.Monad.void (System.setProperty "jdk.xml.xpathTotalOpLimit" (jget (commonPhoneStrings).zERO))
         let lIMIT = "500000"
         Control.Monad.void (System.setProperty "jdk.xml.maxGeneralEntitySizeLimit" lIMIT)
         Control.Monad.void (System.setProperty "jdk.xml.totalEntitySizeLimit" lIMIT)

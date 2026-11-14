@@ -19,10 +19,10 @@ module LoggingInitInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,13 +65,17 @@ instance JavaObjectClass LoggingInitInfo where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+iNITFILENAME :: String
 iNITFILENAME = "logConfig.xml"
 
+pACKAGE :: String
 pACKAGE = (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)
 
+logConfigInfoList :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE logConfigInfoList #-}
 logConfigInfoList = unsafePerformIO (newIORef (javaNull))
 
+hasRead :: IORef (Bool)
 {-# NOINLINE hasRead #-}
 hasRead = unsafePerformIO (newIORef (False))
 
@@ -105,7 +109,7 @@ init_ this = do
 -- throws Exception
 getDoc :: IO (Document.Document)
 getDoc = do
-        let path = ((jio (URLGLOBALS.getWebappPath)) + LoggingInitInfo.pACKAGE)
+        let path = ((jio (URLGLOBALS.getWebappPath)) ++ javaToString LoggingInitInfo.pACKAGE)
         fILEABPATH <- (AbPath.new_2 path iNITFILENAME)
         file <- (AbFile.createAbFileFromAbPath fILEABPATH)
         document <- (DomDocumentHelper.create_1 (jio (AbFileLocalInputStream.new_1 file)))
@@ -132,13 +136,13 @@ read = do
             logConfigsNodeList <- (Document.getElementsByTagName document (jget ((jio (LogConfigsData.getInstance))).nAME))
             logConfigsNode <- (NodeList.item logConfigsNodeList 0)
             logConfigNodeVector <- (DomSearchHelper.getAllNodes (jget ((jio (LogConfigData.getInstance))).nAME) (jio (Node.getChildNodes logConfigsNode)))
-            assignedValue <- (BasicArrayListD.new_)
+            assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             jset LoggingInitInfo.logConfigInfoList (assignedValue)
             size <- (BasicArrayList.size logConfigNodeVector)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
                 let node = (javaCast (jio (BasicArrayList.get logConfigNodeVector i)) :: Node.Node)
                 logConfigInfo <- (LogConfig.new_1 node)
-                Control.Monad.void (add ((jget LoggingInitInfo.logConfigInfoList)) logConfigInfo)
+                Control.Monad.void (BasicArrayList.add ((jget LoggingInitInfo.logConfigInfoList)) logConfigInfo)
         pure ()
 
 
@@ -191,7 +195,7 @@ getTypeNameList :: IO (BasicArrayList.BasicArrayList)
 getTypeNameList = do
         Control.Monad.void (LoggingInitInfo.updateIfNeeded)
         allLogTypeVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        size <- (size ((jget LoggingInitInfo.logConfigInfoList)))
+        size <- (BasicArrayList.size ((jget LoggingInitInfo.logConfigInfoList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let logConfigInfo = (javaCast (jindex ((jget ((jget LoggingInitInfo.logConfigInfoList)).objectArray)) (index)) :: LogConfig.LogConfig)
             logTypeVector <- (LogConfig.getTypeVector logConfigInfo)
@@ -205,7 +209,7 @@ getTypeList :: IO (BasicArrayList.BasicArrayList)
 getTypeList = do
         Control.Monad.void (LoggingInitInfo.updateIfNeeded)
         allLogTypeVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        size <- (size ((jget LoggingInitInfo.logConfigInfoList)))
+        size <- (BasicArrayList.size ((jget LoggingInitInfo.logConfigInfoList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let logConfigInfo = (javaCast (jindex ((jget ((jget LoggingInitInfo.logConfigInfoList)).objectArray)) (index)) :: LogConfig.LogConfig)
             logTypeVector <- (LogConfig.getTypeVector logConfigInfo)
@@ -223,7 +227,7 @@ getNumberOfLogConfigs_super object_ = (getNumberOfLogConfigs_impl (javaCast obje
 
 getNumberOfLogConfigs_impl :: LoggingInitInfo -> IO (Int)
 getNumberOfLogConfigs_impl this = do
-        (size ((jget LoggingInitInfo.logConfigInfoList)))
+        (BasicArrayList.size ((jget LoggingInitInfo.logConfigInfoList)))
 
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)

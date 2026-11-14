@@ -19,10 +19,10 @@ module InputAutomationModuleFactoryFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -71,6 +71,9 @@ instance JavaObjectClass InputAutomationModuleFactoryFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO InputAutomationModuleFactoryFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -105,7 +108,7 @@ init_2 this inputAutomationModuleConfigurations helpSetListenerInterface = do
         jset (this).helpSetListenerInterface (helpSetListenerInterface)
         assignedValue <- (DefaultListModelHelper.new_)
         jset (this).defaultListModelHelper (assignedValue)
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).hashMap (assignedValue)
         collection <- (HashMap.values ((jio (InputAutomationModuleConfigurations.getHashMap inputAutomationModuleConfigurations))))
         iterator <- (Collection.iterator collection)

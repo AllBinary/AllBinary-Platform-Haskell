@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified PageContext -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified Basket -- org.allbinary.business.user.commerce.inventory.basket.Basket
@@ -126,7 +128,7 @@ getFormData_impl this = do
         when ((jget id) == javaNull) $ do
             assignedValue <- (WeblisketSession.getId ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             jset id (assignedValue)
-        assignedValue <- (Order.new_1 (jio (Basket.new_)))
+        assignedValue <- (Order.new_1 (javaCast (jio (Basket.new_))))
         jset (this).order (assignedValue)
         Control.Monad.void (Order.setId ((jget (this).order)) (jget id))
         pure ()

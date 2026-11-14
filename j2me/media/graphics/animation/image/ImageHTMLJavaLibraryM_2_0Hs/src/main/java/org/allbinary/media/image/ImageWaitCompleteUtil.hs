@@ -20,10 +20,10 @@ import ImageCompleteUtil hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified GameFeatureImageCacheFactory -- org.allbinary.image.GameFeatureImageCacheFactory
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -158,7 +159,7 @@ waitForAll_super object_ = (waitForAll_impl (javaCast object_ :: ImageWaitComple
 waitForAll_impl :: ImageWaitCompleteUtil -> IO (())
 waitForAll_impl this = do
         Control.Monad.void (TimeDelayHelper.setStartTimeTNT ((jget (this).allTimeDelayHelper)))
-        hashtable <- (GameFeatureImageCacheFactory.getHashtableP ((jio (GameFeatureImageCacheFactory.getInstance))))
+        hashtable <- (ImageCache.getHashtableP ((jio (GameFeatureImageCacheFactory.getInstance))))
         objectArray <- (HashtableUtil.getKeysAsArray ((jio (HashtableUtil.getInstance))) hashtable)
         let size = (jlength objectArray)
         Control.Monad.void (PreLogUtil.put ("Image Total: " ++ javaToString size) this "waitForAll")

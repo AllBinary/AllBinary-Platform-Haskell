@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,8 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified TransformInfoObjectConfigInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
+import qualified HttpComponentView -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -134,7 +136,7 @@ getName_impl this = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "getName()" e)
             javaThrow (e)
             ) $ do
-            objectConfig <- (NoTemplateTransformInfoObjectConfig.new_2 (jio (HttpStoreComponentView.getTransformInfoInterface this)) (jio (TransformInfoInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))))
+            objectConfig <- (NoTemplateTransformInfoObjectConfig.new_2 (jio (HttpStoreComponentView.getTransformInfoInterface this)) (jio (TransformInfoObjectConfigInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))))
             componentsVector <- (NoTemplateTransformInfoObjectConfig.getTransforms_0 objectConfig)
             when ((jio (BasicArrayList.size componentsVector)) == 0) $ do
                 javaThrow ((JavaException "Exception" "Template View Not Set - No Components"))

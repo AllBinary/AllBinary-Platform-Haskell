@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -93,7 +93,7 @@ initFields_ this = do
 -- throws Exception
 createHealthIncludingLifeBar :: AllBinaryLayer.AllBinaryLayer -> Life.Life -> Health.Health -> Int -> Int -> IO (HealthIncludingLifeBar)
 createHealthIncludingLifeBar layerInterface life healthInterface location direction = do
-        (new_5 layerInterface life healthInterface (jio (HealthBarTwodAnimation.new_2 layerInterface location)) direction)
+        (new_5 layerInterface life healthInterface (javaCast (jio (HealthBarTwodAnimation.new_2 layerInterface location))) direction)
 
 new_5 :: AllBinaryLayer.AllBinaryLayer -> Life.Life -> Health.Health -> HealthBarAnimation.HealthBarAnimation -> Int -> IO HealthIncludingLifeBar
 new_5 layerInterface life healthInterface animationInterface direction = do
@@ -108,8 +108,8 @@ init_5 this layerInterface life healthInterface animationInterface direction = d
         jset (this).allbinaryLayer (layerInterface)
         jset (this).animationInterface (animationInterface)
         jset (this).life (life)
-        jset (this).healthInterface (healthInterface)
-        Control.Monad.void (Health.addListener ((jget (this).healthInterface)) (javaCast this))
+        jset (this).healthInterface ((javaCast healthInterface :: HealthInterface.HealthInterface))
+        Control.Monad.void (HealthInterface.addListener ((jget (this).healthInterface)) (javaCast this))
         Control.Monad.void (HealthIncludingLifeBar.onHealthChange this)
         pure ()
 
@@ -122,7 +122,7 @@ onHealthChange_super object_ = (onHealthChange_impl (javaCast object_ :: HealthI
 
 onHealthChange_impl :: HealthIncludingLifeBar -> IO (())
 onHealthChange_impl this = do
-        Control.Monad.void (HealthBarAnimation.onHealthChange ((jget (this).animationInterface)) ((((((jio (HealthInterface.getHealth ((jget (this).healthInterface)))) + (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) * (jio (Life.get ((jget (this).life)))))))) * (jio (AllBinaryLayer.getWidth ((jget (this).allbinaryLayer)))))) / (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) + (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) * (jio (Life.getStartLives ((jget (this).life))))))))))
+        Control.Monad.void (HealthBarAnimation.onHealthChange ((jget (this).animationInterface)) ((((((jio (HealthInterface.getHealth ((jget (this).healthInterface)))) + (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) * (Prelude.fromIntegral (jio (Life.get ((jget (this).life))))))))) * (jio (AllBinaryLayer.getWidth ((jget (this).allbinaryLayer)))))) `quot` (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) + (((jio (HealthInterface.getMaxHealth ((jget (this).healthInterface)))) * (Prelude.fromIntegral (jio (Life.getStartLives ((jget (this).life)))))))))))
         pure ()
 
 

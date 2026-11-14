@@ -19,10 +19,10 @@ module OrderStatusEmail where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UserEntity -- same package or java.lang
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
 import qualified UserInterface -- org.allbinary.business.user.UserInterface
@@ -75,6 +76,9 @@ instance JavaObjectClass OrderStatusEmail where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO OrderStatusEmail
 newRecord_ = do
     header_ <- newJavaHeader
@@ -113,7 +117,7 @@ init_2 this abeClientInformation orderHistory = do
         jset (this).abeClientInformation (abeClientInformation)
         jset (this).orderHistory (orderHistory)
         storeName <- (OrderHistory.getStoreName orderHistory)
-        assignedValue <- (StoreFrontFactory.getInstance storeName)
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance storeName))
         jset (this).storeFrontInterface (assignedValue)
         assignedValue <- (UserEntity.getUser ((jio (UserEntityFactory.getInstance))) (jio (OrderHistory.getUserName orderHistory)))
         jset (this).user (assignedValue)
@@ -149,8 +153,8 @@ notifyStoreAdmin_impl this = do
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Order Email" this "emailStoreAdmin")
-            let adminEmailSubject = (("Order " ++ javaToString (jio (OrderHistory.getStatus ((jget (this).orderHistory))))) ++ " Attempt")
-            let adminEmailTextBody = ((("Order attempt: " ++ javaToString (jio (OrderHistory.getId ((jget (this).orderHistory))))) ++ " Preprocessing by: ") ++ javaToString (jio (UserInterface.getUserName ((jget (this).user)))))
+            let adminEmailSubject = (("Order " ++ (jio (OrderHistory.getStatus ((jget (this).orderHistory))))) ++ " Attempt")
+            let adminEmailTextBody = ((("Order attempt: " ++ (jio (OrderHistory.getId ((jget (this).orderHistory))))) ++ " Preprocessing by: ") ++ (jio (UserInterface.getUserName ((jget (this).user)))))
             let adminBasicEmailInfo = (javaCast (jio (AdminEmailInfo.new_2 adminEmailSubject adminEmailTextBody)) :: BasicEmailInfo.BasicEmailInfo)
             let storeAdminBasicEmailInfo = (javaCast (jio (StoreEmailInfo.new_3 (jget (this).storeFrontInterface) adminEmailSubject adminEmailTextBody)) :: BasicEmailInfo.BasicEmailInfo)
             storeAdminEmailInfo <- (EmailInfo.new_1 storeAdminBasicEmailInfo)
@@ -179,8 +183,8 @@ notifyUser_impl this = do
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).eMAILLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Email User" this "notifyUser()")
-            let subject = (("Order " ++ javaToString (jio (OrderHistory.getStatus ((jget (this).orderHistory))))) ++ " Attempt")
-            let textBody = ((("Order attempt: " ++ javaToString (jio (OrderHistory.getId ((jget (this).orderHistory))))) ++ " Preprocessing by: ") ++ javaToString (jio (UserInterface.getUserName ((jget (this).user)))))
+            let subject = (("Order " ++ (jio (OrderHistory.getStatus ((jget (this).orderHistory))))) ++ " Attempt")
+            let textBody = ((("Order attempt: " ++ (jio (OrderHistory.getId ((jget (this).orderHistory))))) ++ " Preprocessing by: ") ++ (jio (UserInterface.getUserName ((jget (this).user)))))
             let basicEmailInfo = (javaCast (jio (StoreEmailInfo.new_3 (jget (this).storeFrontInterface) subject textBody)) :: BasicEmailInfo.BasicEmailInfo)
             emailInfo <- (EmailInfo.new_1 basicEmailInfo)
             userEmailEventNameData <- (UserEmailEventNameData.getInstance (jio (OrderHistory.getStatus ((jget (this).orderHistory)))))

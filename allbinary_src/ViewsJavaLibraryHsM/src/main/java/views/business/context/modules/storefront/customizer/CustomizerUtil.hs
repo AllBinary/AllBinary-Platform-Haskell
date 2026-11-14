@@ -19,10 +19,10 @@ module CustomizerUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified AbPath -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified TransformInfoEntity -- org.allbinary.data.tables.transform.info.TransformInfoEntity
 import qualified TransformInfoEntityBuilder -- org.allbinary.data.tables.transform.info.TransformInfoEntityBuilder
@@ -63,11 +64,15 @@ instance JavaObjectClass CustomizerUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: CustomizerUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CustomizerUtil
 newRecord_ = do
@@ -224,7 +229,7 @@ insert_impl this transformInfoInterface domNodeInterface = do
                     Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
                     Control.Monad.void (StringMaker.append stringBuffer viewNameOfViewToBeModified)
                     Control.Monad.void (StringMaker.append stringBuffer " is changing data in ")
-                    Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoInterface.toString ((jio (TransformInfoInterface.getDataFilePath specifiedTransformInfoInterface))))))
+                    Control.Monad.void (StringMaker.append stringBuffer (jio (AbPath.toString ((jio (TransformInfoInterface.getDataFilePath specifiedTransformInfoInterface))))))
                     Control.Monad.void (StringMaker.append stringBuffer " to the following data:\n")
                     Control.Monad.void (StringMaker.append stringBuffer documentString)
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this "insert()")

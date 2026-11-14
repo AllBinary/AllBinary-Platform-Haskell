@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -44,8 +44,10 @@ import qualified RTSPlayerFireGameInputProcessor -- same package or java.lang
 import qualified GameInputProcessorUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
+import qualified PlayerQueue -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified RTSFormInput -- org.allbinary.game.input.form.RTSFormInput
@@ -174,7 +176,7 @@ new_7 gameCanvas inputList playerInputId towerInfoPaintable rtsPlayerLayerInterf
 
 init_7 :: RTSPlayerGameInput -> AllBinaryGameCanvas.AllBinaryGameCanvas -> BasicArrayList.BasicArrayList -> Int -> RTSLayerInfoPaintable.RTSLayerInfoPaintable -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> LayerPositionFinderInterface.LayerPositionFinderInterface -> SelectRTSLayerVisitorFactoryInterface.SelectRTSLayerVisitorFactoryInterface -> IO ()
 init_7 this gameCanvas inputList playerInputId towerInfoPaintable rtsPlayerLayerInterface layerPositionFinderInterface selectRTSLayerVisitorFactoryInterface = do
-        PlayerGameInput.init_3 this.base (inputList) (jio (BasicArrayListD.new_)) (playerInputId)
+        PlayerGameInput.init_3 this.base (inputList) (javaCast (jio (BasicArrayListD.new_))) (playerInputId)
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (RTSPlayerGameInput.initInputProcessors this)
@@ -299,8 +301,8 @@ processInput_impl this layerManager = do
                 jset key (assignedValue)
                 Control.Monad.void (ScrollMapPlayerGameInput.processInputKey ((jio (RTSPlayerGameInput.getScrollPlayerGameInput this))) (jget key))
                 Control.Monad.void (SelectedRTSLayersPlayerGameInput.processInputKey ((jio (RTSPlayerGameInput.getSelectedBuildingPlayerGameInput this))) (jget key))
-                Control.Monad.void (processEvent ((jindex ((jget (this).inputProcessorArray)) ((jget key)))) layerManager gameKeyEvent)
-                Control.Monad.void (processEvent ((jindex ((jget (this).removeInputProcessorArray)) ((jget key)))) layerManager gameKeyEvent)
+                Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).inputProcessorArray)) ((jget key)))) layerManager gameKeyEvent)
+                Control.Monad.void (GameInputProcessor.processEvent ((jindex ((jget (this).removeInputProcessorArray)) ((jget key)))) layerManager gameKeyEvent)
             if (jio (RTSPlayerGameInput.isIsSingleKeyProcessing this)) then do
                 Control.Monad.void (PlayerGameInput.clear this)
             else do
@@ -340,7 +342,7 @@ select_impl this motionGestureEvent = do
             Control.Monad.void (PlayerQueue.add ((jio (SecondaryPlayerQueueFactory.getInstance))) (jio (SelectSound.getInstance)))
             layer <- newIORef =<< (LayerPositionFinderInterface.getLayerInterface ((jget (this).layerPositionFinderInterface)) (jget geographicMapCellPosition))
             if ((jget layer) == AllBinaryLayer.nULL_ALLBINARY_LAYER) then do
-                assignedValue <- (CollidableDestroyableDamageableLayer.getNullInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: AllBinaryLayer.AllBinaryLayer) (CollidableDestroyableDamageableLayer.getNullInstance))
                 jset layer (assignedValue)
             else do
                 assignedValue <- (BasicGeographicMap.getCellPositionAtXY geographicMapInterface (jio (AllBinaryLayer.getXP ((jget layer)))) (jio (AllBinaryLayer.getYP ((jget layer)))))

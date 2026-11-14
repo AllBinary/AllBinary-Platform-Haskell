@@ -19,10 +19,10 @@ module SearchData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,54 +49,80 @@ instance JavaObjectClass SearchData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+tOTAL_NUMBER_PAGES :: String
 tOTAL_NUMBER_PAGES = "SEARCHDATA_TOTALNUMBEROFPAGES"
 
+tOTAL_NUMBER_ITEMS_ON_THIS_PAGE :: String
 tOTAL_NUMBER_ITEMS_ON_THIS_PAGE = "SEARCHDATA_TOTALNUMBEROFITEMSONTHISPAGE"
 
+tOTAL_NUMBER_ITEMS :: String
 tOTAL_NUMBER_ITEMS = "SEARCHDATA_TOTALNUMBEROFITEMS"
 
+dEFAULT_PAGE_LENGTH :: Int
 dEFAULT_PAGE_LENGTH = 10
 
+gENERATESTATICPAGES :: String
 gENERATESTATICPAGES = "Generate Static Pages"
 
+sEARCHBYSUMMARY :: String
 sEARCHBYSUMMARY = "Search By Summary"
 
+sEARCHBYDESCRIPTION :: String
 sEARCHBYDESCRIPTION = "Search By Description"
 
+sEARCHBYCATEGORY :: String
 sEARCHBYCATEGORY = "Search By Category"
 
+sEARCHCATEGORIES :: String
 sEARCHCATEGORIES = "Search Categories"
 
+fILENAME :: String
 fILENAME = "SEARCHDATA_BASEFILENAME"
 
+cOLUMNNAME :: String
 cOLUMNNAME = "COLUMN_NAME"
 
+cOLUMNVALUE :: String
 cOLUMNVALUE = "COLUMN_VALUE"
 
+pARAMS :: String
 pARAMS = "SEARCHDATA_PARAMS"
 
+lENGTH :: String
 lENGTH = "SEARCHDATA_LENGTH"
 
+oRDER :: String
 oRDER = "SEARCHDATA_ORDER"
 
+pAGE :: String
 pAGE = "SEARCHDATA_PAGE"
 
+fIELDS :: String
 fIELDS = "SEARCHDATA_FIELDS"
 
+fIELD :: String
 fIELD = "SEARCHDATA_FIELD"
 
+sORTBY :: String
 sORTBY = "SEARCHDATA_SORTBY"
 
+tYPE :: String
 tYPE = "SEARCHDATA_TYPE"
 
+pAGE_INFO :: String
 pAGE_INFO = "pageInfo"
 
+sEARCH :: String
 sEARCH = "search"
 
+mAKEPUBLIC :: String
 mAKEPUBLIC = "Make Public"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO SearchData
 newRecord_ = do

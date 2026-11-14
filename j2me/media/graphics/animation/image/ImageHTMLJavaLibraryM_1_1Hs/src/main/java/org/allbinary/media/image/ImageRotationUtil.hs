@@ -19,10 +19,10 @@ module ImageRotationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,11 +55,15 @@ instance JavaObjectClass ImageRotationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageRotationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageRotationUtil
 newRecord_ = do
@@ -108,7 +112,7 @@ rotateImage_impl this originalImage image totalAngle = do
             let htmlImage = (javaCast image :: PlaynMutableImage.PlaynMutableImage)
             let canvasImage = (javaCast (jio (PlaynMutableImage.getImage htmlImage)) :: CanvasImage.CanvasImage)
             canvasSurface <- (PlaynMutableImage.getCanvasSurface htmlImage canvasImage)
-            Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth originalImage)) / 2) ((jio (Image.getHeight originalImage)) / 2))
+            Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth originalImage)) `quot` 2) ((jio (Image.getHeight originalImage)) `quot` 2))
             image2 <- (ImageRotationUtil.rotateImageCanvasSurface this originalImage image canvasSurface totalAngle)
             Control.Monad.void (ImageRotationUtil.drawImage this originalImage image canvasSurface)
             javaReturn (image2)
@@ -126,9 +130,9 @@ rotateImageCanvasSurfaceClear_impl :: ImageRotationUtil -> Image.Image -> Image.
 rotateImageCanvasSurfaceClear_impl this originalImage image canvasSurface totalAngle = do
     javaCatchReturn $ do
         if (jio (Image.isMutable image)) then do
-            Control.Monad.void (CanvasSurface.translate canvasSurface ((Prelude.negate (jio (Image.getWidth originalImage))) / 2) ((Prelude.negate (jio (Image.getHeight originalImage))) / 2))
+            Control.Monad.void (CanvasSurface.translate canvasSurface ((Prelude.negate (jio (Image.getWidth originalImage))) `quot` 2) ((Prelude.negate (jio (Image.getHeight originalImage))) `quot` 2))
             Control.Monad.void (CanvasSurface.clear canvasSurface)
-            Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth originalImage)) / 2) ((jio (Image.getHeight originalImage)) / 2))
+            Control.Monad.void (CanvasSurface.translate canvasSurface ((jio (Image.getWidth originalImage)) `quot` 2) ((jio (Image.getHeight originalImage)) `quot` 2))
             javaReturn =<< (ImageRotationUtil.rotateImageCanvasSurface this originalImage image canvasSurface totalAngle)
         else do
             javaReturn (javaNull)
@@ -165,7 +169,7 @@ drawImage_impl this originalImage image canvasSurface = do
         else do
             let originalHTMLImage = (javaCast originalImage :: PlaynImmutableImage.PlaynImmutableImage)
             jset originalPlayNImage ((javaCast (jio (PlaynImmutableImage.getImage originalHTMLImage)) :: Image.Image))
-        Control.Monad.void (CanvasSurface.drawImage canvasSurface (jget originalPlayNImage) ((Prelude.negate (jio (Image.getWidth originalImage))) / 2) ((Prelude.negate (jio (Image.getHeight originalImage))) / 2))
+        Control.Monad.void (CanvasSurface.drawImage canvasSurface (jget originalPlayNImage) ((Prelude.negate (jio (Image.getWidth originalImage))) `quot` 2) ((Prelude.negate (jio (Image.getHeight originalImage))) `quot` 2))
         pure ()
 
 

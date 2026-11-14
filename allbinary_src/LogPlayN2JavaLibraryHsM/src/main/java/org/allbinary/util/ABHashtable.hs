@@ -20,10 +20,10 @@ import Hashtable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,8 +35,6 @@ import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified Enumeration -- java.util.Enumeration
 import qualified Hashtable -- java.util.Hashtable
-import qualified Map -- java.util.Map
-import qualified Set -- java.util.Set
 import qualified JsType -- jsinterop.annotations.JsType
 
 data ABHashtable = ABHashtable

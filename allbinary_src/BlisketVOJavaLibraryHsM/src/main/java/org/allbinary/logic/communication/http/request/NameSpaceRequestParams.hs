@@ -20,10 +20,10 @@ import RequestParams hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Any -- same package or java.lang
 import qualified NameSpaceRequestParamData -- same package or java.lang
 import qualified NameSpaceRequestParam -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified Map -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
@@ -115,14 +116,28 @@ init_ this = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Constructing empty" this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         pure ()
 
-new_1 :: HttpServletRequest.HttpServletRequest -> IO NameSpaceRequestParams
-new_1 httpServletRequest = do
+-- Java overloaded constructors with 1 parameters: call the overload for the types of the arguments
+new_1 :: (JavaObjectClass o1) => o1 -> IO NameSpaceRequestParams
+new_1 a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = new_1_overload1 (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: PageContext.PageContext) = new_1_overload2 (javaCast a1 :: PageContext.PageContext)
+    | otherwise = new_1_overload2 (javaCast a1 :: PageContext.PageContext)
+
+init_1 :: (JavaObjectClass o1) => NameSpaceRequestParams -> o1 -> IO ()
+init_1 this a1
+    | jisInstanceOf a1 (javaNull :: HttpServletRequest.HttpServletRequest) = init_1_overload1 this (javaCast a1 :: HttpServletRequest.HttpServletRequest)
+    | jisInstanceOf a1 (javaNull :: PageContext.PageContext) = init_1_overload2 this (javaCast a1 :: PageContext.PageContext)
+    | otherwise = init_1_overload2 this (javaCast a1 :: PageContext.PageContext)
+
+
+new_1_overload1 :: HttpServletRequest.HttpServletRequest -> IO NameSpaceRequestParams
+new_1_overload1 httpServletRequest = do
     this <- newRecord_
-    init_1 this httpServletRequest
+    init_1_overload1 this httpServletRequest
     pure this
 
-init_1 :: NameSpaceRequestParams -> HttpServletRequest.HttpServletRequest -> IO ()
-init_1 this httpServletRequest = do
+init_1_overload1 :: NameSpaceRequestParams -> HttpServletRequest.HttpServletRequest -> IO ()
+init_1_overload1 this httpServletRequest = do
         RequestParams.init_1 this.base (httpServletRequest)
         initFields_ this
         pure () -- super(...) is in the record above
@@ -130,15 +145,14 @@ init_1 this httpServletRequest = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Constructing from HttpServletRequest" this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR))
         pure ()
 
--- Java overloaded constructor with the same parameter count: give it a different name
-new_1 :: PageContext.PageContext -> IO NameSpaceRequestParams
-new_1 pageContext = do
+new_1_overload2 :: PageContext.PageContext -> IO NameSpaceRequestParams
+new_1_overload2 pageContext = do
     this <- newRecord_
-    init_1 this pageContext
+    init_1_overload2 this pageContext
     pure this
 
-init_1 :: NameSpaceRequestParams -> PageContext.PageContext -> IO ()
-init_1 this pageContext = do
+init_1_overload2 :: NameSpaceRequestParams -> PageContext.PageContext -> IO ()
+init_1_overload2 this pageContext = do
         RequestParams.init_1 this.base (pageContext)
         initFields_ this
         pure () -- super(...) is in the record above

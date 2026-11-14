@@ -19,10 +19,10 @@ module AssignWaypointsUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PrimaryWaypointHelper -- same package or java.lang
+import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified AdvancedRTSGameLayer -- org.allbinary.game.layer.AdvancedRTSGameLayer
 import qualified NullPathFindingLayer -- org.allbinary.game.layer.NullPathFindingLayer
 import qualified PathFindingLayerInterface -- org.allbinary.game.layer.PathFindingLayerInterface
@@ -62,11 +63,15 @@ instance JavaObjectClass AssignWaypointsUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: AssignWaypointsUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO AssignWaypointsUtil
 newRecord_ = do
@@ -81,7 +86,7 @@ newRecord_ = do
 initFields_ :: AssignWaypointsUtil -> IO ()
 initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
-    jset this.wAYPOINT_EVENT =<< (RTSLayerEvent.new_1 (NullPathFindingLayer.nULL_PATH_FINDING_LAYER))
+    jset this.wAYPOINT_EVENT =<< (RTSLayerEvent.new_1 (javaCast NullPathFindingLayer.nULL_PATH_FINDING_LAYER))
     pure ()
 
 new_ :: IO AssignWaypointsUtil

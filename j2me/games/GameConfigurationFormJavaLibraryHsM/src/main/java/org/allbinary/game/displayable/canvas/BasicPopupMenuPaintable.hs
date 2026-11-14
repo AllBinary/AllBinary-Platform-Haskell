@@ -20,10 +20,10 @@ import Paintable hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -84,6 +84,7 @@ instance JavaObjectClass BasicPopupMenuPaintable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "MENU"
 
 newRecord_ :: IO BasicPopupMenuPaintable
@@ -114,7 +115,7 @@ initFields_ this = do
     jset this.drawStringUtil =<< (DrawVerticalStringUtil.getInstance)
     jset this.label (javaNull)
     jset this.foregroundBasicColor (javaNull)
-    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 this))
+    jset this.myFontProcessor =<< (fmap (\value_ -> javaCast value_ :: MyFontProcessor.MyFontProcessor) (UpdateMyFontProcessor.new_1 (javaCast this)))
     jset this.rectangle (javaNull)
     jset this.bORDER (0)
     jset this.heightOffset (0)
@@ -166,7 +167,7 @@ updateMeasurement_impl this graphics = do
         else do
             jset bORDER (((jio (MyFontProcessor.defaultCharWidth font)) * 2))
         jset (this).bORDER ((jget bORDER))
-        jset (this).heightOffset (((jio (Rectangle.getHeight ((jget (this).rectangle)))) - (((jio (Font.getHeight font)) * (jio (length BasicPopupMenuPaintable.nAME))))))
+        jset (this).heightOffset (((jio (Rectangle.getHeight ((jget (this).rectangle)))) - (((jio (Font.getHeight font)) * (Prelude.length BasicPopupMenuPaintable.nAME)))))
         when (jio (OpenGLFeatureUtil.isAnyThreed ((jio (OpenGLFeatureUtil.getInstance))))) $ do
             jset (this).heightOffset (((jget (this).heightOffset) - ((jio (Font.getHeight font)) + 2)))
             if (jio (AndroidUtil.isAndroid)) then do

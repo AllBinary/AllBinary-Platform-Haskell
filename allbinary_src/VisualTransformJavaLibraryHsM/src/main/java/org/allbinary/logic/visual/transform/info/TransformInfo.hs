@@ -19,10 +19,10 @@ module TransformInfo where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -101,6 +101,9 @@ instance JavaObjectClass TransformInfo where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformInfo
 newRecord_ = do
@@ -268,7 +271,7 @@ override_impl this hashMap = do
         let type_ = (javaCast (jio (HashMap.get hashMap (jget ((jio (OutputTypeData.getInstance))).nAME))) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil type_))) $ do
             when ((jio (TransformInfo.getObjectConfigInterface this)) == javaNull) $ do
-                Control.Monad.void (TransformInfo.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfig.new_1 this))))
+                Control.Monad.void (TransformInfo.setObjectConfigInterface this (javaCast (jio (TransformInfoObjectConfig.new_1 (javaCast this)))))
             Control.Monad.void (TransformInfoObjectConfigInterface.setOutputTypeName ((jio (TransformInfo.getObjectConfigInterface this))) type_)
         let aTemplateFileName = (javaCast (jio (HashMap.get hashMap (jget (transformInfoData).tEMPLATEFILENAME))) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil aTemplateFileName))) $ do
@@ -606,12 +609,12 @@ getData_impl this = do
         when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil dataFileString))) $ do
             handle (\(e :: JavaException) -> do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
-                    Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Could Not Load Data from: " ++ javaToString (jio (TransformInfo.getDataFile this))) this "getData()" e)
+                    Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Could Not Load Data from: " ++ (jio (TransformInfo.getDataFile this))) this "getData()" e)
                 ) $ do
                 fileData <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoDataData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoDataData.getInstance))).eNCRYPTED_EXTENSION)))) (jio (TransformInfo.getDataFilePath this)))
                 when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil (jget (this).data_)))) $ do
                     when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Data File overriding existing data: " ++ javaToString (jio (TransformInfo.getDataFilePath this))) this "getData()")
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Data File overriding existing data: " ++ jconcatObject AbPath.toString (jio (TransformInfo.getDataFilePath this))) this "getData()")
                 jset (this).data_ (fileData)
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do

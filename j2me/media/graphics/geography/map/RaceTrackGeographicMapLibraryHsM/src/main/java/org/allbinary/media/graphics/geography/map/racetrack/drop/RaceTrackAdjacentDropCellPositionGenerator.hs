@@ -20,10 +20,10 @@ import RaceTrackDropCellPositionGenerator hiding (new_, init_, newRecord_, initF
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,7 @@ import qualified Any -- same package or java.lang
 import qualified RaceTrackAdjacentDropLayerFactory -- same package or java.lang
 import qualified RaceTrackGeographicMapInterface -- same package or java.lang
 import qualified GeographicMapCellTypeFactory -- same package or java.lang
+import qualified LayerInterfaceFactoryInterface -- same package or java.lang
 import qualified GroupCommonFactory -- org.allbinary.game.identification.GroupCommonFactory
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -85,6 +86,7 @@ instance JavaObjectClass RaceTrackAdjacentDropCellPositionGenerator where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: IORef (RaceTrackAdjacentDropCellPositionGenerator)
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_) >>= newIORef)
 

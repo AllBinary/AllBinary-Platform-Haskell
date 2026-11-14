@@ -19,10 +19,10 @@ module TableSearchRequest where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance JavaObjectClass TableSearchRequest where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TableSearchRequest
 newRecord_ = do
@@ -204,7 +207,7 @@ getXslFile_super object_ = (getXslFile_impl (javaCast object_ :: TableSearchRequ
 
 getXslFile_impl :: TableSearchRequest -> IO (String)
 getXslFile_impl this = do
-        let path = (javaToString ((jio (URLGLOBALS.getMainPath)) + (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jget (this).xslFile))
+        let path = (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jget (this).xslFile))
         pure (path)
 
 

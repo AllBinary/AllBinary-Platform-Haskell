@@ -20,10 +20,10 @@ import HttpServlet hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -184,7 +184,7 @@ saveFile_impl this filePath = do
                 jset (this).fileName (assignedValue)
                 when ((Data.List.isSuffixOf "/" (jget filePath)) || (Data.List.isSuffixOf "\\" (jget filePath))) $ do
                     jset filePath (((jget filePath) ++ (jget (this).fileName)))
-                file <- (AbFile.createAbFile (javaToString (jio (URLGLOBALS.getWebappPath)) ++ (jget filePath)))
+                file <- (AbFile.createAbFile ((jio (URLGLOBALS.getWebappPath)) ++ (jget filePath)))
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
                     stringBuffer <- (StringMaker.new_)
                     Control.Monad.void (StringMaker.append stringBuffer "Uploaded File: ")

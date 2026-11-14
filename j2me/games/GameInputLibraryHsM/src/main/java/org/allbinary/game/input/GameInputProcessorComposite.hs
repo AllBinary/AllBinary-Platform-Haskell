@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameInputProcessorInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInput -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringMaker -- org.allbinary.logic.string.StringMaker
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -89,7 +90,7 @@ new_2 name gameInputProcessorInterface = do
 
 init_2 :: GameInputProcessorComposite -> String -> GameInputProcessorInterface.GameInputProcessorInterface -> IO ()
 init_2 this name gameInputProcessorInterface = do
-        PlayerGameInput.init_3 this.base (jio (BasicArrayListD.new_)) (jio (BasicArrayListD.new_)) (Prelude.negate 1)
+        PlayerGameInput.init_3 this.base (javaCast (jio (BasicArrayListD.new_))) (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1)
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).name (name)

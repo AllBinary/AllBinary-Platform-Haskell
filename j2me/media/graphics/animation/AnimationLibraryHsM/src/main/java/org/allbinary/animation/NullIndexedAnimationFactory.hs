@@ -19,10 +19,10 @@ module NullIndexedAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,10 +32,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified IndexedAnimation -- same package or java.lang
-import qualified NullIndexedAnimation -- same package or java.lang
-import qualified IndexedAnimationBehavior -- same package or java.lang
+import qualified NullIndexedAnimationInner -- same package or java.lang
 import qualified Animation -- same package or java.lang
-import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified ScaleProperties -- org.allbinary.media.ScaleProperties
 import qualified AnimationInterfaceFactoryInterface
 import qualified ProceduralAnimationInterfaceFactoryInterface
@@ -60,13 +58,18 @@ instance JavaObjectClass NullIndexedAnimationFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_INDEXED_ANIMATION_ARRAY :: JavaArray (IndexedAnimation.IndexedAnimation)
 nULL_INDEXED_ANIMATION_ARRAY = (jnewArray (0) javaNull)
 
+nULL_INDEXED_ANIMATION_FACTORY :: IORef (NullIndexedAnimationFactory)
 {-# NOINLINE nULL_INDEXED_ANIMATION_FACTORY #-}
 nULL_INDEXED_ANIMATION_FACTORY = unsafePerformIO ((new_) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO NullIndexedAnimationFactory
 newRecord_ = do
@@ -138,5 +141,4 @@ setInitialScale_impl :: NullIndexedAnimationFactory -> ScaleProperties.ScaleProp
 setInitialScale_impl this scaleProperties = do
         pure ()
 
--- Java nested class NullIndexedAnimationInner: move it to its own module NullIndexedAnimationInner
 

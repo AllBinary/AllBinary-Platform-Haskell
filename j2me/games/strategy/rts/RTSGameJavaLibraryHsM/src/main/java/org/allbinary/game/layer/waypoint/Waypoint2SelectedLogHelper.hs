@@ -20,10 +20,10 @@ import Waypoint2LogHelper hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified GeographicMapCellHistory -- same package or java.lang
 import qualified PathFindingLayerInterface -- org.allbinary.game.layer.PathFindingLayerInterface
 import qualified WaypointBehaviorBase -- org.allbinary.game.layer.WaypointBehaviorBase
 import qualified CollidableDestroyableDamageableLayer -- org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer
@@ -74,6 +75,7 @@ instance JavaObjectClass Waypoint2SelectedLogHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: Waypoint2SelectedLogHelper
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 

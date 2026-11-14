@@ -19,10 +19,10 @@ module VectorCenterGenerator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified Set -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified GPoint -- org.allbinary.graphics.GPoint
 import qualified GraphicItemInterface -- org.allbinary.graphics.j2me.workarea.tools.GraphicItemInterface
@@ -73,6 +74,9 @@ instance JavaObjectClass VectorCenterGenerator where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO VectorCenterGenerator
 newRecord_ = do
@@ -134,12 +138,12 @@ calculate_super object_ a1 = (calculate_impl (javaCast object_ :: VectorCenterGe
 
 calculate_impl :: VectorCenterGenerator -> HashMap.HashMap -> IO (())
 calculate_impl this hashMap = do
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet hashMap))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet hashMap))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get hashMap (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
             when ((jio (GraphicItemInterface.getName item)) == (jio (LinesGraphicItem.getStaticName))) $ do
-                Control.Monad.void (VectorCenterGenerator.getInstance this (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))))
+                Control.Monad.void (VectorCenterGenerator.getInstance this (jio (Points.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((((("minX: " ++ javaToString (jget (this).minX)) ++ " minY: ") ++ javaToString (jget (this).minY)) ++ " maxX: ") ++ javaToString (jget (this).maxX)) ++ " maxY: ") ++ javaToString (jget (this).maxY)) this (jget ((jget (this).commonStrings)).gET_INSTANCE))
         Control.Monad.void (VectorCenterGenerator.setWidth this ((jget (this).maxX) - (jget (this).minX)))
         Control.Monad.void (VectorCenterGenerator.setHeight this ((jget (this).maxY) - (jget (this).minY)))
@@ -169,11 +173,11 @@ transform_impl :: VectorCenterGenerator -> HashMap.HashMap -> IO (())
 transform_impl this hashMap = do
         Control.Monad.void (VectorCenterGenerator.calculate this hashMap)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) " dx: "))) (jget (this).dx)))) " dy: "))) (jget (this).dy)))))) this (jget ((jget (this).commonStrings)).gET_INSTANCE))
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet hashMap))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet hashMap))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get hashMap (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
-            list <- (VectorCenterGenerator.translate (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) (jget this.dx) (jget this.dy))
+            list <- (VectorCenterGenerator.translate (jio (Points.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) (jget this.dx) (jget this.dy))
             newPoints <- (Points.new_)
             Control.Monad.void (Points.addPoints newPoints list)
             Control.Monad.void (GraphicItemInterface.setPointsInterface item newPoints)

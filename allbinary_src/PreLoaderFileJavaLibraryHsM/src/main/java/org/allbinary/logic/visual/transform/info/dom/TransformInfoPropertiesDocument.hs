@@ -19,10 +19,10 @@ module TransformInfoPropertiesDocument where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass TransformInfoPropertiesDocument where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TransformInfoPropertiesDocument
 newRecord_ = do
@@ -126,7 +129,7 @@ toTransformInfoPropertiesHashMap_impl this = do
             transformInfoProperties <- newIORef (javaNull)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset node ((javaCast (jio (BasicArrayList.get transformInfoNodeVector index)) :: Node.Node))
-                assignedValue <- (TransformInfoPropertiesFactory.getInstance_1 ((jio (TransformInfoPropertiesFactory.getInstance))) (jget node))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: TransformInfoProperties.TransformInfoProperties) (TransformInfoPropertiesFactory.getInstance_1 ((jio (TransformInfoPropertiesFactory.getInstance))) (jget node)))
                 jset transformInfoProperties (assignedValue)
                 Control.Monad.void (HashMap.put transformInfoPropertiesHashMap (jio (TransformInfoProperties.getName ((jget transformInfoProperties)))) (jget transformInfoProperties))
             pure (transformInfoPropertiesHashMap)

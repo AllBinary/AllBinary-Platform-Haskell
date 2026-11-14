@@ -20,10 +20,10 @@ import ValidatorBase hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -140,7 +140,7 @@ isValid_impl this = do
             handle (\(e :: JavaException) -> do
                 jset result ((jget ((jio (BooleanFactory.getInstance))).fALSE))
                 ) $ do
-                (Prelude.read (jio (ABTextFieldItem.getString ((jget (this).textFieldItem)))))
+                Control.Monad.void (jparseInt (jio (ABTextFieldItem.getString ((jget (this).textFieldItem)))))
         else do
             if (textLength < 1) then do
                 jset result ((jget ((jio (BooleanFactory.getInstance))).fALSE))
@@ -169,7 +169,7 @@ toList_impl this = do
                 Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
                 Control.Monad.void (BasicArrayList.add list (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append stringMaker name))) " is not a number"))))))
                 ) $ do
-                number <- (SmallIntegerSingletonFactory.createInstance smallIntegerSingletonFactory (Prelude.read (jio (ABTextFieldItem.getString ((jget (this).textFieldItem))))))
+                number <- (SmallIntegerSingletonFactory.createInstance smallIntegerSingletonFactory (jio (jparseInt (jio (ABTextFieldItem.getString ((jget (this).textFieldItem)))))))
                 if (number > (jget (this).min)) then do
                     Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
                     Control.Monad.void (BasicArrayList.add list (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append stringMaker name))) " is to small"))))))

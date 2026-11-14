@@ -20,10 +20,10 @@ import WaypointRunnableLogHelper hiding (new_, init_, newRecord_, initFields_, h
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -58,6 +58,7 @@ instance JavaObjectClass WaypointRunnableSelectedLogHelper where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instanceC :: WaypointRunnableSelectedLogHelper
 {-# NOINLINE instanceC #-}
 instanceC = unsafePerformIO ((new_))
 

@@ -20,10 +20,10 @@ import BasicAI hiding (new_, init_, newRecord_, initFields_, header_, base, stat
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified BasicAI -- org.allbinary.game.ai.BasicAI
 import qualified GameInput -- org.allbinary.game.input.GameInput
@@ -144,7 +145,8 @@ updateTotalDistance_impl :: BasePatrolAI -> IO (())
 updateTotalDistance_impl this = do
         let velocityInterfaceCompositeInterface = (javaCast (jio (BasicAI.getOwnerLayerInterface this)) :: VelocityInterfaceCompositeInterface.VelocityInterfaceCompositeInterface)
         velocityProperties <- (VelocityInterfaceCompositeInterface.getVelocityProperties velocityInterfaceCompositeInterface)
-        jset (this).xTotalDistance (((jget (this).xTotalDistance) + (BasicDecimal.getScaled ((jio (BasicVelocityProperties.getVelocityXBasicDecimalP velocityProperties))))))
+        assignedValue <- (BasicDecimal.getScaled ((jio (BasicVelocityProperties.getVelocityXBasicDecimalP velocityProperties))))
+        jset (this).xTotalDistance (((jget (this).xTotalDistance) + assignedValue))
         pure ()
 
 

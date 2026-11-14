@@ -20,10 +20,10 @@ import PropertiesTag hiding (new_, init_, newRecord_, initFields_, header_, base
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,8 +34,11 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified Class -- same package or java.lang
+import qualified HashMap -- same package or java.lang
 import qualified TagStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified CommandTag -- same package or java.lang
+import qualified CustomTagSupport -- same package or java.lang
 import qualified Method -- java.lang.reflect.Method
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified JspTagException -- javax.servlet.jsp.JspTagException
@@ -433,7 +436,7 @@ doStartTag_impl this = do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "TableTag RequestHelper: null" this (jget ((jget (this).base.base.tagStrings)).dO_START_TAG))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).jSPTAG))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("TableTag this.getCommand(): " ++ javaToString (jio (PropertiesTag.getCommand this))) this (jget ((jget this.base.base.tagStrings)).dO_START_TAG))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("TableTag this.getCommand(): " ++ (jio (PropertiesTag.getCommand this))) this (jget ((jget this.base.base.tagStrings)).dO_START_TAG))
             when (jio (TableTag.isEnabled this)) $ do
                 when ((jio (PropertiesTag.getCommand this)) /= javaNull) $ do
                     when ((((((Prelude.fromEnum (Prelude.compare (jio (PropertiesTag.getCommand this)) (jget ((jget (this).base.base.base.commonStrings)).iNSERT)) - 1) == 0) || ((Prelude.fromEnum (Prelude.compare (jio (PropertiesTag.getCommand this)) (jget ((jio (SqlStrings.getInstance))).iNSERT_INTO)) - 1) == 0)) || ((Prelude.fromEnum (Prelude.compare (jio (PropertiesTag.getCommand this)) (jget ((jget this.base.base.base.commonStrings)).dELETE)) - 1) == 0)) || ((Prelude.fromEnum (Prelude.compare (jio (PropertiesTag.getCommand this)) (jget ((jget this.base.base.base.commonStrings)).uPDATE)) - 1) == 0)) || ((Prelude.fromEnum (Prelude.compare (jio (PropertiesTag.getCommand this)) (jget ((jio (SqlStrings.getInstance))).uPDATE)) - 1) == 0)) $ do

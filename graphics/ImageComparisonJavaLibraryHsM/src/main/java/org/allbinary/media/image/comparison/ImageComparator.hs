@@ -19,10 +19,10 @@ module ImageComparator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified ImageComparatorConstraintsInterface -- same package or java.lang
 import qualified Color -- same package or java.lang
 import qualified ImageComparisonResult -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified BufferedImage -- java.awt.image.BufferedImage
 import qualified GPoint -- org.allbinary.graphics.GPoint
 import qualified PointFactory -- org.allbinary.graphics.PointFactory
@@ -64,6 +65,9 @@ instance JavaObjectClass ImageComparator where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageComparator
 newRecord_ = do
@@ -108,10 +112,10 @@ process_impl this imageComparisonInfo point = do
             rgb1 <- (getRGB ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (0))) (jio (GPoint.getX point)) (jio (GPoint.getY point)))
             rgb2 <- (getRGB ((jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))) (jio (GPoint.getX point)) (jio (GPoint.getY point)))
             automaticCacheInterface <- (ColorCacheFactory.getInstance)
-            let colorInteger = (javaToString rgb1)
+            let colorInteger = (rgb1)
             let colorCacheable = (javaCast (jio (AutomaticCacheInterface.get automaticCacheInterface colorInteger)) :: ColorCacheable.ColorCacheable)
             color <- (ColorCacheable.getColor colorCacheable)
-            let colorInteger2 = (javaToString rgb2)
+            let colorInteger2 = (rgb2)
             let colorCacheable2 = (javaCast (jio (AutomaticCacheInterface.get automaticCacheInterface colorInteger)) :: ColorCacheable.ColorCacheable)
             color2 <- (ColorCacheable.getColor colorCacheable)
             when ((jio (ImageComparatorConstraintsInterface.isColorAllowed ((jget (this).imageComparatorConstraintsInterface)) 0 point color)) || (jio (ImageComparatorConstraintsInterface.isColorAllowed ((jget (this).imageComparatorConstraintsInterface)) 1 point color2))) $ do

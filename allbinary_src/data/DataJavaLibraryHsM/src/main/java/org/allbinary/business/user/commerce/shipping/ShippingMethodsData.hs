@@ -19,10 +19,10 @@ module ShippingMethodsData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,26 +49,38 @@ instance JavaObjectClass ShippingMethodsData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sHIPPINGMETHODSORDERSUMMARIES :: String
 sHIPPINGMETHODSORDERSUMMARIES = "SHIPPINGMETHODS_ORDERSUMMARIES"
 
+sHIPPINGMETHODORDERSUMMARY :: String
 sHIPPINGMETHODORDERSUMMARY = "SHIPPINGMETHOD_ORDERSUMMARY"
 
+sHIPPINGMETHODS :: String
 sHIPPINGMETHODS = "SHIPPINGMETHODS"
 
+nAME :: String
 nAME = "SHIPPINGMETHODS_NAME"
 
+sHIPPINGCOST :: String
 sHIPPINGCOST = "SHIPPINGMETHOD_SHIPPINGCOST"
 
+tAXRATE :: String
 tAXRATE = "SHIPPINGMETHOD_TAXRATE"
 
+sUBTOTAL :: String
 sUBTOTAL = "SHIPPINGMETHOD_SUBTOTAL"
 
+tAX :: String
 tAX = "SHIPPINGMETHOD_TAX"
 
+tOTAL :: String
 tOTAL = "SHIPPINGMETHOD_TOTAL"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ShippingMethodsData
 newRecord_ = do

@@ -20,10 +20,10 @@ import LayerManager hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified LayerProcessor -- same package or java.lang
 import qualified LayerManagerNoDebug -- same package or java.lang
 import qualified AllBinaryLayer -- same package or java.lang
+import qualified LayerManager -- same package or java.lang
 import qualified LayerManagerEvent -- org.allbinary.layer.event.LayerManagerEvent
 import qualified LayerManagerEventHandler -- org.allbinary.layer.event.LayerManagerEventHandler
 import qualified LayerManager
@@ -85,8 +86,8 @@ newRecord_ = do
 initFields_ :: AllBinaryLayerManager -> IO ()
 initFields_ this = do
     jset this.layerManagerEventHandler =<< (LayerManagerEventHandler.getInstance)
-    jset this.createLayerManagerEvent =<< (LayerManagerEvent.new_2 this (jget ((jget (this).layerManagerEventHandler)).cREATE))
-    jset this.deleteLayerManagerEvent =<< (LayerManagerEvent.new_2 this (jget ((jget (this).layerManagerEventHandler)).dELETE))
+    jset this.createLayerManagerEvent =<< (LayerManagerEvent.new_2 (javaCast this) (jget ((jget (this).layerManagerEventHandler)).cREATE))
+    jset this.deleteLayerManagerEvent =<< (LayerManagerEvent.new_2 (javaCast this) (jget ((jget (this).layerManagerEventHandler)).dELETE))
     jset this.basicLayerProcessorArray ((jnewArray (0) javaNull))
     pure ()
 
@@ -98,7 +99,7 @@ new_ = do
 
 init_ :: AllBinaryLayerManager -> IO ()
 init_ this = do
-        LayerManager.init_1 this.base (jio (LayerManagerNoDebug.getInstance))
+        LayerManager.init_1 this.base (javaCast (jio (LayerManagerNoDebug.getInstance)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -138,6 +139,7 @@ log_impl this = do
         let size = (jlength (jget (this).basicLayerProcessorArray))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let layerProcessorInterface = (jindex ((jget (this).basicLayerProcessorArray)) (index))
+            pure ()
         pure ()
 
 

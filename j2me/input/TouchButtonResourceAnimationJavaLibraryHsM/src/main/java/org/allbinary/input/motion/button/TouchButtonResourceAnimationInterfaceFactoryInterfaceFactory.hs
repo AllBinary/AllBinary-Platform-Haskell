@@ -20,10 +20,10 @@ import BaseResourceAnimationInterfaceFactoryInterfaceFactory hiding (new_, init_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -43,6 +43,7 @@ import qualified TouchButtonTurnRightResource -- same package or java.lang
 import qualified TouchButtonStrafeLeftResource -- same package or java.lang
 import qualified TouchButtonStrafeRightResource -- same package or java.lang
 import qualified ResourceLoadingLevel -- same package or java.lang
+import qualified GenericOperatingSystem -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified AnimationBehaviorFactory -- org.allbinary.animation.AnimationBehaviorFactory
 import qualified NullAnimationFactory -- org.allbinary.animation.NullAnimationFactory

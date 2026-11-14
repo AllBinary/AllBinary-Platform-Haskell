@@ -20,10 +20,10 @@ import PlayerGameInput hiding (new_, init_, newRecord_, initFields_, header_, ba
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,6 +54,7 @@ instance JavaObjectClass NoPlayerGameInput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sINGLETON :: NoPlayerGameInput
 {-# NOINLINE sINGLETON #-}
 sINGLETON = unsafePerformIO ((new_))
 
@@ -84,7 +85,7 @@ new_ = do
 
 init_ :: NoPlayerGameInput -> IO ()
 init_ this = do
-        PlayerGameInput.init_3 this.base (jio (BasicArrayListD.new_)) (jio (BasicArrayListD.new_)) (Prelude.negate 1)
+        PlayerGameInput.init_3 this.base (javaCast (jio (BasicArrayListD.new_))) (javaCast (jio (BasicArrayListD.new_))) (Prelude.negate 1)
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

@@ -19,10 +19,10 @@ module ResourceUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,11 +63,15 @@ instance JavaObjectClass ResourceUtil where
 {-# NOINLINE classLoader #-}
 classLoader = unsafePerformIO (newIORef ((jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
+instance_ :: ResourceUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ResourceUtil
 newRecord_ = do
@@ -126,7 +130,7 @@ setClassLoader_super object_ a1 = (setClassLoader_impl (javaCast object_ :: Reso
 setClassLoader_impl :: ResourceUtil -> ClassLoader.ClassLoader -> IO (())
 setClassLoader_impl this classLoader = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "Resource Loader: "))) (jio (Class.getName ((jio (jobjectGetClass classLoader)))))))))) this "setClassLoader")
-        jset ResourceUtil.classLoader (classLoader)
+        jset ResourceUtil.classLoader ((jtoObject classLoader))
         pure ()
 
 
@@ -169,7 +173,7 @@ getResourceAsStreamAtStart_impl this resource startIndex = do
         jset inputStream (assignedValue)
         when ((jget inputStream) /= javaNull) $ do
             javaReturn ((jget inputStream))
-        assignedValue <- (Thread.getResourceAsStream ((jio (Thread.getContextClassLoader ((jio (Thread.currentThread)))))) resourcePath)
+        assignedValue <- (ClassLoader.getResourceAsStream ((jio (Thread.getContextClassLoader ((jio (Thread.currentThread)))))) resourcePath)
         jset inputStream (assignedValue)
         when ((jget inputStream) /= javaNull) $ do
             javaReturn ((jget inputStream))

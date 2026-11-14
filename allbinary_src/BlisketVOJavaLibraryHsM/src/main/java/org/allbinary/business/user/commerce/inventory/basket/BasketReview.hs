@@ -19,10 +19,10 @@ module BasketReview where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -63,6 +63,9 @@ instance JavaObjectClass BasketReview where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BasketReview
 newRecord_ = do
@@ -181,7 +184,7 @@ getTotalWeight_impl this = do
         let size = (jlength itemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jindex itemArray (index)) :: Item.Item)
-            jset weightFloat (((jget weightFloat) + (jio (Item.getWeight item))))
+            jset weightFloat (((jget weightFloat) + (jio (jparseFloat (jio (Item.getWeight item))))))
         pure ((javaToString (jget weightFloat)))
 
 
@@ -227,7 +230,7 @@ getNumberOf_impl this id = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jindex itemArray (index)) :: Item.Item)
             when ((Prelude.fromEnum (Prelude.compare (jio (Item.getId item)) id) - 1) == 0) $ do
-                javaReturn ((Prelude.fromIntegral ((jio (Item.getNumber item))) :: Int))
+                javaReturn =<< (jparseInt (jio (Item.getNumber item)))
         pure ((Prelude.fromIntegral (0) :: Int))
 
 
@@ -245,7 +248,7 @@ toXmlNode_impl this document = do
         let size = (jlength itemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jindex itemArray (index)) :: Item.Item)
-            Control.Monad.void (Node.appendChild node (jio (ItemView.toXmlNode ((jio (ItemView.new_2 item (jio (BasicArrayListD.new_))))) document)))
+            Control.Monad.void (Node.appendChild node (jio (ItemView.toXmlNode ((jio (ItemView.new_2 (javaCast item) (javaCast (jio (BasicArrayListD.new_)))))) document)))
         pure (node)
 
 

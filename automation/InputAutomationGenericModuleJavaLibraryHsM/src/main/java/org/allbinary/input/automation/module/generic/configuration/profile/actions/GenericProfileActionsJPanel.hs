@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -48,6 +48,7 @@ import qualified ListSelectionListener -- same package or java.lang
 import qualified ListSelectionEvent -- same package or java.lang
 import qualified GenericProfileAction -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified ListModel -- same package or java.lang
 import qualified DefaultListModelHelper -- org.allbinary.input.automation.module.DefaultListModelHelper
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified CommonStrings -- org.allbinary.string.CommonStrings

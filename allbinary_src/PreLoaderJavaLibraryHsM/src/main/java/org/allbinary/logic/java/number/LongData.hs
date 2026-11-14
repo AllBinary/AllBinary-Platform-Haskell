@@ -19,10 +19,10 @@ module LongData where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -49,11 +49,15 @@ instance JavaObjectClass LongData where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mAX_LONG_LENGTH :: IORef (Int)
 {-# NOINLINE mAX_LONG_LENGTH #-}
 mAX_LONG_LENGTH = unsafePerformIO (newIORef ((Prelude.length (javaToString (Prelude.fromIntegral ((Prelude.maxBound :: Int64)) :: Int64)))))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO LongData
 newRecord_ = do

@@ -20,10 +20,10 @@ import Animation hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -233,8 +233,8 @@ setState_super object_ a1 = (setState_impl (javaCast object_ :: IndexedAnimation
 setState_impl :: IndexedAnimation -> IndexedAnimation -> IO (())
 setState_impl this indexedAnimation = do
         Control.Monad.void (IndexedAnimation.setFrame this (jio (IndexedAnimation.getFrame indexedAnimation)))
-        Control.Monad.void (Animation.setDx this (jio (IndexedAnimation.getDx indexedAnimation)))
-        Control.Monad.void (Animation.setDy this (jio (IndexedAnimation.getDy indexedAnimation)))
+        Control.Monad.void (Animation.setDx this (jio (Animation.getDx indexedAnimation)))
+        Control.Monad.void (Animation.setDy this (jio (Animation.getDy indexedAnimation)))
         pure ()
 
 

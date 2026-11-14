@@ -7,10 +7,10 @@ module PathParser where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -44,6 +44,9 @@ instance JavaObjectClass PathParser where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO PathParser
 newRecord_ = do
@@ -85,7 +88,7 @@ tokenize d = do
             else do
                 Control.Monad.void (StringBuffer.append sb c)
         when ((jio (StringBuffer.length sb)) > 0) $ do
-            Control.Monad.void (jio (BasicArrayList.add tokens (jio (StringBuffer.toString sb))))
+            Control.Monad.void (BasicArrayList.add tokens (jio (StringBuffer.toString sb)))
         let res = (jnewArray ((jio (BasicArrayList.size tokens))) javaNull)
         Control.Monad.void (BasicArrayList.toArrayType tokens res)
         pure (res)
@@ -94,7 +97,7 @@ tokenize d = do
 parsePath :: String -> JavaArray (Int) -> JavaArray (Int) -> Int -> IO (Int)
 parsePath d outX outY maxPoints = do
         tokens <- (PathParser.tokenize d)
-        let count = (jarrayFromList [0])
+        let count = (jarrayFromList [0] :: JavaArray Int)
         fixedPoint <- (FixedPoint.getInstance)
         curX <- newIORef (0)
         curY <- newIORef (0)
@@ -105,8 +108,8 @@ parsePath d outX outY maxPoints = do
             let tok = (jindex tokens ((jpostIncrement idx (+ 1))))
             let cmd = (tok Prelude.!! 0)
             if ((cmd == 'M') || (cmd == 'm')) then do
-                x <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                x <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                 when (cmd == 'm') $ do
                     jset x (((jget x) + (jget curX)))
                     jset y (((jget y) + (jget curY)))
@@ -118,8 +121,8 @@ parsePath d outX outY maxPoints = do
                 jsetIndex outY ((jindex count (0))) ((jget curY))
                 jsetIndex count (0) ((jindex count (0)) + 1)
             else if ((cmd == 'L') || (cmd == 'l')) then do
-                x <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                x <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                 when (cmd == 'l') $ do
                     jset x (((jget x) + (jget curX)))
                     jset y (((jget y) + (jget curY)))
@@ -129,7 +132,7 @@ parsePath d outX outY maxPoints = do
                 jsetIndex outY ((jindex count (0))) ((jget curY))
                 jsetIndex count (0) ((jindex count (0)) + 1)
             else if ((cmd == 'V') || (cmd == 'v')) then do
-                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                y <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                 when (cmd == 'v') $ do
                     jset y (((jget y) + (jget curY)))
                 jset curY ((jget y))
@@ -137,12 +140,12 @@ parsePath d outX outY maxPoints = do
                 jsetIndex outY ((jindex count (0))) ((jget curY))
                 jsetIndex count (0) ((jindex count (0)) + 1)
             else if ((cmd == 'C') || (cmd == 'c')) then do
-                x1 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                y1 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                x2 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                y2 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                x3 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                y3 <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                x1 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                y1 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                x2 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                y2 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                x3 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                y3 <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                 when (cmd == 'c') $ do
                     jset x1 (((jget x1) + (jget curX)))
                     jset y1 (((jget y1) + (jget curY)))
@@ -161,8 +164,8 @@ parsePath d outX outY maxPoints = do
                 jsetIndex count (0) ((jindex count (0)) + 1)
             fix $ \loop -> when (((jget idx) < (jlength tokens)) && (Prelude.not (jio (PathParser.isCommand (jindex tokens ((jget idx))))))) $ javaIteration (loop) $ do
                 if ((((cmd == 'M') || (cmd == 'm')) || (cmd == 'L')) || (cmd == 'l')) then do
-                    x <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
-                    y <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                    x <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
+                    y <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                     when ((cmd == 'm') || (cmd == 'l')) $ do
                         jset x (((jget x) + (jget curX)))
                         jset y (((jget y) + (jget curY)))
@@ -172,7 +175,7 @@ parsePath d outX outY maxPoints = do
                     jsetIndex outY ((jindex count (0))) ((jget curY))
                     jsetIndex count (0) ((jindex count (0)) + 1)
                 else when ((cmd == 'V') || (cmd == 'v')) $ do
-                    y <- newIORef =<< (FixedPoint.toFixed fixedPoint (Prelude.read (jindex tokens ((jpostIncrement idx (+ 1))))))
+                    y <- newIORef =<< (FixedPoint.toFixed fixedPoint (jio (jparseDouble (jindex tokens ((jpostIncrement idx (+ 1)))))))
                     when (cmd == 'v') $ do
                         jset y (((jget y) + (jget curY)))
                     jset curY ((jget y))

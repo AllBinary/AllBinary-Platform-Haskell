@@ -20,10 +20,10 @@ import HighScores hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,8 @@ import qualified Any -- same package or java.lang
 import qualified RemoteHighScoresProcessorFactory -- same package or java.lang
 import qualified RemoteHighScoresSubmissionProcessorFactory -- same package or java.lang
 import qualified RemoteHighScoresData -- same package or java.lang
+import qualified RemoteHighScoresProcessorInterface -- same package or java.lang
+import qualified RemoteHighScoresSubmissionProcessorInterface -- same package or java.lang
 import qualified Enumeration -- java.util.Enumeration
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified GameInfo -- org.allbinary.game.GameInfo
@@ -76,6 +78,7 @@ instance JavaObjectClass RemoteHighScores where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+hashTable :: ABHashtable.ABHashtable
 {-# NOINLINE hashTable #-}
 hashTable = unsafePerformIO ((StdUtil.createHashtable ((jio (StdUtil.getInstance)))))
 
@@ -140,11 +143,11 @@ getInstancePreload abeClientInformation softwareInformation gameInfo heading col
             Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) (jio (RemoteErrorHighScoresSingletonFactory.getInstance)) (jget (commonStrings).gET_INSTANCE) e)
             (RemoteErrorHighScoresSingletonFactory.getInstance)
             ) $ do
-            highScores <- newIORef ((javaCast (jio (get RemoteHighScores.hashTable gameInfo)) :: HighScores.HighScores))
+            highScores <- newIORef ((javaCast (jio (ABHashtable.get RemoteHighScores.hashTable gameInfo)) :: HighScores.HighScores))
             when ((jget highScores) == javaNull) $ do
                 assignedValue <- (fmap (\value_ -> javaCast value_ :: HighScores.HighScores) (new_7 abeClientInformation softwareInformation gameInfo heading columnTwoHeading isAscending preload))
                 jset highScores (assignedValue)
-                Control.Monad.void (put RemoteHighScores.hashTable gameInfo (jget highScores))
+                Control.Monad.void (ABHashtable.put RemoteHighScores.hashTable gameInfo (jget highScores))
             pure ((jget highScores))
 
 
@@ -176,7 +179,7 @@ update_impl this hashtable = do
                 let highScoreVector = (javaCast (jio (BasicArrayList.get vector index)) :: BasicArrayList.BasicArrayList)
                 let displayName = (javaCast (jio (BasicArrayList.get highScoreVector 0)) :: String)
                 let score = (javaCast (jio (BasicArrayList.get highScoreVector 1)) :: String)
-                let longScore = (Prelude.read score)
+                longScore <- (jparseLong score)
                 highScore <- (HighScore.new_4 (Prelude.negate 1) displayName javaNull longScore)
                 Control.Monad.void (BasicArrayList.add ((jio (HighScores.getList this))) highScore)
         else do

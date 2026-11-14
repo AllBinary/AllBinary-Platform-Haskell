@@ -19,10 +19,10 @@ module BlisketBackupFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,11 +69,15 @@ instance JavaObjectClass BlisketBackupFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: BlisketBackupFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO BlisketBackupFactory
 newRecord_ = do
@@ -148,7 +152,7 @@ backup_impl this = do
             backupPath <- (StringMaker.toString stringBuffer)
             path <- (AbPath.new_2 backupPath (jget ((jget (this).stringUtil)).eMPTY_STRING))
             fileBasicArrayList <- (BlisketBackupFactory.getFileBasicArrayList this backupPath)
-            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backup.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList ((jio (AbPath.toFileSystemString path)) ++ "backup.zip"))
         pure ()
 
 
@@ -190,7 +194,7 @@ backupViews_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jget viewsPath))
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this "backupViews()")
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jget viewsPath))))
-            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupViews.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList ((jio (AbPath.toFileSystemString path)) ++ "backupViews.zip"))
         pure ()
 
 
@@ -220,7 +224,7 @@ backupResources_impl this = do
             resourcesPath <- newIORef ("")
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset nextStore ((javaCast (jio (BasicArrayList.get storeFrontNamesBasicArrayList index)) :: String))
-                assignedValue <- (StoreFrontsEntity.getStoreFrontInterface storeFrontsEntity (jget nextStore))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontsEntity.getStoreFrontInterface storeFrontsEntity (jget nextStore)))
                 jset storeFrontInterface (assignedValue)
                 Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
                 Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getWebappPath)))
@@ -235,7 +239,7 @@ backupResources_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jget resourcesPath))
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString stringBuffer)) this "backupResources()")
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jget resourcesPath))))
-            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupResources.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList ((jio (AbPath.toFileSystemString path)) ++ "backupResources.zip"))
         pure ()
 
 
@@ -268,7 +272,7 @@ backupJsps_impl this = do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getWebappPath)))
                 Control.Monad.void (StringMaker.append stringBuffer (jget nextStore))
                 Control.Monad.void (BasicArrayList.addAllList fileBasicArrayList (jio (BlisketBackupFactory.getFileBasicArrayList this (jio (StringMaker.toString stringBuffer)))))
-            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList (javaToString (jio (AbPath.toFileSystemString path)) ++ "backupJsps.zip"))
+            Control.Monad.void (BlisketBackupFactory.backup_2 this fileBasicArrayList ((jio (AbPath.toFileSystemString path)) ++ "backupJsps.zip"))
         pure ()
 
 

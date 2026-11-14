@@ -20,10 +20,10 @@ import RTSLayer hiding (new_, init_, newRecord_, initFields_, header_, base, sta
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -42,8 +42,14 @@ import qualified RTSLayerUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified RTSLayer2LogHelper -- same package or java.lang
 import qualified GeographicMapCellPositionAreaBase -- same package or java.lang
+import qualified RotationAnimation -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified MultiPlayerGameLayer -- same package or java.lang
+import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified AllBinaryGameLayer -- same package or java.lang
+import qualified Layer -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified AnimationInterfaceFactoryInterface -- org.allbinary.animation.AnimationInterfaceFactoryInterface
 import qualified NullAnimationFactory -- org.allbinary.animation.NullAnimationFactory
@@ -63,7 +69,6 @@ import qualified GameKeyEventFactory -- org.allbinary.game.input.event.GameKeyEv
 import qualified NullRTSFormInputFactory -- org.allbinary.game.input.form.NullRTSFormInputFactory
 import qualified RTSFormInput -- org.allbinary.game.input.form.RTSFormInput
 import qualified BuildingEventHandler -- org.allbinary.game.layer.building.event.BuildingEventHandler
-import qualified UnitLayer -- org.allbinary.game.layer.unit.UnitLayer
 import qualified Waypoint2LogHelper -- org.allbinary.game.layer.waypoint.Waypoint2LogHelper
 import qualified Waypoint2SelectedLogHelper -- org.allbinary.game.layer.waypoint.Waypoint2SelectedLogHelper
 import qualified WaypointBase -- org.allbinary.game.layer.waypoint.WaypointBase
@@ -160,7 +165,7 @@ createSimulated :: IO (AdvancedRTSGameLayer)
 createSimulated = do
         nullAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullAnimationFactory.getFactoryInstance))
         nullIndexedAnimationInterfaceFactoryInterface <- (fmap (\value_ -> javaCast value_ :: AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface) (NullIndexedAnimationFactory.getFactoryInstance))
-        (new_18 (RemoteInfo.rEMOTE_INFO) (NullPathFindingLayer.nULL_PATH_FINDING_LAYER) (jio (AdvancedRTSProperties.createPropertiesSimulated)) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (jio (NullIndexedAnimationFactory.getFactoryInstance)) (RectangleFactory.sINGLETON) 0 0 (jio (TileLayerPositionIntoViewPosition.new_)))
+        (new_18 (RemoteInfo.rEMOTE_INFO) (javaCast NullPathFindingLayer.nULL_PATH_FINDING_LAYER) (jio (AdvancedRTSProperties.createPropertiesSimulated)) (jget ((jio (GroupFactory.getInstance))).nULL_GROUP_ARRAY) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Health.nULL_HEALTH) (jio (NullRTSFormInputFactory.getInstance)) nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullAnimationInterfaceFactoryInterface nullIndexedAnimationInterfaceFactoryInterface (javaCast (jio (NullIndexedAnimationFactory.getFactoryInstance))) (RectangleFactory.sINGLETON) 0 0 (javaCast (jio (TileLayerPositionIntoViewPosition.new_))))
 
 new_18 :: RemoteInfo.RemoteInfo -> PathFindingLayerInterface.PathFindingLayerInterface -> AdvancedRTSProperties.AdvancedRTSProperties -> JavaArray (Group.Group) -> String -> String -> Health.Health -> RTSFormInput.RTSFormInput -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> AnimationInterfaceFactoryInterface.AnimationInterfaceFactoryInterface -> ProceduralAnimationInterfaceFactoryInterface.ProceduralAnimationInterfaceFactoryInterface -> Rectangle.Rectangle -> Int -> Int -> ViewPositionBase.ViewPositionBase -> IO AdvancedRTSGameLayer
 new_18 remoteInfo parentLayer advancedRTSProperties groupInterface rootName name healthInterface rtsFormInput animationInterfaceFactoryInterface emptyAnimationInterfaceFactoryInterface baseAnimationInterfaceFactoryInterface buildAnimationInterfaceFactoryInterface verticleBuildAnimationInterfaceFactoryInterface proceduralAnimationInterfaceFactoryInterface rectangle x y viewPosition = do
@@ -287,7 +292,7 @@ setWaypointBehavior_super object_ a1 = (setWaypointBehavior_impl (javaCast objec
 
 setWaypointBehavior_impl :: AdvancedRTSGameLayer -> WaypointBehaviorBase.WaypointBehaviorBase -> IO (())
 setWaypointBehavior_impl this unitWaypointHelper = do
-        jset (this).waypointBehaviorBase (unitWaypointHelper)
+        jset (this).waypointBehaviorBase ((javaCast unitWaypointHelper :: TickableInterface.TickableInterface))
         pure ()
 
 
@@ -335,7 +340,7 @@ shouldAddWaypointFromBuilding_impl this = do
     javaCatchReturn $ do
         when ((jtoObject (jget (this).parentLayer)) /= (jtoObject NullPathFindingLayer.nULL_PATH_FINDING_LAYER)) $ do
             let parentAdvancedRTSGameLayer = (javaCast (jget (this).parentLayer) :: AdvancedRTSGameLayer)
-            when ((jio (AdvancedRTSGameLayer.getType parentAdvancedRTSGameLayer)) /= (jio (UnitLayer.getStaticType))) $ do
+            when ((jio (RTSLayer.getType parentAdvancedRTSGameLayer)) /= 1) $ do
                 javaReturn (True)
         pure (False)
 
@@ -349,7 +354,7 @@ isWaypointListEmptyOrOnlyTargets_super object_ = (isWaypointListEmptyOrOnlyTarge
 isWaypointListEmptyOrOnlyTargets_impl :: AdvancedRTSGameLayer -> IO (Bool)
 isWaypointListEmptyOrOnlyTargets_impl this = do
     javaCatchReturn $ do
-        when ((jio (RTSLayer.getType this)) /= (jio (UnitLayer.getStaticType))) $ do
+        when ((jio (RTSLayer.getType this)) /= 1) $ do
             javaReturn (True)
         pure (False)
 
@@ -448,11 +453,11 @@ setSelected_impl this selected = do
         Control.Monad.void (RTSLayer.setSelected_super this.base selected)
         when (jget (this).base.debug) $ do
             if selected then do
-                assignedValue <- (WaypointSelectedLogHelper.getInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: WaypointLogHelper.WaypointLogHelper) (WaypointSelectedLogHelper.getInstance))
                 jset (this).base.waypointLogHelperP (assignedValue)
                 assignedValue <- (Waypoint2SelectedLogHelper.getInstance)
                 jset (this).base.waypoint2LogHelperP (assignedValue)
-                assignedValue <- (WaypointRunnableSelectedLogHelper.getInstance)
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: WaypointRunnableLogHelper.WaypointRunnableLogHelper) (WaypointRunnableSelectedLogHelper.getInstance))
                 jset (this).base.waypointRunnableLogHelperP (assignedValue)
             else do
                 assignedValue <- (WaypointLogHelper.getInstance)

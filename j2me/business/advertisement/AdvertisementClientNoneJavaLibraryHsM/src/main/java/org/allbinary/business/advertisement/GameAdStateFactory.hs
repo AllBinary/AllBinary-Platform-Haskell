@@ -7,10 +7,10 @@ module GameAdStateFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -45,11 +45,15 @@ instance JavaObjectClass GameAdStateFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: GameAdStateFactory
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO GameAdStateFactory
 newRecord_ = do
@@ -66,7 +70,7 @@ newRecord_ = do
 
 initFields_ :: GameAdStateFactory -> IO ()
 initFields_ this = do
-    jset this.gameAdStateArray ((jarrayFromList [(jio (GameAdState.new_1 (jio (AppNameLicensingAdConfiguration.new_))))]))
+    jset this.gameAdStateArray ((jarrayFromList [(jio (GameAdState.new_1 (javaCast (jio (AppNameLicensingAdConfiguration.new_)))))]))
     jset this.gameAdState ((jindex ((jget (this).gameAdStateArray)) (0)))
     pure ()
 
@@ -107,7 +111,7 @@ getInstanceForApp_super object_ a1 = (getInstanceForApp_impl (javaCast object_ :
 getInstanceForApp_impl :: GameAdStateFactory -> SoftwareInformation.SoftwareInformation -> IO (GameAdStateBase.GameAdStateBase)
 getInstanceForApp_impl this softwareInformation = do
         jset (this).gameAdState ((jindex ((jget (this).gameAdStateArray)) (0)))
-        pure ((jindex ((jget (this).gameAdStateArray)) (0)))
+        pure ((javaCast (jindex ((jget (this).gameAdStateArray)) (0)) :: GameAdStateBase.GameAdStateBase))
 
 
 isEnabled :: (JavaObjectClass this_) => this_ -> IO (Bool)

@@ -16,14 +16,14 @@
 -- package views
 module HttpComponentView (module HttpComponentView, module TransformInfoHttpComposite) where
 
-import TransformInfoHttpComposite hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getTypeId, getTypeId_super, getTypeId_impl, getTransformDocumentInterface, getTransformDocumentInterface_super, getTransformDocumentInterface_impl, setTransformDocumentInterface, setTransformDocumentInterface_super, setTransformDocumentInterface_impl, addDomNodeInterface, addDomNodeInterface_super, addDomNodeInterface_impl, toXmlDoc, toXmlDoc_super, toXmlDoc_impl, getDoc, getDoc_super, getDoc_impl, view, view_super, view_impl, logUtil, abeClientInformation, domNodeInterfaceVector, transformDocumentInterface, nO_TYPE)
+import TransformInfoHttpComposite hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, getTypeId, getTypeId_super, getTypeId_impl, getTransformDocumentInterface, getTransformDocumentInterface_super, getTransformDocumentInterface_impl, setTransformDocumentInterface, setTransformDocumentInterface_super, setTransformDocumentInterface_impl, addDomNodeInterface, addDomNodeInterface_super, addDomNodeInterface_impl, toXmlDoc, toXmlDoc_super, toXmlDoc_impl, getDoc, getDoc_super, getDoc_impl, view, view_super, view_impl, getTransformInfoInterface, getTransformInfoInterface_super, getTransformInfoInterface_impl, logUtil, abeClientInformation, domNodeInterfaceVector, transformDocumentInterface, nO_TYPE)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -93,6 +93,7 @@ newRecord_ = do
     jregisterMethod header_ "toXmlDoc" (\() -> toXmlDoc_impl this)
     jregisterMethod header_ "getDoc" (\() -> getDoc_impl this)
     jregisterMethod header_ "view" (\() -> view_impl this)
+    jregisterMethod header_ "getTransformInfoInterface" (\() -> getTransformInfoInterface_impl this)
     pure this
 
 initFields_ :: HttpComponentView -> IO ()
@@ -186,7 +187,7 @@ toXmlDoc_impl this = do
             size <- (BasicArrayList.size ((jget (this).domNodeInterfaceVector)))
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let domNodeInterface = (javaCast (jio (BasicArrayList.get ((jget (this).domNodeInterfaceVector)) index)) :: DomNodeInterface.DomNodeInterface)
-                Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jget (this).transformDocumentInterface))))) (jio (DomNodeInterface.toXmlNode domNodeInterface (jio (TransformDocumentInterface.getDoc ((jget (this).transformDocumentInterface)))))))
+                Control.Monad.void (Node.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jget (this).transformDocumentInterface))))) (jio (DomNodeInterface.toXmlNode domNodeInterface (jio (TransformDocumentInterface.getDoc ((jget (this).transformDocumentInterface)))))))
             (TransformDocumentInterface.getDoc ((jio (HttpComponentView.getTransformDocumentInterface this))))
 
 
@@ -199,12 +200,12 @@ getDoc_super object_ = (getDoc_impl (javaCast object_ :: HttpComponentView))
 
 getDoc_impl :: HttpComponentView -> IO (Document.Document)
 getDoc_impl this = do
-        document <- (TransformInfoInterface.getDataDocument ((jio (TransformInfoHttpComposite.getTransformInfoInterface this))))
+        document <- (TransformInfoInterface.getDataDocument ((jio (HttpComponentView.getTransformInfoInterface this))))
         node <- (DomNodeHelper.getFirstChildElement (javaCast document))
         when (node /= javaNull) $ do
-            dataNode <- (TransformDocumentInterface.importNode ((jio (TransformDocumentInterface.getDoc ((jio (HttpComponentView.getTransformDocumentInterface this)))))) node True)
+            dataNode <- (Document.importNode ((jio (TransformDocumentInterface.getDoc ((jio (HttpComponentView.getTransformDocumentInterface this)))))) node True)
             when (dataNode /= javaNull) $ do
-                Control.Monad.void (TransformDocumentInterface.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (HttpComponentView.getTransformDocumentInterface this)))))) dataNode)
+                Control.Monad.void (Node.appendChild ((jio (TransformDocumentInterface.getBaseNode ((jio (HttpComponentView.getTransformDocumentInterface this)))))) dataNode)
         (TransformDocumentInterface.getDoc ((jio (HttpComponentView.getTransformDocumentInterface this))))
 
 
@@ -224,7 +225,19 @@ view_impl this = do
             ) $ do
             Control.Monad.void (HttpComponentView.toXmlDoc this)
             success <- (XmlDocumentHelper.toString (jio (HttpComponentView.getDoc this)))
-            result <- (BasicTransformer.translate ((jio (BasicTransformer.new_2 (jget (this).abeClientInformation) (jio (TransformInfoHttpComposite.getTransformInfoInterface this))))) success)
+            result <- (BasicTransformer.translate ((jio (BasicTransformer.new_2 (jget (this).abeClientInformation) (jio (HttpComponentView.getTransformInfoInterface this))))) success)
             pure (result)
+
+
+-- throws Exception
+getTransformInfoInterface :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface object_ = jmethod object_ "getTransformInfoInterface" (\() -> (getTransformInfoInterface_impl (javaCast object_ :: HttpComponentView))) ()
+
+getTransformInfoInterface_super :: (JavaObjectClass this_) => this_ -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_super object_ = (getTransformInfoInterface_impl (javaCast object_ :: HttpComponentView))
+
+getTransformInfoInterface_impl :: HttpComponentView -> IO (TransformInfoInterface.TransformInfoInterface)
+getTransformInfoInterface_impl this = do
+        (TransformInfoHttpComposite.getTransformInfoInterface_super this.base)
 
 

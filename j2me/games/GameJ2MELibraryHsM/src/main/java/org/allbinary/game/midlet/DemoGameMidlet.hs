@@ -20,10 +20,10 @@ import GameMidlet hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,7 +36,10 @@ import qualified Any -- same package or java.lang
 import qualified DemoRunnable -- same package or java.lang
 import qualified CreateGameRunnable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ProgressMidlet -- same package or java.lang
+import qualified AllBinaryMidlet -- same package or java.lang
 import qualified GameCanvasRunnableInterface -- org.allbinary.game.displayable.canvas.GameCanvasRunnableInterface
 import qualified AllBinaryGameLayerManager -- org.allbinary.game.layer.AllBinaryGameLayerManager
 import qualified ProgressCanvas -- org.allbinary.graphics.canvas.transition.progress.ProgressCanvas

@@ -19,10 +19,10 @@ module CloudStreamUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,11 +55,15 @@ instance JavaObjectClass CloudStreamUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: CloudStreamUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CloudStreamUtil
 newRecord_ = do
@@ -102,7 +106,7 @@ getFile_super object_ a1 = (getFile_impl (javaCast object_ :: CloudStreamUtil)) 
 
 getFile_impl :: CloudStreamUtil -> AbFile.AbFile -> IO (InputStream.InputStream)
 getFile_impl this file = do
-        inputStream <- (fmap (\value_ -> javaCast value_ :: InputStream.InputStream) (AbFileInputStream.new_1 file))
+        inputStream <- (AbFileInputStream.createFromAbFile file)
         available <- (InputStream.available inputStream)
         when (available > 0) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
@@ -125,7 +129,7 @@ getFileAnyWhere_impl this file = do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Local File Bytes: " ++ javaToString (jget available)) this "processRequest()")
         else do
-            assignedValue <- (fmap (\value_ -> javaCast value_ :: InputStream.InputStream) (AbFileInputStream.new_1 file))
+            assignedValue <- (AbFileInputStream.createFromAbFile file)
             jset inputStream (assignedValue)
             assignedValue <- (InputStream.available ((jget inputStream)))
             jset available (assignedValue)

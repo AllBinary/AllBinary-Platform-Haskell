@@ -20,10 +20,10 @@ import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, st
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -105,7 +109,7 @@ new_ = do
 
 init_ :: StaticPagesEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (StaticPagesDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (StaticPagesDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tABLENAME))
@@ -138,10 +142,10 @@ getFile_super object_ a1 a2 = (getFile_impl (javaCast object_ :: StaticPagesEnti
 
 getFile_impl :: StaticPagesEntity -> String -> String -> IO (String)
 getFile_impl this store keywords = do
-        whereHashMap <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        whereHashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put whereHashMap (jget ((jio (StoreFrontData.getInstance))).nAME) store)
         Control.Monad.void (HashMap.put whereHashMap (jget ((jget this.basicItemData)).kEYWORDS) keywords)
-        file <- (AbSqlBean.getField_super this.base whereHashMap (SearchData.pAGE))
+        file <- (AbSqlBean.getField_2_super this.base whereHashMap (SearchData.pAGE))
         pure (file)
 
 

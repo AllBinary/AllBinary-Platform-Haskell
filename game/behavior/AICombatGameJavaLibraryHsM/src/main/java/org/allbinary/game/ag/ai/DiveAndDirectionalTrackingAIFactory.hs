@@ -19,10 +19,10 @@ module DiveAndDirectionalTrackingAIFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass DiveAndDirectionalTrackingAIFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO DiveAndDirectionalTrackingAIFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -101,7 +104,7 @@ getInstance_impl :: DiveAndDirectionalTrackingAIFactory -> ABHashtable.ABHashtab
 getInstance_impl this hashtable ownerLayerInterface gameInput = do
         visitorCanBeNull <- newIORef =<< (ABHashtable.get hashtable (javaCast BasicAI.aI_VISITOR :: Any.Any))
         when ((jget visitorCanBeNull) == javaNull) $ do
-            assignedValue <- (ThrustAIVisitorFactory.getInstance)
+            assignedValue <- (fmap jtoObject (ThrustAIVisitorFactory.getInstance))
             jset visitorCanBeNull (assignedValue)
         hashtable2 <- (BasicProbabilityAIDataFactory.getInstance ((jio (BasicProbabilityAIDataFactory.new_))))
         Control.Monad.void (ABHashtable.put hashtable2 (BasicAI.aI_VISITOR) (jio (LastKeyAIVisitorFactory.getInstance)))

@@ -20,10 +20,10 @@ import WaypointPathRunnableBase hiding (new_, init_, newRecord_, initFields_, he
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -36,6 +36,8 @@ import qualified Any -- same package or java.lang
 import qualified Runnable -- same package or java.lang
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified PathFindingLayerInterface -- same package or java.lang
+import qualified WaypointRunnableLogHelper -- same package or java.lang
+import qualified WaypointBase -- same package or java.lang
 import qualified NullUtil -- org.allbinary.logic.NullUtil
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -236,15 +238,15 @@ processFirstRunnable_impl this = do
             Control.Monad.void (MultipassWaypointPathRunnable.setRunning this False)
             Control.Monad.void (MultipassWaypointPathRunnable.finish this)
             ) $ do
-            Control.Monad.void (PathFindingLayerInterface.start ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
+            Control.Monad.void (WaypointRunnableLogHelper.start ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
             Control.Monad.void (MultipassWaypointPathRunnable.reset2 this)
             geographicMapCellPosition <- (PathFindingLayerInterface.getCurrentGeographicMapCellPosition ((jget (this).base.pathFindingLayer)))
             when (geographicMapCellPosition == javaNull) $ do
                 javaThrow ((JavaException "Exception" "Should never be running here"))
-            assignedValue <- (PathFindingLayerInterface.getPathFindingInfo ((jio (PathFindingLayerInterface.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition)
+            assignedValue <- (fmap jtoObject (WaypointBase.getPathFindingInfo ((jio (WaypointBehaviorBase.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition))
             jset (this).pathFindingInfo (assignedValue)
             let localPathFindingInfo = (javaCast (jget (this).pathFindingInfo) :: PathFindingInfo.PathFindingInfo)
-            assignedValue <- (PathFindingLayerInterface.getPathsList ((jio (PathFindingLayerInterface.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition localPathFindingInfo (jget (this).multipassState))
+            assignedValue <- (WaypointBase.getPathsList ((jio (WaypointBehaviorBase.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition localPathFindingInfo (jget (this).multipassState))
             jset (this).list (assignedValue)
             if ((jget (this).list) /= (jio (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil))))) then do
                 Control.Monad.void (Runnable.run ((jget (this).eND_RUNNABLE)))
@@ -269,7 +271,7 @@ processSecondRunnable_impl this = do
             ) $ do
             geographicMapCellPosition <- (PathFindingLayerInterface.getCurrentGeographicMapCellPosition ((jget (this).base.pathFindingLayer)))
             let localPathFindingInfo = (javaCast (jget (this).pathFindingInfo) :: PathFindingInfo.PathFindingInfo)
-            assignedValue <- (PathFindingLayerInterface.getPathsList ((jio (PathFindingLayerInterface.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition localPathFindingInfo (jget (this).multipassState))
+            assignedValue <- (WaypointBase.getPathsList ((jio (WaypointBehaviorBase.getWaypoint ((jio (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.targetPathFindingLayer)))))))) geographicMapCellPosition localPathFindingInfo (jget (this).multipassState))
             jset (this).list (assignedValue)
             when ((jget (this).list) /= (jio (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil))))) $ do
                 Control.Monad.void (Runnable.run ((jget (this).eND_RUNNABLE)))
@@ -291,7 +293,7 @@ processEndRunnable_impl this = do
             ) $ do
             waypointBehavior <- (PathFindingLayerInterface.getWaypointBehavior ((jget (this).base.pathFindingLayer)))
             Control.Monad.void (WaypointBehaviorBase.setWaypointPathsList waypointBehavior (jget (this).list))
-            Control.Monad.void (PathFindingLayerInterface.end ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
+            Control.Monad.void (WaypointRunnableLogHelper.end ((jio (PathFindingLayerInterface.getWaypointRunnableLogHelper ((jget (this).base.pathFindingLayer))))) (jget (this).base.pathFindingLayer))
         Control.Monad.void (MultipassWaypointPathRunnable.finish this)
         pure ()
 

@@ -20,10 +20,10 @@ import AbFileInputStream hiding (new_, init_, newRecord_, initFields_, header_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified File -- same package or java.lang
 import qualified FileNotFoundException -- java.io.FileNotFoundException
 import qualified AbFile -- org.allbinary.logic.io.file.AbFile
 import qualified AbFileNativeUtil -- org.allbinary.logic.io.file.AbFileNativeUtil
@@ -75,7 +76,7 @@ new_1 file = do
 
 init_1 :: AbFileLocalInputStream -> AbFile.AbFile -> IO ()
 init_1 this file = do
-        AbFileInputStream.init_1 this.base (jio (AbFileNativeUtil.get file))
+        AbFileInputStream.init_1 this.base (jio (File.getPath ((jio (AbFileNativeUtil.get file)))))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

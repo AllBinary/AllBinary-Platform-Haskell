@@ -19,10 +19,10 @@ module JavaHelpSetNotifier where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -54,11 +54,15 @@ instance JavaObjectClass JavaHelpSetNotifier where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+vector :: IORef (BasicArrayList.BasicArrayList)
 {-# NOINLINE vector #-}
 vector = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_)) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO JavaHelpSetNotifier
 newRecord_ = do
@@ -93,13 +97,13 @@ isNotified :: HelpSet.HelpSet -> IO (Bool)
 isNotified helpSet = do
         isNotified <- newIORef (False)
         url <- (HelpSet.getHelpSetURL helpSet)
-        size <- (size ((jget JavaHelpSetNotifier.vector)))
-        urlArray <- (toArray ((jget JavaHelpSetNotifier.vector)))
+        size <- (BasicArrayList.size ((jget JavaHelpSetNotifier.vector)))
+        urlArray <- (BasicArrayList.toArray ((jget JavaHelpSetNotifier.vector)))
         forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
             let nextURL = (javaCast (jindex urlArray (i)) :: URL.URL)
             when ((Prelude.fromEnum (Prelude.compare (jio (URL.toString url)) (jio (URL.toString nextURL))) - 1) == 0) $ do
                 jset isNotified (True)
-        Control.Monad.void (add ((jget JavaHelpSetNotifier.vector)) url)
+        Control.Monad.void (BasicArrayList.add ((jget JavaHelpSetNotifier.vector)) url)
         pure ((jget isNotified))
 
 

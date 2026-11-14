@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -46,6 +46,8 @@ import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
 import qualified Insets -- same package or java.lang
 import qualified GroupLayout -- same package or java.lang
+import qualified InputRobotInterface -- same package or java.lang
+import qualified Point -- same package or java.lang
 import qualified InputEvent -- java.awt.event.InputEvent
 import qualified InputRobot -- org.allbinary.input.automation.robot.InputRobot
 import qualified InputRobotFactory -- org.allbinary.input.automation.robot.InputRobotFactory
@@ -188,7 +190,7 @@ set_super object_ = (set_impl (javaCast object_ :: MouseActionScriptInputJPanel)
 set_impl :: MouseActionScriptInputJPanel -> IO (())
 set_impl this = do
         inputTypeComboBoxModel <- (JComboBox.getModel ((jget (this).inputAutomationTypeJComboBox)))
-        Control.Monad.void (ComboBoxModel.setSelectedItem inputTypeComboBoxModel (jio (MouseActionScriptInputInterface.getName ((jio (MouseActionScriptInputInterface.getInputRobotInterface ((jget (this).mouseActionScriptInputInterface))))))))
+        Control.Monad.void (ComboBoxModel.setSelectedItem inputTypeComboBoxModel (jio (InputRobotInterface.getName ((jio (MouseActionScriptInputInterface.getInputRobotInterface ((jget (this).mouseActionScriptInputInterface))))))))
         if ((((jio (MouseActionScriptInputInterface.getButtonClicks ((jget (this).mouseActionScriptInputInterface)))) Data.Bits..&. InputEvent.bUTTON1_MASK)) /= 0) then do
             Control.Monad.void (JCheckBox.setSelected ((jget (this).button1JCheckBox)) True)
         else do
@@ -216,7 +218,7 @@ updateInputType_impl this = do
         comboBoxModel <- (JComboBox.getModel ((jget (this).inputAutomationTypeJComboBox)))
         let selectedItem = (javaCast (jio (ComboBoxModel.getSelectedItem comboBoxModel)) :: String)
         when (Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) selectedItem))) $ do
-            Control.Monad.void (MouseActionScriptInputInterface.setInputRobotInterface ((jget (this).mouseActionScriptInputInterface)) (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) selectedItem)))
+            Control.Monad.void (MouseActionScriptInputInterface.setInputRobotInterface ((jget (this).mouseActionScriptInputInterface)) (javaCast (jio (InputRobotFactory.get_1 ((jio (InputRobotFactory.getInstance))) selectedItem))))
         pure ()
 
 
@@ -230,7 +232,7 @@ update_super object_ = (update_impl (javaCast object_ :: MouseActionScriptInputJ
 update_impl :: MouseActionScriptInputJPanel -> IO (())
 update_impl this = do
         Control.Monad.void (MouseActionScriptInputJPanel.updateInputType this)
-        Control.Monad.void (MouseActionScriptInputInterface.setTime ((jget (this).mouseActionScriptInputInterface)) (javaToString (jio (JTextField.getText ((jget (this).mouseDelayJTextField))))))
+        Control.Monad.void (MouseActionScriptInputInterface.setTime ((jget (this).mouseActionScriptInputInterface)) ((jio (JTextField.getText ((jget (this).mouseDelayJTextField))))))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Button State: " ++ javaToString (jio (MouseActionScriptInputInterface.getButtonClicks ((jget (this).mouseActionScriptInputInterface))))) this "update")
         if (jio (JCheckBox.isSelected ((jget (this).button1JCheckBox)))) then do
             when ((((jio (MouseActionScriptInputInterface.getButtonClicks ((jget (this).mouseActionScriptInputInterface)))) Data.Bits..&. InputEvent.bUTTON1_MASK)) == 0) $ do
@@ -250,10 +252,12 @@ update_impl this = do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Button 2 Deselected: " ++ javaToString (jio (MouseActionScriptInputInterface.getButtonClicks ((jget (this).mouseActionScriptInputInterface))))) this "update")
         mouseXString <- (JTextField.getText ((jget (this).mouseXJTextField)))
         when ((Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) mouseXString))) && (jio (StringValidationUtil.isNumber ((jio (StringValidationUtil.getInstance))) mouseXString))) $ do
-            jset ((jio (MouseActionScriptInputInterface.getPoint ((jget (this).mouseActionScriptInputInterface))))).x ((Prelude.read mouseXString))
+            assignedValue <- (jparseInt mouseXString)
+            jset ((jio (MouseActionScriptInputInterface.getPoint ((jget (this).mouseActionScriptInputInterface))))).x (assignedValue)
         mouseYString <- (JTextField.getText ((jget (this).mouseYJTextField)))
         when ((Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) mouseYString))) && (jio (StringValidationUtil.isNumber ((jio (StringValidationUtil.getInstance))) mouseYString))) $ do
-            jset ((jio (MouseActionScriptInputInterface.getPoint ((jget (this).mouseActionScriptInputInterface))))).y ((Prelude.read mouseYString))
+            assignedValue <- (jparseInt mouseYString)
+            jset ((jio (MouseActionScriptInputInterface.getPoint ((jget (this).mouseActionScriptInputInterface))))).y (assignedValue)
         Control.Monad.void (MouseActionScriptInputInterface.log ((jget (this).mouseActionScriptInputInterface)))
         pure ()
 

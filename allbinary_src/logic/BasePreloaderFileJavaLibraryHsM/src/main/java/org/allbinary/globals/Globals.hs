@@ -19,10 +19,10 @@ module Globals where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AppUrlGlobals -- same package or java.lang
+import qualified URLGLOBALS -- same package or java.lang
 import qualified ClassLoader -- same package or java.lang
 import qualified Class -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -59,11 +60,15 @@ instance JavaObjectClass Globals where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: Globals
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Globals
 newRecord_ = do
@@ -108,7 +113,7 @@ init_impl this classLoader pathString = do
         commonStrings <- (CommonStrings.getInstance)
         appUrlGlobals <- (AppUrlGlobals.new_)
         Control.Monad.void (AppUrlGlobals.setWebappPath appUrlGlobals pathString)
-        Control.Monad.void (init uRLGLOBALS appUrlGlobals)
+        Control.Monad.void (URLGLOBALS.init (javaCast appUrlGlobals))
         Control.Monad.void (WebappClassLoaderInfo.setLoader classLoader)
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer "Setting Up AllBinary System Configuration Args: ")
@@ -124,11 +129,11 @@ init_impl this classLoader pathString = do
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).eQUALS))
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
-            Control.Monad.void (StringMaker.append stringBuffer (jio (getWebappPath uRLGLOBALS)))
+            Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getWebappPath)))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget (commonStrings).iNIT))
         Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))
         Control.Monad.void (StringMaker.append stringBuffer "Webapp Path Set To: ")
-        Control.Monad.void (StringMaker.append stringBuffer (jio (getWebappPath uRLGLOBALS)))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (URLGLOBALS.getWebappPath)))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) this (jget (commonStrings).iNIT))
         pure ()
 

@@ -19,10 +19,10 @@ import BuildingRTSFormInput hiding (new_, init_, newRecord_, initFields_, header
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -31,6 +31,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified BasicArrayList -- same package or java.lang
 import qualified AdvancedPlayerOwnedRTSLayers -- org.allbinary.game.layer.AdvancedPlayerOwnedRTSLayers
 import qualified AdvancedRTSPlayerLayerInterface -- org.allbinary.game.layer.AdvancedRTSPlayerLayerInterface
 import qualified RTSLayer -- org.allbinary.game.layer.RTSLayer
@@ -91,7 +92,7 @@ newRecord_ = do
 initFields_ :: BuildingAdvancedRTSFormInput -> IO ()
 initFields_ this = do
     jset this.atLeastOneHouseGameNotificationEvent (javaNull)
-    jset this.bUILD_BUILDING_RTS_LAYER_EVENT =<< (RTSLayerEvent.new_1 (NullPathFindingLayer.nULL_PATH_FINDING_LAYER))
+    jset this.bUILD_BUILDING_RTS_LAYER_EVENT =<< (RTSLayerEvent.new_1 (javaCast NullPathFindingLayer.nULL_PATH_FINDING_LAYER))
     pure ()
 
 new_2 :: JavaArray (Group.Group) -> Bool -> IO BuildingAdvancedRTSFormInput
@@ -174,7 +175,7 @@ add_impl :: BuildingAdvancedRTSFormInput -> RTSPlayerLayerInterface.RTSPlayerLay
 add_impl this rtsPlayerLayerInterface layerManager layerInterface = do
         Control.Monad.void (RTSLayerEvent.setRtsLayer ((jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)) (javaCast layerInterface))
         Control.Monad.void (BuildingEventHandler.fireEvent ((jio (BuildingEventHandler.getInstance))) (javaCast (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)))
-        when (jio (isLocalPlayer (((javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface))))) $ do
+        when (jio (AdvancedRTSPlayerLayerInterface.isLocalPlayer (((javaCast rtsPlayerLayerInterface :: AdvancedRTSPlayerLayerInterface.AdvancedRTSPlayerLayerInterface))))) $ do
             Control.Monad.void (LocalPlayerBuildingEventHandler.fireEvent ((jio (LocalPlayerBuildingEventHandler.getInstance))) (javaCast (jget (this).bUILD_BUILDING_RTS_LAYER_EVENT)))
         Control.Monad.void (BuildingRTSFormInput.add_super this.base rtsPlayerLayerInterface layerManager layerInterface)
         pure ()

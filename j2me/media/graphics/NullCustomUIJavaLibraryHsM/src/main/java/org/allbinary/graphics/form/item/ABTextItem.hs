@@ -4,14 +4,14 @@
 -- package org.allbinary.graphics.form.item
 module ABTextItem (module ABTextItem, module CustomCustomItem) where
 
-import CustomCustomItem hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, keyPressed, keyPressed_super, keyPressed_impl, paintUnselected, paintUnselected_super, paintUnselected_impl, getLabelStringComponent, getLabelStringComponent_super, getLabelStringComponent_impl)
+import CustomCustomItem hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, keyPressed, keyPressed_super, keyPressed_impl, paintUnselected, paintUnselected_super, paintUnselected_impl, getLabelStringComponent, getLabelStringComponent_super, getLabelStringComponent_impl, getMinimumWidth, getMinimumWidth_super, getMinimumWidth_impl, getMinimumHeight, getMinimumHeight_super, getMinimumHeight_impl, getLabel, getLabel_super, getLabel_impl, paintXY, paintXY_super, paintXY_impl)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -55,6 +55,10 @@ newRecord_ = do
     jregisterMethod header_ "keyPressed" (\() -> keyPressed_impl this)
     jregisterMethod header_ "paintUnselected" (\() -> paintUnselected_impl this)
     jregisterMethod header_ "getLabelStringComponent" (\() -> getLabelStringComponent_impl this)
+    jregisterMethod header_ "getMinimumWidth" (\() -> getMinimumWidth_impl this)
+    jregisterMethod header_ "getMinimumHeight" (\() -> getMinimumHeight_impl this)
+    jregisterMethod header_ "getLabel" (\() -> getLabel_impl this)
+    jregisterMethod header_ "paintXY" (\() -> paintXY_impl this)
     pure this
 
 initFields_ :: ABTextItem -> IO ()
@@ -106,5 +110,50 @@ getLabelStringComponent_super object_ = (getLabelStringComponent_impl (javaCast 
 getLabelStringComponent_impl :: ABTextItem -> IO (ABStringComponent.ABStringComponent)
 getLabelStringComponent_impl this = do
         pure (ABStringComponent.nULL_STRING_COMPONENT)
+
+
+getMinimumWidth :: (JavaObjectClass this_) => this_ -> IO (Int)
+getMinimumWidth object_ = jmethod object_ "getMinimumWidth" (\() -> (getMinimumWidth_impl (javaCast object_ :: ABTextItem))) ()
+
+getMinimumWidth_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getMinimumWidth_super object_ = (getMinimumWidth_impl (javaCast object_ :: ABTextItem))
+
+getMinimumWidth_impl :: ABTextItem -> IO (Int)
+getMinimumWidth_impl this = do
+        (CustomCustomItem.getMinimumWidth_super this.base)
+
+
+getMinimumHeight :: (JavaObjectClass this_) => this_ -> IO (Int)
+getMinimumHeight object_ = jmethod object_ "getMinimumHeight" (\() -> (getMinimumHeight_impl (javaCast object_ :: ABTextItem))) ()
+
+getMinimumHeight_super :: (JavaObjectClass this_) => this_ -> IO (Int)
+getMinimumHeight_super object_ = (getMinimumHeight_impl (javaCast object_ :: ABTextItem))
+
+getMinimumHeight_impl :: ABTextItem -> IO (Int)
+getMinimumHeight_impl this = do
+        (CustomCustomItem.getMinimumHeight_super this.base)
+
+
+getLabel :: (JavaObjectClass this_) => this_ -> IO (String)
+getLabel object_ = jmethod object_ "getLabel" (\() -> (getLabel_impl (javaCast object_ :: ABTextItem))) ()
+
+getLabel_super :: (JavaObjectClass this_) => this_ -> IO (String)
+getLabel_super object_ = (getLabel_impl (javaCast object_ :: ABTextItem))
+
+getLabel_impl :: ABTextItem -> IO (String)
+getLabel_impl this = do
+        (CustomCustomItem.getLabel_super this.base)
+
+
+paintXY :: (JavaObjectClass this_) => this_ -> Graphics.Graphics -> Int -> Int -> IO (())
+paintXY object_ a1 a2 a3 = jmethod object_ "paintXY" (\() -> (paintXY_impl (javaCast object_ :: ABTextItem))) () a1 a2 a3
+
+paintXY_super :: (JavaObjectClass this_) => this_ -> Graphics.Graphics -> Int -> Int -> IO (())
+paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: ABTextItem)) a1 a2 a3
+
+paintXY_impl :: ABTextItem -> Graphics.Graphics -> Int -> Int -> IO (())
+paintXY_impl this graphics x y = do
+        Control.Monad.void (CustomCustomItem.paintXY_super this.base graphics x y)
+        pure ()
 
 

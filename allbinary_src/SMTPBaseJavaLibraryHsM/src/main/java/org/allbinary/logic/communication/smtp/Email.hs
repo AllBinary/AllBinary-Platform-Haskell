@@ -19,10 +19,10 @@ module Email where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,20 +80,29 @@ instance JavaObjectClass Email where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+dEBUG :: String
 dEBUG = "mail.debug"
 
+sMTP_HOST :: String
 sMTP_HOST = "mail.smtp.host"
 
+sMTP_PORT :: String
 sMTP_PORT = "mail.smtp.port"
 
+sMTP_USER :: String
 sMTP_USER = "mail.smtp.user"
 
+sMTP_RETURN_ADDRESS :: String
 sMTP_RETURN_ADDRESS = "mail.from"
 
+sMTP_LOCAL_HOST :: String
 sMTP_LOCAL_HOST = "mail.smtp.localhost"
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO Email
 newRecord_ = do
@@ -173,7 +182,7 @@ init_impl this from to subject server textBody htmlAttachment contentBase = do
             let mimeBodyParts = (jnewArray ((if (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil htmlAttachment))) then 2 else 1)) javaNull)
             assignedValue <- (MimeBodyPart.new_)
             jsetIndex mimeBodyParts (0) (assignedValue)
-            Control.Monad.void (setText ((jindex mimeBodyParts (0))) textBody)
+            Control.Monad.void (MimeBodyPart.setText ((jindex mimeBodyParts (0))) textBody)
             when (Prelude.not (jio (StringValidationUtil.isEmpty stringValidationUtil htmlAttachment))) $ do
                 internetHeaders <- (InternetHeaders.new_)
                 Control.Monad.void (InternetHeaders.addHeader internetHeaders "Content-Type" "text/html")
@@ -287,22 +296,22 @@ toHashMap_impl this = do
             addresses <- newIORef =<< (MimeMessage.getFrom ((jget (this).msg)))
             when ((jget addresses) /= javaNull) $ do
                 forM_ [0 .. (jlength (jget addresses)) - 1] $ \index -> javaIteration (pure ()) $ do
-                    Control.Monad.void (HashMap.put hashMap (EmailData.fROM) (jio (toString ((jindex ((jget addresses)) (index))))))
+                    Control.Monad.void (HashMap.put hashMap (EmailData.fROM) (jio (Address.toString ((jindex ((jget addresses)) (index))))))
             assignedValue <- (MimeMessage.getRecipients ((jget (this).msg)) (jget (Message.recipientType).tO))
             jset addresses (assignedValue)
             when ((jget addresses) /= javaNull) $ do
                 forM_ [0 .. (jlength (jget addresses)) - 1] $ \index -> javaIteration (pure ()) $ do
-                    Control.Monad.void (HashMap.put hashMap (EmailData.tO) (jio (toString ((jindex ((jget addresses)) (index))))))
+                    Control.Monad.void (HashMap.put hashMap (EmailData.tO) (jio (Address.toString ((jindex ((jget addresses)) (index))))))
             assignedValue <- (MimeMessage.getRecipients ((jget (this).msg)) (jget (Message.recipientType).cC))
             jset addresses (assignedValue)
             when ((jget addresses) /= javaNull) $ do
                 forM_ [0 .. (jlength (jget addresses)) - 1] $ \index -> javaIteration (pure ()) $ do
-                    Control.Monad.void (HashMap.put hashMap (EmailData.cC) (jio (toString ((jindex ((jget addresses)) (index))))))
+                    Control.Monad.void (HashMap.put hashMap (EmailData.cC) (jio (Address.toString ((jindex ((jget addresses)) (index))))))
             assignedValue <- (MimeMessage.getRecipients ((jget (this).msg)) (jget (Message.recipientType).bCC))
             jset addresses (assignedValue)
             when ((jget addresses) /= javaNull) $ do
                 forM_ [0 .. (jlength (jget addresses)) - 1] $ \index -> javaIteration (pure ()) $ do
-                    Control.Monad.void (HashMap.put hashMap (EmailData.bCC) (jio (toString ((jindex ((jget addresses)) (index))))))
+                    Control.Monad.void (HashMap.put hashMap (EmailData.bCC) (jio (Address.toString ((jindex ((jget addresses)) (index))))))
             Control.Monad.void (HashMap.put hashMap (EmailData.sUBJECT) (jio (MimeMessage.getSubject ((jget (this).msg)))))
             let mimeMultipart = (javaCast (jio (MimeMessage.getContent ((jget this.msg)))) :: MimeMultipart.MimeMultipart)
             when (mimeMultipart /= javaNull) $ do

@@ -20,10 +20,10 @@ import InitUpdatePaintable hiding (new_, init_, newRecord_, initFields_, header_
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -133,7 +133,7 @@ updateRTSLayerInfoSelection_super object_ a1 = (updateRTSLayerInfoSelection_impl
 updateRTSLayerInfoSelection_impl :: RTSLayerInfoPaintable -> SelectionHudPaintable.SelectionHudPaintable -> IO (())
 updateRTSLayerInfoSelection_impl this hudPaintable = do
         Control.Monad.void (SelectionHudPaintable.updateSelectionInfo hudPaintable)
-        jset (this).initUpdatePaintable (hudPaintable)
+        jset (this).initUpdatePaintable ((javaCast hudPaintable :: InitUpdatePaintable.InitUpdatePaintable))
         pure ()
 
 

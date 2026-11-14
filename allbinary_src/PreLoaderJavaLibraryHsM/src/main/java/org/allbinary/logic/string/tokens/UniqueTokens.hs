@@ -19,10 +19,10 @@ module UniqueTokens where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,6 +60,9 @@ instance JavaObjectClass UniqueTokens where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO UniqueTokens
 newRecord_ = do
@@ -136,8 +139,8 @@ getWhithoutDashesAndSkipNumberOnlyTokens_impl this stringVector = do
                     cleanString <- newIORef ((javaCast (jio (BasicArrayList.get keywordVector forIndex)) :: String))
                     jset cleanString ((jstringTrim (jget cleanString)))
                     when ((jstringIndexOf (jget cleanString) '-' 0) /= (Prelude.negate 1)) $ do
-                        assignedValue <- (jio (Replace.all ((jio (Replace.new_2 "-" (jget (commonSeps).sPACE)))) (jget cleanString)))
-                    jset cleanString (assignedValue)
+                        assignedValue <- (Replace.all ((jio (Replace.new_2 "-" (jget (commonSeps).sPACE)))) (jget cleanString))
+                        jset cleanString (assignedValue)
                     Control.Monad.void (HashSet.add hashSet (jget cleanString))
                     when ((jstringIndexOf (jget cleanString) ' ' 0) /= (Prelude.negate 1)) $ do
                         spaceTokenizer <- (Tokenizer.new_1 (jget (commonSeps).sPACE))
@@ -161,7 +164,7 @@ numberOnly_impl this subCleaningString = do
         handle (\(e :: JavaException) -> do
             pure (False)
             ) $ do
-            (Prelude.read subCleaningString)
+            Control.Monad.void (jparseInt subCleaningString)
             pure (True)
 
 
@@ -173,6 +176,7 @@ isSpecialCharacter_super object_ a1 = (isSpecialCharacter_impl (javaCast object_
 
 isSpecialCharacter_impl :: UniqueTokens -> String -> IO (Bool)
 isSpecialCharacter_impl this subCleaningString = do
+    javaCatchReturn $ do
         forM_ [0 .. (jio (BasicArrayList.size ((jget (this).specialCharacters)))) - 1] $ \index -> javaIteration (pure ()) $ do
             when ((Prelude.fromEnum (Prelude.compare subCleaningString (javaCast (jio (BasicArrayList.get ((jget (this).specialCharacters)) index)) :: String)) - 1) == 0) $ do
                 javaReturn (True)

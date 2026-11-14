@@ -19,10 +19,10 @@ module BaseImageAnimationFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -212,7 +212,7 @@ toString_impl this = do
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer (jio (.toString_super this.base)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).hEIGHT_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jio (Image.getHeight ((jget (this).image)))))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jio (Image.getHeight ((jget (this).image)))))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))
         Control.Monad.void (StringMaker.append stringBuffer (jio (AnimationFactoryInitializationVisitor.toString ((jget (this).animationFactoryInitializationVisitor)))))
         (StringMaker.toString stringBuffer)

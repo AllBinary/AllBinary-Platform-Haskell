@@ -19,10 +19,10 @@ module InputAutomationServiceConsumer where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -66,6 +66,9 @@ instance JavaObjectClass InputAutomationServiceConsumer where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationServiceConsumer
 newRecord_ = do
@@ -130,7 +133,7 @@ process_impl this = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset osgiServiceInterface ((javaCast (jio (BasicArrayList.get vector index)) :: OSGIServiceInterface.OSGIServiceInterface))
             when (Prelude.not (jio (OSGIServiceVisitorInterface.visit ((jio (InputAutomationServiceConsumer.getOsgiServiceVisitorInterface this))) (jget osgiServiceInterface)))) $ do
-                javaThrow ((JavaException "Exception" ("Unable to process service: " ++ javaToString (jget osgiServiceInterface))))
+                javaThrow ((JavaException "Exception" ("Unable to process service: " ++ jconcatObject OSGIServiceInterface.toString (jget osgiServiceInterface))))
         pure ()
 
 

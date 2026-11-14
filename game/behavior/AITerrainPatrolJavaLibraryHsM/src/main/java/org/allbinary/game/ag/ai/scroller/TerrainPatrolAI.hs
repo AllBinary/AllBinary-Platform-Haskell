@@ -20,10 +20,10 @@ import PacePatrolAI hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified BasePatrolAI -- same package or java.lang
+import qualified BasicAI -- same package or java.lang
 import qualified GameInput -- org.allbinary.game.input.GameInput
 import qualified BasicTerrainInfo -- org.allbinary.game.terrain.BasicTerrainInfo
 import qualified TerrainEvent -- org.allbinary.game.terrain.TerrainEvent

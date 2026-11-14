@@ -20,10 +20,10 @@ import IndexedAnimation hiding (new_, init_, newRecord_, initFields_, header_, b
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -56,8 +56,9 @@ instance JavaObjectClass SpecialAnimation where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nULL_SPECIAL_ANIMATION :: SpecialAnimation
 {-# NOINLINE nULL_SPECIAL_ANIMATION #-}
-nULL_SPECIAL_ANIMATION = unsafePerformIO ((new_1 (jio (IndexedAnimationBehavior.new_2 1 250))))
+nULL_SPECIAL_ANIMATION = unsafePerformIO ((new_1 (javaCast (jio (IndexedAnimationBehavior.new_2 1 250)))))
 
 newRecord_ :: IO SpecialAnimation
 newRecord_ = do

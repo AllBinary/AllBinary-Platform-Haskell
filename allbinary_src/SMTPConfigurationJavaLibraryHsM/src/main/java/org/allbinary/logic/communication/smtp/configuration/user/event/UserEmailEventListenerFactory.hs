@@ -19,10 +19,10 @@ module UserEmailEventListenerFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -59,6 +59,9 @@ instance JavaObjectClass UserEmailEventListenerFactory where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO UserEmailEventListenerFactory
 newRecord_ = do
     header_ <- newJavaHeader
@@ -88,7 +91,7 @@ getInstance :: AbeClientInformationInterface.AbeClientInformationInterface -> Us
 getInstance abeClientInformation userEmailEventConfigurationInterface userInterface = do
         let params = (jnewArray (1) javaNull)
         let classes = (jnewArray (1) javaNull)
-        jsetIndex classes (0) ("UserInterface")
+        jsetIndex classes (0) ((JavaClass "UserInterface"))
         jsetIndex params (0) ((jtoObject (javaCast userInterface :: Any.Any)))
         pure ((javaCast (jio (AbeFactory.getInstance_4 ((jio (AbeFactory.getInstance))) abeClientInformation (jio (UserEmailEventConfigurationInterface.getEventListenerClassPath userEmailEventConfigurationInterface)) classes params)) :: UserEmailEventListenerInterface.UserEmailEventListenerInterface))
 

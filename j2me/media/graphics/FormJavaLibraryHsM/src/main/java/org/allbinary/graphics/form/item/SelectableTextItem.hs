@@ -20,10 +20,10 @@ import ABTextItem hiding (new_, init_, newRecord_, initFields_, header_, base, s
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ABStringComponent -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
+import qualified CustomCustomItem -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
 import qualified ABTextItem

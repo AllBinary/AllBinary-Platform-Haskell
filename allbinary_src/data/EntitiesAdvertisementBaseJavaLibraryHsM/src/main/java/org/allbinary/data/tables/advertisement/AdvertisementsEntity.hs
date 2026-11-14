@@ -16,14 +16,14 @@
 -- package org.allbinary.data.tables.advertisement
 module AdvertisementsEntity (module AdvertisementsEntity, module AbSqlBean) where
 
-import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, delete, delete_super, delete_impl, get, get_super, get_impl, get_2, get_2_super, get_2_impl, get, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, logUtil, tableName, _INDEX)
+import AbSqlBean hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, delete, delete_super, delete_impl, get, get_super, get_impl, get_2, get_2_super, get_2_impl, get, createTableStatement, createTableStatement_super, createTableStatement_impl, createTable, createTable_super, createTable_impl, update, update_super, update_impl, dropTable, dropTable_super, dropTable_impl, insert, insert_super, insert_impl, logUtil, tableName, _INDEX)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,10 @@ import qualified GHC.Float
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified AbSqlRow -- same package or java.lang
+import qualified AbSqlColumn -- same package or java.lang
+import qualified AbSqlTable -- same package or java.lang
+import qualified AbSqlBasic -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -89,6 +93,7 @@ newRecord_ = do
     jregisterMethod header_ "createTable" (\() -> createTable_impl this)
     jregisterMethod header_ "update" (\() -> update_impl this)
     jregisterMethod header_ "dropTable" (\() -> dropTable_impl this)
+    jregisterMethod header_ "insert" (\() -> insert_impl this)
     pure this
 
 initFields_ :: AdvertisementsEntity -> IO ()
@@ -106,7 +111,7 @@ new_ = do
 
 init_ :: AdvertisementsEntity -> IO ()
 init_ this = do
-        AbSqlBean.init_1 this.base (jio (UserDbInitInfo.new_))
+        AbSqlBean.init_1 this.base (javaCast (jio (UserDbInitInfo.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         Control.Monad.void (AbSqlBean.setTableName this (jget (this).tableName))
@@ -139,13 +144,14 @@ get_super object_ a1 = (get_impl (javaCast object_ :: AdvertisementsEntity)) a1
 
 get_impl :: AdvertisementsEntity -> String -> IO (BasicArrayList.BasicArrayList)
 get_impl this storeName = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
         hashMapVector <- (AbSqlBean.getRows_super this.base keysAndValues)
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         size <- (BasicArrayList.size hashMapVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let hashMap = (javaCast (jio (BasicArrayList.get hashMapVector index)) :: HashMap.HashMap)
+            pure ()
         pure (vector)
 
 
@@ -157,7 +163,7 @@ get_2_super object_ a1 a2 = (get_2_impl (javaCast object_ :: AdvertisementsEntit
 
 get_2_impl :: AdvertisementsEntity -> String -> String -> IO (AdvertisementInterface.AdvertisementInterface)
 get_2_impl this storeName advertismentName = do
-        keysAndValues <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        keysAndValues <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (StoreFrontData.getInstance))).nAME) storeName)
         Control.Monad.void (HashMap.put keysAndValues (jget ((jio (AdvertisementData.getInstance))).nAME) advertismentName)
         hashMap <- (AbSqlBean.getRow_super this.base keysAndValues)
@@ -213,5 +219,17 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: AdvertisementsEnt
 dropTable_impl :: AdvertisementsEntity -> IO (String)
 dropTable_impl this = do
         (AbSqlBean.dropTable_super this.base)
+
+
+insert :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert object_ a1 = jmethod object_ "insert" (\() -> (insert_impl (javaCast object_ :: AdvertisementsEntity))) () a1
+
+insert_super :: (JavaObjectClass this_) => this_ -> BasicArrayList.BasicArrayList -> IO (())
+insert_super object_ a1 = (insert_impl (javaCast object_ :: AdvertisementsEntity)) a1
+
+insert_impl :: AdvertisementsEntity -> BasicArrayList.BasicArrayList -> IO (())
+insert_impl this values = do
+        Control.Monad.void (AbSqlBean.insert_super this.base values)
+        pure ()
 
 

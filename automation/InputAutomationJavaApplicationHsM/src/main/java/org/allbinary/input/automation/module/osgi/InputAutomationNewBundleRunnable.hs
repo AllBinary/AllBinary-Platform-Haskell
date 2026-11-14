@@ -19,10 +19,10 @@ module InputAutomationNewBundleRunnable where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -80,16 +80,23 @@ instance JavaObjectClass InputAutomationNewBundleRunnable where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+fILE :: String
 fILE = "file:"
 
+jAR_DIR_PROP :: String
 jAR_DIR_PROP = "org.knopflerfish.gosg.jars"
 
+iNPUT_AUTMATION_MODULE_BUNDLE_JAR_PATH :: String
 iNPUT_AUTMATION_MODULE_BUNDLE_JAR_PATH = "ia/auto"
 
+mODULES_START_LEVEL :: Int
 mODULES_START_LEVEL = 8
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationNewBundleRunnable
 newRecord_ = do
@@ -191,7 +198,7 @@ updateModules_impl this = do
             assignedValue <- (InputAutomationNewBundleRunnable.install this (javaCast (jio (BasicArrayList.get list index)) :: URL.URL))
             jset bundle (assignedValue)
             when ((jget bundle) /= javaNull) $ do
-                Control.Monad.void (Bundle.start ((jget bundle)) (InputAutomationNewBundleRunnable.mODULES_START_LEVEL))
+                Control.Monad.void (Bundle.start_1 ((jget bundle)) (InputAutomationNewBundleRunnable.mODULES_START_LEVEL))
         pure ()
 
 
@@ -207,7 +214,7 @@ getAllJarSymbolicNameHashMap_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this "getAllJarSymbolicNameHashMap")
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jarFileBasicArrayList <- (InputAutomationNewBundleRunnable.getJarModuleFileBasicArrayList this)
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Jar Module Files: " ++ javaToString jarFileBasicArrayList) this "getAllJarSymbolicNameHashMap")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Jar Module Files: " ++ jconcatObject BasicArrayList.toString jarFileBasicArrayList) this "getAllJarSymbolicNameHashMap")
         size <- (BasicArrayList.size jarFileBasicArrayList)
         file <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -221,7 +228,7 @@ getAllJarSymbolicNameHashMap_impl this = do
                 else do
                     symbolicName <- (Manifest.getValue ((jio (Manifest.getMainAttributes manifest))) (Constants.bUNDLE_SYMBOLICNAME))
                     when (symbolicName /= javaNull) $ do
-                        Control.Monad.void (jio (HashMap.put hashMap symbolicName (jio (URL.new_1 (InputAutomationNewBundleRunnable.fILE + (jio (File.getAbsolutePath ((jget file)))))))))
+                        Control.Monad.void (HashMap.put hashMap symbolicName (jio (URL.new_1 (InputAutomationNewBundleRunnable.fILE + (jio (File.getAbsolutePath ((jget file))))))))
         pure (hashMap)
 
 
@@ -236,7 +243,7 @@ getJarModuleFileBasicArrayList_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this "getJarModuleFileBasicArrayList")
         baseJarPath <- newIORef =<< (jgetProperty jAR_DIR_PROP)
         when (Data.List.isPrefixOf (InputAutomationNewBundleRunnable.fILE) (jget baseJarPath)) $ do
-            jset baseJarPath ((Prelude.drop (jio (length InputAutomationNewBundleRunnable.fILE)) (jget baseJarPath)))
+            jset baseJarPath ((Prelude.drop (Prelude.length InputAutomationNewBundleRunnable.fILE) (jget baseJarPath)))
         jarFileFilter <- (BasicFileFilterUtil.getInstance ".jar")
         let path = ((jget baseJarPath) ++ javaToString InputAutomationNewBundleRunnable.iNPUT_AUTMATION_MODULE_BUNDLE_JAR_PATH)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Path: " ++ path) this "getJarModuleFileBasicArrayList")
@@ -299,7 +306,7 @@ findNewModules_impl this = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).sTART) this "findNewModules")
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         hashMap <- (InputAutomationNewBundleRunnable.getAllJarSymbolicNameHashMap this)
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("All: " ++ javaToString hashMap) this "findNewModules")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("All: " ++ jconcatObject HashMap.toString hashMap) this "findNewModules")
         set <- (HashMap.keySet hashMap)
         symbolicNameArray <- (Set.toArray set)
         let size = (jlength symbolicNameArray)

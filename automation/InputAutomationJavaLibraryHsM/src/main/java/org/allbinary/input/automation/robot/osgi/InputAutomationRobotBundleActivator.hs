@@ -19,10 +19,10 @@ module InputAutomationRobotBundleActivator where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -69,6 +69,9 @@ instance JavaObjectClass InputAutomationRobotBundleActivator where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO InputAutomationRobotBundleActivator
 newRecord_ = do
@@ -136,7 +139,7 @@ registerAsService_super object_ a1 = (registerAsService_impl (javaCast object_ :
 
 registerAsService_impl :: InputAutomationRobotBundleActivator -> BundleContext.BundleContext -> IO (())
 registerAsService_impl this bundleContext = do
-        Control.Monad.void (OSGIActivatorUtil.registerAsService bundleContext (jio (InputAutomationRobotBundleActivator.getServiceFactory this)) (jio (getName "InputAutomationRobotServiceInterface")))
+        Control.Monad.void (OSGIActivatorUtil.registerAsService bundleContext (jio (InputAutomationRobotBundleActivator.getServiceFactory this)) (jio (getName ((JavaClass "InputAutomationRobotServiceInterface")))))
         pure ()
 
 
@@ -150,14 +153,14 @@ getInputAutomationRobotChangeListener_super object_ a1 = (getInputAutomationRobo
 getInputAutomationRobotChangeListener_impl :: InputAutomationRobotBundleActivator -> BundleContext.BundleContext -> IO (InputAutomationRobotChangeListener.InputAutomationRobotChangeListener)
 getInputAutomationRobotChangeListener_impl this context = do
     javaCatchReturn $ do
-        serviceReference <- (BundleContext.getServiceReference context (jio (getName "InputAutomationRobotChangeListener")))
+        serviceReference <- (BundleContext.getServiceReference context (jio (getName ((JavaClass "InputAutomationRobotChangeListener")))))
         if (serviceReference /= javaNull) then do
             let inputAutomationRobotChangeListener = (javaCast (jio (BundleContext.getService context serviceReference)) :: InputAutomationRobotChangeListener.InputAutomationRobotChangeListener)
             when (inputAutomationRobotChangeListener == javaNull) $ do
                 javaThrow ((JavaException "Exception" "No Service For ServiceReference"))
             javaReturn (inputAutomationRobotChangeListener)
         else do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No ServiceReference: " ++ (jio (getName "InputAutomationRobotChangeListener"))) this "getInputAutomationRobotChangeListener")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No ServiceReference: " ++ (jio (getName ((JavaClass "InputAutomationRobotChangeListener"))))) this "getInputAutomationRobotChangeListener")
             javaReturn (javaNull)
 
 

@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -247,8 +247,8 @@ init_impl this = do
             jset (this).icon ((jnewArray ((jlength bufferedImageArray)) javaNull))
             defaultListModel <- (DefaultListModel.new_)
             forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
-                width <- (getWidth ((jindex bufferedImageArray (index))))
-                height <- (getHeight ((jindex bufferedImageArray (index))))
+                width <- (BufferedImage.getWidth ((jindex bufferedImageArray (index))))
+                height <- (BufferedImage.getHeight ((jindex bufferedImageArray (index))))
                 let newWidth = 52
                 let oldRatio = (width / height)
                 let newHeight = (Prelude.truncate (((Prelude.fromIntegral newWidth) / oldRatio)))

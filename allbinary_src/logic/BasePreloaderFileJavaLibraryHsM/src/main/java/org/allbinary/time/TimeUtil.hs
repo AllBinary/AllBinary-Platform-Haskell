@@ -19,10 +19,10 @@ module TimeUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -50,14 +50,19 @@ instance JavaObjectClass TimeUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: TimeUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
+calendar :: Calendar.Calendar
 {-# NOINLINE calendar #-}
 calendar = unsafePerformIO ((Calendar.getInstance))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TimeUtil
 newRecord_ = do
@@ -65,7 +70,7 @@ newRecord_ = do
     let this = TimeUtil header_
     jregisterLevel header_ this
     jregisterMethod header_ "setCalendar" (\() -> setCalendar_impl this)
-    jregisterMethod header_ "setCalendar_7" (\() -> setCalendar_7_impl this)
+    jregisterMethod header_ "setCalendarWithTime" (\() -> setCalendarWithTime_impl this)
     jregisterMethod header_ "setExpirationCalendar" (\() -> setExpirationCalendar_impl this)
     jregisterMethod header_ "getTotalTime" (\() -> getTotalTime_impl this)
     pure this
@@ -98,28 +103,28 @@ setCalendar_super object_ a1 a2 a3 a4 a5 = (setCalendar_impl (javaCast object_ :
 
 setCalendar_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> IO (())
 setCalendar_impl this calendar yearString monthString dayString hourString = do
-        let year = (Prelude.fromIntegral (yearString) :: Int)
-        let month = (Prelude.fromIntegral (monthString) :: Int)
-        let day = (Prelude.fromIntegral (dayString) :: Int)
-        let hour = (Prelude.fromIntegral (hourString) :: Int)
+        let year = (jio (jparseInt yearString))
+        let month = (jio (jparseInt monthString))
+        let day = (jio (jparseInt dayString))
+        let hour = (jio (jparseInt hourString))
         Control.Monad.void (Calendar.set calendar year month day hour 0)
         pure ()
 
 
-setCalendar_7 :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar_7 object_ a1 a2 a3 a4 a5 a6 a7 = jmethod object_ "setCalendar_7" (\() -> (setCalendar_7_impl (javaCast object_ :: TimeUtil))) () a1 a2 a3 a4 a5 a6 a7
+setCalendarWithTime :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendarWithTime object_ a1 a2 a3 a4 a5 a6 a7 = jmethod object_ "setCalendarWithTime" (\() -> (setCalendarWithTime_impl (javaCast object_ :: TimeUtil))) () a1 a2 a3 a4 a5 a6 a7
 
-setCalendar_7_super :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar_7_super object_ a1 a2 a3 a4 a5 a6 a7 = (setCalendar_7_impl (javaCast object_ :: TimeUtil)) a1 a2 a3 a4 a5 a6 a7
+setCalendarWithTime_super :: (JavaObjectClass this_) => this_ -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendarWithTime_super object_ a1 a2 a3 a4 a5 a6 a7 = (setCalendarWithTime_impl (javaCast object_ :: TimeUtil)) a1 a2 a3 a4 a5 a6 a7
 
-setCalendar_7_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
-setCalendar_7_impl this calendar yearString monthString dayString hourString minuteString secondString = do
-        let year = (Prelude.fromIntegral (yearString) :: Int)
-        let month = (Prelude.fromIntegral (monthString) :: Int)
-        let day = (Prelude.fromIntegral (dayString) :: Int)
-        let hour = (Prelude.fromIntegral (hourString) :: Int)
-        let minute = (Prelude.fromIntegral (minuteString) :: Int)
-        let second = (Prelude.fromIntegral (secondString) :: Int)
+setCalendarWithTime_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
+setCalendarWithTime_impl this calendar yearString monthString dayString hourString minuteString secondString = do
+        let year = (jio (jparseInt yearString))
+        let month = (jio (jparseInt monthString))
+        let day = (jio (jparseInt dayString))
+        let hour = (jio (jparseInt hourString))
+        let minute = (jio (jparseInt minuteString))
+        let second = (jio (jparseInt secondString))
         Control.Monad.void (Calendar.set calendar year month day hour minute second)
         pure ()
 
@@ -132,12 +137,12 @@ setExpirationCalendar_super object_ a1 a2 a3 a4 a5 a6 a7 = (setExpirationCalenda
 
 setExpirationCalendar_impl :: TimeUtil -> Calendar.Calendar -> String -> String -> String -> String -> String -> String -> IO (())
 setExpirationCalendar_impl this calendar yearsString monthsString daysString hoursString minutesString secondsString = do
-        let year = ((jio (Calendar.get calendar (Calendar.yEAR))) + (Prelude.fromIntegral (yearsString) :: Int))
-        let month = ((jio (Calendar.get calendar (Calendar.mONTH))) + (Prelude.fromIntegral (monthsString) :: Int))
-        let day = ((jio (Calendar.get calendar (Calendar.dAY_OF_MONTH))) + (Prelude.fromIntegral (daysString) :: Int))
-        let hour = ((jio (Calendar.get calendar (Calendar.hOUR))) + (Prelude.fromIntegral (hoursString) :: Int))
-        let minute = ((jio (Calendar.get calendar (Calendar.mINUTE))) + (Prelude.fromIntegral (minutesString) :: Int))
-        let second = ((jio (Calendar.get calendar (Calendar.sECOND))) + (Prelude.fromIntegral (secondsString) :: Int))
+        let year = ((jio (Calendar.get calendar (Calendar.yEAR))) + (jio (jparseInt yearsString)))
+        let month = ((jio (Calendar.get calendar (Calendar.mONTH))) + (jio (jparseInt monthsString)))
+        let day = ((jio (Calendar.get calendar (Calendar.dAY_OF_MONTH))) + (jio (jparseInt daysString)))
+        let hour = ((jio (Calendar.get calendar (Calendar.hOUR))) + (jio (jparseInt hoursString)))
+        let minute = ((jio (Calendar.get calendar (Calendar.mINUTE))) + (jio (jparseInt minutesString)))
+        let second = ((jio (Calendar.get calendar (Calendar.sECOND))) + (jio (jparseInt secondsString)))
         Control.Monad.void (Calendar.set calendar year month day hour minute second)
         pure ()
 
@@ -150,9 +155,9 @@ getTotalTime_super object_ a1 a2 a3 a4 a5 a6 = (getTotalTime_impl (javaCast obje
 
 getTotalTime_impl :: TimeUtil -> String -> String -> String -> String -> String -> String -> IO (Int64)
 getTotalTime_impl this yearString monthString dayString hourString minuteString secondString = do
-        time <- (getTimeInMillis TimeUtil.calendar)
+        time <- (Calendar.getTimeInMillis TimeUtil.calendar)
         Control.Monad.void (TimeUtil.setExpirationCalendar this (TimeUtil.calendar) yearString monthString dayString hourString minuteString secondString)
-        timeDelta <- (getTimeInMillis TimeUtil.calendar)
+        timeDelta <- (Calendar.getTimeInMillis TimeUtil.calendar)
         pure ((timeDelta - time))
 
 

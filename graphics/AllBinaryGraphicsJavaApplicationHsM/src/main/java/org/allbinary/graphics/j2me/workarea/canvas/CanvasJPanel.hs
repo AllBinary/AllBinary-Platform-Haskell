@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -44,6 +44,8 @@ import qualified Graphics -- same package or java.lang
 import qualified MouseEvent -- same package or java.lang
 import qualified KeyEvent -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
+import qualified Set -- same package or java.lang
+import qualified GraphicsItemInterfaceFactoryInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified DefaultMutableTreeNode -- javax.swing.tree.DefaultMutableTreeNode
 import qualified MutableTreeNode -- javax.swing.tree.MutableTreeNode
@@ -117,12 +119,15 @@ instance JavaObjectClass CanvasJPanel where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+frame :: IORef (Int)
 {-# NOINLINE frame #-}
 frame = unsafePerformIO (newIORef (0))
 
+gridColor :: Color.Color
 {-# NOINLINE gridColor #-}
 gridColor = unsafePerformIO ((Color.new_1 (jio (BasicColor.intValue ((jget ((jio (BasicColorFactory.getInstance))).wHITE))))))
 
+backgroundColor :: Color.Color
 {-# NOINLINE backgroundColor #-}
 backgroundColor = unsafePerformIO ((Color.new_1 (jio (BasicColor.intValue ((jget ((jio (BasicColorFactory.getInstance))).cLEAR_COLOR))))))
 
@@ -257,7 +262,7 @@ init_3 this workAreaJTreeJPanel dimension canvasDom = do
             Control.Monad.void (CanvasJPanel.setCanvasSize this (jio (IntegerDimension.getWidth ((jio (CanvasDom.getDimension canvasDom))))) (jio (IntegerDimension.getHeight ((jio (CanvasDom.getDimension canvasDom))))))
             assignedValue <- (CanvasDom.getGraphicItemHashMap canvasDom)
             jset (this).graphicItemHashMap (assignedValue)
-            graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jget (this).graphicItemHashMap))))))
+            graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jget (this).graphicItemHashMap))))))
             let size = (jlength graphicItemArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let graphicItemTreeNode = (javaCast (jindex graphicItemArray (index)) :: MutableTreeNode.MutableTreeNode)
@@ -285,7 +290,7 @@ initMyComponents_impl this = do
         jset (this).canvasTreeNode (assignedValue)
         jset CanvasJPanel.frame ((jget CanvasJPanel.frame) + 1)
         Control.Monad.void (WorkAreaJTreeJPanel.add ((jget (this).workAreaJTreeJPanel)) (jio (CanvasJPanel.getTreeNode this)))
-        assignedValue <- (StdUtil.createHashMap ((jio (StdUtil.getInstance))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         jset (this).graphicItemHashMap (assignedValue)
         assignedValue <- (PointFactory.createXY ((jio (PointFactory.getInstance))) 0 0)
         jset ((jget (this).grid)).grid (assignedValue)
@@ -439,13 +444,13 @@ explodeAll_super object_ = (explodeAll_impl (javaCast object_ :: CanvasJPanel))
 explodeAll_impl :: CanvasJPanel -> IO (())
 explodeAll_impl this = do
         newPoints <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let graphicItemNode = (javaCast (jindex graphicItemArray (index)) :: MutableTreeNode.MutableTreeNode)
             let graphicItem = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) graphicItemNode)) :: GraphicItemInterface.GraphicItemInterface)
             when ((jio (GraphicItemInterface.getName graphicItem)) == (jio (LinesGraphicItem.getStaticName))) $ do
-                fix $ \loop -> when ((jio (GraphicItemInterface.getSize ((jio (GraphicItemInterface.getPointsInterface graphicItem))))) > 2) $ javaIteration (loop) $ do
+                fix $ \loop -> when ((jio (Points.getSize ((jio (GraphicItemInterface.getPointsInterface graphicItem))))) > 2) $ javaIteration (loop) $ do
                     newGraphicItem <- (fmap (\value_ -> javaCast value_ :: GraphicItemInterface.GraphicItemInterface) (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance_1 ((jio (GraphicItemFactory.getInstance))) (jio (GraphicItemInterface.getName graphicItem))))) this))
                     pointOne <- (GPoint.getInstance (jio (GraphicItemInterface.removePoint graphicItem)))
                     pointTwo <- (GPoint.getInstance (jio (GraphicItemInterface.removePoint graphicItem)))
@@ -473,11 +478,11 @@ explode_super object_ a1 a2 = (explode_impl (javaCast object_ :: CanvasJPanel)) 
 
 explode_impl :: CanvasJPanel -> Int -> Int -> IO (())
 explode_impl this howMuch explosionType = do
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
-            basicArrayList <- (VectorExplosionGenerator.createList ((jio (VectorExplosionGenerator.getInstance))) (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) howMuch (jget ((jio (VectorExplosionGenerator.getInstance))).rANDOM))
+            basicArrayList <- (VectorExplosionGenerator.createList ((jio (VectorExplosionGenerator.getInstance))) (jio (Points.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) howMuch (jget ((jio (VectorExplosionGenerator.getInstance))).rANDOM))
             newPoints <- (Points.new_)
             Control.Monad.void (Points.addPoints newPoints basicArrayList)
             Control.Monad.void (GraphicItemInterface.setPointsInterface item newPoints)
@@ -497,11 +502,11 @@ mirror_super object_ = (mirror_impl (javaCast object_ :: CanvasJPanel))
 mirror_impl :: CanvasJPanel -> IO (())
 mirror_impl this = do
         width <- (IntegerDimension.getWidth ((jio (CanvasJPanel.getCanvasDimension this))))
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
-            basicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (VectorMirrorGenerator.getInstance_2 ((jio (VectorMirrorGenerator.getInstance))) (jio (GraphicItemInterface.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) width))
+            basicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (VectorMirrorGenerator.getInstance_2 ((jio (VectorMirrorGenerator.getInstance))) (jio (Points.getPoints ((jio (GraphicItemInterface.getPointsInterface item))))) width))
             newPoints <- (Points.new_)
             Control.Monad.void (Points.addPoints newPoints basicArrayList)
             Control.Monad.void (GraphicItemInterface.setPointsInterface item newPoints)
@@ -569,7 +574,7 @@ duplicateGraphicItemHashMap_super object_ a1 = (duplicateGraphicItemHashMap_impl
 
 duplicateGraphicItemHashMap_impl :: CanvasJPanel -> HashMap.HashMap -> IO (())
 duplicateGraphicItemHashMap_impl this hashMap = do
-        mutableTreeNodeArray <- (HashMap.toArray ((jio (HashMap.keySet hashMap))))
+        mutableTreeNodeArray <- (Set.toArray ((jio (HashMap.keySet hashMap))))
         let size = (jlength mutableTreeNodeArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let treeNode = (javaCast (jindex mutableTreeNodeArray (index)) :: MutableTreeNode.MutableTreeNode)
@@ -641,7 +646,7 @@ drawItems_super object_ a1 = (drawItems_impl (javaCast object_ :: CanvasJPanel))
 drawItems_impl :: CanvasJPanel -> Graphics.Graphics -> IO (())
 drawItems_impl this graphics = do
         let angleDouble = (jget (this).angle)
-        graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
+        graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jio (CanvasJPanel.getGraphicItemHashMap this)))))))
         let size = (jlength graphicItemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let item = (javaCast (jio (HashMap.get ((jio (CanvasJPanel.getGraphicItemHashMap this))) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)
@@ -740,7 +745,7 @@ mouseClicked_super object_ a1 = (mouseClicked_impl (javaCast object_ :: CanvasJP
 
 mouseClicked_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseClicked_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_CLICKED_LABEL) + (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_CLICKED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         if (((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) && (jio (GraphicItemInterface.isActive ((jio (CanvasJPanel.getSelectedTool this)))))) then do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mouseClicked graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -789,7 +794,7 @@ mousePressed_super object_ a1 = (mousePressed_impl (javaCast object_ :: CanvasJP
 
 mousePressed_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mousePressed_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_PRESSED_LABEL) + (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_PRESSED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         when ((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) $ do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mousePressed graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -807,7 +812,7 @@ mouseReleased_super object_ a1 = (mouseReleased_impl (javaCast object_ :: Canvas
 
 mouseReleased_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseReleased_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_RELEASED_LABEL) + (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_RELEASED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         graphicItem <- (CanvasJPanel.getSelectedTool this)
         when (graphicItem /= javaNull) $ do
             Control.Monad.void (GraphicItemInterface.mouseReleased graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -825,7 +830,7 @@ mouseDragged_super object_ a1 = (mouseDragged_impl (javaCast object_ :: CanvasJP
 
 mouseDragged_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseDragged_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_DRAGGED_LABEL) + (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_DRAGGED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         graphicItem <- (CanvasJPanel.getSelectedTool this)
         when (graphicItem /= javaNull) $ do
             Control.Monad.void (GraphicItemInterface.mouseDragged graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -843,7 +848,7 @@ mouseMoved_super object_ a1 = (mouseMoved_impl (javaCast object_ :: CanvasJPanel
 
 mouseMoved_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseMoved_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_MOVED_LABEL) + (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_MOVED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         when (((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) && (jio (GraphicItemInterface.isActive ((jio (CanvasJPanel.getSelectedTool this)))))) $ do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mouseMoved graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -883,7 +888,7 @@ keyPressed_impl this keyEvent = do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget ((jget (this).gameInputStrings)).kEY_PRESSED) e)
             ) $ do
-            graphicItemArray <- (HashMap.toArray ((jio (HashMap.keySet ((jget (this).graphicItemHashMap))))))
+            graphicItemArray <- (Set.toArray ((jio (HashMap.keySet ((jget (this).graphicItemHashMap))))))
             let size = (jlength graphicItemArray)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let graphicItemInterface = (javaCast (jio (HashMap.get ((jget (this).graphicItemHashMap)) (jindex graphicItemArray (index)))) :: GraphicItemInterface.GraphicItemInterface)

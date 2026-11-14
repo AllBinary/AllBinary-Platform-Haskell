@@ -20,10 +20,10 @@ import BasicProfileActionScriptInput hiding (new_, init_, newRecord_, initFields
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,7 +35,11 @@ import qualified GHC.Float
 import qualified KeyboardActionScriptInputJPanel -- same package or java.lang
 import qualified KeyboardActionScriptInputData -- same package or java.lang
 import qualified KeyboardInputAutomationProcessor -- same package or java.lang
+import qualified JDialog -- same package or java.lang
+import qualified ABHashtable -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicProfileActionScriptProcessor -- same package or java.lang
+import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified KeyEvent -- java.awt.event.KeyEvent
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -80,6 +84,7 @@ instance JavaObjectClass KeyboardActionScriptInput where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "Keyboard"
 
 newRecord_ :: IO KeyboardActionScriptInput
@@ -146,16 +151,16 @@ init_1 this node = do
                 childNode <- (NodeList.item nodeList index)
                 if (jio (Node.startsWith ((jio (Node.getNodeName childNode))) (jget KeyboardActionScriptInputData.kEY))) then do
                     keyString <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (BasicArrayList.add vector (javaToString keyString))
+                    Control.Monad.void (BasicArrayList.add vector (jio (jparseInt keyString)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget KeyboardActionScriptInputData.dELAY_BETWEEN_KEYS))) == 0) then do
                     time <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (KeyboardActionScriptInput.setDelayBetweenKeys this (javaToString time))
+                    Control.Monad.void (KeyboardActionScriptInput.setDelayBetweenKeys this (jio (jparseInt time)))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget KeyboardActionScriptInputData.pRESS))) == 0) then do
                     value <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (KeyboardActionScriptInput.setPress this (javaToString value))
+                    Control.Monad.void (KeyboardActionScriptInput.setPress this (Prelude.map Data.Char.toLower value == "true"))
                 else if ((jio (Node.compareTo ((jio (Node.getNodeName childNode))) (jget KeyboardActionScriptInputData.rELEASE))) == 0) then do
                     value <- (DomNodeHelper.getTextNodeValue childNode)
-                    Control.Monad.void (KeyboardActionScriptInput.setRelease this (javaToString value))
+                    Control.Monad.void (KeyboardActionScriptInput.setRelease this (Prelude.map Data.Char.toLower value == "true"))
                 else do
                     javaThrow ((JavaException "Exception" "Action Script Input Unknown Node"))
             Control.Monad.void (KeyboardActionScriptInput.setKeyArray this (javaCast (jio (BasicArrayList.toArrayType vector (jnewArray ((jio (BasicArrayList.size vector))) javaNull))) :: JavaArray (Int)))
@@ -164,7 +169,7 @@ init_1 this node = do
         Control.Monad.void (BasicProfileActionScriptInput.setAllowsChildren this False)
         when ((Prelude.not (jio (KeyboardActionScriptInput.isPress this))) && (Prelude.not (jio (KeyboardActionScriptInput.isRelease this)))) $ do
             Control.Monad.void (KeyboardActionScriptInput.setNormal this)
-        assignedValue <- (KeyboardActionScriptInputJPanel.new_1 this)
+        assignedValue <- (KeyboardActionScriptInputJPanel.new_1 (javaCast this))
         jset (this).keyboardActionScriptInputJPanel (assignedValue)
         pure ()
 
@@ -183,7 +188,7 @@ init_ this = do
             Control.Monad.void (KeyboardActionScriptInput.setNormal this)
         Control.Monad.void (BasicProfileActionScriptInput.setAllowsChildren this False)
         Control.Monad.void (BasicProfileActionScriptInput.setTime this 120)
-        assignedValue <- (KeyboardActionScriptInputJPanel.new_1 this)
+        assignedValue <- (KeyboardActionScriptInputJPanel.new_1 (javaCast this))
         jset (this).keyboardActionScriptInputJPanel (assignedValue)
         pure ()
 
@@ -301,7 +306,7 @@ setKeyArray_super object_ a1 = (setKeyArray_impl (javaCast object_ :: KeyboardAc
 setKeyArray_impl :: KeyboardActionScriptInput -> JavaArray (Int) -> IO (())
 setKeyArray_impl this keyArray = do
         when (keyArray /= javaNull) $ do
-            Control.Monad.void (jio (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) + (jlength keyArray)) this "setKeyArray"))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) + (jlength keyArray)) this "setKeyArray")
         jset (this).keyArray (keyArray)
         pure ()
 
@@ -376,7 +381,7 @@ integerArrayValue_impl this text = do
                     when (endIndex /= (Prelude.negate 1)) $ do
                         let nextCharString = (Prelude.take ((endIndex) - (((jget index) + 2))) (Prelude.drop (((jget index) + 2)) text))
                         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Char String: ") ++ nextCharString) this "integerArrayValue")
-                        Control.Monad.void (BasicArrayList.add vector (javaToString (Prelude.take (((Prelude.length nextCharString)) - ((jget index))) (Prelude.drop ((jget index)) nextCharString))))
+                        Control.Monad.void (BasicArrayList.add vector (jio (jparseInt (Prelude.take (((Prelude.length nextCharString)) - ((jget index))) (Prelude.drop ((jget index)) nextCharString)))))
                         jset index ((((jget index) + (Prelude.length nextCharString)) + 3))
                         throwIO JavaContinue
             Control.Monad.void (BasicArrayList.add vector (jio (ABHashtable.get ((jio (KeySingletonFactory.getHashtable))) (javaToString aChar))))

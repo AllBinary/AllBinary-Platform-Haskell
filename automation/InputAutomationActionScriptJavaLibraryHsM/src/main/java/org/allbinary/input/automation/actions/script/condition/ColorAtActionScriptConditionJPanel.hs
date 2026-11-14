@@ -20,10 +20,10 @@ import JPanel hiding (new_, init_, newRecord_, initFields_, header_, base, stati
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -41,6 +41,7 @@ import qualified Dimension -- same package or java.lang
 import qualified ActionListener -- same package or java.lang
 import qualified ActionEvent -- same package or java.lang
 import qualified GroupLayout -- same package or java.lang
+import qualified Point -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified StringValidationUtil -- org.allbinary.logic.string.StringValidationUtil
 import qualified ColorRangeInterface -- org.allbinary.media.image.analysis.ColorRangeInterface
@@ -224,18 +225,20 @@ update_super object_ = (update_impl (javaCast object_ :: ColorAtActionScriptCond
 update_impl :: ColorAtActionScriptConditionJPanel -> IO (())
 update_impl this = do
         colorRangeInterface <- (ColorAtActionScriptConditionInterface.getColorRangeInterface ((jget (this).colorAtActionScriptConditionInterface)))
-        Control.Monad.void (ColorRangeInterface.setMinRed colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinRedJTextField this)))))))
-        Control.Monad.void (ColorRangeInterface.setMaxRed colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxRedJTextField this)))))))
-        Control.Monad.void (ColorRangeInterface.setMinGreen colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinGreenJTextField this)))))))
-        Control.Monad.void (ColorRangeInterface.setMaxGreen colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxGreenJTextField this)))))))
-        Control.Monad.void (ColorRangeInterface.setMinBlue colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinBlueJTextField this)))))))
-        Control.Monad.void (ColorRangeInterface.setMaxBlue colorRangeInterface (javaToString (jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxBlueJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMinRed colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinRedJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMaxRed colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxRedJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMinGreen colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinGreenJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMaxGreen colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxGreenJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMinBlue colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMinBlueJTextField this)))))))
+        Control.Monad.void (ColorRangeInterface.setMaxBlue colorRangeInterface ((jio (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getMaxBlueJTextField this)))))))
         xString <- (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getColorAtXJTextField this))))
         when ((Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) xString))) && (jio (StringValidationUtil.isNumber ((jio (StringValidationUtil.getInstance))) xString))) $ do
-            jset ((jio (ColorAtActionScriptConditionInterface.getPoint ((jget (this).colorAtActionScriptConditionInterface))))).x ((Prelude.read xString))
+            assignedValue <- (jparseInt xString)
+            jset ((jio (ColorAtActionScriptConditionInterface.getPoint ((jget (this).colorAtActionScriptConditionInterface))))).x (assignedValue)
         yString <- (JTextField.getText ((jio (ColorAtActionScriptConditionJPanel.getColorAtYJTextField this))))
         when ((Prelude.not (jio (StringValidationUtil.isEmpty ((jio (StringValidationUtil.getInstance))) yString))) && (jio (StringValidationUtil.isNumber ((jio (StringValidationUtil.getInstance))) yString))) $ do
-            jset ((jio (ColorAtActionScriptConditionInterface.getPoint ((jget (this).colorAtActionScriptConditionInterface))))).y ((Prelude.read xString))
+            assignedValue <- (jparseInt xString)
+            jset ((jio (ColorAtActionScriptConditionInterface.getPoint ((jget (this).colorAtActionScriptConditionInterface))))).y (assignedValue)
         Control.Monad.void (ColorAtActionScriptConditionInterface.log ((jget (this).colorAtActionScriptConditionInterface)))
         pure ()
 

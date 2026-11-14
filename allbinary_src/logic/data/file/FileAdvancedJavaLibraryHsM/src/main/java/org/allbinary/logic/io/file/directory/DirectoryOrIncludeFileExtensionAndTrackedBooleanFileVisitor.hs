@@ -20,10 +20,10 @@ import IncludeFileExtensionsBooleanFileVisitor hiding (new_, init_, newRecord_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -137,7 +137,7 @@ visit_2_impl :: DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor -> A
 visit_2_impl this file fileNameString = do
     javaCatchReturn $ do
         filePath <- (AbFile.getPath file)
-        when (jio (IncludeFileExtensionsBooleanFileVisitor.visit_super this.base file fileNameString)) $ do
+        when (jio (IncludeFileExtensionsBooleanFileVisitor.visit_2_super this.base file fileNameString)) $ do
             if (Prelude.not ((((Data.List.isInfixOf (jget ((jget (this).trackedStrings)).aPPLICATION) filePath) || (Data.List.isInfixOf (jget ((jget (this).trackedStrings)).aPP) filePath)) || (Data.List.isInfixOf (jget ((jget (this).trackedStrings)).hTML_TEMP) filePath)))) then do
                 if (Prelude.not (((Data.List.isInfixOf (jget ((jget (this).trackedStrings)).tARGET_PATH_WINDOWS) filePath) || (Data.List.isInfixOf (jget ((jget (this).trackedStrings)).tARGET_PATH_UNIX) filePath)))) then do
                     if (jio (GitProcessHelper.isTracked ((jget (this).gitProcessHelper)) file)) then do

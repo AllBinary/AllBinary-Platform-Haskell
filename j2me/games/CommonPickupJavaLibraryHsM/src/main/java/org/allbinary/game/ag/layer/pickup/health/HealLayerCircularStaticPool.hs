@@ -20,10 +20,10 @@ import AllBinaryLayerCircularPool hiding (new_, init_, newRecord_, initFields_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -95,7 +95,7 @@ visit_impl :: HealLayerCircularStaticPool -> AllBinaryLayer.AllBinaryLayer -> IO
 visit_impl this sourceLayerInterface = do
         let healLayer = (javaCast (jio (AllBinaryLayerCircularPool.getNextInstance this)) :: HealLayer.HealLayer)
         let healthInterfaceCompositeInterface = (javaCast sourceLayerInterface :: HealthInterfaceCompositeInterface.HealthInterfaceCompositeInterface)
-        healthInterface <- (HealthInterfaceCompositeInterface.getHealthInterface healthInterfaceCompositeInterface)
+        healthInterface <- (fmap (\value_ -> javaCast value_ :: HealthInterface.HealthInterface) (HealthInterfaceCompositeInterface.getHealthInterface healthInterfaceCompositeInterface))
         Control.Monad.void (HealLayer.visit healLayer healthInterface)
         pure ()
 

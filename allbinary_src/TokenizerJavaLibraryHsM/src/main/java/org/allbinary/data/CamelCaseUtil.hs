@@ -19,10 +19,10 @@ module CamelCaseUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -57,11 +57,15 @@ instance JavaObjectClass CamelCaseUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: CamelCaseUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO CamelCaseUtil
 newRecord_ = do
@@ -102,9 +106,6 @@ getAsCamelCase_super object_ a1 a2 = (getAsCamelCase_impl (javaCast object_ :: C
 
 getAsCamelCase_impl :: CamelCaseUtil -> String -> StringMaker.StringMaker -> IO (String)
 getAsCamelCase_impl this string stringBuilder = do
-    javaCatchReturn $ do
-        when (string == javaNull) $ do
-            javaReturn ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         stringValidationUtil <- (StringValidationUtil.getInstance)
         Control.Monad.void (StringMaker.delete stringBuilder 0 (jio (StringMaker.length stringBuilder)))
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))

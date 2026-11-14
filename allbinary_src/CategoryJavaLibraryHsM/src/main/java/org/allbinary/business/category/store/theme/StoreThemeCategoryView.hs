@@ -20,10 +20,10 @@ import CategoryView hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified StoreThemeCategoryInterface -- same package or java.lang
 import qualified ThemeComparator -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified Arrays -- java.util.Arrays
 import qualified CategoryView -- org.allbinary.business.category.CategoryView
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface
@@ -99,7 +100,7 @@ toXmlNode_impl :: StoreThemeCategoryView -> Document.Document -> IO (Node.Node)
 toXmlNode_impl this document = do
         node <- (CategoryView.toXmlNode_super this.base document)
         let storeThemeCategoryInterface = (javaCast (jio (CategoryView.getCategoryInterface this)) :: StoreThemeCategoryInterface.StoreThemeCategoryInterface)
-        let themeValidationArray = (javaCast (jio (StoreThemeCategoryInterface.toArray ((jio (StoreThemeCategoryInterface.getThemes storeThemeCategoryInterface))))) :: JavaArray (ThemeValidation.ThemeValidation))
+        let themeValidationArray = (javaCast (jio (BasicArrayList.toArray ((jio (StoreThemeCategoryInterface.getThemes storeThemeCategoryInterface))))) :: JavaArray (ThemeValidation.ThemeValidation))
         Control.Monad.void (Arrays.sort themeValidationArray (jio (ThemeComparator.new_)))
         let size = (jlength themeValidationArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

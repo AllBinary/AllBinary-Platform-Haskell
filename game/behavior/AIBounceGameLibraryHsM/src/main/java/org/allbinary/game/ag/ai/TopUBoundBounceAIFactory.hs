@@ -19,10 +19,10 @@ module TopUBoundBounceAIFactory where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -34,6 +34,7 @@ import qualified GHC.Float
 import qualified BoundBounceAI -- same package or java.lang
 import qualified ReverseVelocityBoundsVisitor -- same package or java.lang
 import qualified Any -- same package or java.lang
+import qualified BasicDecimal -- same package or java.lang
 import qualified ArtificialIntelligenceInterface -- org.allbinary.ai.ArtificialIntelligenceInterface
 import qualified TopULayerBounds -- org.allbinary.bounds.TopULayerBounds
 import qualified ArtificialIntelligenceInterfaceFactoryInterface -- org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface
@@ -67,6 +68,9 @@ instance JavaObjectClass TopUBoundBounceAIFactory where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO TopUBoundBounceAIFactory
 newRecord_ = do
@@ -103,12 +107,12 @@ getInstance_impl :: TopUBoundBounceAIFactory -> ABHashtable.ABHashtable -> AllBi
 getInstance_impl this hashtable ownerLayerInterface gameInput = do
         let velocityInterfaceCompositeInterface = (javaCast ownerLayerInterface :: VelocityInterfaceCompositeInterface.VelocityInterfaceCompositeInterface)
         let velocityInterface = (javaCast (jio (VelocityInterfaceCompositeInterface.getVelocityProperties velocityInterfaceCompositeInterface)) :: VelocityInterface.VelocityInterface)
-        let maxDistancePerTick = (((jio (VelocityInterface.getMaxForwardVelocity velocityInterface)) `Data.Bits.shiftR` (jio (VelocityInterface.getScaledFactor ((jio (VelocityInterface.getVelocityXBasicDecimalP velocityInterface)))))))
+        let maxDistancePerTick = (((jio (VelocityInterface.getMaxForwardVelocity velocityInterface)) `Data.Bits.shiftR` (jio (BasicDecimal.getScaledFactor ((jio (VelocityInterface.getVelocityXBasicDecimalP velocityInterface)))))))
         let halfWidth = ((((jio (AllBinaryLayer.getWidth ownerLayerInterface)) * 2) + maxDistancePerTick) + 1)
         let halfHeight = ((((jio (AllBinaryLayer.getHeight ownerLayerInterface)) * 2) + maxDistancePerTick) + 1)
         point <- (PointFactory.createXY ((jio (PointFactory.getInstance))) halfWidth (halfHeight + 60))
         displayInfo <- (DisplayInfoSingleton.getInstance)
         rectangle <- (Rectangle.new_3 point ((((jio (DisplayInfoSingleton.getLastWidth displayInfo)) - halfWidth) - (jio (GPoint.getX point)))) ((((jio (DisplayInfoSingleton.getLastHeight displayInfo)) - halfHeight) - (jio (GPoint.getY point)))))
-        (fmap (\value_ -> javaCast value_ :: ArtificialIntelligenceInterface.ArtificialIntelligenceInterface) (BoundBounceAI.new_4 ownerLayerInterface gameInput (jio (TopULayerBounds.new_1 rectangle)) (jio (ReverseVelocityBoundsVisitor.new_1 ownerLayerInterface))))
+        (fmap (\value_ -> javaCast value_ :: ArtificialIntelligenceInterface.ArtificialIntelligenceInterface) (BoundBounceAI.new_4 ownerLayerInterface gameInput (javaCast (jio (TopULayerBounds.new_1 rectangle))) (javaCast (jio (ReverseVelocityBoundsVisitor.new_1 (javaCast ownerLayerInterface))))))
 
 

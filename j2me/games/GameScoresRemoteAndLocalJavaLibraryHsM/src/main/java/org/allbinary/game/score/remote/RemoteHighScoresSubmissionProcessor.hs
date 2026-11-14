@@ -19,10 +19,10 @@ module RemoteHighScoresSubmissionProcessor where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,8 @@ import qualified Any -- same package or java.lang
 import qualified RemoteHighScoresData -- same package or java.lang
 import qualified XmlRpcRemoteHighScoresClient -- same package or java.lang
 import qualified RemoteHighScores -- same package or java.lang
+import qualified GameInfo -- same package or java.lang
+import qualified SoftwareInformation -- same package or java.lang
 import qualified GameInfoData -- org.allbinary.game.GameInfoData
 import qualified GameConfigurationCentral -- org.allbinary.game.configuration.GameConfigurationCentral
 import qualified HighScore -- org.allbinary.game.score.HighScore
@@ -72,6 +74,9 @@ instance JavaObjectClass RemoteHighScoresSubmissionProcessor where
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO RemoteHighScoresSubmissionProcessor
 newRecord_ = do

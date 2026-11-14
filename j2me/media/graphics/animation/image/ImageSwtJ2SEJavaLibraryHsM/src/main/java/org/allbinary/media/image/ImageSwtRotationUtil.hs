@@ -19,10 +19,10 @@ module ImageSwtRotationUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageUtil -- same package or java.lang
 import qualified Image -- same package or java.lang
+import qualified Rectangle -- same package or java.lang
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified GameFeatureFactory -- org.allbinary.game.configuration.feature.GameFeatureFactory
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
@@ -64,11 +65,15 @@ instance JavaObjectClass ImageSwtRotationUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageSwtRotationUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageSwtRotationUtil
 newRecord_ = do
@@ -206,7 +211,7 @@ createSpriteImage_impl this bufferedImageArray = do
         let firstBufferedImage = (jindex bufferedImageArray (0))
         imageData <- newIORef =<< (Image.getImageData firstBufferedImage)
         bufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) ((jget ((jget imageData)).width) * (jget columns)) ((jget ((jget imageData)).height) * (jget rows)))
-        gc <- (GC.new_1 bufferedImage)
+        gc <- (GC.new_1 (javaCast bufferedImage))
         Control.Monad.void (GC.setAntialias gc (SWT.oN))
         Control.Monad.void (GC.setInterpolation gc (SWT.hIGH))
         columnIndex <- newIORef (0)
@@ -219,7 +224,7 @@ createSpriteImage_impl this bufferedImageArray = do
             jset nextBufferedImage ((jindex bufferedImageArray (index)))
             assignedValue <- (Image.getImageData ((jget nextBufferedImage)))
             jset imageData (assignedValue)
-            Control.Monad.void (GC.drawImage gc bufferedImage 0 0 (jget ((jio (Image.getBounds bufferedImage))).width) (jget ((jio (Image.getBounds bufferedImage))).height) ((jget ((jget imageData)).width) * (jget columnIndex)) ((jget ((jget imageData)).height) * (jget rowIndex)) (jget ((jget imageData)).width) (jget ((jget imageData)).height))
+            Control.Monad.void (GC.drawImage_9 gc bufferedImage 0 0 (jget ((jio (Image.getBounds bufferedImage))).width) (jget ((jio (Image.getBounds bufferedImage))).height) ((jget ((jget imageData)).width) * (jget columnIndex)) ((jget ((jget imageData)).height) * (jget rowIndex)) (jget ((jget imageData)).width) (jget ((jget imageData)).height))
             jset columnIndex ((jget columnIndex) + 1)
         Control.Monad.void (GC.dispose gc)
         pure (bufferedImage)

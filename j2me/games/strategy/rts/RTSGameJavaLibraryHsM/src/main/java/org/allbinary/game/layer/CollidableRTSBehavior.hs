@@ -20,10 +20,10 @@ import CollidableDestroyableDamageableBehavior hiding (new_, init_, newRecord_, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CollidableCompositeLayer -- same package or java.lang
+import qualified CollidableBaseBehavior -- same package or java.lang
 import qualified CollisionType -- org.allbinary.game.collision.CollisionType
 import qualified CollisionTypeFactory -- org.allbinary.game.collision.CollisionTypeFactory
 import qualified CollidableDestroyableDamageableBehavior -- org.allbinary.game.layer.special.CollidableDestroyableDamageableBehavior

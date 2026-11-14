@@ -20,10 +20,10 @@ import GameFeature hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -52,9 +52,11 @@ instance JavaObjectClass RaceTrackGameFeature where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+mINI_MAP :: GameFeature.GameFeature
 {-# NOINLINE mINI_MAP #-}
 mINI_MAP = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: GameFeature.GameFeature) (new_1 "Mini Map")))
 
+aUTO_FINISH_AI :: GameFeature.GameFeature
 {-# NOINLINE aUTO_FINISH_AI #-}
 aUTO_FINISH_AI = unsafePerformIO ((fmap (\value_ -> javaCast value_ :: GameFeature.GameFeature) (new_1 "Auto Finish AI")))
 

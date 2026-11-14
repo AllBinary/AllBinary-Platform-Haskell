@@ -20,10 +20,10 @@ import AbstractInputAutomationFactory hiding (new_, init_, newRecord_, initField
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -61,6 +61,7 @@ instance JavaObjectClass GenericModuleFactory where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: IORef (String)
 {-# NOINLINE nAME #-}
 nAME = unsafePerformIO (newIORef (("Generic" ++ javaToString (jget InputAutomationModuleData.mODULE_NAME_END))))
 
@@ -85,7 +86,7 @@ new_ = do
 
 init_ :: GenericModuleFactory -> IO ()
 init_ this = do
-        AbstractInputAutomationFactory.init_2 this.base (jget nAME) (jio (GenericModuleConfigurationJPanel.new_))
+        AbstractInputAutomationFactory.init_2 this.base (jget nAME) (javaCast (jio (GenericModuleConfigurationJPanel.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()
@@ -100,8 +101,8 @@ getInstance_super object_ = (getInstance_impl (javaCast object_ :: GenericModule
 
 getInstance_impl :: GenericModuleFactory -> IO (RunnableInterface.RunnableInterface)
 getInstance_impl this = do
-        genericProfile <- (getSelectedGenericProfile (((javaCast (jio (AbstractInputAutomationFactory.getConfigurationJPanel this)) :: GenericModuleConfigurationJPanel.GenericModuleConfigurationJPanel))))
+        genericProfile <- (GenericModuleConfigurationJPanel.getSelectedGenericProfile (((javaCast (jio (AbstractInputAutomationFactory.getConfigurationJPanel this)) :: GenericModuleConfigurationJPanel.GenericModuleConfigurationJPanel))))
         let inputAutomationActionInterface = (javaCast (jio (GenericInputAutomationAction.new_)) :: InputAutomationActionInterface.InputAutomationActionInterface)
-        pure ((javaCast (jio (GenericInputAutomationWorker.new_4 inputAutomationActionInterface genericProfile (jio (NoMotionRectangleConstraints.new_)) (jio (NoImageComparatorConstraints.new_)))) :: RunnableInterface.RunnableInterface))
+        pure ((javaCast (jio (GenericInputAutomationWorker.new_4 inputAutomationActionInterface genericProfile (javaCast (jio (NoMotionRectangleConstraints.new_))) (javaCast (jio (NoImageComparatorConstraints.new_))))) :: RunnableInterface.RunnableInterface))
 
 

@@ -20,10 +20,10 @@ import RTSFormInput hiding (new_, init_, newRecord_, initFields_, header_, base,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -35,6 +35,7 @@ import qualified GHC.Float
 import qualified WaypointRTSFormInput -- same package or java.lang
 import qualified UnitRTSFormInput -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified RTSFormInput -- same package or java.lang
 import qualified RTSPlayerLayerInterface -- org.allbinary.game.layer.RTSPlayerLayerInterface
 import qualified ABCustomItem -- org.allbinary.graphics.form.item.ABCustomItem
 import qualified CommonStrings -- org.allbinary.string.CommonStrings
@@ -133,7 +134,7 @@ setAllBinaryGameLayerManager_impl this allBinaryGameLayerManager = do
         let geographicMapInterface = (jindex ((jio (GeographicMapCompositeInterface.getGeographicMapInterface geographicMapCompositeInterface))) (0))
         let size = (jlength (jget (this).rtsFormInputArray))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (setAllBinaryGameLayerManager ((jindex ((jget (this).rtsFormInputArray)) (index))) allBinaryGameLayerManager)
+            Control.Monad.void (RTSFormInput.setAllBinaryGameLayerManager ((jindex ((jget (this).rtsFormInputArray)) (index))) allBinaryGameLayerManager)
         pure ()
 
 
@@ -150,9 +151,9 @@ processAtPoint_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager
         index <- (ScrollSelectionForm.getSelectedIndexForPoint scrollSelectionForm point)
         if ((jio (CompositeRTSFormInput.isStickyItemSelected this)) && (associatedRtsLayer == (jio (CollidableDestroyableDamageableLayer.getNullInstance)))) then do
             when ((jio (CompositeRTSFormInput.getSelectedStickyItemIndex this)) <= (jindex ((jget (this).itemIndex)) (0))) $ do
-                Control.Monad.void (processAtPoint ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
+                Control.Monad.void (RTSFormInput.processAtPoint ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
         else when (index > (jindex ((jget (this).itemIndex)) (0))) $ do
-            Control.Monad.void (processAtPoint ((jindex ((jget (this).rtsFormInputArray)) (1))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
+            Control.Monad.void (RTSFormInput.processAtPoint ((jindex ((jget (this).rtsFormInputArray)) (1))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
         pure ()
 
 
@@ -169,9 +170,9 @@ processGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerMa
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ((javaToString ((jget ((jio (CommonLabels.getInstance))).iNDEX_LABEL) + index) ++ " > ") ++ javaToString (jindex ((jget (this).itemIndex)) (0))) this (jget (commonStrings).pROCESS))
         if ((jio (CompositeRTSFormInput.isStickyItemSelected this)) && (associatedRtsLayer == (jio (CollidableDestroyableDamageableLayer.getNullInstance)))) then do
             when ((jio (CompositeRTSFormInput.getSelectedStickyItemIndex this)) <= (jindex ((jget (this).itemIndex)) (0))) $ do
-                Control.Monad.void (processGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
+                Control.Monad.void (RTSFormInput.processGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
         else when (index > (jindex ((jget (this).itemIndex)) (0))) $ do
-            Control.Monad.void (processGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (1))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
+            Control.Monad.void (RTSFormInput.processGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (1))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
         pure ()
 
 
@@ -184,7 +185,7 @@ processSticky_super object_ a1 a2 a3 a4 = (processSticky_impl (javaCast object_ 
 
 processSticky_impl :: CompositeRTSFormInput -> CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> GPoint.GPoint -> IO (Bool)
 processSticky_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager point = do
-        (processSticky ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
+        (RTSFormInput.processSticky ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager point)
 
 
 -- throws Exception
@@ -196,7 +197,7 @@ processStickyGameSpecific_super object_ a1 a2 a3 a4 a5 = (processStickyGameSpeci
 
 processStickyGameSpecific_impl :: CompositeRTSFormInput -> CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> ABCustomItem.ABCustomItem -> Int -> IO (())
 processStickyGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager item index = do
-        Control.Monad.void (processStickyGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
+        Control.Monad.void (RTSFormInput.processStickyGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)
         pure ()
 
 
@@ -208,7 +209,7 @@ getSelectedStickyItemIndex_super object_ = (getSelectedStickyItemIndex_impl (jav
 
 getSelectedStickyItemIndex_impl :: CompositeRTSFormInput -> IO (Int)
 getSelectedStickyItemIndex_impl this = do
-        (getSelectedStickyItemIndex ((jindex ((jget (this).rtsFormInputArray)) (0))))
+        (RTSFormInput.getSelectedStickyItemIndex ((jindex ((jget (this).rtsFormInputArray)) (0))))
 
 
 isStickyItemSelected :: (JavaObjectClass this_) => this_ -> IO (Bool)
@@ -219,7 +220,7 @@ isStickyItemSelected_super object_ = (isStickyItemSelected_impl (javaCast object
 
 isStickyItemSelected_impl :: CompositeRTSFormInput -> IO (Bool)
 isStickyItemSelected_impl this = do
-        (isStickyItemSelected ((jindex ((jget (this).rtsFormInputArray)) (0))))
+        (RTSFormInput.isStickyItemSelected ((jindex ((jget (this).rtsFormInputArray)) (0))))
 
 
 setStickyItemSelected :: (JavaObjectClass this_) => this_ -> Bool -> IO (())
@@ -230,7 +231,7 @@ setStickyItemSelected_super object_ a1 = (setStickyItemSelected_impl (javaCast o
 
 setStickyItemSelected_impl :: CompositeRTSFormInput -> Bool -> IO (())
 setStickyItemSelected_impl this stickyItemSelected = do
-        Control.Monad.void (setStickyItemSelected ((jindex ((jget (this).rtsFormInputArray)) (0))) stickyItemSelected)
+        Control.Monad.void (RTSFormInput.setStickyItemSelected ((jindex ((jget (this).rtsFormInputArray)) (0))) stickyItemSelected)
         pure ()
 
 
@@ -242,7 +243,7 @@ getSelectedStickyItem_super object_ = (getSelectedStickyItem_impl (javaCast obje
 
 getSelectedStickyItem_impl :: CompositeRTSFormInput -> IO (ABCustomItem.ABCustomItem)
 getSelectedStickyItem_impl this = do
-        (getSelectedStickyItem ((jindex ((jget (this).rtsFormInputArray)) (0))))
+        (RTSFormInput.getSelectedStickyItem ((jindex ((jget (this).rtsFormInputArray)) (0))))
 
 
 setSelectedStickyItem :: (JavaObjectClass this_) => this_ -> ABCustomItem.ABCustomItem -> IO (())
@@ -253,7 +254,7 @@ setSelectedStickyItem_super object_ a1 = (setSelectedStickyItem_impl (javaCast o
 
 setSelectedStickyItem_impl :: CompositeRTSFormInput -> ABCustomItem.ABCustomItem -> IO (())
 setSelectedStickyItem_impl this selectedStickyItem = do
-        Control.Monad.void (setSelectedStickyItem ((jindex ((jget (this).rtsFormInputArray)) (0))) selectedStickyItem)
+        Control.Monad.void (RTSFormInput.setSelectedStickyItem ((jindex ((jget (this).rtsFormInputArray)) (0))) selectedStickyItem)
         pure ()
 
 

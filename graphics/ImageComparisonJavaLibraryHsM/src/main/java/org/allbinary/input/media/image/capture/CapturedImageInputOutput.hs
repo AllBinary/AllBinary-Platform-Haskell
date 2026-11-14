@@ -19,10 +19,10 @@ module CapturedImageInputOutput where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -68,6 +68,9 @@ instance JavaObjectClass CapturedImageInputOutput where
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
 
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
+
 newRecord_ :: IO CapturedImageInputOutput
 newRecord_ = do
     header_ <- newJavaHeader
@@ -105,7 +108,7 @@ save_super object_ a1 = (save_impl (javaCast object_ :: CapturedImageInputOutput
 save_impl :: CapturedImageInputOutput -> Int64 -> IO (())
 save_impl this frame = do
         commonStrings <- (CommonStrings.getInstance)
-        let capturedBufferedImageCacheable = ((javaCast (jio (get (((javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: BufferedImageFrameCacheable.BufferedImageFrameCacheable))
+        let capturedBufferedImageCacheable = ((javaCast (jio (AutomaticCacheInterface.get (((javaCast (jio (CapturedBufferedImagesCacheSingleton.getInstance)) :: AutomaticCacheInterface.AutomaticCacheInterface))) frame)) :: BufferedImageFrameCacheable.BufferedImageFrameCacheable))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Saving: " ++ (jio (BufferedImageFrameCacheable.toString capturedBufferedImageCacheable)))) this (jget (commonStrings).sAVE))
         Control.Monad.void (CapturedImageInputOutput.save_2 this (jio (BufferedImageFrameCacheable.getBufferedImage capturedBufferedImageCacheable)) frame)
         pure ()

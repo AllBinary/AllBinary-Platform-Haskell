@@ -19,10 +19,10 @@ module ImageJ2MEScaleUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -60,11 +60,15 @@ instance JavaObjectClass ImageJ2MEScaleUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageJ2MEScaleUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageJ2MEScaleUtil
 newRecord_ = do
@@ -135,8 +139,8 @@ scale_impl this image width height = do
         scaledImage <- (Image.createImageWH width height)
         let htmlImage = (javaCast scaledImage :: PlaynMutableImage.PlaynMutableImage)
         let scaledPlayNImage = (javaCast (jio (PlaynMutableImage.getImage htmlImage)) :: ImageImpl.ImageImpl)
-        canvas <- (get (((javaCast (jio (PlayN.graphics ((jio (PlayN.getInstance))))) :: HtmlGraphics.HtmlGraphics))) (javaCast scaledPlayNImage :: HtmlImage.HtmlImage))
-        Control.Monad.void (draw (((javaCast (jget originalPlayNImage) :: ImageImpl.ImageImpl))) (jio (Canvas.gc canvas)) 0 0 (jio (Image.getWidth scaledImage)) (jio (Image.getHeight scaledImage)) 0 0 (jio (Image.getWidth image)) (jio (Image.getHeight image)))
+        canvas <- (HtmlGraphics.get (((javaCast (jio (PlayN.graphics ((jio (PlayN.getInstance))))) :: HtmlGraphics.HtmlGraphics))) (javaCast scaledPlayNImage :: HtmlImage.HtmlImage))
+        Control.Monad.void (Canvas.drawScale canvas (jget originalPlayNImage) 0 0 (jio (Image.getWidth scaledImage)) (jio (Image.getHeight scaledImage)) 0 0 (jio (Image.getWidth image)) (jio (Image.getHeight image)))
         pure (scaledImage)
 
 

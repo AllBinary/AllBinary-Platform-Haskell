@@ -19,10 +19,10 @@ module ImageModifierUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -65,11 +65,15 @@ instance JavaObjectClass ImageModifierUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageModifierUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO ImageModifierUtil
 newRecord_ = do
@@ -204,9 +208,9 @@ changeColor_impl this unusedOriginalImage image imageIndex basicColor = do
                 jset rx (((((jindex ((jget (imageData).data_)) (index)) Data.Bits..&. 0xFF)) `Data.Bits.shiftL` 16))
                 jset gx (((((jindex ((jget (imageData).data_)) ((index + 1))) Data.Bits..&. 0xFF)) `Data.Bits.shiftL` 8))
                 jset bx ((((jindex ((jget (imageData).data_)) ((index + 2))) Data.Bits..&. 0xFF)))
-                jset rx ((Prelude.truncate ((jget rx) * r)))
-                jset gx ((Prelude.truncate ((jget gx) * g)))
-                jset bx ((Prelude.truncate ((jget bx) * b)))
+                jset rx ((javaCast (Prelude.truncate ((jget rx) * r)) :: INT.INT))
+                jset gx ((javaCast (Prelude.truncate ((jget gx) * g)) :: INT.INT))
+                jset bx ((javaCast (Prelude.truncate ((jget bx) * b)) :: INT.INT))
                 jsetIndex ((jget (imageData).data_)) (index) ((Prelude.fromIntegral (jget rx)))
                 jsetIndex ((jget (imageData).data_)) ((index + 1)) ((Prelude.fromIntegral (jget gx)))
                 jsetIndex ((jget (imageData).data_)) ((index + 2)) ((Prelude.fromIntegral (jget bx)))

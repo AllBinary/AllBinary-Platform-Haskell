@@ -19,10 +19,10 @@ module HighScoreUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -74,11 +74,15 @@ instance JavaObjectClass HighScoreUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+sUBMIT_TEXTBOX_COMMAND :: Command.Command
 {-# NOINLINE sUBMIT_TEXTBOX_COMMAND #-}
 sUBMIT_TEXTBOX_COMMAND = unsafePerformIO ((Command.new_4 "Submit" (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) (Command.sCREEN) 1))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
+
+toString_super :: (JavaObjectClass this_) => this_ -> IO (String)
+toString_super object_ = jobjectToString object_
 
 newRecord_ :: IO HighScoreUtil
 newRecord_ = do
@@ -173,7 +177,7 @@ saveHighScore_impl this = do
         let size = (jlength (jget (this).highScoresArray))
         when ((jget (this).firstTime) && (size == 0)) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Games canvas did not give us any HighScores" this "saveHighScore")
-            Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jget (this).gameInfo) this)
+            Control.Monad.void (HighScoresFactoryInterface.fetchHighScores ((jget (this).highScoresFactoryInterface)) (jget (this).gameInfo) (javaCast this))
             javaReturn (())
         highScores <- newIORef (javaNull)
         highScoresAsString <- newIORef ("")
@@ -196,7 +200,7 @@ submit_super object_ a1 = (submit_impl (javaCast object_ :: HighScoreUtil)) a1
 submit_impl :: HighScoreUtil -> MyCanvas.MyCanvas -> IO (())
 submit_impl this myCanvas = do
         commandListener <- (MyCanvas.getCustomCommandListener myCanvas)
-        Control.Monad.void (CommandListener.commandAction commandListener (HighScoreUtil.sUBMIT_TEXTBOX_COMMAND) myCanvas)
+        Control.Monad.void (CommandListener.commandAction commandListener (HighScoreUtil.sUBMIT_TEXTBOX_COMMAND) (javaCast myCanvas))
         pure ()
 
 

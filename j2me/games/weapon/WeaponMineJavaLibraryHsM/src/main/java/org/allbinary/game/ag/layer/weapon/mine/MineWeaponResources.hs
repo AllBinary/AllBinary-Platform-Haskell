@@ -20,10 +20,10 @@ import BasicGameResources hiding (new_, init_, newRecord_, initFields_, header_,
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -82,7 +82,7 @@ initFields_ this = do
 getInstance :: IO (MineWeaponResources)
 getInstance = do
         when ((jget MineWeaponResources.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
-            assignedValue <- (new_)
+            assignedValue <- (fmap jtoObject (new_))
             jset MineWeaponResources.instance_ (assignedValue)
         pure ((javaCast (jget MineWeaponResources.instance_) :: MineWeaponResources))
 

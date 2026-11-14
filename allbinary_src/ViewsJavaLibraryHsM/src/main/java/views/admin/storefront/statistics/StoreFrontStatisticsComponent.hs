@@ -20,10 +20,10 @@ import HttpStoreComponentView hiding (new_, init_, newRecord_, initFields_, head
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
@@ -95,7 +96,7 @@ init_1 this transformInfoInterface = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).newStoreFrontInterface ((javaCast (jio (StoreFrontFactory.getInstance (jio (TransformInfoInterface.getStoreName transformInfoInterface)))) :: StoreFrontInterface.StoreFrontInterface))
-        assignedValue <- (fmap (\value_ -> javaCast value_ :: DomNodeInterface.DomNodeInterface) (RealTimeStoreFrontStatisticsView.new_2 (jio (RealTimeStoreFrontStatistics.new_1 (jget (this).newStoreFrontInterface))) (jio (WeblisketSession.getRole ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
+        assignedValue <- (fmap (\value_ -> javaCast value_ :: DomNodeInterface.DomNodeInterface) (RealTimeStoreFrontStatisticsView.new_2 (javaCast (jio (RealTimeStoreFrontStatistics.new_1 (jget (this).newStoreFrontInterface)))) (jio (WeblisketSession.getRole ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
         jset (this).domNodeInterface (assignedValue)
         pure ()
 

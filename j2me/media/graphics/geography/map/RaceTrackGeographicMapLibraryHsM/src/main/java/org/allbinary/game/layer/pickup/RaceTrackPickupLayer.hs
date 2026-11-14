@@ -20,10 +20,10 @@ import PickupLayer hiding (new_, init_, newRecord_, initFields_, header_, base, 
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -64,6 +64,7 @@ instance JavaObjectClass RaceTrackPickupLayer where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+nAME :: String
 nAME = "RaceTrackPickupLayer"
 
 newRecord_ :: IO RaceTrackPickupLayer
@@ -90,7 +91,7 @@ new_ = do
 
 init_ :: RaceTrackPickupLayer -> IO ()
 init_ this = do
-        PickupLayer.init_7 this.base (nAME) (RemoteInfo.rEMOTE_INFO) (0) (CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY) (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (jio (TileLayerPositionIntoViewPosition.new_))
+        PickupLayer.init_7 this.base (nAME) (RemoteInfo.rEMOTE_INFO) (0) (javaCast CountedPickedUpLayerInterfaceFactory.nULL_COUNTED_PICKUP_LAYER_FACTORY) (jio (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)) (jio (Rectangle.new_3 (jget ((jio (PointFactory.getInstance))).zERO_ZERO) 0 0)) (javaCast (jio (TileLayerPositionIntoViewPosition.new_)))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

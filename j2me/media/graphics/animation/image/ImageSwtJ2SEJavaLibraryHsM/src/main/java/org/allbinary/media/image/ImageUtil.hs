@@ -19,10 +19,10 @@ module ImageUtil where
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
-import Data.Char
+import Data.Char hiding (GeneralCategory (..))
 import Data.Int
 import Data.Word
-import Data.List
+import Data.List hiding (List)
 import Data.Function (fix)
 import Control.Monad
 import Control.Exception
@@ -32,6 +32,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Image -- same package or java.lang
+import qualified Shell -- same package or java.lang
+import qualified Rectangle -- same package or java.lang
 import qualified SWT -- org.eclipse.swt.SWT
 import qualified Canvas -- org.eclipse.swt.widgets.Canvas
 import qualified Composite -- org.eclipse.swt.widgets.Composite
@@ -45,7 +47,7 @@ import qualified CommonLabels -- org.allbinary.string.CommonLabels
 import qualified PaintEvent -- org.eclipse.swt.events.PaintEvent
 import qualified PaintListener -- org.eclipse.swt.events.PaintListener
 import qualified Transform -- org.eclipse.swt.graphics.Transform
-import qualified Display -- org.eclipse.swt.widgets.Display
+import qualified EclipseDisplay -- org.eclipse.swt.widgets.EclipseDisplay
 import qualified BareMain -- org.microemu.app.BareMain
 
 data ImageUtil = ImageUtil
@@ -70,6 +72,7 @@ instance JavaObjectClass ImageUtil where
     jisNull = jrecordIsNull
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
+instance_ :: ImageUtil
 {-# NOINLINE instance_ #-}
 instance_ = unsafePerformIO ((new_))
 
@@ -153,8 +156,8 @@ createBufferedImage_impl this bufferedImageArray percent scale = do
             jset bufferedImage ((jindex bufferedImageArray (index)))
             assignedValue <- (Image.getImageData ((jget bufferedImage)))
             jset imageData (assignedValue)
-            let newWidth = (Prelude.fromInteger (jnumericInteger ((((jget ((jget imageData)).width) * percent) / 100))))
-            let newHeight = (Prelude.fromInteger (jnumericInteger ((((jget ((jget imageData)).height) * percent) / 100))))
+            let newWidth = ((((jget ((jget imageData)).width) * percent) `quot` 100))
+            let newHeight = ((((jget ((jget imageData)).height) * percent) `quot` 100))
             assignedValue <- (ImageUtil.createBufferedImage5 this (jget bufferedImage) newWidth newHeight scale)
             jsetIndex scaledBufferedImageArray (index) (assignedValue)
         pure (scaledBufferedImageArray)
@@ -177,8 +180,8 @@ createBufferedImage2_impl this bufferedImageArray percent scale = do
             jset bufferedImage ((jindex bufferedImageArray (index)))
             assignedValue <- (Image.getImageData ((jget bufferedImage)))
             jset imageData (assignedValue)
-            let newWidth = (Prelude.fromInteger (jnumericInteger (((jget ((jget imageData)).width) * percent))))
-            let newHeight = (Prelude.fromInteger (jnumericInteger (((jget ((jget imageData)).height) * percent))))
+            let newWidth = (Prelude.truncate (((Prelude.fromIntegral (jget ((jget imageData)).width)) * percent)))
+            let newHeight = (Prelude.truncate (((Prelude.fromIntegral (jget ((jget imageData)).height)) * percent)))
             assignedValue <- (ImageUtil.createBufferedImage5 this (jget bufferedImage) newWidth newHeight scale)
             jsetIndex scaledBufferedImageArray (index) (assignedValue)
         pure (scaledBufferedImageArray)
@@ -235,8 +238,8 @@ createBufferedImage6_super object_ a1 a2 a3 a4 a5 = (createBufferedImage6_impl (
 createBufferedImage6_impl :: ImageUtil -> Image.Image -> Int -> Int -> Bool -> Bool -> IO (Image.Image)
 createBufferedImage6_impl this bufferedImage newWidth newHeight scale allowTranslate = do
         imageData <- (Image.getImageData bufferedImage)
-        let width = (jget (imageData).width)
-        let height = (jget (imageData).height)
+        let width = (Prelude.fromIntegral (jget (imageData).width))
+        let height = (Prelude.fromIntegral (jget (imageData).height))
         let d_newWidth = (Prelude.fromIntegral newWidth)
         let d_newHeight = (Prelude.fromIntegral newHeight)
         let widthRatio = (d_newWidth / width)
@@ -254,14 +257,14 @@ createBufferedImage6_impl this bufferedImage newWidth newHeight scale allowTrans
             jset dy (((((Prelude.fromIntegral newHeight) - height)) / 2.0))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.new_))) "Translate dx: "))) (jget dx)))) " dy: "))) (jget dy)))))) this (jget (this).cREATE_BUFFERED_IMAGE))
         newBufferedImage <- (Image.new_3 (jio (getDisplay BareMain.shell)) newWidth newHeight)
-        gc <- (GC.new_1 newBufferedImage)
+        gc <- (GC.new_1 (javaCast newBufferedImage))
         affineTransform <- (Transform.new_1 (jio (GC.getDevice gc)))
         Control.Monad.void (Transform.scale affineTransform (jget ratioX) (jget ratioY))
         Control.Monad.void (Transform.translate affineTransform (jget dx) (jget dy))
         Control.Monad.void (GC.setTransform gc affineTransform)
         Control.Monad.void (GC.setAntialias gc (SWT.oN))
         Control.Monad.void (GC.setInterpolation gc (SWT.hIGH))
-        Control.Monad.void (GC.drawImage gc bufferedImage 0 0 (jget ((jio (Image.getBounds bufferedImage))).width) (jget ((jio (Image.getBounds bufferedImage))).height) 0 0 newWidth newHeight)
+        Control.Monad.void (GC.drawImage_9 gc bufferedImage 0 0 (jget ((jio (Image.getBounds bufferedImage))).width) (jget ((jio (Image.getBounds bufferedImage))).height) 0 0 newWidth newHeight)
         Control.Monad.void (GC.dispose gc)
         pure (newBufferedImage)
 
@@ -294,11 +297,11 @@ toString_impl this bufferedImage = do
         imageData <- (Image.getImageData bufferedImage)
         Control.Monad.void (StringMaker.append stringBuffer " org.eclipse.swt.graphics.Image: ")
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).wIDTH_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jget (imageData).width))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jget (imageData).width))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).hEIGHT_LABEL))
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jget (imageData).height))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jget (imageData).height))
         Control.Monad.void (StringMaker.append stringBuffer " Type: ")
-        Control.Monad.void (StringMaker.appendint stringBuffer (Prelude.fromInteger (jnumericInteger (jget (imageData).type_))))
+        Control.Monad.void (StringMaker.appendint stringBuffer (jget (imageData).type_))
         (StringMaker.toString stringBuffer)
 
 
