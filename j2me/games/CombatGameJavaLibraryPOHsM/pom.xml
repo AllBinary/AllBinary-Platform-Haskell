@@ -124,7 +124,7 @@
 
         <module>../../../allbinary_src/licensing/ApplicationConfigurationJavaLibraryHsM</module>
         <module>../../../allbinary_src/licensing/ApplicationConfigurationNoFSJavaLibraryHsM</module>
-        <module>../../input/AllBinaryMagneticFieldSensorJavaLibraryHsM</module>
+<!--        <module>../../input/AllBinaryMagneticFieldSensorJavaLibraryHsM</module>-->
         <module>../../android/VirtualKeyboardJavaLibraryHsM</module>
 
     </modules>
