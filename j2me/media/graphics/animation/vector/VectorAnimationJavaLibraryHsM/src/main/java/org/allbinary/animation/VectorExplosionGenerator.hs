@@ -164,7 +164,7 @@ getInstanceStartFrame_impl this points howMuch type_ startFrame = do
             ) $ do
             pointsBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListS.new_1 howMuch))
             Control.Monad.void (BasicArrayList.add pointsBasicArrayList (jio (VectorExplosionGenerator.createPointsBasicArrayList this points)))
-            frameIndex <- newIORef (0)
+            frameIndex <- newIORef (0 :: Int)
             tempBasicArrayList <- newIORef (javaNull)
             pointBasicArrayList <- newIORef (javaNull)
             fix $ \loop -> when ((jget frameIndex) < howMuch) $ javaIteration (loop) $ do
@@ -187,7 +187,7 @@ createListFromPoints_super object_ a1 a2 a3 a4 = (createListFromPoints_impl (jav
 
 createListFromPoints_impl :: VectorExplosionGenerator -> BasicArrayList.BasicArrayList -> JavaArray (JavaArray (Int)) -> Int -> VectorExplosionType.VectorExplosionType -> IO (BasicArrayList.BasicArrayList)
 createListFromPoints_impl this tempBasicArrayList points howMuch type_ = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         pointBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         sectionBasicArrayList <- newIORef (javaNull)
         fix $ \loop -> when ((jget index) < (jlength points)) $ javaIteration (loop) $ do

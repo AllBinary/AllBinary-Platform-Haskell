@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified ProductListingInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ProductListingInterface -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified PageContext -- javax.servlet.jsp.PageContext
@@ -218,7 +218,7 @@ makePublic_impl this = do
             ) $ do
             storeFrontInterface <- (fmap (\value_ -> javaCast value_ :: StoreFrontInterface.StoreFrontInterface) (StoreFrontFactory.getInstance (jget (this).storeName)))
             fromAbPath <- (AbPath.new_2 ((jio (StoreFrontInterface.getTestHtmlPath storeFrontInterface)) ++ (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-            toAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFrontInterface.getName storeFrontInterface))) ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+            toAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getWebappPath)) ++ (jio (StoreFrontInterface.getName storeFrontInterface))) ++ (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ (jio (StoreFrontInterface.getStaticPath storeFrontInterface))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             Control.Monad.void (FileUtil.copy ((jio (FileUtil.getInstance))) fromAbPath toAbPath)
             let success = "Made Public"
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do

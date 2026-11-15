@@ -100,7 +100,7 @@ newRecord_ = do
 initFields_ :: RootCategoryPropertiesAbstract -> IO ()
 initFields_ this = do
     jset this.category ((jget ((jio (CategoryData.getInstance))).rOOTCATEGORY))
-    jset this.fileName ((((jget (this).category) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
+    jset this.fileName ((((jget (this).category) ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
     pure ()
 
 new_ :: IO RootCategoryPropertiesAbstract

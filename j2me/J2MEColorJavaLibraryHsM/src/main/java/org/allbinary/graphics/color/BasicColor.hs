@@ -114,7 +114,7 @@ init_3 :: BasicColor -> Int -> Int -> String -> IO ()
 init_3 this alphaValue value name = do
         initFields_ this
         jset (this).name (name)
-        tempValue <- newIORef (0)
+        tempValue <- newIORef (0 :: Int)
         basicColorUtil <- (BasicColorUtil.getInstance)
         if (jget (basicColorUtil).isAlpha) then do
             if (jget (basicColorUtil).ffOpaque) then do

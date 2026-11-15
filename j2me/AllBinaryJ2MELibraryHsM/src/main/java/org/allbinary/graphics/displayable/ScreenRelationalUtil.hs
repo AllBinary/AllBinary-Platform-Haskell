@@ -115,7 +115,7 @@ getScaleWHA_impl this aWidth aHeight add = do
         last <- (DisplayInfoSingleton.getLast displayInfoSingleton)
         let width = (Prelude.fromIntegral (jindex last ((jget (displayInfoSingleton).wIDTH))))
         let height = (Prelude.fromIntegral (jindex last ((jget (displayInfoSingleton).hEIGHT))))
-        largestSize <- newIORef (width)
+        largestSize <- newIORef (width :: Float)
         when ((jget largestSize) < height) $ do
             jset largestSize (height)
         let scale = (((jget largestSize)) / (Prelude.fromIntegral aWidth))

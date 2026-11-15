@@ -60,7 +60,7 @@ instance JavaObjectClass TestModuleFactory where
 
 nAME :: IORef (String)
 {-# NOINLINE nAME #-}
-nAME = unsafePerformIO (newIORef (("Test New Game" ++ javaToString (jget InputAutomationModuleData.mODULE_NAME_END))))
+nAME = unsafePerformIO (newIORef (("Test New Game" ++ (jget InputAutomationModuleData.mODULE_NAME_END))))
 
 newRecord_ :: IO TestModuleFactory
 newRecord_ = do

@@ -119,7 +119,7 @@ setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: SimultaneousComp
 
 setFrame_impl :: SimultaneousCompoundRotationAnimation -> Int -> IO (())
 setFrame_impl this frameIndex = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) frameIndex)
         pure ()
@@ -167,7 +167,7 @@ previousFrame_super object_ = (previousFrame_impl (javaCast object_ :: Simultane
 
 previousFrame_impl :: SimultaneousCompoundRotationAnimation -> IO (())
 previousFrame_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.previousFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -182,7 +182,7 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: SimultaneousCompo
 
 nextFrame_impl :: SimultaneousCompoundRotationAnimation -> IO (())
 nextFrame_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -196,7 +196,7 @@ previousRotation_super object_ = (previousRotation_impl (javaCast object_ :: Sim
 
 previousRotation_impl :: SimultaneousCompoundRotationAnimation -> IO (())
 previousRotation_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.previousRotation ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -210,7 +210,7 @@ nextRotation_super object_ = (nextRotation_impl (javaCast object_ :: Simultaneou
 
 nextRotation_impl :: SimultaneousCompoundRotationAnimation -> IO (())
 nextRotation_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.nextRotation ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -246,7 +246,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: Simultaneous
 
 paintXY_impl :: SimultaneousCompoundRotationAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) graphics x y)
         pure ()
@@ -260,7 +260,7 @@ paintThreedXYZ_super object_ a1 a2 a3 a4 = (paintThreedXYZ_impl (javaCast object
 
 paintThreedXYZ_impl :: SimultaneousCompoundRotationAnimation -> Graphics.Graphics -> Int -> Int -> Int -> IO (())
 paintThreedXYZ_impl this graphics x y z = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) graphics x y z)
         pure ()
@@ -274,7 +274,7 @@ setFrameByDirection_super object_ a1 = (setFrameByDirection_impl (javaCast objec
 
 setFrameByDirection_impl :: SimultaneousCompoundRotationAnimation -> Direction.Direction -> IO (())
 setFrameByDirection_impl this direction = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.setFrameByDirection ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) direction)
         pure ()
@@ -288,7 +288,7 @@ setFrameToAngle_super object_ a1 = (setFrameToAngle_impl (javaCast object_ :: Si
 
 setFrameToAngle_impl :: SimultaneousCompoundRotationAnimation -> Angle.Angle -> IO (())
 setFrameToAngle_impl this angle = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.setFrameToAngle ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) angle)
         pure ()
@@ -314,7 +314,7 @@ adjustFrame_super object_ a1 = (adjustFrame_impl (javaCast object_ :: Simultaneo
 
 adjustFrame_impl :: SimultaneousCompoundRotationAnimation -> Int16 -> IO (())
 adjustFrame_impl this angle = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.adjustFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) angle)
         pure ()
@@ -363,7 +363,7 @@ set_super object_ a1 = (set_impl (javaCast object_ :: SimultaneousCompoundRotati
 
 set_impl :: SimultaneousCompoundRotationAnimation -> GL.GL -> IO (())
 set_impl this gl = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()

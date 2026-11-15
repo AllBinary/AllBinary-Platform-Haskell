@@ -145,7 +145,7 @@ getImages_impl this bufferedImage verticle horizontal = do
         let cellHeight = height
         let cellWidth = height
         let numberOfFramesPerOrientation = (width `quot` cellWidth)
-        numberOfFrames <- newIORef (numberOfFramesPerOrientation)
+        numberOfFrames <- newIORef (numberOfFramesPerOrientation :: Int)
         when verticle $ do
             jset numberOfFrames (((jget numberOfFrames) * 2))
         when horizontal $ do

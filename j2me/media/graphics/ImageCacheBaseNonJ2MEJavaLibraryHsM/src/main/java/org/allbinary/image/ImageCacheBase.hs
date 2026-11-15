@@ -173,7 +173,7 @@ getIndexWH_super object_ a1 a2 = (getIndexWH_impl (javaCast object_ :: ImageCach
 getIndexWH_impl :: ImageCacheBase -> Int -> Int -> IO (Int)
 getIndexWH_impl this width height = do
     javaCatchReturn $ do
-        foundIndex <- newIORef ((Prelude.negate 1))
+        foundIndex <- newIORef ((Prelude.negate 1) :: Int)
         let size = (jlength (jget (this).widths))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             when (((jindex ((jget (this).widths)) (index)) == width) && ((jindex ((jget (this).heights)) (index)) == height)) $ do

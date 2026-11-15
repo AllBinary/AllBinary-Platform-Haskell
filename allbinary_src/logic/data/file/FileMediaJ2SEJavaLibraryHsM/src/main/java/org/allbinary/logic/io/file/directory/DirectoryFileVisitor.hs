@@ -111,7 +111,7 @@ visit_impl this anyTypeObject_ = do
     let anyType = jtoObject anyTypeObject_
     javaCatchReturn $ do
         let file = (javaCast anyType :: File.File)
-        index <- newIORef (1)
+        index <- newIORef (1 :: Int)
         aFile <- newIORef =<< (File.getParentFile file)
         fix $ \loop -> when (((jassign aFile ((jio (File.getParentFile ((jget aFile))))))) /= javaNull) $ javaIteration (loop) $ do
             jset index ((jget index) + 1)

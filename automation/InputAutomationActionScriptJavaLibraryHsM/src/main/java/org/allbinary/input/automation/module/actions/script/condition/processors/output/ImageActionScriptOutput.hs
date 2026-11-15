@@ -36,8 +36,8 @@ import qualified ImageTypes -- same package or java.lang
 import qualified ImageActionScriptOutputJPanel -- same package or java.lang
 import qualified ImageActionScriptOutputData -- same package or java.lang
 import qualified ImageActionScriptOutputProcessor -- same package or java.lang
-import qualified JDialog -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified JDialog -- same package or java.lang
 import qualified BasicProfileActionScriptProcessor -- same package or java.lang
 import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified HashMap -- java.util.HashMap

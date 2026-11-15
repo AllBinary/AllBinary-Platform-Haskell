@@ -109,10 +109,10 @@ update_impl this allBinaryGameLayerManager geographicMapInterface = do
         randomFactory <- (MyRandomFactory.getInstance)
         tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
         let total = ((jio (AllBinaryTiledLayer.getColumns tiledLayer)) * (jio (AllBinaryTiledLayer.getRows tiledLayer)))
-        randomColumn <- newIORef (0)
-        randomRow <- newIORef (0)
+        randomColumn <- newIORef (0 :: Int)
+        randomRow <- newIORef (0 :: Int)
         geographicMapCellPosition <- newIORef (javaNull)
-        index <- newIORef (total)
+        index <- newIORef (total :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (MyRandomFactory.getAbsoluteNextInt randomFactory (jio (AllBinaryTiledLayer.getColumns tiledLayer)))
             jset randomColumn (assignedValue)

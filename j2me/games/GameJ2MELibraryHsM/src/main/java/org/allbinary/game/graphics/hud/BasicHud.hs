@@ -243,9 +243,9 @@ getHudGraphicsPositionWH_super object_ a1 a2 a3 a4 = (getHudGraphicsPositionWH_i
 
 getHudGraphicsPositionWH_impl :: BasicHud -> Int -> Int -> Int -> Int -> IO (HudGraphicsPosition.HudGraphicsPosition)
 getHudGraphicsPositionWH_impl this width height maxWidth maxHeight = do
-        x <- newIORef (0)
-        y <- newIORef (0)
-        anchor <- newIORef (0)
+        x <- newIORef (0 :: Int)
+        y <- newIORef (0 :: Int)
+        anchor <- newIORef (0 :: Int)
         basicHudFactory <- (BasicHudFactory.getInstance)
         if ((jget (basicHudFactory).bOTTOMLEFT) == (jio (BasicHud.getLocation this))) then do
             jset x (((jget (this).bufferZone) + 2))

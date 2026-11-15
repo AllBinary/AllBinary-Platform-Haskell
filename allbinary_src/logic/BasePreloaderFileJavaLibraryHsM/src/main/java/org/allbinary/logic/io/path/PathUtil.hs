@@ -232,7 +232,7 @@ adjustStart_impl :: PathUtil -> String -> IO (String)
 adjustStart_impl this path = do
         path <- newIORef path
         when (Prelude.not (jio (PathUtil.isValidStart this (jget path)))) $ do
-            jset path ((javaToString (jget ((jget (this).abPathData)).sEPARATOR) ++ (jget path)))
+            jset path (((jget ((jget (this).abPathData)).sEPARATOR) ++ (jget path)))
         pure ((jget path))
 
 
@@ -246,7 +246,7 @@ adjustEnd_impl :: PathUtil -> String -> IO (String)
 adjustEnd_impl this path = do
         path <- newIORef path
         when (Prelude.not (jio (PathUtil.isValidEnd this (jget path)))) $ do
-            jset path (((jget path) ++ javaToString (jget ((jget (this).abPathData)).sEPARATOR)))
+            jset path (((jget path) ++ (jget ((jget (this).abPathData)).sEPARATOR)))
         pure ((jget path))
 
 
@@ -278,7 +278,7 @@ removeNameFromPath_super object_ a1 = (removeNameFromPath_impl (javaCast object_
 removeNameFromPath_impl :: PathUtil -> String -> IO (AbPath.AbPath)
 removeNameFromPath_impl this path = do
     javaCatchReturn $ do
-        endIndex <- newIORef ((jstringLastIndexOf path (jget ((jget (this).abPathData)).sEPARATOR)))
+        endIndex <- newIORef ((jstringLastIndexOf path (jget ((jget (this).abPathData)).sEPARATOR)) :: Int)
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf path (jget ((jget (this).filePathData)).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do

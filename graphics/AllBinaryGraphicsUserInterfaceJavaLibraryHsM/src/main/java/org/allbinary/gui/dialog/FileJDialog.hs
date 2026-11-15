@@ -142,9 +142,7 @@ initComponents_impl this = do
         assignedValue <- (JFileChooser.new_)
         jset (this).jFileChooser1 (assignedValue)
         Control.Monad.void (JDialog.setDefaultCloseOperation this (jget ((jget (javax.swing).windowConstants)).dISPOSE_ON_CLOSE))
-        Control.Monad.void (JFileChooser.addActionListener ((jget (this).jFileChooser1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JFileChooser.addActionListener ((jget (this).jFileChooser1)) (jio (ActionListener.new_ >>= anonymousFileJDialog0_ this)))
         layout <- (GroupLayout.new_1 (jio (JDialog.getContentPane this)))
         Control.Monad.void (setLayout ((jio (JDialog.getContentPane this))) layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup layout (jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.add ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup layout))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jget this.jFileChooser1) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).pREFERRED_SIZE) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).pREFERRED_SIZE)))))))))
@@ -173,9 +171,7 @@ jFileChooser1ActionPerformed_impl this evt = do
 
 main :: JavaArray (String) -> IO (())
 main args = do
-        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--}))
+        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (jio (ARunnable.new_ >>= anonymousFileJDialog1_)))
         pure ()
 
 
@@ -201,4 +197,24 @@ setJFileChooser1_impl this jFileChooser1 = do
         jset (this).jFileChooser1 (jFileChooser1)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousFileJDialog0_ (this :: FileJDialog) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousFileJDialog0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousFileJDialog0_actionPerformed (this :: FileJDialog) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (FileJDialog.jFileChooser1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousFileJDialog1_ (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousFileJDialog1_run anonymous_)
+    pure anonymous_
+
+anonymousFileJDialog1_run (anonymous_ :: ARunnable.ARunnable) = ( do
+                Control.Monad.void (JDialog.setVisible ((jio (new_2 (jio (JFrame.new_)) True))) True)
+                pure ()
+ ) :: IO (())
 

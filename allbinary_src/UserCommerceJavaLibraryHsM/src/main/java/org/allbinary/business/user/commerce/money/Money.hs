@@ -265,7 +265,7 @@ convertUsdToUnits_super object_ a1 = (convertUsdToUnits_impl (javaCast object_ :
 
 convertUsdToUnits_impl :: Money -> String -> IO (Int64)
 convertUsdToUnits_impl this usDollarStr = do
-        localUnit <- newIORef (0)
+        localUnit <- newIORef (0 :: Int64)
         let index = (jstringIndexOf usDollarStr (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP) 0)
         stringUtil <- (StringUtil.getInstance)
         dollarStr <- newIORef ((jget (stringUtil).eMPTY_STRING))

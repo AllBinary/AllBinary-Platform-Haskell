@@ -88,9 +88,23 @@ init_ this = do
 
 main :: JavaArray (String) -> IO (())
 main args = do
-        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--}))
+        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (jio (ARunnable.new_ >>= anonymousImageTool0_)))
         pure ()
 
+
+-- Java anonymous class new ARunnable() {...}
+anonymousImageTool0_ (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousImageTool0_run anonymous_)
+    pure anonymous_
+
+anonymousImageTool0_run (anonymous_ :: ARunnable.ARunnable) = ( do
+                logUtil <- (LogUtil.getInstance)
+                commonStrings <- (CommonStrings.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) anonymous_ (jget (commonStrings).rUN) e)
+                    ) $ do
+                    Control.Monad.void (LogUtil.putF logUtil (jget (commonStrings).sTART) anonymous_ (jget (commonStrings).rUN))
+                    Control.Monad.void (ImageToolJFrame.setVisible ((jio (ImageToolJFrame.new_))) True)
+                pure ()
+ ) :: IO (())
 

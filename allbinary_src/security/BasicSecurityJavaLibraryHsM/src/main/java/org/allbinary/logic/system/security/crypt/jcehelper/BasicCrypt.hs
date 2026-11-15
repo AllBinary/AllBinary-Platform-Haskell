@@ -142,7 +142,7 @@ mutilate_super object_ a1 = (mutilate_impl (javaCast object_ :: BasicCrypt)) a1
 mutilate_impl :: BasicCrypt -> JavaArray (Int8) -> IO (JavaArray (Int8))
 mutilate_impl this array = do
         array <- newIORef array
-        value <- newIORef (0)
+        value <- newIORef (0 :: Int8)
         forM_ [0 .. (jlength (jget (this).key)) - 1] $ \index -> javaIteration (pure ()) $ do
             jset value ((jindex ((jget (this).key)) (index)))
             assignedValue <- (ByteUtil.xor ((jget (this).byteUtil)) (jget array) (jget value))

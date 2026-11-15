@@ -217,7 +217,7 @@ fireEvent_super object_ a1 = (fireEvent_impl (javaCast object_ :: BasicEventHand
 fireEvent_impl :: BasicEventHandler -> AllBinaryEventObject.AllBinaryEventObject -> IO (())
 fireEvent_impl this eventObject = do
         eventListenerInterface <- newIORef (javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).eventStrings)).fIRE_EVENT) e)
@@ -264,7 +264,7 @@ toString_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).eventStrings)).tOTAL_LISTENERS))
         Control.Monad.void (StringMaker.appendint stringBuffer (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList)))))
         eventListenerInterface <- newIORef (javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this (jget ((jget (this).commonStrings)).tOSTRING) e)

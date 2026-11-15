@@ -174,7 +174,7 @@ upTo_impl :: Replace -> String -> Int -> IO (String)
 upTo_impl this replace total = do
         replace <- newIORef replace
         newStringBuffer <- (StringMaker.new_)
-        totalNumberOfReplaces <- newIORef (0)
+        totalNumberOfReplaces <- newIORef (0 :: Int)
         keys <- newIORef (javaNull)
         values <- newIORef (javaNull)
         keyArray <- (J2SEUtil.getHashMapAsArray ((jget (this).j2seUtil)) (jget (this).hashMap))
@@ -182,12 +182,12 @@ upTo_impl this replace total = do
         forM_ [0 .. size - 1] $ \index2 -> javaIteration (pure ()) $ do
             jset keys ((javaCast (jindex keyArray (index2)) :: JavaArray (String)))
             jset values ((javaCast (jio (HashMap.get ((jget (this).hashMap)) (jget keys))) :: JavaArray (String)))
-            foundTotal <- newIORef (0)
-            index <- newIORef (0)
+            foundTotal <- newIORef (0 :: Int64)
+            index <- newIORef (0 :: Int)
             nextKey <- newIORef ("")
-            end <- newIORef (0)
+            end <- newIORef (0 :: Int)
             nextSecondKey <- newIORef ("")
-            begin2 <- newIORef (0)
+            begin2 <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget index) < (Prelude.length (jget replace))) $ javaIteration (loop) $ do
                 let begin = (jstringIndexOf (jget replace) (jindex ((jget keys)) (0)) (jget index))
                 if (begin /= (Prelude.negate 1)) then do
@@ -238,7 +238,7 @@ line_impl :: Replace -> String -> IO (String)
 line_impl this replace = do
         replace <- newIORef replace
         newStringBuffer <- (StringMaker.new_)
-        totalNumberOfReplaces <- newIORef (0)
+        totalNumberOfReplaces <- newIORef (0 :: Int)
         key <- newIORef ("")
         value <- newIORef ("")
         keyArray <- (J2SEUtil.getHashMapAsArray ((jget (this).j2seUtil)) (jget (this).hashMap))
@@ -246,7 +246,7 @@ line_impl this replace = do
         forM_ [0 .. size - 1] $ \index2 -> javaIteration (pure ()) $ do
             jset key ((javaCast (jindex keyArray (index2)) :: String))
             jset value ((javaCast (jio (HashMap.get ((jget (this).hashMap)) (jget key))) :: String))
-            index <- newIORef (0)
+            index <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget index) < (Prelude.length (jget replace))) $ javaIteration (loop) $ do
                 Control.Monad.void (StringMaker.delete newStringBuffer 0 (jio (StringMaker.length newStringBuffer)))
                 let begin = (jstringIndexOf (jget replace) (jget key) (jget index))

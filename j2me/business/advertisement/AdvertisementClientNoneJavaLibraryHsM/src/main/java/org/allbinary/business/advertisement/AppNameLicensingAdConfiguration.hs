@@ -62,7 +62,7 @@ new_ = do
 
 init_ :: AppNameLicensingAdConfiguration -> IO ()
 init_ this = do
-        AdConfiguration.init_1 this.base (jarrayFromList [(jget ((jio (StringUtil.getInstance))).eMPTY_STRING), (jget ((jio (StringUtil.getInstance))).eMPTY_STRING), (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)])
+        AdConfiguration.init_1 this.base (jarrayFromList [(jtoObject (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)), (jtoObject (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)), (jtoObject (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))])
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

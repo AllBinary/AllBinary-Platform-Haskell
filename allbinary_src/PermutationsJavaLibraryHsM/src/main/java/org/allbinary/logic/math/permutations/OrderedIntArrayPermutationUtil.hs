@@ -110,10 +110,10 @@ getNext_super object_ a1 = (getNext_impl (javaCast object_ :: OrderedIntArrayPer
 getNext_impl :: OrderedIntArrayPermutationUtil -> JavaArray (Int) -> IO (())
 getNext_impl this data_ = do
         let length = (jlength data_)
-        i <- newIORef ((length - 1))
+        i <- newIORef ((length - 1) :: Int)
         fix $ \loop -> when ((jindex data_ (((jget i) - 1))) >= (jindex data_ ((jget i)))) $ javaIteration (loop) $ do
             jset i (((jget i) - 1))
-        j <- newIORef (length)
+        j <- newIORef (length :: Int)
         fix $ \loop -> when ((jindex data_ (((jget j) - 1))) <= (jindex data_ (((jget i) - 1)))) $ javaIteration (loop) $ do
             jset j (((jget j) - 1))
         Control.Monad.void (OrderedIntArrayPermutationUtil.swap this data_ ((jget i) - 1) ((jget j) - 1))
@@ -148,7 +148,7 @@ factorial_super object_ a1 = (factorial_impl (javaCast object_ :: OrderedIntArra
 
 factorial_impl :: OrderedIntArrayPermutationUtil -> Int -> IO (Int64)
 factorial_impl this dataLength = do
-        temp <- newIORef (1)
+        temp <- newIORef (1 :: Int64)
         when (dataLength > 1) $ do
             forM_ [1 .. dataLength] $ \i -> javaIteration (pure ()) $ do
                 jset temp (((jget temp) * (Prelude.fromIntegral i)))

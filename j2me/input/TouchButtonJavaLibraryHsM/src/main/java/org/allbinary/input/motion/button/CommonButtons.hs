@@ -97,11 +97,11 @@ init_ :: CommonButtons -> IO ()
 init_ this = do
         initFields_ this
         displayInfo <- (DisplayInfoSingleton.getInstance)
-        commonButtonSize <- newIORef (128)
+        commonButtonSize <- newIORef (128 :: Int)
         fix $ \loop -> when ((jget commonButtonSize) > 64) $ javaIteration (loop) $ do
             let totalColumns = ((jio (DisplayInfoSingleton.getLastWidth displayInfo)) `quot` (jget commonButtonSize))
             let totalRows = ((jio (DisplayInfoSingleton.getLastHeight displayInfo)) `quot` (jget commonButtonSize))
-            max <- newIORef (totalColumns)
+            max <- newIORef (totalColumns :: Int)
             when (totalRows > (jget max)) $ do
                 jset max (totalRows)
             when ((jget max) > 9) $ do

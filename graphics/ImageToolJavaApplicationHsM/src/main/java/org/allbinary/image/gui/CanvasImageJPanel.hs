@@ -183,9 +183,7 @@ process_super object_ = (process_impl (javaCast object_ :: CanvasImageJPanel))
 
 process_impl :: CanvasImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousCanvasImageJPanel0_ this))))
         pure ()
 
 
@@ -199,9 +197,7 @@ initComponents_impl :: CanvasImageJPanel -> IO (())
 initComponents_impl this = do
         assignedValue <- (JCheckBox.new_)
         jset (this).writeOverOriginalJCheckBox (assignedValue)
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousCanvasImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JButton.new_)
         jset (this).generateJButton (assignedValue)
@@ -227,29 +223,21 @@ initComponents_impl this = do
         jset (this).heightReductionTextField1 (assignedValue)
         Control.Monad.void (JCheckBox.setSelected ((jget (this).writeOverOriginalJCheckBox)) True)
         Control.Monad.void (JCheckBox.setText ((jget (this).writeOverOriginalJCheckBox)) "Write Over Original")
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).writeOverOriginalJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).writeOverOriginalJCheckBox)) (jio (ActionListener.new_ >>= anonymousCanvasImageJPanel2_ this)))
         jPanel1Layout <- (GroupLayout.new_1 (jget (this).jPanel1))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel1)) jPanel1Layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel1Layout (jio (GroupLayout.addGap ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) 0 0 (Prelude.maxBound :: Int16))))
         Control.Monad.void (GroupLayout.setVerticalGroup jPanel1Layout (jio (GroupLayout.addGap ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) 0 196 (Prelude.maxBound :: Int16))))
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousCanvasImageJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel4)) "Results:")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel5)) "Right:")
         Control.Monad.void (JTextField.setText ((jget (this).widthReductionTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField)) (jio (ActionListener.new_ >>= anonymousCanvasImageJPanel4_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel6)) "Bottom")
         Control.Monad.void (JTextField.setText ((jget (this).heightReductionTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
         Control.Monad.void (JTextField.setText ((jget (this).widthReductionTextField1)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField1)) (jio (ActionListener.new_ >>= anonymousCanvasImageJPanel5_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel7)) "Top")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel8)) "Left:")
         Control.Monad.void (JTextField.setText ((jget (this).heightReductionTextField1)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
@@ -356,4 +344,78 @@ visit_impl this generatedBufferedImage name index = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendboolean ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "File: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) (jget file)))))) " Wrote: "))) isWritten))))) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousCanvasImageJPanel0_ (this :: CanvasImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousCanvasImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel0_run (this :: CanvasImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    canvasTrimUtil <- (CanvasTrimUtil.getInstance)
+                    canvasExpandUtil <- (CanvasExpandUtil.getInstance)
+                    let leftReduction = ((jio (JTextField.getText ((jget this.widthReductionTextField1)))))
+                    let topReduction = ((jio (JTextField.getText ((jget this.heightReductionTextField1)))))
+                    let widthReduction = ((jio (JTextField.getText ((jget this.widthReductionTextField)))))
+                    let heightReduction = ((jio (JTextField.getText ((jget this.heightReductionTextField)))))
+                    if ((((leftReduction <= 0) || (topReduction <= 0)) || (widthReduction <= 0)) || (heightReduction <= 0)) then do
+                        Control.Monad.void (CanvasTrimUtil.process canvasTrimUtil (jio (CanvasImageJPanel.getImageProcessorInput this)) (Prelude.negate leftReduction) (Prelude.negate topReduction) (Prelude.negate widthReduction) (Prelude.negate heightReduction) (javaCast this))
+                    else do
+                        Control.Monad.void (CanvasExpandUtil.process canvasExpandUtil (jio (CanvasImageJPanel.getImageProcessorInput this)) leftReduction topReduction (javaCast this))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousCanvasImageJPanel1_ (this :: CanvasImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousCanvasImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel1_paint (this :: CanvasImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousCanvasImageJPanel2_ (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousCanvasImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel2_actionPerformed (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (CanvasImageJPanel.writeOverOriginalJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousCanvasImageJPanel3_ (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousCanvasImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel3_actionPerformed (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (CanvasImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousCanvasImageJPanel4_ (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousCanvasImageJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel4_actionPerformed (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (CanvasImageJPanel.widthReductionTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousCanvasImageJPanel5_ (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousCanvasImageJPanel5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousCanvasImageJPanel5_actionPerformed (this :: CanvasImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (CanvasImageJPanel.widthReductionTextField1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

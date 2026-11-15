@@ -260,7 +260,7 @@ run_impl this = do
                 Control.Monad.void (TimeDelayHelper.setStartTimeTNT timeHelper)
                 Control.Monad.void (AbstractInputAutomationWorker.process this)
                 jset (this).index ((jget (this).index) + 1)
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((javaToString ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) ++ " Index: ") ++ javaToString (jget (this).index)) this (jget ((jget (this).commonStrings)).rUN))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) ++ " Index: ") ++ javaToString (jget (this).index)) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (AbstractInputAutomationWorker.stopDataWorkers this)
             Control.Monad.void (AbstractInputAutomationWorker.waitForDataWorkers this)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))

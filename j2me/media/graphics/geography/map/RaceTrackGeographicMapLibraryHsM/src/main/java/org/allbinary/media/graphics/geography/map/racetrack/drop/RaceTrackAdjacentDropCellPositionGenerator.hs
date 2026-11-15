@@ -157,7 +157,7 @@ getFirstNonRoadAdjacentCellPosition_impl this column row = do
         let raceTrackGeographicMapCellTypeFactory = (javaCast (jio (BaseRaceTrackGeographicMap.getGeographicMapCellTypeFactory baseRaceTrackGeographicMap)) :: RaceTrackGeographicMapCellTypeFactory.RaceTrackGeographicMapCellTypeFactory)
         geographicMapCellPosition <- newIORef (javaNull)
         raceTrackGeographicMapCellType <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).surroundingCellPositions)))
+        index <- newIORef ((jlength (jget (this).surroundingCellPositions)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset geographicMapCellPosition ((jindex ((jget (this).surroundingCellPositions)) ((jget index))))
             jset raceTrackGeographicMapCellType ((javaCast (jio (RaceTrackGeographicMapInterface.getCellTypeAt ((jget (this).base.raceTrackGeographicMap)) (jget geographicMapCellPosition))) :: RaceTrackGeographicMapCellType.RaceTrackGeographicMapCellType))

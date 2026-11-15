@@ -190,7 +190,7 @@ paint_impl this graphics = do
         Control.Monad.void (FontDebugFactory.setFont ((jget (this).fontDebugFactory)) (jget (this).font) graphics)
         displayInfo <- (DisplayInfoSingleton.getInstance)
         Control.Monad.void (BasicColorSetUtil.setBasicColorP3 ((jget (this).basicSetColorUtil)) graphics (jget (this).basicColor) (jget (this).color))
-        beginWidth <- newIORef (0)
+        beginWidth <- newIORef (0 :: Int)
         forM_ [((jlength (jget (this).lineYOffsetArray)) - 1), ((jlength (jget (this).lineYOffsetArray)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             when (jget (this).hasChanged) $ do
                 jsetIndex ((jget (this).lastWidth)) (index) ((((jio (Font.stringWidth ((jio (Graphics.getFont graphics))) (jindex ((jget (this).stringArray)) (index)))) `Data.Bits.shiftR` 1)))

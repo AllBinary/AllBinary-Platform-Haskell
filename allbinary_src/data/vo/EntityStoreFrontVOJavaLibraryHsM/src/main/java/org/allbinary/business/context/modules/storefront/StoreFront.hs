@@ -127,7 +127,7 @@ instance JavaObjectClass StoreFront where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 rESOURCES :: String
-rESOURCES = (" Resources" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR))
+rESOURCES = (" Resources" ++ (jget ((jio (AbPathData.getInstance))).sEPARATOR))
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
@@ -456,7 +456,7 @@ getFormData_impl this storeHashMap = do
         jset (this).testHostNamePath (assignedValue)
         assignedValue <- (StoreFront.createPath_3 this (StoreFront.rESOURCES) (jget (storeFrontData).iMAGEPATH) storeHashMap)
         jset (this).imagePath (assignedValue)
-        assignedValue <- (StoreFront.createPath_3 this (" Products" ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) (jget (storeFrontData).sTATICPATH) storeHashMap)
+        assignedValue <- (StoreFront.createPath_3 this (" Products" ++ (jget ((jio (AbPathData.getInstance))).sEPARATOR)) (jget (storeFrontData).sTATICPATH) storeHashMap)
         jset (this).staticPath (assignedValue)
         assignedValue <- (StoreFront.createPath_3 this (StoreFront.rESOURCES) (jget (storeFrontData).cATEGORYPATH) storeHashMap)
         jset (this).categoryPath (assignedValue)
@@ -491,12 +491,12 @@ isNameValid_impl this = do
         if (Prelude.not (jio (StringValidationUtil.isValidRequired ((jio (StringValidationUtil.getInstance))) (jget (this).name) (jget (this).mINSTORENAMELENGTH) (jget (this).mAXCHAR)))) then do
             javaReturn (False)
         else do
-            isEscapedCharactersContained <- newIORef (False)
+            isEscapedCharactersContained <- newIORef (False :: Bool)
             storeNameEscaped <- (StringEscapeUtils.escapeHtml3 (jget (this).name))
             when ((Prelude.fromEnum (Prelude.compare (jget (this).name) storeNameEscaped) - 1) /= 0) $ do
                 jset isEscapedCharactersContained (True)
             stringValidationUtil <- (StringValidationUtil.getInstance)
-            isSpacesContained <- newIORef (False)
+            isSpacesContained <- newIORef (False :: Bool)
             when (jio (StringValidationUtil.containsSpaces stringValidationUtil (jget (this).name))) $ do
                 jset isSpacesContained (True)
             when ((jget isSpacesContained) || (jget isEscapedCharactersContained)) $ do

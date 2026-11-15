@@ -33,9 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified ItemInterface -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory

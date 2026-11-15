@@ -130,7 +130,7 @@ setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: AllB
 
 setBasicColorP_impl :: AllBinaryFlickerAndroidImageRotationAnimation -> BasicColor.BasicColor -> IO (())
 setBasicColorP_impl this basicColor = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when (((jio (ImageBaseRotationAnimation.getBasicColorP this)) == javaNull) || ((jio (BasicColor.intValue ((jio (ImageBaseRotationAnimation.getBasicColorP this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             Control.Monad.void (ImageModifierUtil.setColor ((jget (this).imageModifierUtil)) (jget (this).originalImage) (jio (ImageBaseRotationAnimation.getImage this)) 0 basicColor)
             jset changed (True)
@@ -161,7 +161,7 @@ setAlpha_super object_ a1 = (setAlpha_impl (javaCast object_ :: AllBinaryFlicker
 
 setAlpha_impl :: AllBinaryFlickerAndroidImageRotationAnimation -> Int -> IO (())
 setAlpha_impl this alpha = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when ((jget (this).base.base.base.base.alphaP) /= alpha) $ do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setAlpha_super this.base alpha)

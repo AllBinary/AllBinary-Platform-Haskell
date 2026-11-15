@@ -35,9 +35,9 @@ import qualified GHC.Float
 import qualified KeyboardActionScriptInputJPanel -- same package or java.lang
 import qualified KeyboardActionScriptInputData -- same package or java.lang
 import qualified KeyboardInputAutomationProcessor -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified JDialog -- same package or java.lang
 import qualified ABHashtable -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified BasicProfileActionScriptProcessor -- same package or java.lang
 import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified KeyEvent -- java.awt.event.KeyEvent
@@ -306,7 +306,7 @@ setKeyArray_super object_ a1 = (setKeyArray_impl (javaCast object_ :: KeyboardAc
 setKeyArray_impl :: KeyboardActionScriptInput -> JavaArray (Int) -> IO (())
 setKeyArray_impl this keyArray = do
         when (keyArray /= javaNull) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) + (jlength keyArray)) this "setKeyArray")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ javaToString (jlength keyArray)) this "setKeyArray")
         jset (this).keyArray (keyArray)
         pure ()
 
@@ -342,7 +342,7 @@ setText_super object_ a1 = (setText_impl (javaCast object_ :: KeyboardActionScri
 
 setText_impl :: KeyboardActionScriptInput -> String -> IO (())
 setText_impl this text = do
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ text) this "setText")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ text) this "setText")
         integerArray <- (KeyboardActionScriptInput.integerArrayValue this text)
         Control.Monad.void (KeyboardActionScriptInput.setKeyArray this integerArray)
         pure ()
@@ -350,7 +350,7 @@ setText_impl this text = do
 
 getText_1 :: JavaArray (Int) -> IO (String)
 getText_1 integerArray = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         stringBuffer <- (StringMaker.new_)
         fix $ \loop -> when ((jget index) < (jlength integerArray)) $ javaIteration (loop) $ do
             let nextInteger = (jindex integerArray ((jget index)))
@@ -370,9 +370,9 @@ integerArrayValue_super object_ a1 = (integerArrayValue_impl (javaCast object_ :
 
 integerArrayValue_impl :: KeyboardActionScriptInput -> String -> IO (JavaArray (Int))
 integerArrayValue_impl this text = do
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ text) this "integerArrayValue")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ text) this "integerArrayValue")
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (Prelude.length text)) $ javaIteration (loop) $ do
             let aChar = (text Prelude.!! (jget index))
             when (aChar == '&') $ do
@@ -380,7 +380,7 @@ integerArrayValue_impl this text = do
                     let endIndex = (jstringIndexOf text ';' ((jget index) + 1))
                     when (endIndex /= (Prelude.negate 1)) $ do
                         let nextCharString = (Prelude.take ((endIndex) - (((jget index) + 2))) (Prelude.drop (((jget index) + 2)) text))
-                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Char String: ") ++ nextCharString) this "integerArrayValue")
+                        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Char String: ") ++ nextCharString) this "integerArrayValue")
                         Control.Monad.void (BasicArrayList.add vector (jio (jparseInt (Prelude.take (((Prelude.length nextCharString)) - ((jget index))) (Prelude.drop ((jget index)) nextCharString)))))
                         jset index ((((jget index) + (Prelude.length nextCharString)) + 3))
                         throwIO JavaContinue
@@ -400,7 +400,7 @@ toHashMap_impl :: KeyboardActionScriptInput -> IO (HashMap.HashMap)
 toHashMap_impl this = do
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         forM_ [0 .. (jlength (jio (KeyboardActionScriptInput.getKeyArray this))) - 1] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (HashMap.put hashMap ((jget KeyboardActionScriptInputData.kEY) + index) (javaToString (jindex ((jio (KeyboardActionScriptInput.getKeyArray this))) (index))))
+            Control.Monad.void (HashMap.put hashMap ((jget KeyboardActionScriptInputData.kEY) ++ javaToString index) (javaToString (jindex ((jio (KeyboardActionScriptInput.getKeyArray this))) (index))))
         Control.Monad.void (HashMap.put hashMap (jget KeyboardActionScriptInputData.dELAY_BETWEEN_KEYS) (javaToString (jio (KeyboardActionScriptInput.getDelayBetweenKeys this))))
         Control.Monad.void (HashMap.put hashMap (jget KeyboardActionScriptInputData.pRESS) (javaToString (jio (KeyboardActionScriptInput.isPress this))))
         Control.Monad.void (HashMap.put hashMap (jget KeyboardActionScriptInputData.rELEASE) (javaToString (jio (KeyboardActionScriptInput.isRelease this))))

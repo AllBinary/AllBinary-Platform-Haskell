@@ -32,9 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
 import qualified PageContext -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified StoreFront -- org.allbinary.business.context.modules.storefront.StoreFront
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface

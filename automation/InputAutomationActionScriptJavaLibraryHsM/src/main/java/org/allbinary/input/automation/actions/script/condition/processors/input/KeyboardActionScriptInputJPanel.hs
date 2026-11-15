@@ -376,9 +376,7 @@ initComponents_impl this = do
         Control.Monad.void (JLabel.setHorizontalAlignment ((jget (this).titleJLabel)) (jget ((jget (javax.swing).swingConstants)).cENTER))
         Control.Monad.void (JLabel.setText ((jget (this).titleJLabel)) "Keyboard Input Options")
         Control.Monad.void (JLabel.setText ((jget (this).addKeyJLabel)) "Add Key:")
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).keyNameJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).keyNameJComboBox)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel0_ this)))
         Control.Monad.void (JTextField.setText ((jget (this).timeJTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
         Control.Monad.void (JLabel.setText ((jget (this).holdTimeJLabel)) "Hold Time (ms):")
         Control.Monad.void (JLabel.setText ((jget (this).inputTypeJLabel)) "Input Type:")
@@ -389,53 +387,37 @@ initComponents_impl this = do
         Control.Monad.void (JRadioButton.setText ((jget (this).pressJRadioButton)) "Press")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).pressJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).pressJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).pressJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).pressJRadioButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel1_ this)))
         Control.Monad.void (JRadioButton.setText ((jget (this).releaseJRadioButton)) "Release")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).releaseJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).releaseJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).releaseJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).releaseJRadioButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel2_ this)))
         Control.Monad.void (JRadioButton.setSelected ((jget (this).normalJRadioButton)) True)
         Control.Monad.void (JRadioButton.setText ((jget (this).normalJRadioButton)) "Normal")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).normalJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).normalJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).normalJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).normalJRadioButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel3_ this)))
         Control.Monad.void (JRadioButton.setSelected ((jget (this).simultaneousJRadioButton)) True)
         Control.Monad.void (JRadioButton.setText ((jget (this).simultaneousJRadioButton)) "Simultaneous")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).simultaneousJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).simultaneousJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).simultaneousJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).simultaneousJRadioButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel4_ this)))
         Control.Monad.void (JRadioButton.setText ((jget (this).sequenceJRadioButton)) "Sequence")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).sequenceJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).sequenceJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).sequenceJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).sequenceJRadioButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel5_ this)))
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
         Control.Monad.void (JButton.setHorizontalTextPosition ((jget (this).okJButton)) (jget ((jget (javax.swing).swingConstants)).cENTER))
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel6_ this)))
         Control.Monad.void (JPanel.add ((jget (this).jPanel1)) (jget (this).okJButton))
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).keyIntegerJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).keyIntegerJComboBox)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel7_ this)))
         keyActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).keyActionJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).keyActionJDialog))))) keyActionJDialogLayout)
         Control.Monad.void (GroupLayout.setHorizontalGroup keyActionJDialogLayout (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout)))))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) False))) (jget this.addKeyJLabel) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jget this.inputTypeJLabel) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING)))) (jget this.inputAutomationTypeJComboBox) 0 148 (Prelude.maxBound :: Int16)))) (jget this.textJTextField) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 148 (Prelude.maxBound :: Int16)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.keyNameJComboBox) 0 101 (Prelude.maxBound :: Int16)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.keyIntegerJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 41 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))))))) (jget this.testJLabel) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 60 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.normalJRadioButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.pressJRadioButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.releaseJRadioButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 48 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING) (jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.holdTimeJLabel)))) 22 22 22))) (jget this.timeJTextField) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 113 (Prelude.maxBound :: Int16)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.delayBetweenJLabel)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 15 (Prelude.maxBound :: Int16)))) (jget this.delayJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 68 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.simultaneousJRadioButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.sequenceJRadioButton))))))))))))) (jget this.titleJLabel) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 229 (Prelude.maxBound :: Int16)))) (jget this.jPanel1) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 229 (Prelude.maxBound :: Int16))))
         Control.Monad.void (GroupLayout.setVerticalGroup keyActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup keyActionJDialogLayout))) (jget this.titleJLabel)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.inputTypeJLabel)))) (jget this.inputAutomationTypeJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.addKeyJLabel)))) (jget this.keyIntegerJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.keyNameJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.testJLabel)))) (jget this.textJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.pressJRadioButton)))) (jget this.normalJRadioButton)))) (jget this.releaseJRadioButton)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.holdTimeJLabel)))) (jget this.timeJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.delayBetweenJLabel)))) (jget this.delayJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup keyActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.simultaneousJRadioButton)))) (jget this.sequenceJRadioButton)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.jPanel1) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))))))
         Control.Monad.void (JPanel.setMinimumSize this (jio (Dimension.new_2 100 0)))
         Control.Monad.void (JButton.setText ((jget (this).keyActionJButton)) "Edit")
-        Control.Monad.void (JButton.addActionListener ((jget (this).keyActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).keyActionJButton)) (jio (ActionListener.new_ >>= anonymousKeyboardActionScriptInputJPanel8_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Key:")
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
@@ -587,4 +569,94 @@ pressJRadioButtonActionPerformed_impl this evt = do
             Control.Monad.void (JRadioButton.setSelected ((jget (this).normalJRadioButton)) False)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel0_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel0_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.keyNameJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel1_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel1_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.pressJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel2_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel2_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.releaseJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel3_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel3_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.normalJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel4_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel4_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.simultaneousJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel5_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel5_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.sequenceJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel6_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel6_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel7_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel7_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.keyIntegerJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousKeyboardActionScriptInputJPanel8_ (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousKeyboardActionScriptInputJPanel8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousKeyboardActionScriptInputJPanel8_actionPerformed (this :: KeyboardActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (KeyboardActionScriptInputJPanel.keyActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

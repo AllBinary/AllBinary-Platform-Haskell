@@ -136,9 +136,7 @@ process_super object_ = (process_impl (javaCast object_ :: CreateIconImagesJPane
 
 process_impl :: CreateIconImagesJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousCreateIconImagesJPanel0_ this))))
         pure ()
 
 
@@ -176,9 +174,7 @@ initComponents_impl this = do
         assignedValue <- (JButton.new_)
         jset (this).aboveJButton (assignedValue)
         Control.Monad.void (JButton.setText ((jget (this).aboveJButton)) "Process")
-        Control.Monad.void (JButton.addActionListener ((jget (this).aboveJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).aboveJButton)) (jio (ActionListener.new_ >>= anonymousCreateIconImagesJPanel1_ this)))
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup layout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup layout))) (jget this.aboveJButton)))) 0 335 (Prelude.maxBound :: Int16))))))
@@ -197,4 +193,59 @@ aboveJButtonActionPerformed_impl this evt = do
         Control.Monad.void (CreateIconImagesJPanel.process this)
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousCreateIconImagesJPanel0_ (this :: CreateIconImagesJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousCreateIconImagesJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousCreateIconImagesJPanel0_run (this :: CreateIconImagesJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageUtil <- (ImageUtil.getInstance)
+                    stringMaker <- (StringMaker.new_)
+                    imageProcessorInput <- (CreateIconImagesJPanel.getImageProcessorInput this)
+                    files <- (ImageProcessorInput.getFiles imageProcessorInput)
+                    iconWidthList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
+                    iconHeightList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
+                    Control.Monad.void (BasicArrayList.add iconWidthList 864)
+                    Control.Monad.void (BasicArrayList.add iconHeightList 864)
+                    let aNDROID = "android-icon-"
+                    let iOS = "ios-icon-"
+                    size <- (BasicArrayList.size iconWidthList)
+                    width <- newIORef (0 :: Int)
+                    height <- newIORef (0 :: Int)
+                    forM_ [0 .. size - 1] $ \index2 -> javaIteration (pure ()) $ do
+                        jset width (((javaCast (jio (BasicArrayList.get iconWidthList index2)) :: Int)))
+                        jset height (((javaCast (jio (BasicArrayList.get iconHeightList index2)) :: Int)))
+                        generatedBufferedImageArray <- (ImageUtil.createBufferedImage3 imageUtil (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)) (jget width) (jget height) True)
+                        imagePersistanceUtil <- (ImagePersistanceUtil.getInstance)
+                        forM_ [0 .. (jlength generatedBufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
+                            filePath <- (File.getAbsolutePath ((jindex files (index))))
+                            let endIndex = (jstringLastIndexOf filePath '\\')
+                            let path = (Prelude.take (((endIndex + 1)) - (0)) (Prelude.drop (0) filePath))
+                            Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
+                            Control.Monad.void (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append stringMaker path))) aNDROID))) (jget width)))) (jget ((jio (CanvasStrings.getInstance)))._PNG))
+                            newFilePath <- newIORef =<< (StringMaker.toString stringMaker)
+                            Control.Monad.void (ImagePersistanceUtil.saveWithBatik imagePersistanceUtil (jio (AbFile.createAbFile (jget newFilePath))) (jindex generatedBufferedImageArray (index)))
+                            Control.Monad.void (StringMaker.delete stringMaker 0 (jio (StringMaker.length stringMaker)))
+                            Control.Monad.void (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append stringMaker path))) iOS))) (jget width)))) (jget ((jio (CanvasStrings.getInstance)))._PNG))
+                            assignedValue <- (StringMaker.toString stringMaker)
+                            jset newFilePath (assignedValue)
+                            Control.Monad.void (ImagePersistanceUtil.saveWithBatik imagePersistanceUtil (jio (AbFile.createAbFile (jget newFilePath))) (jindex generatedBufferedImageArray (index)))
+                    Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousCreateIconImagesJPanel1_ (this :: CreateIconImagesJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousCreateIconImagesJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousCreateIconImagesJPanel1_actionPerformed (this :: CreateIconImagesJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (CreateIconImagesJPanel.aboveJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

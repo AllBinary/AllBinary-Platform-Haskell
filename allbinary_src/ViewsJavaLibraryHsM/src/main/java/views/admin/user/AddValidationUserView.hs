@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified UserEntity -- same package or java.lang
 import qualified NewUserFactory -- org.allbinary.business.user.NewUserFactory
 import qualified UserInterface -- org.allbinary.business.user.UserInterface
 import qualified UserEntityFactory -- org.allbinary.data.tables.user.UserEntityFactory

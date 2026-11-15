@@ -390,9 +390,9 @@ getSelectedIndexForPoint_impl this point = do
         Control.Monad.void (StringMaker.appendint stringBuffer size)
         Control.Monad.void (LogUtil.putF ((jget (this).base.base.logUtil)) (jio (StringMaker.toString stringBuffer)) this (ScrollSelectionForm.gET_SELECTED_INDEX))
         item <- newIORef (javaNull)
-        width <- newIORef (0)
-        height <- newIORef (0)
-        diffX <- newIORef (0)
+        width <- newIORef (0 :: Int)
+        height <- newIORef (0 :: Int)
+        diffX <- newIORef (0 :: Int)
         forM_ [start .. size - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (PaintableForm.get this index)
             jset item (assignedValue)

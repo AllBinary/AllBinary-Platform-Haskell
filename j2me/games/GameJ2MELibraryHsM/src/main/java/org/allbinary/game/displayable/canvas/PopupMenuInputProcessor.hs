@@ -162,7 +162,7 @@ processInputList_impl this = do
             motionInputsIndex <- (PopupMenuInputProcessor.processMotionInputs this)
             list <- (BasicMenuInputProcessor.getGameKeyEventList this)
             size <- (BasicArrayList.size list)
-            key <- newIORef (0)
+            key <- newIORef (0 :: Int)
             gameKeyEvent <- newIORef (javaNull)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 jset gameKeyEvent ((javaCast (jindex ((jget (list).objectArray)) (index)) :: GameKeyEvent.GameKeyEvent))

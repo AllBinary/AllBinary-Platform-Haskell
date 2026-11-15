@@ -152,7 +152,7 @@ update_super object_ = (update_impl (javaCast object_ :: HudTimer))
 update_impl :: HudTimer -> IO (())
 update_impl this = do
         let lastLowerTime = (jget (this).hundredthTime)
-        currentTime <- newIORef ((((((jget (this).modifier) + (jget ((jget (this).gameTickTimeDelayHelper)).startTime))) - (jget (this).startTime))))
+        currentTime <- newIORef ((((((jget (this).modifier) + (jget ((jget (this).gameTickTimeDelayHelper)).startTime))) - (jget (this).startTime))) :: Int64)
         when ((jget currentTime) < 0) $ do
             jset currentTime (0)
         jset (this).hundredthTime (((jget currentTime) `quot` 100))

@@ -180,7 +180,7 @@ init_impl this abeClientInformation node = do
             else do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Class Node Null" this (jget ((jget (this).commonStrings)).iNIT))
         else do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget InputAutomationData.nAME) ++ " Node Has No Children") this "Contructor")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget InputAutomationData.nAME) ++ " Node Has No Children") this "Contructor")
         pure ()
 
 

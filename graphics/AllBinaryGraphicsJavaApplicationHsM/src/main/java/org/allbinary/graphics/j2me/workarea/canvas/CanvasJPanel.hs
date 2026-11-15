@@ -745,7 +745,7 @@ mouseClicked_super object_ a1 = (mouseClicked_impl (javaCast object_ :: CanvasJP
 
 mouseClicked_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseClicked_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_CLICKED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_CLICKED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         if (((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) && (jio (GraphicItemInterface.isActive ((jio (CanvasJPanel.getSelectedTool this)))))) then do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mouseClicked graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -794,7 +794,7 @@ mousePressed_super object_ a1 = (mousePressed_impl (javaCast object_ :: CanvasJP
 
 mousePressed_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mousePressed_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_PRESSED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_PRESSED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         when ((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) $ do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mousePressed graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -812,7 +812,7 @@ mouseReleased_super object_ a1 = (mouseReleased_impl (javaCast object_ :: Canvas
 
 mouseReleased_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseReleased_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_RELEASED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_RELEASED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         graphicItem <- (CanvasJPanel.getSelectedTool this)
         when (graphicItem /= javaNull) $ do
             Control.Monad.void (GraphicItemInterface.mouseReleased graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -830,7 +830,7 @@ mouseDragged_super object_ a1 = (mouseDragged_impl (javaCast object_ :: CanvasJP
 
 mouseDragged_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseDragged_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_DRAGGED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_DRAGGED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         graphicItem <- (CanvasJPanel.getSelectedTool this)
         when (graphicItem /= javaNull) $ do
             Control.Monad.void (GraphicItemInterface.mouseDragged graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))
@@ -848,7 +848,7 @@ mouseMoved_super object_ a1 = (mouseMoved_impl (javaCast object_ :: CanvasJPanel
 
 mouseMoved_impl :: CanvasJPanel -> MouseEvent.MouseEvent -> IO (())
 mouseMoved_impl this mouseEvent = do
-        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) (javaToString (jget ((jio (MouseStrings.getInstance))).mOUSE_MOVED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
+        Control.Monad.void (StatusFactory.setStatusNoLog ((jio (StatusFactory.getInstance))) ((jget ((jio (MouseStrings.getInstance))).mOUSE_MOVED_LABEL) ++ (jio (CanvasJPanel.logMouseEvent this mouseEvent))))
         when (((jio (CanvasJPanel.getSelectedTool this)) /= javaNull) && (jio (GraphicItemInterface.isActive ((jio (CanvasJPanel.getSelectedTool this)))))) $ do
             graphicItem <- (CanvasJPanel.getSelectedTool this)
             Control.Monad.void (GraphicItemInterface.mouseMoved graphicItem mouseEvent (jio (CanvasJPanel.getXPixelsPerWorkAreaPixel this)) (jio (CanvasJPanel.getYPixelsPerWorkAreaPixel this)))

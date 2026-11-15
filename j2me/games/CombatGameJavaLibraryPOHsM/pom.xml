@@ -61,7 +61,7 @@
         <module>../../games/GameScoresBaseJ2MELibraryHsM</module>
         -->
         <module>../../games/GameScoresLocalJavaLibraryHsM</module>
-        <module>../../games/GameScoresRemoteAndLocalJavaLibraryHsM</module>
+<!--        <module>../../games/GameScoresRemoteAndLocalJavaLibraryHsM</module>-->
 
         <module>../../../store/ThirdPartyStoreJavaLibraryHsM</module>
         <module>../../../store/NoThirdPartyStoreJavaLibraryHsM</module>

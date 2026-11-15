@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
 import qualified AllBinaryGameLayer -- org.allbinary.game.layer.AllBinaryGameLayer
 import qualified EventListenerInterface -- org.allbinary.logic.util.event.EventListenerInterface
 import qualified BasicEventHandler -- org.allbinary.logic.util.event.handler.BasicEventHandler

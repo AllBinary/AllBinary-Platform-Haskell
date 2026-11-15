@@ -112,7 +112,7 @@ run_impl this = do
             systemWrapper <- (ABSystemWrapper.getInstance)
             currentTimeMillis <- (ABSystemWrapper.currentTimeMillis systemWrapper)
             Control.Monad.void (LogUtil.putF logUtil (jio (StringMaker.toString ((jio (StringMaker.appendlong ((jio (StringMaker.append stringMaker "HighScoresCanvas - Request repaint to be sure: "))) currentTimeMillis))))) this (jget (commonStrings).rUN))
-            Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (highScoresCanvas).base.repaintBehavior)) highScoresCanvas)
+            Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (highScoresCanvas).base.repaintBehavior)) (javaCast highScoresCanvas))
             when (Prelude.not isHTML) $ do
                 fix $ \loop -> when (Prelude.not (jget (highScoresCanvas).hasPainted)) $ javaIteration (loop) $ do
                     pure ()

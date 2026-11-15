@@ -34,11 +34,11 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameInputMappingInstructionsCanvas -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
+import qualified GameInputStrings -- same package or java.lang
 import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified RepaintBehavior -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
-import qualified GameInputStrings -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener

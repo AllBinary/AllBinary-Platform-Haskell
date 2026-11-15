@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified TransformInfoObjectConfigInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified TransformInfoObjectConfigInterface -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified URIResolver -- javax.xml.transform.URIResolver
 import qualified BasicUriResolver -- org.allbinary.data.tree.dom.BasicUriResolver

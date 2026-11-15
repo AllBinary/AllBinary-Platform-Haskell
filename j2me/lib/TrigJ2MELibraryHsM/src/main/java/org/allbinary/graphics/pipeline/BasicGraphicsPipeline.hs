@@ -168,14 +168,14 @@ rotate_impl :: BasicGraphicsPipeline -> Int -> IO (())
 rotate_impl this angle = do
         newBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         secondPoint <- newIORef (javaNull)
-        y <- newIORef (0)
-        secondX <- newIORef (0)
-        secondY <- newIORef (0)
+        y <- newIORef (0 :: Int64)
+        secondX <- newIORef (0 :: Int64)
+        secondY <- newIORef (0 :: Int64)
         point <- newIORef (javaNull)
         pointFactory <- (PointFactory.getInstance)
         size <- (BasicArrayList.size ((jget (this).pointBasicArrayList)))
-        sin <- newIORef (0)
-        cos <- newIORef (0)
+        sin <- newIORef (0 :: Int64)
+        cos <- newIORef (0 :: Int64)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset secondPoint ((javaCast (jindex ((jget ((jget (this).pointBasicArrayList)).objectArray)) (index)) :: GPoint.GPoint))
             if ((jio (GPoint.getX ((jget secondPoint)))) /= 1000) then do
@@ -208,7 +208,7 @@ mirror_impl this width = do
         let halfWidth = ((width `Data.Bits.shiftR` 1))
         newBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         secondPoint <- newIORef (javaNull)
-        newX <- newIORef (0)
+        newX <- newIORef (0 :: Int)
         point <- newIORef (javaNull)
         size <- (BasicArrayList.size ((jget (this).pointBasicArrayList)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

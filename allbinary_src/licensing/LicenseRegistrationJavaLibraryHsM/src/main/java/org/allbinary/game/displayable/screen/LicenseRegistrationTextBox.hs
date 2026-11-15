@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified ItemPaintable -- same package or java.lang
 import qualified GameCommandCanvas -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command

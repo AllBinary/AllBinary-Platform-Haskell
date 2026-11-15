@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified TransformInfoInterface -- org.allbinary.logic.visual.transform.info.TransformInfoInterface

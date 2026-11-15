@@ -142,7 +142,7 @@ createTable_impl this data_ = do
             Control.Monad.void (AbSqlBasic.executeSQLStatement this data_)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((jget (this).tABLE_CREATION_SUCCESS) ++ (jget (this).tableName)) ++ " with statement: ") ++ data_) this (jget (this).mETHOD_CREATED_TABLE))
-            pure (((jget (this).tableName) ++ javaToString (jget ((jget (this).base.sqlStrings)).cREATE_RETURN)))
+            pure (((jget (this).tableName) ++ (jget ((jget (this).base.sqlStrings)).cREATE_RETURN)))
 
 
 dropTable :: (JavaObjectClass this_) => this_ -> IO (String)
@@ -153,7 +153,7 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: AbSqlTable))
 
 dropTable_impl :: AbSqlTable -> IO (String)
 dropTable_impl this = do
-        let sqlStatement = (javaToString (jget ((jget (this).base.sqlStrings)).dROP_TABLE) ++ (jget (this).tableName))
+        let sqlStatement = ((jget ((jget (this).base.sqlStrings)).dROP_TABLE) ++ (jget (this).tableName))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.fAILED_SQL_STATEMENT) ++ sqlStatement) this (jget (this).mETHOD_DROP_TABLE) e)

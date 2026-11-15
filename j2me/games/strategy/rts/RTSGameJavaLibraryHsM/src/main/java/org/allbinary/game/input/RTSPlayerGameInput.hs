@@ -42,11 +42,11 @@ import qualified RTSPlayerLeftGameInputProcessor -- same package or java.lang
 import qualified RTSPlayerRightGameInputProcessor -- same package or java.lang
 import qualified RTSPlayerFireGameInputProcessor -- same package or java.lang
 import qualified GameInputProcessorUtil -- same package or java.lang
+import qualified GameInputStrings -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
 import qualified PlayerQueue -- same package or java.lang
-import qualified GameInputStrings -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -294,7 +294,7 @@ processInput_impl this layerManager = do
             ) $ do
             Control.Monad.void (RTSPlayerGameInput.processMotionInput this layerManager)
             size <- (BasicArrayList.size ((jget (this).inputList)))
-            key <- newIORef (0)
+            key <- newIORef (0 :: Int)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let gameKeyEvent = (javaCast (jio (BasicArrayList.get ((jget (this).inputList)) index)) :: GameKeyEvent.GameKeyEvent)
                 assignedValue <- (GameKeyEvent.getKey gameKeyEvent)
@@ -382,8 +382,8 @@ paint_impl this graphics = do
         allBinaryTiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
         Control.Monad.void (Graphics.setColor graphics (jio (BasicColor.intValue ((jget ((jio (BasicColorFactory.getInstance))).gREEN)))))
         list <- (SelectedRTSLayersPlayerGameInput.getPaintSelectedRTSLayersList ((jio (RTSPlayerGameInput.getSelectedBuildingPlayerGameInput this))))
-        width <- newIORef (0)
-        height <- newIORef (0)
+        width <- newIORef (0 :: Int)
+        height <- newIORef (0 :: Int)
         if ((jio (BasicArrayList.size list)) > 0) then do
             forM_ [((jio (BasicArrayList.size list)) - 1), ((jio (BasicArrayList.size list)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
                 let rtsLayer = (javaCast (jio (BasicArrayList.get list index)) :: RTSLayer.RTSLayer)

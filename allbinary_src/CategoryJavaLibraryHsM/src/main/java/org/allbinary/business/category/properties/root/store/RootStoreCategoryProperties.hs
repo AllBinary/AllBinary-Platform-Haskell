@@ -366,7 +366,7 @@ getFileName_super object_ = (getFileName_impl (javaCast object_ :: RootStoreCate
 
 getFileName_impl :: RootStoreCategoryProperties -> IO (String)
 getFileName_impl this = do
-        pure ((((jio (RootStoreCategoryProperties.getValue this)) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
+        pure ((((jio (RootStoreCategoryProperties.getValue this)) ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
 
 
 setValue :: (JavaObjectClass this_) => this_ -> String -> IO (())

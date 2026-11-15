@@ -117,9 +117,7 @@ initFields_ this = do
     jset this.fIRST_RUNNABLE =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (FirstRunnable.new_1 this))
     jset this.sECOND_RUNNABLE =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (SecondRunnable.new_1 this))
     jset this.eND_RUNNABLE =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (EndRunnable.new_1 this))
-    jset this.aLREADY_ENDED_RUNNABLE =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-        -- run
--}))
+    jset this.aLREADY_ENDED_RUNNABLE =<< (fmap (\value_ -> javaCast value_ :: Runnable.Runnable) (ARunnable.new_ >>= anonymousMultipassWaypointPathRunnable0_ this))
     jset this.currentPassRunnable ((jget (this).fIRST_RUNNABLE))
     pure ()
 
@@ -297,6 +295,16 @@ processEndRunnable_impl this = do
         Control.Monad.void (MultipassWaypointPathRunnable.finish this)
         pure ()
 
+
+-- Java anonymous class new ARunnable() {...}
+anonymousMultipassWaypointPathRunnable0_ (this :: MultipassWaypointPathRunnable) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousMultipassWaypointPathRunnable0_run this anonymous_)
+    pure anonymous_
+
+anonymousMultipassWaypointPathRunnable0_run (this :: MultipassWaypointPathRunnable) (anonymous_ :: ARunnable.ARunnable) = ( do
+            javaThrow ((JavaException "RuntimeException" ""))
+            pure ()
+ ) :: IO (())
 -- Java nested class FirstRunnable: move it to its own module FirstRunnable
 -- Java nested class SecondRunnable: move it to its own module SecondRunnable
 -- Java nested class EndRunnable: move it to its own module EndRunnable

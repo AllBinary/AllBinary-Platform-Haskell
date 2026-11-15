@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified TimeDelayHelper -- same package or java.lang
 import qualified GameTickTimeDelayHelper -- same package or java.lang
+import qualified TimeDelayHelper -- same package or java.lang
 import qualified View -- android.view.View
 import qualified BaseViewWrapper -- org.allbinary.android.view.BaseViewWrapper
 import qualified ViewWrapper -- org.allbinary.android.view.ViewWrapper

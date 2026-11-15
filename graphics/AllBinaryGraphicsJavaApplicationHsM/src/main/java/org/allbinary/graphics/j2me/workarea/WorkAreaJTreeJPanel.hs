@@ -187,20 +187,18 @@ updateTree_impl :: WorkAreaJTreeJPanel -> IO (())
 updateTree_impl this = do
         assignedValue <- (JTree.new_1 (jget (this).rootTreeNode))
         jset (this).workAreaJTree (assignedValue)
-        Control.Monad.void (JTree.addMouseListener ((jget (this).workAreaJTree)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JTree.addMouseListener ((jget (this).workAreaJTree)) (jio (MouseAdapter.new_ >>= anonymousWorkAreaJTreeJPanel0_ this)))
         Control.Monad.void (JPanel.removeAll ((jget (this).workAreaPropertiesJPanel)))
         Control.Monad.void (JPanel.add ((jget (this).workAreaPropertiesJPanel)) (jget (this).workAreaJTree))
         pure ()
 
 
 -- Java overloads of getNode: calls the overload for the types of the arguments
-getNode :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (BasicArrayList.BasicArrayList)
+getNode :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (JavaObject)
 getNode this a1
-    | jisInstanceOf a1 (javaNull :: JavaArray (TreePath.TreePath)) = getNode_overload1 this (javaCast a1 :: JavaArray (TreePath.TreePath))
-    | jisInstanceOf a1 (javaNull :: TreePath.TreePath) = getNode_overload2 this (javaCast a1 :: TreePath.TreePath)
-    | otherwise = getNode_overload2 this (javaCast a1 :: TreePath.TreePath)
+    | jisInstanceOf a1 (javaNull :: JavaArray (TreePath.TreePath)) = fmap jtoObject (getNode_overload1 this (javaCast a1 :: JavaArray (TreePath.TreePath)))
+    | jisInstanceOf a1 (javaNull :: TreePath.TreePath) = fmap jtoObject (getNode_overload2 this (javaCast a1 :: TreePath.TreePath))
+    | otherwise = fmap jtoObject (getNode_overload2 this (javaCast a1 :: TreePath.TreePath))
 
 getNode_overload1 :: (JavaObjectClass this_) => this_ -> JavaArray (TreePath.TreePath) -> IO (BasicArrayList.BasicArrayList)
 getNode_overload1 object_ a1 = jmethod object_ "getNode_overload1" (\() -> (getNode_overload1_impl (javaCast object_ :: WorkAreaJTreeJPanel))) () a1
@@ -421,30 +419,18 @@ initComponents_impl this = do
         jset (this).itemJScrollPane1 (assignedValue)
         assignedValue <- (JPanel.new_)
         jset (this).workAreaPropertiesJPanel (assignedValue)
-        Control.Monad.void (JPopupMenu.addPopupMenuListener ((jget this.itemJPopupMenu)) (PopupMenuListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- popupMenuCanceled
-            -- popupMenuWillBecomeInvisible
-            -- popupMenuWillBecomeVisible
--}))
+        Control.Monad.void (JPopupMenu.addPopupMenuListener ((jget this.itemJPopupMenu)) (jio (PopupMenuListener.new_ >>= anonymousWorkAreaJTreeJPanel1_ this)))
         Control.Monad.void (JMenuItem.setText ((jget (this).deleteJMenuItem)) "Delete")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).deleteJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).deleteJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousWorkAreaJTreeJPanel2_ this)))
         Control.Monad.void (JPopupMenu.add ((jget (this).itemJPopupMenu)) (jget (this).deleteJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).copyJMenuItem)) "Copy")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).copyJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).copyJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousWorkAreaJTreeJPanel3_ this)))
         Control.Monad.void (JPopupMenu.add ((jget (this).itemJPopupMenu)) (jget (this).copyJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).rotateJMenuItem)) "Rotate 45*")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).rotateJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).rotateJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousWorkAreaJTreeJPanel4_ this)))
         Control.Monad.void (JPopupMenu.add ((jget (this).itemJPopupMenu)) (jget (this).rotateJMenuItem))
         Control.Monad.void (JPanel.setLayout this (jio (GridLayout.new_2 1 1)))
-        Control.Monad.void (JPanel.addMouseListener ((jget (this).workAreaPropertiesJPanel)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JPanel.addMouseListener ((jget (this).workAreaPropertiesJPanel)) (jio (MouseAdapter.new_ >>= anonymousWorkAreaJTreeJPanel5_ this)))
         Control.Monad.void (JPanel.setLayout ((jget (this).workAreaPropertiesJPanel)) (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).itemJScrollPane1)) (jget (this).workAreaPropertiesJPanel))
         Control.Monad.void (WorkAreaJTreeJPanel.add this (javaCast (jget (this).itemJScrollPane1)))
@@ -570,4 +556,76 @@ workAreaPropertiesJPanelMousePressed_impl :: WorkAreaJTreeJPanel -> MouseEvent.M
 workAreaPropertiesJPanelMousePressed_impl this evt = do
         pure ()
 
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousWorkAreaJTreeJPanel0_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousWorkAreaJTreeJPanel0_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel0_mousePressed (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.workAreaJTreeMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new PopupMenuListener() {...}
+anonymousWorkAreaJTreeJPanel1_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: PopupMenuListener.PopupMenuListener) = do
+    jregisterMethod (jheaderOf anonymous_) "popupMenuCanceled" (\() -> anonymousWorkAreaJTreeJPanel1_popupMenuCanceled this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "popupMenuWillBecomeInvisible" (\() -> anonymousWorkAreaJTreeJPanel1_popupMenuWillBecomeInvisible this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "popupMenuWillBecomeVisible" (\() -> anonymousWorkAreaJTreeJPanel1_popupMenuWillBecomeVisible this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel1_popupMenuCanceled (this :: WorkAreaJTreeJPanel) (anonymous_ :: PopupMenuListener.PopupMenuListener) (evt :: PopupMenuEvent.PopupMenuEvent) = ( do
+                pure ()
+                pure ()
+ ) :: IO (())
+
+anonymousWorkAreaJTreeJPanel1_popupMenuWillBecomeInvisible (this :: WorkAreaJTreeJPanel) (anonymous_ :: PopupMenuListener.PopupMenuListener) (evt :: PopupMenuEvent.PopupMenuEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.itemJPopupMenuPopupMenuWillBecomeInvisible this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousWorkAreaJTreeJPanel1_popupMenuWillBecomeVisible (this :: WorkAreaJTreeJPanel) (anonymous_ :: PopupMenuListener.PopupMenuListener) (evt :: PopupMenuEvent.PopupMenuEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.itemJPopupMenuPopupMenuWillBecomeVisible this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousWorkAreaJTreeJPanel2_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousWorkAreaJTreeJPanel2_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel2_mousePressed (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.deleteJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousWorkAreaJTreeJPanel3_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousWorkAreaJTreeJPanel3_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel3_mousePressed (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.copyJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousWorkAreaJTreeJPanel4_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousWorkAreaJTreeJPanel4_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel4_mousePressed (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.rotateJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousWorkAreaJTreeJPanel5_ (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousWorkAreaJTreeJPanel5_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJTreeJPanel5_mousePressed (this :: WorkAreaJTreeJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (WorkAreaJTreeJPanel.workAreaPropertiesJPanelMousePressed this evt)
+                pure ()
+ ) :: IO (())
 

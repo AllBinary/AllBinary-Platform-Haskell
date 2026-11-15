@@ -140,7 +140,7 @@ selectHighScores_impl this = do
             javaReturn (())
         Control.Monad.void (CircularIndexUtil.next ((jget (this).circularIndexUtil)))
         highScores <- newIORef ((jindex ((jget (this).base.highScoresArrayP)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil)))))))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when (((jio (HighScores.getTotal ((jget highScores)))) < 1) && ((jget index) < (jlength (jget (this).base.highScoresArrayP)))) $ javaIteration (loop) $ do
             jset highScores ((jindex ((jget (this).base.highScoresArrayP)) ((jio (CircularIndexUtil.next ((jget (this).circularIndexUtil)))))))
             jset index ((jget index) + 1)

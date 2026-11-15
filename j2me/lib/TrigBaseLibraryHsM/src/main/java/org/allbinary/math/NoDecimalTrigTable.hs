@@ -1250,7 +1250,7 @@ antiTan_impl this dx dy = do
     javaCatchReturn $ do
         let mAX_VALUE = ((Prelude.fromIntegral (2147483647 :: Int)))
         let mIN_VALUE = ((Prelude.fromIntegral ((-2147483648) :: Int)))
-        ratio <- newIORef (((mAX_VALUE - 1)))
+        ratio <- newIORef (((mAX_VALUE - 1)) :: Int64)
         when (dy /= 0) $ do
             let dxl = ((Prelude.fromIntegral dx))
             jset ratio ((((Prelude.fromIntegral (jget (this).sCALE)) * dxl) `quot` (Prelude.fromIntegral dy)))
@@ -1318,7 +1318,7 @@ antiTanDebug_impl this screenX screenY targetX targetY = do
         jsetIndex dy (1) (((screenY - targetY2)))
         jsetIndex dy (2) (((screenY2 - targetY)))
         jsetIndex dy (3) (((screenY2 - targetY2)))
-        angleOfTarget <- newIORef (0)
+        angleOfTarget <- newIORef (0 :: Int16)
         angleFactory <- (AngleFactory.getInstance)
         angle <- newIORef (javaNull)
         forM_ [0 .. (jlength dx) - 1] $ \index -> javaIteration (pure ()) $ do

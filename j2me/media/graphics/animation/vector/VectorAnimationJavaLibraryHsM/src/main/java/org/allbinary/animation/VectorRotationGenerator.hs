@@ -143,7 +143,7 @@ getInstanceFrames_impl this width height points frames = do
             let size = (jlength points)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 Control.Monad.void (BasicArrayList.add pointBasicArrayList (jio (PointFactory.createXY pointFactory (jindex ((jindex points (index))) (0)) (jindex ((jindex points (index))) (1)))))
-            index <- newIORef (0)
+            index <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget index) < (Prelude.fromIntegral totalAngle)) $ javaIteration (loop) $ do
                 Control.Monad.void (BasicArrayList.add pointsBasicArrayList (jio (VectorRotationGenerator.getListAtAngle this width height pointBasicArrayList (jio (AngleFactory.getAt ((jget (this).angleFactory)) (jget index))))))
                 jset index (((jget index) + angleIncrement))

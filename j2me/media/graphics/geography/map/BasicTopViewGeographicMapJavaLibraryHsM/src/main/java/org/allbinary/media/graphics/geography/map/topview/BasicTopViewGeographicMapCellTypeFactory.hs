@@ -120,7 +120,7 @@ init_2 this tileTypeToTileIdsMap maxTileId = do
         basicTopViewGeographicMapStrings <- (BasicTopViewGeographicMapStrings.getInstance)
         geographicMapCellTypeFactory <- (GeographicMapCellTypeFactory.getInstance)
         geographicMapCellTypeArray <- (GeographicMapCellTypeFactory.getGeographicMapCellTypeArray geographicMapCellTypeFactory)
-        type_ <- newIORef (0)
+        type_ <- newIORef (0 :: Int)
         if ((jindex geographicMapCellTypeArray ((jget type_))) == javaNull) then do
             Control.Monad.void (RaceTrackGeographicMapCellType.new_4 (jget ((jio (CommonStrings.getInstance))).uNKNOWN) (jget type_) 999 0)
         else do

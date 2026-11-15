@@ -175,7 +175,7 @@ setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: AllB
 
 setBasicColorP_impl :: AllBinaryJ2SEImageRotationAnimation -> BasicColor.BasicColor -> IO (())
 setBasicColorP_impl this basicColor = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when (((jio (ImageBaseRotationAnimation.getBasicColorP this)) == javaNull) || ((jio (BasicColor.intValue ((jio (ImageBaseRotationAnimation.getBasicColorP this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setBasicColorP_super this.base basicColor)
@@ -194,7 +194,7 @@ changeBasicColor_super object_ a1 = (changeBasicColor_impl (javaCast object_ :: 
 
 changeBasicColor_impl :: AllBinaryJ2SEImageRotationAnimation -> BasicColor.BasicColor -> IO (())
 changeBasicColor_impl this basicColor = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when (((jio (ImageBaseRotationAnimation.getChangeBasicColor this)) == javaNull) || ((jio (BasicColor.intValue ((jio (ImageBaseRotationAnimation.getChangeBasicColor this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.changeBasicColor_super this.base basicColor)
@@ -213,7 +213,7 @@ setAlpha_super object_ a1 = (setAlpha_impl (javaCast object_ :: AllBinaryJ2SEIma
 
 setAlpha_impl :: AllBinaryJ2SEImageRotationAnimation -> Int -> IO (())
 setAlpha_impl this alpha = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when ((jget (this).base.base.base.base.alphaP) /= alpha) $ do
             jset changed (True)
         Control.Monad.void (ImageBaseRotationAnimation.setAlpha_super this.base alpha)

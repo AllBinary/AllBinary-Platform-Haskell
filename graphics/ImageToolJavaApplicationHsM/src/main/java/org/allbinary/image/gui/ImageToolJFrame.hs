@@ -342,9 +342,7 @@ initComponents_impl this = do
         Control.Monad.void (JLabel.setText ((jget (this).greenJLabel)) "Green:")
         Control.Monad.void (JLabel.setText ((jget (this).blueJLabel)) "Blue:")
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame0_ this)))
         analysisActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).analysisActionJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).analysisActionJDialog))))) analysisActionJDialogLayout)
         Control.Monad.void (GroupLayout.setHorizontalGroup analysisActionJDialogLayout (jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jio (GroupLayout.add ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup analysisActionJDialogLayout)))))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.add ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createSequentialGroup analysisActionJDialogLayout))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jget this.blueJLabel)))) (jget this.greenJLabel)))) (jget this.redJLabel)))) (jget this.colorRangeJLabel)))))) 29 29 29))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING) (jget this.minJLabel) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) 58 (Prelude.maxBound :: Int16)))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING) False))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.minBlueJTextField)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.minGreenJTextField)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.minRedJTextField) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) 42 (Prelude.maxBound :: Int16)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.okJButton)))))))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).rELATED)))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.createSequentialGroup analysisActionJDialogLayout))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING) False))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.maxRedJTextField)))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createSequentialGroup analysisActionJDialogLayout))) 1 1 1))) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup analysisActionJDialogLayout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jget this.maxBlueJTextField)))) (jget this.maxGreenJTextField) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).pREFERRED_SIZE) 43 (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).pREFERRED_SIZE)))))))))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).rELATED) 17 (Prelude.maxBound :: Int16)))))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING) (jget this.maxJLabel) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) 61 (Prelude.maxBound :: Int16))))))))))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).tRAILING) (jio (GroupLayout.add ((jio (GroupLayout.add ((jio (GroupLayout.createSequentialGroup analysisActionJDialogLayout))) (jget this.titleJLabel)))) 25 25 25)))))))))
@@ -354,68 +352,42 @@ initComponents_impl this = do
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel1)) (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).jPanel1))
         Control.Monad.void (JMenu.setText ((jget (this).fileJMenu)) "File")
-        Control.Monad.void (JMenu.addActionListener ((jget (this).fileJMenu)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenu.addActionListener ((jget (this).fileJMenu)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame1_ this)))
         Control.Monad.void (JMenuItem.setText ((jget (this).openImageJMenuItem)) "Open")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).openImageJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).openImageJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame2_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).openImageJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).mainJMenuBar)) (jget (this).fileJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).processingJMenu)) "Processing")
-        Control.Monad.void (JMenu.addActionListener ((jget (this).processingJMenu)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenu.addActionListener ((jget (this).processingJMenu)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame3_ this)))
         Control.Monad.void (JMenuItem.setText ((jget (this).analyzeJMenuItem)) "Image Analyze")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).analyzeJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).analyzeJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame4_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).analyzeJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).generateMirrorSpriteMenuItem)) "Mirror Sprite Generator")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateMirrorSpriteMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateMirrorSpriteMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame5_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).generateMirrorSpriteMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).generateRotationSpriteJMenuItem)) "Rotation Sprite Generator")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateRotationSpriteJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateRotationSpriteJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame6_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).generateRotationSpriteJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).generateSpriteSplitterMenuItem)) "Sprite Splitter Generator")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateSpriteSplitterMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateSpriteSplitterMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame7_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).generateSpriteSplitterMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).generateRotationMenuItem)) "Rotate Image Generator")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateRotationMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).generateRotationMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame8_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).generateRotationMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).createStripImageJMenuItem)) "Multi Image Unifier")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).createStripImageJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).createStripImageJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame9_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).createStripImageJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).mirrorJMenuItem)) "Mirror Image(s)")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).mirrorJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).mirrorJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame10_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).mirrorJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).scaleImagesJMenuItem)) "Scale Image(s)")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).scaleImagesJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).scaleImagesJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame11_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).scaleImagesJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).canvasImagesJMenuItem)) "Canvas Image(s)")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).canvasImagesJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).canvasImagesJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame12_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).canvasImagesJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).createIconImagesJMenuItem)) "Create Icon Image(s)")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).createIconImagesJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).createIconImagesJMenuItem)) (jio (ActionListener.new_ >>= anonymousImageToolJFrame13_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).createIconImagesJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).mainJMenuBar)) (jget (this).processingJMenu))
         Control.Monad.void (JFrame.setJMenuBar this (jget (this).mainJMenuBar))
@@ -502,10 +474,7 @@ onFiles_impl this files = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "onFiles" e)
             ) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Reading " ++ javaToString (jlength files)) ++ " files.") this "onFiles")
-            Control.Monad.void (Arrays.sort files (Comparator.new_ {- Java anonymous class body: implement it as a record of functions
-                -- compare
-                -- extractIndexNumberIfAnyFromFileName
--}))
+            Control.Monad.void (Arrays.sort files (jio (jnewInterfaceObject Comparator.registerInterface_ Comparator.fromHeader_ >>= anonymousImageToolJFrame14_ this)))
             let bufferedImageArray = (jnewArray ((jlength files)) javaNull)
             forM_ [0 .. (jlength files) - 1] $ \index -> javaIteration (pure ()) $ do
                 assignedValue <- (ImageIO.read (jindex files (index)))
@@ -862,4 +831,169 @@ setMinRedJTextField_impl this minRedJTextField = do
         jset (this).minRedJTextField ((jget (this).minRedJTextField))
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame0_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame0_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame1_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame1_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.fileJMenuActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame2_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame2_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.openImageJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame3_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame3_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.processingJMenuActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame4_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame4_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.analyzeJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame5_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame5_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.generateMirrorSpriteMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame6_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame6_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.generateRotationSpriteJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame7_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame7_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.generateSpriteSplitterMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame8_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame8_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.generateRotationMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame9_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame9_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame9_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.createStripImageJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame10_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame10_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame10_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.mirrorJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame11_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame11_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame11_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.scaleImagesJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame12_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame12_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame12_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.canvasImagesJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageToolJFrame13_ (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageToolJFrame13_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame13_actionPerformed (this :: ImageToolJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageToolJFrame.createIconsJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new Comparator() {...}
+anonymousImageToolJFrame14_ (this :: ImageToolJFrame) (anonymous_ :: Comparator.Comparator) = do
+    jregisterMethod (jheaderOf anonymous_) "compare" (\() -> anonymousImageToolJFrame14_compare this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "extractIndexNumberIfAnyFromFileName" (\() -> anonymousImageToolJFrame14_extractIndexNumberIfAnyFromFileName this anonymous_)
+    pure anonymous_
+
+anonymousImageToolJFrame14_compare (this :: ImageToolJFrame) (anonymous_ :: Comparator.Comparator) (file1 :: File.File) (file2 :: File.File) = ( do
+                    fileNameIndexValue1 <- (anonymousImageToolJFrame14_extractIndexNumberIfAnyFromFileName this anonymous_ (jio (File.getName file1)))
+                    fileNameIndexValue2 <- (anonymousImageToolJFrame14_extractIndexNumberIfAnyFromFileName this anonymous_ (jio (File.getName file2)))
+                    pure ((fileNameIndexValue1 - fileNameIndexValue2))
+ ) :: IO (Int)
+
+anonymousImageToolJFrame14_extractIndexNumberIfAnyFromFileName (this :: ImageToolJFrame) (anonymous_ :: Comparator.Comparator) (name :: String) = ( do
+                    i <- newIORef (0 :: Int)
+                    handle (\(e :: JavaException) -> do
+                        jset i (0)
+                        ) $ do
+                        let start = ((jstringLastIndexOf name '_') + 1)
+                        let end = (jstringLastIndexOf name '.')
+                        let number = (Prelude.take ((end) - (start)) (Prelude.drop (start) name))
+                        assignedValue <- (jparseInt number)
+                        jset i (assignedValue)
+                    pure ((jget i))
+ ) :: IO (Int)
 

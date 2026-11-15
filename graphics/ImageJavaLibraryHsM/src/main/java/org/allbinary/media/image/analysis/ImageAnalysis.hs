@@ -108,11 +108,11 @@ init_ this = do
 
 
 -- Java overloads of process: calls the overload for the types of the arguments
-process :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> ColorRangeInterface.ColorRangeInterface -> IO (JavaArray (ImageAnalysisResults.ImageAnalysisResults))
+process :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> ColorRangeInterface.ColorRangeInterface -> IO (JavaObject)
 process this a1 a2
-    | jisInstanceOf a1 (javaNull :: JavaArray (BufferedImage.BufferedImage)) = process_overload1 this (javaCast a1 :: JavaArray (BufferedImage.BufferedImage)) a2
-    | jisInstanceOf a1 (javaNull :: BufferedImage.BufferedImage) = process_overload2 this (javaCast a1 :: BufferedImage.BufferedImage) a2
-    | otherwise = process_overload2 this (javaCast a1 :: BufferedImage.BufferedImage) a2
+    | jisInstanceOf a1 (javaNull :: JavaArray (BufferedImage.BufferedImage)) = fmap jtoObject (process_overload1 this (javaCast a1 :: JavaArray (BufferedImage.BufferedImage)) a2)
+    | jisInstanceOf a1 (javaNull :: BufferedImage.BufferedImage) = fmap jtoObject (process_overload2 this (javaCast a1 :: BufferedImage.BufferedImage) a2)
+    | otherwise = fmap jtoObject (process_overload2 this (javaCast a1 :: BufferedImage.BufferedImage) a2)
 
 -- throws Exception
 process_overload1 :: (JavaObjectClass this_) => this_ -> JavaArray (BufferedImage.BufferedImage) -> ColorRangeInterface.ColorRangeInterface -> IO (JavaArray (ImageAnalysisResults.ImageAnalysisResults))
@@ -124,7 +124,7 @@ process_overload1_super object_ a1 a2 = (process_overload1_impl (javaCast object
 process_overload1_impl :: ImageAnalysis -> JavaArray (BufferedImage.BufferedImage) -> ColorRangeInterface.ColorRangeInterface -> IO (JavaArray (ImageAnalysisResults.ImageAnalysisResults))
 process_overload1_impl this bufferedImageArray colorRangeInterface = do
         commonStrings <- (CommonStrings.getInstance)
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ (jio (ColorRangeInterface.toString colorRangeInterface))) this (jget (commonStrings).pROCESS))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ (jio (ColorRangeInterface.toString colorRangeInterface))) this (jget (commonStrings).pROCESS))
         let imageAnalysisResultsArray = (jnewArray ((jlength bufferedImageArray)) javaNull)
         forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (ImageAnalysis.process (jindex bufferedImageArray (index)) colorRangeInterface)
@@ -136,9 +136,9 @@ process_overload1_impl this bufferedImageArray colorRangeInterface = do
 process_overload2 :: BufferedImage.BufferedImage -> ColorRangeInterface.ColorRangeInterface -> IO (ImageAnalysisResults.ImageAnalysisResults)
 process_overload2 bufferedImage colorRangeInterface = do
         imageAnalysisResults <- (ImageAnalysisResults.new_)
-        redTotal <- newIORef (0)
-        greenTotal <- newIORef (0)
-        blueTotal <- newIORef (0)
+        redTotal <- newIORef (0 :: Int64)
+        greenTotal <- newIORef (0 :: Int64)
+        blueTotal <- newIORef (0 :: Int64)
         forM_ [0 .. (jio (BufferedImage.getHeight bufferedImage)) - 1] $ \indexY -> javaIteration (pure ()) $ do
             forM_ [0 .. (jio (BufferedImage.getWidth bufferedImage)) - 1] $ \indexX -> javaIteration (pure ()) $ do
                 let keyInteger = ((jio (BufferedImage.getRGB bufferedImage indexX indexY)))

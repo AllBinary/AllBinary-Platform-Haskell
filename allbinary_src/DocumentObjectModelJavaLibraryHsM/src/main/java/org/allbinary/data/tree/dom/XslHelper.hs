@@ -108,11 +108,11 @@ init_ this = do
 
 
 -- Java overloads of translate: calls the overload for the types of the arguments
-translate :: (JavaObjectClass this_, JavaObjectClass o1, JavaObjectClass o3) => this_ -> o1 -> StreamSource.StreamSource -> o3 -> IO (OutputStream.OutputStream)
+translate :: (JavaObjectClass this_, JavaObjectClass o1, JavaObjectClass o3) => this_ -> o1 -> StreamSource.StreamSource -> o3 -> IO (JavaObject)
 translate this a1 a2 a3
-    | jisInstanceOf a1 (javaNull :: StreamSource.StreamSource) && jisInstanceOf a3 (javaNull :: StreamResult.StreamResult) = translate_overload1 this (javaCast a1 :: StreamSource.StreamSource) a2 (javaCast a3 :: StreamResult.StreamResult)
-    | jisInstanceOf a1 (javaNull :: URIResolver.URIResolver) && jisInstanceOf a3 (javaNull :: StreamSource.StreamSource) = translate_overload2 this (javaCast a1 :: URIResolver.URIResolver) a2 (javaCast a3 :: StreamSource.StreamSource)
-    | otherwise = translate_overload2 this (javaCast a1 :: URIResolver.URIResolver) a2 (javaCast a3 :: StreamSource.StreamSource)
+    | jisInstanceOf a1 (javaNull :: StreamSource.StreamSource) && jisInstanceOf a3 (javaNull :: StreamResult.StreamResult) = fmap jtoObject (translate_overload1 this (javaCast a1 :: StreamSource.StreamSource) a2 (javaCast a3 :: StreamResult.StreamResult))
+    | jisInstanceOf a1 (javaNull :: URIResolver.URIResolver) && jisInstanceOf a3 (javaNull :: StreamSource.StreamSource) = fmap jtoObject (translate_overload2 this (javaCast a1 :: URIResolver.URIResolver) a2 (javaCast a3 :: StreamSource.StreamSource))
+    | otherwise = fmap jtoObject (translate_overload2 this (javaCast a1 :: URIResolver.URIResolver) a2 (javaCast a3 :: StreamSource.StreamSource))
 
 -- throws Exception
 translate_overload1 :: (JavaObjectClass this_) => this_ -> StreamSource.StreamSource -> StreamSource.StreamSource -> StreamResult.StreamResult -> IO (OutputStream.OutputStream)

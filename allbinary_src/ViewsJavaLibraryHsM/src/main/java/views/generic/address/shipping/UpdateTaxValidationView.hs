@@ -120,7 +120,7 @@ isValid_impl this = do
         streetAddressList <- (ShippingAddressesEntity.get billingAddressesEntity)
         when (streetAddressList == javaNull) $ do
             javaReturn (False)
-        count <- newIORef (0)
+        count <- newIORef (0 :: Int)
         size <- (BasicArrayList.size streetAddressList)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let aStreetAddress = (javaCast (jio (BasicArrayList.get streetAddressList index)) :: StreetAddress.StreetAddress)

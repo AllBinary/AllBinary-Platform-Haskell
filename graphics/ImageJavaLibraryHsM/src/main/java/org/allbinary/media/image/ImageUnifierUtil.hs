@@ -130,10 +130,10 @@ getImage_impl :: ImageUnifierUtil -> JavaArray (BufferedImage.BufferedImage) -> 
 getImage_impl this bufferedImageArray imageUnifierProperties = do
         newBufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) (jio (ImageUnifierProperties.getWidth imageUnifierProperties)) (jio (ImageUnifierProperties.getHeight imageUnifierProperties)))
         commonLabels <- (CommonLabels.getInstance)
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((("Setting Image - " ++ javaToString (jget (commonLabels).wIDTH_LABEL)) ++ javaToString (jio (BufferedImage.getWidth newBufferedImage))) ++ javaToString (jget (commonLabels).hEIGHT_LABEL)) ++ javaToString (jio (BufferedImage.getHeight newBufferedImage))) this "getImage")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((("Setting Image - " ++ (jget (commonLabels).wIDTH_LABEL)) ++ javaToString (jio (BufferedImage.getWidth newBufferedImage))) ++ (jget (commonLabels).hEIGHT_LABEL)) ++ javaToString (jio (BufferedImage.getHeight newBufferedImage))) this "getImage")
         g <- (BufferedImage.createGraphics newBufferedImage)
-        columnIndex <- newIORef (0)
-        rowIndex <- newIORef (0)
+        columnIndex <- newIORef (0 :: Int)
+        rowIndex <- newIORef (0 :: Int)
         forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
             let x = ((jio (ImageUnifierCell.getWidth ((jio (ImageUnifierProperties.getImageUnifierCell imageUnifierProperties))))) * (jpostIncrement columnIndex (+ 1)))
             let y = ((jio (ImageUnifierCell.getHeight ((jio (ImageUnifierProperties.getImageUnifierCell imageUnifierProperties))))) * (jget rowIndex))

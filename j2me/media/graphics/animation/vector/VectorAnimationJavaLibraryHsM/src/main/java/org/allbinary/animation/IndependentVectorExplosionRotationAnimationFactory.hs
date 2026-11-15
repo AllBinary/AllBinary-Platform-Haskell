@@ -133,7 +133,7 @@ getInstanceAnimation_super object_ a1 = (getInstanceAnimation_impl (javaCast obj
 
 getInstanceAnimation_impl :: IndependentVectorExplosionRotationAnimationFactory -> Animation.Animation -> IO (Animation.Animation)
 getInstanceAnimation_impl this animationInterface = do
-        frame <- newIORef (0)
+        frame <- newIORef (0 :: Int)
         when (animationInterface /= javaNull) $ do
             let rotationAnimationInterface = (javaCast animationInterface :: IndexedAnimation.IndexedAnimation)
             assignedValue <- (IndexedAnimation.getFrame rotationAnimationInterface)

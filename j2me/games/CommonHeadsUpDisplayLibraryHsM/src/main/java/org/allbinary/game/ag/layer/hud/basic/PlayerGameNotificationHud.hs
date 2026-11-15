@@ -273,7 +273,7 @@ setAndRemoveProcess_impl this = do
         Control.Monad.void (CustomGPoint.setX ((jget (this).point)) (jio (GameNotificationHud.getX this)))
         Control.Monad.void (CustomGPoint.setY ((jget (this).point)) (jio (GameNotificationHud.getY this)))
         let time = (javaCast (jio (BasicArrayList.removeAt ((jget ((jget (this).gameNotification)).timeList)) 0)) :: Int)
-        iTime <- newIORef ((time * 1000))
+        iTime <- newIORef ((time * 1000) :: Int)
         when ((jget iTime) == 0) $ do
             jset iTime (500)
         jset ((jget (this).timeDelayHelper)).delay ((jget iTime))

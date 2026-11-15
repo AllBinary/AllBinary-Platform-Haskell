@@ -183,7 +183,7 @@ getRotatedImages_super object_ a1 a2 a3 = (getRotatedImages_impl (javaCast objec
 getRotatedImages_impl :: ImageSwtRotationUtil -> Image.Image -> Int -> Int -> IO (JavaArray (Image.Image))
 getRotatedImages_impl this bufferedImage numberOfFrames totalAngle = do
         let bufferedImageArray = (jnewArray (numberOfFrames) javaNull)
-        angle <- newIORef (0)
+        angle <- newIORef (0 :: Int)
         let size = (jlength bufferedImageArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset angle ((((totalAngle `quot` size)) * index))
@@ -200,8 +200,8 @@ createSpriteImage_super object_ a1 = (createSpriteImage_impl (javaCast object_ :
 
 createSpriteImage_impl :: ImageSwtRotationUtil -> JavaArray (Image.Image) -> IO (Image.Image)
 createSpriteImage_impl this bufferedImageArray = do
-        columns <- newIORef (9)
-        rows <- newIORef (0)
+        columns <- newIORef (9 :: Int)
+        rows <- newIORef (0 :: Int)
         let size = (jlength bufferedImageArray)
         when (size < (jget columns)) $ do
             jset columns (size)
@@ -214,8 +214,8 @@ createSpriteImage_impl this bufferedImageArray = do
         gc <- (GC.new_1 (javaCast bufferedImage))
         Control.Monad.void (GC.setAntialias gc (SWT.oN))
         Control.Monad.void (GC.setInterpolation gc (SWT.hIGH))
-        columnIndex <- newIORef (0)
-        rowIndex <- newIORef (0)
+        columnIndex <- newIORef (0 :: Int)
+        rowIndex <- newIORef (0 :: Int)
         nextBufferedImage <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             when (((index `quot` 9) /= 0) && ((index `rem` 9) == 0)) $ do

@@ -95,7 +95,7 @@ get = do
 
 isNotified :: HelpSet.HelpSet -> IO (Bool)
 isNotified helpSet = do
-        isNotified <- newIORef (False)
+        isNotified <- newIORef (False :: Bool)
         url <- (HelpSet.getHelpSetURL helpSet)
         size <- (BasicArrayList.size ((jget JavaHelpSetNotifier.vector)))
         urlArray <- (BasicArrayList.toArray ((jget JavaHelpSetNotifier.vector)))

@@ -118,7 +118,7 @@ processAI_impl this allBinaryLayerManager = do
         when (jio (TimeDelayHelper.isTime ((jio (InputProbability.getTimeDelayHelper ((jget (this).inputProbability))))) (jget ((jio (GameTickTimeDelayHelperFactory.getInstance))).startTime))) $ do
             assignedValue <- (MyRandomFactory.getAbsoluteNextInt ((jget (this).myRandomFactory)) (jio (InputProbability.getMax ((jget (this).inputProbability)))))
             jset (this).i_random (assignedValue)
-            repeat <- newIORef (False)
+            repeat <- newIORef (False :: Bool)
             repeatLikelyhoodIntegerArray <- (InputProbability.getRepeatLikelyhoodIntegerArray ((jget (this).inputProbability)))
             when (((jio (BasicAI.getLastKey this)) /= (Prelude.negate 1)) && ((jindex repeatLikelyhoodIntegerArray ((jio (BasicAI.getLastKey this)))) >= (jget (this).i_random))) $ do
                 jset repeat (True)

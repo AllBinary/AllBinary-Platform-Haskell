@@ -94,7 +94,7 @@ process abeClientInformation registrationId = do
             Control.Monad.void (PreLogUtil.putOE "License Registration Exception" "LicenseRegistrationUtil" "License Registration" e)
             ) $ do
             commonStrings <- (CommonStrings.getInstance)
-            Control.Monad.void (PreLogUtil.put (javaToString (jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ "License Registration") "LicenseRegistrationUtil" (jget (commonStrings).pROCESS))
+            Control.Monad.void (PreLogUtil.put ((jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ "License Registration") "LicenseRegistrationUtil" (jget (commonStrings).pROCESS))
             registrationConfiguration <- (RegistrationConfiguration.getInstance)
             Control.Monad.void (RegistrationConfiguration.setRegistrationCode registrationConfiguration registrationId)
             Control.Monad.void (RegistrationConfiguration.write registrationConfiguration)

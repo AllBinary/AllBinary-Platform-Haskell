@@ -113,7 +113,7 @@ isAuthorized_impl :: AuthenticationHelperUtil -> AuthenticationHelper.Authentica
 isAuthorized_impl this authenticationHelper filePath = do
     javaCatchReturn $ do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEWERROR))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ filePath) this "isAuthorized()")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ filePath) this "isAuthorized()")
         endIndex <- (HttpRequestUtil.getLastSeparatorIndex ((jio (HttpRequestUtil.getInstance))) filePath)
         fullPath <- (AbPath.new_2 ((jio (URLGLOBALS.getWebappPath)) ++ (Prelude.take ((endIndex) - (0)) (Prelude.drop (0) filePath))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
         downloadFilePermissions <- (HttpFilePermissions.new_1 fullPath)

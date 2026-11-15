@@ -114,7 +114,7 @@ isEqual_super object_ a1 a2 = (isEqual_impl (javaCast object_ :: ImagesRatioUtil
 isEqual_impl :: ImagesRatioUtil -> JavaArray (BufferedImage.BufferedImage) -> Int -> IO (Bool)
 isEqual_impl this bufferedImageArray totalImages = do
     javaCatchReturn $ do
-        end <- newIORef (totalImages)
+        end <- newIORef (totalImages :: Int)
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))
         let ratio = (((Prelude.realToFrac (jnumericDouble (jio (BufferedImage.getWidth ((jindex bufferedImageArray (0))))))) / (jio (BufferedImage.getHeight ((jindex bufferedImageArray (0)))))))
@@ -132,8 +132,8 @@ getAverage_super object_ a1 a2 = (getAverage_impl (javaCast object_ :: ImagesRat
 
 getAverage_impl :: ImagesRatioUtil -> JavaArray (BufferedImage.BufferedImage) -> Int -> IO (Double)
 getAverage_impl this bufferedImageArray totalImages = do
-        ratio <- newIORef (0.0)
-        end <- newIORef (totalImages)
+        ratio <- newIORef (0.0 :: Double)
+        end <- newIORef (totalImages :: Int)
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))
         forM_ [0 .. (jget end) - 1] $ \index -> javaIteration (pure ()) $ do
@@ -161,7 +161,7 @@ fudge_impl this bufferedImage ratio = do
             jset newHeight ((Prelude.truncate (((Prelude.realToFrac (jnumericDouble (jio (BufferedImage.getWidth bufferedImage)))) / ratio))))
             jset (point).y (((((jget newHeight) - (jio (BufferedImage.getHeight bufferedImage)))) / 2))
         commonLabels <- (CommonLabels.getInstance)
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((((((javaToString ((jget (commonLabels).wIDTH_LABEL) + (jio (BufferedImage.getWidth bufferedImage))) ++ " newWidth: ") ++ javaToString (jget newWidth)) ++ javaToString (jget (commonLabels).hEIGHT_LABEL)) ++ javaToString (jio (BufferedImage.getHeight bufferedImage))) ++ " newHeight: ") ++ javaToString (jget newHeight)) ++ " needed ratio: ") ++ javaToString (((Prelude.fromIntegral (jget newWidth)) / (Prelude.fromIntegral (jget newHeight))))) this "fudge")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((((((((((jget (commonLabels).wIDTH_LABEL) ++ javaToString (jio (BufferedImage.getWidth bufferedImage))) ++ " newWidth: ") ++ javaToString (jget newWidth)) ++ (jget (commonLabels).hEIGHT_LABEL)) ++ javaToString (jio (BufferedImage.getHeight bufferedImage))) ++ " newHeight: ") ++ javaToString (jget newHeight)) ++ " needed ratio: ") ++ javaToString (((Prelude.fromIntegral (jget newWidth)) / (Prelude.fromIntegral (jget newHeight))))) this "fudge")
         newBufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) (jget newWidth) (jget newHeight))
         g <- (BufferedImage.createGraphics newBufferedImage)
         when ((jget (point).x) > 0) $ do
@@ -191,7 +191,7 @@ fudge_3_super object_ a1 a2 a3 = (fudge_3_impl (javaCast object_ :: ImagesRatioU
 
 fudge_3_impl :: ImagesRatioUtil -> JavaArray (BufferedImage.BufferedImage) -> Int -> Double -> IO (JavaArray (BufferedImage.BufferedImage))
 fudge_3_impl this bufferedImageArray totalImages ratio = do
-        end <- newIORef (totalImages)
+        end <- newIORef (totalImages :: Int)
         when ((jlength bufferedImageArray) < totalImages) $ do
             jset end ((jlength bufferedImageArray))
         let fudgedBufferedImageArray = (jnewArray ((jget end)) javaNull)

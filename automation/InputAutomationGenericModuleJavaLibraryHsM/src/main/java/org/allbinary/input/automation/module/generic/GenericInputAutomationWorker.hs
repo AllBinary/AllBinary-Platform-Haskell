@@ -35,9 +35,9 @@ import qualified GHC.Float
 import qualified GenericProfileCaptureWorkerFactory -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified CaptureWorkerUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified CaptureWorkerInterface -- same package or java.lang
 import qualified GenericProfileActions -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList

@@ -186,7 +186,7 @@ run_impl this = do
             let latestBufferedImage = (jindex ((jio (ImageComparisonResult.getBufferedImages imageComparisonInfo))) (1))
             Control.Monad.void (BasicArrayList.remove ((jget (this).imageComparisonInfoVector)) imageComparisonInfo)
             jset (this).index ((jget (this).index) + 1)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (ImageComparisonSearchWorker.setRunning this False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))
         pure ()

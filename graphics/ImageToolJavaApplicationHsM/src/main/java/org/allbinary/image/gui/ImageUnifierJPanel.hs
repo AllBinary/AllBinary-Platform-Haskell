@@ -415,60 +415,35 @@ initComponents_impl this = do
         Control.Monad.void (JList.setMinimumSize ((jget (this).imageJList)) (jio (Dimension.new_2 50 0)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).jScrollPane1)) (jget (this).imageJList))
         Control.Monad.void (JButton.setText ((jget (this).jButton1)) "Save")
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel0_ this)))
         Control.Monad.void (JButton.setText ((jget (this).upJButton)) "Up")
-        Control.Monad.void (JButton.addActionListener ((jget (this).upJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).upJButton)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel1_ this)))
         Control.Monad.void (JButton.setText ((jget (this).downJButton)) "Down")
-        Control.Monad.void (JButton.addActionListener ((jget (this).downJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).downJButton)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel2_ this)))
         Control.Monad.void (JButton.setText ((jget (this).fudgeItJButton)) "Fudge It!")
-        Control.Monad.void (JButton.addActionListener ((jget (this).fudgeItJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).fudgeItJButton)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Columns:")
         Control.Monad.void (JTextField.setText ((jget (this).columnsJTextField)) (jget (commonPhoneStrings).tWO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).columnsJTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
-        Control.Monad.void (JTextField.addPropertyChangeListener ((jget (this).columnsJTextField)) (PropertyChangeListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- propertyChange
--}))
-        Control.Monad.void (JTextField.addKeyListener ((jget (this).columnsJTextField)) (KeyAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- keyPressed
-            -- keyTyped
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).columnsJTextField)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel4_ this)))
+        Control.Monad.void (JTextField.addPropertyChangeListener ((jget (this).columnsJTextField)) (jio (PropertyChangeListener.new_ >>= anonymousImageUnifierJPanel5_ this)))
+        Control.Monad.void (JTextField.addKeyListener ((jget (this).columnsJTextField)) (jio (KeyAdapter.new_ >>= anonymousImageUnifierJPanel6_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Rows:")
         Control.Monad.void (JTextField.setText ((jget (this).rowsJTextField)) (jget (commonPhoneStrings).tWO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).rowsJTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).rowsJTextField)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel7_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Cell Width:")
         Control.Monad.void (JTextField.setText ((jget (this).cellWidthJTextField)) "200")
-        Control.Monad.void (JTextField.addActionListener ((jget (this).cellWidthJTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).cellWidthJTextField)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel8_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel4)) "Cell Height:")
         Control.Monad.void (JTextField.setText ((jget (this).cellHeightJTextField)) "150")
-        Control.Monad.void (JTextField.addActionListener ((jget (this).cellHeightJTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).cellHeightJTextField)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel9_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel5)) "Cell Ratio:")
         Control.Monad.void (JTextField.setEditable ((jget (this).cellRatioJTextField)) False)
         Control.Monad.void (JLabel.setText ((jget (this).jLabel6)) "Avg Image Ratio:")
         Control.Monad.void (JTextField.setEditable ((jget (this).avgRatioJTextField)) False)
         Control.Monad.void (JButton.setText ((jget (this).jButton2)) (jget ((jget (this).commonStrings)).uPDATE))
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButton2)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButton2)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel10_ this)))
         Control.Monad.void (JButton.setText ((jget (this).jButtonOrder)) "Order")
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButtonOrder)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButtonOrder)) (jio (ActionListener.new_ >>= anonymousImageUnifierJPanel11_ this)))
         jPanel1Layout <- (GroupLayout.new_1 (jget (this).jPanel1))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel1)) jPanel1Layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel1Layout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup jPanel1Layout)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING)))) (jget this.jButton1) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) (jget this.upJButton) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 71 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 10 (Prelude.maxBound :: Int16)))) (jget this.downJButton) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 70 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget this.fudgeItJButton) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) (jget this.jLabel3)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 99 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) (jget this.jLabel4)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 96 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget this.avgRatioJTextField) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.jLabel6) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.cellRatioJTextField) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.jLabel5) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.cellHeightJTextField) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.cellWidthJTextField) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget this.jButton2) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) (jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget this.jLabel2)))) (jget this.jLabel1)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget this.rowsJTextField) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 103 (Prelude.maxBound :: Int16)))) (jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) (jget this.columnsJTextField) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 102 (Prelude.maxBound :: Int16)))) 1 1 1))))))))) (jget this.jButtonOrder) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 151 (Prelude.maxBound :: Int16)))))))))))
@@ -687,4 +662,130 @@ setImageProcessorInput_impl this imageProcessorInput = do
         Control.Monad.void (ImageUnifierJPanel.init this)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel0_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel0_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.jButton1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel1_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel1_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.upJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel2_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel2_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.downJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel3_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel3_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.fudgeItJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel4_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel4_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.columnsJTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new PropertyChangeListener() {...}
+anonymousImageUnifierJPanel5_ (this :: ImageUnifierJPanel) (anonymous_ :: PropertyChangeListener.PropertyChangeListener) = do
+    jregisterMethod (jheaderOf anonymous_) "propertyChange" (\() -> anonymousImageUnifierJPanel5_propertyChange this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel5_propertyChange (this :: ImageUnifierJPanel) (anonymous_ :: PropertyChangeListener.PropertyChangeListener) (evt :: PropertyChangeEvent.PropertyChangeEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.columnsJTextFieldPropertyChange this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new KeyAdapter() {...}
+anonymousImageUnifierJPanel6_ (this :: ImageUnifierJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "keyPressed" (\() -> anonymousImageUnifierJPanel6_keyPressed this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "keyTyped" (\() -> anonymousImageUnifierJPanel6_keyTyped this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel6_keyPressed (this :: ImageUnifierJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) (evt :: KeyEvent.KeyEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.columnsJTextFieldKeyPressed this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousImageUnifierJPanel6_keyTyped (this :: ImageUnifierJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) (evt :: KeyEvent.KeyEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.columnsJTextFieldKeyTyped this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel7_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel7_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.rowsJTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel8_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel8_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.cellWidthJTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel9_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel9_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel9_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.cellHeightJTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel10_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel10_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel10_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.jButton2ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageUnifierJPanel11_ (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageUnifierJPanel11_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageUnifierJPanel11_actionPerformed (this :: ImageUnifierJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageUnifierJPanel.jButtonOrderActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

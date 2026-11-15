@@ -141,7 +141,7 @@ getTaxRate_impl this streetAddress storeFrontInterface = do
     javaCatchReturn $ do
         jset (this).streetAddress (streetAddress)
         jset (this).storeFrontInterface (storeFrontInterface)
-        fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
+        fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
         data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
         assignedValue <- (DomDocumentHelper.create_1 data_)
         jset (this).document (assignedValue)
@@ -182,7 +182,7 @@ isValid_impl this streetAddress storeFrontInterface = do
             ) $ do
             jset (this).streetAddress (streetAddress)
             jset (this).storeFrontInterface (storeFrontInterface)
-            fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
+            fileAbPath <- (AbPath.new_2 ((((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jio (StoreFrontInterface.getName ((jget (this).storeFrontInterface))))) ++ (jget (this).sTATETAXPATH)) (jget (this).sTATETAXFILE))
             data_ <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (jget ((jio (TransformInfoObjectConfigData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (TransformInfoObjectConfigData.getInstance))).eNCRYPTED_EXTENSION)))) fileAbPath)
             assignedValue <- (DomDocumentHelper.create_1 data_)
             jset (this).document (assignedValue)

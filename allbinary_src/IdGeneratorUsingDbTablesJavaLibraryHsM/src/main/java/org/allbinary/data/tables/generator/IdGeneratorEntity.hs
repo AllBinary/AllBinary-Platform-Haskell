@@ -148,10 +148,10 @@ insert_super object_ a1 = (insert_impl (javaCast object_ :: IdGeneratorEntity)) 
 insert_impl :: IdGeneratorEntity -> BasicArrayList.BasicArrayList -> IO (())
 insert_impl this values = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this iNSERT e)
+            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget this.base.base.base.base.base.iNSERT) e)
             ) $ do
             Control.Monad.void (AbSqlBean.insert_super this.base values)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this iNSERT)
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this (jget this.base.base.base.base.base.iNSERT))
         pure ()
 
 

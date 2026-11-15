@@ -123,9 +123,9 @@ view_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
             nameStart <- (StringMaker.toString stringBuffer)
             if ((jstringIndexOf (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (GeneratorTransformInfoData.nAME) 0) > 0) then do
-                Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ javaToString GeneratorTransformInfoData.nAME))
+                Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ GeneratorTransformInfoData.nAME))
             else if ((jstringIndexOf (jio (TransformInfoInterface.getName ((jio (HttpStoreComponentView.getTransformInfoInterface this))))) (RootTransformInfoData.nAME) 0) > 0) then do
-                Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ javaToString RootTransformInfoData.nAME))
+                Control.Monad.void (TransformInfoInterface.setName rootTransformInfoInterface (nameStart ++ RootTransformInfoData.nAME))
             else do
                 javaThrow ((JavaException "Exception" "Override Currently Not Supported"))
             overrideObjectConfigDocument <- (TransformInfoObjectConfigInterface.toXmlDoc ((jio (TransformInfoInterface.getObjectConfigInterface ((jio (HttpStoreComponentView.getTransformInfoInterface this)))))))

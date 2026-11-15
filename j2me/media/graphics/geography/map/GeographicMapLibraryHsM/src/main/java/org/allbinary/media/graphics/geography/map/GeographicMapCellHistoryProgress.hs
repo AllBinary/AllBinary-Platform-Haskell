@@ -109,10 +109,10 @@ isAnyProgress_super object_ = (isAnyProgress_impl (javaCast object_ :: Geographi
 
 isAnyProgress_impl :: GeographicMapCellHistoryProgress -> IO (Bool)
 isAnyProgress_impl this = do
-        isProgressing <- newIORef (False)
+        isProgressing <- newIORef (False :: Bool)
         let size = (jlength (jget (this).geographicMapCellHistoryArray))
-        currentTotalVisited <- newIORef (0)
-        totalVisited <- newIORef (0)
+        currentTotalVisited <- newIORef (0 :: Int)
+        totalVisited <- newIORef (0 :: Int)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (GeographicMapCellHistory.getTotalVisited ((jindex ((jget (this).geographicMapCellHistoryArray)) (index))))
             jset totalVisited (assignedValue)

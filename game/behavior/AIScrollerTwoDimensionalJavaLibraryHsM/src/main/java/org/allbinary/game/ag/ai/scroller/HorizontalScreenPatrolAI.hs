@@ -147,7 +147,7 @@ processAI_impl this allBinaryLayerManager = do
             when ((currentOwnerLayerX < (jget (this).firingX)) && (currentOwnerLayerX > (Prelude.negate (jio (AllBinaryLayer.getWidth layerInterface))))) $ do
                 Control.Monad.void (BasicAI.processKeyAI_super this.base (Canvas.kEY_NUM1))
                 let gameLayerManager = (javaCast allBinaryLayerManager :: AllBinaryGameLayerManager.AllBinaryGameLayerManager)
-                fIRE <- newIORef (((((jio (GameInfo.getCurrentLevel ((jio (AllBinaryGameLayerManager.getGameInfo gameLayerManager))))) + 12)) `Data.Bits.shiftR` 2))
+                fIRE <- newIORef (((((jio (GameInfo.getCurrentLevel ((jio (AllBinaryGameLayerManager.getGameInfo gameLayerManager))))) + 12)) `Data.Bits.shiftR` 2) :: Int)
                 when ((jget fIRE) > (jget (this).mAX_FIRE)) $ do
                     jset fIRE ((jget (this).mAX_FIRE))
                 when ((jget (this).firedIndex) > (jget fIRE)) $ do

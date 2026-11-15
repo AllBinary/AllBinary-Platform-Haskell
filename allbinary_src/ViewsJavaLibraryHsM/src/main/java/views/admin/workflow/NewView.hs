@@ -32,9 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- same package or java.lang
 import qualified WorkFlowInterface -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified DynamicObjectData -- org.allbinary.business.DynamicObjectData
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil

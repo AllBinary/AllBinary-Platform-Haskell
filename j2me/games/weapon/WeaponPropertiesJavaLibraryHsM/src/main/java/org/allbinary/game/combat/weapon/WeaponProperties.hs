@@ -226,7 +226,7 @@ toStringArray_super object_ = (toStringArray_impl (javaCast object_ :: WeaponPro
 
 toStringArray_impl :: WeaponProperties -> IO (JavaArray (String))
 toStringArray_impl this = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         let stringArray = (jnewArray (3) javaNull)
         stringBuffer <- (StringMaker.new_)
         assignedValue <- (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append stringBuffer (WeaponProperties.dAMAGE)))) (jio (SimpleWeaponProperties.getDamage this))))))

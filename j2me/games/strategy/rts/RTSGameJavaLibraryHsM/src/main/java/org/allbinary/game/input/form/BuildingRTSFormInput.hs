@@ -418,7 +418,7 @@ isSurroundingCellsOffMap_impl this layerInterface = do
         Control.Monad.void (StringMaker.append stringBuffer " surroundList: ")
         Control.Monad.void (StringMaker.append stringBuffer (jio (StringUtil.toString ((jio (StringUtil.getInstance))) surroundList)))
         Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) (jio (StringMaker.toString stringBuffer)) this "isSurroundingCellsOffMap")
-        isSurroundOffMap <- newIORef (False)
+        isSurroundOffMap <- newIORef (False :: Bool)
         if ((occupySize == 1) && (surroundSize /= 8)) then do
             jset isSurroundOffMap (True)
         else when ((occupySize == 4) && (surroundSize /= 12)) $ do

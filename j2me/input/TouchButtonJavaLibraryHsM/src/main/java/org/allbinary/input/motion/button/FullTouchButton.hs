@@ -35,8 +35,8 @@ import qualified GHC.Float
 import qualified TouchButtonInput -- same package or java.lang
 import qualified TouchButtonResource -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified AnimationInterfaceFactoryInterface -- same package or java.lang
 import qualified Animation -- org.allbinary.animation.Animation
 import qualified FeaturedAnimationInterfaceFactoryInterfaceFactory -- org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory
 import qualified CellPosition -- org.allbinary.graphics.CellPosition

@@ -40,8 +40,8 @@ import qualified ScrollMapRightGameInputProcessor -- same package or java.lang
 import qualified ScrollMapLeftGameInputProcessor -- same package or java.lang
 import qualified GameInputProcessorUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInputStrings -- same package or java.lang
 import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -332,7 +332,7 @@ processInput_impl this layerManager = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.gameInputStrings)).pROCESS_INPUT) e)
             ) $ do
             size <- (BasicArrayList.size ((jget (this).inputList)))
-            key <- newIORef (0)
+            key <- newIORef (0 :: Int)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let gameKeyEvent = (javaCast (jio (BasicArrayList.get ((jget (this).inputList)) index)) :: GameKeyEvent.GameKeyEvent)
                 assignedValue <- (GameKeyEvent.getKey gameKeyEvent)

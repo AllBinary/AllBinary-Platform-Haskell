@@ -32,9 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified PageContext -- same package or java.lang
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PageContext -- same package or java.lang
+import qualified OrderInterface -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified Basket -- org.allbinary.business.user.commerce.inventory.basket.Basket
 import qualified BasketReview -- org.allbinary.business.user.commerce.inventory.basket.BasketReview
@@ -126,7 +127,7 @@ getFormData_impl :: OrderView -> IO (())
 getFormData_impl this = do
         id <- newIORef =<< (HttpServletRequest.getParameter ((jget (this).request)) (OrderData.iD))
         when ((jget id) == javaNull) $ do
-            assignedValue <- (WeblisketSession.getId ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
+            assignedValue <- (OrderInterface.getId ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             jset id (assignedValue)
         assignedValue <- (Order.new_1 (javaCast (jio (Basket.new_))))
         jset (this).order (assignedValue)

@@ -39,6 +39,7 @@ import qualified UnitWaypointBehavior -- same package or java.lang
 import qualified ShakeAnimationListener -- same package or java.lang
 import qualified AllBinaryVibrationME -- same package or java.lang
 import qualified TimeDelayHelper -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified WaypointEventHandler -- same package or java.lang
 import qualified PlayerQueue -- same package or java.lang
@@ -46,7 +47,6 @@ import qualified GameInputProcessor -- same package or java.lang
 import qualified Angle -- same package or java.lang
 import qualified CapitalEventHandler -- same package or java.lang
 import qualified TickableInterface -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified BasicColor -- same package or java.lang
 import qualified RTSLayer -- same package or java.lang
 import qualified MultiPlayerGameLayer -- same package or java.lang
@@ -476,16 +476,16 @@ updateSensorGeographicMapCellPositionList_impl this = do
             geographicMapCellPositionFactory <- (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface)
             column <- (GeographicMapCellPosition.getColumn currentGeographicMapCellPosition)
             row <- (GeographicMapCellPosition.getRow currentGeographicMapCellPosition)
-            lastColumn <- newIORef ((column + totalCells))
-            lastRow <- newIORef ((row + totalCells))
+            lastColumn <- newIORef ((column + totalCells) :: Int)
+            lastRow <- newIORef ((row + totalCells) :: Int)
             when ((jget lastColumn) > (jio (AllBinaryTiledLayer.getColumns tiledLayer))) $ do
                 assignedValue <- (AllBinaryTiledLayer.getColumns tiledLayer)
                 jset lastColumn (assignedValue)
             when ((jget lastRow) > (jio (AllBinaryTiledLayer.getRows tiledLayer))) $ do
                 assignedValue <- (AllBinaryTiledLayer.getRows tiledLayer)
                 jset lastRow (assignedValue)
-            firstColumn <- newIORef ((column - totalCells))
-            firstRow <- newIORef ((row - totalCells))
+            firstColumn <- newIORef ((column - totalCells) :: Int)
+            firstRow <- newIORef ((row - totalCells) :: Int)
             when ((jget firstColumn) < 0) $ do
                 jset firstColumn (0)
             when ((jget firstRow) < 0) $ do
@@ -570,9 +570,9 @@ setClosestGeographicMapCellHistory_super object_ a1 = (setClosestGeographicMapCe
 setClosestGeographicMapCellHistory_impl :: UnitLayer -> BasicArrayList.BasicArrayList -> IO (())
 setClosestGeographicMapCellHistory_impl this pathsList = do
         Control.Monad.void (RTSLayerLogHelper.setClosestGeographicMapCellHistory ((jget (this).rtsLogHelper)) (javaCast this) pathsList)
-        closestIndex <- newIORef ((Prelude.negate 1))
-        shortestDistance <- newIORef ((2147483647 :: Int))
-        currentDistance <- newIORef ((2147483647 :: Int))
+        closestIndex <- newIORef ((Prelude.negate 1) :: Int)
+        shortestDistance <- newIORef ((2147483647 :: Int) :: Int)
+        currentDistance <- newIORef ((2147483647 :: Int) :: Int)
         forM_ [((jio (BasicArrayList.size pathsList)) - 1), ((jio (BasicArrayList.size pathsList)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             let geographicMapCellPositionBasicArrayList = (javaCast (jio (BasicArrayList.get pathsList index)) :: BasicArrayList.BasicArrayList)
             let geographicMapCellPosition = (javaCast (jio (BasicArrayList.get geographicMapCellPositionBasicArrayList ((jio (BasicArrayList.size geographicMapCellPositionBasicArrayList)) - 1))) :: GeographicMapCellPosition.GeographicMapCellPosition)
@@ -950,7 +950,7 @@ turnTo_impl this dx dy targetAngle = do
     javaCatchReturn $ do
         let waypointBehaviorBase = (javaCast (jget (this).base.waypointBehaviorBase) :: WaypointBehaviorBase.WaypointBehaviorBase)
         nextUnvisitedPathGeographicMapCellPosition <- (WaypointBehaviorBase.getNextUnvisitedPathGeographicMapCellPosition waypointBehaviorBase)
-        evading <- newIORef (False)
+        evading <- newIORef (False :: Bool)
         when ((jio (UnitWaypointBehavior.getSensorAction ((jio (UnitLayer.getUnitWaypointBehavior this))))) == (jget ((jio (SensorActionFactory.getInstance))).eVADE)) $ do
             Control.Monad.void (RTSLayerLogHelper.evade ((jget (this).rtsLogHelper)) (javaCast this))
             jset evading (True)
@@ -1113,8 +1113,8 @@ move_impl this = do
                 if ((jtoObject cellPosition) == (jtoObject (jget ((jget (this).cellPositionFactory)).nONE))) then do
                     tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
                     tiledLayerUtil <- (TiledLayerUtil.getInstance)
-                    x <- newIORef (((jget (this).base.base.base.base.base.base.base.base.x) + (Prelude.fromIntegral velocityXScaled)))
-                    y <- newIORef (((jget (this).base.base.base.base.base.base.base.base.y) + (Prelude.fromIntegral velocityYScaled)))
+                    x <- newIORef (((jget (this).base.base.base.base.base.base.base.base.x) + (Prelude.fromIntegral velocityXScaled)) :: Int)
+                    y <- newIORef (((jget (this).base.base.base.base.base.base.base.base.y) + (Prelude.fromIntegral velocityYScaled)) :: Int)
                     assignedValue <- (TiledLayerUtil.keepOnMapX tiledLayerUtil tiledLayer (jget x) (jio (AdvancedRTSGameLayer.getWidth this)))
                     jset x (assignedValue)
                     assignedValue <- (TiledLayerUtil.keepOnMapY tiledLayerUtil tiledLayer (jget y) (jio (AdvancedRTSGameLayer.getHeight this)))

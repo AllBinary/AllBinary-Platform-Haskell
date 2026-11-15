@@ -145,7 +145,7 @@ reverse_impl this list = do
         let lastMinusOneIndex = ((jio (BasicArrayList.size list)) - 2)
         temp <- newIORef (javaNull)
         let size = (lastMinusOneIndex `quot` 2)
-        secondSwapIndex <- newIORef (0)
+        secondSwapIndex <- newIORef (0 :: Int)
         forM_ [0 .. size] $ \index -> javaIteration (pure ()) $ do
             jset secondSwapIndex ((lastMinusOneIndex - index))
             assignedValue <- (BasicArrayList.removeAt list index)

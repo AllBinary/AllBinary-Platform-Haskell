@@ -36,8 +36,8 @@ import qualified J2MEKeyFactory -- same package or java.lang
 import qualified GameKeyFactory -- same package or java.lang
 import qualified Input -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified GamePersistanceStrings -- org.allbinary.game.configuration.persistance.GamePersistanceStrings
 import qualified PersistentInputMapping -- org.allbinary.game.input.mapping.PersistentInputMapping
 import qualified AbeClientInformationInterface -- org.allbinary.logic.system.security.licensing.AbeClientInformationInterface

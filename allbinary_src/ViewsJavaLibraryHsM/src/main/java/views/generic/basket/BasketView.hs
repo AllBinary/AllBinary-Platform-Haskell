@@ -33,9 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
-import qualified PageContext -- same package or java.lang
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified PageContext -- same package or java.lang
+import qualified OrderInterface -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -128,10 +129,10 @@ toXmlNode_impl this document = do
             javaThrow (e)
             ) $ do
             inventoryEntity <- (InventoryEntityFactory.getInventoryEntityInstance ((jio (InventoryEntityFactory.getInstance))))
-            basketInterface <- (WeblisketSession.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
+            basketInterface <- (OrderInterface.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             basketNode <- (Document.createElement document (BasketData.bASKET))
             itemsAndNumberInBasket <- (BasketInterface.getItems basketInterface)
-            numberOfResults <- newIORef (1)
+            numberOfResults <- newIORef (1 :: Int)
             items <- (HashMap.keySet itemsAndNumberInBasket)
             productArray <- (Set.toArray items)
             let size = (jlength productArray)

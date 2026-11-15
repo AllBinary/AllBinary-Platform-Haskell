@@ -70,10 +70,10 @@ fORWARDMAKEPAYMENT :: String
 fORWARDMAKEPAYMENT = "MakePayment.jsp"
 
 pAYMENTOPTIONS :: String
-pAYMENTOPTIONS = ("PaymentOptions" ++ javaToString PaymentGatewayPageData.eXTENSION)
+pAYMENTOPTIONS = ("PaymentOptions" ++ PaymentGatewayPageData.eXTENSION)
 
 sTARTCHECKOUT :: String
-sTARTCHECKOUT = ("StartCheckout" ++ javaToString PaymentGatewayPageData.eXTENSION)
+sTARTCHECKOUT = ("StartCheckout" ++ PaymentGatewayPageData.eXTENSION)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
@@ -119,7 +119,7 @@ new_2 location paymentMethod = do
 init_2 :: PaymentGatewayPageData -> String -> String -> IO ()
 init_2 this location paymentMethod = do
         initFields_ this
-        let paymentMethodString = (javaToString PaymentGatewayPageData.nAME ++ paymentMethod)
+        let paymentMethodString = (PaymentGatewayPageData.nAME ++ paymentMethod)
         stringBuffer <- (StringMaker.new_)
         Control.Monad.void (StringMaker.append stringBuffer location)
         Control.Monad.void (StringMaker.append stringBuffer "MakePayment")

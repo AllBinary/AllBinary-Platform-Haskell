@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified BasicArrayList -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified MediaException -- javax.microedition.media.MediaException
 import qualified Player -- javax.microedition.media.Player
 import qualified PlayerListener -- javax.microedition.media.PlayerListener
@@ -117,7 +117,7 @@ init_1 this resource = do
         BasicPlayer.init_ this.base
         initFields_ this
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.commonStrings)).eXCEPTION_LABEL) ++ resource) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR) e)
+            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget ((jget (this).base.commonStrings)).eXCEPTION_LABEL) ++ resource) this (jget ((jget (this).base.commonStrings)).cONSTRUCTOR) e)
             javaThrow (e)
             ) $ do
             if (resource == (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)) then do

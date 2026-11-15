@@ -207,8 +207,8 @@ processDraggedMotionEvent_impl this current deviceId buttonMask = do
         conf <- (MotionGestureConfigurationFactory.getInstance)
         touchMotionGestureFactory <- (TouchMotionGestureFactory.getInstance)
         newMotionGesture <- newIORef ((jget (touchMotionGestureFactory).nO_MOTION))
-        diagonalToleranceHigher <- newIORef (12.0)
-        diagonalToleranceLower <- newIORef (12.0)
+        diagonalToleranceHigher <- newIORef (12.0 :: Double)
+        diagonalToleranceLower <- newIORef (12.0 :: Double)
         when (jio (MotionGestureConfiguration.isDiagonalMotionGestureAllowed conf)) $ do
             jset diagonalToleranceHigher ((Prelude.fromIntegral ((90 - (jio (MotionGestureConfiguration.getDiagonalTolerance conf))))))
             jset diagonalToleranceLower ((Prelude.fromIntegral (jio (MotionGestureConfiguration.getDiagonalTolerance conf))))

@@ -113,7 +113,7 @@ init_2 this label node = do
         BasicProfileActionScriptProcessor.init_2 this.base (label) (node)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.base.commonStrings)).sTART) ++ label) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.commonStrings)).sTART) ++ label) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
         actionNode <- (DomSearchHelper.getNode (jget GenericProfileActionScriptInputData.tYPE) (jio (Node.getChildNodes node)))
         inputTypeString <- (DomNodeHelper.getTextNodeValue actionNode)
         timeNode <- (DomSearchHelper.getNodeNoThrow (jget GenericProfileActionScriptInputData.dELAY) (jio (Node.getChildNodes node)))
@@ -136,7 +136,7 @@ init_1 this label = do
         BasicProfileActionScriptProcessor.init_1 this.base (label)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.base.commonStrings)).sTART) ++ label) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.commonStrings)).sTART) ++ label) this (jget ((jget (this).base.base.commonStrings)).cONSTRUCTOR))
         inputRobotFactory <- (InputRobotFactory.getInstance)
         let hashtable = (javaCast (jio (InputRobotFactory.get inputRobotFactory)) :: ABHashtable.ABHashtable)
         set <- (ABHashtable.keySet hashtable)

@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WorkFlowEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WorkFlowEntity -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified PageContext -- javax.servlet.jsp.PageContext
 import qualified WorkFlowEntityFactory -- org.allbinary.data.tables.workflow.WorkFlowEntityFactory
@@ -119,14 +119,14 @@ delete_impl this = do
                     Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e2)
                 pure (error)
                 ) $ do
-                let error = (((("Failed to remove workflow with " ++ javaToString (jget ((jio (WorkFlowData.getInstance))).nAME)) ++ "= ") ++ (jio (WorkFlowInterface.getName ((jget (this).workFlowInterface))))) ++ " from ")
+                let error = (((("Failed to remove workflow with " ++ (jget ((jio (WorkFlowData.getInstance))).nAME)) ++ "= ") ++ (jio (WorkFlowInterface.getName ((jget (this).workFlowInterface))))) ++ " from ")
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                     Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e)
                 javaThrow ((JavaException "Exception" e))
             ) $ do
             stringUtil <- (StringUtil.getInstance)
             Control.Monad.void (WorkFlowEntity.delete ((jio (WorkFlowEntityFactory.create2 ((jio (WorkFlowEntityFactory.getInstance)))))) (jio (WorkFlowInterface.getName ((jget (this).workFlowInterface)))) (jget (stringUtil).eMPTY_STRING))
-            let success = (((("Successfully Removed the workflow with " ++ javaToString (jget ((jio (WorkFlowData.getInstance))).nAME)) ++ "= ") ++ (jio (WorkFlowInterface.getName ((jget (this).workFlowInterface))))) ++ " from ")
+            let success = (((("Successfully Removed the workflow with " ++ (jget ((jio (WorkFlowData.getInstance))).nAME)) ++ "= ") ++ (jio (WorkFlowInterface.getName ((jget (this).workFlowInterface))))) ++ " from ")
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) success this "delete()")
             pure (success)

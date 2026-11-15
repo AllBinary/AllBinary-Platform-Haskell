@@ -100,7 +100,7 @@ getInstance groupInterface = do
 removeAll :: IO (())
 removeAll = do
         forM_ [((jlength CapitalEventHandlerFactory.capitalEventHandlerArray) - 1), ((jlength CapitalEventHandlerFactory.capitalEventHandlerArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeAllListeners ((jindex CapitalEventHandlerFactory.capitalEventHandlerArray (index))))
+            Control.Monad.void (CapitalEventHandler.removeAllListeners ((jindex CapitalEventHandlerFactory.capitalEventHandlerArray (index))))
         pure ()
 
 

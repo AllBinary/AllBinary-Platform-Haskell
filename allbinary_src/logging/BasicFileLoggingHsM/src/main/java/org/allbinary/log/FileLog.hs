@@ -77,7 +77,7 @@ extension = unsafePerformIO ((jnewString "dat"))
 
 fileName :: String
 {-# NOINLINE fileName #-}
-fileName = unsafePerformIO ((jnewString ("log." ++ javaToString FileLog.extension)))
+fileName = unsafePerformIO ((jnewString ("log." ++ FileLog.extension)))
 
 backupFileName :: String
 backupFileName = (FileLog.fileName ++ ".bak")
@@ -232,7 +232,7 @@ put_4_overload1 specialMessage anyTypeObject_ functionName exception = do
             Control.Monad.void (BufferedWriter.write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
             Control.Monad.void (BufferedWriter.newLine ((jget FileLog.fileOut)))
             Control.Monad.void (BufferedWriter.flush ((jget FileLog.fileOut)))
-            (jnewString (javaToString FileLog.oRG_ALLBINARY ++ message))
+            (jnewString (FileLog.oRG_ALLBINARY ++ message))
 
 
 put_overload2 :: String -> String -> String -> IO (String)
@@ -266,11 +266,11 @@ put_4_overload2 specialMessage className functionName exception = do
             Control.Monad.void (BufferedWriter.write ((jget FileLog.fileOut)) message 0 (Prelude.length message))
             Control.Monad.void (BufferedWriter.newLine ((jget FileLog.fileOut)))
             Control.Monad.void (BufferedWriter.flush ((jget FileLog.fileOut)))
-            (jnewString (javaToString FileLog.oRG_ALLBINARY ++ message))
+            (jnewString (FileLog.oRG_ALLBINARY ++ message))
 
 
 getFilePath :: IO (String)
 getFilePath = do
-        pure ((FileLog.logPath + FileLog.fileName))
+        pure ((FileLog.logPath ++ FileLog.fileName))
 
 

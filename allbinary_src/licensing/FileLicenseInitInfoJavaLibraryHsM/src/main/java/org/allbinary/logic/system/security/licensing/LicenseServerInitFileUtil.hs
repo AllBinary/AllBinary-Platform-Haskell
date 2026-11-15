@@ -140,8 +140,8 @@ write_impl this = do
             fileStreamFactory <- (FileStreamFactory.getInstance)
             assignedValue <- (fmap (\value_ -> javaCast value_ :: OutputStream.OutputStream) (FileStreamFactory.getFileOutputStreamInstance fileStreamFactory (jget ((jio (StringUtil.getInstance))).eMPTY_STRING) filePath))
             jset fileOutputStream (assignedValue)
-            b <- newIORef (0)
-            index <- newIORef (0)
+            b <- newIORef (0 :: Int)
+            index <- newIORef (0 :: Int)
             fix $ \loop -> when True $ javaIteration (loop) $ do
                 assignedValue <- (InputStream.read inputStream)
                 jset b (assignedValue)

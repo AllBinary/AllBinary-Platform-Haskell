@@ -137,7 +137,7 @@ updateMeasurement_impl this graphics string = do
             else do
                 jset (this).offsetY ((2 + ((((jget (this).charHeight) * 2) `quot` 3))))
         let size = (Prelude.length string)
-        aChar <- newIORef ('\0')
+        aChar <- newIORef ('\0' :: Char)
         let offsetXArray = (jnewArray (size) 0)
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset aChar ((string Prelude.!! index))
@@ -156,7 +156,7 @@ paintVerticle_super object_ a1 a2 a3 a4 a5 = (paintVerticle_impl (javaCast objec
 paintVerticle_impl :: DrawVerticalStringUtil -> Graphics.Graphics -> String -> Int -> Int -> Int -> IO (())
 paintVerticle_impl this graphics string x y anchor = do
         let size = (Prelude.length string)
-        aChar <- newIORef ('\0')
+        aChar <- newIORef ('\0' :: Char)
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset aChar ((string Prelude.!! index))
             Control.Monad.void (Graphics.drawChar graphics (jget aChar) (x + (jindex ((jget (this).offsetXArray)) (index))) ((y + (((jget (this).charHeight) * index))) + (jget (this).offsetY)) anchor)
@@ -187,17 +187,17 @@ drawCenterStrings_super object_ a1 a2 a3 a4 a5 = (drawCenterStrings_impl (javaCa
 
 drawCenterStrings_impl :: DrawVerticalStringUtil -> Graphics.Graphics -> JavaArray (String) -> Int -> Int -> Int -> IO (())
 drawCenterStrings_impl this graphics stringArray maxWidth x y = do
-        extraLines <- newIORef (0)
+        extraLines <- newIORef (0 :: Int)
         forM_ [0 .. (jlength stringArray) - 1] $ \index -> javaIteration (pure ()) $ do
             let string = (jindex stringArray (index))
             when (string /= (jget (this).eMPTY_STRING)) $ do
                 width <- (Font.stringWidth ((jio (Graphics.getFont graphics))) string)
-                minTotalLines <- newIORef (1)
+                minTotalLines <- newIORef (1 :: Int)
                 when (width > maxWidth) $ do
                     jset minTotalLines ((((width `quot` maxWidth)) + 1))
                 let linePortion = ((Prelude.length string) `quot` (jget minTotalLines))
-                offset <- newIORef (0)
-                currentLength <- newIORef (linePortion)
+                offset <- newIORef (0 :: Int)
+                currentLength <- newIORef (linePortion :: Int)
                 let size = (Prelude.length string)
                 fix $ \loop -> when ((jget offset) < size) $ javaIteration (loop) $ do
                     when (((jget offset) + (jget currentLength)) > size) $ do

@@ -94,7 +94,7 @@ paint_super object_ a1 = (paint_impl (javaCast object_ :: PaintableLayerComposit
 
 paint_impl :: PaintableLayerComposite -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
-        index <- newIORef ((jlength (jget (this).paintableArray)))
+        index <- newIORef ((jlength (jget (this).paintableArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (Layer.paint ((jindex ((jget (this).paintableArray)) ((jget index)))) graphics)
         pure ()
@@ -109,7 +109,7 @@ paintThreed_super object_ a1 = (paintThreed_impl (javaCast object_ :: PaintableL
 paintThreed_impl :: PaintableLayerComposite -> Graphics.Graphics -> IO (())
 paintThreed_impl this graphics = do
         paintableInterface <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).paintableArray)))
+        index <- newIORef ((jlength (jget (this).paintableArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset paintableInterface ((javaCast (jindex ((jget (this).paintableArray)) ((jget index))) :: PaintableInterface.PaintableInterface))
             Control.Monad.void (PaintableInterface.paintThreed ((jget paintableInterface)) graphics)

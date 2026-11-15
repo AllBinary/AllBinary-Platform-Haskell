@@ -137,7 +137,7 @@ trackedFiles_3_impl this rootAsString pathspec suffix = do
         when (exitCode /= 0) $ do
             javaThrow ((JavaException "IllegalStateException" (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "git ls-files failed for "))) rootAsString))) " with exit code "))) exitCode)))))))
         files <- (fmap (\value_ -> javaCast value_ :: List.List) (ArrayList.new_))
-        start <- newIORef (0)
+        start <- newIORef (0 :: Int)
         relativePath <- newIORef ("")
         forM_ [0 .. (jlength output) - 1] $ \index -> javaIteration (pure ()) $ do
             when ((Prelude.fromIntegral (jindex output (index))) == 0) $ do

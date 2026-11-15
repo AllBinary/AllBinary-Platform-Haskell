@@ -33,8 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified InventoryItemViewParentTagHelper -- same package or java.lang
-import qualified DownloadItemsEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified DownloadItemsEntity -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -166,7 +166,7 @@ update_impl this = do
             values <- (DownloadableItem.toHashMap ((jget (this).downloadableItem)))
             Control.Monad.void (DownloadItemsEntity.update ((jio (DownloadItemsEntityFactory.getDownloadItemsEntityInstance ((jio (DownloadItemsEntityFactory.getInstance)))))) values)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((jio (DownloadableItem.getId ((jget (this).downloadableItem)))) ++ javaToString (jget ((jio (CommonSeps.getInstance))).sPACE)) ++ success) this "update()")
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((jio (DownloadableItem.getId ((jget (this).downloadableItem)))) ++ (jget ((jio (CommonSeps.getInstance))).sPACE)) ++ success) this "update()")
             pure (success)
 
 

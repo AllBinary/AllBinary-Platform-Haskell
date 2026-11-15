@@ -36,11 +36,11 @@ import qualified UnitWaypointStrings -- same package or java.lang
 import qualified UnitLayer -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified Waypoint2LogHelper -- same package or java.lang
+import qualified CommonSeps -- same package or java.lang
 import qualified GeographicMapCellHistory -- same package or java.lang
 import qualified CaptionAnimationHelperBase -- same package or java.lang
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified UnitWaypointBehavior -- same package or java.lang
-import qualified CommonSeps -- same package or java.lang
 import qualified J2MEUtil -- org.allbinary.J2MEUtil
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified SteeringVisitor -- org.allbinary.game.layer.SteeringVisitor
@@ -435,7 +435,7 @@ processWaypoint_impl this = do
                         let oldWaypointLayer = (javaCast (jget (this).base.currentTargetLayerInterfaceP) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)
                         Control.Monad.void (WaypointBase.visit ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior oldWaypointLayer)))))) (javaCast (jget (this).base.associatedAdvancedRTSGameLayer)))
                         Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).aLL_VISITED_SHORT) (jget ((jget (this).basicColorFactory)).gREEN))
-                        Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this (javaCast (jget (this).base.currentTargetLayerInterfaceP) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer) (jget ((jget (this).unitWaypointStrings)).aLL_VISITED))
+                        Control.Monad.void (UnitWaypointBehavior2.removeWaypoint this (javaCast (javaCast (jget (this).base.currentTargetLayerInterfaceP) :: AdvancedRTSGameLayer.AdvancedRTSGameLayer)) (jget ((jget (this).unitWaypointStrings)).aLL_VISITED))
                 else when (((jget (this).base.currentTargetLayerInterfaceP) == javaNull) || (jget (this).base.base.waypointOverridesAttacking)) $ do
                     list <- (WaypointBase.getPathsListFromCacheOnly ((jio (WaypointBehaviorBase.getWaypoint ((jio (AdvancedRTSGameLayer.getWaypointBehavior targetLayer)))))) geographicMapCellPosition)
                     Control.Monad.void (UnitWaypointBehavior.setWaypointPathsList this list)
@@ -482,7 +482,7 @@ visitIfAtMidPoint_impl this geographicMapCellPosition = do
         when ((geographicMapCellPosition /= SimpleGeographicMapCellPositionFactory.nULL_GEOGRAPHIC_MAP_CELL_POSITION) && ((jget (this).nextUnvisitedPathGeographicMapCellPosition) == geographicMapCellPosition)) $ do
             point <- (GeographicMapCellPosition.getMidPoint geographicMapCellPosition)
             afterNextPoint <- (GeographicMapCellPosition.getMidPoint ((jget (this).afterNextUnvisitedPathGeographicMapCellPosition)))
-            beyondMidPoint <- newIORef (True)
+            beyondMidPoint <- newIORef (True :: Bool)
             if ((jio (GeographicMapCellPosition.getColumn geographicMapCellPosition)) == (jio (GeographicMapCellPosition.getColumn ((jget (this).afterNextUnvisitedPathGeographicMapCellPosition))))) then do
                 pure ()
             else if ((jio (GPoint.getX point)) < (jio (GPoint.getX afterNextPoint))) then do
@@ -545,8 +545,8 @@ processTargeting_impl this = do
                 Control.Monad.void (CaptionAnimationHelperBase.update ((jio (UnitLayer.getCaptionAnimationHelper ((jget (this).base.associatedAdvancedRTSGameLayer))))) (jget ((jget (this).unitWaypointStrings)).kILL) (jget ((jget (this).basicColorFactory)).oRANGE))
                 Control.Monad.void (UnitWaypointBehavior2.clearTarget this)
                 javaReturn (())
-            dx <- newIORef (0)
-            dy <- newIORef (0)
+            dx <- newIORef (0 :: Int)
+            dy <- newIORef (0 :: Int)
             if (jio (UnitWaypointBehavior.isTrackingWaypoint this)) then do
                 Control.Monad.void (UnitWaypointBehavior2.updateCurrentPathGeographicMapCellPosition this)
                 point <- (GeographicMapCellPosition.getMidPoint ((jget (this).nextUnvisitedPathGeographicMapCellPosition)))

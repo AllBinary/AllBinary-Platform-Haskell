@@ -99,7 +99,7 @@ put specialMessage anyTypeObject_ functionName = do
         assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget className)))) (jget ((jio (CommonSeps.getInstance))).fORWARD_SLASH)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) anyType))))))
         jset className (assignedValue)
         message <- (LogFormatUtil.getS ((jio (LogFormatUtil.getInstance))) (jget className) functionName specialMessage)
-        Control.Monad.void (PlayN.debug ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (javaToString PreLogUtil.lOG_SUCCESS ++ message))
+        Control.Monad.void (PlayN.debug ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (PreLogUtil.lOG_SUCCESS ++ message))
         pure ()
 
 
@@ -113,14 +113,14 @@ putOE specialMessage anyTypeObject_ functionName exceptionObject_ = do
         assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget className)))) (jget ((jio (CommonSeps.getInstance))).fORWARD_SLASH)))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) anyType))))))
         jset className (assignedValue)
         message <- (LogFormatUtil.get ((jio (LogFormatUtil.getInstance))) (jget className) functionName specialMessage exception)
-        Control.Monad.void (PlayN.error ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (javaToString PreLogUtil.lOG_SUCCESS ++ message) (javaCast exception :: JavaException))
+        Control.Monad.void (PlayN.error ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (PreLogUtil.lOG_SUCCESS ++ message) (javaCast exception :: JavaException))
         pure ()
 
 
 putS :: String -> String -> String -> IO (())
 putS specialMessage className functionName = do
         message <- (LogFormatUtil.getS ((jio (LogFormatUtil.getInstance))) className functionName specialMessage)
-        Control.Monad.void (PlayN.debug ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (javaToString PreLogUtil.lOG_SUCCESS ++ message))
+        Control.Monad.void (PlayN.debug ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (PreLogUtil.lOG_SUCCESS ++ message))
         pure ()
 
 
@@ -128,7 +128,7 @@ putSE :: (JavaObjectClass o4) => String -> String -> String -> o4 -> IO (())
 putSE specialMessage className functionName exceptionObject_ = do
         let exception = jtoObject exceptionObject_
         message <- (LogFormatUtil.get ((jio (LogFormatUtil.getInstance))) className functionName specialMessage exception)
-        Control.Monad.void (PlayN.error ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (javaToString PreLogUtil.lOG_SUCCESS ++ message) (javaCast exception :: JavaException))
+        Control.Monad.void (PlayN.error ((jio (PlayN.log ((jio (PlayN.getInstance)))))) (PreLogUtil.lOG_SUCCESS ++ message) (javaCast exception :: JavaException))
         pure ()
 
 

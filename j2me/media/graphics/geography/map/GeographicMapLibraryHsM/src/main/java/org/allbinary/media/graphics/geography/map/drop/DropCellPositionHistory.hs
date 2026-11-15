@@ -158,7 +158,7 @@ removeAll_super object_ a1 = (removeAll_impl (javaCast object_ :: DropCellPositi
 
 removeAll_impl :: DropCellPositionHistory -> AllBinaryLayer.AllBinaryLayer -> IO (())
 removeAll_impl this layerInterface = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) /= (Prelude.negate 1)) $ javaIteration (loop) $ do
             assignedValue <- (BasicArrayList.indexOf ((jget (this).layerList)) layerInterface)
             jset index (assignedValue)

@@ -63,7 +63,7 @@ instance JavaObjectClass GenericModuleFactory where
 
 nAME :: IORef (String)
 {-# NOINLINE nAME #-}
-nAME = unsafePerformIO (newIORef (("Generic" ++ javaToString (jget InputAutomationModuleData.mODULE_NAME_END))))
+nAME = unsafePerformIO (newIORef (("Generic" ++ (jget InputAutomationModuleData.mODULE_NAME_END))))
 
 newRecord_ :: IO GenericModuleFactory
 newRecord_ = do

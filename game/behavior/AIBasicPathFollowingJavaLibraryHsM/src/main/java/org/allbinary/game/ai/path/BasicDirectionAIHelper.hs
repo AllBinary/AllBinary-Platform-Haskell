@@ -104,7 +104,7 @@ turnAI_super object_ a1 = (turnAI_impl (javaCast object_ :: BasicDirectionAIHelp
 
 turnAI_impl :: BasicDirectionAIHelper -> Int -> IO (Int)
 turnAI_impl this frame = do
-        keyDirection <- newIORef ((Prelude.negate 1))
+        keyDirection <- newIORef ((Prelude.negate 1) :: Int)
         directionAngle <- (AngleIncrementInfo.getFrameAngle ((jio (AngleInfo.getAngleIncrementInfo ((jget (this).angleInfo))))) frame)
         angle <- (AngleInfo.getAngle ((jget (this).angleInfo)))
         let degrees = (Prelude.abs (directionAngle - (Prelude.fromIntegral angle)))
@@ -145,7 +145,7 @@ getAIKeyPressedFromDirection_super object_ a1 = (getAIKeyPressedFromDirection_im
 
 getAIKeyPressedFromDirection_impl :: BasicDirectionAIHelper -> Direction.Direction -> IO (Int)
 getAIKeyPressedFromDirection_impl this geographicMapDirectionData = do
-        keyDirection <- newIORef ((Prelude.negate 1))
+        keyDirection <- newIORef ((Prelude.negate 1) :: Int)
         angleIncrementInfo <- (AngleInfo.getAngleIncrementInfo ((jget (this).angleInfo)))
         directionFactory <- (DirectionFactory.getInstance)
         if (geographicMapDirectionData == (jget (directionFactory).dOWN)) then do

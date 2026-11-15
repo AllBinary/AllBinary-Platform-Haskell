@@ -130,7 +130,7 @@ initFields_ this = do
     jset this.playerListener =<< (fmap (\value_ -> javaCast value_ :: PlayerListener.PlayerListener) (MusicManagerPlayerListener.new_1 this))
     jset this.pLAY ("Play ")
     jset this.sONG (" for: ")
-    jset this.nEXT_SONG ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Song: "))
+    jset this.nEXT_SONG (((jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Song: "))
     jset this.sTOPPING ("Stopping Current Song: ")
     jset this.eNDING ("Ending Current Song: ")
     jset this.wAITING_FOR_MEDIA_TO_END ("Waiting for media to end")
@@ -213,7 +213,7 @@ process_impl this = do
             when ((jtoObject (jget (this).currentSongSound)) /= (jtoObject (jio (NoSound.getInstance)))) $ do
                 assignedValue <- (Sound.getResource ((jget (this).currentSongSound)))
                 jset resource (assignedValue)
-            Control.Monad.void (PreLogUtil.putOE (javaToString (jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).pROCESS) e)
+            Control.Monad.void (PreLogUtil.putOE ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).pROCESS) e)
             ) $ do
             when (jget (this).stopped) $ do
                 javaReturn (())
@@ -292,7 +292,7 @@ stop_impl this = do
             when ((jtoObject currentSongSound) /= (jtoObject (jio (NoSound.getInstance)))) $ do
                 assignedValue <- (Sound.getResource currentSongSound)
                 jset resource (assignedValue)
-            Control.Monad.void (PreLogUtil.putOE (javaToString (jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).eND) e)
+            Control.Monad.void (PreLogUtil.putOE ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).eND) e)
             ) $ do
             let currentSongSound = (jget (this).currentSongSound)
             when ((jtoObject currentSongSound) /= (jtoObject (jio (NoSound.getInstance)))) $ do

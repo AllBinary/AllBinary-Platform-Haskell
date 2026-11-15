@@ -96,7 +96,7 @@ processTick_super object_ a1 = (processTick_impl (javaCast object_ :: TempExplos
 processTick_impl :: TempExplosionWeaponLayer -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processTick_impl this allBinaryLayerManager = do
         when (jio (TimeDelayHelper.isTime ((jget (this).timeDelayHelper)) (jget ((jio (GameTickTimeDelayHelperFactory.getInstance))).startTime))) $ do
-            Control.Monad.void (CollidableBaseBehavior.collide ((jio (SimpleWeaponLayer.getCollidableInferface this))) this this)
+            Control.Monad.void (CollidableBaseBehavior.collide ((jio (SimpleWeaponLayer.getCollidableInferface this))) (javaCast this) (javaCast this))
             jset (this).base.base.totalDamage (((jio (SimpleWeaponLayer.getInitDamage this)) + 1))
         Control.Monad.void (SimpleWeaponLayer.processTick_super this.base allBinaryLayerManager)
         pure ()

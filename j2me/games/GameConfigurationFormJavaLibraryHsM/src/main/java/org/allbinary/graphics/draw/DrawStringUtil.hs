@@ -128,17 +128,17 @@ drawCenterStrings_super object_ a1 a2 a3 a4 a5 a6 = (drawCenterStrings_impl (jav
 
 drawCenterStrings_impl :: DrawStringUtil -> Graphics.Graphics -> JavaArray (String) -> Int -> Int -> Int -> Int -> IO (())
 drawCenterStrings_impl this graphics stringArray maxWidth charHeight x y = do
-        extraLines <- newIORef (0)
+        extraLines <- newIORef (0 :: Int)
         forM_ [0 .. (jlength stringArray) - 1] $ \index -> javaIteration (pure ()) $ do
             let string = (jindex stringArray (index))
             when (string /= (jget (this).eMPTY_STRING)) $ do
                 width <- (Font.stringWidth ((jio (Graphics.getFont graphics))) string)
-                minTotalLines <- newIORef (1)
+                minTotalLines <- newIORef (1 :: Int)
                 when (width > maxWidth) $ do
                     jset minTotalLines ((((width `quot` maxWidth)) + 1))
                 let linePortion = ((Prelude.length string) `quot` (jget minTotalLines))
-                offset <- newIORef (0)
-                currentLength <- newIORef (linePortion)
+                offset <- newIORef (0 :: Int)
+                currentLength <- newIORef (linePortion :: Int)
                 let size = (Prelude.length string)
                 fix $ \loop -> when ((jget offset) < size) $ javaIteration (loop) $ do
                     when (((jget offset) + (jget currentLength)) > size) $ do

@@ -91,7 +91,7 @@ process :: KeyboardActionScriptInputInterface.KeyboardActionScriptInputInterface
 process keyActionScriptInputInterface = do
         logUtil <- (LogUtil.getInstance)
         commonStrings <- (CommonStrings.getInstance)
-        Control.Monad.void (LogUtil.putF logUtil (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ (jio (KeyboardActionScriptInputInterface.toString keyActionScriptInputInterface))) "KeyInputAutomationProcessor" (jget (commonStrings).pROCESS))
+        Control.Monad.void (LogUtil.putF logUtil ((jget ((jio (CommonLabels.getInstance))).sTART) ++ (jio (KeyboardActionScriptInputInterface.toString keyActionScriptInputInterface))) "KeyInputAutomationProcessor" (jget (commonStrings).pROCESS))
         inputRobotInterface <- (KeyboardActionScriptInputInterface.getInputRobotInterface keyActionScriptInputInterface)
         integer <- (KeyboardActionScriptInputInterface.getKeyArray keyActionScriptInputInterface)
         if ((jio (KeyboardActionScriptInputInterface.getDelayBetweenKeys keyActionScriptInputInterface)) == 0) then do
@@ -110,7 +110,7 @@ process keyActionScriptInputInterface = do
                 when (jio (KeyboardActionScriptInputInterface.isRelease keyActionScriptInputInterface)) $ do
                     Control.Monad.void (InputRobotInterface.keyRelease inputRobotInterface (jindex integer (index)))
                 timeHelper <- (TimeDelayHelper.new_1 (jio (KeyboardActionScriptInputInterface.getDelayBetweenKeys keyActionScriptInputInterface)))
-                toLong <- newIORef (0)
+                toLong <- newIORef (0 :: Int)
                 fix $ \loop -> when ((Prelude.not (jio (TimeDelayHelper.isTimeTNT timeHelper))) || ((jget toLong) > 6000)) $ javaIteration (loop) $ do
                     jset toLong ((jget toLong) + 1)
                     Control.Monad.void (threadDelay (Prelude.fromIntegral 50 * 1000))

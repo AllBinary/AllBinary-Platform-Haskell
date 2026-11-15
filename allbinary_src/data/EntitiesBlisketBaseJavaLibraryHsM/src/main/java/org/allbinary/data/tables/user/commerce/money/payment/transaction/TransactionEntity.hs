@@ -32,10 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified PaymentTransactionKeys -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
+import qualified PaymentTransactionKeys -- same package or java.lang
 import qualified AbSqlRow -- same package or java.lang
 import qualified AbSqlColumn -- same package or java.lang
 import qualified AbSqlTable -- same package or java.lang

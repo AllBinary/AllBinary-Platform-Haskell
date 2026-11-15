@@ -131,7 +131,7 @@ process_impl this = do
             Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget (this).commonStrings)).eXCEPTION_LABEL)))) (jget resource)))))) this (jget ((jget (this).commonStrings)).pROCESS))
             pure (False)
             ) $ do
-            played <- newIORef (False)
+            played <- newIORef (False :: Bool)
             when ((jio (BasicArrayList.size ((jget (this).list)))) > 0) $ do
                 jset sound ((javaCast (jio (BasicArrayList.removeAt ((jget (this).list)) 0)) :: Sound.Sound))
                 when ((jget sound) /= javaNull) $ do

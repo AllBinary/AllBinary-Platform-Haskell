@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified UserEntity -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -214,7 +214,7 @@ email_impl this = do
             quoteRequestEntity <- (QuoteRequestEntityFactory.getQuoteRequestEntityInstance ((jio (QuoteRequestEntityFactory.getInstance))))
             userName <- (WeblisketSession.getUserName ((jget (this).weblisketSession)))
             vector <- (QuoteRequestEntity.getIds quoteRequestEntity userName)
-            id <- newIORef (0)
+            id <- newIORef (0 :: Int)
             size <- (BasicArrayList.size vector)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let nextId = ((javaCast (jio (BasicArrayList.get vector index)) :: Int))

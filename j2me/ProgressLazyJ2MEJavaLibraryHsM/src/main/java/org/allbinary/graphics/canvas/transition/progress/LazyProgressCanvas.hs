@@ -33,10 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified ImageCache -- same package or java.lang
 import qualified Paintable -- same package or java.lang
 import qualified PaintableInterface -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified RunnableCanvas -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Processor -- org.allbinary.canvas.Processor

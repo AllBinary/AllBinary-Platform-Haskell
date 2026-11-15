@@ -234,7 +234,7 @@ run_impl this = do
                         Control.Monad.void (InputRobotInterface.keyRelease inputRobotInterface (KeyEvent.vK_F1))
             jset (this).index ((jget (this).index) + 1)
             Control.Monad.void (BasicArrayList.remove ((jio (TestInputForMotionRectanglesResultsWorker.getMotionRectanglesVector this))) motionRectangles)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 

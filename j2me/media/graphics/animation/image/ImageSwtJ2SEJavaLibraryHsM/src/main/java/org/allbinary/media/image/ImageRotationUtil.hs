@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageSwtRotationUtil -- same package or java.lang
+import qualified OpenGLESImageProperties -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified OpenGLFeatureFactory -- org.allbinary.graphics.opengles.OpenGLFeatureFactory

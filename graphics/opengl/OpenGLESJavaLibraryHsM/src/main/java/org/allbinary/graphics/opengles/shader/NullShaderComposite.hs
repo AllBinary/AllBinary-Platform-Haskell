@@ -62,9 +62,7 @@ instance JavaObjectClass NullShaderComposite where
 
 instance_ :: NullShaderComposite
 {-# NOINLINE instance_ #-}
-instance_ = unsafePerformIO ((NullShaderComposite.new_8 (jget ((jio (OpenGLCapabilities.getInstance))).vERSION_2_0) (jarrayFromList [(jio (Shader.new_)), (jio (Shader.new_))]) (jio (CompositeShaderUpdater.getInstance)) (jio (ShaderInitializer.getInstance)) (jio (ModelViewProjection.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) {- Java anonymous class body: implement it as a record of functions
-        -- init
--}))
+instance_ = unsafePerformIO ((NullShaderComposite.new_8 (jget ((jio (OpenGLCapabilities.getInstance))).vERSION_2_0) (jarrayFromList [(jio (Shader.new_)), (jio (Shader.new_))]) (jio (CompositeShaderUpdater.getInstance)) (jio (ShaderInitializer.getInstance)) (jio (ModelViewProjection.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) (jio (NullOpenGLProcessorFactory.getInstance)) >>= anonymousNullShaderComposite0_))
 
 newRecord_ :: IO NullShaderComposite
 newRecord_ = do
@@ -98,4 +96,14 @@ init_8 this requiresOpenGLVersion shaderArray compositeShaderUpdater shaderIniti
         jset (this).base.useProgramShaderOpenGLProcessor (assignedValue)
         pure ()
 
+
+-- Java anonymous class new NullShaderComposite() {...}
+anonymousNullShaderComposite0_ (anonymous_ :: NullShaderComposite.NullShaderComposite) = do
+    jregisterMethod (jheaderOf anonymous_) "init" (\() -> anonymousNullShaderComposite0_init anonymous_)
+    pure anonymous_
+
+anonymousNullShaderComposite0_init (anonymous_ :: NullShaderComposite.NullShaderComposite) (gl :: GL10.GL10) = ( do
+            pure ()
+            pure ()
+ ) :: IO (())
 

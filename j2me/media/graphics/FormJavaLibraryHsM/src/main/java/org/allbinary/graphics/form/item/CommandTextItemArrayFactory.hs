@@ -112,7 +112,7 @@ getInstance_impl this vectorObject_ backgroundBasicColor foregroundBasicColor = 
         size <- (VectorUtil.getSize vectorUtil vector)
         Control.Monad.void (BasicArrayList.clear ((jget (this).list)))
         textItem <- newIORef (javaNull)
-        priorityLimit <- newIORef (7)
+        priorityLimit <- newIORef (7 :: Int)
         displayInfo <- (DisplayInfoSingleton.getInstance)
         let isLargeEnoughDisplayForBigMenu = ((((jio (DisplayInfoSingleton.isPortrait displayInfo)) && ((jio (DisplayInfoSingleton.getLastHeight displayInfo)) >= (jget ((jio (ScreenInfo.getInstance))).mEDIUM_WIDTH)))) || (((Prelude.not (jio (DisplayInfoSingleton.isPortrait displayInfo))) && ((jio (DisplayInfoSingleton.getLastWidth displayInfo)) >= (jget ((jio (ScreenInfo.getInstance))).mEDIUM_WIDTH)))))
         when ((Prelude.not isLargeEnoughDisplayForBigMenu) && (size > 3)) $ do

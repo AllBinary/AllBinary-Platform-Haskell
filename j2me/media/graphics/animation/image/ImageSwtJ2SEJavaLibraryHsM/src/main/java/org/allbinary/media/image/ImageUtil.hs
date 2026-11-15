@@ -244,14 +244,14 @@ createBufferedImage6_impl this bufferedImage newWidth newHeight scale allowTrans
         let d_newHeight = (Prelude.fromIntegral newHeight)
         let widthRatio = (d_newWidth / width)
         let heightRatio = (d_newHeight / height)
-        ratioX <- newIORef (1.0)
-        ratioY <- newIORef (1.0)
+        ratioX <- newIORef (1.0 :: Float)
+        ratioY <- newIORef (1.0 :: Float)
         when scale $ do
             jset ratioX (widthRatio)
             jset ratioY (heightRatio)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.appendfloat ((jio (StringMaker.append ((jio (StringMaker.appendfloat ((jio (StringMaker.new_))) width))) (jget ((jget (this).commonSeps)).fORWARD_SLASH)))) height))) (jget ((jget (this).commonSeps)).cOLON)))) newWidth))) (jget ((jget (this).commonSeps)).fORWARD_SLASH)))) newHeight))) (jget ((jget (this).commonSeps)).cOLON)))) widthRatio))) (jget ((jget (this).commonSeps)).fORWARD_SLASH)))) heightRatio))))) this (jget (this).cREATE_BUFFERED_IMAGE))
-        dx <- newIORef (0.0)
-        dy <- newIORef (0.0)
+        dx <- newIORef (0.0 :: Float)
+        dy <- newIORef (0.0 :: Float)
         when ((Prelude.not scale) && allowTranslate) $ do
             jset dx (((((Prelude.fromIntegral newWidth) - width)) / 2.0))
             jset dy (((((Prelude.fromIntegral newHeight) - height)) / 2.0))
@@ -278,9 +278,7 @@ drawTransformedImage_super object_ a1 a2 a3 a4 a5 a6 = (drawTransformedImage_imp
 drawTransformedImage_impl :: ImageUtil -> Image.Image -> Composite.Composite -> Int -> Int -> Int -> Int -> IO (Canvas.Canvas)
 drawTransformedImage_impl this image parent dx dy width height = do
         imageCanvas <- (Canvas.new_2 parent (SWT.nONE))
-        Control.Monad.void (Canvas.addPaintListener imageCanvas (PaintListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paintControl
--}))
+        Control.Monad.void (Canvas.addPaintListener imageCanvas (jio (PaintListener.new_ >>= anonymousImageUtil0_ this image dx dy width height)))
         pure (imageCanvas)
 
 
@@ -304,4 +302,19 @@ toString_impl this bufferedImage = do
         Control.Monad.void (StringMaker.appendint stringBuffer (jget (imageData).type_))
         (StringMaker.toString stringBuffer)
 
+
+-- Java anonymous class new PaintListener() {...}
+anonymousImageUtil0_ (this :: ImageUtil) (image :: Image.Image) (dx :: Int) (dy :: Int) (width :: Int) (height :: Int) (anonymous_ :: PaintListener.PaintListener) = do
+    jregisterMethod (jheaderOf anonymous_) "paintControl" (\() -> anonymousImageUtil0_paintControl this image dx dy width height anonymous_)
+    pure anonymous_
+
+anonymousImageUtil0_paintControl (this :: ImageUtil) (image :: Image.Image) (dx :: Int) (dy :: Int) (width :: Int) (height :: Int) (anonymous_ :: PaintListener.PaintListener) (event :: PaintEvent.PaintEvent) = ( do
+                let gc = (jget (event).gc)
+                affineTransform <- (Transform.new_1 (jio (GC.getDevice gc)))
+                Control.Monad.void (Transform.translate affineTransform dx dy)
+                Control.Monad.void (GC.setAntialias gc (SWT.oN))
+                Control.Monad.void (GC.setInterpolation gc (SWT.hIGH))
+                Control.Monad.void (GC.drawImage_9 gc image 0 0 (jget ((jio (Image.getBounds image))).width) (jget ((jio (Image.getBounds image))).height) 0 0 width height)
+                pure ()
+ ) :: IO (())
 

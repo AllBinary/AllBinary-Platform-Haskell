@@ -33,6 +33,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ProgressCanvas -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified DestroyedLayerProcessor -- org.allbinary.game.combat.destroy.DestroyedLayerProcessor
 import qualified DestroyEventCircularStaticPool -- org.allbinary.game.combat.destroy.event.DestroyEventCircularStaticPool
@@ -165,9 +166,9 @@ processPlayingGame_super object_ = (processPlayingGame_impl (javaCast object_ ::
 processPlayingGame_impl :: CombatGameCanvas -> IO (())
 processPlayingGame_impl this = do
         Control.Monad.void (AllBinaryGameCanvas.processPlayingGame_super this.base)
-        index <- newIORef ((jlength (jget CombatGameCanvas.basicLayerProcessor)))
+        index <- newIORef ((jlength (jget CombatGameCanvas.basicLayerProcessor)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (process ((jindex ((jget CombatGameCanvas.basicLayerProcessor)) ((jget index)))) (jget (this).base.gameLayerManager))
+            Control.Monad.void (BasicLayerProcessor.process ((jindex ((jget CombatGameCanvas.basicLayerProcessor)) ((jget index)))) (javaCast (jget (this).base.gameLayerManager)))
         pure ()
 
 
@@ -181,9 +182,9 @@ cleanupGame_super object_ = (cleanupGame_impl (javaCast object_ :: CombatGameCan
 cleanupGame_impl :: CombatGameCanvas -> IO (())
 cleanupGame_impl this = do
         Control.Monad.void (AllBinaryGameCanvas.cleanupGame_super this.base)
-        index <- newIORef ((jlength (jget CombatGameCanvas.basicLayerProcessor)))
+        index <- newIORef ((jlength (jget CombatGameCanvas.basicLayerProcessor)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            Control.Monad.void (clear ((jio (getList ((jindex ((jget CombatGameCanvas.basicLayerProcessor)) ((jget index))))))))
+            Control.Monad.void (BasicArrayList.clear ((jio (BasicLayerProcessor.getList ((jindex ((jget CombatGameCanvas.basicLayerProcessor)) ((jget index))))))))
         Control.Monad.void (GroupLayerManagerListener.clear ((jio (GroupLayerManagerListener.getInstance))))
         Control.Monad.void (GroupLayerManagerListener.log ((jio (GroupLayerManagerListener.getInstance))))
         Control.Monad.void (DestroyedEventHandler.removeAllListeners ((jio (DestroyedEventHandler.getInstance))))

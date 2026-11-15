@@ -267,23 +267,15 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setMinimumSize ((jget (this).capturedImageActionJDialog)) (jio (Dimension.new_2 250 250)))
         Control.Monad.void (JLabel.setText ((jget (this).titleJLabel)) "Image Output Options")
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousImageActionScriptOutputJPanel0_ this)))
         Control.Monad.void (JCheckBox.setText ((jget (this).saveJCheckBox)) "Save To File")
         Control.Monad.void (JCheckBox.setBorder ((jget (this).saveJCheckBox)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JCheckBox.setMargin ((jget (this).saveJCheckBox)) (jio (Insets.new_4 0 0 0 0)))
         Control.Monad.void (JCheckBox.setText ((jget (this).displayJCheckBox)) "Display")
         Control.Monad.void (JCheckBox.setBorder ((jget (this).displayJCheckBox)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JCheckBox.setMargin ((jget (this).displayJCheckBox)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).displayJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
-        Control.Monad.void (JList.setModel ((jget (this).itemTypesJList)) (AbstractListModel.new_ {- Java anonymous class body: implement it as a record of functions
-            jset this.strings ((jarrayFromList ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]))
-            -- getSize
-            -- getElementAt
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).displayJCheckBox)) (jio (ActionListener.new_ >>= anonymousImageActionScriptOutputJPanel1_ this)))
+        Control.Monad.void (JList.setModel ((jget (this).itemTypesJList)) (jio (AbstractListModel.new_ >>= anonymousImageActionScriptOutputJPanel2_ this)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).jScrollPane1)) (jget (this).itemTypesJList))
         capturedImageActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).capturedImageActionJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).capturedImageActionJDialog))))) capturedImageActionJDialogLayout)
@@ -291,9 +283,7 @@ initComponents_impl this = do
         Control.Monad.void (GroupLayout.setVerticalGroup capturedImageActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup capturedImageActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup capturedImageActionJDialogLayout))) (jget this.titleJLabel)))) 5 5 5))) (jget this.jScrollPane1) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 105 (Prelude.maxBound :: Int16)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.saveJCheckBox)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.displayJCheckBox)))) 9 9 9))) (jget this.okJButton)))))))))
         Control.Monad.void (JPanel.setMinimumSize this (jio (Dimension.new_2 100 0)))
         Control.Monad.void (JButton.setText ((jget (this).capturedImageActionJButton)) "Edit")
-        Control.Monad.void (JButton.addActionListener ((jget (this).capturedImageActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).capturedImageActionJButton)) (jio (ActionListener.new_ >>= anonymousImageActionScriptOutputJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Capture Image:")
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
@@ -337,4 +327,49 @@ capturedImageActionJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jio (ImageActionScriptOutputJPanel.getCapturedImageActionJDialog this))) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageActionScriptOutputJPanel0_ (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageActionScriptOutputJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageActionScriptOutputJPanel0_actionPerformed (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageActionScriptOutputJPanel.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageActionScriptOutputJPanel1_ (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageActionScriptOutputJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageActionScriptOutputJPanel1_actionPerformed (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageActionScriptOutputJPanel.displayJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new AbstractListModel() {...}
+anonymousImageActionScriptOutputJPanel2_ (this :: ImageActionScriptOutputJPanel) (anonymous_ :: AbstractListModel.AbstractListModel) = do
+    strings <- newIORef ((jarrayFromList ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]))
+    jregisterMethod (jheaderOf anonymous_) "getSize" (\() -> anonymousImageActionScriptOutputJPanel2_getSize this strings anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "getElementAt" (\() -> anonymousImageActionScriptOutputJPanel2_getElementAt this strings anonymous_)
+    pure anonymous_
+
+anonymousImageActionScriptOutputJPanel2_getSize (this :: ImageActionScriptOutputJPanel) (strings :: IORef (JavaArray (String))) (anonymous_ :: AbstractListModel.AbstractListModel) = ( do
+                pure ((jlength strings))
+ ) :: IO (Int)
+
+anonymousImageActionScriptOutputJPanel2_getElementAt (this :: ImageActionScriptOutputJPanel) (strings :: IORef (JavaArray (String))) (anonymous_ :: AbstractListModel.AbstractListModel) (i :: Int) = ( do
+                pure ((jindex strings (i)))
+ ) :: IO (Any.Any)
+
+-- Java anonymous class new ActionListener() {...}
+anonymousImageActionScriptOutputJPanel3_ (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousImageActionScriptOutputJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousImageActionScriptOutputJPanel3_actionPerformed (this :: ImageActionScriptOutputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ImageActionScriptOutputJPanel.capturedImageActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

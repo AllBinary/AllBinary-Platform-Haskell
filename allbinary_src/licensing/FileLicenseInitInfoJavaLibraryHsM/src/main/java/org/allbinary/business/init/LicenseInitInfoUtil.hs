@@ -146,7 +146,7 @@ write_super object_ a1 = (write_impl (javaCast object_ :: LicenseInitInfoUtil)) 
 write_impl :: LicenseInitInfoUtil -> LicenseInitInfo.LicenseInitInfo -> IO (())
 write_impl this initData = do
         when ((jget (this).filePath) == (jget ((jget (this).stringUtil)).eMPTY_STRING)) $ do
-            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ (jget (this).iNITFILENAME)) this "write" e)
             Control.Monad.void (FileStreamFactory.delete ((jio (FileStreamFactory.getInstance))) (jget (this).filePath) (jget (this).iNITFILENAME))
@@ -190,7 +190,7 @@ readAgain_impl this initializeCounter = do
     javaCatchReturn $ do
         let mETHOD_NAME = "readAgain"
         when ((jget (this).filePath) == (jget ((jget (this).stringUtil)).eMPTY_STRING)) $ do
-            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+            jset (this).filePath (((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         handle (\(e :: JavaException) -> do
             handle (\(e2 :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("LicenseInitInfo Read Retry: " ++ (jget (this).iNITFILENAME)) this "readAgain()" e2)

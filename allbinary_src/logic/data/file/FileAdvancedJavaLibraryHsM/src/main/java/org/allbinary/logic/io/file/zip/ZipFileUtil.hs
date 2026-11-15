@@ -129,7 +129,7 @@ create_impl this outFilename fileBasicArrayList = do
             let byteArray = (jnewArray (16384) 0)
             fileInputStream <- newIORef (javaNull)
             size <- (BasicArrayList.size fileBasicArrayList)
-            current <- newIORef (0)
+            current <- newIORef (0 :: Int)
             forM_ [0 .. size - 1] $ \i -> javaIteration (pure ()) $ do
                 let file = (javaCast (jio (BasicArrayList.get fileBasicArrayList i)) :: AbFile.AbFile)
                 if (jio (AbFile.isDirectory file)) then do

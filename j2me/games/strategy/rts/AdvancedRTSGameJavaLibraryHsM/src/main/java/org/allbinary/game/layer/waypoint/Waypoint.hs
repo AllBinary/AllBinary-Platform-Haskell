@@ -161,9 +161,9 @@ releaseCachedPaths_super object_ = (releaseCachedPaths_impl (javaCast object_ ::
 
 releaseCachedPaths_impl :: Waypoint -> IO (())
 releaseCachedPaths_impl this = do
-        columnIndex <- newIORef ((jlength (jget (this).paths)))
+        columnIndex <- newIORef ((jlength (jget (this).paths)) :: Int)
         fix $ \loop -> when ((jpreIncrement columnIndex (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            rowIndex <- newIORef ((jlength (jget (this).paths)))
+            rowIndex <- newIORef ((jlength (jget (this).paths)) :: Int)
             fix $ \loop -> when ((jpreIncrement rowIndex (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 let pathsList = (jindex ((jindex ((jget (this).paths)) ((jget columnIndex)))) ((jget rowIndex)))
                 when (pathsList /= (jio (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil))))) $ do
@@ -288,9 +288,9 @@ clearPaths_super object_ = (clearPaths_impl (javaCast object_ :: Waypoint))
 
 clearPaths_impl :: Waypoint -> IO (())
 clearPaths_impl this = do
-        columnIndex <- newIORef ((jlength (jget (this).paths)))
+        columnIndex <- newIORef ((jlength (jget (this).paths)) :: Int)
         fix $ \loop -> when ((jpreIncrement columnIndex (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            rowIndex <- newIORef ((jlength (jget (this).paths)))
+            rowIndex <- newIORef ((jlength (jget (this).paths)) :: Int)
             fix $ \loop -> when ((jpreIncrement rowIndex (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 assignedValue <- (BasicArrayListUtil.getImmutableInstance ((jget (this).basicArrayListUtil)))
                 jsetIndex ((jindex ((jget (this).paths)) ((jget columnIndex)))) ((jget rowIndex)) (assignedValue)

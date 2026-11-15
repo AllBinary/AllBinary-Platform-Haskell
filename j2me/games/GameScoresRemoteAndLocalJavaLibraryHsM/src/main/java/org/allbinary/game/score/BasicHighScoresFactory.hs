@@ -39,8 +39,8 @@ import qualified ScoreComparator -- same package or java.lang
 import qualified LastFetchHighScoresFactory -- same package or java.lang
 import qualified HighScoresHelper2 -- same package or java.lang
 import qualified HighScoresHelperBaseInterface -- same package or java.lang
-import qualified ThreadPool -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified BasicHighScoresGameInfoFactory -- org.allbinary.game.BasicHighScoresGameInfoFactory
 import qualified GameInfo -- org.allbinary.game.GameInfo
@@ -150,9 +150,7 @@ fetchHighScoresPreload_super object_ a1 a2 a3 = (fetchHighScoresPreload_impl (ja
 
 fetchHighScoresPreload_impl :: BasicHighScoresFactory -> GameInfo.GameInfo -> HighScoresResultsListener.HighScoresResultsListener -> Bool -> IO (())
 fetchHighScoresPreload_impl this gameInfo highScoresResultsListener preload = do
-        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (ThreadPool.runTask ((jio (SecondaryThreadPool.getInstance))) (javaCast (jio (ARunnable.new_ >>= anonymousBasicHighScoresFactory0_ this gameInfo highScoresResultsListener preload))))
         pure ()
 
 
@@ -174,4 +172,32 @@ loaded index2 = do
             javaReturn (True)
         pure (False)
 
+
+-- Java anonymous class new ARunnable() {...}
+anonymousBasicHighScoresFactory0_ (this :: BasicHighScoresFactory) (gameInfo :: GameInfo.GameInfo) (highScoresResultsListener :: HighScoresResultsListener.HighScoresResultsListener) (preload :: Bool) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousBasicHighScoresFactory0_run this gameInfo highScoresResultsListener preload anonymous_)
+    pure anonymous_
+
+anonymousBasicHighScoresFactory0_run (this :: BasicHighScoresFactory) (gameInfo :: GameInfo.GameInfo) (highScoresResultsListener :: HighScoresResultsListener.HighScoresResultsListener) (preload :: Bool) (anonymous_ :: ARunnable.ARunnable) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.base.commonStrings)).eXCEPTION) anonymous_ (jget this.fETCH) e)
+                    ) $ do
+                    Control.Monad.void (LogUtil.putF logUtil (jget ((jget (this).base.commonStrings)).sTART) anonymous_ (jget this.fETCH))
+                    assignedValue <- (RecordStoreHighScores.getInstance (jget this.abeClientInformation) gameInfo (jget this.tOP) (jget this.pERSONAL_HIGH_SCORES) (jget this.sCORES) (javaCast (jio (ScoreComparator.new_1 True))))
+                    jsetIndex ((jget this.highScoresArray)) (0) (assignedValue)
+                    gameType <- (GameInfo.getGameType gameInfo)
+                    gameTypeFactory <- (GameTypeFactory.getInstance)
+                    gameInfo2 <- newIORef (gameInfo)
+                    if ((gameType == (jget (gameTypeFactory).sINGLE_PLAYER)) || (gameType == (jget (gameTypeFactory).bOT))) then do
+                        jset gameInfo2 ((jget ((jio (BasicHighScoresGameInfoFactory.getInstance))).sINGLE_PLAYER_SERVER))
+                    else when (gameType == (jget (gameTypeFactory).mULTI_PLAYER)) $ do
+                        jset gameInfo2 ((jget ((jio (BasicHighScoresGameInfoFactory.getInstance))).mULTI_PLAYER_SERVER))
+                    assignedValue <- (RemoteHighScores.getInstancePreload (jget this.abeClientInformation) (jget this.softwareInformation) (jget gameInfo2) (jget this.wORLD_TOP_SCORES) (jget this.sCORES) (jget ((jio (BooleanFactory.getInstance))).fALSE) preload)
+                    jsetIndex ((jget this.highScoresArray)) (1) (assignedValue)
+                    Control.Monad.void (LogUtil.putF logUtil (jget ((jget (this).base.commonStrings)).eND) anonymous_ (jget this.fETCH))
+                    jset ((jio (LastFetchHighScoresFactory.getInstance))).highScoresArray ((jget this.highScoresArray))
+                    Control.Monad.void (HighScoresResultsListener.setHighScoresArray highScoresResultsListener (jget this.highScoresArray))
+                pure ()
+ ) :: IO (())
 

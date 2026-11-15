@@ -99,7 +99,7 @@ getLastSeparatorIndex_super object_ a1 = (getLastSeparatorIndex_impl (javaCast o
 
 getLastSeparatorIndex_impl :: HttpRequestUtil -> String -> IO (Int)
 getLastSeparatorIndex_impl this requestPath = do
-        beginIndex <- newIORef ((jstringLastIndexOf requestPath (jget ((jio (AbPathData.getInstance))).sEPARATOR)))
+        beginIndex <- newIORef ((jstringLastIndexOf requestPath (jget ((jio (AbPathData.getInstance))).sEPARATOR)) :: Int)
         when ((jget beginIndex) < 0) $ do
             jset beginIndex ((jstringLastIndexOf requestPath "\\"))
         pure ((jget beginIndex))

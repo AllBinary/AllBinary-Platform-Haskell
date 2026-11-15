@@ -286,7 +286,7 @@ getInstance_impl this layerManager aItem geographicMapCellPosition = do
         cellPoint <- (GeographicMapCellPosition.getPoint geographicMapCellPosition)
         when (layerInterfaceFactoryInterface /= javaNull) $ do
             Control.Monad.void (ABHashtable.put ((jget (this).hashtable)) (AllBinaryGameLayerManager.iD) layerManager)
-            javaReturn ((javaCast (jio (LayerInterfaceFactoryInterface.getNextInstance layerInterfaceFactoryInterface (jio (RTSFormInput.getHashtable this)) (jio (GPoint.getX cellPoint)) (jio (GPoint.getY cellPoint)) (jio (GPoint.getZ cellPoint)))) :: RTSLayer.RTSLayer))
+            javaReturn ((javaCast (javaCast (jio (LayerInterfaceFactoryInterface.getNextInstance layerInterfaceFactoryInterface (jio (RTSFormInput.getHashtable this)) (jio (GPoint.getX cellPoint)) (jio (GPoint.getY cellPoint)) (jio (GPoint.getZ cellPoint)))) :: RTSLayer.RTSLayer) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer))
         (CollidableDestroyableDamageableLayer.getNullInstance)
 
 

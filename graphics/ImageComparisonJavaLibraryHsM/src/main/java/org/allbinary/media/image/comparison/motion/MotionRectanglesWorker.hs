@@ -201,7 +201,7 @@ run_impl this = do
             Control.Monad.void (BasicEventHandler.fireEvent this (javaCast (jio (MotionRectanglesResultsEvent.new_3 this (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)) (javaCast constrainedMotionRectangles :: MotionRectangles.MotionRectangles)))))
             Control.Monad.void (BasicArrayList.remove ((jget (this).imageComparisonInfoVector)) imageComparisonResultsEvent)
             jset (this).index ((jget (this).index) + 1)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (MotionRectanglesWorker.setRunning this False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))
         pure ()

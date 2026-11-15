@@ -182,9 +182,9 @@ shuffleTotal_super object_ a1 a2 = (shuffleTotal_impl (javaCast object_ :: MyRan
 shuffleTotal_impl :: MyRandomFactory -> JavaArray (Int) -> Int -> IO (())
 shuffleTotal_impl this intArray shuffleTotal = do
         let size = (jlength intArray)
-        randomIndex <- newIORef (0)
-        randomIndex2 <- newIORef (0)
-        value <- newIORef (0)
+        randomIndex <- newIORef (0 :: Int)
+        randomIndex2 <- newIORef (0 :: Int)
+        value <- newIORef (0 :: Int)
         forM_ [0 .. shuffleTotal - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (MyRandomFactory.getAbsoluteNextIntAllowZero this size)
             jset randomIndex (assignedValue)
@@ -217,10 +217,10 @@ shuffle2Total_super object_ a1 a2 a3 = (shuffle2Total_impl (javaCast object_ :: 
 shuffle2Total_impl :: MyRandomFactory -> JavaArray (Int) -> JavaArray (Int) -> Int -> IO (())
 shuffle2Total_impl this intArray intArray2 shuffleTotal = do
         let size = (jlength intArray)
-        randomIndex <- newIORef (0)
-        randomIndex2 <- newIORef (0)
-        value <- newIORef (0)
-        value2 <- newIORef (0)
+        randomIndex <- newIORef (0 :: Int)
+        randomIndex2 <- newIORef (0 :: Int)
+        value <- newIORef (0 :: Int)
+        value2 <- newIORef (0 :: Int)
         forM_ [0 .. shuffleTotal - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (MyRandomFactory.getAbsoluteNextIntAllowZero this size)
             jset randomIndex (assignedValue)
@@ -259,7 +259,7 @@ main args = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (StringMaker.append ((jio (StringMaker.appendint stringBuilder (jindex intArray2 (index))))) (jget (commonSeps).cOMMA))
         Control.Monad.void (putStrLn (javaToString (jio (StringMaker.toString stringBuilder))))
-        found <- newIORef (False)
+        found <- newIORef (False :: Bool)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset found (False)
             forM_ [0 .. size - 1] $ \index2 -> javaIteration (pure ()) $ do

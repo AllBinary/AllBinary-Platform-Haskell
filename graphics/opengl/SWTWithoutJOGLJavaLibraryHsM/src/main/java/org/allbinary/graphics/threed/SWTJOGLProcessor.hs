@@ -97,9 +97,7 @@ newRecord_ = do
 
 initFields_ :: SWTJOGLProcessor -> IO ()
 initFields_ this = do
-    jset this.glHolder =<< (GLHolder.new_ {- Java anonymous class body: implement it as a record of functions
-        -- run
--})
+    jset this.glHolder =<< (GLHolder.new_ >>= anonymousSWTJOGLProcessor0_ this)
     pure ()
 
 new_ :: IO SWTJOGLProcessor
@@ -330,4 +328,15 @@ substringWidth_impl :: SWTJOGLProcessor -> Font.Font -> String -> Int -> Int -> 
 substringWidth_impl this font str offset len = do
         javaThrow ((JavaException "RuntimeException" ""))
 
+
+-- Java anonymous class new GLHolder() {...}
+anonymousSWTJOGLProcessor0_ (this :: SWTJOGLProcessor) (anonymous_ :: GLHolder.GLHolder) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousSWTJOGLProcessor0_run this anonymous_)
+    pure anonymous_
+
+anonymousSWTJOGLProcessor0_run (this :: SWTJOGLProcessor) (anonymous_ :: GLHolder.GLHolder) (rendererObject_ :: JavaObject) = ( do
+            let renderer = jtoObject rendererObject_
+            pure ()
+            pure ()
+ ) :: IO (())
 

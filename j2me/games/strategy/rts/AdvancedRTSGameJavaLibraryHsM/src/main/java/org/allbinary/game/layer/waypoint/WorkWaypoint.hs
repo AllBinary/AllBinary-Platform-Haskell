@@ -109,7 +109,7 @@ visit_impl this unitLayer = do
         size <- (BasicArrayList.size ((jio (Waypoint.getConnectedWaypointList this))))
         when (size > 0) $ do
             occupyList <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jio (PathFindingLayerInterface.getGeographicMapCellPositionArea ((jget (this).base.ownerLayer))))))
-            outOfResources <- newIORef (True)
+            outOfResources <- newIORef (True :: Bool)
             geologicalGeographicMapCellPosition <- newIORef (javaNull)
             geologicalResource <- newIORef (javaNull)
             index <- newIORef =<< (BasicArrayList.size occupyList)

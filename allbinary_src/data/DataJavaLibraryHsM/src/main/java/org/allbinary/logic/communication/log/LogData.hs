@@ -79,7 +79,7 @@ initFields_ :: LogData -> IO ()
 initFields_ this = do
     jset this.mAX (5000000)
     jset this.extension ("log")
-    jset this.backupFileExt ((((javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP) ++ "bak") ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ "txt"))
+    jset this.backupFileExt (((((jget ((jio (AbPathData.getInstance))).eXTENSION_SEP) ++ "bak") ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ "txt"))
     jset this.aLLBINARY ("allbinary")
     jset this.nAME ("LOG_NAME")
     jset this.dESCRIPTION ("LOG_DESCRIPTION")

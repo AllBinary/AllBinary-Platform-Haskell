@@ -111,7 +111,7 @@ getRGB_super object_ a1 a2 a3 = (getRGB_impl (javaCast object_ :: BasicColorUtil
 
 getRGB_impl :: BasicColorUtil -> Int -> Int -> Int -> IO (Int)
 getRGB_impl this red green blue = do
-        value <- newIORef (0)
+        value <- newIORef (0 :: Int)
         when (jget (this).isAlpha) $ do
             when (jget (this).ffOpaque) $ do
                 jset value ((jget (this).aLPHA))

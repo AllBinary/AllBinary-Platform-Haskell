@@ -171,7 +171,7 @@ fireEventForInteger_impl this eventObject = do
                 ) $ do
                 let playerGameInput = (javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget index))) :: PlayerGameInput.PlayerGameInput)
                 Control.Monad.void (PlayerGameInput.onUpKeyEvent playerGameInput eventObject)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         eventListenerInterface <- newIORef (javaNull)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).base.eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do

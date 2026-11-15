@@ -37,9 +37,9 @@ import qualified NullRecordFilter -- same package or java.lang
 import qualified NullRecordComparator -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified BasicArrayList -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified PersistanceStrings -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified ByteArrayInputStream -- java.io.ByteArrayInputStream
 import qualified ByteArrayOutputStream -- java.io.ByteArrayOutputStream
 import qualified DataInputStream -- java.io.DataInputStream

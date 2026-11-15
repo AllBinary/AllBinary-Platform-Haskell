@@ -152,7 +152,7 @@ toHashMap_impl this = do
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         stringBuffer <- (StringMaker.new_)
         size <- (BasicArrayList.size ((jget (this).propertyValueVector)))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (do { jset index ((jget index) + 1); loop }) $ do
             let value = (javaCast (jio (BasicArrayList.get ((jget (this).propertyValueVector)) (jget index))) :: String)
             Control.Monad.void (StringMaker.delete stringBuffer 0 (jio (StringMaker.length stringBuffer)))

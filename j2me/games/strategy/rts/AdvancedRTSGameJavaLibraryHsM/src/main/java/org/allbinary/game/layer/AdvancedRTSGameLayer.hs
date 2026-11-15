@@ -40,11 +40,11 @@ import qualified AdvancedRTSPlayerLayerInterface -- same package or java.lang
 import qualified RTSPlayerLayerInterface -- same package or java.lang
 import qualified RTSLayerUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified RTSLayer2LogHelper -- same package or java.lang
 import qualified GeographicMapCellPositionAreaBase -- same package or java.lang
 import qualified RotationAnimation -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified MultiPlayerGameLayer -- same package or java.lang
 import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
 import qualified CollidableCompositeLayer -- same package or java.lang

@@ -59,7 +59,7 @@ instance JavaObjectClass NumberStringHudFactory where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 {-# NOINLINE instance_ #-}
-instance_ = unsafePerformIO ((NullUtil.getInstance) >>= newIORef)
+instance_ = unsafePerformIO ((fmap jtoObject (NullUtil.getInstance)) >>= newIORef)
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()

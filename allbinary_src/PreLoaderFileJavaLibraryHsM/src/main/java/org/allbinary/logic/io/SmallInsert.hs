@@ -134,7 +134,7 @@ after_impl this text after = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "after" e)
             pure (False)
             ) $ do
-            index <- newIORef ((jstringIndexOf (jget (this).string) after 0))
+            index <- newIORef ((jstringIndexOf (jget (this).string) after 0) :: Int)
             when ((jget index) < 0) $ do
                 Control.Monad.void (putStrLn (javaToString ((("No such start: " ++ after) ++ " in: ") ++ (jget (this).string))))
                 javaReturn (False)

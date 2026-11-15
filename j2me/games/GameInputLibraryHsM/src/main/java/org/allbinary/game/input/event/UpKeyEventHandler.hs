@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified UpKeyEventHandlerBase -- same package or java.lang
 import qualified LocalPlayerInputIdFactory -- org.allbinary.game.input.LocalPlayerInputIdFactory
 import qualified EventListenerInterface -- org.allbinary.logic.util.event.EventListenerInterface
 import qualified UpKeyEventHandlerBase
@@ -133,7 +134,7 @@ removeAllListeners_impl :: UpKeyEventHandler -> IO (())
 removeAllListeners_impl this = do
         Control.Monad.void (UpKeyEventHandlerBase.removeAllListeners_super this.base)
         forM_ [((jlength UpKeyEventHandler.instanceArray) - 1), ((jlength UpKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeAllListeners ((jindex UpKeyEventHandler.instanceArray (index))))
+            Control.Monad.void (UpKeyEventHandlerBase.removeAllListeners ((jindex UpKeyEventHandler.instanceArray (index))))
         pure ()
 
 
@@ -147,7 +148,7 @@ removeListenerSingleThreaded_impl :: UpKeyEventHandler -> EventListenerInterface
 removeListenerSingleThreaded_impl this eventListenerInterface = do
         Control.Monad.void (UpKeyEventHandlerBase.removeListenerSingleThreaded_super this.base eventListenerInterface)
         forM_ [((jlength UpKeyEventHandler.instanceArray) - 1), ((jlength UpKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeListenerSingleThreaded ((jindex UpKeyEventHandler.instanceArray (index))) eventListenerInterface)
+            Control.Monad.void (UpKeyEventHandlerBase.removeListenerSingleThreaded ((jindex UpKeyEventHandler.instanceArray (index))) eventListenerInterface)
         pure ()
 
 
@@ -161,7 +162,7 @@ removeListener_impl :: UpKeyEventHandler -> EventListenerInterface.EventListener
 removeListener_impl this eventListenerInterface = do
         Control.Monad.void (UpKeyEventHandlerBase.removeListener_super this.base eventListenerInterface)
         forM_ [((jlength UpKeyEventHandler.instanceArray) - 1), ((jlength UpKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeListener ((jindex UpKeyEventHandler.instanceArray (index))) eventListenerInterface)
+            Control.Monad.void (UpKeyEventHandlerBase.removeListener ((jindex UpKeyEventHandler.instanceArray (index))) eventListenerInterface)
         pure ()
 
 

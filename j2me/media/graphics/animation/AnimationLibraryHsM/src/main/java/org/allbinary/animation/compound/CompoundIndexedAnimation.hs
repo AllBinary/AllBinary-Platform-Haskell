@@ -306,7 +306,7 @@ set_super object_ a1 = (set_impl (javaCast object_ :: CompoundIndexedAnimation))
 
 set_impl :: CompoundIndexedAnimation -> GL.GL -> IO (())
 set_impl this gl = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (Animation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()

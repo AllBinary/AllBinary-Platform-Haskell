@@ -105,11 +105,11 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance_2 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
+getInstance_2 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> Int -> IO (JavaObject)
 getInstance_2 this a1 a2
-    | jisInstanceOf a1 (javaNull :: JavaArray (JavaArray (JavaArray (Int)))) = getInstance_2_overload1 this (javaCast a1 :: JavaArray (JavaArray (JavaArray (Int)))) a2
-    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
-    | otherwise = getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2
+    | jisInstanceOf a1 (javaNull :: JavaArray (JavaArray (JavaArray (Int)))) = fmap jtoObject (getInstance_2_overload1 this (javaCast a1 :: JavaArray (JavaArray (JavaArray (Int)))) a2)
+    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = fmap jtoObject (getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2)
+    | otherwise = fmap jtoObject (getInstance_2_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList) a2)
 
 getInstance_2_overload1 :: (JavaObjectClass this_) => this_ -> JavaArray (JavaArray (JavaArray (Int))) -> Int -> IO (JavaArray (JavaArray (JavaArray (Int))))
 getInstance_2_overload1 object_ a1 a2 = jmethod object_ "getInstance_2_overload1" (\() -> (getInstance_2_overload1_impl (javaCast object_ :: VectorMirrorGenerator))) () a1 a2
@@ -127,7 +127,7 @@ getInstance_2_overload1_impl this points width = do
             pointFactory <- (PointFactory.getInstance)
             pointBasicArrayList <- newIORef (javaNull)
             nextPoints <- newIORef (javaNull)
-            size2 <- newIORef (0)
+            size2 <- newIORef (0 :: Int)
             let size = (jlength points)
             pointsBasicArrayList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListS.new_1 size))
             forM_ [0 .. size - 1] $ \frame -> javaIteration (pure ()) $ do

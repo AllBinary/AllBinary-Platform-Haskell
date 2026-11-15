@@ -92,7 +92,7 @@ getCellTypeAt_impl :: MultiGeographicMapBehavior -> JavaArray (BasicGeographicMa
 getCellTypeAt_impl this geographicMapInterfaceArray geographicMapCellTypeArray geographicMapCellPosition = do
         let size = (jlength geographicMapInterfaceArray)
         cellType <- newIORef (GeographicMapCellType.nULL_GEOGRAPHIC_MAP_CELL_TYPE)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (BasicGeographicMap.getCellTypeAt ((jindex geographicMapInterfaceArray ((jget index)))) geographicMapCellPosition)
             jset cellType (assignedValue)

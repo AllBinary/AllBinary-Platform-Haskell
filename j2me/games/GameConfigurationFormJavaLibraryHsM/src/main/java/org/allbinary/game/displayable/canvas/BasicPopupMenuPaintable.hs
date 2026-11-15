@@ -158,7 +158,7 @@ updateMeasurement_impl this graphics = do
         features <- (Features.getInstance)
         isOpenGL <- (Features.isDefault features (javaCast (jget ((jio (OpenGLFeatureFactory.getInstance))).oPENGL)))
         Control.Monad.void (DrawVerticalStringUtil.updateMeasurement ((jget (this).drawStringUtil)) graphics (jget (this).label))
-        bORDER <- newIORef (0)
+        bORDER <- newIORef (0 :: Int)
         if ((jio (J2MEUtil.isHTML)) || isOpenGL) then do
             jset bORDER (((jio (MyFontProcessor.defaultCharWidth font)) `quot` 2))
         else if (((jio (AndroidUtil.isAndroid)) || (jio (J2MEUtil.isJ2SE))) || (jget SWTUtil.isSWT)) then do

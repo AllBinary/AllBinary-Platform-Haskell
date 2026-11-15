@@ -138,10 +138,10 @@ setColor_impl this unusedOriginalImage image imageIndex basicColor = do
         height <- (Image.getHeight image)
         colorModel <- newIORef (javaNull)
         dataElements <- newIORef (javaNull)
-        ax <- newIORef (0)
-        rx <- newIORef (0)
-        gx <- newIORef (0)
-        bx <- newIORef (0)
+        ax <- newIORef (0 :: Int)
+        rx <- newIORef (0 :: Int)
+        gx <- newIORef (0 :: Int)
+        bx <- newIORef (0 :: Int)
         forM_ [0 .. width - 1] $ \index -> javaIteration (pure ()) $ do
             forM_ [0 .. height - 1] $ \index2 -> javaIteration (pure ()) $ do
                 assignedValue <- (BufferedImage.getColorModel newBufferedImage)
@@ -178,10 +178,10 @@ changeColor_impl this unusedOriginalImage image imageIndex basicColor = do
         height <- (Image.getHeight image)
         colorModel <- newIORef (javaNull)
         dataElements <- newIORef (javaNull)
-        ax <- newIORef (0)
-        rx <- newIORef (0)
-        gx <- newIORef (0)
-        bx <- newIORef (0)
+        ax <- newIORef (0 :: Int)
+        rx <- newIORef (0 :: Int)
+        gx <- newIORef (0 :: Int)
+        bx <- newIORef (0 :: Int)
         forM_ [0 .. width - 1] $ \index -> javaIteration (pure ()) $ do
             forM_ [0 .. height - 1] $ \index2 -> javaIteration (pure ()) $ do
                 assignedValue <- (BufferedImage.getColorModel newBufferedImage)

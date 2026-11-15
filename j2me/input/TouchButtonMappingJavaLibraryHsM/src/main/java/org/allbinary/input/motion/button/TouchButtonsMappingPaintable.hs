@@ -138,7 +138,7 @@ createPaintableTable_impl this = do
         commonButtons <- (CommonButtons.getInstance)
         forM_ [(totalColumns - 1), (totalColumns - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             forM_ [(totalRows - 1), (totalRows - 1) + (-1) .. 0] $ \rowIndex -> javaIteration (pure ()) $ do
-                assignedValue <- (TouchButton.createButton (jget ((jio (BasicTouchInputFactory.getInstance))).nONE) (jio (TouchButtonBlankResource.getInstance)) (jget (commonButtons).nORMAL_BUTTON) (jio (CellPositionFactory.getInstanceColRow cellPositionFactory index rowIndex)) (jio (TouchButtonLocationHelper.getColumnsRemainderHalf ((jget (this).touchButtonLocationHelper)))) (jio (TouchButtonLocationHelper.getRowsRemainderHalf ((jget (this).touchButtonLocationHelper)))))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: Paintable.Paintable) (TouchButton.createButton (jget ((jio (BasicTouchInputFactory.getInstance))).nONE) (jio (TouchButtonBlankResource.getInstance)) (jget (commonButtons).nORMAL_BUTTON) (jio (CellPositionFactory.getInstanceColRow cellPositionFactory index rowIndex)) (jio (TouchButtonLocationHelper.getColumnsRemainderHalf ((jget (this).touchButtonLocationHelper)))) (jio (TouchButtonLocationHelper.getRowsRemainderHalf ((jget (this).touchButtonLocationHelper))))))
                 jsetIndex ((jindex ((jget (this).paintableTable)) (index))) (rowIndex) (assignedValue)
         pure (paintableTable)
 
@@ -155,7 +155,7 @@ paint_impl this graphics = do
         totalRows <- (TouchButtonLocationHelper.getTotalRows ((jget (this).touchButtonLocationHelper)))
         forM_ [(totalColumns - 1), (totalColumns - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             forM_ [(totalRows - 1), (totalRows - 1) + (-1) .. 0] $ \rowIndex -> javaIteration (pure ()) $ do
-                Control.Monad.void (paint ((jindex ((jindex ((jget (this).paintableTable)) (index))) (rowIndex))) graphics)
+                Control.Monad.void (Paintable.paint ((jindex ((jindex ((jget (this).paintableTable)) (index))) (rowIndex))) graphics)
         pure ()
 
 

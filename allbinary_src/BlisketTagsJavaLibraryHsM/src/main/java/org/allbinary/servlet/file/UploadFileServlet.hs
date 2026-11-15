@@ -126,7 +126,7 @@ processRequest_super object_ a1 a2 = (processRequest_impl (javaCast object_ :: U
 processRequest_impl :: UploadFileServlet -> HttpServletRequest.HttpServletRequest -> HttpServletResponse.HttpServletResponse -> IO (())
 processRequest_impl this request response = do
     javaCatchReturn $ do
-        isError <- newIORef (False)
+        isError <- newIORef (False :: Bool)
         let inputStream = javaNull
         flip finally (do
             when (Prelude.not (jget isError)) $ do

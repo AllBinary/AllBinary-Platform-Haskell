@@ -144,7 +144,7 @@ getUrl_impl :: DbInitInfo -> IO (String)
 getUrl_impl this = do
         url <- (DbConnectionInfo.getUrl_super this.base)
         when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).pRELOADER))) $ do
-            Control.Monad.void (PreLogUtil.put (javaToString (jget ((jget (this).httpData)).uRL_LABEL) ++ url) this (jget this.gET_URL))
+            Control.Monad.void (PreLogUtil.put ((jget ((jget (this).httpData)).uRL_LABEL) ++ url) this (jget this.gET_URL))
         pure (url)
 
 

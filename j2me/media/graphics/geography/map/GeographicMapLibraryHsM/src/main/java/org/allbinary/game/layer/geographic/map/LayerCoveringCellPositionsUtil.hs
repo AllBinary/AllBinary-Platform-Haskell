@@ -120,8 +120,8 @@ getAll_super object_ a1 a2 a3 a4 = (getAll_impl (javaCast object_ :: LayerCoveri
 getAll_impl :: LayerCoveringCellPositionsUtil -> BasicGeographicMap.BasicGeographicMap -> GeographicMapCellPosition.GeographicMapCellPosition -> AllBinaryLayer.AllBinaryLayer -> BasicArrayList.BasicArrayList -> IO (BasicArrayList.BasicArrayList)
 getAll_impl this geographicMapInterface topLeftGeographicMapCellPosition layerInterface reusableList = do
         Control.Monad.void (BasicArrayList.clear reusableList)
-        columns <- newIORef (((jio (AllBinaryLayer.getWidth layerInterface)) `quot` (jio (AllBinaryTiledLayer.getCellWidth ((jio (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)))))))
-        rows <- newIORef (((jio (AllBinaryLayer.getHeight layerInterface)) `quot` (jio (AllBinaryTiledLayer.getCellHeight ((jio (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)))))))
+        columns <- newIORef (((jio (AllBinaryLayer.getWidth layerInterface)) `quot` (jio (AllBinaryTiledLayer.getCellWidth ((jio (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)))))) :: Int)
+        rows <- newIORef (((jio (AllBinaryLayer.getHeight layerInterface)) `quot` (jio (AllBinaryTiledLayer.getCellHeight ((jio (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)))))) :: Int)
         when ((jget columns) == 0) $ do
             jset columns (1)
         when ((jget rows) == 0) $ do

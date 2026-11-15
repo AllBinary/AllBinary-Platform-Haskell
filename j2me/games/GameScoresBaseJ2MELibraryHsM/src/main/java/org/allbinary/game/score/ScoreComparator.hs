@@ -122,8 +122,8 @@ compare_impl this recordOne recordTwo = do
         inputStreamOne <- (DataInputStream.new_1 byteArrayInputStreamOne)
         byteArrayInputStreamTwo <- (ByteArrayInputStream.new_1 recordTwo)
         inputStreamTwo <- (DataInputStream.new_1 byteArrayInputStreamTwo)
-        scoreOne <- newIORef (0)
-        scoreTwo <- newIORef (0)
+        scoreOne <- newIORef (0 :: Int64)
+        scoreTwo <- newIORef (0 :: Int64)
         handle (\(e :: JavaException) -> do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this "compare" e)

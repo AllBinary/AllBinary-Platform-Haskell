@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified BasicArrayList -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicArrayList -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified ValidationComponentInterface -- org.allbinary.logic.control.validate.ValidationComponentInterface
 import qualified TransformInfoInterface -- org.allbinary.logic.visual.transform.info.TransformInfoInterface

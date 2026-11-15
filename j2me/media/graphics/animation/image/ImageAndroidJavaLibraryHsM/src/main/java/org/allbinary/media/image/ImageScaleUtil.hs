@@ -169,7 +169,7 @@ createImage_impl this imageCache originalImage scaleX scaleY cached = do
         let width = (Prelude.fromInteger (jnumericInteger (((jio (Bitmap.getWidth originalBitmap)) * scaleX))))
         let height = (Prelude.fromInteger (jnumericInteger (((jio (Bitmap.getHeight originalBitmap)) * scaleY))))
         index <- (BasicArrayList.indexOf ((jget (this).imageBasicArrayList)) originalImage)
-        alreadyAvailable <- newIORef (False)
+        alreadyAvailable <- newIORef (False :: Bool)
         when (index >= 0) $ do
             let scaleX2Float = (javaCast (jio (BasicArrayList.get ((jget (this).scaleXBasicArrayList)) index)) :: Float)
             let scaleX2 = scaleX2Float

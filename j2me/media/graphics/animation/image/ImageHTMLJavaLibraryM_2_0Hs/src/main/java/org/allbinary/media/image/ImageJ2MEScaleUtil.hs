@@ -113,7 +113,7 @@ scaleArray_super object_ a1 a2 a3 = (scaleArray_impl (javaCast object_ :: ImageJ
 scaleArray_impl :: ImageJ2MEScaleUtil -> JavaArray (Image.Image) -> Int -> Int -> IO (JavaArray (Image.Image))
 scaleArray_impl this images width height = do
         let scaledImages = (jnewArray ((jlength images)) javaNull)
-        index <- newIORef ((jlength images))
+        index <- newIORef ((jlength images) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (ImageJ2MEScaleUtil.scale this (jindex images ((jget index))) width height)
             jsetIndex scaledImages ((jget index)) (assignedValue)

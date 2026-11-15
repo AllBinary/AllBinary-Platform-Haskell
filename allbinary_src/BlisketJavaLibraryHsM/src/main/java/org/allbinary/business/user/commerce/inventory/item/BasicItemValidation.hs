@@ -33,8 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ItemInterface -- same package or java.lang
-import qualified Money -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified AbSqlData -- org.allbinary.logic.communication.sql.AbSqlData
 import qualified Validation -- org.allbinary.logic.control.validate.Validation

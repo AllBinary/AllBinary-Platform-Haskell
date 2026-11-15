@@ -116,8 +116,8 @@ get_impl this abeClientInformation = do
             let abeLicenseInterface = (javaCast (jio (XmlRpcAbeClient.get xmlRpcAbeLicenseClient javaNull)) :: AbeLicenseInterface.AbeLicenseInterface)
             licenseId <- (AbeLicenseInterface.getLicenseId abeLicenseInterface)
             servers <- (AbeLicenseInterface.getServers abeLicenseInterface)
-            isNewLicenseId <- newIORef (False)
-            isBetterServerList <- newIORef (False)
+            isNewLicenseId <- newIORef (False :: Bool)
+            isBetterServerList <- newIORef (False :: Bool)
             stringValidationUtil <- (StringValidationUtil.getInstance)
             when ((jio (StringValidationUtil.isEmpty stringValidationUtil (jio (AbeClientInformationInterface.getLicenseId abeClientInformation)))) && (Prelude.not (jio (AbeClientInformationInterface.isSameId abeClientInformation licenseId)))) $ do
                 jset isNewLicenseId (True)

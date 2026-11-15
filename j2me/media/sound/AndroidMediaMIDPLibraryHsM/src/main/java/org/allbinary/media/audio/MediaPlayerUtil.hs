@@ -104,7 +104,7 @@ waitForMediaPlayer_impl :: MediaPlayerUtil -> MediaPlayer.MediaPlayer -> IO (())
 waitForMediaPlayer_impl this mediaPlayer = do
         let mESSAGE = "Not Stopped Waiting"
         let mETHOD_NAME = "wait"
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jio (MediaPlayer.isPlaying mediaPlayer)) && ((jget index) < 50)) $ javaIteration (loop) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) mESSAGE this mETHOD_NAME)
             Control.Monad.void (threadDelay (Prelude.fromIntegral 100 * 1000))

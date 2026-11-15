@@ -88,9 +88,7 @@ newRecord_ = do
 
 initFields_ :: NullAnimationFactory -> IO ()
 initFields_ this = do
-    jset this.nULL_ANIMATION =<< (Animation.new_ {- Java anonymous class body: implement it as a record of functions
-        -- paintXY
--})
+    jset this.nULL_ANIMATION =<< (Animation.new_ >>= anonymousNullAnimationFactory0_ this)
     jset this.eMPTY_ARRAY ((jnewArray (0) javaNull))
     pure ()
 
@@ -145,4 +143,14 @@ setInitialScale_impl :: NullAnimationFactory -> ScaleProperties.ScaleProperties 
 setInitialScale_impl this scaleProperties = do
         pure ()
 
+
+-- Java anonymous class new Animation() {...}
+anonymousNullAnimationFactory0_ (this :: NullAnimationFactory) (anonymous_ :: Animation.Animation) = do
+    jregisterMethod (jheaderOf anonymous_) "paintXY" (\() -> anonymousNullAnimationFactory0_paintXY this anonymous_)
+    pure anonymous_
+
+anonymousNullAnimationFactory0_paintXY (this :: NullAnimationFactory) (anonymous_ :: Animation.Animation) (graphics :: Graphics.Graphics) (x :: Int) (y :: Int) = ( do
+            pure ()
+            pure ()
+ ) :: IO (())
 

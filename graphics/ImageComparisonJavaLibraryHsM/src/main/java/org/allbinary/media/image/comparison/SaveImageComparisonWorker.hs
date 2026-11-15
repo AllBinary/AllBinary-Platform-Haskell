@@ -178,7 +178,7 @@ run_impl this = do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (ImageComparisonResult.toString imageComparisonInfo)) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (ComparisonImageInputOutput.save_2 ((jio (ComparisonImageInputOutput.new_))) imageComparisonInfo (jio (ImageComparisonResult.getFrameTwo imageComparisonInfo)))
             Control.Monad.void (BasicArrayList.remove ((jget (this).imageComparisonInfoVector)) imageComparisonInfo)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 

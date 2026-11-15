@@ -302,7 +302,7 @@ removeChild_super object_ a1 = (removeChild_impl (javaCast object_ :: Category))
 removeChild_impl :: Category -> CategoryInterface.CategoryInterface -> IO (Bool)
 removeChild_impl this categoryInterface = do
         removalVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        bool_return <- newIORef (False)
+        bool_return <- newIORef (False :: Bool)
         size <- (BasicArrayList.size ((jget (this).childCategoryVector)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             when ((jget (this).cATEGORY) == (jio (BasicArrayList.get ((jget (this).typeVector)) index))) $ do
@@ -341,7 +341,7 @@ removeDuplicateChild_super object_ a1 = (removeDuplicateChild_impl (javaCast obj
 removeDuplicateChild_impl :: Category -> CategoryInterface.CategoryInterface -> IO (Bool)
 removeDuplicateChild_impl this categoryInterface = do
         removalVector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        bool_return <- newIORef (False)
+        bool_return <- newIORef (False :: Bool)
         size <- (BasicArrayList.size ((jget (this).childCategoryVector)))
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             anyType <- (BasicArrayList.get ((jget (this).childCategoryVector)) index)

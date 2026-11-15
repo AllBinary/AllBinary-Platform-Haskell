@@ -117,7 +117,7 @@ getInstance_1_impl this node = do
         let attrNode = (javaCast (jio (NamedNodeMap.getNamedItem attributes (jget (transformInfoData).nAME))) :: Attr.Attr)
         name <- (Attr.getValue attrNode)
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " View Name: ") ++ name) this "toTransformInfoPropertiesHashMap()")
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (((jget ((jio (CommonLabels.getInstance))).nEXT) ++ " View Name: ") ++ name) this "toTransformInfoPropertiesHashMap()")
         labelNode <- (DomSearchHelper.getNodeNoThrow (jget (transformInfoData).lABEL) transformInfoChildNodeList)
         label <- newIORef =<< (DomNodeHelper.getTextNodesValue labelNode)
         when ((jget label) == javaNull) $ do

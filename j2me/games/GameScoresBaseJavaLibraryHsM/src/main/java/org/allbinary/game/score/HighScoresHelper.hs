@@ -109,7 +109,7 @@ getNextHighScores_super object_ = (getNextHighScores_impl (javaCast object_ :: H
 getNextHighScores_impl :: HighScoresHelper -> IO (HighScores.HighScores)
 getNextHighScores_impl this = do
         highScores <- newIORef ((jindex ((jget (this).base.highScoresArrayP)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil)))))))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when (((((jio (HighScores.getTotal ((jget highScores)))) < 1) || ((jget (this).lastIndex) == (jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil))))))) && ((jget index) < (jlength (jget (this).base.highScoresArrayP)))) $ javaIteration (loop) $ do
             Control.Monad.void (CircularIndexUtil.next ((jget (this).circularIndexUtil)))
             jset highScores ((jindex ((jget (this).base.highScoresArrayP)) ((jio (CircularIndexUtil.getIndex ((jget (this).circularIndexUtil)))))))
@@ -130,7 +130,7 @@ isAnyHighScores_impl this = do
     javaCatchReturn $ do
         when ((jlength (jget (this).base.highScoresArrayP)) < 1) $ do
             javaReturn (False)
-        anyScores <- newIORef (False)
+        anyScores <- newIORef (False :: Bool)
         highScores <- newIORef (javaNull)
         forM_ [((jlength (jget (this).base.highScoresArrayP)) - 1), ((jlength (jget (this).base.highScoresArrayP)) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset highScores ((jindex ((jget (this).base.highScoresArrayP)) (index)))

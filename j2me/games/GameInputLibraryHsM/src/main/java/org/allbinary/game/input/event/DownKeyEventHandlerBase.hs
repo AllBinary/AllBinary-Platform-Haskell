@@ -174,7 +174,7 @@ fireEventI_impl this eventObject = do
                 ) $ do
                 let playerGameInput = (javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget index))) :: PlayerGameInput.PlayerGameInput)
                 Control.Monad.void (PlayerGameInput.onDownKey playerGameInput eventObject)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         eventListenerInterface <- newIORef (javaNull)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).base.eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
@@ -196,14 +196,14 @@ fireEventForGameKeyEvent_super object_ a1 = (fireEventForGameKeyEvent_impl (java
 fireEventForGameKeyEvent_impl :: DownKeyEventHandlerBase -> GameKeyEvent.GameKeyEvent -> IO (())
 fireEventForGameKeyEvent_impl this eventObject = do
         size <- (BasicArrayList.size ((jget (this).list)))
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jio (EventStrings.getInstance))).fIRE_EVENT) e)
                 ) $ do
                 let playerGameInput = (javaCast (jindex ((jget ((jget (this).list)).objectArray)) ((jget index))) :: PlayerGameInput.PlayerGameInput)
                 Control.Monad.void (PlayerGameInput.onDownKeyEvent playerGameInput eventObject)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         eventListenerInterface <- newIORef (javaNull)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).base.eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do

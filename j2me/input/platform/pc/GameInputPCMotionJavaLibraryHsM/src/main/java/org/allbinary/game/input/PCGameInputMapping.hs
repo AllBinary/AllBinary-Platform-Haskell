@@ -35,8 +35,8 @@ import qualified GHC.Float
 import qualified PCKeyFactory -- same package or java.lang
 import qualified Input -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified InputToGameKeyMapping -- same package or java.lang
 import qualified GamePersistanceStrings -- org.allbinary.game.configuration.persistance.GamePersistanceStrings
 import qualified PersistentInputMapping -- org.allbinary.game.input.mapping.PersistentInputMapping
 import qualified BasicTouchInputFactory -- org.allbinary.input.motion.button.BasicTouchInputFactory

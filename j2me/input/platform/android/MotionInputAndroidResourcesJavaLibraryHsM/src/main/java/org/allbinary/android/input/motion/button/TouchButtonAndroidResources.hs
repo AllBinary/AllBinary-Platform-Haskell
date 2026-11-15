@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified raw -- same package or java.lang
 import qualified GenericOperatingSystem -- same package or java.lang
 import qualified AndroidResources -- org.allbinary.AndroidResources
 import qualified ResourceUtil -- org.allbinary.data.resource.ResourceUtil

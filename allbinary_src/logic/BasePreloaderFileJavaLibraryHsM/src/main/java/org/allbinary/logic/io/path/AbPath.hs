@@ -197,7 +197,7 @@ getPathFromPath_impl this aPath = do
             assignedValue <- (PathUtil.adjustStart ((jget (this).abPathUtil)) (jget tempPath))
             jset tempPath (assignedValue)
         else do
-            beginIndex <- newIORef ((jstringIndexOf (jget tempPath) (jget ((jget (this).commonSeps)).cOLON) 0))
+            beginIndex <- newIORef ((jstringIndexOf (jget tempPath) (jget ((jget (this).commonSeps)).cOLON) 0) :: Int)
             when ((jget beginIndex) >= 0) $ do
                 jset beginIndex ((jget beginIndex) + 1)
                 fix $ \loop -> when ((((jget tempPath) Prelude.!! (jget beginIndex)) == (jget ((jget (this).abPathData)).sEPARATORCHAR)) || (((jget tempPath) Prelude.!! (jget beginIndex)) == (jget (filePathData).sEPARATORCHAR))) $ javaIteration (loop) $ do

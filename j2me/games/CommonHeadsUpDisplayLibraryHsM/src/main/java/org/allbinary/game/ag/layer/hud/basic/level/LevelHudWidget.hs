@@ -121,7 +121,7 @@ init_3 this maxlevel location direction = do
         assignedValue <- (PrimitiveLongUtil.createPowerOfTen 1000)
         jset (this).primitiveLongUtil (assignedValue)
         let lEVEL = "Lv "
-        assignedValue <- (String.toCharArray lEVEL)
+        assignedValue <- (jtoCharArray lEVEL)
         jset (this).levelString (assignedValue)
         jset (this).maxlevel (maxlevel)
         jset (this).level (maxlevel)

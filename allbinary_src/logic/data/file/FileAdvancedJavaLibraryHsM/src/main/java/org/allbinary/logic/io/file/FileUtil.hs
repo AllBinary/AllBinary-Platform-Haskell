@@ -214,11 +214,11 @@ write_3_impl this inputStream dataOutputStream buffer = do
 
 
 -- Java overloads of copy: calls the overload for the types of the arguments
-copy :: (JavaObjectClass this_, JavaObjectClass o1, JavaObjectClass o2) => this_ -> o1 -> o2 -> IO (())
+copy :: (JavaObjectClass this_, JavaObjectClass o1, JavaObjectClass o2) => this_ -> o1 -> o2 -> IO (JavaObject)
 copy this a1 a2
-    | jisInstanceOf a1 (javaNull :: AbFileInputStream.AbFileInputStream) && jisInstanceOf a2 (javaNull :: AbDataOutputStream.AbDataOutputStream) = copy_overload1 this (javaCast a1 :: AbFileInputStream.AbFileInputStream) (javaCast a2 :: AbDataOutputStream.AbDataOutputStream)
-    | jisInstanceOf a1 (javaNull :: AbPath.AbPath) && jisInstanceOf a2 (javaNull :: AbPath.AbPath) = copy_overload2 this (javaCast a1 :: AbPath.AbPath) (javaCast a2 :: AbPath.AbPath)
-    | otherwise = copy_overload2 this (javaCast a1 :: AbPath.AbPath) (javaCast a2 :: AbPath.AbPath)
+    | jisInstanceOf a1 (javaNull :: AbFileInputStream.AbFileInputStream) && jisInstanceOf a2 (javaNull :: AbDataOutputStream.AbDataOutputStream) = fmap jtoObject (copy_overload1 this (javaCast a1 :: AbFileInputStream.AbFileInputStream) (javaCast a2 :: AbDataOutputStream.AbDataOutputStream))
+    | jisInstanceOf a1 (javaNull :: AbPath.AbPath) && jisInstanceOf a2 (javaNull :: AbPath.AbPath) = fmap jtoObject (copy_overload2 this (javaCast a1 :: AbPath.AbPath) (javaCast a2 :: AbPath.AbPath))
+    | otherwise = fmap jtoObject (copy_overload2 this (javaCast a1 :: AbPath.AbPath) (javaCast a2 :: AbPath.AbPath))
 
 -- throws Exception
 copy_overload1 :: (JavaObjectClass this_) => this_ -> AbFileInputStream.AbFileInputStream -> AbDataOutputStream.AbDataOutputStream -> IO (())
@@ -472,7 +472,7 @@ getNewDirectory fromFile = do
         separatorChar <- newIORef ((jget ((jio (FilePathData.getInstance))).pATH_START))
         when (jio (AbIOSystem.isType ((jio (AbIOSystem.getInstance))) "com.vobject.appengine.java.io")) $ do
             jset separatorChar ((jget ((jio (AbPathData.getInstance))).sEPARATOR))
-        lastIndex <- newIORef ((jstringLastIndexOf (jget newDirectory) (jget separatorChar)))
+        lastIndex <- newIORef ((jstringLastIndexOf (jget newDirectory) (jget separatorChar)) :: Int)
         when ((jget lastIndex) >= (Prelude.length (jget newDirectory))) $ do
             jset newDirectory ((Prelude.take ((((Prelude.length (jget newDirectory)) - 1)) - (0)) (Prelude.drop (0) (jget newDirectory))))
             jset lastIndex ((jstringLastIndexOf (jget newDirectory) (jget separatorChar)))
@@ -500,7 +500,7 @@ copyDirectoryPortion_impl this fromDirectoryAbPath toDirectoryAbPath overwriteNe
         Control.Monad.void (StringMaker.appendint stringBuffer size)
         let portion = ((size `quot` total) + 1)
         let start = (portion * current)
-        end <- newIORef ((start + portion))
+        end <- newIORef ((start + portion) :: Int)
         when ((jget end) > size) $ do
             jset end (size)
         Control.Monad.void (StringMaker.append stringBuffer " Section: ")
@@ -516,7 +516,7 @@ copyDirectoryPortion_impl this fromDirectoryAbPath toDirectoryAbPath overwriteNe
                 pure ()
             else do
                 path <- (AbPath.getPath ((jio (AbPath.new_2 (jio (AbFile.getPath ((jget nextFile)))) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))
-                beginIndex <- newIORef ((Prelude.length (jio (AbPath.getPath fromDirectoryAbPath))))
+                beginIndex <- newIORef ((Prelude.length (jio (AbPath.getPath fromDirectoryAbPath))) :: Int)
                 when ((jstringIndexOf path (jio (URLGLOBALS.getWebappPath)) 0) < 0) $ do
                     jset beginIndex (((jget beginIndex) - (Prelude.length (jio (AbPath.getPath ((jio (AbPath.new_2 (jio (URLGLOBALS.getWebappPath)) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING)))))))))
                 let newPath = ((jio (AbPath.toFileSystemString toDirectoryAbPath)) ++ (Prelude.drop (jget beginIndex) path))
@@ -552,7 +552,7 @@ copyDirectory_impl this fromFile to = do
                 Control.Monad.void (StringMaker.append stringBuffer (jio (AbFile.getPath to)))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString stringBuffer)) (jio (FileUtil.getInstance)) "copyDirectory")
             newDirectory <- (FileUtil.getNewDirectory fromFile)
-            newDirectoryAbPath <- (AbPath.new_2 (((jio (AbFile.getPath to)) ++ javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ newDirectory) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
+            newDirectoryAbPath <- (AbPath.new_2 (((jio (AbFile.getPath to)) ++ (jget ((jio (AbPathData.getInstance))).sEPARATOR)) ++ newDirectory) (jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
             when (Prelude.not (jio (Directory.create ((jget (this).directory)) newDirectoryAbPath))) $ do
                 javaThrow ((JavaException "Exception" ("Failed to create directory: " ++ jconcatObject AbPath.toString newDirectoryAbPath)))
             fileArray <- (FileWrapperUtil.wrapFiles (jio (AbFile.listFiles fromFile)))

@@ -123,7 +123,7 @@ updateColor_impl :: HealthBarThreedAnimation -> IO (())
 updateColor_impl this = do
         colorBufferList <- (Rectangle.getColor4BufferList ((jio (Rectangle.getVertices ((jget (this).rectangle))))))
         size <- (ColorBufferList.size colorBufferList)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (ColorBufferList.set colorBufferList (jget index) (jget (this).base.base.basicColor))
         pure ()
@@ -142,13 +142,13 @@ updateSize_impl this = do
         let height = ((jget (this).base.thickness) * 2)
         let segsH = 1
         let segsW = 1
-        row <- newIORef (0)
-        col <- newIORef (0)
+        row <- newIORef (0 :: Int)
+        col <- newIORef (0 :: Int)
         let w = (Prelude.fromIntegral (width `quot` segsW))
         let h = (Prelude.fromIntegral (height `quot` segsH))
         let width5 = ((Prelude.fromIntegral width) / 2.0)
         let height5 = ((Prelude.fromIntegral height) / 2.0)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         jset row (0)
         fix $ \loop -> when ((jget row) <= segsH) $ javaIteration (do { jset row ((jget row) + 1); loop }) $ do
             jset col (0)

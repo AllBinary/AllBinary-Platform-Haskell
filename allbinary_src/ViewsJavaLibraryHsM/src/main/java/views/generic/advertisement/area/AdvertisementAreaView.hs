@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified HashMap -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HashMap -- same package or java.lang
 import qualified AdvertisementAreaData -- org.allbinary.business.advertisement.area.AdvertisementAreaData
 import qualified AdvertisementAreaInterface -- org.allbinary.business.advertisement.area.AdvertisementAreaInterface
 import qualified AdvertisementAreasEntityFactory -- org.allbinary.data.tables.advertisement.areas.AdvertisementAreasEntityFactory

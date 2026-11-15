@@ -161,8 +161,8 @@ paint_impl this graphics = do
         Control.Monad.void (Graphics.setColor graphics (jget (this).rED))
         charArray <- newIORef (javaNull)
         charArray2 <- newIORef (javaNull)
-        size2 <- newIORef (0)
-        size3 <- newIORef (0)
+        size2 <- newIORef (0 :: Int)
+        size3 <- newIORef (0 :: Int)
         let size = ((jlength (jget (this).baseRefreshHelperCharArray)) - 2)
         forM_ [size, size + (-2) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset charArray ((jindex ((jget (this).baseRefreshHelperCharArray)) (index)))

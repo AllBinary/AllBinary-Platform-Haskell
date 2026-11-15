@@ -186,7 +186,7 @@ init_impl :: BaseGameInitialization -> AbeClientInformationInterface.AbeClientIn
 init_impl this abeClientInformation commandListener level = do
         resourceLoadingLevelFactory <- (ResourceLoadingLevelFactory.getInstance)
         when ((Prelude.not (jio (BaseGameInitialization.isInitialized this))) && (((level == (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_ALL))))) || (level == (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_EARLY)))))))) $ do
-            localPortion <- newIORef (40)
+            localPortion <- newIORef (40 :: Int)
             when (level == (jio (ResourceLoadingLevel.getLevel ((jget (resourceLoadingLevelFactory).lOAD_EARLY))))) $ do
                 jset localPortion (8)
             Control.Monad.void (BaseGameInitialization.setInitialized this True)

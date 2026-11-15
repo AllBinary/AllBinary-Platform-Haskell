@@ -121,7 +121,7 @@ getNewX_super object_ a1 a2 = (getNewX_impl (javaCast object_ :: MirrorMotionGes
 
 getNewX_impl :: MirrorMotionGestureEventUtil -> Int -> Int -> IO (Int)
 getNewX_impl this x halfWidth = do
-        newX <- newIORef (0)
+        newX <- newIORef (0 :: Int)
         if (x > halfWidth) then do
             jset newX ((halfWidth - ((x - halfWidth))))
         else do

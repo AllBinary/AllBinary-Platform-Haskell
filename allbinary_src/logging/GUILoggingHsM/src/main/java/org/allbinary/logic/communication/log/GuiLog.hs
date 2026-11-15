@@ -121,7 +121,7 @@ showDialog_impl :: GuiLog -> String -> IO (())
 showDialog_impl this msg = do
         error <- (JDialog.new_)
         let size = ((Prelude.length msg) * 9)
-        x <- newIORef (size)
+        x <- newIORef (size :: Int)
         when ((jget x) > 550) $ do
             jset x (550)
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane error))) (jio (GridLayout.new_2 1 1)))

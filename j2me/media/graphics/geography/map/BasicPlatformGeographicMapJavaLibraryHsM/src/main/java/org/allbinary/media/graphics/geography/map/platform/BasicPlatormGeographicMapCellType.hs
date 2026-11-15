@@ -95,7 +95,7 @@ init_1 this types = do
         size <- (BasicArrayList.size types)
         let typeArray = (jnewArray (size) 0)
         typeAsInteger <- newIORef (javaNull)
-        type_ <- newIORef (0)
+        type_ <- newIORef (0 :: Int)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset typeAsInteger (((javaCast (jio (BasicArrayList.get types index)) :: Int)))
             jset type_ ((jget typeAsInteger))

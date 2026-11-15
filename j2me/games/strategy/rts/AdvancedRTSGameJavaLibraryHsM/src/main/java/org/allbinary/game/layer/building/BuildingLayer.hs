@@ -40,10 +40,10 @@ import qualified ShakeAnimationListener -- same package or java.lang
 import qualified AllBinaryVibrationME -- same package or java.lang
 import qualified IndexedAnimation -- same package or java.lang
 import qualified AllBinaryGameLayerManager -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified PlayerQueue -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified RTSLayer -- same package or java.lang
 import qualified MultiPlayerGameLayer -- same package or java.lang
 import qualified CollidableDestroyableDamageableLayer -- same package or java.lang

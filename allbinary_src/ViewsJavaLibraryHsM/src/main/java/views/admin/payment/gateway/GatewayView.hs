@@ -33,10 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified PaymentGatewayComponent -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified PaymentGatewayPrimaryKey -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
 import qualified PaymentGatewayEntity -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified TransformInfoHttpComposite -- same package or java.lang
 import qualified HttpServletRequest -- javax.servlet.http.HttpServletRequest
 import qualified PaymentGatewayInterface -- org.allbinary.business.user.commerce.money.payment.gateway.PaymentGatewayInterface

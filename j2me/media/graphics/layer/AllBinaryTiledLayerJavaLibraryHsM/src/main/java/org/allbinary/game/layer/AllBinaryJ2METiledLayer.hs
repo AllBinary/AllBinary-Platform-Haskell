@@ -138,15 +138,15 @@ paintDebug_impl this graphics = do
         totalColumns <- (TiledLayer.getColumns ((jget (this).tiledLayerP)))
         totalRows <- (TiledLayer.getRows ((jget (this).tiledLayerP)))
         let x0 = (jget x)
-        tile <- newIORef (0)
+        tile <- newIORef (0 :: Int)
         tileHeight <- (TiledLayer.getCellHeight ((jget (this).tiledLayerP)))
         tileWidth <- (TiledLayer.getCellWidth ((jget (this).tiledLayerP)))
         commonSeps <- (CommonSeps.getInstance)
         stringMaker <- (StringMaker.new_)
-        rowIndex <- newIORef (firstRow)
+        rowIndex <- newIORef (firstRow :: Int)
         fix $ \loop -> when ((jget rowIndex) < totalRows) $ javaIteration (do { jset rowIndex ((jget rowIndex) + 1); jset y (((jget y) + tileHeight)); loop }) $ do
             jset x (x0)
-            columnIndex <- newIORef (firstColumn)
+            columnIndex <- newIORef (firstColumn :: Int)
             fix $ \loop -> when ((jget columnIndex) < totalColumns) $ javaIteration (do { jset columnIndex ((jget columnIndex) + 1); jset x (((jget x) + tileWidth)); loop }) $ do
                 assignedValue <- (TiledLayer.getCell ((jget (this).tiledLayerP)) (jget columnIndex) (jget rowIndex))
                 jset tile (assignedValue)

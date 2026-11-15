@@ -82,7 +82,7 @@ instance JavaObjectClass GenericProfileActions where
     jheaderMaybe object = if jrecordIsNull object then Nothing else Just object.header_
 
 dEFAULT_PROFILE_ACTIONS_PATH :: String
-dEFAULT_PROFILE_ACTIONS_PATH = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
+dEFAULT_PROFILE_ACTIONS_PATH = (GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
@@ -216,7 +216,7 @@ save_super object_ = (save_impl (javaCast object_ :: GenericProfileActions))
 
 save_impl :: GenericProfileActions -> IO (())
 save_impl this = do
-        idFile <- (FileOutputStream.new_1 ((javaToString GenericProfileActions.dEFAULT_PROFILE_ACTIONS_PATH ++ (jio (GenericProfileActions.getName this))) ++ javaToString (jget ((jget (this).commonFileStrings))._XML)))
+        idFile <- (FileOutputStream.new_1 ((GenericProfileActions.dEFAULT_PROFILE_ACTIONS_PATH ++ (jio (GenericProfileActions.getName this))) ++ (jget ((jget (this).commonFileStrings))._XML)))
         idOutData <- (DataOutputStream.new_1 idFile)
         Control.Monad.void (DataOutputStream.writeBytes idOutData (jio (XmlDocumentHelper.toString (jio (GenericProfileActions.toXmlDoc this)))))
         pure ()
@@ -230,7 +230,7 @@ getFile_super object_ a1 = (getFile_impl (javaCast object_ :: GenericProfileActi
 
 getFile_impl :: GenericProfileActions -> String -> IO (File.File)
 getFile_impl this name = do
-        let fileName = ((dEFAULT_PROFILE_ACTIONS_PATH ++ name) ++ javaToString (jget ((jget (this).commonFileStrings))._XML))
+        let fileName = ((dEFAULT_PROFILE_ACTIONS_PATH ++ name) ++ (jget ((jget (this).commonFileStrings))._XML))
         (File.new_1 fileName)
 
 
@@ -274,7 +274,7 @@ fileInit_impl this fileInputStream = do
             if (nodeList /= javaNull) then do
                 Control.Monad.void (GenericProfileActions.initActions this nodeList)
             else do
-                javaThrow ((JavaException "Exception" (javaToString (jget GenericProfileActionData.nAME) ++ " Name Node Node Children")))
+                javaThrow ((JavaException "Exception" ((jget GenericProfileActionData.nAME) ++ " Name Node Node Children")))
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Loaded: " ++ javaToString (jio (HashMap.size ((jio (GenericProfileActions.getHashMap this)))))) ++ " Configuration Profile Action(s)") this "Contructor")
         Control.Monad.void (DefaultListModelHelper.initDefaultModelList ((jio (GenericProfileActions.getDefaultListModelHelper this))))
         pure ()
@@ -296,7 +296,7 @@ initActions_impl this nodeList = do
                 Control.Monad.void (HashMap.put ((jio (GenericProfileActions.getHashMap this))) (jio (GenericProfileAction.getName genericConfigurationProfileAction)) genericConfigurationProfileAction)
                 Control.Monad.void (DefaultListModelHelper.add ((jio (GenericProfileActions.getDefaultListModelHelper this))) (jio (GenericProfileAction.getName genericConfigurationProfileAction)))
             else do
-                javaThrow ((JavaException "Exception" (javaToString (jget GenericProfileActionData.nAME) ++ " Node Null")))
+                javaThrow ((JavaException "Exception" ((jget GenericProfileActionData.nAME) ++ " Node Null")))
         pure ()
 
 

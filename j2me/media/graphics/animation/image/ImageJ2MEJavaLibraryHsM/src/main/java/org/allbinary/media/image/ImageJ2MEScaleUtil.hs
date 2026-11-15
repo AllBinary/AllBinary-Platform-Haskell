@@ -101,7 +101,7 @@ scaleArray_super object_ a1 a2 a3 = (scaleArray_impl (javaCast object_ :: ImageJ
 scaleArray_impl :: ImageJ2MEScaleUtil -> JavaArray (Image.Image) -> Int -> Int -> IO (JavaArray (Image.Image))
 scaleArray_impl this images width height = do
         let scaledImages = (jnewArray ((jlength images)) javaNull)
-        index <- newIORef ((jlength images))
+        index <- newIORef ((jlength images) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (ImageJ2MEScaleUtil.scale this (jindex images ((jget index))) width height)
             jsetIndex scaledImages ((jget index)) (assignedValue)
@@ -124,13 +124,13 @@ scale_impl this image width height = do
         let scaledData = (jnewArray ((width * height)) 0)
         let heightRatioFactor = (((8 * sourceHeight)) `quot` height)
         let widthRatioFactor = (((8 * sourceWidth)) `quot` width)
-        scaledIndex <- newIORef (((jlength scaledData) - 1))
-        dx <- newIORef (0)
-        dy <- newIORef (0)
-        index <- newIORef (height)
+        scaledIndex <- newIORef (((jlength scaledData) - 1) :: Int)
+        dx <- newIORef (0 :: Int)
+        dy <- newIORef (0 :: Int)
+        index <- newIORef (height :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset dy (((((jget index) * heightRatioFactor)) `Data.Bits.shiftR` 3))
-            index2 <- newIORef (width)
+            index2 <- newIORef (width :: Int)
             fix $ \loop -> when ((jpreIncrement index2 (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 jset dx (((((jget index2) * widthRatioFactor)) `Data.Bits.shiftR` 3))
                 jsetIndex scaledData ((jpostIncrement scaledIndex (Prelude.subtract 1))) ((jindex originalData ((((sourceWidth * (jget dy))) + (jget dx)))))

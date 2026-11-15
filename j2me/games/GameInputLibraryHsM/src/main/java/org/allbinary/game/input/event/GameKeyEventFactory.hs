@@ -125,9 +125,9 @@ init_impl :: GameKeyEventFactory -> IO (())
 init_impl this = do
         nullUtil <- (NullUtil.getInstance)
         let size = (jget ((jio (InputFactory.getInstance))).mAX)
-        index <- newIORef ((jget (this).mAX_SOURCES))
+        index <- newIORef ((jget (this).mAX_SOURCES) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
-            index2 <- newIORef (size)
+            index2 <- newIORef (size :: Int)
             fix $ \loop -> when ((jpreIncrement index2 (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 assignedValue <- (GameKeyEvent.createEvent (jget (nullUtil).nULL_OBJECT) (jget index) (jget index2))
                 jsetIndex ((jindex ((jget (this).aRRAY)) ((jget index)))) ((jget index2)) (assignedValue)

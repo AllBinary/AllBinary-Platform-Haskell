@@ -106,6 +106,44 @@ data CommonDataFileStrings = CommonDataFileStrings
     , _EX :: IORef (String)
     , eXS :: IORef (String)
     , _EXS :: IORef (String)
+    , m :: IORef (String)
+    , _M :: IORef (String)
+    , sWIFT :: IORef (String)
+    , _SWIFT :: IORef (String)
+    , aSM :: IORef (String)
+    , _ASM :: IORef (String)
+    , s :: IORef (String)
+    , _S :: IORef (String)
+    , nIM :: IORef (String)
+    , _NIM :: IORef (String)
+    , vALA :: IORef (String)
+    , _VALA :: IORef (String)
+    , lISP :: IORef (String)
+    , _LISP :: IORef (String)
+    , rKT :: IORef (String)
+    , _RKT :: IORef (String)
+    , sCM :: IORef (String)
+    , _SCM :: IORef (String)
+    , aS :: IORef (String)
+    , _AS :: IORef (String)
+    , oBX :: IORef (String)
+    , _OBX :: IORef (String)
+    , sCALA :: IORef (String)
+    , _SCALA :: IORef (String)
+    , gROOVY :: IORef (String)
+    , _GROOVY :: IORef (String)
+    , jL :: IORef (String)
+    , _JL :: IORef (String)
+    , tCL :: IORef (String)
+    , _TCL :: IORef (String)
+    , wREN :: IORef (String)
+    , _WREN :: IORef (String)
+    , jANET :: IORef (String)
+    , _JANET :: IORef (String)
+    , gR :: IORef (String)
+    , _GR :: IORef (String)
+    , eLM :: IORef (String)
+    , _ELM :: IORef (String)
     , kOTLIN :: IORef (String)
     , tYPESCRIPT :: IORef (String)
     , jAVASCRIPT :: IORef (String)
@@ -123,12 +161,25 @@ data CommonDataFileStrings = CommonDataFileStrings
     , cOBOL :: IORef (String)
     , fORTRAN :: IORef (String)
     , eLIXIR :: IORef (String)
+    , oBJECTIVE_C :: IORef (String)
+    , rACKET :: IORef (String)
+    , sCHEME :: IORef (String)
+    , aCTIONSCRIPT :: IORef (String)
+    , oBERON_PLUS :: IORef (String)
+    , jULIA :: IORef (String)
+    , gRAIN :: IORef (String)
     , cPLUSPLUS :: IORef (String)
     , gOLANG :: IORef (String)
     , cSHARP_ALIAS :: IORef (String)
     , c23 :: IORef (String)
     , pASCAL :: IORef (String)
     , oBJECT_PASCAL_ALIAS :: IORef (String)
+    , oBJC :: IORef (String)
+    , oBJECTIVE_C_ALIAS :: IORef (String)
+    , aSSEMBLY :: IORef (String)
+    , cOMMON_LISP :: IORef (String)
+    , oBERON :: IORef (String)
+    , oBERON_PLUS_ALIAS :: IORef (String)
     , kT_SHORT_NAME :: IORef (String)
     , tS_SHORT_NAME :: IORef (String)
     , jS_SHORT_NAME :: IORef (String)
@@ -152,6 +203,24 @@ data CommonDataFileStrings = CommonDataFileStrings
     , f90_SHORT_NAME :: IORef (String)
     , dART_SHORT_NAME :: IORef (String)
     , eX_SHORT_NAME :: IORef (String)
+    , oBJC_SHORT_NAME :: IORef (String)
+    , sWIFT_SHORT_NAME :: IORef (String)
+    , aSM_SHORT_NAME :: IORef (String)
+    , nIM_SHORT_NAME :: IORef (String)
+    , vALA_SHORT_NAME :: IORef (String)
+    , lISP_SHORT_NAME :: IORef (String)
+    , rKT_SHORT_NAME :: IORef (String)
+    , sCM_SHORT_NAME :: IORef (String)
+    , aS_SHORT_NAME :: IORef (String)
+    , oBX_SHORT_NAME :: IORef (String)
+    , sCALA_SHORT_NAME :: IORef (String)
+    , gROOVY_SHORT_NAME :: IORef (String)
+    , jL_SHORT_NAME :: IORef (String)
+    , tCL_SHORT_NAME :: IORef (String)
+    , wREN_SHORT_NAME :: IORef (String)
+    , jANET_SHORT_NAME :: IORef (String)
+    , gR_SHORT_NAME :: IORef (String)
+    , eLM_SHORT_NAME :: IORef (String)
     , uNCRYPTED_EXTENSION :: IORef (String)
     , eNCRYPTED_EXTENSION :: IORef (String)
     }
@@ -254,6 +323,44 @@ newRecord_ = do
     _EX <- newIORef ""
     eXS <- newIORef ""
     _EXS <- newIORef ""
+    m <- newIORef ""
+    _M <- newIORef ""
+    sWIFT <- newIORef ""
+    _SWIFT <- newIORef ""
+    aSM <- newIORef ""
+    _ASM <- newIORef ""
+    s <- newIORef ""
+    _S <- newIORef ""
+    nIM <- newIORef ""
+    _NIM <- newIORef ""
+    vALA <- newIORef ""
+    _VALA <- newIORef ""
+    lISP <- newIORef ""
+    _LISP <- newIORef ""
+    rKT <- newIORef ""
+    _RKT <- newIORef ""
+    sCM <- newIORef ""
+    _SCM <- newIORef ""
+    aS <- newIORef ""
+    _AS <- newIORef ""
+    oBX <- newIORef ""
+    _OBX <- newIORef ""
+    sCALA <- newIORef ""
+    _SCALA <- newIORef ""
+    gROOVY <- newIORef ""
+    _GROOVY <- newIORef ""
+    jL <- newIORef ""
+    _JL <- newIORef ""
+    tCL <- newIORef ""
+    _TCL <- newIORef ""
+    wREN <- newIORef ""
+    _WREN <- newIORef ""
+    jANET <- newIORef ""
+    _JANET <- newIORef ""
+    gR <- newIORef ""
+    _GR <- newIORef ""
+    eLM <- newIORef ""
+    _ELM <- newIORef ""
     kOTLIN <- newIORef ""
     tYPESCRIPT <- newIORef ""
     jAVASCRIPT <- newIORef ""
@@ -271,12 +378,25 @@ newRecord_ = do
     cOBOL <- newIORef ""
     fORTRAN <- newIORef ""
     eLIXIR <- newIORef ""
+    oBJECTIVE_C <- newIORef ""
+    rACKET <- newIORef ""
+    sCHEME <- newIORef ""
+    aCTIONSCRIPT <- newIORef ""
+    oBERON_PLUS <- newIORef ""
+    jULIA <- newIORef ""
+    gRAIN <- newIORef ""
     cPLUSPLUS <- newIORef ""
     gOLANG <- newIORef ""
     cSHARP_ALIAS <- newIORef ""
     c23 <- newIORef ""
     pASCAL <- newIORef ""
     oBJECT_PASCAL_ALIAS <- newIORef ""
+    oBJC <- newIORef ""
+    oBJECTIVE_C_ALIAS <- newIORef ""
+    aSSEMBLY <- newIORef ""
+    cOMMON_LISP <- newIORef ""
+    oBERON <- newIORef ""
+    oBERON_PLUS_ALIAS <- newIORef ""
     kT_SHORT_NAME <- newIORef ""
     tS_SHORT_NAME <- newIORef ""
     jS_SHORT_NAME <- newIORef ""
@@ -300,9 +420,27 @@ newRecord_ = do
     f90_SHORT_NAME <- newIORef ""
     dART_SHORT_NAME <- newIORef ""
     eX_SHORT_NAME <- newIORef ""
+    oBJC_SHORT_NAME <- newIORef ""
+    sWIFT_SHORT_NAME <- newIORef ""
+    aSM_SHORT_NAME <- newIORef ""
+    nIM_SHORT_NAME <- newIORef ""
+    vALA_SHORT_NAME <- newIORef ""
+    lISP_SHORT_NAME <- newIORef ""
+    rKT_SHORT_NAME <- newIORef ""
+    sCM_SHORT_NAME <- newIORef ""
+    aS_SHORT_NAME <- newIORef ""
+    oBX_SHORT_NAME <- newIORef ""
+    sCALA_SHORT_NAME <- newIORef ""
+    gROOVY_SHORT_NAME <- newIORef ""
+    jL_SHORT_NAME <- newIORef ""
+    tCL_SHORT_NAME <- newIORef ""
+    wREN_SHORT_NAME <- newIORef ""
+    jANET_SHORT_NAME <- newIORef ""
+    gR_SHORT_NAME <- newIORef ""
+    eLM_SHORT_NAME <- newIORef ""
     uNCRYPTED_EXTENSION <- newIORef ""
     eNCRYPTED_EXTENSION <- newIORef ""
-    let this = CommonDataFileStrings header_ xML _XML jSON _JSON xSL _XSL jAVA _JAVA kT _KT tS _TS jS _JS cPP _CPP h _H pY _PY gO _GO cS _CS aDB _ADB aDS _ADS aDA _ADA rUST _RUST c _C cSHARP _CSHARP eRL _ERL hS _HS hX _HX lUA _LUA pAS _PAS mL _ML pL _PL rB _RB zIG _ZIG pM _PM kTS _KTS cBL _CBL cOB _COB f90 _F90 f _F dART _DART eX _EX eXS _EXS kOTLIN tYPESCRIPT jAVASCRIPT c_PLUS_PLUS pYTHON c_SHARP rUST_NAME rUBY pERL oBJECT_PASCAL oCAML hASKELL hAXE eRLANG cOBOL fORTRAN eLIXIR cPLUSPLUS gOLANG cSHARP_ALIAS c23 pASCAL oBJECT_PASCAL_ALIAS kT_SHORT_NAME tS_SHORT_NAME jS_SHORT_NAME cPP_SHORT_NAME pY_SHORT_NAME gO_SHORT_NAME cS_SHORT_NAME aDA_SHORT_NAME rUST_SHORT_NAME lUA_SHORT_NAME c_SHORT_NAME zIG_SHORT_NAME rB_SHORT_NAME pL_SHORT_NAME pAS_SHORT_NAME mL_SHORT_NAME hS_SHORT_NAME hX_SHORT_NAME eRL_SHORT_NAME cBL_SHORT_NAME f90_SHORT_NAME dART_SHORT_NAME eX_SHORT_NAME uNCRYPTED_EXTENSION eNCRYPTED_EXTENSION
+    let this = CommonDataFileStrings header_ xML _XML jSON _JSON xSL _XSL jAVA _JAVA kT _KT tS _TS jS _JS cPP _CPP h _H pY _PY gO _GO cS _CS aDB _ADB aDS _ADS aDA _ADA rUST _RUST c _C cSHARP _CSHARP eRL _ERL hS _HS hX _HX lUA _LUA pAS _PAS mL _ML pL _PL rB _RB zIG _ZIG pM _PM kTS _KTS cBL _CBL cOB _COB f90 _F90 f _F dART _DART eX _EX eXS _EXS m _M sWIFT _SWIFT aSM _ASM s _S nIM _NIM vALA _VALA lISP _LISP rKT _RKT sCM _SCM aS _AS oBX _OBX sCALA _SCALA gROOVY _GROOVY jL _JL tCL _TCL wREN _WREN jANET _JANET gR _GR eLM _ELM kOTLIN tYPESCRIPT jAVASCRIPT c_PLUS_PLUS pYTHON c_SHARP rUST_NAME rUBY pERL oBJECT_PASCAL oCAML hASKELL hAXE eRLANG cOBOL fORTRAN eLIXIR oBJECTIVE_C rACKET sCHEME aCTIONSCRIPT oBERON_PLUS jULIA gRAIN cPLUSPLUS gOLANG cSHARP_ALIAS c23 pASCAL oBJECT_PASCAL_ALIAS oBJC oBJECTIVE_C_ALIAS aSSEMBLY cOMMON_LISP oBERON oBERON_PLUS_ALIAS kT_SHORT_NAME tS_SHORT_NAME jS_SHORT_NAME cPP_SHORT_NAME pY_SHORT_NAME gO_SHORT_NAME cS_SHORT_NAME aDA_SHORT_NAME rUST_SHORT_NAME lUA_SHORT_NAME c_SHORT_NAME zIG_SHORT_NAME rB_SHORT_NAME pL_SHORT_NAME pAS_SHORT_NAME mL_SHORT_NAME hS_SHORT_NAME hX_SHORT_NAME eRL_SHORT_NAME cBL_SHORT_NAME f90_SHORT_NAME dART_SHORT_NAME eX_SHORT_NAME oBJC_SHORT_NAME sWIFT_SHORT_NAME aSM_SHORT_NAME nIM_SHORT_NAME vALA_SHORT_NAME lISP_SHORT_NAME rKT_SHORT_NAME sCM_SHORT_NAME aS_SHORT_NAME oBX_SHORT_NAME sCALA_SHORT_NAME gROOVY_SHORT_NAME jL_SHORT_NAME tCL_SHORT_NAME wREN_SHORT_NAME jANET_SHORT_NAME gR_SHORT_NAME eLM_SHORT_NAME uNCRYPTED_EXTENSION eNCRYPTED_EXTENSION
     jregisterLevel header_ this
     pure this
 
@@ -380,6 +518,44 @@ initFields_ this = do
     jset this._EX (".ex")
     jset this.eXS ("exs")
     jset this._EXS (".exs")
+    jset this.m ("m")
+    jset this._M (".m")
+    jset this.sWIFT ("swift")
+    jset this._SWIFT (".swift")
+    jset this.aSM ("asm")
+    jset this._ASM (".asm")
+    jset this.s ("s")
+    jset this._S (".s")
+    jset this.nIM ("nim")
+    jset this._NIM (".nim")
+    jset this.vALA ("vala")
+    jset this._VALA (".vala")
+    jset this.lISP ("lisp")
+    jset this._LISP (".lisp")
+    jset this.rKT ("rkt")
+    jset this._RKT (".rkt")
+    jset this.sCM ("scm")
+    jset this._SCM (".scm")
+    jset this.aS ("as")
+    jset this._AS (".as")
+    jset this.oBX ("obx")
+    jset this._OBX (".obx")
+    jset this.sCALA ("scala")
+    jset this._SCALA (".scala")
+    jset this.gROOVY ("groovy")
+    jset this._GROOVY (".groovy")
+    jset this.jL ("jl")
+    jset this._JL (".jl")
+    jset this.tCL ("tcl")
+    jset this._TCL (".tcl")
+    jset this.wREN ("wren")
+    jset this._WREN (".wren")
+    jset this.jANET ("janet")
+    jset this._JANET (".janet")
+    jset this.gR ("gr")
+    jset this._GR (".gr")
+    jset this.eLM ("elm")
+    jset this._ELM (".elm")
     jset this.kOTLIN ("kotlin")
     jset this.tYPESCRIPT ("typescript")
     jset this.jAVASCRIPT ("javascript")
@@ -397,12 +573,25 @@ initFields_ this = do
     jset this.cOBOL ("cobol")
     jset this.fORTRAN ("fortran")
     jset this.eLIXIR ("elixir")
+    jset this.oBJECTIVE_C ("objective-c")
+    jset this.rACKET ("racket")
+    jset this.sCHEME ("scheme")
+    jset this.aCTIONSCRIPT ("actionscript")
+    jset this.oBERON_PLUS ("oberon+")
+    jset this.jULIA ("julia")
+    jset this.gRAIN ("grain")
     jset this.cPLUSPLUS ("cplusplus")
     jset this.gOLANG ("golang")
     jset this.cSHARP_ALIAS ("csharp")
     jset this.c23 ("c23")
     jset this.pASCAL ("pascal")
     jset this.oBJECT_PASCAL_ALIAS ("object pascal")
+    jset this.oBJC ("objc")
+    jset this.oBJECTIVE_C_ALIAS ("objectivec")
+    jset this.aSSEMBLY ("assembly")
+    jset this.cOMMON_LISP ("common lisp")
+    jset this.oBERON ("oberon")
+    jset this.oBERON_PLUS_ALIAS ("oberonplus")
     jset this.kT_SHORT_NAME ("Kt")
     jset this.tS_SHORT_NAME ("Ts")
     jset this.jS_SHORT_NAME ("Js")
@@ -426,6 +615,24 @@ initFields_ this = do
     jset this.f90_SHORT_NAME ("F90")
     jset this.dART_SHORT_NAME ("Dart")
     jset this.eX_SHORT_NAME ("Ex")
+    jset this.oBJC_SHORT_NAME ("ObjC")
+    jset this.sWIFT_SHORT_NAME ("Swift")
+    jset this.aSM_SHORT_NAME ("Asm")
+    jset this.nIM_SHORT_NAME ("Nim")
+    jset this.vALA_SHORT_NAME ("Vala")
+    jset this.lISP_SHORT_NAME ("Lisp")
+    jset this.rKT_SHORT_NAME ("Rkt")
+    jset this.sCM_SHORT_NAME ("Scm")
+    jset this.aS_SHORT_NAME ("As")
+    jset this.oBX_SHORT_NAME ("Obx")
+    jset this.sCALA_SHORT_NAME ("Scala")
+    jset this.gROOVY_SHORT_NAME ("Groovy")
+    jset this.jL_SHORT_NAME ("Jl")
+    jset this.tCL_SHORT_NAME ("Tcl")
+    jset this.wREN_SHORT_NAME ("Wren")
+    jset this.jANET_SHORT_NAME ("Janet")
+    jset this.gR_SHORT_NAME ("Gr")
+    jset this.eLM_SHORT_NAME ("Elm")
     jset this.uNCRYPTED_EXTENSION ((jget (this).xML))
     jset this.eNCRYPTED_EXTENSION ("abd")
     pure ()

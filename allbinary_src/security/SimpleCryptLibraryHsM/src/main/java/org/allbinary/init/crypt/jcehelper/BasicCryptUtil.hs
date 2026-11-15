@@ -112,7 +112,7 @@ getDecryptedInputStream_super object_ a1 a2 = (getDecryptedInputStream_impl (jav
 getDecryptedInputStream_impl :: BasicCryptUtil -> InputStream.InputStream -> CryptInterface.CryptInterface -> IO (InputStream.InputStream)
 getDecryptedInputStream_impl this inputStream cryptInterface = do
         buffer <- (ByteArrayOutputStream.new_)
-        ch <- newIORef (0)
+        ch <- newIORef (0 :: Int)
         fix $ \loop -> when True $ javaIteration (loop) $ do
             assignedValue <- (InputStream.read inputStream)
             jset ch (assignedValue)

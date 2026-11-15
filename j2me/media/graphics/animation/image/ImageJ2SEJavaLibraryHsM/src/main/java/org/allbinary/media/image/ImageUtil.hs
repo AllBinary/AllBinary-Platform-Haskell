@@ -243,8 +243,8 @@ createBufferedImageAllowTranslate_impl this bufferedImage newWidth newHeight sca
         let d_newHeight = (Prelude.fromIntegral newHeight)
         let widthRatio = (d_newWidth / width)
         let heightRatio = (d_newHeight / height)
-        ratioX <- newIORef (1.0)
-        ratioY <- newIORef (1.0)
+        ratioX <- newIORef (1.0 :: Double)
+        ratioY <- newIORef (1.0 :: Double)
         when scale $ do
             jset ratioX (widthRatio)
             jset ratioY (heightRatio)

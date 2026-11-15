@@ -240,7 +240,7 @@ paint_impl this graphics = do
             Control.Monad.void (MyFontProcessor.process ((jget (this).myFontProcessor)) graphics)
             start <- (MultipleScrollSelectionHorizontalForm.getStartIndex this)
             size <- (ScrollSelectionForm.size this)
-            dx <- newIORef ((jget (this).base.base.x))
+            dx <- newIORef ((jget (this).base.base.x) :: Int)
             let dy = (jget (this).base.base.y)
             Control.Monad.void (Paintable.paint ((jget (this).rectPaintable)) graphics)
             Control.Monad.void (Graphics.drawString graphics (jio (ScrollSelectionForm.getTitle this)) (jget (this).base.base.x) ((jget (this).base.base.y) - (jget (this).fontHeight)) 0)

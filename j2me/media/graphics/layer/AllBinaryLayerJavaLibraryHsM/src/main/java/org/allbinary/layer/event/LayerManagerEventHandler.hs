@@ -190,7 +190,7 @@ fireDeleteEvent_impl this eventObject = do
         let eventListenerInterfaceList = (jget (this).base.eventListenerInterfaceList)
         eventListenerInterface <- newIORef (javaNull)
         layerManagerEventListenerInterface <- newIORef (javaNull)
-        listenerIndex <- newIORef (0)
+        listenerIndex <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget listenerIndex) < (jio (BasicArrayList.size eventListenerInterfaceList))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jio (EventStrings.getInstance))).fIRE_EVENT) e)

@@ -33,8 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified InventoryItemViewParentTagHelper -- same package or java.lang
-import qualified InventoryEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified InventoryEntity -- same package or java.lang
 import qualified TagStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList

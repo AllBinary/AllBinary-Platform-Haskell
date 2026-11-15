@@ -167,7 +167,7 @@ processGameSpecific_super object_ a1 a2 a3 a4 a5 = (processGameSpecific_impl (ja
 processGameSpecific_impl :: CompositeRTSFormInput -> CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer -> RTSPlayerLayerInterface.RTSPlayerLayerInterface -> AllBinaryLayerManager.AllBinaryLayerManager -> ABCustomItem.ABCustomItem -> Int -> IO (())
 processGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface layerManager item index = do
         commonStrings <- (CommonStrings.getInstance)
-        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ((javaToString ((jget ((jio (CommonLabels.getInstance))).iNDEX_LABEL) + index) ++ " > ") ++ javaToString (jindex ((jget (this).itemIndex)) (0))) this (jget (commonStrings).pROCESS))
+        Control.Monad.void (LogUtil.putF ((jget (this).base.logUtil)) ((((jget ((jio (CommonLabels.getInstance))).iNDEX_LABEL) ++ javaToString index) ++ " > ") ++ javaToString (jindex ((jget (this).itemIndex)) (0))) this (jget (commonStrings).pROCESS))
         if ((jio (CompositeRTSFormInput.isStickyItemSelected this)) && (associatedRtsLayer == (jio (CollidableDestroyableDamageableLayer.getNullInstance)))) then do
             when ((jio (CompositeRTSFormInput.getSelectedStickyItemIndex this)) <= (jindex ((jget (this).itemIndex)) (0))) $ do
                 Control.Monad.void (RTSFormInput.processGameSpecific ((jindex ((jget (this).rtsFormInputArray)) (0))) associatedRtsLayer rtsPlayerLayerInterface layerManager item index)

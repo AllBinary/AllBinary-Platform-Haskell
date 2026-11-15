@@ -224,7 +224,7 @@ getPath_impl this categoryHierarchyInterface = do
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         nextParentCategoryInterface <- newIORef =<< (CategoryHierarchyInterface.getParent categoryHierarchyInterface)
         when ((jtoObject this) /= (jtoObject (jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface)))))) $ do
-            depthIndex <- newIORef (0)
+            depthIndex <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget nextParentCategoryInterface) /= javaNull) $ javaIteration (loop) $ do
                 when (jio (CategoryPropertiesInterface.isRealRoot ((jio (CategoryInterface.getProperties ((jget nextParentCategoryInterface))))))) $ do
                     throwIO JavaBreak
@@ -259,7 +259,7 @@ getFileName_super object_ = (getFileName_impl (javaCast object_ :: CategoryPrope
 
 getFileName_impl :: CategoryProperties -> IO (String)
 getFileName_impl this = do
-        pure ((((jio (CategoryProperties.getValue this)) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
+        pure ((((jio (CategoryProperties.getValue this)) ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
 
 
 -- throws Exception

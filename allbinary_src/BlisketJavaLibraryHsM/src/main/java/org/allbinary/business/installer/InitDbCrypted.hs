@@ -32,6 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
+import qualified StringUtil -- same package or java.lang
 import qualified UserEntity -- same package or java.lang
 import qualified StoreFrontsEntity -- same package or java.lang
 import qualified PaymentEntity -- same package or java.lang
@@ -45,8 +47,6 @@ import qualified InventoryEntity -- same package or java.lang
 import qualified LogTableEntity -- same package or java.lang
 import qualified StaticPagesEntity -- same package or java.lang
 import qualified TransformInfoEntity -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
-import qualified StringUtil -- same package or java.lang
 import qualified AbSqlBean -- same package or java.lang
 import qualified AbSqlRow -- same package or java.lang
 import qualified AbSqlColumn -- same package or java.lang
@@ -290,7 +290,7 @@ addTables_impl this = do
             Control.Monad.void (StringMaker.append stringBuffer (jio (LogTableEntity.createTable ((jio (LogTableEntityFactory.getLogTableEntityInstance ((jio (LogTableEntityFactory.getInstance)))))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (StaticPagesEntity.createTable ((jio (StaticPagesEntityFactory.getStaticPagesEntityInstance ((jio (StaticPagesEntityFactory.getInstance)))))))))
             Control.Monad.void (StringMaker.append stringBuffer (jio (TransformInfoEntity.createTable ((jio (TransformInfoEntityBuilder.getInstance))))))
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (aDD_TABLES_RESULTS_LABEL ++ (jio (StringMaker.toString stringBuffer))) this (jget (this).base.mETHOD_ADD_TABLES))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget this.base.aDD_TABLES_RESULTS_LABEL) ++ (jio (StringMaker.toString stringBuffer))) this (jget (this).base.mETHOD_ADD_TABLES))
             pure (True)
 
 

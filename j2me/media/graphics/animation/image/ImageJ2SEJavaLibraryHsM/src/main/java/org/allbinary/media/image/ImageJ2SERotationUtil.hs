@@ -198,8 +198,8 @@ createSpriteImage_super object_ a1 = (createSpriteImage_impl (javaCast object_ :
 
 createSpriteImage_impl :: ImageJ2SERotationUtil -> JavaArray (BufferedImage.BufferedImage) -> IO (BufferedImage.BufferedImage)
 createSpriteImage_impl this bufferedImageArray = do
-        columns <- newIORef (9)
-        rows <- newIORef (0)
+        columns <- newIORef (9 :: Int)
+        rows <- newIORef (0 :: Int)
         let size = (jlength bufferedImageArray)
         when (size < (jget columns)) $ do
             jset columns (size)
@@ -209,8 +209,8 @@ createSpriteImage_impl this bufferedImageArray = do
         let firstBufferedImage = (jindex bufferedImageArray (0))
         bufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) ((jio (BufferedImage.getWidth firstBufferedImage javaNull)) * (jget columns)) ((jio (BufferedImage.getHeight firstBufferedImage javaNull)) * (jget rows)))
         g <- (BufferedImage.createGraphics bufferedImage)
-        columnIndex <- newIORef (0)
-        rowIndex <- newIORef (0)
+        columnIndex <- newIORef (0 :: Int)
+        rowIndex <- newIORef (0 :: Int)
         nextBufferedImage <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             when (((index `quot` 9) /= 0) && ((index `rem` 9) == 0)) $ do

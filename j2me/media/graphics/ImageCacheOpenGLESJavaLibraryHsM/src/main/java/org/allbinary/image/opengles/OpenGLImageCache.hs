@@ -34,8 +34,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified OpenGLESImage -- same package or java.lang
-import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
 import qualified ImageCacheBase -- same package or java.lang
 import qualified InputStream -- java.io.InputStream
 import qualified GL10 -- javax.microedition.khronos.opengles.GL10
@@ -160,7 +160,7 @@ createImage_impl :: OpenGLImageCache -> String -> Int -> Int -> IO (Image.Image)
 createImage_impl this caller width height = do
         width <- newIORef width
         height <- newIORef height
-        textureSize <- newIORef ((jget width))
+        textureSize <- newIORef ((jget width) :: Int)
         when ((jget height) > (jget width)) $ do
             jset textureSize ((jget height))
         fix $ \loop -> when ((((jget textureSize) `rem` 4)) /= 0) $ javaIteration (loop) $ do

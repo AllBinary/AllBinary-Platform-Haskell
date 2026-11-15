@@ -131,7 +131,7 @@ getLargestIntegerInColumnWhere_impl this columnName key value = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.fAILED_SQL_STATEMENT) ++ sqlStatement) this (jget this.mETHOD_GET_LARGETS_INTEGER_IN_COLUMN) e)
             pure ((jget (this).iNVALID_RESULT))
             ) $ do
-            largest <- newIORef (0)
+            largest <- newIORef (0 :: Int)
             rset <- (AbSqlTable.executeSQLStatement this sqlStatement)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
                 intValue <- (ResultSet.getInt rset columnName)

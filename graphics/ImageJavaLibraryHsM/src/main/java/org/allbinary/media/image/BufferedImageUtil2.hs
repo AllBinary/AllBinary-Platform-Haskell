@@ -90,9 +90,9 @@ createSpriteImage_super object_ a1 = (createSpriteImage_impl (javaCast object_ :
 
 createSpriteImage_impl :: BufferedImageUtil2 -> JavaArray (BufferedImage.BufferedImage) -> IO (BufferedImage.BufferedImage)
 createSpriteImage_impl this bufferedImageArray = do
-        columns <- newIORef ((jlength bufferedImageArray))
+        columns <- newIORef ((jlength bufferedImageArray) :: Int)
         let max = (jget columns)
-        rows <- newIORef (0)
+        rows <- newIORef (0 :: Int)
         when ((jlength bufferedImageArray) < (jget columns)) $ do
             jset columns ((jlength bufferedImageArray))
         jset rows ((((jlength bufferedImageArray) `quot` (jget columns))))
@@ -100,8 +100,8 @@ createSpriteImage_impl this bufferedImageArray = do
             jset rows ((jget rows) + 1)
         bufferedImage <- (ImageUtil.create ((jget (this).imageUtil)) ((jio (BufferedImage.getWidth ((jindex bufferedImageArray (0))) javaNull)) * (jget columns)) ((jio (BufferedImage.getHeight ((jindex bufferedImageArray (0))) javaNull)) * (jget rows)))
         g <- (BufferedImage.createGraphics bufferedImage)
-        columnIndex <- newIORef (0)
-        rowIndex <- newIORef (0)
+        columnIndex <- newIORef (0 :: Int)
+        rowIndex <- newIORef (0 :: Int)
         forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
             when (((index `quot` max) /= 0) && ((index `rem` max) == 0)) $ do
                 jset rowIndex ((jget rowIndex) + 1)

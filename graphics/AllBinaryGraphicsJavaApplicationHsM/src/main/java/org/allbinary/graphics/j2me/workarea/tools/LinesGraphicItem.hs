@@ -245,7 +245,7 @@ init_super object_ = (init_impl (javaCast object_ :: LinesGraphicItem))
 
 init_impl :: LinesGraphicItem -> IO (())
 init_impl this = do
-        assignedValue <- (DefaultMutableTreeNode.new_1 ((jget ((jio (PointsDomUtil.getInstance))).lINES) + (jget LinesGraphicItem.item)))
+        assignedValue <- (DefaultMutableTreeNode.new_1 ((jget ((jio (PointsDomUtil.getInstance))).lINES) ++ javaToString (jget LinesGraphicItem.item)))
         jset (this).treeNode (assignedValue)
         jset LinesGraphicItem.item ((jget LinesGraphicItem.item) + 1)
         Control.Monad.void (Points.init ((jget (this).points)))

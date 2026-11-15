@@ -194,7 +194,7 @@ onGeographicMapCellPositionEvent_super object_ a1 = (onGeographicMapCellPosition
 onGeographicMapCellPositionEvent_impl :: MiniMapLayer -> GeographicMapCellPositionEvent.GeographicMapCellPositionEvent -> IO (())
 onGeographicMapCellPositionEvent_impl this geographicMapCellPositionEvent = do
         let colorCompositeInterface = (javaCast (jio (GeographicMapCellPositionEvent.getSource geographicMapCellPositionEvent)) :: ColorCompositeInterface.ColorCompositeInterface)
-        layerIndex <- newIORef ((Prelude.negate 1))
+        layerIndex <- newIORef ((Prelude.negate 1) :: Int)
         size <- (BasicArrayList.size ((jget (this).list)))
         nextColorCompositeInterface <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -228,7 +228,7 @@ paintDots_impl this graphics = do
         length <- (BasicArrayList.size localPositionList)
         point <- newIORef (javaNull)
         basicColor <- newIORef (javaNull)
-        index <- newIORef (length)
+        index <- newIORef (length :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset point ((javaCast (jio (BasicArrayList.get localPositionList (jget index))) :: GPoint.GPoint))
             jset basicColor ((javaCast (jio (BasicArrayList.get localBasicColorList (jget index))) :: BasicColor.BasicColor))

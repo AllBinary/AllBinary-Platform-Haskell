@@ -149,9 +149,9 @@ visit2_impl :: PropsTileMapPlacementVisitor -> JavaArray (JavaArray (Int)) -> Ja
 visit2_impl this mapArray mapData index index2 = do
     javaCatchReturn $ do
         commonStrings <- (CommonStrings.getInstance)
-        countX <- newIORef (0)
-        countY <- newIORef (0)
-        index3 <- newIORef ((index - 1))
+        countX <- newIORef (0 :: Int)
+        countY <- newIORef (0 :: Int)
+        index3 <- newIORef ((index - 1) :: Int)
         forM_ [(index2 - 1), (index2 - 1) + (-1) .. 0 + 1] $ \index4 -> javaIteration (pure ()) $ do
             jset index3 ((jget index3) - 1)
             when (((jget index3) < 0) || (index4 < 0)) $ do

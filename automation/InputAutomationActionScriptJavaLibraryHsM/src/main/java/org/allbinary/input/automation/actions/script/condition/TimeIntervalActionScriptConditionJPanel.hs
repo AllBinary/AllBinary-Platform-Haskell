@@ -229,9 +229,7 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setMinimumSize ((jget (this).timeIntervalActionJDialog)) (jio (Dimension.new_2 250 150)))
         Control.Monad.void (JLabel.setText ((jget (this).titleJLabel)) "Time Interval Condition Options")
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousTimeIntervalActionScriptConditionJPanel0_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Time (ms):")
         timeIntervalActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).timeIntervalActionJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).timeIntervalActionJDialog))))) timeIntervalActionJDialogLayout)
@@ -239,9 +237,7 @@ initComponents_impl this = do
         Control.Monad.void (GroupLayout.setVerticalGroup timeIntervalActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup timeIntervalActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup timeIntervalActionJDialogLayout)))))) (jget this.titleJLabel)))) 20 20 20))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup timeIntervalActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.jLabel2)))) (jget this.timeIntervalJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) 15 15 15))) (jget this.okJButton)))))))))
         Control.Monad.void (JPanel.setMinimumSize this (jio (Dimension.new_2 100 0)))
         Control.Monad.void (JButton.setText ((jget (this).timeIntervalActionJButton)) "Edit")
-        Control.Monad.void (JButton.addActionListener ((jget (this).timeIntervalActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).timeIntervalActionJButton)) (jio (ActionListener.new_ >>= anonymousTimeIntervalActionScriptConditionJPanel1_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Time Interval:")
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
@@ -274,4 +270,24 @@ timeIntervalActionJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jio (TimeIntervalActionScriptConditionJPanel.getTimeIntervalActionJDialog this))) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousTimeIntervalActionScriptConditionJPanel0_ (this :: TimeIntervalActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousTimeIntervalActionScriptConditionJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousTimeIntervalActionScriptConditionJPanel0_actionPerformed (this :: TimeIntervalActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (TimeIntervalActionScriptConditionJPanel.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousTimeIntervalActionScriptConditionJPanel1_ (this :: TimeIntervalActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousTimeIntervalActionScriptConditionJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousTimeIntervalActionScriptConditionJPanel1_actionPerformed (this :: TimeIntervalActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (TimeIntervalActionScriptConditionJPanel.timeIntervalActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

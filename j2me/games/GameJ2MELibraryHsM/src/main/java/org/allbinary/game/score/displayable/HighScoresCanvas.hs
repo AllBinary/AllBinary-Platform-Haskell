@@ -293,7 +293,7 @@ updateCommand_impl this command = do
         gameCommandsFactory <- (GameCommandsFactory.getInstance)
         when (jio (HighScoreCommandsFactory.isHighScoreCommand ((jget (this).highScoreCommandsFactory)) command)) $ do
             index <- (HighScoreCommandsFactory.getIndex ((jget (this).highScoreCommandsFactory)) command)
-            nextIndex <- newIORef ((index + 1))
+            nextIndex <- newIORef ((index + 1) :: Int)
             highScoresArray <- (HighScoresHelperBase.getHighScoresArray ((jget (this).highScoresHelper)))
             when ((jget nextIndex) >= (jlength highScoresArray)) $ do
                 jset nextIndex (0)

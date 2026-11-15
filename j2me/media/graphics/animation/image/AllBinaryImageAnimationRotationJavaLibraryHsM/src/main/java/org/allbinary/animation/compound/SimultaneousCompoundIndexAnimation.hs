@@ -107,7 +107,7 @@ setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: SimultaneousComp
 
 setFrame_impl :: SimultaneousCompoundIndexAnimation -> Int -> IO (())
 setFrame_impl this frameIndex = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.setFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) frameIndex)
         pure ()
@@ -155,7 +155,7 @@ previousFrame_super object_ = (previousFrame_impl (javaCast object_ :: Simultane
 
 previousFrame_impl :: SimultaneousCompoundIndexAnimation -> IO (())
 previousFrame_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.previousFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -170,7 +170,7 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: SimultaneousCompo
 
 nextFrame_impl :: SimultaneousCompoundIndexAnimation -> IO (())
 nextFrame_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()
@@ -206,7 +206,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: Simultaneous
 
 paintXY_impl :: SimultaneousCompoundIndexAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.paintXY ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) graphics x y)
         pure ()
@@ -220,7 +220,7 @@ paintThreedXYZ_super object_ a1 a2 a3 a4 = (paintThreedXYZ_impl (javaCast object
 
 paintThreedXYZ_impl :: SimultaneousCompoundIndexAnimation -> Graphics.Graphics -> Int -> Int -> Int -> IO (())
 paintThreedXYZ_impl this graphics x y z = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.paintThreedXYZ ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) graphics x y z)
         pure ()
@@ -235,7 +235,7 @@ set_super object_ a1 = (set_impl (javaCast object_ :: SimultaneousCompoundIndexA
 
 set_impl :: SimultaneousCompoundIndexAnimation -> GL.GL -> IO (())
 set_impl this gl = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (IndexedAnimation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()

@@ -99,7 +99,7 @@ keepOnBorderdMapX_super object_ a1 a2 a3 a4 = (keepOnBorderdMapX_impl (javaCast 
 
 keepOnBorderdMapX_impl :: TiledLayerUtil -> AllBinaryTiledLayer.AllBinaryTiledLayer -> Int -> Int -> Int -> IO (Int)
 keepOnBorderdMapX_impl this terrainTiledLayer x width mapBorderBufferWidth = do
-        newX <- newIORef (x)
+        newX <- newIORef (x :: Int)
         let maxRight = (((jio (AllBinaryTiledLayer.getWidth terrainTiledLayer)) - width) - mapBorderBufferWidth)
         when ((x + width) > maxRight) $ do
             jset newX (maxRight)
@@ -116,7 +116,7 @@ keepOnBorderdMapY_super object_ a1 a2 a3 a4 = (keepOnBorderdMapY_impl (javaCast 
 
 keepOnBorderdMapY_impl :: TiledLayerUtil -> AllBinaryTiledLayer.AllBinaryTiledLayer -> Int -> Int -> Int -> IO (Int)
 keepOnBorderdMapY_impl this terrainTiledLayer y height mapBorderBufferHeight = do
-        newY <- newIORef (y)
+        newY <- newIORef (y :: Int)
         let maxBottom = (((jio (AllBinaryTiledLayer.getHeight terrainTiledLayer)) - height) - mapBorderBufferHeight)
         when ((y + height) > maxBottom) $ do
             jset newY (maxBottom)
@@ -133,7 +133,7 @@ keepOnMapX_super object_ a1 a2 a3 = (keepOnMapX_impl (javaCast object_ :: TiledL
 
 keepOnMapX_impl :: TiledLayerUtil -> AllBinaryTiledLayer.AllBinaryTiledLayer -> Int -> Int -> IO (Int)
 keepOnMapX_impl this terrainTiledLayer x width = do
-        newX <- newIORef (x)
+        newX <- newIORef (x :: Int)
         let maxRight = ((jio (AllBinaryTiledLayer.getWidth terrainTiledLayer)) - width)
         when (x >= maxRight) $ do
             jset newX (maxRight)
@@ -150,7 +150,7 @@ keepOnMapY_super object_ a1 a2 a3 = (keepOnMapY_impl (javaCast object_ :: TiledL
 
 keepOnMapY_impl :: TiledLayerUtil -> AllBinaryTiledLayer.AllBinaryTiledLayer -> Int -> Int -> IO (Int)
 keepOnMapY_impl this terrainTiledLayer y height = do
-        newY <- newIORef (y)
+        newY <- newIORef (y :: Int)
         let maxBottom = ((jio (AllBinaryTiledLayer.getHeight terrainTiledLayer)) - height)
         when (y >= maxBottom) $ do
             jset newY (maxBottom)

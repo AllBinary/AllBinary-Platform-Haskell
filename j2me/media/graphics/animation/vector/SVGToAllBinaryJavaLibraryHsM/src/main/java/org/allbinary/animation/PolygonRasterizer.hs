@@ -108,8 +108,8 @@ fillPolygon_impl this polyX polyY numPoints buffer width height colorRGB = do
         fixedPoint <- (FixedPoint.getInstance)
         let x = (jnewArray (numPoints) 0)
         let y = (jnewArray (numPoints) 0)
-        minY <- newIORef (height)
-        maxY <- newIORef (0)
+        minY <- newIORef (height :: Int)
+        maxY <- newIORef (0 :: Int)
         forM_ [0 .. numPoints - 1] $ \i -> javaIteration (pure ()) $ do
             assignedValue <- (FixedPoint.toInt fixedPoint (jindex polyX (i)))
             jsetIndex x (i) (assignedValue)
@@ -125,7 +125,7 @@ fillPolygon_impl this polyX polyY numPoints buffer width height colorRGB = do
             jset maxY ((height - 1))
         let scanlineX = (jnewArray (numPoints) 0)
         forM_ [(jget minY) .. (jget maxY)] $ \scanY -> javaIteration (pure ()) $ do
-            intersectCount <- newIORef (0)
+            intersectCount <- newIORef (0 :: Int)
             forM_ [0 .. numPoints - 1] $ \i -> javaIteration (pure ()) $ do
                 let next = (((i + 1)) `rem` numPoints)
                 let x1 = (jindex x (i))
@@ -145,8 +145,8 @@ fillPolygon_impl this polyX polyY numPoints buffer width height colorRGB = do
             forM_ [0, 0 + (2) .. (jget intersectCount) - 1] $ \i -> javaIteration (pure ()) $ do
                 when ((i + 1) >= (jget intersectCount)) $ do
                     throwIO JavaBreak
-                startX <- newIORef ((jindex scanlineX (i)))
-                endX <- newIORef ((jindex scanlineX ((i + 1))))
+                startX <- newIORef ((jindex scanlineX (i)) :: Int)
+                endX <- newIORef ((jindex scanlineX ((i + 1))) :: Int)
                 when ((jget startX) < 0) $ do
                     jset startX (0)
                 when ((jget endX) >= width) $ do

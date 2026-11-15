@@ -154,7 +154,7 @@ updateMeasurement_impl :: TechnologyRTSInterfaceImageItem -> Graphics.Graphics -
 updateMeasurement_impl this graphics = do
         font <- (Graphics.getFont graphics)
         fontHeight <- (Font.getHeight font)
-        imageHeight <- newIORef (0)
+        imageHeight <- newIORef (0 :: Int)
         image <- (ABCustomImageItem.getImage this)
         when (image /= NullImage.nULL_IMAGE) $ do
             assignedValue <- (Image.getHeight image)

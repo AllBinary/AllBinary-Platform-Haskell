@@ -248,7 +248,7 @@ findPath_impl this start target = do
     javaCatchReturn $ do
         Control.Monad.void (ABPriorityQueue.clear ((jget (this).openPriorityQueue)))
         Control.Monad.void (ABHashSet.clear ((jget (this).closedSet)))
-        discoveryCalculation <- newIORef (0)
+        discoveryCalculation <- newIORef (0 :: Int64)
         node <- newIORef (javaNull)
         targetColumn <- (GeographicMapCellPosition.getColumn target)
         targetRow <- (GeographicMapCellPosition.getRow target)
@@ -275,7 +275,7 @@ findPath_impl this start target = do
                 javaReturn =<< (PathFinder.extractPath this start (jget current))
             neighbor <- newIORef (javaNull)
             neighborInfo <- newIORef (javaNull)
-            calculatedCost <- newIORef (0)
+            calculatedCost <- newIORef (0 :: Int64)
             forM_ [((jio (GeographicMapCellPosition.getColumn ((jget ((jget current)).base.geographicMapCellPosition)))) - 1) .. ((jio (GeographicMapCellPosition.getColumn ((jget ((jget current)).base.geographicMapCellPosition)))) + 2) - 1] $ \column -> javaIteration (pure ()) $ do
                 forM_ [((jio (GeographicMapCellPosition.getRow ((jget ((jget current)).base.geographicMapCellPosition)))) - 1) .. ((jio (GeographicMapCellPosition.getRow ((jget ((jget current)).base.geographicMapCellPosition)))) + 2) - 1] $ \row -> javaIteration (pure ()) $ do
                     when (((((column > 0) && (row > 0)) && (column < (jio (AllBinaryTiledLayer.getColumns allBinaryTiledLayer)))) && (row < (jio (AllBinaryTiledLayer.getRows allBinaryTiledLayer)))) && (jio (BasicGeographicMap.isOnMap geographicMapInterface (jio (BasicGeographicMapCellPositionFactory.getAt basicGeographicMapCellPositionFactory column row))))) $ do
@@ -304,7 +304,7 @@ findPathStart_impl :: PathFinder -> GeographicMapCellPosition.GeographicMapCellP
 findPathStart_impl this start target multipassState = do
         Control.Monad.void (ABPriorityQueue.clear ((jget (this).openPriorityQueue)))
         Control.Monad.void (ABHashSet.clear ((jget (this).closedSet)))
-        discoveryCalculation <- newIORef (0)
+        discoveryCalculation <- newIORef (0 :: Int64)
         node <- newIORef (javaNull)
         targetColumn <- (GeographicMapCellPosition.getColumn target)
         targetRow <- (GeographicMapCellPosition.getRow target)
@@ -337,7 +337,7 @@ findPathEnd_impl this start target multipassState = do
         allBinaryTiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
         let targetNode = (jindex ((jindex ((jget (this).costArray)) ((jio (GeographicMapCellPosition.getColumn target))))) ((jio (GeographicMapCellPosition.getRow target))))
         current <- newIORef (javaNull)
-        total <- newIORef (0)
+        total <- newIORef (0 :: Int)
         fix $ \loop -> javaIteration (when (Prelude.not (jio (ABPriorityQueue.isEmpty ((jget (this).openPriorityQueue))))) loop) $ do
             assignedValue <- (ABPriorityQueue.poll ((jget (this).openPriorityQueue)))
             jset current (assignedValue)
@@ -346,7 +346,7 @@ findPathEnd_impl this start target multipassState = do
                 javaReturn =<< (PathFinder.extractPath this start (jget current))
             neighbor <- newIORef (javaNull)
             neighborInfo <- newIORef (javaNull)
-            calculatedCost <- newIORef (0)
+            calculatedCost <- newIORef (0 :: Int64)
             forM_ [((jio (GeographicMapCellPosition.getColumn ((jget ((jget current)).base.geographicMapCellPosition)))) - 1) .. ((jio (GeographicMapCellPosition.getColumn ((jget ((jget current)).base.geographicMapCellPosition)))) + 2) - 1] $ \column -> javaIteration (pure ()) $ do
                 forM_ [((jio (GeographicMapCellPosition.getRow ((jget ((jget current)).base.geographicMapCellPosition)))) - 1) .. ((jio (GeographicMapCellPosition.getRow ((jget ((jget current)).base.geographicMapCellPosition)))) + 2) - 1] $ \row -> javaIteration (pure ()) $ do
                     when (((((column > 0) && (row > 0)) && (column < (jio (AllBinaryTiledLayer.getColumns allBinaryTiledLayer)))) && (row < (jio (AllBinaryTiledLayer.getRows allBinaryTiledLayer)))) && (jio (BasicGeographicMap.isOnMap geographicMapInterface (jio (BasicGeographicMapCellPositionFactory.getAt basicGeographicMapCellPositionFactory column row))))) $ do

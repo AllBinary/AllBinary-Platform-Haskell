@@ -114,7 +114,7 @@ init_impl :: J2MEKeyFactory -> IO (())
 init_impl this = do
         let gameKeyArray = (jarrayFromList [(jget ((jget (this).gameKeyFactory)).dOWN), (jget ((jget (this).gameKeyFactory)).fIRE), (jget ((jget (this).gameKeyFactory)).gAME_A), (jget ((jget (this).gameKeyFactory)).gAME_B), (jget ((jget (this).gameKeyFactory)).gAME_C), (jget ((jget (this).gameKeyFactory)).gAME_D), (jget ((jget (this).gameKeyFactory)).kEY_NUM0), (jget ((jget (this).gameKeyFactory)).kEY_NUM1), (jget ((jget (this).gameKeyFactory)).kEY_NUM2), (jget ((jget (this).gameKeyFactory)).kEY_NUM3), (jget ((jget (this).gameKeyFactory)).kEY_NUM4), (jget ((jget (this).gameKeyFactory)).kEY_NUM5), (jget ((jget (this).gameKeyFactory)).kEY_NUM6), (jget ((jget (this).gameKeyFactory)).kEY_NUM7), (jget ((jget (this).gameKeyFactory)).kEY_NUM8), (jget ((jget (this).gameKeyFactory)).kEY_NUM9), (jget ((jget (this).gameKeyFactory)).kEY_POUND), (jget ((jget (this).gameKeyFactory)).kEY_STAR), (jget ((jget (this).gameKeyFactory)).lEFT), (jget ((jget (this).gameKeyFactory)).lEVEL_DOWN), (jget ((jget (this).gameKeyFactory)).lEVEL_UP), (jget ((jget (this).gameKeyFactory)).nONE), (jget ((jget (this).gameKeyFactory)).rIGHT), (jget ((jget (this).gameKeyFactory)).uP)])
         inputFactory <- (InputFactory.getInstance)
-        index <- newIORef ((jlength gameKeyArray))
+        index <- newIORef ((jlength gameKeyArray) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (InputFactory.add inputFactory (jio (GameKey.getId ((jindex gameKeyArray ((jget index)))))) (javaCast (jindex gameKeyArray ((jget index)))))
         pure ()

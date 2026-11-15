@@ -238,7 +238,7 @@ init_impl this abeClientInformation = do
             ) $ do
             Control.Monad.void (InputPersistance.loadAll ((jget (this).inputPersistance)) abeClientInformation)
         list <- (InputPersistance.getList ((jget (this).inputPersistance)))
-        totalMappedTo <- newIORef (0)
+        totalMappedTo <- newIORef (0 :: Int)
         size <- (BasicArrayList.size list)
         hashtable <- newIORef (javaNull)
         enumeration <- newIORef (javaNull)

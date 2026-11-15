@@ -33,11 +33,11 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AllBinaryGameCanvas -- same package or java.lang
+import qualified GameInputStrings -- same package or java.lang
 import qualified PersistentInputMapping -- same package or java.lang
 import qualified DownGameKeyEventHandlerBase -- same package or java.lang
 import qualified DownKeyEventHandlerBase -- same package or java.lang
 import qualified UpGameKeyEventHandlerBase -- same package or java.lang
-import qualified GameInputStrings -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified GameKey -- org.allbinary.game.input.GameKey
 import qualified GameKeyEventSourceInterface -- org.allbinary.game.input.GameKeyEventSourceInterface

@@ -128,8 +128,8 @@ createImage_impl this image width height scaleWidth scaleHeight = do
         sprite <- newIORef (javaNull)
         scaledImage <- newIORef (javaNull)
         if ((scaleWidth /= 0) && (scaleHeight /= 0)) then do
-            scaleX <- newIORef ((((Prelude.fromIntegral scaleWidth)) / ((Prelude.fromIntegral width))))
-            scaleY <- newIORef ((((Prelude.fromIntegral scaleHeight)) / ((Prelude.fromIntegral height))))
+            scaleX <- newIORef ((((Prelude.fromIntegral scaleWidth)) / ((Prelude.fromIntegral width))) :: Float)
+            scaleY <- newIORef ((((Prelude.fromIntegral scaleHeight)) / ((Prelude.fromIntegral height))) :: Float)
             if (((((jget scaleX) == 1.0) && ((jget scaleY) == 1.0))) || ((((jget scaleX) == 0.0) || ((jget scaleY) == 0.0)))) then do
                 assignedValue <- (OpenGLUtil.addImage ((jget (this).openGLUtil)) image)
                 jset scaledImage (assignedValue)

@@ -179,7 +179,7 @@ getTotalWeight_super object_ = (getTotalWeight_impl (javaCast object_ :: BasketR
 
 getTotalWeight_impl :: BasketReview -> IO (String)
 getTotalWeight_impl this = do
-        weightFloat <- newIORef (0.0)
+        weightFloat <- newIORef (0.0 :: Float)
         itemArray <- (BasicArrayList.toArray ((jget (this).items)))
         let size = (jlength itemArray)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

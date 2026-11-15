@@ -132,7 +132,7 @@ toDom_impl this canvasDom pointVector = do
         size <- (BasicArrayList.size pointVector)
         firstPoint <- newIORef (javaNull)
         rotatedFirstPoint <- newIORef (javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         when (((jget index) < size) && ((jget index) < size2)) $ do
             jset rotatedFirstPoint ((javaCast (jio (BasicArrayList.get tempPointVector (jget index))) :: GPoint.GPoint))
             jset firstPoint ((javaCast (jio (BasicArrayList.get pointVector (jget index))) :: GPoint.GPoint))

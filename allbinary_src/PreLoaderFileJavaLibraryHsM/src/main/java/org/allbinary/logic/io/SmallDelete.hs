@@ -114,8 +114,8 @@ deleteAtStart_impl this start end = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "deleteAtStart" e)
             pure (False)
             ) $ do
-            beginIndex <- newIORef (0)
-            endIndex <- newIORef (0)
+            beginIndex <- newIORef (0 :: Int)
+            endIndex <- newIORef (0 :: Int)
             jset beginIndex ((jstringIndexOf (jget (this).string) start 0))
             jset endIndex ((jstringIndexOf (jget (this).string) end 0))
             when ((((((jget endIndex) > (jget beginIndex)) && ((jget beginIndex) >= 0)) && ((jget endIndex) >= 0)) && ((jget beginIndex) < 10)) && ((jget endIndex) < 525)) $ do
@@ -141,8 +141,8 @@ deleteBetween_impl this start end newText = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eXCEPTION) this "deleteAtStart" e)
             pure (False)
             ) $ do
-            beginIndex <- newIORef (0)
-            endIndex <- newIORef (0)
+            beginIndex <- newIORef (0 :: Int)
+            endIndex <- newIORef (0 :: Int)
             jset beginIndex ((jstringIndexOf (jget (this).string) start 0))
             jset endIndex ((jstringIndexOf (jget (this).string) end 0))
             when ((((((jget endIndex) > (jget beginIndex)) && ((jget beginIndex) >= 0)) && ((jget endIndex) >= 0)) && ((jget beginIndex) < 50)) && ((jget endIndex) < 425)) $ do

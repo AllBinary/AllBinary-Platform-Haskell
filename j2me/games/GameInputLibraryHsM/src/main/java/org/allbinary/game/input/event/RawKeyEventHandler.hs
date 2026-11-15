@@ -201,7 +201,7 @@ fireEvent_super object_ a1 a2 a3 = (fireEvent_impl (javaCast object_ :: RawKeyEv
 fireEvent_impl :: RawKeyEventHandler -> Int -> Int -> Bool -> IO (())
 fireEvent_impl this keyCode deviceId repeated = do
         eventListenerInterface <- newIORef (javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 commonStrings <- (CommonStrings.getInstance)
@@ -249,7 +249,7 @@ toString_impl this = do
         Control.Monad.void (StringMaker.append stringBuffer (RawKeyEventHandler.tOTAL_LISTENERS))
         Control.Monad.void (StringMaker.appendint stringBuffer (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList)))))
         eventListenerInterface <- newIORef (javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size ((jget (this).eventListenerInterfaceList))))) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 commonStrings <- (CommonStrings.getInstance)

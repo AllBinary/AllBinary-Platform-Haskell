@@ -365,19 +365,11 @@ initComponents_impl this = do
         Control.Monad.void (JFrame.setDefaultCloseOperation this (jget ((jget (javax.swing).windowConstants)).eXIT_ON_CLOSE))
         Control.Monad.void (JFrame.setMinimumSize this (jio (Dimension.new_2 325 215)))
         Control.Monad.void (JFrame.setResizable this False)
-        Control.Monad.void (JFrame.addWindowFocusListener this (WindowFocusListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- windowGainedFocus
-            -- windowLostFocus
--}))
-        Control.Monad.void (JFrame.addFocusListener this (FocusAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- focusGained
-            -- focusLost
--}))
+        Control.Monad.void (JFrame.addWindowFocusListener this (jio (WindowFocusListener.new_ >>= anonymousInputAutomationJFrame0_ this)))
+        Control.Monad.void (JFrame.addFocusListener this (jio (FocusAdapter.new_ >>= anonymousInputAutomationJFrame1_ this)))
         Control.Monad.void (JTabbedPane.setMinimumSize ((jget (this).gameRobotJTabbedPane)) (jio (Dimension.new_2 320 200)))
         Control.Monad.void (JList.setMinimumSize ((jget (this).inputAutomationModuleJList)) (jio (Dimension.new_2 200 0)))
-        Control.Monad.void (JList.addListSelectionListener ((jget (this).inputAutomationModuleJList)) (ListSelectionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- valueChanged
--}))
+        Control.Monad.void (JList.addListSelectionListener ((jget (this).inputAutomationModuleJList)) (jio (ListSelectionListener.new_ >>= anonymousInputAutomationJFrame2_ this)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).jScrollPane1)) (jget (this).inputAutomationModuleJList))
         inputAutomationModuleJPanelLayout <- (GroupLayout.new_1 (jget (this).inputAutomationModuleJPanel))
         Control.Monad.void (JPanel.setLayout ((jget (this).inputAutomationModuleJPanel)) inputAutomationModuleJPanelLayout)
@@ -392,53 +384,35 @@ initComponents_impl this = do
         Control.Monad.void (JMenu.setText ((jget (this).processingJMenu)) "Processing")
         Control.Monad.void (JMenu.setToolTipText ((jget (this).processingJMenu)) "Set module processing state")
         Control.Monad.void (JMenuItem.setText ((jget (this).startJMenuItem)) (jget ((jget (this).commonStrings)).sTART))
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).startJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).startJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame3_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).startJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).stopJMenuItem)) "Stop")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).stopJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).stopJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame4_ this)))
         Control.Monad.void (JMenu.add ((jget (this).processingJMenu)) (jget (this).stopJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).mainJMenuBar)) (jget (this).processingJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).optionsJMenu)) "Options")
-        Control.Monad.void (JMenu.addActionListener ((jget (this).optionsJMenu)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenu.addActionListener ((jget (this).optionsJMenu)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame5_ this)))
         Control.Monad.void (JCheckBoxMenuItem.setSelected ((jget (this).stopOnFocusJCheckBoxMenuItem)) True)
         Control.Monad.void (JCheckBoxMenuItem.setEnabled ((jget (this).stopOnFocusJCheckBoxMenuItem)) False)
         Control.Monad.void (JCheckBoxMenuItem.setLabel ((jget (this).stopOnFocusJCheckBoxMenuItem)) "Stop Module On Focus")
-        Control.Monad.void (JCheckBoxMenuItem.addActionListener ((jget (this).stopOnFocusJCheckBoxMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBoxMenuItem.addActionListener ((jget (this).stopOnFocusJCheckBoxMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame6_ this)))
         Control.Monad.void (JMenu.add ((jget (this).optionsJMenu)) (jget (this).stopOnFocusJCheckBoxMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).mainJMenuBar)) (jget (this).optionsJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).toolsJMenu)) "Help")
         Control.Monad.void (JMenuItem.setText ((jget (this).helpJMenuItem)) "Help")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).helpJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).helpJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame7_ this)))
         Control.Monad.void (JMenu.add ((jget (this).toolsJMenu)) (jget (this).helpJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).updatesJMenuItem)) "Updates")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).updatesJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).updatesJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame8_ this)))
         Control.Monad.void (JMenu.add ((jget (this).toolsJMenu)) (jget (this).updatesJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).subscriptionJMenuItem)) "Subscription")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).subscriptionJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).subscriptionJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame9_ this)))
         Control.Monad.void (JMenu.add ((jget (this).toolsJMenu)) (jget (this).subscriptionJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).modulesJMenuItem)) "Module Manager")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).modulesJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).modulesJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame10_ this)))
         Control.Monad.void (JMenu.add ((jget (this).toolsJMenu)) (jget (this).modulesJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).aboutJMenuItem)) "About")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).aboutJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).aboutJMenuItem)) (jio (ActionListener.new_ >>= anonymousInputAutomationJFrame11_ this)))
         Control.Monad.void (JMenu.add ((jget (this).toolsJMenu)) (jget (this).aboutJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).mainJMenuBar)) (jget (this).toolsJMenu))
         Control.Monad.void (JFrame.setJMenuBar this (jget (this).mainJMenuBar))
@@ -684,9 +658,7 @@ create inputAutomationBundleActivatorListenerInterface = do
         Control.Monad.void (AppUrlGlobals.setWebappPath appUrlGlobals "G:/mnt/bc/mydev/work_automation/automation/run/")
         Control.Monad.void (URLGLOBALS.init (javaCast appUrlGlobals))
         Control.Monad.void (WebappClassLoaderInfo.setLoader (jio (Class.getClassLoader ((jio (jobjectGetClass appUrlGlobals))))))
-        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--}))
+        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (jio (ARunnable.new_ >>= anonymousInputAutomationJFrame12_ inputAutomationBundleActivatorListenerInterface)))
         pure ()
 
 
@@ -807,4 +779,158 @@ onRemove_overload2_impl this inputAutomationConfigurationChangeEvent = do
             Control.Monad.void (InputAutomationJFrame.init this)
         pure ()
 
+
+-- Java anonymous class new WindowFocusListener() {...}
+anonymousInputAutomationJFrame0_ (this :: InputAutomationJFrame) (anonymous_ :: WindowFocusListener.WindowFocusListener) = do
+    jregisterMethod (jheaderOf anonymous_) "windowGainedFocus" (\() -> anonymousInputAutomationJFrame0_windowGainedFocus this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "windowLostFocus" (\() -> anonymousInputAutomationJFrame0_windowLostFocus this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame0_windowGainedFocus (this :: InputAutomationJFrame) (anonymous_ :: WindowFocusListener.WindowFocusListener) (evt :: WindowEvent.WindowEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.formWindowGainedFocus this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousInputAutomationJFrame0_windowLostFocus (this :: InputAutomationJFrame) (anonymous_ :: WindowFocusListener.WindowFocusListener) (evt :: WindowEvent.WindowEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.formWindowLostFocus this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new FocusAdapter() {...}
+anonymousInputAutomationJFrame1_ (this :: InputAutomationJFrame) (anonymous_ :: FocusAdapter.FocusAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "focusGained" (\() -> anonymousInputAutomationJFrame1_focusGained this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "focusLost" (\() -> anonymousInputAutomationJFrame1_focusLost this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame1_focusGained (this :: InputAutomationJFrame) (anonymous_ :: FocusAdapter.FocusAdapter) (evt :: FocusEvent.FocusEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.formFocusGained this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousInputAutomationJFrame1_focusLost (this :: InputAutomationJFrame) (anonymous_ :: FocusAdapter.FocusAdapter) (evt :: FocusEvent.FocusEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.formFocusLost this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ListSelectionListener() {...}
+anonymousInputAutomationJFrame2_ (this :: InputAutomationJFrame) (anonymous_ :: ListSelectionListener.ListSelectionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "valueChanged" (\() -> anonymousInputAutomationJFrame2_valueChanged this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame2_valueChanged (this :: InputAutomationJFrame) (anonymous_ :: ListSelectionListener.ListSelectionListener) (evt :: ListSelectionEvent.ListSelectionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.inputAutomationModuleJListValueChanged this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame3_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame3_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.startJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame4_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame4_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.stopJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame5_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame5_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.optionsJMenuActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame6_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame6_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.stopOnFocusJCheckBoxMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame7_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame7_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.helpJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame8_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame8_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.updatesJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame9_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame9_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame9_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.subscriptionJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame10_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame10_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame10_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.modulesJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousInputAutomationJFrame11_ (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousInputAutomationJFrame11_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame11_actionPerformed (this :: InputAutomationJFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (InputAutomationJFrame.aboutJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousInputAutomationJFrame12_ (inputAutomationBundleActivatorListenerInterface :: InputAutomationBundleActivatorListenerInterface.InputAutomationBundleActivatorListenerInterface) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousInputAutomationJFrame12_run inputAutomationBundleActivatorListenerInterface anonymous_)
+    pure anonymous_
+
+anonymousInputAutomationJFrame12_run (inputAutomationBundleActivatorListenerInterface :: InputAutomationBundleActivatorListenerInterface.InputAutomationBundleActivatorListenerInterface) (anonymous_ :: ARunnable.ARunnable) = ( do
+                logUtil <- (LogUtil.getInstance)
+                commonStrings <- (CommonStrings.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget (commonStrings).eXCEPTION) anonymous_ (jget (commonStrings).rUN) e)
+                    ) $ do
+                    Control.Monad.void (LogUtil.putF logUtil "Running" anonymous_ (jget (commonStrings).rUN))
+                    assignedValue <- (new_)
+                    jset iNPUTAUTOMATION_JFRAME (assignedValue)
+                    Control.Monad.void (InputRobotFactory.addListener ((jio (InputRobotFactory.getInstance))) (javaCast (jio (InputAutomationJFrame.getInstance))))
+                    when (inputAutomationBundleActivatorListenerInterface /= javaNull) $ do
+                        Control.Monad.void (InputAutomationBundleActivatorListenerInterface.registerAsService inputAutomationBundleActivatorListenerInterface)
+                        Control.Monad.void (InputAutomationBundleActivatorListenerInterface.useServices inputAutomationBundleActivatorListenerInterface)
+                    Control.Monad.void (JFrame.setVisible ((jget iNPUTAUTOMATION_JFRAME)) True)
+                pure ()
+ ) :: IO (())
 

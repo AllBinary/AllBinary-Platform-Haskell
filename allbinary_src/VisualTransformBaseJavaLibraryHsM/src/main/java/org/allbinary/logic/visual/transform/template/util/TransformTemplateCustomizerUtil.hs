@@ -125,14 +125,14 @@ init_ this = do
         initFields_ this
         commonStrings <- (CommonStrings.getInstance)
         let sPACE = (jget ((jio (CommonSeps.getInstance))).sPACE)
-        jset (this).cUSTOMIZER_NAME ((sPACE ++ javaToString CustomizerTransformInfoData.nAME))
-        jset (this).bODY_VIEWNAMEKEY ((sPACE ++ javaToString (jget ((jio (BodyData.getInstance))).vIEWNAMEKEY)))
-        jset (this).tITLE_VIEWNAMEKEY ((sPACE ++ javaToString (jget ((jio (TitleData.getInstance))).vIEWNAMEKEY)))
-        jset (this).gLOBALS_NEW ((javaToString GLOBALS2.nEW ++ sPACE))
-        jset (this).gLOBALS_INSERT ((javaToString (jget (commonStrings).iNSERT) ++ sPACE))
-        jset (this).gLOBALS_DELETE ((javaToString (jget (commonStrings).dELETE) ++ sPACE))
-        jset (this).gLOBALS_EDIT ((javaToString GLOBALS2.eDIT ++ sPACE))
-        jset (this).gLOBALS_UPDATE ((javaToString (jget (commonStrings).uPDATE) ++ sPACE))
+        jset (this).cUSTOMIZER_NAME ((sPACE ++ CustomizerTransformInfoData.nAME))
+        jset (this).bODY_VIEWNAMEKEY ((sPACE ++ (jget ((jio (BodyData.getInstance))).vIEWNAMEKEY)))
+        jset (this).tITLE_VIEWNAMEKEY ((sPACE ++ (jget ((jio (TitleData.getInstance))).vIEWNAMEKEY)))
+        jset (this).gLOBALS_NEW ((GLOBALS2.nEW ++ sPACE))
+        jset (this).gLOBALS_INSERT (((jget (commonStrings).iNSERT) ++ sPACE))
+        jset (this).gLOBALS_DELETE (((jget (commonStrings).dELETE) ++ sPACE))
+        jset (this).gLOBALS_EDIT ((GLOBALS2.eDIT ++ sPACE))
+        jset (this).gLOBALS_UPDATE (((jget (commonStrings).uPDATE) ++ sPACE))
         pure ()
 
 

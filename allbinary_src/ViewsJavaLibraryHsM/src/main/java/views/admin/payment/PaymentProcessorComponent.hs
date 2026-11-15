@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WeblisketSessionInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WeblisketSessionInterface -- same package or java.lang
 import qualified PaymentProcessorInterface -- org.allbinary.business.user.commerce.money.payment.gateway.processor.PaymentProcessorInterface
 import qualified PaymentProcessorInterfaceFactory -- org.allbinary.business.user.commerce.money.payment.gateway.processor.PaymentProcessorInterfaceFactory
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface

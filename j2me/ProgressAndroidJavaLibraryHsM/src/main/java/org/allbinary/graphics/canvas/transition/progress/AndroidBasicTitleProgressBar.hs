@@ -38,9 +38,9 @@ import qualified TitleProgressBarSetProgressRunnable -- same package or java.lan
 import qualified TitleProgressBarPortionSetProgressRunnable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
 import qualified SimpleProgressActivityInterface -- same package or java.lang
-import qualified ImageCache -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
+import qualified ImageCache -- same package or java.lang
 import qualified RunnableCanvas -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -277,7 +277,7 @@ onDisplayChangeEvent_super object_ a1 = (onDisplayChangeEvent_impl (javaCast obj
 onDisplayChangeEvent_impl :: AndroidBasicTitleProgressBar -> DisplayChangeEvent.DisplayChangeEvent -> IO (())
 onDisplayChangeEvent_impl this displayChangeEvent = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) (javaToString (jget ((jget (this).base.base.base.commonStrings)).eXCEPTION_LABEL) ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.base.base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT))
+            Control.Monad.void (LogUtil.putF ((jget (this).base.base.base.logUtil)) ((jget ((jget (this).base.base.base.commonStrings)).eXCEPTION_LABEL) ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.base.base.canvasStrings)).oN_DISPLAY_CHANGE_EVENT))
             assignedValue <- (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
             jset (this).animation (assignedValue)
             ) $ do

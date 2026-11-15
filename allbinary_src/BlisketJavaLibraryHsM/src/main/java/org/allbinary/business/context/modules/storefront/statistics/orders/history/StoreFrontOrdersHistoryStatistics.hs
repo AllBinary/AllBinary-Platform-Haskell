@@ -122,7 +122,7 @@ init_1 this storeFrontInterface = do
         jset (this).totalMoney (assignedValue)
         orderHistoryEntityInterface <- (fmap (\value_ -> javaCast value_ :: OrderHistoryEntityInterface.OrderHistoryEntityInterface) (OrderHistoryEntityFactory.getInstance))
         orderHistoryInterfaceVector <- (OrderHistoryEntityInterface.getStoreOrders orderHistoryEntityInterface storeFrontInterface)
-        numberOfOrders <- newIORef (0)
+        numberOfOrders <- newIORef (0 :: Int64)
         orderHistoryInterface <- newIORef (javaNull)
         size <- (BasicArrayList.size orderHistoryInterfaceVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

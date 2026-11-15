@@ -261,8 +261,8 @@ convertNewLines_super object_ a1 = (convertNewLines_impl (javaCast object_ :: Ab
 convertNewLines_impl :: AbSqlTableUtil -> String -> IO (String)
 convertNewLines_impl this value = do
         stringBuffer <- (StringMaker.new_)
-        index <- newIORef (0)
-        lastIndex <- newIORef (0)
+        index <- newIORef (0 :: Int)
+        lastIndex <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (Prelude.length value)) $ javaIteration (loop) $ do
             jset index ((jstringIndexOf value (jindex ((jget this.specialCharArray)) (0)) (jget lastIndex)))
             if ((jget index) /= (Prelude.negate 1)) then do
@@ -292,8 +292,8 @@ backupTable_impl this abSqlTable = do
             pure ((((jget (this).tABLE_LABEL) ++ tableName) ++ " Backup Failed"))
             ) $ do
             let count = 0
-            let sqlStatement = (javaToString (jget ((jget (this).sqlStrings)).sELECT_ALL_FROM) ++ tableName)
-            let path = ((jio (getMainPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) + (jget ((jio (PATH_GLOBALS.getInstance))).bACKUP_PATH))
+            let sqlStatement = ((jget ((jget (this).sqlStrings)).sELECT_ALL_FROM) ++ tableName)
+            let path = (javaToString (jio (getMainPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) ++ (jget ((jio (PATH_GLOBALS.getInstance))).bACKUP_PATH))
             when (Prelude.not (jio (Directory.create (jio (AbPath.new_1 path))))) $ do
                 when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget this.eRROR_CREATING) ++ path) this (jget (this).mETHOD_BACKUP_TABLE))
@@ -338,7 +338,7 @@ restoreTable_impl this abSqlTable portion = do
             Control.Monad.void (StringMaker.append stringBuffer " Restoration Failed")
             (StringMaker.toString stringBuffer)
             ) $ do
-            let path = ((jio (getMainPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) + (jget ((jio (PATH_GLOBALS.getInstance))).bACKUP_PATH))
+            let path = (javaToString (jio (getMainPath ((jget ((jget (org.allbinary).globals)).uRLGLOBALS)))) ++ (jget ((jio (PATH_GLOBALS.getInstance))).bACKUP_PATH))
             let current = (jio (Portion.getCurrent portion))
             when (current == 0) $ do
                 when (jio (Directory.create (jio (AbPath.new_1 path)))) $ do
@@ -349,7 +349,7 @@ restoreTable_impl this abSqlTable portion = do
             size <- (BufferedLineReader.getSize bufferedLineReader)
             let section = ((size `quot` (Prelude.fromIntegral (jio (Portion.getTotal portion)))) + 1)
             let start = (section * (Prelude.fromIntegral current))
-            end <- newIORef ((start + section))
+            end <- newIORef ((start + section) :: Int64)
             when ((jget end) > size) $ do
                 jset end (size)
             stringBuffer <- (StringMaker.new_)

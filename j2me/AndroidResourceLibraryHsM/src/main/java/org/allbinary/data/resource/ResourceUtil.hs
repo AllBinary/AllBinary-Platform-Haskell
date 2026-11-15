@@ -214,7 +214,7 @@ containsDuplicate_impl :: ResourceUtil -> String -> Int -> IO (Bool)
 containsDuplicate_impl this resource value = do
     javaCatchReturn $ do
         objectArray <- (HashtableUtil.getKeysAsArray ((jio (HashtableUtil.getInstance))) (jget (this).hashMap))
-        index <- newIORef ((jlength objectArray))
+        index <- newIORef ((jlength objectArray) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             let integer = (javaCast (jio (ABHashtable.get ((jget (this).hashMap)) (javaCast (jindex objectArray ((jget index))) :: Any.Any))) :: Int)
             when ((jtoObject resource) /= (jtoObject (jindex objectArray ((jget index))))) $ do

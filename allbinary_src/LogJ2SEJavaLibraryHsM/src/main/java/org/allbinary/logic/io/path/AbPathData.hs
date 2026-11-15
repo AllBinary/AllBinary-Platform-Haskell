@@ -162,7 +162,7 @@ getNameFromPath_super object_ a1 = (getNameFromPath_impl (javaCast object_ :: Ab
 getNameFromPath_impl :: AbPathData -> String -> IO (String)
 getNameFromPath_impl this path = do
     javaCatchReturn $ do
-        endIndex <- newIORef ((jstringLastIndexOf path (jget (this).sEPARATORCHAR)))
+        endIndex <- newIORef ((jstringLastIndexOf path (jget (this).sEPARATORCHAR)) :: Int)
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf path (jget ((jio (FilePathData.getInstance))).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do
@@ -184,7 +184,7 @@ removeNameFromPath_super object_ a1 = (removeNameFromPath_impl (javaCast object_
 removeNameFromPath_impl :: AbPathData -> String -> IO (String)
 removeNameFromPath_impl this path = do
     javaCatchReturn $ do
-        endIndex <- newIORef ((jstringLastIndexOf path (jget (this).sEPARATORCHAR)))
+        endIndex <- newIORef ((jstringLastIndexOf path (jget (this).sEPARATORCHAR)) :: Int)
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf path (jget ((jio (FilePathData.getInstance))).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do

@@ -108,7 +108,7 @@ isCustomScaling_impl :: OpenGLESImageExclusionUtil -> Image.Image -> IO (Bool)
 isCustomScaling_impl this image = do
     javaCatchReturn $ do
         imageName <- (Image.getName image)
-        isNormalScaling <- newIORef ((((jio (BasicArrayList.size ((jget (this).list)))) == 0) || (Data.List.isPrefixOf (jget (this).eXCLUSION) imageName)))
+        isNormalScaling <- newIORef ((((jio (BasicArrayList.size ((jget (this).list)))) == 0) || (Data.List.isPrefixOf (jget (this).eXCLUSION) imageName)) :: Bool)
         if (jget isNormalScaling) then do
             javaReturn (False)
         else do

@@ -34,9 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
 import qualified InventoryUploadMediaUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified PageContext -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified Set -- java.util.Set
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList

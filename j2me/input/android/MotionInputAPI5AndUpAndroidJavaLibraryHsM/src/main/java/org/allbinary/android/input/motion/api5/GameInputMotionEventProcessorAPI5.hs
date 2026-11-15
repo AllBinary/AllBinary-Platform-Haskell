@@ -148,7 +148,7 @@ process_impl this motionEvent = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.commonStrings)).pROCESS) e)
             ) $ do
             action <- (MotionEvent.getAction motionEvent)
-            total <- newIORef ((jlength (jget (this).motionRecognizerArray)))
+            total <- newIORef ((jlength (jget (this).motionRecognizerArray)) :: Int)
             if ((jget total) > (jio (MotionEvent.getPointerCount motionEvent))) then do
                 assignedValue <- (MotionEvent.getPointerCount motionEvent)
                 jset total (assignedValue)

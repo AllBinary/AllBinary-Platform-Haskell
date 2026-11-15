@@ -106,7 +106,7 @@ processAI_super object_ a1 = (processAI_impl (javaCast object_ :: FlockingAI)) a
 
 processAI_impl :: FlockingAI -> AllBinaryLayerManager.AllBinaryLayerManager -> IO (())
 processAI_impl this allBinaryLayerManager = do
-        maxDistance <- newIORef (0)
+        maxDistance <- newIORef (0 :: Int)
         farAllbinaryLayer <- newIORef (AllBinaryLayer.nULL_ALLBINARY_LAYER)
         groupLayerManagerListener <- (GroupLayerManagerListener.getInstance)
         list <- (GroupLayerManagerListener.getList groupLayerManagerListener (jget ((jio (BasicGroupFactory.getInstance))).eNEMY))

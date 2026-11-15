@@ -338,10 +338,10 @@ add_impl this element = do
 
 
 -- Java overloads of remove: calls the overload for the types of the arguments
-remove :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Bool)
+remove :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (JavaObject)
 remove this a1
-    | jisInstanceOf a1 (javaNull :: Int) = remove_overload2 this (javaCast a1 :: Int)
-    | otherwise = remove_overload1 this a1
+    | jisInstanceOf a1 (javaNull :: Int) = fmap jtoObject (remove_overload2 this (javaCast a1 :: Int))
+    | otherwise = fmap jtoObject (remove_overload1 this a1)
 
 remove_overload1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Bool)
 remove_overload1 object_ a1 = jmethod object_ "remove_overload1" (\() -> (remove_overload1_impl (javaCast object_ :: ABVector))) () (jtoObject a1)

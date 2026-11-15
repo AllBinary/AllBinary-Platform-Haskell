@@ -110,36 +110,36 @@ get_impl this anyTypeObject_ cryptInterface = do
     let anyType = jtoObject anyTypeObject_
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) eXCEPTION_IN_CLIENT this (jget ((jget (this).base.commonStrings)).gET) e)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (tRYING_OTHER_SERVERS ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.commonStrings)).gET))
-            if (Prelude.not (jio (startsWith ((Control.Exception.displayException e)) hOST_NOT_RESOLVED))) then do
+            Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget this.base.eXCEPTION_IN_CLIENT) this (jget ((jget (this).base.commonStrings)).gET) e)
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget this.base.tRYING_OTHER_SERVERS) ++ (jio (ExceptionUtil.getStackTrace ((jio (ExceptionUtil.getInstance))) e))) this (jget ((jget (this).base.commonStrings)).gET))
+            if (Prelude.not (Data.List.isPrefixOf (jget this.base.hOST_NOT_RESOLVED) (Control.Exception.displayException e))) then do
                 javaReturn =<< (fmap jtoObject (XmlRpcAbeClient.tryAnother this anyType))
             else do
                 isOnline <- pure (False)
-                javaThrow ((JavaException "Exception" hOST_NOT_RESOLVED_MSG))
+                javaThrow ((JavaException "Exception" (jget this.base.hOST_NOT_RESOLVED_MSG)))
             ) $ do
             server <- (AbeClientInformationInterface.getLicenseServer ((jio (XmlRpcAbeClient.getClientInfo this))) (jio (XmlRpcAbeClient.getServer this)))
             stringBuffer <- (StringMaker.new_)
-            Control.Monad.void (StringMaker.append stringBuffer tRYING)
+            Control.Monad.void (StringMaker.append stringBuffer (jget this.base.tRYING))
             Control.Monad.void (StringMaker.appendint stringBuffer (jio (XmlRpcAbeClient.getServer this)))
-            Control.Monad.void (StringMaker.append stringBuffer SEP)
+            Control.Monad.void (StringMaker.append stringBuffer (jget this.base.sEP))
             Control.Monad.void (StringMaker.append stringBuffer server)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ (jio (StringMaker.toString stringBuffer))) this (jget ((jget (this).base.commonStrings)).gET))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ (jio (StringMaker.toString stringBuffer))) this (jget ((jget (this).base.commonStrings)).gET))
             param <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             xmlRpcClient <- (XmlRpcClient.new_1 server)
             Control.Monad.void (XmlRpcAbeClient.setClient this xmlRpcClient)
             Control.Monad.void (XmlRpcClient.setBasicAuthentication xmlRpcClient javaNull javaNull)
             hashtable <- (AbeClientInformationInterface.toHashtable ((jio (XmlRpcAbeClient.getClientInfo this))))
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (cLIENT_INFO ++ (jio (ABHashtable.toString hashtable))) this (jget ((jget (this).base.commonStrings)).gET))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget this.base.cLIENT_INFO) ++ (jio (ABHashtable.toString hashtable))) this (jget ((jget (this).base.commonStrings)).gET))
             Control.Monad.void (BasicArrayList.add param hashtable)
             result <- (XmlRpcClient.execute xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param cryptInterface)
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (rESULT ++ (jio (Any.toString result))) this (jget ((jget (this).base.commonStrings)).gET))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget this.base.rESULT) ++ (jio (Any.toString result))) this (jget ((jget (this).base.commonStrings)).gET))
             let resultHashtable = (javaCast result :: ABHashtable.ABHashtable)
             when (Prelude.not (jio (AbeClientLicense.hasRequiredKeys resultHashtable))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) iNVALID this (jget ((jget (this).base.commonStrings)).gET))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget this.base.iNVALID) this (jget ((jget (this).base.commonStrings)).gET))
                 javaReturn =<< (fmap jtoObject (XmlRpcAbeClient.tryAnother this anyType))
             abeLicenseInterface <- (fmap (\value_ -> javaCast value_ :: AbeLicenseInterface.AbeLicenseInterface) (AbeClientLicense.new_1 resultHashtable))
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.commonStrings)).eND) ++ (jio (StringMaker.toString stringBuffer))) this (jget ((jget (this).base.commonStrings)).gET))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.commonStrings)).eND) ++ (jio (StringMaker.toString stringBuffer))) this (jget ((jget (this).base.commonStrings)).gET))
             isOnline <- pure (True)
             pure ((jtoObject abeLicenseInterface))
 

@@ -87,10 +87,10 @@ init_ this = do
 
 
 -- Java overloads of visit: calls the overload for the types of the arguments
-visit :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Any.Any)
+visit :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (JavaObject)
 visit this a1
-    | jisInstanceOf a1 (javaNull :: AbFile.AbFile) = visit_overload2 this (javaCast a1 :: AbFile.AbFile)
-    | otherwise = visit_overload1 this a1
+    | jisInstanceOf a1 (javaNull :: AbFile.AbFile) = fmap jtoObject (visit_overload2 this (javaCast a1 :: AbFile.AbFile))
+    | otherwise = fmap jtoObject (visit_overload1 this a1)
 
 visit_overload1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (Any.Any)
 visit_overload1 object_ a1 = jmethod object_ "visit_overload1" (\() -> (visit_overload1_impl (javaCast object_ :: DirectoryBooleanFileVisitor))) () (jtoObject a1)

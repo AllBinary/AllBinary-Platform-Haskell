@@ -290,7 +290,7 @@ update_impl :: OpenGLConfiguration -> Feature.Feature -> Bool -> IO (())
 update_impl this gameFeature colorLocked = do
         features <- (Features.getInstance)
         openGLFeatureFactory <- (OpenGLFeatureFactory.getInstance)
-        modified <- newIORef (False)
+        modified <- newIORef (False :: Bool)
         when ((jtoObject gameFeature) == (jtoObject (jget (openGLFeatureFactory).oPENGL))) $ do
             if (jio (Features.isFeature features gameFeature)) then do
                 when (Prelude.not (jio (OpenGLConfiguration.isOpenGL this))) $ do

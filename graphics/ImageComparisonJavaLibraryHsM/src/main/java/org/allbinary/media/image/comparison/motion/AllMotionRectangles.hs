@@ -127,8 +127,8 @@ addPixelDeltaToExistingMotionRectangle_impl this pixelDelta = do
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let motionRectangle = (javaCast (jio (BasicArrayList.get vector index)) :: MotionRectangle.MotionRectangle)
             when (jio (AllMotionRectangles.shouldPixelDeltaPartOfMotionRectangle this motionRectangle pixelDelta)) $ do
-                newWidth <- newIORef (((jio (GPoint.getX ((jio (PixelDelta.getPoint pixelDelta))))) - (jget ((jio (MotionRectangle.getRectangle motionRectangle))).x)))
-                newHeight <- newIORef (((jio (GPoint.getY ((jio (PixelDelta.getPoint pixelDelta))))) - (jget ((jio (MotionRectangle.getRectangle motionRectangle))).y)))
+                newWidth <- newIORef (((jio (GPoint.getX ((jio (PixelDelta.getPoint pixelDelta))))) - (jget ((jio (MotionRectangle.getRectangle motionRectangle))).x)) :: Int)
+                newHeight <- newIORef (((jio (GPoint.getY ((jio (PixelDelta.getPoint pixelDelta))))) - (jget ((jio (MotionRectangle.getRectangle motionRectangle))).y)) :: Int)
                 when ((jget newWidth) < (jget ((jio (MotionRectangle.getRectangle motionRectangle))).width)) $ do
                     jset newWidth ((jget ((jio (MotionRectangle.getRectangle motionRectangle))).width))
                 when ((jget newHeight) < (jget ((jio (MotionRectangle.getRectangle motionRectangle))).height)) $ do
@@ -165,7 +165,7 @@ shouldPixelDeltaPartOfMotionRectangle_super object_ a1 a2 = (shouldPixelDeltaPar
 shouldPixelDeltaPartOfMotionRectangle_impl :: AllMotionRectangles -> MotionRectangle.MotionRectangle -> PixelDelta.PixelDelta -> IO (Bool)
 shouldPixelDeltaPartOfMotionRectangle_impl this motionRectangle pixelDelta = do
     javaCatchReturn $ do
-        isPixelLeftOfTheRectangle <- newIORef (False)
+        isPixelLeftOfTheRectangle <- newIORef (False :: Bool)
         when ((jget ((jio (MotionRectangle.getRectangle motionRectangle))).y) > (jio (GPoint.getY ((jio (PixelDelta.getPoint pixelDelta)))))) $ do
             javaThrow ((JavaException "Exception" "PixelAboveTheRectangle"))
         when ((jget ((jio (MotionRectangle.getRectangle motionRectangle))).x) > (jio (GPoint.getX ((jio (PixelDelta.getPoint pixelDelta)))))) $ do

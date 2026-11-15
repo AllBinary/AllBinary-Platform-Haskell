@@ -106,7 +106,7 @@ setFrame_super object_ a1 = (setFrame_impl (javaCast object_ :: SimultaneousComp
 setFrame_impl :: SimultaneousCompoundIndexedAnimation -> Int -> IO (())
 setFrame_impl this frameIndex = do
         indexedAnimation <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset indexedAnimation ((javaCast (jindex ((jget (this).animationInterfaceArray)) ((jget index))) :: IndexedAnimation.IndexedAnimation))
             Control.Monad.void (IndexedAnimation.setFrame ((jget indexedAnimation)) frameIndex)
@@ -146,7 +146,7 @@ previousFrame_super object_ = (previousFrame_impl (javaCast object_ :: Simultane
 previousFrame_impl :: SimultaneousCompoundIndexedAnimation -> IO (())
 previousFrame_impl this = do
         indexedAnimation <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset indexedAnimation ((javaCast (jindex ((jget (this).animationInterfaceArray)) ((jget index))) :: IndexedAnimation.IndexedAnimation))
             Control.Monad.void (IndexedAnimation.previousFrame ((jget indexedAnimation)))
@@ -184,7 +184,7 @@ nextFrame_super object_ = (nextFrame_impl (javaCast object_ :: SimultaneousCompo
 
 nextFrame_impl :: SimultaneousCompoundIndexedAnimation -> IO (())
 nextFrame_impl this = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (Animation.nextFrame ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))))
         pure ()

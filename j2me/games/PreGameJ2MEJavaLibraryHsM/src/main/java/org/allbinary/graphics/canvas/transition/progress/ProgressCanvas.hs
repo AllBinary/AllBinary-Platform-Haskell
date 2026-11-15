@@ -35,8 +35,8 @@ import qualified GHC.Float
 import qualified ProgressPaintable -- same package or java.lang
 import qualified ProgressEndListener -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
@@ -176,10 +176,7 @@ initFields_ this = do
     jset this.background (True)
     jset this.paintable ((javaCast (jget (this).gAUGE_PAINTABLE) :: PaintableInterface.PaintableInterface))
     jset this.inProgress (False)
-    jset this.iN_GAME_PROCESSOR =<< (Processor.new_ {- Java anonymous class body: implement it as a record of functions
-        jset this.pathFindingThreadPool =<< (PathFindingThreadPool.getInstance)
-        -- process
--})
+    jset this.iN_GAME_PROCESSOR =<< (Processor.new_ >>= anonymousProgressCanvas0_ this)
     jset this.inGameProcessor =<< (Processor.getInstance)
     jset this.progressEndListener (ProgressEndListener.instance_)
     jset this.backgroundLabel ("Background AI Game Loading...")
@@ -539,4 +536,15 @@ isBackground_impl :: ProgressCanvas -> IO (Bool)
 isBackground_impl this = do
         pure ((jget (this).background))
 
+
+-- Java anonymous class new Processor() {...}
+anonymousProgressCanvas0_ (this :: ProgressCanvas) (anonymous_ :: Processor.Processor) = do
+    pathFindingThreadPool <- newIORef =<< fmap (\value_ -> javaCast value_ :: ThreadPool.ThreadPool) (PathFindingThreadPool.getInstance)
+    jregisterMethod (jheaderOf anonymous_) "process" (\() -> anonymousProgressCanvas0_process this pathFindingThreadPool anonymous_)
+    pure anonymous_
+
+anonymousProgressCanvas0_process (this :: ProgressCanvas) (pathFindingThreadPool :: IORef (ThreadPool.ThreadPool)) (anonymous_ :: Processor.Processor) = ( do
+            Control.Monad.void (ThreadPool.runAPriorityTask ((jget pathFindingThreadPool)))
+            pure ()
+ ) :: IO (())
 

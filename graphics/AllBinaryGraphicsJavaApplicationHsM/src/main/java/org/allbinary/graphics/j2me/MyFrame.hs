@@ -169,10 +169,10 @@ pATH :: String
 pATH = "G:/mnt/bc/mydev/work/graphics/AllBinaryGraphicsJavaApplication"
 
 sAVE_PATH :: String
-sAVE_PATH = (javaToString MyFrame.pATH ++ "/save")
+sAVE_PATH = (MyFrame.pATH ++ "/save")
 
 tEMPLATE_EXPORT_PATH :: String
-tEMPLATE_EXPORT_PATH = (javaToString MyFrame.pATH ++ "/templates/export")
+tEMPLATE_EXPORT_PATH = (MyFrame.pATH ++ "/templates/export")
 
 statusJLabel :: IORef (JLabel.JLabel)
 {-# NOINLINE statusJLabel #-}
@@ -462,28 +462,18 @@ initComponents_impl this = do
         jset (this).autoShrinkJMenuItem (assignedValue)
         assignedValue <- (JMenu.new_)
         jset (this).jMenu1 (assignedValue)
-        Control.Monad.void (JFrame.addWindowListener this (WindowAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- windowClosing
--}))
+        Control.Monad.void (JFrame.addWindowListener this (jio (WindowAdapter.new_ >>= anonymousMyFrame0_ this)))
         Control.Monad.void (JButton.setText ((jget (this).jButton2)) "New")
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButton2)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButton2)) (jio (ActionListener.new_ >>= anonymousMyFrame1_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).jButton2))
         Control.Monad.void (JButton.setText ((jget (this).saveJButton)) "Save")
-        Control.Monad.void (JButton.addActionListener ((jget (this).saveJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).saveJButton)) (jio (ActionListener.new_ >>= anonymousMyFrame2_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).saveJButton))
         Control.Monad.void (JButton.setText ((jget (this).jButton1)) "Export")
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (jio (ActionListener.new_ >>= anonymousMyFrame3_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).jButton1))
         Control.Monad.void (JButton.setText ((jget (this).openJButton)) "Open")
-        Control.Monad.void (JButton.addActionListener ((jget (this).openJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).openJButton)) (jio (ActionListener.new_ >>= anonymousMyFrame4_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).openJButton))
         Control.Monad.void (JButton.setText ((jget (this).jButton3)) "Copy")
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).jButton3))
@@ -496,22 +486,16 @@ initComponents_impl this = do
         Control.Monad.void (JButton.setText ((jget (this).animateJButton)) "AnimateEdit")
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).animateJButton))
         Control.Monad.void (JButton.setText ((jget (this).playJButton)) "Play")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).playJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).playJButton)) (jio (MouseAdapter.new_ >>= anonymousMyFrame5_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).playJButton))
         Control.Monad.void (JButton.setText ((jget (this).stopJjButton)) "Stop")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).stopJjButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).stopJjButton)) (jio (MouseAdapter.new_ >>= anonymousMyFrame6_ this)))
         Control.Monad.void (JToolBar.add ((jget (this).jToolBar1)) (jget (this).stopJjButton))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).jToolBar1) (jget ((jget (java.awt).borderLayout)).nORTH))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel1)) (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (JPanel.setLayout ((jget (this).mainJPanel)) (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (JTabbedPane.setMinimumSize ((jget (this).jTabbedPane)) (jio (Dimension.new_2 550 400)))
-        Control.Monad.void (JTabbedPane.addChangeListener ((jget (this).jTabbedPane)) (ChangeListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- stateChanged
--}))
+        Control.Monad.void (JTabbedPane.addChangeListener ((jget (this).jTabbedPane)) (jio (ChangeListener.new_ >>= anonymousMyFrame7_ this)))
         Control.Monad.void (JPanel.add ((jget (this).mainJPanel)) (jget (this).jTabbedPane))
         Control.Monad.void (JPanel.add ((jget (this).jPanel1)) (jget (this).mainJPanel))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).jPanel1) (jget ((jget (java.awt).borderLayout)).cENTER))
@@ -520,60 +504,40 @@ initComponents_impl this = do
         Control.Monad.void (JPanel.add ((jget (this).statusJPanel)) (jget MyFrame.statusJLabel))
         Control.Monad.void (add ((jio (JFrame.getContentPane this))) (jget (this).statusJPanel) (jget ((jget (java.awt).borderLayout)).sOUTH))
         Control.Monad.void (JMenu.setText ((jget (this).fileJMenu)) "File")
-        Control.Monad.void (JMenu.addActionListener ((jget (this).fileJMenu)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenu.addActionListener ((jget (this).fileJMenu)) (jio (ActionListener.new_ >>= anonymousMyFrame8_ this)))
         Control.Monad.void (JMenuItem.setText ((jget (this).newJMenuItem)) "New")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).newJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).newJMenuItem)) (jio (ActionListener.new_ >>= anonymousMyFrame9_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).newJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).openJMenuItem)) "Open")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).openJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).openJMenuItem)) (jio (ActionListener.new_ >>= anonymousMyFrame10_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).openJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).saveJMenuItem)) "Save")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).saveJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).saveJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame11_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).saveJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).saveAsJMenuItem)) "SaveAs")
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).saveAsJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).exportJMenuItem1)) "Export")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).exportJMenuItem1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).exportJMenuItem1)) (jio (ActionListener.new_ >>= anonymousMyFrame12_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).exportJMenuItem1))
         Control.Monad.void (JMenuItem.setText ((jget (this).exitJMenuItem)) "Exit")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).exitJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).exitJMenuItem)) (jio (ActionListener.new_ >>= anonymousMyFrame13_ this)))
         Control.Monad.void (JMenu.add ((jget (this).fileJMenu)) (jget (this).exitJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).menuJMenuBar)) (jget (this).fileJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).viewJMenu)) "View")
         Control.Monad.void (JMenuItem.setText ((jget (this).zoomInJMenuItem)) "Zoom In")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).zoomInJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).zoomInJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame14_ this)))
         Control.Monad.void (JMenu.add ((jget (this).viewJMenu)) (jget (this).zoomInJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).zoomOutJMenuItem)) "Zoom Out")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).zoomOutJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).zoomOutJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame15_ this)))
         Control.Monad.void (JMenu.add ((jget (this).viewJMenu)) (jget (this).zoomOutJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).menuJMenuBar)) (jget (this).viewJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).objectJMenu)) "Objects")
         Control.Monad.void (JMenuItem.setText ((jget (this).explodeAllJMenuItem)) "Explode All")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).explodeAllJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).explodeAllJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame16_ this)))
         Control.Monad.void (JMenu.add ((jget (this).objectJMenu)) (jget (this).explodeAllJMenuItem))
         Control.Monad.void (JMenuBar.add ((jget (this).menuJMenuBar)) (jget (this).objectJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).frameJMenu)) "Frame")
-        Control.Monad.void (JMenu.addActionListener ((jget (this).frameJMenu)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenu.addActionListener ((jget (this).frameJMenu)) (jio (ActionListener.new_ >>= anonymousMyFrame17_ this)))
         Control.Monad.void (JMenuItem.setText ((jget (this).previousFrameJMenuItem)) "Previous")
         Control.Monad.void (JMenu.add ((jget (this).frameJMenu)) (jget (this).previousFrameJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).nextFrameJMenuItem)) (jget ((jio (CommonLabels.getInstance))).nEXT))
@@ -589,28 +553,20 @@ initComponents_impl this = do
         Control.Monad.void (JMenuBar.add ((jget (this).menuJMenuBar)) (jget (this).frameJMenu))
         Control.Monad.void (JMenu.setText ((jget (this).generateJMenu)) "Generate")
         Control.Monad.void (JMenuItem.setText ((jget (this).centerJMenuItem)) "Center")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).centerJMenuItem)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).centerJMenuItem)) (jio (ActionListener.new_ >>= anonymousMyFrame18_ this)))
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).centerJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).autoDamageJMenuItem)) "Damage")
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).autoDamageJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).autoExplodeJMenuItem)) "Explode")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).autoExplodeJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).autoExplodeJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame19_ this)))
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).autoExplodeJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).autoGrowJMenuItem)) "Grow")
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).autoGrowJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).jMenuItem1)) "Mirror")
-        Control.Monad.void (JMenuItem.addActionListener ((jget (this).jMenuItem1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JMenuItem.addActionListener ((jget (this).jMenuItem1)) (jio (ActionListener.new_ >>= anonymousMyFrame20_ this)))
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).jMenuItem1))
         Control.Monad.void (JMenuItem.setText ((jget (this).autoRotateGenerationJMenuItem)) "Rotate")
-        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).autoRotateGenerationJMenuItem)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JMenuItem.addMouseListener ((jget (this).autoRotateGenerationJMenuItem)) (jio (MouseAdapter.new_ >>= anonymousMyFrame21_ this)))
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).autoRotateGenerationJMenuItem))
         Control.Monad.void (JMenuItem.setText ((jget (this).autoSheildMenuItem)) "Shield")
         Control.Monad.void (JMenu.add ((jget (this).generateJMenu)) (jget (this).autoSheildMenuItem))
@@ -971,7 +927,7 @@ export_impl this = do
             file <- (File.new_1 (((sAVE_PATH ++ "/") ++ (jio (WorkAreaJPanelInterface.getName workAreaJPanel))) ++ (jget (this).jAVAEXTENSION)))
             document <- (WorkAreaJPanelInterface.toDocument workAreaJPanel)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Export: " ++ (jio (DomHelper.toString ((jio (DomHelper.getInstance))) document))) this "exportJMenuItem1ActionPerformed")
-            Control.Monad.void (XslHelper.export ((jget (this).xslHelper)) file ((javaToString MyFrame.tEMPLATE_EXPORT_PATH ++ "/") ++ (jget (this).jAVA_TEMPLATE)) document)
+            Control.Monad.void (XslHelper.export ((jget (this).xslHelper)) file ((MyFrame.tEMPLATE_EXPORT_PATH ++ "/") ++ (jget (this).jAVA_TEMPLATE)) document)
         pure ()
 
 
@@ -1105,4 +1061,224 @@ main args = do
             Control.Monad.void (JFrame.show ((jio (new_))))
         pure ()
 
+
+-- Java anonymous class new WindowAdapter() {...}
+anonymousMyFrame0_ (this :: MyFrame) (anonymous_ :: WindowAdapter.WindowAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "windowClosing" (\() -> anonymousMyFrame0_windowClosing this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame0_windowClosing (this :: MyFrame) (anonymous_ :: WindowAdapter.WindowAdapter) (evt :: WindowEvent.WindowEvent) = ( do
+                Control.Monad.void (MyFrame.exitForm this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame1_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame1_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.jButton2ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame2_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame2_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.saveJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame3_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame3_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.jButton1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame4_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame4_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.openJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame5_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame5_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame5_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.playJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame6_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame6_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame6_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.stopJjButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ChangeListener() {...}
+anonymousMyFrame7_ (this :: MyFrame) (anonymous_ :: ChangeListener.ChangeListener) = do
+    jregisterMethod (jheaderOf anonymous_) "stateChanged" (\() -> anonymousMyFrame7_stateChanged this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame7_stateChanged (this :: MyFrame) (anonymous_ :: ChangeListener.ChangeListener) (evt :: ChangeEvent.ChangeEvent) = ( do
+                Control.Monad.void (MyFrame.jTabbedPaneStateChanged this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame8_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame8_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.fileJMenuActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame9_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame9_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame9_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.newJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame10_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame10_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame10_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.openJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame11_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame11_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame11_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.saveJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame12_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame12_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame12_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.exportJMenuItem1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame13_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame13_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame13_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.exitJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame14_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame14_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame14_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.zoomInJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame15_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame15_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame15_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.zoomOutJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame16_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame16_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame16_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.explodeAllJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame17_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame17_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame17_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.frameJMenuActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame18_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame18_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame18_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.centerJMenuItemActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame19_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame19_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame19_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.autoExplodeJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMyFrame20_ (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMyFrame20_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame20_actionPerformed (this :: MyFrame) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MyFrame.jMenuItem1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousMyFrame21_ (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousMyFrame21_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousMyFrame21_mousePressed (this :: MyFrame) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (MyFrame.autoRotateGenerationJMenuItemMousePressed this evt)
+                pure ()
+ ) :: IO (())
 

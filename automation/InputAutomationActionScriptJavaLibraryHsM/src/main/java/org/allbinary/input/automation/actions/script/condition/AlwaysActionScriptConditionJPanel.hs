@@ -210,9 +210,7 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setMinimumSize ((jget (this).alwaysActionJDialog)) (jio (Dimension.new_2 250 150)))
         Control.Monad.void (JLabel.setText ((jget (this).titleJLabel)) "Always Condition Options")
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousAlwaysActionScriptConditionJPanel0_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "On:")
         Control.Monad.void (JComboBox.setModel ((jget (this).alwaysJComboBox)) (jio (DefaultComboBoxModel.new_1 (jarrayFromList ["true", "false"]))))
         alwaysActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).alwaysActionJDialog)))))
@@ -221,9 +219,7 @@ initComponents_impl this = do
         Control.Monad.void (GroupLayout.setVerticalGroup alwaysActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup alwaysActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup alwaysActionJDialogLayout)))))) (jget this.titleJLabel)))) 20 20 20))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup alwaysActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.alwaysJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.jLabel2)))))) 15 15 15))) (jget this.okJButton)))))))))
         Control.Monad.void (JPanel.setMinimumSize this (jio (Dimension.new_2 100 0)))
         Control.Monad.void (JButton.setText ((jget (this).alwaysActionJButton)) "Edit")
-        Control.Monad.void (JButton.addActionListener ((jget (this).alwaysActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).alwaysActionJButton)) (jio (ActionListener.new_ >>= anonymousAlwaysActionScriptConditionJPanel1_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Always:")
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
@@ -256,4 +252,24 @@ alwaysActionJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jio (AlwaysActionScriptConditionJPanel.getAlwaysActionJDialog this))) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousAlwaysActionScriptConditionJPanel0_ (this :: AlwaysActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousAlwaysActionScriptConditionJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousAlwaysActionScriptConditionJPanel0_actionPerformed (this :: AlwaysActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (AlwaysActionScriptConditionJPanel.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousAlwaysActionScriptConditionJPanel1_ (this :: AlwaysActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousAlwaysActionScriptConditionJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousAlwaysActionScriptConditionJPanel1_actionPerformed (this :: AlwaysActionScriptConditionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (AlwaysActionScriptConditionJPanel.alwaysActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

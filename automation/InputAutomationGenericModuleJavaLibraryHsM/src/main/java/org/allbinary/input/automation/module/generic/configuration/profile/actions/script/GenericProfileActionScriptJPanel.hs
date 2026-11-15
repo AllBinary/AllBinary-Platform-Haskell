@@ -200,10 +200,7 @@ initComponents_impl this = do
         jset (this).actionScriptJTree (assignedValue)
         Control.Monad.void (JPanel.setLayout this (jio (GridLayout.new_2 1 0)))
         Control.Monad.void (JTree.setPreferredSize ((jget (this).actionScriptJTree)) (jio (Dimension.new_2 500 500)))
-        Control.Monad.void (JTree.addMouseListener ((jget (this).actionScriptJTree)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mouseClicked
-            -- mouseReleased
--}))
+        Control.Monad.void (JTree.addMouseListener ((jget (this).actionScriptJTree)) (jio (MouseAdapter.new_ >>= anonymousGenericProfileActionScriptJPanel0_ this)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).jScrollPane1)) (jget (this).actionScriptJTree))
         Control.Monad.void (JPanel.add this (jget (this).jScrollPane1))
         pure ()
@@ -239,4 +236,20 @@ actionScriptJTreeMouseClicked_impl :: GenericProfileActionScriptJPanel -> MouseE
 actionScriptJTreeMouseClicked_impl this evt = do
         pure ()
 
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousGenericProfileActionScriptJPanel0_ (this :: GenericProfileActionScriptJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mouseClicked" (\() -> anonymousGenericProfileActionScriptJPanel0_mouseClicked this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "mouseReleased" (\() -> anonymousGenericProfileActionScriptJPanel0_mouseReleased this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionScriptJPanel0_mouseClicked (this :: GenericProfileActionScriptJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (GenericProfileActionScriptJPanel.actionScriptJTreeMouseClicked this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousGenericProfileActionScriptJPanel0_mouseReleased (this :: GenericProfileActionScriptJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (GenericProfileActionScriptJPanel.actionScriptJTreeMouseReleased this evt)
+                pure ()
+ ) :: IO (())
 

@@ -185,7 +185,7 @@ appendProcessors_impl this layerInterface = do
         Control.Monad.void (LayerManagerEvent.setLayerInterface ((jget (this).createLayerManagerEvent)) layerInterface)
         Control.Monad.void (LayerManagerEventHandler.fireEvent ((jget (this).layerManagerEventHandler)) (javaCast (jget (this).createLayerManagerEvent)))
         layerProcessorInterface <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)))
+        index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset layerProcessorInterface ((jindex ((jget (this).basicLayerProcessorArray)) ((jget index))))
             when (jio (LayerProcessor.isProcessorLayer ((jget layerProcessorInterface)) layerInterface)) $ do
@@ -205,7 +205,7 @@ remove_impl this layerInterface = do
         Control.Monad.void (LayerManagerEvent.setLayerInterface ((jget (this).deleteLayerManagerEvent)) layerInterface)
         Control.Monad.void (LayerManagerEventHandler.fireDeleteEvent ((jget (this).layerManagerEventHandler)) (javaCast (jget (this).deleteLayerManagerEvent)))
         layerProcessorInterface <- newIORef (javaNull)
-        index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)))
+        index <- newIORef ((jlength (jget (this).basicLayerProcessorArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset layerProcessorInterface ((jindex ((jget (this).basicLayerProcessorArray)) ((jget index))))
             Control.Monad.void (LayerManager.remove ((jio (LayerProcessor.getLayerManager ((jget layerProcessorInterface))))) layerInterface)

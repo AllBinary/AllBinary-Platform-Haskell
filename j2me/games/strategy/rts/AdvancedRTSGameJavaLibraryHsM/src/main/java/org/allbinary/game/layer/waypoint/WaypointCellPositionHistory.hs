@@ -153,7 +153,7 @@ removeLayer_super object_ a1 = (removeLayer_impl (javaCast object_ :: WaypointCe
 
 removeLayer_impl :: WaypointCellPositionHistory -> AllBinaryLayer.AllBinaryLayer -> IO (())
 removeLayer_impl this layerInterface = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) /= (Prelude.negate 1)) $ javaIteration (loop) $ do
             assignedValue <- (BasicArrayList.indexOf ((jget (this).layerList)) layerInterface)
             jset index (assignedValue)

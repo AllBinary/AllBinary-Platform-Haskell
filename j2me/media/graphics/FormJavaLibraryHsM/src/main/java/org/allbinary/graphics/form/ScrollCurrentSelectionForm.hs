@@ -43,8 +43,8 @@ import qualified TempHorizontalFormProcessor -- same package or java.lang
 import qualified TempHorizontalItemIndexDx -- same package or java.lang
 import qualified FormType -- same package or java.lang
 import qualified ItemPaintable -- same package or java.lang
-import qualified LogUtil -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified PaintableForm -- same package or java.lang
 import qualified ABCustomForm -- same package or java.lang
@@ -210,7 +210,7 @@ processHorizontalForm_super object_ = (processHorizontalForm_impl (javaCast obje
 processHorizontalForm_impl :: ScrollCurrentSelectionForm -> IO (())
 processHorizontalForm_impl this = do
         size <- (ScrollSelectionForm.size this)
-        totalWidth <- newIORef (0)
+        totalWidth <- newIORef (0 :: Int)
         item <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (ScrollSelectionForm.get this index)
@@ -233,7 +233,7 @@ processVerticalForm_super object_ = (processVerticalForm_impl (javaCast object_ 
 
 processVerticalForm_impl :: ScrollCurrentSelectionForm -> IO (())
 processVerticalForm_impl this = do
-        totalHeight <- newIORef (0)
+        totalHeight <- newIORef (0 :: Int)
         size <- (ScrollSelectionForm.size this)
         item2 <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -333,7 +333,7 @@ paint_impl this graphics = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.base.logUtil)) (jget ((jget (this).base.base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.base.canvasStrings)).pAINT) e)
             ) $ do
             Control.Monad.void (Processor.process ((jget (this).processor)))
-            delta <- newIORef (0)
+            delta <- newIORef (0 :: Int)
             deltaX <- newIORef =<< (ScrollCurrentSelectionForm.getDx this)
             deltaY <- newIORef =<< (ScrollCurrentSelectionForm.getDy this)
             size <- (ScrollSelectionForm.size this)

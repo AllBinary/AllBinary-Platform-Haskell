@@ -33,10 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified GameCommandCanvas -- same package or java.lang
-import qualified LogUtil -- same package or java.lang
-import qualified RepaintBehavior -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified RepaintBehavior -- same package or java.lang
 import qualified BasicMenuInputProcessor -- same package or java.lang
 import qualified PlayerGameInput -- same package or java.lang
 import qualified GameInput -- same package or java.lang

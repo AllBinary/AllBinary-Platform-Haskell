@@ -205,7 +205,7 @@ toString_impl this = do
         Control.Monad.void (StringMaker.appendint stringBuffer (jio (BasicArrayList.size ((jget (this).list)))))
         eventListenerInterface <- newIORef (javaNull)
         size <- (BasicArrayList.size ((jget (this).list)))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             handle (\(e :: JavaException) -> do
                 Control.Monad.void (LogUtil.put ((jget (this).base.logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.commonStrings)).tOSTRING) e)

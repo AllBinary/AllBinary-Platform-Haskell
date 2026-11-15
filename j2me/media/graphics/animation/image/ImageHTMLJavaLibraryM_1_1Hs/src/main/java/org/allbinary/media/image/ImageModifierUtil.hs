@@ -232,10 +232,7 @@ handleImage_impl this imageArray index image = do
             if (((jio (Image.isReady image3)) || (((jio (Image.width image3)) + (jio (Image.height image3))) <= 0)) || ((jio (Image.getName image)) == (jget ((jget (this).resourceCallbackStrings)).fROM_DATA))) then do
                 Control.Monad.void (ImageModifierUtil.copy this imageArray index image image3)
             else do
-                callback <- (Callback.new_ {- Java anonymous class body: implement it as a record of functions
-                    -- onSuccess
-                    -- onFailure
--})
+                callback <- (Callback.new_ >>= anonymousImageModifierUtil0_ this image3 imageArray index image)
                 Control.Monad.void (Image.addCallback image3 callback)
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).resourceCallbackStrings)).nULL) + (jio (Image.isMutable image))) this (jget ((jget (this).resourceCallbackStrings)).hANDLE_IMAGE))
@@ -251,7 +248,7 @@ copy_super object_ a1 a2 a3 a4 = (copy_impl (javaCast object_ :: ImageModifierUt
 copy_impl :: ImageModifierUtil -> JavaArray (Image.Image) -> Int -> Image.Image -> Image.Image -> IO (())
 copy_impl this imageArray index image image3 = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) + (jget ((jget this.resourceCallbackStrings)).dONE)) this (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ javaToString (jget ((jget this.resourceCallbackStrings)).dONE)) this (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
             ) $ do
             image2 <- (Image.createImage (jio (Image.width image3)) (jio (Image.height image3)))
             graphics <- (Image.getGraphics image2)
@@ -273,4 +270,24 @@ reset_impl this = do
             jsetIndex ((jget (this).alphaArray)) (index) (True)
         pure ()
 
+
+-- Java anonymous class new Callback() {...}
+anonymousImageModifierUtil0_ (this :: ImageModifierUtil) (image3 :: Image.Image) (imageArray :: JavaArray (Image.Image)) (index :: Int) (image :: Image.Image) (anonymous_ :: Callback.Callback) = do
+    jregisterMethod (jheaderOf anonymous_) "onSuccess" (\() -> anonymousImageModifierUtil0_onSuccess this image3 imageArray index image anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "onFailure" (\() -> anonymousImageModifierUtil0_onFailure this image3 imageArray index image anonymous_)
+    pure anonymous_
+
+anonymousImageModifierUtil0_onSuccess (this :: ImageModifierUtil) (image3 :: Image.Image) (imageArray :: JavaArray (Image.Image)) (index :: Int) (image :: Image.Image) (anonymous_ :: Callback.Callback) (resourceObject_ :: JavaObject) = ( do
+                        let resource = jtoObject resourceObject_
+                        logUtil <- (LogUtil.getInstance)
+                        Control.Monad.void (LogUtil.putF logUtil (javaToString (jget ((jget this.resourceCallbackStrings)).dONE) ++ (jio (Image.getName image))) anonymous_ (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
+                        Control.Monad.void (ImageModifierUtil.copy this imageArray index image image3)
+                        pure ()
+ ) :: IO (())
+
+anonymousImageModifierUtil0_onFailure (this :: ImageModifierUtil) (image3 :: Image.Image) (imageArray :: JavaArray (Image.Image)) (index :: Int) (image :: Image.Image) (anonymous_ :: Callback.Callback) (e :: JavaException) = ( do
+                        logUtil <- (LogUtil.getInstance)
+                        Control.Monad.void (LogUtil.putF logUtil (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget ((jget this.commonStrings)).eXCEPTION_LABEL)))) (jget ((jget this.resourceCallbackStrings)).eRROR)))) (jio (Image.getName image))))))) anonymous_ (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
+                        pure ()
+ ) :: IO (())
 

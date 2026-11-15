@@ -32,6 +32,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified DownGameKeyEventHandlerBase -- same package or java.lang
 import qualified LocalPlayerInputIdFactory -- org.allbinary.game.input.LocalPlayerInputIdFactory
 import qualified EventListenerInterface -- org.allbinary.logic.util.event.EventListenerInterface
 import qualified DownGameKeyEventHandlerBase
@@ -133,7 +134,7 @@ removeAllListeners_impl :: DownGameKeyEventHandler -> IO (())
 removeAllListeners_impl this = do
         Control.Monad.void (DownGameKeyEventHandlerBase.removeAllListeners_super this.base)
         forM_ [((jlength DownGameKeyEventHandler.instanceArray) - 1), ((jlength DownGameKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeAllListeners ((jindex DownGameKeyEventHandler.instanceArray (index))))
+            Control.Monad.void (DownGameKeyEventHandlerBase.removeAllListeners ((jindex DownGameKeyEventHandler.instanceArray (index))))
         pure ()
 
 
@@ -147,7 +148,7 @@ removeListenerSingleThreaded_impl :: DownGameKeyEventHandler -> EventListenerInt
 removeListenerSingleThreaded_impl this eventListenerInterface = do
         Control.Monad.void (DownGameKeyEventHandlerBase.removeListenerSingleThreaded_super this.base eventListenerInterface)
         forM_ [((jlength DownGameKeyEventHandler.instanceArray) - 1), ((jlength DownGameKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeListenerSingleThreaded ((jindex DownGameKeyEventHandler.instanceArray (index))) eventListenerInterface)
+            Control.Monad.void (DownGameKeyEventHandlerBase.removeListenerSingleThreaded ((jindex DownGameKeyEventHandler.instanceArray (index))) eventListenerInterface)
         pure ()
 
 
@@ -161,7 +162,7 @@ removeListener_impl :: DownGameKeyEventHandler -> EventListenerInterface.EventLi
 removeListener_impl this eventListenerInterface = do
         Control.Monad.void (DownGameKeyEventHandlerBase.removeListener_super this.base eventListenerInterface)
         forM_ [((jlength DownGameKeyEventHandler.instanceArray) - 1), ((jlength DownGameKeyEventHandler.instanceArray) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
-            Control.Monad.void (removeListener ((jindex DownGameKeyEventHandler.instanceArray (index))) eventListenerInterface)
+            Control.Monad.void (DownGameKeyEventHandlerBase.removeListener ((jindex DownGameKeyEventHandler.instanceArray (index))) eventListenerInterface)
         pure ()
 
 

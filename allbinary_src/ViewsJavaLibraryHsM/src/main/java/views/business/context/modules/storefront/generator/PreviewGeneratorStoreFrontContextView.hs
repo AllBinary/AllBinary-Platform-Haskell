@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified HashMap -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HashMap -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil
 import qualified TransformInfoData -- org.allbinary.logic.visual.transform.info.TransformInfoData
@@ -106,7 +106,7 @@ view_impl this = do
             javaThrow (e)
             ) $ do
             let httpTransformInfoInterface = (javaCast (jio (GeneratorStoreFrontContextView.getTransformInfoInterface this)) :: TransformInfoHttpInterface.TransformInfoHttpInterface)
-            Control.Monad.void (HashMap.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL) ((jget ((jio (CommonSeps.getInstance))).sPACE) + (jget ((jio (TransformInfosData.getInstance))).pREVIEW)))
+            Control.Monad.void (HashMap.put ((jio (TransformInfoHttpInterface.getPropertiesHashMap httpTransformInfoInterface))) (jget ((jio (TransformInfoData.getInstance))).pARTIAL) ((jget ((jio (CommonSeps.getInstance))).sPACE) ++ (jget ((jio (TransformInfosData.getInstance))).pREVIEW)))
             (GeneratorStoreFrontContextView.view this (jget ((jio (TransformInfosData.getInstance))).pREVIEW))
 
 

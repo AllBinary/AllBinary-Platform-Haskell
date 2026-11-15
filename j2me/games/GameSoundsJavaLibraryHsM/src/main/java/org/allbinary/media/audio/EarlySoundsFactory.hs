@@ -94,7 +94,7 @@ getSoundInterfaceArray_super object_ = (getSoundInterfaceArray_impl (javaCast ob
 getSoundInterfaceArray_impl :: EarlySoundsFactory -> IO (JavaArray (Sound.Sound))
 getSoundInterfaceArray_impl this = do
         let soundInterfaceArray = (jnewArray (2) javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         assignedValue <- (SelectSound.getInstance)
         jsetIndex soundInterfaceArray ((jpostIncrement index (+ 1))) (assignedValue)
         assignedValue <- (ErrorSound.getInstance)

@@ -139,7 +139,7 @@ count_super object_ a1 a2 = (count_impl (javaCast object_ :: StringUtil)) a1 a2
 
 count_impl :: StringUtil -> String -> Char -> IO (Int)
 count_impl this string aChar = do
-        count <- newIORef (0)
+        count <- newIORef (0 :: Int)
         let size = (Prelude.length string)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             when ((string Prelude.!! index) == aChar) $ do

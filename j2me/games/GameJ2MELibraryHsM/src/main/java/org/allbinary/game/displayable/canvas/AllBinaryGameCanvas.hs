@@ -64,11 +64,11 @@ import qualified SpecialGameInputInterface -- same package or java.lang
 import qualified OpenGLFeature -- same package or java.lang
 import qualified StdUtil -- same package or java.lang
 import qualified TsUtil -- same package or java.lang
+import qualified CommonLabels -- same package or java.lang
 import qualified ThreadObjectUtil -- same package or java.lang
 import qualified GenericOperatingSystem -- same package or java.lang
 import qualified AllBinarySensor -- same package or java.lang
 import qualified ThreadPool -- same package or java.lang
-import qualified CommonLabels -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified ChoiceGroup -- javax.microedition.lcdui.ChoiceGroup
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
@@ -2050,7 +2050,7 @@ endProgress_super object_ a1 = (endProgress_impl (javaCast object_ :: AllBinaryG
 
 endProgress_impl :: AllBinaryGameCanvas -> Bool -> IO (Int)
 endProgress_impl this isProgress = do
-        portion <- newIORef (30)
+        portion <- newIORef (30 :: Int)
         when (isProgress && (jio (RunnableCanvas.isMainCanvas this))) $ do
             myCommandsFactory <- (MyCommandsFactory.getInstance)
             progressCanvas <- (ProgressCanvasFactory.getInstance)

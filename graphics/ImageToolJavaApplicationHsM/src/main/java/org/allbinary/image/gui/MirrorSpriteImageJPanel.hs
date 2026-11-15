@@ -164,9 +164,7 @@ process_super object_ = (process_impl (javaCast object_ :: MirrorSpriteImageJPan
 
 process_impl :: MirrorSpriteImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousMirrorSpriteImageJPanel0_ this))))
         pure ()
 
 
@@ -180,9 +178,7 @@ initComponents_impl :: MirrorSpriteImageJPanel -> IO (())
 initComponents_impl this = do
         assignedValue <- (JLayeredPane.new_)
         jset this.jLayeredPane1 (assignedValue)
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousMirrorSpriteImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JPanel.new_)
         jset (this).jPanel2 (assignedValue)
@@ -207,9 +203,7 @@ initComponents_impl this = do
         Control.Monad.void (JCheckBox.setSelected ((jget (this).imageHeightIsFrameSizeJCheckBox)) True)
         Control.Monad.void (JCheckBox.setText ((jget (this).imageHeightIsFrameSizeJCheckBox)) "Image Height Is Frame Size")
         Control.Monad.void (JCheckBox.setEnabled ((jget (this).imageHeightIsFrameSizeJCheckBox)) False)
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).imageHeightIsFrameSizeJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).imageHeightIsFrameSizeJCheckBox)) (jio (ActionListener.new_ >>= anonymousMirrorSpriteImageJPanel2_ this)))
         Control.Monad.void (JCheckBox.setSelected ((jget (this).horizontalJCheckBox)) True)
         Control.Monad.void (JCheckBox.setText ((jget (this).horizontalJCheckBox)) "Horizontal")
         Control.Monad.void (JCheckBox.setEnabled ((jget (this).horizontalJCheckBox)) False)
@@ -217,9 +211,7 @@ initComponents_impl this = do
         Control.Monad.void (JCheckBox.setEnabled ((jget (this).verticleJCheckBox)) False)
         Control.Monad.void (JCheckBox.setText ((jget (this).writeOverOriginalJCheckBox)) "Write Over Original")
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousMirrorSpriteImageJPanel3_ this)))
         jPanel2Layout <- (GroupLayout.new_1 (jget (this).jPanel2))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel2)) jPanel2Layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel2Layout (jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup jPanel2Layout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) (jio (GroupLayout.add ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.add ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup jPanel2Layout))) (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jget this.verticleJCheckBox)))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).uNRELATED)))) (jget this.horizontalJCheckBox)))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).rELATED)))) (jget this.imageHeightIsFrameSizeJCheckBox)))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).rELATED)))) (jget this.writeOverOriginalJCheckBox)))) (jget ((jget ((jget (org.jdesktop).layout)).layoutStyle)).rELATED)))) (jget this.generateJButton))))))
@@ -281,4 +273,67 @@ setImageProcessorInput_impl this imageProcessorInput = do
         jset (this).imageProcessorInput (imageProcessorInput)
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousMirrorSpriteImageJPanel0_ (this :: MirrorSpriteImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousMirrorSpriteImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousMirrorSpriteImageJPanel0_run (this :: MirrorSpriteImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    generatedBufferedImageArray <- newIORef (javaNull)
+                    imageProcessorInput <- (MirrorSpriteImageJPanel.getImageProcessorInput this)
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
+                        assignedValue <- (MirrorImageUtil.getImages ((jio (MirrorImageUtil.getInstance))) (jindex bufferedImageArray (index)) (jio (JCheckBox.isSelected ((jget (this).verticleJCheckBox)))) (jio (JCheckBox.isSelected ((jget (this).horizontalJCheckBox)))))
+                        jset generatedBufferedImageArray (assignedValue)
+                        assignedValue <- (BufferedImageUtil2.createSpriteImage ((jio (BufferedImageUtil2.getInstance))) (jget generatedBufferedImageArray))
+                        jset (this).result (assignedValue)
+                        Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                        file <- newIORef ((jindex ((jio (ImageProcessorInput.getFiles imageProcessorInput))) (index)))
+                        when (Prelude.not (jio (JCheckBox.isSelected ((jget (this).writeOverOriginalJCheckBox))))) $ do
+                            filePath <- newIORef =<< (File.getAbsolutePath ((jget file)))
+                            let extensionIndex = (jstringIndexOf (jget filePath) (jget ((jget this.imageStrings)).pNG_EXTENSION) 0)
+                            jset filePath ((((Prelude.take ((extensionIndex) - (0)) (Prelude.drop (0) (jget filePath))) ++ "_mirror") ++ (jget ((jget this.imageStrings)).pNG_EXTENSION)))
+                            Control.Monad.void (LogUtil.putF logUtil ("Renamed File: " ++ (jget filePath)) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                            assignedValue <- (File.new_1 (jget filePath))
+                            jset file (assignedValue)
+                        isWritten <- (ImageIO.write (javaCast (jget (this).result) :: RenderedImage.RenderedImage) (jget ((jget this.imageStrings)).pNG) (jget file))
+                        Control.Monad.void (LogUtil.putF logUtil ((("File: " ++ jconcatObject File.toString (jget file)) ++ " Wrote: ") ++ javaToString isWritten) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousMirrorSpriteImageJPanel1_ (this :: MirrorSpriteImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousMirrorSpriteImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousMirrorSpriteImageJPanel1_paint (this :: MirrorSpriteImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMirrorSpriteImageJPanel2_ (this :: MirrorSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMirrorSpriteImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMirrorSpriteImageJPanel2_actionPerformed (this :: MirrorSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MirrorSpriteImageJPanel.imageHeightIsFrameSizeJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMirrorSpriteImageJPanel3_ (this :: MirrorSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMirrorSpriteImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMirrorSpriteImageJPanel3_actionPerformed (this :: MirrorSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MirrorSpriteImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

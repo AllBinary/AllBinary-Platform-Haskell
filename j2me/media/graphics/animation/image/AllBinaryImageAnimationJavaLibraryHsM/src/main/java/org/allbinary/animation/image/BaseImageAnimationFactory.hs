@@ -210,7 +210,7 @@ toString_impl this = do
         commonSeps <- (CommonSeps.getInstance)
         commonLabels <- (CommonLabels.getInstance)
         stringBuffer <- (StringMaker.new_)
-        Control.Monad.void (StringMaker.append stringBuffer (jio (.toString_super this.base)))
+        Control.Monad.void (StringMaker.append stringBuffer (jio (jobjectToString this)))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonLabels).hEIGHT_LABEL))
         Control.Monad.void (StringMaker.appendint stringBuffer (jio (Image.getHeight ((jget (this).image)))))
         Control.Monad.void (StringMaker.append stringBuffer (jget (commonSeps).sPACE))

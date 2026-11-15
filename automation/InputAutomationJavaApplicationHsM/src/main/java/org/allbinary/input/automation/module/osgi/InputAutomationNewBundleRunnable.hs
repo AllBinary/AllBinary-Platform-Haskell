@@ -228,7 +228,7 @@ getAllJarSymbolicNameHashMap_impl this = do
                 else do
                     symbolicName <- (Manifest.getValue ((jio (Manifest.getMainAttributes manifest))) (Constants.bUNDLE_SYMBOLICNAME))
                     when (symbolicName /= javaNull) $ do
-                        Control.Monad.void (HashMap.put hashMap symbolicName (jio (URL.new_1 (InputAutomationNewBundleRunnable.fILE + (jio (File.getAbsolutePath ((jget file))))))))
+                        Control.Monad.void (HashMap.put hashMap symbolicName (jio (URL.new_1 (InputAutomationNewBundleRunnable.fILE ++ javaToString (jio (File.getAbsolutePath ((jget file))))))))
         pure (hashMap)
 
 
@@ -245,7 +245,7 @@ getJarModuleFileBasicArrayList_impl this = do
         when (Data.List.isPrefixOf (InputAutomationNewBundleRunnable.fILE) (jget baseJarPath)) $ do
             jset baseJarPath ((Prelude.drop (Prelude.length InputAutomationNewBundleRunnable.fILE) (jget baseJarPath)))
         jarFileFilter <- (BasicFileFilterUtil.getInstance ".jar")
-        let path = ((jget baseJarPath) ++ javaToString InputAutomationNewBundleRunnable.iNPUT_AUTMATION_MODULE_BUNDLE_JAR_PATH)
+        let path = ((jget baseJarPath) ++ InputAutomationNewBundleRunnable.iNPUT_AUTMATION_MODULE_BUNDLE_JAR_PATH)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Path: " ++ path) this "getJarModuleFileBasicArrayList")
         file <- (File.new_1 path)
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("File: " ++ javaToString (jio (File.getAbsolutePath file))) ++ " isDirectory: ") ++ javaToString (jio (File.isDirectory file))) this "getJarModuleFileBasicArrayList")
@@ -283,7 +283,7 @@ isInstalled_super object_ a1 = (isInstalled_impl (javaCast object_ :: InputAutom
 isInstalled_impl :: InputAutomationNewBundleRunnable -> String -> IO (Bool)
 isInstalled_impl this symbolicName = do
     javaCatchReturn $ do
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jio (CommonLabels.getInstance))).sTART) ++ symbolicName) this "isInstalled")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ symbolicName) this "isInstalled")
         list <- (InputAutomationNewBundleRunnable.getInstalledJarSymbolicNameBasicArrayList this)
         size <- (BasicArrayList.size list)
         nextSymbolicName <- newIORef ("")
@@ -326,7 +326,7 @@ install_super object_ a1 = (install_impl (javaCast object_ :: InputAutomationNew
 
 install_impl :: InputAutomationNewBundleRunnable -> URL.URL -> IO (Bundle.Bundle)
 install_impl this url = do
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) + url) this "install")
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ jconcatObject URL.toString url) this "install")
         bundleContext <- (InputAutomationBundleActivator.getBundleContext)
         (BundleContext.installBundle bundleContext (jio (URL.toString url)))
 
@@ -347,7 +347,7 @@ run_impl this = do
             timeHelper <- (TimeDelayHelper.new_1 1000)
             handle (\JavaBreak -> pure ()) $ fix $ \loop -> when (jio (InputAutomationNewBundleRunnable.isRunning this)) $ javaIteration (loop) $ do
                 Control.Monad.void (TimeDelayHelper.setStartTimeTNT timeHelper)
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
                 Control.Monad.void (InputAutomationNewBundleRunnable.updateModules this)
                 throwIO JavaBreak
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))

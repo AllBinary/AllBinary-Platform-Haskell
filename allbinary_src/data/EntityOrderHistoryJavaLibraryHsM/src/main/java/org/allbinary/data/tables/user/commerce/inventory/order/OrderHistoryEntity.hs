@@ -157,7 +157,7 @@ insert_impl this userName order = do
         vector <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ jconcatObject BasicArrayList.toString vector) this iNSERT e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ jconcatObject BasicArrayList.toString vector) this (jget this.base.base.base.base.base.iNSERT) e)
             ) $ do
             paymentInterface <- (PaymentEntity.getDefault ((jio (PaymentEntity.new_))) userName)
             billingAddress <- (BillingAddressesEntity.getDefault ((jio (BillingAddressesEntity.new_1 userName))))
@@ -243,7 +243,7 @@ insert_impl this userName order = do
             Control.Monad.void (BasicArrayList.add vector (jio (Order.getStoreCancelComments order)))
             Control.Monad.void (OrderHistoryEntity.insert_1 this vector)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this iNSERT)
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this (jget this.base.base.base.base.base.iNSERT))
         pure ()
 
 
@@ -257,11 +257,11 @@ insert_1_impl :: OrderHistoryEntity -> BasicArrayList.BasicArrayList -> IO (())
 insert_1_impl this values = do
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this iNSERT e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).fAILURE) this (jget this.base.base.base.base.base.iNSERT) e)
             ) $ do
             Control.Monad.void (AbSqlBean.insert_1_super this.base values)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this iNSERT)
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).base.base.base.base.base.commonStrings)).sUCCESS) this (jget this.base.base.base.base.base.iNSERT))
         pure ()
 
 

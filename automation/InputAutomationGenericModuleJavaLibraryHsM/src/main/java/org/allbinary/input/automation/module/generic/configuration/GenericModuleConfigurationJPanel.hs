@@ -258,9 +258,7 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setMinimumSize ((jget (this).newProfileJDialog)) (jio (Dimension.new_2 250 150)))
         Control.Monad.void (JDialog.setResizable ((jget (this).newProfileJDialog)) False)
         Control.Monad.void (JButton.setText ((jget (this).okNewProfileJButton)) "Ok")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okNewProfileJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okNewProfileJButton)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel0_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).newProfileNameJLabel)) "New Profile Name")
         newProfileJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).newProfileJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).newProfileJDialog))))) newProfileJDialogLayout)
@@ -273,51 +271,37 @@ initComponents_impl this = do
         Control.Monad.void (JTabbedPane.setMinimumSize ((jget (this).genericJTabbedPane)) (jio (Dimension.new_2 800 600)))
         Control.Monad.void (JPanel.setMinimumSize ((jget (this).genericProfilesJPanel)) (jio (Dimension.new_2 400 300)))
         Control.Monad.void (JPanel.setPreferredSize ((jget (this).genericProfilesJPanel)) (jio (Dimension.new_2 0 0)))
-        Control.Monad.void (JList.addListSelectionListener ((jget (this).genericProfilesJList)) (ListSelectionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- valueChanged
--}))
+        Control.Monad.void (JList.addListSelectionListener ((jget (this).genericProfilesJList)) (jio (ListSelectionListener.new_ >>= anonymousGenericModuleConfigurationJPanel1_ this)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).genericProfilesJScrollPane)) (jget (this).genericProfilesJList))
         Control.Monad.void (JButton.setText ((jget (this).newProfileJButton)) "New")
         Control.Monad.void (JButton.setToolTipText ((jget (this).newProfileJButton)) "Creates a new profile")
-        Control.Monad.void (JButton.addActionListener ((jget (this).newProfileJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).newProfileJButton)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel2_ this)))
         Control.Monad.void (JButton.setText ((jget (this).deleteProfileJButton)) "Delete")
         Control.Monad.void (JButton.setToolTipText ((jget (this).deleteProfileJButton)) "Deletes the selected profile")
-        Control.Monad.void (JButton.addActionListener ((jget (this).deleteProfileJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).deleteProfileJButton)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel3_ this)))
         Control.Monad.void (JPanel.setPreferredSize ((jget (this).jPanel1)) (jio (Dimension.new_2 1000 100)))
         Control.Monad.void (JRadioButton.setText ((jget (this).screenCaptureJRadioButton)) "Screen Captures")
         Control.Monad.void (JRadioButton.setToolTipText ((jget (this).screenCaptureJRadioButton)) "Records the screen into memory for logical processing")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).screenCaptureJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).screenCaptureJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).screenCaptureJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).screenCaptureJRadioButton)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel4_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Profile Options")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Process From:")
         Control.Monad.void (JRadioButton.setText ((jget (this).savedCaptureJRadioButton)) "Saved Images")
         Control.Monad.void (JRadioButton.setToolTipText ((jget (this).savedCaptureJRadioButton)) "Loads images from files for logical processing.  Usually for debugging your profile actions")
         Control.Monad.void (JRadioButton.setBorder ((jget (this).savedCaptureJRadioButton)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JRadioButton.setMargin ((jget (this).savedCaptureJRadioButton)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).savedCaptureJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).savedCaptureJRadioButton)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel5_ this)))
         Control.Monad.void (JCheckBox.setText ((jget (this).captureMotionAnalysisJCheckBox)) "Motion Analysis")
         Control.Monad.void (JCheckBox.setToolTipText ((jget (this).captureMotionAnalysisJCheckBox)) "Uses image comparison and contraints to locate moving objects")
         Control.Monad.void (JCheckBox.setBorder ((jget (this).captureMotionAnalysisJCheckBox)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JCheckBox.setMargin ((jget (this).captureMotionAnalysisJCheckBox)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).captureMotionAnalysisJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).captureMotionAnalysisJCheckBox)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel6_ this)))
         Control.Monad.void (JCheckBox.setText ((jget (this).captureComparisonJCheckBox)) "Comparison")
         Control.Monad.void (JCheckBox.setToolTipText ((jget (this).captureComparisonJCheckBox)) "Compares the last two input images for multi image logic")
         Control.Monad.void (JCheckBox.setBorder ((jget (this).captureComparisonJCheckBox)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JCheckBox.setMargin ((jget (this).captureComparisonJCheckBox)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).captureComparisonJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).captureComparisonJCheckBox)) (jio (ActionListener.new_ >>= anonymousGenericModuleConfigurationJPanel7_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Image Processing:")
         Control.Monad.void (JLabel.setToolTipText ((jget (this).jLabel3)) "Turns on/off various extended image processing")
         jPanel1Layout <- (GroupLayout.new_1 (jget (this).jPanel1))
@@ -632,4 +616,84 @@ newProfileJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jget (this).newProfileJDialog)) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel0_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel0_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.okNewProfileJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ListSelectionListener() {...}
+anonymousGenericModuleConfigurationJPanel1_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ListSelectionListener.ListSelectionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "valueChanged" (\() -> anonymousGenericModuleConfigurationJPanel1_valueChanged this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel1_valueChanged (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ListSelectionListener.ListSelectionListener) (evt :: ListSelectionEvent.ListSelectionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.genericProfilesJListValueChanged this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel2_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel2_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.newProfileJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel3_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel3_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.deleteProfileJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel4_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel4_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.screenCaptureJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel5_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel5_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.savedCaptureJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel6_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel6_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.captureMotionAnalysisJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericModuleConfigurationJPanel7_ (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericModuleConfigurationJPanel7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericModuleConfigurationJPanel7_actionPerformed (this :: GenericModuleConfigurationJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericModuleConfigurationJPanel.captureComparisonJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

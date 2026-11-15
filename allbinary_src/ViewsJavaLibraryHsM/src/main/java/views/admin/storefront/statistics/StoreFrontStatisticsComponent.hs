@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
 import qualified RealTimeStoreFrontStatistics -- org.allbinary.business.context.modules.storefront.statistics.RealTimeStoreFrontStatistics

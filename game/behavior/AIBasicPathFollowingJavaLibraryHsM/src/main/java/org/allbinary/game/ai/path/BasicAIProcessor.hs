@@ -164,7 +164,7 @@ goTowardNextChosenOnPathPosition_super object_ a1 = (goTowardNextChosenOnPathPos
 
 goTowardNextChosenOnPathPosition_impl :: BasicAIProcessor -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (Int)
 goTowardNextChosenOnPathPosition_impl this currentGeographicMapCellPosition = do
-        keyDirection <- newIORef ((Prelude.negate 1))
+        keyDirection <- newIORef ((Prelude.negate 1) :: Int)
         goToGeographicMapCellPosition <- (GeographicMapCellPathHistoryInfo.getNextChosenOnPathGeographicMapCellPosition ((jget (this).geographicMapCellPathHistoryInfo)))
         geographicMapDirectionData <- newIORef =<< (GeographicMapDirectionUtil.getDirectionFromCellPositionToAdjacentCellPosition ((jget (this).geographicMapDirectionUtil)) currentGeographicMapCellPosition goToGeographicMapCellPosition)
         when ((jget geographicMapDirectionData) == (jget ((jio (DirectionFactory.getInstance))).nOT_BORDERED_WITH)) $ do
@@ -197,7 +197,7 @@ processAI_super object_ a1 a2 = (processAI_impl (javaCast object_ :: BasicAIProc
 
 processAI_impl :: BasicAIProcessor -> AllBinaryLayerManager.AllBinaryLayerManager -> GeographicMapCellPosition.GeographicMapCellPosition -> IO (Int)
 processAI_impl this myManager currentGeographicMapCellPosition = do
-        keyDirection <- newIORef ((Prelude.negate 1))
+        keyDirection <- newIORef ((Prelude.negate 1) :: Int)
         if (jio (BasicArrayList.contains ((jget (this).geographicMapCellPositionBasicArrayList)) currentGeographicMapCellPosition)) then do
             Control.Monad.void (BasicAIProcessor.update this)
             assignedValue <- (BasicAIProcessor.goTowardNextChosenOnPathPosition this currentGeographicMapCellPosition)

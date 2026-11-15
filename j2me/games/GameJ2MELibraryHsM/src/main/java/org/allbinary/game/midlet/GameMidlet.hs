@@ -39,10 +39,10 @@ import qualified GameMidletEventHandler -- same package or java.lang
 import qualified DemoGameMidletEvent -- same package or java.lang
 import qualified DemoGameMidletStateFactory -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified Advertisements -- same package or java.lang
 import qualified Display -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified AllBinaryMidlet -- same package or java.lang
 import qualified Enumeration -- java.util.Enumeration
 import qualified Canvas -- javax.microedition.lcdui.Canvas

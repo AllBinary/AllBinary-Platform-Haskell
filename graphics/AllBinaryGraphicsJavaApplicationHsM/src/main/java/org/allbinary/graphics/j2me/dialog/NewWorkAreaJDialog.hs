@@ -123,9 +123,7 @@ init_4 this parent modal dimension newName = do
             jset (this).nameJTextField (assignedValue)
             jset (this).dimension (dimension)
             submitButton <- (JButton.new_1 "Ok")
-            Control.Monad.void (JButton.addActionListener submitButton (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-                -- actionPerformed
--}))
+            Control.Monad.void (JButton.addActionListener submitButton (jio (ActionListener.new_ >>= anonymousNewWorkAreaJDialog0_ this)))
             Control.Monad.void (JDialog.setSize this 150 100)
             Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane this))) (jio (GridLayout.new_2 5 2)))
             Control.Monad.void (JDialog.add ((jio (JDialog.getContentPane this))) (jio (JLabel.new_1 "Please enter")))
@@ -173,9 +171,7 @@ initComponents_super object_ = (initComponents_impl (javaCast object_ :: NewWork
 
 initComponents_impl :: NewWorkAreaJDialog -> IO (())
 initComponents_impl this = do
-        Control.Monad.void (JDialog.addWindowListener this (WindowAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- windowClosing
--}))
+        Control.Monad.void (JDialog.addWindowListener this (jio (WindowAdapter.new_ >>= anonymousNewWorkAreaJDialog1_ this)))
         Control.Monad.void (JDialog.pack this)
         pure ()
 
@@ -201,4 +197,27 @@ main args = do
             Control.Monad.void (JDialog.show ((jio (new_4 (jio (MyFrame.new_)) True (jio (Dimension.new_2 100 100)) "testing"))))
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousNewWorkAreaJDialog0_ (this :: NewWorkAreaJDialog) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousNewWorkAreaJDialog0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousNewWorkAreaJDialog0_actionPerformed (this :: NewWorkAreaJDialog) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                    handle (\(e :: JavaException) -> do
+                        pure ()
+                        ) $ do
+                        Control.Monad.void (NewWorkAreaJDialog.disposeNewDialog this)
+                    pure ()
+ ) :: IO (())
+
+-- Java anonymous class new WindowAdapter() {...}
+anonymousNewWorkAreaJDialog1_ (this :: NewWorkAreaJDialog) (anonymous_ :: WindowAdapter.WindowAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "windowClosing" (\() -> anonymousNewWorkAreaJDialog1_windowClosing this anonymous_)
+    pure anonymous_
+
+anonymousNewWorkAreaJDialog1_windowClosing (this :: NewWorkAreaJDialog) (anonymous_ :: WindowAdapter.WindowAdapter) (evt :: WindowEvent.WindowEvent) = ( do
+                Control.Monad.void (NewWorkAreaJDialog.closeDialog this evt)
+                pure ()
+ ) :: IO (())
 

@@ -35,8 +35,8 @@ import qualified GHC.Float
 import qualified AllBinaryGameCanvas -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified GameKey -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameKey -- same package or java.lang
 import qualified GameInput -- same package or java.lang
 import qualified GameKeyFactory -- org.allbinary.game.input.GameKeyFactory
 import qualified PlayerGameInput -- org.allbinary.game.input.PlayerGameInput

@@ -64,7 +64,7 @@ dESC :: String
 dESC = "Mobile"
 
 aNDROID_DESC :: String
-aNDROID_DESC = ("Android" ++ javaToString MobileClientInformation.dESC)
+aNDROID_DESC = ("Android" ++ MobileClientInformation.dESC)
 
 newRecord_ :: IO MobileClientInformation
 newRecord_ = do

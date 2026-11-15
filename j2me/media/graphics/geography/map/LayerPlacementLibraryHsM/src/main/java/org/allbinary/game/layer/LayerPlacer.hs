@@ -137,9 +137,9 @@ process_impl this layerPlacementInterface = do
         enumeration <- (ABHashtable.keys hashtable)
         point <- newIORef (javaNull)
         layerHashtable <- newIORef (javaNull)
-        x <- newIORef (0)
-        y <- newIORef (0)
-        z <- newIORef (0)
+        x <- newIORef (0 :: Int)
+        y <- newIORef (0 :: Int)
+        z <- newIORef (0 :: Int)
         layerInterface <- newIORef (javaNull)
         fix $ \loop -> when (jio (EnumerationUtil.hasMoreElements ((jget (this).enumerationUtil)) enumeration)) $ javaIteration (loop) $ do
             jset point ((javaCast (jio (EnumerationUtil.nextElement ((jget (this).enumerationUtil)) enumeration)) :: GPoint.GPoint))

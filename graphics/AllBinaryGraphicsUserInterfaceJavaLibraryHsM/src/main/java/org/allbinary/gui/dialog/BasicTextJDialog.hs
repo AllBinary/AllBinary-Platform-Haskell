@@ -154,9 +154,7 @@ initComponents_impl this = do
         jset (this).textJLabel (assignedValue)
         Control.Monad.void (JDialog.setDefaultCloseOperation this (jget ((jget (javax.swing).windowConstants)).dISPOSE_ON_CLOSE))
         Control.Monad.void (JButton.setText ((jget (this).jButton1)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget this.jButton1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget this.jButton1)) (jio (ActionListener.new_ >>= anonymousBasicTextJDialog0_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).textJLabel)) "No Text Set")
         layout <- (GroupLayout.new_1 (jio (JDialog.getContentPane this)))
         Control.Monad.void (setLayout ((jio (JDialog.getContentPane this))) layout)
@@ -182,9 +180,27 @@ jButton1ActionPerformed_impl this evt = do
 
 main :: JavaArray (String) -> IO (())
 main args = do
-        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--}))
+        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (jio (ARunnable.new_ >>= anonymousBasicTextJDialog1_)))
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousBasicTextJDialog0_ (this :: BasicTextJDialog) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousBasicTextJDialog0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousBasicTextJDialog0_actionPerformed (this :: BasicTextJDialog) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (BasicTextJDialog.jButton1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousBasicTextJDialog1_ (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousBasicTextJDialog1_run anonymous_)
+    pure anonymous_
+
+anonymousBasicTextJDialog1_run (anonymous_ :: ARunnable.ARunnable) = ( do
+                Control.Monad.void (JDialog.setVisible ((jio (new_3 (jio (JFrame.new_)) True "Test"))) True)
+                pure ()
+ ) :: IO (())
 

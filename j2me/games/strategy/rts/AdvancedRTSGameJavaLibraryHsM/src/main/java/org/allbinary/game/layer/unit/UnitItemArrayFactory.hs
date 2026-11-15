@@ -142,7 +142,7 @@ createNamedFlagItem_impl :: UnitItemArrayFactory -> FlagGameResources.FlagGameRe
 createNamedFlagItem_impl this flagResources name layerInterfaceFactoryInterface = do
         iMAGE_CACHE <- (GameFeatureImageCacheFactory.getInstance)
         image <- (ImageCache.getWithKey iMAGE_CACHE (jget (flagResources).rESOURCE_ICON))
-        item <- (fmap (\value_ -> javaCast value_ :: ABCustomItem.ABCustomItem) (LayerInterfaceFactoryImageItem.new_7 name image (LcduiImageItem.lAYOUT_DEFAULT) (jget (flagResources).nAME) (jget (this).basicColor) (jarrayFromList [(jio (RTSLayerTextAnimation.new_2 (jget ((jio (RTSGameStrings.getInstance))).dRAGGABLE) image))]) layerInterfaceFactoryInterface))
+        item <- (fmap (\value_ -> javaCast value_ :: ABCustomItem.ABCustomItem) (LayerInterfaceFactoryImageItem.new_7 name image (LcduiImageItem.lAYOUT_DEFAULT) (jget (flagResources).nAME) (jget (this).basicColor) (jarrayFromList [(javaCast (jio (RTSLayerTextAnimation.new_2 (jget ((jio (RTSGameStrings.getInstance))).dRAGGABLE) image)) :: Animation.Animation)]) layerInterfaceFactoryInterface))
         pure (item)
 
 

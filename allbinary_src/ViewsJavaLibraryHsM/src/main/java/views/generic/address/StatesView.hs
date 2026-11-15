@@ -112,7 +112,7 @@ toXmlNode_impl this document = do
             pure (javaNull)
             ) $ do
             node <- (Document.createElement document (StreetAddressData.sTATES))
-            let statesFile = (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).lINEDATAPATH)) ++ "states.txt")
+            let statesFile = (((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).lINEDATAPATH)) ++ "states.txt")
             lineReader <- (LineReader.new_1 statesFile)
             fix $ \loop -> when (jio (LineReader.hasNext lineReader)) $ javaIteration (loop) $ do
                 option <- (LineReader.next lineReader)

@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified UserInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified UserInterface -- same package or java.lang
 import qualified HttpContextView -- same package or java.lang
 import qualified NewUserFactory -- org.allbinary.business.user.NewUserFactory
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil

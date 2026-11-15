@@ -33,10 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified MyFontProcessor -- same package or java.lang
 import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified Font -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener

@@ -34,9 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified AnimationBehavior -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified BasicColorSetUtil -- same package or java.lang
 import qualified AngleIncrementInfo -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified IndexedAnimation -- same package or java.lang
 import qualified Animation -- same package or java.lang
 import qualified Graphics -- javax.microedition.lcdui.Graphics
@@ -216,13 +216,13 @@ paintXY_impl this graphics x y = do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this "paintVectors" e)
             ) $ do
-            nextPointX <- newIORef (0)
-            nextPointY <- newIORef (0)
+            nextPointX <- newIORef (0 :: Int)
+            nextPointY <- newIORef (0 :: Int)
             nextPoint <- newIORef (javaNull)
             point <- newIORef (javaNull)
             let currentPointsFrame = (jindex ((jget (this).currentPoints)) ((jio (CircularIndexUtil.getIndex ((jget (this).base.circularIndexUtil))))))
             let size = (jlength currentPointsFrame)
-            index <- newIORef ((size - 2))
+            index <- newIORef ((size - 2) :: Int)
             fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (loop) $ do
                 jset nextPoint ((jindex currentPointsFrame ((jget index))))
                 jset point ((jindex currentPointsFrame (((jget index) + 1))))

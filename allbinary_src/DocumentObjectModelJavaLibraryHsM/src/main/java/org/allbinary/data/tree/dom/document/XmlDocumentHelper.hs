@@ -156,8 +156,8 @@ createTransformer_0_super object_ = (createTransformer_0_impl (javaCast object_ 
 
 createTransformer_0_impl :: XmlDocumentHelper -> IO (Transformer.Transformer)
 createTransformer_0_impl this = do
-        currentIndent <- newIORef (0)
-        currentIgnoreDeclaration <- newIORef (False)
+        currentIndent <- newIORef (0 :: Int)
+        currentIgnoreDeclaration <- newIORef (False :: Bool)
         do -- synchronized
             jset currentIndent ((jget (this).indent))
             jset currentIgnoreDeclaration ((jget (this).ignoreDeclaration))

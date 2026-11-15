@@ -169,7 +169,7 @@ init_1 :: MouseActionScriptInputJPanel -> MouseActionScriptInputInterface.MouseA
 init_1 this mouseActionScriptInputInterface = do
         JPanel.init_ this.base
         initFields_ this
-        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) + mouseActionScriptInputInterface) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).sTART) ++ jconcatObject MouseActionScriptInputInterface.toString mouseActionScriptInputInterface) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         Control.Monad.void (MouseActionScriptInputJPanel.initComponents this)
         jset (this).mouseActionScriptInputInterface (mouseActionScriptInputInterface)
         defaultComboBoxModel <- (DefaultComboBoxModel.new_)
@@ -330,9 +330,7 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setMinimumSize ((jget (this).mouseActionJDialog)) (jio (Dimension.new_2 275 185)))
         Control.Monad.void (JLabel.setText ((jget (this).titleJLabel)) "Mouse Input Options")
         Control.Monad.void (JButton.setText ((jget (this).okJButton)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okJButton)) (jio (ActionListener.new_ >>= anonymousMouseActionScriptInputJPanel0_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Buttons:")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Move To:")
         Control.Monad.void (JCheckBox.setText ((jget (this).button1JCheckBox)) (jget ((jio (CommonPhoneStrings.getInstance))).oNE))
@@ -341,9 +339,7 @@ initComponents_impl this = do
         Control.Monad.void (JCheckBox.setText ((jget (this).button2JCheckBox)) (jget ((jio (CommonPhoneStrings.getInstance))).tWO))
         Control.Monad.void (JCheckBox.setBorder ((jget (this).button2JCheckBox)) (jio (createEmptyBorder ((jget (javax.swing).borderFactory)) 0 0 0 0)))
         Control.Monad.void (JCheckBox.setMargin ((jget (this).button2JCheckBox)) (jio (Insets.new_4 0 0 0 0)))
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).button2JCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).button2JCheckBox)) (jio (ActionListener.new_ >>= anonymousMouseActionScriptInputJPanel1_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel4)) "x:")
         Control.Monad.void (JTextField.setText ((jget (this).mouseXJTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel5)) "y:")
@@ -357,9 +353,7 @@ initComponents_impl this = do
         Control.Monad.void (GroupLayout.setVerticalGroup mouseActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup mouseActionJDialogLayout))) (jget this.titleJLabel)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.inputTypeJLabel)))) (jget this.inputAutomationTypeJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget this.jLabel2) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 15 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.button1JCheckBox)))) (jget this.button2JCheckBox)))))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.jLabel6)))) (jget this.mouseDelayJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup mouseActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.jLabel3)))) (jget this.jLabel4)))) (jget this.jLabel5)))) (jget this.mouseYJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.mouseXJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jget this.okJButton)))))))))
         Control.Monad.void (JPanel.setMinimumSize this (jio (Dimension.new_2 100 0)))
         Control.Monad.void (JButton.setText ((jget (this).mouseActionJButton)) "Edit")
-        Control.Monad.void (JButton.addActionListener ((jget (this).mouseActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).mouseActionJButton)) (jio (ActionListener.new_ >>= anonymousMouseActionScriptInputJPanel2_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Mouse:")
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
@@ -406,4 +400,34 @@ mouseActionJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jio (MouseActionScriptInputJPanel.getMouseActionJDialog this))) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMouseActionScriptInputJPanel0_ (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMouseActionScriptInputJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMouseActionScriptInputJPanel0_actionPerformed (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MouseActionScriptInputJPanel.okJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMouseActionScriptInputJPanel1_ (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMouseActionScriptInputJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMouseActionScriptInputJPanel1_actionPerformed (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MouseActionScriptInputJPanel.button2JCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMouseActionScriptInputJPanel2_ (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMouseActionScriptInputJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMouseActionScriptInputJPanel2_actionPerformed (this :: MouseActionScriptInputJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MouseActionScriptInputJPanel.mouseActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

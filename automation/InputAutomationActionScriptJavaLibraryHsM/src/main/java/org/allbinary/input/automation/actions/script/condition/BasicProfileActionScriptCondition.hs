@@ -39,10 +39,10 @@ import qualified JMenuItem -- same package or java.lang
 import qualified TimeIntervalActionScriptCondition -- same package or java.lang
 import qualified AlwaysActionScriptCondition -- same package or java.lang
 import qualified ColorAtActionScriptCondition -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified JPopupMenu -- same package or java.lang
 import qualified JTreeInterface -- same package or java.lang
 import qualified JTree -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified ActionEvent -- java.awt.event.ActionEvent
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD

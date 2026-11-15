@@ -80,7 +80,7 @@ getInstance = do
         when ((jget GeologicalGameResources.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
             assignedValue <- (fmap jtoObject (new_))
             jset GeologicalGameResources.instance_ (assignedValue)
-        pure ((javaCast (jget GeologicalGameResources.instance_) :: GeologicalGameResources))
+        pure ((javaCast (javaCast (jget GeologicalGameResources.instance_) :: GeologicalGameResources) :: BasicGameResources.BasicGameResources))
 
 new_ :: IO GeologicalGameResources
 new_ = do

@@ -136,7 +136,7 @@ init_ this = do
             commonStrings <- (CommonStrings.getInstance)
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget (commonStrings).eXCEPTION) this (jget (commonStrings).cONSTRUCTOR) e)
             ) $ do
-            index <- newIORef (0)
+            index <- newIORef (0 :: Int)
             basicHudFactory <- (BasicHudFactory.getInstance)
             basicColor <- (SelectionHudPaintable.getBasicColorP this)
             let textX = (jget (this).base.textX)

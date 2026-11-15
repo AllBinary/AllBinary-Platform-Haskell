@@ -205,9 +205,7 @@ process_super object_ = (process_impl (javaCast object_ :: SpriteSplitterImageJP
 
 process_impl :: SpriteSplitterImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousSpriteSplitterImageJPanel0_ this))))
         pure ()
 
 
@@ -225,9 +223,7 @@ initComponents_impl this = do
         jset (this).widthReductionTextField (assignedValue)
         assignedValue <- (JLabel.new_)
         jset (this).jLabel5 (assignedValue)
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousSpriteSplitterImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JLabel.new_)
         jset (this).jLabel4 (assignedValue)
@@ -270,13 +266,9 @@ initComponents_impl this = do
         assignedValue <- (JTextField.new_)
         jset (this).increaseHeightTextField (assignedValue)
         Control.Monad.void (JCheckBox.setText ((jget (this).writeOverOriginalJCheckBox)) "Write Over Original")
-        Control.Monad.void (JCheckBox.addActionListener ((jget (this).writeOverOriginalJCheckBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JCheckBox.addActionListener ((jget (this).writeOverOriginalJCheckBox)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel2_ this)))
         Control.Monad.void (JTextField.setText ((jget (this).widthReductionTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).widthReductionTextField)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel5)) "Less Width:")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel4)) "Results:")
         jPanel1Layout <- (GroupLayout.new_1 (jget (this).jPanel1))
@@ -286,32 +278,22 @@ initComponents_impl this = do
         Control.Monad.void (JLabel.setText ((jget (this).jLabel6)) "Less Height:")
         Control.Monad.void (JTextField.setText ((jget (this).heightReductionTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel4_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Row Total:")
         Control.Monad.void (JComboBox.setSelectedIndex ((jget (this).totalFramesJComboBox)) 1)
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalFramesJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalFramesJComboBox)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel5_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Column Total :")
         Control.Monad.void (JComboBox.setSelectedIndex ((jget (this).totalAnimationsJComboBox)) 3)
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAnimationsJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAnimationsJComboBox)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel6_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Type:")
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).spriteTypeJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).spriteTypeJComboBox)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel7_ this)))
         jPanel2Layout <- (GroupLayout.new_1 (jget (this).jPanel2))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel2)) jPanel2Layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel2Layout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup jPanel2Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup jPanel2Layout)))))) (jget this.jLabel1)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.totalFramesJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 48 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.jLabel2)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.totalAnimationsJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 39 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.jLabel3)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.spriteTypeJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 172 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16))))))
         Control.Monad.void (GroupLayout.setVerticalGroup jPanel2Layout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup jPanel2Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup jPanel2Layout))) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup jPanel2Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).bASELINE)))) (jget this.jLabel1)))) (jget this.totalFramesJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.jLabel2)))) (jget this.totalAnimationsJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.jLabel3)))) (jget this.spriteTypeJComboBox) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE))))))))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel7)) "More Width:")
         Control.Monad.void (JTextField.setText ((jget (this).increaseWidthTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
-        Control.Monad.void (JTextField.addActionListener ((jget (this).increaseWidthTextField)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JTextField.addActionListener ((jget (this).increaseWidthTextField)) (jio (ActionListener.new_ >>= anonymousSpriteSplitterImageJPanel8_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel8)) "More Height:")
         Control.Monad.void (JTextField.setText ((jget (this).increaseHeightTextField)) (jget ((jio (CommonPhoneStrings.getInstance))).zERO))
         layout <- (GroupLayout.new_1 this)
@@ -449,4 +431,107 @@ visit_impl this generatedBufferedImage name index = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jio (StringMaker.toString ((jio (StringMaker.appendboolean ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) "File: "))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) (jget file)))))) " Wrote: "))) isWritten))))) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousSpriteSplitterImageJPanel0_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousSpriteSplitterImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel0_run (this :: SpriteSplitterImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    spriteSplitterUtil <- (SpriteSplitterUtil.getInstance)
+                    let spriteType = (javaCast (jio (JComboBox.getSelectedItem ((jget this.spriteTypeJComboBox)))) :: String)
+                    let totalFrames = ((javaCast (jio (JComboBox.getSelectedItem ((jget this.totalFramesJComboBox)))) :: String))
+                    let totalAnimations = ((javaCast (jio (JComboBox.getSelectedItem ((jget this.totalAnimationsJComboBox)))) :: String))
+                    let widthReduction = ((jio (JTextField.getText ((jget this.widthReductionTextField)))))
+                    let heightReduction = ((jio (JTextField.getText ((jget this.heightReductionTextField)))))
+                    let increaseWidth = ((jio (JTextField.getText ((jget this.increaseWidthTextField)))))
+                    let increaseHeight = ((jio (JTextField.getText ((jget this.increaseHeightTextField)))))
+                    Control.Monad.void (SpriteSplitterUtil.process spriteSplitterUtil (jio (SpriteSplitterImageJPanel.getImageProcessorInput this)) totalFrames totalAnimations widthReduction heightReduction increaseWidth increaseHeight spriteType (javaCast this))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousSpriteSplitterImageJPanel1_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousSpriteSplitterImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel1_paint (this :: SpriteSplitterImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel2_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel2_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.writeOverOriginalJCheckBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel3_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel3_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.widthReductionTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel4_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel4_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel5_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel5_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.totalFramesJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel6_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel6_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.totalAnimationsJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel7_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel7_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.spriteTypeJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousSpriteSplitterImageJPanel8_ (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousSpriteSplitterImageJPanel8_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousSpriteSplitterImageJPanel8_actionPerformed (this :: SpriteSplitterImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (SpriteSplitterImageJPanel.increaseWidthTextFieldActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

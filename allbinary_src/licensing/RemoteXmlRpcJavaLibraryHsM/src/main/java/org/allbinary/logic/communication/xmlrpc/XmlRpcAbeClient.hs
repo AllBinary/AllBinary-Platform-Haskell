@@ -152,7 +152,7 @@ initFields_ this = do
     jset this.tRYING ("Trying Server #")
     jset this.sEP ((jget ((jio (CommonLabels.getInstance))).cOLON_SEP))
     jset this.cLIENT_INFO ("Client Info: \n")
-    jset this.rESULT (((jget ((jio (CommonLabels.getInstance))).rESULT_) + (jget ((jio (CommonSeps.getInstance))).nEW_LINE)))
+    jset this.rESULT (((jget ((jio (CommonLabels.getInstance))).rESULT_) ++ (jget ((jio (CommonSeps.getInstance))).nEW_LINE)))
     jset this.iNVALID ("License data is Invalid Trying Other Servers")
     jset this.eXCEPTION_IN_CLIENT ("Exception in client")
     jset this.sERVER_REPORTED_ERROR ("Server reported error")

@@ -174,9 +174,7 @@ process_super object_ = (process_impl (javaCast object_ :: ResizeImageJPanel))
 
 process_impl :: ResizeImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousResizeImageJPanel0_ this))))
         pure ()
 
 
@@ -188,9 +186,7 @@ update_super object_ = (update_impl (javaCast object_ :: ResizeImageJPanel))
 
 update_impl :: ResizeImageJPanel -> IO (())
 update_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousResizeImageJPanel1_ this))))
         pure ()
 
 
@@ -202,9 +198,7 @@ updateFor16Above_super object_ = (updateFor16Above_impl (javaCast object_ :: Res
 
 updateFor16Above_impl :: ResizeImageJPanel -> IO (())
 updateFor16Above_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousResizeImageJPanel2_ this))))
         pure ()
 
 
@@ -216,9 +210,7 @@ updateFor16Below_super object_ = (updateFor16Below_impl (javaCast object_ :: Res
 
 updateFor16Below_impl :: ResizeImageJPanel -> IO (())
 updateFor16Below_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousResizeImageJPanel3_ this))))
         pure ()
 
 
@@ -278,25 +270,17 @@ initComponents_impl this = do
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Percent:")
         Control.Monad.void (JComboBox.setModel ((jget (this).jComboBox1)) (jio (DefaultComboBoxModel.new_1 (jarrayFromList ["Item 1", "Item 2", "Item 3", "Item 4"]))))
         Control.Monad.void (JButton.setText ((jget (this).aboveJButton)) "Process")
-        Control.Monad.void (JButton.addActionListener ((jget (this).aboveJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).aboveJButton)) (jio (ActionListener.new_ >>= anonymousResizeImageJPanel4_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Width:")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Height:")
         Control.Monad.void (JButton.setText ((jget (this).updateJButton)) "Update")
-        Control.Monad.void (JButton.addActionListener ((jget (this).updateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).updateJButton)) (jio (ActionListener.new_ >>= anonymousResizeImageJPanel5_ this)))
         Control.Monad.void (JTextField.setText ((jget (this).floatPercentJTextField)) "-1.000000")
         Control.Monad.void (JTextField.setMinimumSize ((jget (this).floatPercentJTextField)) (jio (Dimension.new_2 120 22)))
         Control.Monad.void (JButton.setText ((jget (this).adjustFor16AboveJButton)) "Adjust for 16 Above")
-        Control.Monad.void (JButton.addActionListener ((jget (this).adjustFor16AboveJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).adjustFor16AboveJButton)) (jio (ActionListener.new_ >>= anonymousResizeImageJPanel6_ this)))
         Control.Monad.void (JButton.setText ((jget (this).adjustFor16BelowJButton)) "Adjust for 16 Below")
-        Control.Monad.void (JButton.addActionListener ((jget (this).adjustFor16BelowJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).adjustFor16BelowJButton)) (jio (ActionListener.new_ >>= anonymousResizeImageJPanel7_ this)))
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup layout (jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup layout)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget this.jLabel1)))) (jget this.jLabel2)))) (jget this.jLabel3)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING) False))) (jget this.jComboBox1) 0 (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))) (jget this.jTextField1)))) (jget this.jTextField2)))))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).uNRELATED)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.addComponent ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget this.floatPercentJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget this.adjustFor16AboveJButton)))) (jget this.adjustFor16BelowJButton)))))) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (Prelude.maxBound :: Int16)))))) (jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup layout))) (jget this.updateJButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.aboveJButton)))) 0 250 (Prelude.maxBound :: Int16))))))
@@ -351,4 +335,149 @@ adjustFor16BelowJButtonActionPerformed_impl this evt = do
         Control.Monad.void (ResizeImageJPanel.updateFor16Below this)
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousResizeImageJPanel0_ (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousResizeImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel0_run (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageUtil <- (ImageUtil.getInstance)
+                    let percent = ((javaCast (jio (JComboBox.getSelectedItem ((jget (this).jComboBox1)))) :: String))
+                    percentAsFloat <- (jparseFloat (jio (JTextField.getText ((jget (this).floatPercentJTextField)))))
+                    imageProcessorInput <- (ResizeImageJPanel.getImageProcessorInput this)
+                    files <- (ImageProcessorInput.getFiles imageProcessorInput)
+                    generatedBufferedImageArray <- newIORef (javaNull)
+                    if ((Prelude.fromIntegral percentAsFloat) /= (Prelude.negate 1)) then do
+                        assignedValue <- (ImageUtil.createBufferedImage2 imageUtil (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)) percentAsFloat True)
+                        jset generatedBufferedImageArray (assignedValue)
+                    else if (percent /= (Prelude.negate 1)) then do
+                        assignedValue <- (ImageUtil.createBufferedImageForResize imageUtil (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)) percent True)
+                        jset generatedBufferedImageArray (assignedValue)
+                    else do
+                        let width = ((javaCast (jio (JTextField.getText ((jget (this).jTextField1)))) :: String))
+                        let height = ((javaCast (jio (JTextField.getText ((jget (this).jTextField2)))) :: String))
+                        assignedValue <- (ImageUtil.createBufferedImage3 imageUtil (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)) width height True)
+                        jset generatedBufferedImageArray (assignedValue)
+                    araster <- (BufferedImage.getAlphaRaster ((jindex ((jget generatedBufferedImageArray)) (0))))
+                    if (araster == javaNull) then do
+                        Control.Monad.void (putStrLn (javaToString "No Alpha Channel In Result"))
+                    else do
+                        Control.Monad.void (putStrLn (javaToString "Found Alpha Channel In Result"))
+                    imagePersistanceUtil <- (ImagePersistanceUtil.getInstance)
+                    forM_ [0 .. (jlength (jget generatedBufferedImageArray)) - 1] $ \index -> javaIteration (pure ()) $ do
+                        Control.Monad.void (ImagePersistanceUtil.saveWithBatik imagePersistanceUtil (jio (FileWrapperUtil.wrapFile (jindex files (index)))) (jindex ((jget generatedBufferedImageArray)) (index)))
+                    Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new Thread() {...}
+anonymousResizeImageJPanel1_ (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousResizeImageJPanel1_run this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel1_run (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageProcessorInput <- (ResizeImageJPanel.getImageProcessorInput this)
+                    let size = (jlength (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)))
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    bufferedImage <- newIORef (javaNull)
+                    forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
+                        jset bufferedImage ((jindex bufferedImageArray (0)))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField1)) (javaToString (jio (BufferedImage.getWidth ((jget bufferedImage))))))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField2)) (javaToString (jio (BufferedImage.getHeight ((jget bufferedImage))))))
+                    Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new Thread() {...}
+anonymousResizeImageJPanel2_ (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousResizeImageJPanel2_run this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel2_run (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageProcessorInput <- (ResizeImageJPanel.getImageProcessorInput this)
+                    let size = (jlength (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)))
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    bufferedImage <- newIORef (javaNull)
+                    forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
+                        jset bufferedImage ((jindex bufferedImageArray (0)))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField1)) (javaToString (((jio (BufferedImage.getWidth ((jget bufferedImage)))) / 16) * 16)))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField2)) (javaToString (((jio (BufferedImage.getHeight ((jget bufferedImage)))) / 16) * 16)))
+                    Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new Thread() {...}
+anonymousResizeImageJPanel3_ (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousResizeImageJPanel3_run this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel3_run (this :: ResizeImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageProcessorInput <- (ResizeImageJPanel.getImageProcessorInput this)
+                    let size = (jlength (jio (ImageProcessorInput.getBufferedImageArray imageProcessorInput)))
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    bufferedImage <- newIORef (javaNull)
+                    forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
+                        jset bufferedImage ((jindex bufferedImageArray (0)))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField1)) (javaToString ((((((jio (BufferedImage.getWidth ((jget bufferedImage)))) / 16)) + 1)) * 16)))
+                        Control.Monad.void (JTextField.setText ((jget (this).jTextField2)) (javaToString ((((((jio (BufferedImage.getHeight ((jget bufferedImage)))) / 16)) + 1)) * 16)))
+                    Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousResizeImageJPanel4_ (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousResizeImageJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel4_actionPerformed (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ResizeImageJPanel.aboveJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousResizeImageJPanel5_ (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousResizeImageJPanel5_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel5_actionPerformed (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ResizeImageJPanel.updateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousResizeImageJPanel6_ (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousResizeImageJPanel6_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel6_actionPerformed (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ResizeImageJPanel.adjustFor16AboveJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousResizeImageJPanel7_ (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousResizeImageJPanel7_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousResizeImageJPanel7_actionPerformed (this :: ResizeImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (ResizeImageJPanel.adjustFor16BelowJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

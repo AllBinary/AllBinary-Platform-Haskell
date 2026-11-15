@@ -120,7 +120,7 @@ delete_impl this prePath current total = do
                 Control.Monad.void (StringMaker.appendint stringBuffer size)
                 let portion = ((size `quot` total) + 1)
                 let start = (portion * current)
-                end <- newIORef ((start + portion))
+                end <- newIORef ((start + portion) :: Int)
                 when ((jget end) > size) $ do
                     jset end (size)
                 Control.Monad.void (StringMaker.append stringBuffer " Section: ")

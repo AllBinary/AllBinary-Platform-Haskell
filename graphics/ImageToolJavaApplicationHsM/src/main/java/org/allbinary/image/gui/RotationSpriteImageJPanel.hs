@@ -166,9 +166,7 @@ process_super object_ = (process_impl (javaCast object_ :: RotationSpriteImageJP
 
 process_impl :: RotationSpriteImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousRotationSpriteImageJPanel0_ this))))
         pure ()
 
 
@@ -180,9 +178,7 @@ initComponents_super object_ = (initComponents_impl (javaCast object_ :: Rotatio
 
 initComponents_impl :: RotationSpriteImageJPanel -> IO (())
 initComponents_impl this = do
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousRotationSpriteImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JPanel.new_)
         jset (this).jPanel2 (assignedValue)
@@ -209,13 +205,9 @@ initComponents_impl this = do
         Control.Monad.void (JComboBox.setModel ((jget (this).totalFramesJComboBox)) (jio (DefaultComboBoxModel.new_1 (jarrayFromList [(jget ((jio (CommonPhoneStrings.getInstance))).fOUR), (jget ((jio (CommonPhoneStrings.getInstance))).nINE), "18", "20", "36"]))))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel1)) "Total Frames:")
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousRotationSpriteImageJPanel2_ this)))
         Control.Monad.void (JComboBox.setModel ((jget (this).totalAngleJComboBox)) (jio (DefaultComboBoxModel.new_1 (jarrayFromList ["360", "90"]))))
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAngleJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAngleJComboBox)) (jio (ActionListener.new_ >>= anonymousRotationSpriteImageJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Total Angle:")
         Control.Monad.void (JCheckBox.setText ((jget (this).writeOverOriginalJCheckBox)) "Write Over Original")
         jPanel2Layout <- (GroupLayout.new_1 (jget (this).jPanel2))
@@ -279,4 +271,70 @@ setImageProcessorInput_impl this imageProcessorInput = do
         jset (this).imageProcessorInput (imageProcessorInput)
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousRotationSpriteImageJPanel0_ (this :: RotationSpriteImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousRotationSpriteImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousRotationSpriteImageJPanel0_run (this :: RotationSpriteImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    generatedBufferedImageArray <- newIORef (javaNull)
+                    imageProcessorInput <- (RotationSpriteImageJPanel.getImageProcessorInput this)
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
+                        let totalFrames = ((javaCast (jio (JComboBox.getSelectedItem ((jget (this).totalFramesJComboBox)))) :: String))
+                        let totalAngle = ((javaCast (jio (JComboBox.getSelectedItem ((jget (this).totalAngleJComboBox)))) :: String))
+                        assignedValue <- (ImageJ2SERotationUtil.getRotatedImages ((jio (ImageJ2SERotationUtil.getInstance))) (javaCast (jindex bufferedImageArray (index))) totalFrames totalAngle)
+                        jset generatedBufferedImageArray (assignedValue)
+                        assignedValue <- (ImageJ2SERotationUtil.createSpriteImage ((jio (ImageJ2SERotationUtil.getInstance))) (jget generatedBufferedImageArray))
+                        jset (this).result (assignedValue)
+                        Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                        file <- newIORef ((jindex ((jio (ImageProcessorInput.getFiles imageProcessorInput))) (index)))
+                        when (Prelude.not (jio (JCheckBox.isSelected ((jget (this).writeOverOriginalJCheckBox))))) $ do
+                            filePath <- newIORef =<< (File.getAbsolutePath ((jget file)))
+                            let extensionIndex = (jstringIndexOf (jget filePath) (jget ((jget this.imageStrings)).pNG_EXTENSION) 0)
+                            assignedValue <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (Prelude.take ((extensionIndex) - (0)) (Prelude.drop (0) (jget filePath)))))) (jget ((jio (CommonSeps.getInstance))).uNDERSCORE)))) "sprite"))) (jget ((jget this.imageStrings)).pNG_EXTENSION)))))
+                            jset filePath (assignedValue)
+                            Control.Monad.void (LogUtil.putF logUtil ("New File Path: " ++ (jget filePath)) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                            assignedValue <- (File.new_1 (jget filePath))
+                            jset file (assignedValue)
+                        isWritten <- (ImageIO.write (javaCast (jget (this).result) :: RenderedImage.RenderedImage) (jget ((jget this.imageStrings)).pNG) (jget file))
+                        Control.Monad.void (LogUtil.putF logUtil ((("File: " ++ jconcatObject File.toString (jget file)) ++ " Wrote: ") ++ javaToString isWritten) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousRotationSpriteImageJPanel1_ (this :: RotationSpriteImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousRotationSpriteImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousRotationSpriteImageJPanel1_paint (this :: RotationSpriteImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRotationSpriteImageJPanel2_ (this :: RotationSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRotationSpriteImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRotationSpriteImageJPanel2_actionPerformed (this :: RotationSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RotationSpriteImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRotationSpriteImageJPanel3_ (this :: RotationSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRotationSpriteImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRotationSpriteImageJPanel3_actionPerformed (this :: RotationSpriteImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RotationSpriteImageJPanel.totalAngleJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

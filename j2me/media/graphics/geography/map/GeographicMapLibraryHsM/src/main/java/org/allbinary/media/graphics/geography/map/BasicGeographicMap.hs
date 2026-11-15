@@ -292,7 +292,7 @@ getCellPositionsAt_super object_ a1 a2 a3 = (getCellPositionsAt_impl (javaCast o
 
 getCellPositionsAt_impl :: BasicGeographicMap -> Layer.Layer -> JavaArray (JavaArray (GeographicMapCellPosition.GeographicMapCellPosition)) -> JavaArray (JavaArray (GeographicMapCellPosition.GeographicMapCellPosition)) -> IO (Bool)
 getCellPositionsAt_impl this layer currentCellPositionArray cellPositionArray = do
-        hasChanged <- newIORef (False)
+        hasChanged <- newIORef (False :: Bool)
         let size = (jlength cellPositionArray)
         let size2 = (jlength (jindex cellPositionArray (0)))
         let xPortion = ((jio (Layer.getXP layer)) `quot` ((size - 1)))

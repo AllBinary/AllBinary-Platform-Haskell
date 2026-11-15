@@ -43,8 +43,8 @@ import qualified RTSLayerUtil -- same package or java.lang
 import qualified WaypointBehaviorBase -- same package or java.lang
 import qualified SelectionHudPaintable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified BasicLayerProcessor -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified BasicLayerProcessor -- same package or java.lang
 import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
 import qualified CollidableCompositeLayer -- same package or java.lang
 import qualified AllBinaryGameLayer -- same package or java.lang

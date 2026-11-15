@@ -109,7 +109,7 @@ get_super object_ a1 a2 a3 = (get_impl (javaCast object_ :: StreamUtil)) a1 a2 a
 
 get_impl :: StreamUtil -> InputStream.InputStream -> OutputStream.OutputStream -> JavaArray (Int8) -> IO (OutputStream.OutputStream)
 get_impl this inputStream outputStream buffer = do
-        len <- newIORef (0)
+        len <- newIORef (0 :: Int)
         fix $ \loop -> when True $ javaIteration (loop) $ do
             assignedValue <- (InputStream.read inputStream buffer 0 (jlength buffer))
             jset len (assignedValue)

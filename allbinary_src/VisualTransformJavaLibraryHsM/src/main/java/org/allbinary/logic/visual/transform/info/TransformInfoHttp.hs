@@ -275,7 +275,7 @@ getTemplateFilePath_super object_ = (getTemplateFilePath_impl (javaCast object_ 
 
 getTemplateFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getTemplateFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getTemplateFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getTemplateFile this)))
 
 
 -- throws Exception
@@ -287,7 +287,7 @@ getObjectConfigFilePath_super object_ = (getObjectConfigFilePath_impl (javaCast 
 
 getObjectConfigFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getObjectConfigFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getObjectConfigFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getObjectConfigFile this)))
 
 
 -- throws Exception
@@ -299,6 +299,6 @@ getDataFilePath_super object_ = (getDataFilePath_impl (javaCast object_ :: Trans
 
 getDataFilePath_impl :: TransformInfoHttp -> IO (AbPath.AbPath)
 getDataFilePath_impl this = do
-        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getDataFile this)))
+        (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) (jio (TransformInfo.getDataFile this)))
 
 

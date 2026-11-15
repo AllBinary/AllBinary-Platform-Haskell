@@ -207,7 +207,7 @@ getXslFile_super object_ = (getXslFile_impl (javaCast object_ :: TableSearchRequ
 
 getXslFile_impl :: TableSearchRequest -> IO (String)
 getXslFile_impl this = do
-        let path = (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jget (this).xslFile))
+        let path = (((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)) ++ (jget (this).xslFile))
         pure (path)
 
 

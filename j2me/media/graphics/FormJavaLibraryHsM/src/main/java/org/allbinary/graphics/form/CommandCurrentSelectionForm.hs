@@ -141,10 +141,10 @@ initAnimations_super object_ = (initAnimations_impl (javaCast object_ :: Command
 initAnimations_impl :: CommandCurrentSelectionForm -> IO (())
 initAnimations_impl this = do
         nullAnimation <- (NullAnimationFactory.getInstance ((jio (NullAnimationFactory.getFactoryInstance))) 0)
-        index <- newIORef ((jlength (jget (this).selectedAnimationArray)))
+        index <- newIORef ((jlength (jget (this).selectedAnimationArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jsetIndex ((jget (this).selectedAnimationArray)) ((jget index)) (nullAnimation)
-        index <- newIORef ((jlength (jget (this).unSelectedAnimationArray)))
+        index <- newIORef ((jlength (jget (this).unSelectedAnimationArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jsetIndex ((jget (this).unSelectedAnimationArray)) ((jget index)) (nullAnimation)
         pure ()
@@ -158,7 +158,7 @@ addAll_super object_ a1 = (addAll_impl (javaCast object_ :: CommandCurrentSelect
 
 addAll_impl :: CommandCurrentSelectionForm -> JavaArray (ABCustomItem.ABCustomItem) -> IO (())
 addAll_impl this items = do
-        index <- newIORef ((jlength items))
+        index <- newIORef ((jlength items) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (CommandCurrentSelectionForm.addAt this (jget index) (jindex items ((jget index))))
         pure ()
@@ -177,7 +177,7 @@ addAt_impl this index item = do
         let selectedButtonColor = (jget (basicColorFactory).tRANSPARENT_RED)
         width <- (ABCustomItem.getMinimumWidth item)
         height <- (ABCustomItem.getMinimumHeight item)
-        adjustedBorder <- newIORef (3)
+        adjustedBorder <- newIORef (3 :: Int)
         let offset = (Prelude.negate (((jget (this).base.base.halfBorder) + (jget adjustedBorder))))
         let rectWidth = ((width + (jget (this).base.base.border)) - (jget adjustedBorder))
         let rectHeight = ((height + (jget (this).base.base.border)) - (jget adjustedBorder))
@@ -205,7 +205,7 @@ updateAll_super object_ a1 a2 = (updateAll_impl (javaCast object_ :: CommandCurr
 
 updateAll_impl :: CommandCurrentSelectionForm -> Graphics.Graphics -> JavaArray (ABCustomItem.ABCustomItem) -> IO (())
 updateAll_impl this graphics items = do
-        index <- newIORef ((jlength items))
+        index <- newIORef ((jlength items) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (ABCustomItem.preMeasurement ((jindex items ((jget index)))) graphics)
             Control.Monad.void (CommandCurrentSelectionForm.updateAt this (jget index) (jindex items ((jget index))))
@@ -225,7 +225,7 @@ updateAt_impl this index item = do
         let selectedButtonColor = (jget (basicColorFactory).tRANSPARENT_RED)
         width <- (ABCustomItem.getMinimumWidth item)
         height <- (ABCustomItem.getMinimumHeight item)
-        adjustedBorder <- newIORef (3)
+        adjustedBorder <- newIORef (3 :: Int)
         let offset = (Prelude.negate (((jget (this).base.base.halfBorder) + (jget adjustedBorder))))
         let rectWidth = ((width + (jget (this).base.base.border)) - (jget adjustedBorder))
         let rectHeight = ((height + (jget (this).base.base.border)) - (jget adjustedBorder))

@@ -101,7 +101,7 @@ init_ this = do
         initFields_ this
         gameInitializedEventHandler <- (GameInitializedEventHandler.getInstance)
         Control.Monad.void (GameInitializedEventHandler.removeAllListeners gameInitializedEventHandler)
-        Control.Monad.void (GameInitializedEventHandler.addListenerInterface gameInitializedEventHandler (javaCast this :: GameInitializedListenerInterface.GameInitializedListenerInterface))
+        Control.Monad.void (GameInitializedEventHandler.addListenerInterface gameInitializedEventHandler (javaCast (javaCast this :: GameInitializedListenerInterface.GameInitializedListenerInterface)))
         pure ()
 
 

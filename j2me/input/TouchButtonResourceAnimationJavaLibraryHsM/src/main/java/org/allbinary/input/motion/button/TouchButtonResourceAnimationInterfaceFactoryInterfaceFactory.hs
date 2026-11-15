@@ -141,7 +141,7 @@ initImageCache_impl this imageCache level = do
             javaReturn (())
         let portion = 140
         loadingString <- (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) (jio (BaseResourceAnimationInterfaceFactoryInterfaceFactory.toString this))))) " Loading: "))))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         progressCanvas <- (ProgressCanvasFactory.getInstance)
         Control.Monad.void (ProgressCanvas.addPortion progressCanvas portion loadingString (jpostIncrement index (+ 1)))
         touchButtonBlankResource <- (TouchButtonBlankResource.getInstance)

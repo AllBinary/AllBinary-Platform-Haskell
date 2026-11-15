@@ -238,7 +238,7 @@ dropTable_super object_ = (dropTable_impl (javaCast object_ :: InitSql))
 
 dropTable_impl :: InitSql -> IO (Bool)
 dropTable_impl this = do
-        let sqlStatement = (javaToString (jget ((jget (this).sqlStrings)).dROP_TABLE) ++ (jget (this).tableName))
+        let sqlStatement = ((jget ((jget (this).sqlStrings)).dROP_TABLE) ++ (jget (this).tableName))
         handle (\(e :: JavaException) -> do
             when (jio (BasicArrayList.contains ((jget LogConfigTypes.lOGGING)) (jget ((jio (LogConfigTypeFactory.getInstance))).sQLLOGGINGERROR))) $ do
                 Control.Monad.void (PreLogUtil.putOE (jget ((jget (this).commonStrings)).eXCEPTION) (jget this.iNIT_SQL) "dropTables()" e)
@@ -281,7 +281,7 @@ getRow_impl this keysAndValues = do
                     Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).sqlStrings)).aND))
             sqlStatement <- (StringMaker.toString stringBuffer)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (PreLogUtil.put (javaToString (jget ((jget (this).sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) (jget (this).iNIT_SQL) (jget (this).mETHOD_GET_ROW))
+                Control.Monad.void (PreLogUtil.put ((jget ((jget (this).sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) (jget (this).iNIT_SQL) (jget (this).mETHOD_GET_ROW))
             rset <- (InitSql.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do

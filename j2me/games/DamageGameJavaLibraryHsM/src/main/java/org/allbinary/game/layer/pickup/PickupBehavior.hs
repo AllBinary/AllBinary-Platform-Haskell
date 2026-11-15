@@ -220,7 +220,7 @@ getFirstAvailableCountedLayerInterfaceFactory_impl this pickedUpLayerTypeArray =
             jset nextCountedLayerInterfaceFactory ((javaCast (jindex ((jio (CollidableDestroyableDamageableLayer.getPartInterfaceArray collidableDestroyableDamageableLayer))) (index)) :: CountedLayerInterfaceFactoryPart.CountedLayerInterfaceFactoryPart))
             assignedValue <- (CountedLayerInterfaceFactoryPart.getCountedPickedUpLayerInterfaceFactory ((jget nextCountedLayerInterfaceFactory)))
             jset countedPickedUpLayerInterfaceFactory (assignedValue)
-            index2 <- newIORef ((jlength pickedUpLayerTypeArray))
+            index2 <- newIORef ((jlength pickedUpLayerTypeArray) :: Int)
             fix $ \loop -> when ((jpreIncrement index2 (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 when ((jio (CountedPickedUpLayerInterfaceFactory.getPickedUpLayerType ((jget countedPickedUpLayerInterfaceFactory)))) == (jindex pickedUpLayerTypeArray ((jget index2)))) $ do
                     when ((jio (CountedLayerInterfaceFactoryPart.getTotal ((jget nextCountedLayerInterfaceFactory)))) > 0) $ do
@@ -238,7 +238,7 @@ getCountedLayerInterfaceFactoryForSlot_super object_ a1 = (getCountedLayerInterf
 getCountedLayerInterfaceFactoryForSlot_impl :: PickupBehavior -> Int -> IO (CountedLayerInterfaceFactoryPart.CountedLayerInterfaceFactoryPart)
 getCountedLayerInterfaceFactoryForSlot_impl this slotIndex = do
     javaCatchReturn $ do
-        currentSlot <- newIORef (0)
+        currentSlot <- newIORef (0 :: Int)
         let collidableDestroyableDamageableLayer = (javaCast (jget (this).ownerLayerInterface) :: CollidableDestroyableDamageableLayer.CollidableDestroyableDamageableLayer)
         partInterfaceArray <- (CollidableDestroyableDamageableLayer.getPartInterfaceArray collidableDestroyableDamageableLayer)
         let size = (jlength partInterfaceArray)

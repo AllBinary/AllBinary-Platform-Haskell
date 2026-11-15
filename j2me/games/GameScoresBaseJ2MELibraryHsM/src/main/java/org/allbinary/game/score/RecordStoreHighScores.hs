@@ -292,7 +292,7 @@ load_impl this = do
                         newHighScore <- (HighScore.new_4 id name (GameInfo.nONE) score)
                         list <- (HighScores.getList this)
                         size <- (BasicArrayList.size list)
-                        lastIndex <- newIORef (size)
+                        lastIndex <- newIORef (size :: Int)
                         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                             let highScore = (javaCast (jindex ((jget (list).objectArray)) (index)) :: HighScore.HighScore)
                             when ((jio (RecordComparator.compare ((jget (this).recordComparatorInterface)) (jio (HighScore.getAsBytes newHighScore)) (jio (HighScore.getAsBytes highScore)))) == RecordComparator.pRECEDES) $ do

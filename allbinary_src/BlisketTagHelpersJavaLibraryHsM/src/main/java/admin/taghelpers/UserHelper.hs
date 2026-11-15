@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified UserEntity -- same package or java.lang
 import qualified HashMap -- java.util.HashMap
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD
@@ -123,7 +123,7 @@ init_2 this hashMap pageContext = do
         jset (this).hashMap (hashMap)
         jset (this).pageContext (pageContext)
         jset (this).request ((javaCast (jio (PageContext.getRequest pageContext)) :: HttpServletRequest.HttpServletRequest))
-        jset (this).path (((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)))
+        jset (this).path (((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).xSLPATH)))
         assignedValue <- (Portion.new_1 hashMap)
         jset (this).portion (assignedValue)
         pure ()
@@ -138,7 +138,7 @@ delete_super object_ = (delete_impl (javaCast object_ :: UserHelper))
 delete_impl :: UserHelper -> IO (String)
 delete_impl this = do
         handle (\(e :: JavaException) -> do
-            let error = (("Failed to remove user with " ++ javaToString UserData.uSERNAME) ++ " from User table")
+            let error = (("Failed to remove user with " ++ UserData.uSERNAME) ++ " from User table")
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGSERROR))) $ do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e)
             pure (error)

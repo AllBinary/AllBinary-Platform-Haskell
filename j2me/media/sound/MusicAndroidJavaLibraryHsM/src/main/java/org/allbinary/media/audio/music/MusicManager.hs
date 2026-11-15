@@ -142,7 +142,7 @@ new_2 musicServiceClass songList = do
 init_2 :: MusicManager -> Class.Class -> BasicArrayList.BasicArrayList -> IO ()
 init_2 this musicServiceClass songList = do
         initFields_ this
-        Control.Monad.void (PreLogUtil.put ((jget ((jget (this).commonStateStrings)).cONTEXT) + (jio (ResourceUtil.getContext ((jget (this).resourceUtil))))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
+        Control.Monad.void (PreLogUtil.put ((jget ((jget (this).commonStateStrings)).cONTEXT) ++ jconcatObject Context.toString (jio (ResourceUtil.getContext ((jget (this).resourceUtil))))) this (jget ((jget (this).commonStrings)).cONSTRUCTOR))
         jset (this).musicServiceClass (musicServiceClass)
         assignedValue <- (Intent.new_2 (jio (ResourceUtil.getContext ((jget (this).resourceUtil)))) musicServiceClass)
         jset (this).currentIntent (assignedValue)
@@ -232,7 +232,7 @@ startNewSong_impl this = do
             when ((jget (this).currentSongSound) /= javaNull) $ do
                 assignedValue <- (Sound.getResource ((jget (this).currentSongSound)))
                 jset resource (assignedValue)
-            Control.Monad.void (PreLogUtil.putOE (javaToString (jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).pROCESS) e)
+            Control.Monad.void (PreLogUtil.putOE ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ (jget resource)) this (jget ((jget (this).commonStrings)).pROCESS) e)
             ) $ do
             Control.Monad.void (Context.stopService ((jio (ResourceUtil.getContext ((jget (this).resourceUtil))))) (jget (this).currentIntent))
             if ((jtoObject (jget (this).nextSongSound)) == (jtoObject (jio (NoSound.getInstance)))) then do

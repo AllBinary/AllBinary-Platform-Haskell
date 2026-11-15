@@ -164,9 +164,7 @@ process_super object_ = (process_impl (javaCast object_ :: RotationImageJPanel))
 
 process_impl :: RotationImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousRotationImageJPanel0_ this))))
         pure ()
 
 
@@ -178,9 +176,7 @@ initComponents_super object_ = (initComponents_impl (javaCast object_ :: Rotatio
 
 initComponents_impl :: RotationImageJPanel -> IO (())
 initComponents_impl this = do
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousRotationImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JPanel.new_)
         jset (this).jPanel2 (assignedValue)
@@ -203,13 +199,9 @@ initComponents_impl this = do
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel1Layout (jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) 0 436 (Prelude.maxBound :: Int16))))
         Control.Monad.void (GroupLayout.setVerticalGroup jPanel1Layout (jio (GroupLayout.add ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (org.jdesktop).layout)).groupLayout)).lEADING)))) 0 227 (Prelude.maxBound :: Int16))))
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousRotationImageJPanel2_ this)))
         Control.Monad.void (JComboBox.setModel ((jget (this).totalAngleJComboBox)) (jio (DefaultComboBoxModel.new_1 (jarrayFromList [(jget ((jget (this).commonStrings)).uP), (jget ((jget (this).commonStrings)).dOWN), "-90", "90"]))))
-        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAngleJComboBox)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JComboBox.addActionListener ((jget (this).totalAngleJComboBox)) (jio (ActionListener.new_ >>= anonymousRotationImageJPanel3_ this)))
         Control.Monad.void (JLabel.setText ((jget (this).jLabel3)) "Total Angle:")
         Control.Monad.void (JCheckBox.setText ((jget (this).writeOverOriginalJCheckBox)) "Write Over Original")
         jPanel2Layout <- (GroupLayout.new_1 (jget (this).jPanel2))
@@ -297,4 +289,50 @@ visit_impl this generatedBufferedImage name index = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("File: " ++ jconcatObject File.toString (jget file)) ++ " Wrote: ") ++ javaToString isWritten) this (jget ((jget (this).commonStrings)).rUN))
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousRotationImageJPanel0_ (this :: RotationImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousRotationImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousRotationImageJPanel0_run (this :: RotationImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    let angleAsString = (javaCast (jio (JComboBox.getSelectedItem ((jget (this).totalAngleJComboBox)))) :: String)
+                    Control.Monad.void (ImageArrayRotationUtil.process ((jio (ImageArrayRotationUtil.getInstance))) (jio (RotationImageJPanel.getImageProcessorInput this)) angleAsString (javaCast this))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousRotationImageJPanel1_ (this :: RotationImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousRotationImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousRotationImageJPanel1_paint (this :: RotationImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRotationImageJPanel2_ (this :: RotationImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRotationImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRotationImageJPanel2_actionPerformed (this :: RotationImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RotationImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRotationImageJPanel3_ (this :: RotationImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRotationImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRotationImageJPanel3_actionPerformed (this :: RotationImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RotationImageJPanel.totalAngleJComboBoxActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified CategoryHierarchyInterface -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified CategoryHierarchyInterface -- same package or java.lang
 import qualified CategoryPrivateTree -- same package or java.lang
 import qualified CategoryData -- org.allbinary.business.category.CategoryData
 import qualified CategoryFactoryInterface -- org.allbinary.business.category.CategoryFactoryInterface

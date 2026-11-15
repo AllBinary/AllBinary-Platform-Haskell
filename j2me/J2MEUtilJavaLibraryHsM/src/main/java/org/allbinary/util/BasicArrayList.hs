@@ -203,7 +203,7 @@ removeAll2_super object_ a1 = (removeAll2_impl (javaCast object_ :: BasicArrayLi
 
 removeAll2_impl :: BasicArrayList -> BasicArrayList -> IO (Bool)
 removeAll2_impl this list = do
-        result <- newIORef (True)
+        result <- newIORef (True :: Bool)
         size <- (BasicArrayList.size list)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             if (jio (BasicArrayList.remove this (jio (BasicArrayList.get list index)))) then do
@@ -265,7 +265,7 @@ ensureCapacity_impl :: BasicArrayList -> Int -> IO (())
 ensureCapacity_impl this minSize = do
         let oldCapacity = (jlength (jget (this).objectArray))
         when (minSize > oldCapacity) $ do
-            newCapacity <- newIORef ((((((oldCapacity * 3)) `Data.Bits.shiftR` 1)) + 1))
+            newCapacity <- newIORef ((((((oldCapacity * 3)) `Data.Bits.shiftR` 1)) + 1) :: Int)
             when ((jget newCapacity) < minSize) $ do
                 jset newCapacity (minSize)
             assignedValue <- (ArrayUtil.copyOf ((jget (this).arrayUtil)) (jget (this).objectArray) (jget newCapacity))

@@ -107,8 +107,8 @@ show_impl this = do
                 entry <- (JarInputStream.getNextJarEntry jis)
                 if (entry /= javaNull) then do
                     when (Prelude.not (jio (JarEntry.isDirectory entry))) $ do
-                        offset <- newIORef (0)
-                        i <- newIORef (0)
+                        offset <- newIORef (0 :: Int)
+                        i <- newIORef (0 :: Int)
                         fix $ \loop -> when (((jassign i ((jio (JarInputStream.read jis (jget cache) (jget offset) ((jlength (jget cache)) - (jget offset))))))) /= (Prelude.negate 1)) $ javaIteration (loop) $ do
                             jset offset (((jget offset) + (jget i)))
                             when ((jget offset) >= (jlength (jget cache))) $ do

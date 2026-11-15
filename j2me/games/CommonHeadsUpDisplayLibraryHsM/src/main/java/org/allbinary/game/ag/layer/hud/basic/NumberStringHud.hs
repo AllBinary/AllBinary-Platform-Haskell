@@ -119,7 +119,7 @@ init_6 this prependString max location direction bufferZone basicColor = do
         initFields_ this
         pure () -- super(...) is in the record above
         jset (this).prependString (prependString)
-        assignedValue <- (String.toCharArray prependString)
+        assignedValue <- (jtoCharArray prependString)
         jset (this).pREPEND_STRING (assignedValue)
         jset (this).valueString ((jindex ((jget ((jio (PrimitiveLongSingleton.getInstance))).nUMBER_CHAR_ARRAYS)) (0)))
         assignedValue <- (PrimitiveLongUtil.createPowerOfTen (max + 1))

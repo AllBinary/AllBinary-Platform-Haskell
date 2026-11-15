@@ -149,8 +149,8 @@ makeFloatBuffer_impl this byteBuffer = do
         b <- (ByteBuffer.allocateDirect ((jio (ByteBuffer.limit byteBuffer)) * (jget (this).bYTES_PER_FLOAT)))
         Control.Monad.void (ByteBuffer.order b (jio (ByteOrder.nativeOrder)))
         buffer <- (ByteBuffer.asFloatBuffer b)
-        unsigned <- newIORef (0)
-        v <- newIORef (0.0)
+        unsigned <- newIORef (0 :: Int)
+        v <- newIORef (0.0 :: Float)
         fix $ \loop -> when (jio (ByteBuffer.hasRemaining byteBuffer)) $ javaIteration (loop) $ do
             jset unsigned ((((Prelude.fromInteger (jnumericInteger (jio (ByteBuffer.get byteBuffer))))) Data.Bits..&. 0xFF))
             jset v ((((Prelude.fromIntegral (jget unsigned))) / 255.0))

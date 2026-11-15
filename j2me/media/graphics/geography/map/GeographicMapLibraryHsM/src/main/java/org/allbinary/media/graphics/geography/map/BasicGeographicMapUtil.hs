@@ -191,8 +191,8 @@ getAllBinaryTiledLayerArray_impl :: BasicGeographicMapUtil -> JavaArray (BasicGe
 getAllBinaryTiledLayerArray_impl this geographicMapInterfaceArray tiledLayerArray startIndex = do
         geographicMapInterface <- newIORef (javaNull)
         let size = (jlength geographicMapInterfaceArray)
-        count <- newIORef (0)
-        index <- newIORef ((size + startIndex))
+        count <- newIORef (0 :: Int)
+        index <- newIORef ((size + startIndex) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= startIndex) $ javaIteration (do { loop }) $ do
             jset geographicMapInterface ((jindex geographicMapInterfaceArray ((jget index))))
             assignedValue <- (fmap (\value_ -> javaCast value_ :: Layer.Layer) (BasicGeographicMap.getAllBinaryTiledLayer ((jget geographicMapInterface))))
@@ -210,7 +210,7 @@ move_impl :: BasicGeographicMapUtil -> JavaArray (BasicGeographicMap.BasicGeogra
 move_impl this geographicMapInterfaceArray dx dy = do
         geographicMapInterface <- newIORef (javaNull)
         let size = (jlength geographicMapInterfaceArray)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset geographicMapInterface ((jindex geographicMapInterfaceArray ((jget index))))
             Control.Monad.void (AllBinaryTiledLayer.moveDXY ((jio (BasicGeographicMap.getAllBinaryTiledLayer ((jget geographicMapInterface))))) dx dy)
@@ -227,7 +227,7 @@ setPosition_impl :: BasicGeographicMapUtil -> JavaArray (BasicGeographicMap.Basi
 setPosition_impl this geographicMapInterfaceArray x y = do
         geographicMapInterface <- newIORef (javaNull)
         let size = (jlength geographicMapInterfaceArray)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset geographicMapInterface ((jindex geographicMapInterfaceArray ((jget index))))
             Control.Monad.void (AllBinaryTiledLayer.setPosition ((jio (BasicGeographicMap.getAllBinaryTiledLayer ((jget geographicMapInterface))))) x y (jio (AllBinaryTiledLayer.getZP ((jio (BasicGeographicMap.getAllBinaryTiledLayer ((jget geographicMapInterface))))))))

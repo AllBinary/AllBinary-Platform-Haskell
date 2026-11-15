@@ -103,8 +103,8 @@ xor_impl :: ByteUtil -> JavaArray (Int8) -> Int8 -> IO (JavaArray (Int8))
 xor_impl this array mask = do
         let bytes = (jnewArray ((jlength array)) 0)
         let size = (jlength array)
-        index <- newIORef (0)
-        currentByte <- newIORef (0)
+        index <- newIORef (0 :: Int)
+        currentByte <- newIORef (0 :: Int8)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             jset currentByte ((jindex array ((jget index))))
             jsetIndex bytes ((jget index)) ((Prelude.fromIntegral ((((Prelude.fromIntegral (jget currentByte)) `Data.Bits.xor` (Prelude.fromIntegral mask)) :: Int))))
@@ -122,7 +122,7 @@ not_impl :: ByteUtil -> JavaArray (Int8) -> IO (JavaArray (Int8))
 not_impl this array = do
         let bytes = (jnewArray ((jlength array)) 0)
         let size = (jlength array)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             jsetIndex bytes ((jget index)) ((Prelude.fromIntegral (Data.Bits.complement (jindex array ((jget index))))))
             jset index ((jget index) + 1)
@@ -137,7 +137,7 @@ xorByte_super object_ a1 a2 = (xorByte_impl (javaCast object_ :: ByteUtil)) a1 a
 
 xorByte_impl :: ByteUtil -> JavaArray (Int8) -> Int -> IO (JavaArray (Int8))
 xorByte_impl this array index = do
-        mask <- newIORef (0)
+        mask <- newIORef (0 :: Int8)
         when (index == 0) $ do
             jset mask (1)
         when (index == 1) $ do

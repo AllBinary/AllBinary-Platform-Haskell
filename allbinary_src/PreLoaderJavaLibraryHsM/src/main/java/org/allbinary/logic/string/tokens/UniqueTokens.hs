@@ -129,7 +129,7 @@ getWhithoutDashesAndSkipNumberOnlyTokens_impl this stringVector = do
             javaThrow (e)
             ) $ do
             hashSet <- (HashSet.new_)
-            index <- newIORef (0)
+            index <- newIORef (0 :: Int)
             commonSeps <- (CommonSeps.getInstance)
             fix $ \loop -> when ((jget index) < (jio (BasicArrayList.size stringVector))) $ javaIteration (loop) $ do
                 let keywords = (javaCast (jio (BasicArrayList.get stringVector (jget index))) :: String)

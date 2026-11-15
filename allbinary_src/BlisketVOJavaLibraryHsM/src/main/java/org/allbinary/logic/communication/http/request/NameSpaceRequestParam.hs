@@ -114,9 +114,9 @@ init_2 this nameSpace value = do
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).hTTPREQUEST))) $ do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("\nSep Tokens: " ++ (jio (BasicArrayList.toString nameSpaceWithPropertiesVector))) this "NameSpaceRequestParam()")
         nameSpaceAndPropertiesTokenizer <- (Tokenizer.new_1 (NameSpaceRequestParamData.pROPERTIES))
-        packageIndex <- newIORef (0)
+        packageIndex <- newIORef (0 :: Int)
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         size <- (BasicArrayList.size nameSpaceWithPropertiesVector)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             let nameSpaceWithProperties = (javaCast (jio (BasicArrayList.get nameSpaceWithPropertiesVector (jpostIncrement index (+ 1)))) :: String)
@@ -202,7 +202,7 @@ generatePackagePropertiesHashMap_impl this properties = do
             let property = (javaCast (jio (BasicArrayList.get propertyVector index)) :: String)
             Control.Monad.void (BasicArrayList.clear list)
             propertyNameValueVector <- (Tokenizer.getTokensFromString propertyTokenizer property list)
-            index2 <- newIORef (0)
+            index2 <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget index2) < (jio (BasicArrayList.size propertyNameValueVector))) $ javaIteration (loop) $ do
                 let propertyName = (javaCast (jio (BasicArrayList.get propertyNameValueVector (jpostIncrement index2 (+ 1)))) :: String)
                 if ((jio (BasicArrayList.size propertyNameValueVector)) > 1) then do

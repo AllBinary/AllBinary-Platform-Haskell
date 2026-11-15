@@ -625,11 +625,7 @@ initComponents_impl this = do
         assignedValue <- (JPanel.new_)
         jset (this).innerJPanel (assignedValue)
         Control.Monad.void (JPanel.setLayout this (jio (GridLayout.new_2 1 1)))
-        Control.Monad.void (JPanel.addKeyListener ((jget (this).innerJPanel)) (KeyAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- keyTyped
-            -- keyPressed
-            -- keyReleased
--}))
+        Control.Monad.void (JPanel.addKeyListener ((jget (this).innerJPanel)) (jio (KeyAdapter.new_ >>= anonymousWorkAreaJPanel0_ this)))
         Control.Monad.void (JPanel.add this (jget (this).innerJPanel))
         pure ()
 
@@ -842,4 +838,26 @@ run_impl this = do
                 Control.Monad.void (threadDelay (Prelude.fromIntegral 250 * 1000))
         pure ()
 
+
+-- Java anonymous class new KeyAdapter() {...}
+anonymousWorkAreaJPanel0_ (this :: WorkAreaJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "keyTyped" (\() -> anonymousWorkAreaJPanel0_keyTyped this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "keyPressed" (\() -> anonymousWorkAreaJPanel0_keyPressed this anonymous_)
+    jregisterMethod (jheaderOf anonymous_) "keyReleased" (\() -> anonymousWorkAreaJPanel0_keyReleased this anonymous_)
+    pure anonymous_
+
+anonymousWorkAreaJPanel0_keyTyped (this :: WorkAreaJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) (evt :: KeyEvent.KeyEvent) = ( do
+                Control.Monad.void (WorkAreaJPanel.innerJPanelKeyTyped this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousWorkAreaJPanel0_keyPressed (this :: WorkAreaJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) (evt :: KeyEvent.KeyEvent) = ( do
+                Control.Monad.void (WorkAreaJPanel.innerJPanelKeyPressed this evt)
+                pure ()
+ ) :: IO (())
+
+anonymousWorkAreaJPanel0_keyReleased (this :: WorkAreaJPanel) (anonymous_ :: KeyAdapter.KeyAdapter) (evt :: KeyEvent.KeyEvent) = ( do
+                Control.Monad.void (WorkAreaJPanel.innerJPanelKeyReleased this evt)
+                pure ()
+ ) :: IO (())
 

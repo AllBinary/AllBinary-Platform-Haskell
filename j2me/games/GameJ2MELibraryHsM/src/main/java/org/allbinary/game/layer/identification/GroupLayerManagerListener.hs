@@ -230,7 +230,7 @@ isIdInList_impl this id excludeGroupList = do
         size <- (BasicArrayList.size excludeGroupList)
         groupInterfaceArray <- newIORef (javaNull)
         groupInterface <- newIORef (javaNull)
-        groupId <- newIORef (0)
+        groupId <- newIORef (0 :: Int)
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset groupInterfaceArray ((javaCast (jindex ((jget (excludeGroupList).objectArray)) (index)) :: JavaArray (Group.Group)))
             let size2 = (jlength (jget groupInterfaceArray))
@@ -297,7 +297,7 @@ onCreateLayerManagerEvent_impl this layerManagerEvent = do
         layerInterface <- (LayerManagerEvent.getLayerInterface layerManagerEvent)
         groupInterfaceArray <- (AllBinaryLayer.getGroupInterface layerInterface)
         let size = (jlength groupInterfaceArray)
-        id <- newIORef (0)
+        id <- newIORef (0 :: Int)
         groupList <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset id ((Prelude.fromIntegral (jio (Group.getGroupId ((jindex groupInterfaceArray (index)))))))
@@ -323,7 +323,7 @@ onDeleteLayerManagerEvent_impl this layerManagerEvent = do
         layerInterface <- (LayerManagerEvent.getLayerInterface layerManagerEvent)
         groupInterfaceArray <- (AllBinaryLayer.getGroupInterface layerInterface)
         let size = (jlength groupInterfaceArray)
-        id <- newIORef (0)
+        id <- newIORef (0 :: Int)
         groupList <- newIORef (javaNull)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset id ((Prelude.fromIntegral (jio (Group.getGroupId ((jindex groupInterfaceArray (index)))))))

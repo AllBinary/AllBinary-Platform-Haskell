@@ -32,9 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
+import qualified OrderInterface -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
 import qualified Money -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified BasketData -- org.allbinary.business.user.commerce.inventory.basket.BasketData
 import qualified BasketInterface -- org.allbinary.business.user.commerce.inventory.basket.BasketInterface
 import qualified DomNodeInterface -- org.allbinary.data.tree.dom.DomNodeInterface
@@ -111,7 +112,7 @@ toXmlNode_impl this document = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).fAILURE) this "toXmlNode" e)
             javaThrow (e)
             ) $ do
-            basketInterface <- (WeblisketSession.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
+            basketInterface <- (OrderInterface.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             basketNode <- (Document.createElement document (BasketData.bASKET))
             totalNumberNode <- (Document.createElement document (SearchData.tOTAL_NUMBER_ITEMS))
             totalNumberTextNode <- (Document.createTextNode document (javaToString (jio (BasketInterface.getNumberOfItems basketInterface))))

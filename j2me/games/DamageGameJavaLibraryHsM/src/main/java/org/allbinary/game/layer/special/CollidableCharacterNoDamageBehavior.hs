@@ -33,9 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified CollidableDestroyableDamageableLayer -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified CollidableBaseBehavior -- same package or java.lang
 import qualified PickupBehavior -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified CollidableInterfaceCompositeInterface -- org.allbinary.game.collision.CollidableInterfaceCompositeInterface
 import qualified CollisionType -- org.allbinary.game.collision.CollisionType
 import qualified CollisionTypeFactory -- org.allbinary.game.collision.CollisionTypeFactory

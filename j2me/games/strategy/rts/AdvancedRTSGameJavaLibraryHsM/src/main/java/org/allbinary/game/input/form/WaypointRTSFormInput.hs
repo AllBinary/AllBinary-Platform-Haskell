@@ -257,7 +257,7 @@ processStickyGameSpecific_impl this associatedRtsLayer rtsPlayerLayerInterface l
         Control.Monad.void (RTSFormInput.setSelectedStickyItem this item)
         Control.Monad.void (RTSFormInput.setSelectedStickyItemIndex this index)
         Control.Monad.void (RTSFormInput.setStickyItemSelected this True)
-        jset (this).stickyAssociatedRtsLayer ((javaCast associatedRtsLayer :: RTSLayer.RTSLayer))
+        jset (this).stickyAssociatedRtsLayer ((javaCast (javaCast associatedRtsLayer :: RTSLayer.RTSLayer) :: PathFindingLayerInterface.PathFindingLayerInterface))
         Control.Monad.void (ABHashtable.put ((jio (RTSFormInput.getHashtable this))) (Layer.iD) associatedRtsLayer)
         pure ()
 

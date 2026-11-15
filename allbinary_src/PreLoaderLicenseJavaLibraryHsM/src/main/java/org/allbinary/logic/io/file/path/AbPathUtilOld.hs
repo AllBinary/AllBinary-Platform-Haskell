@@ -278,7 +278,7 @@ adjustStart_impl :: AbPathUtilOld -> String -> IO (String)
 adjustStart_impl this path = do
         path <- newIORef path
         when (Prelude.not (jio (AbPathUtilOld.isValidStart this (jget path)))) $ do
-            jset path ((javaToString (jget ((jget (this).abPathData)).sEPARATOR) ++ (jget path)))
+            jset path (((jget ((jget (this).abPathData)).sEPARATOR) ++ (jget path)))
         pure ((jget path))
 
 
@@ -292,7 +292,7 @@ adjustEnd_impl :: AbPathUtilOld -> String -> IO (String)
 adjustEnd_impl this path = do
         path <- newIORef path
         when (Prelude.not (jio (AbPathUtilOld.isValidEnd this (jget path)))) $ do
-            jset path (((jget path) ++ javaToString (jget ((jget (this).abPathData)).sEPARATOR)))
+            jset path (((jget path) ++ (jget ((jget (this).abPathData)).sEPARATOR)))
         pure ((jget path))
 
 
@@ -322,7 +322,7 @@ getNameFromPath_super object_ a1 = (getNameFromPath_impl (javaCast object_ :: Ab
 getNameFromPath_impl :: AbPathUtilOld -> String -> IO (String)
 getNameFromPath_impl this categoryPath = do
     javaCatchReturn $ do
-        endIndex <- newIORef ((jstringLastIndexOf categoryPath (jget ((jget (this).abPathData)).sEPARATOR)))
+        endIndex <- newIORef ((jstringLastIndexOf categoryPath (jget ((jget (this).abPathData)).sEPARATOR)) :: Int)
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf categoryPath (jget ((jget (this).filePathData)).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do
@@ -345,7 +345,7 @@ removeNameFromPath_super object_ a1 = (removeNameFromPath_impl (javaCast object_
 removeNameFromPath_impl :: AbPathUtilOld -> String -> IO (AbPath.AbPath)
 removeNameFromPath_impl this categoryPath = do
     javaCatchReturn $ do
-        endIndex <- newIORef ((jstringLastIndexOf categoryPath (jget ((jget (this).abPathData)).sEPARATOR)))
+        endIndex <- newIORef ((jstringLastIndexOf categoryPath (jget ((jget (this).abPathData)).sEPARATOR)) :: Int)
         when ((jget endIndex) < 0) $ do
             jset endIndex ((jstringLastIndexOf categoryPath (jget ((jget (this).filePathData)).sEPARATORCHAR)))
         when ((jget endIndex) < 0) $ do

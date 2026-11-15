@@ -106,10 +106,10 @@ get_impl this anyTypeObject_ = do
     javaCatchReturn $ do
         handle (\(e :: JavaException) -> do
             Control.Monad.void (putStrLn (javaToString "IOException Trying Other Servers"))
-            if (Prelude.not (jio (startsWith ((Control.Exception.displayException e)) hOST_NOT_RESOLVED))) then do
+            if (Prelude.not (Data.List.isPrefixOf (jget this.base.hOST_NOT_RESOLVED) (Control.Exception.displayException e))) then do
                 javaReturn =<< (fmap jtoObject (XmlRpcAbeClient.tryAnother this anyType))
             else do
-                javaThrow ((JavaException "Exception" hOST_NOT_RESOLVED_MSG))
+                javaThrow ((JavaException "Exception" (jget this.base.hOST_NOT_RESOLVED_MSG)))
             ) $ do
             param <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             serverUrl <- newIORef =<< (AbeClientInformationInterface.getLicenseServer ((jio (XmlRpcAbeClient.getClientInfo this))) (jio (XmlRpcAbeClient.getServer this)))
@@ -121,7 +121,7 @@ get_impl this anyTypeObject_ = do
             let hashtable = (javaCast anyType :: ABHashtable.ABHashtable)
             Control.Monad.void (BasicArrayList.add param hashtable)
             result <- (XmlRpcClient.execute xmlRpcClient (jio (XmlRpcAbeClient.getRemoteMethod this)) param (jget (this).noCrypt))
-            Control.Monad.void (putStrLn (javaToString (javaToString ((jget ((jio (CommonLabels.getInstance))).rESULT_) + (jget ((jio (CommonSeps.getInstance))).nEW_LINE)) ++ (jio (Any.toString result)))))
+            Control.Monad.void (putStrLn (javaToString (((jget ((jio (CommonLabels.getInstance))).rESULT_) ++ (jget ((jio (CommonSeps.getInstance))).nEW_LINE)) ++ (jio (Any.toString result)))))
             pure ((jtoObject result))
 
 

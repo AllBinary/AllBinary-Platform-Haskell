@@ -286,9 +286,9 @@ getSmallestCanvasGameKeyCode_super object_ a1 = (getSmallestCanvasGameKeyCode_im
 
 getSmallestCanvasGameKeyCode_impl :: InputToGameKeyMapping -> Canvas.Canvas -> IO (Int)
 getSmallestCanvasGameKeyCode_impl this canvas = do
-        nextKey <- newIORef (0)
-        smallestKey <- newIORef (0)
-        index <- newIORef ((jlength (jget (this).mappedGameKeys)))
+        nextKey <- newIORef (0 :: Int)
+        smallestKey <- newIORef (0 :: Int)
+        index <- newIORef ((jlength (jget (this).mappedGameKeys)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (Canvas.getKeyCode canvas (jio (GameKey.getId ((jindex ((jget (this).mappedGameKeys)) ((jget index)))))))
             jset nextKey (assignedValue)
@@ -315,11 +315,11 @@ init_impl this canvas = do
                 when ((jget smallestKey) < (Prelude.negate 256)) $ do
                     jset smallestKey ((Prelude.negate 256))
                 jset negativePlatformToGameKeyMapping ((jnewArray ((Prelude.negate (jget smallestKey))) javaNull))
-                index <- newIORef ((jlength (jget negativePlatformToGameKeyMapping)))
+                index <- newIORef ((jlength (jget negativePlatformToGameKeyMapping)) :: Int)
                 fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                     jsetIndex ((jget negativePlatformToGameKeyMapping)) ((jget index)) ((jget ((jget (this).gameKeyFactory)).nONE))
                 jset (this).negativePlatformToGameKeyMapping ((jget negativePlatformToGameKeyMapping))
-            index <- newIORef ((jlength (jget (this).mappedGameKeys)))
+            index <- newIORef ((jlength (jget (this).mappedGameKeys)) :: Int)
             fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 Control.Monad.void (InputToGameKeyMapping.initGameKey this canvas (jindex ((jget (this).mappedGameKeys)) ((jget index))))
         pure ()

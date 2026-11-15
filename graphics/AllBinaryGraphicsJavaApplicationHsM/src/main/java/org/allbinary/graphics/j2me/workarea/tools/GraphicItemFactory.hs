@@ -110,11 +110,11 @@ init_ this = do
 
 
 -- Java overloads of getInstance: calls the overload for the types of the arguments
-getInstance_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
+getInstance_1 :: (JavaObjectClass this_, JavaObjectClass o1) => this_ -> o1 -> IO (JavaObject)
 getInstance_1 this a1
-    | jisInstanceOf a1 (javaNull :: String) = getInstance_1_overload1 this (javaCast a1 :: String)
-    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
-    | otherwise = getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList)
+    | jisInstanceOf a1 (javaNull :: String) = fmap jtoObject (getInstance_1_overload1 this (javaCast a1 :: String))
+    | jisInstanceOf a1 (javaNull :: BasicArrayList.BasicArrayList) = fmap jtoObject (getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList))
+    | otherwise = fmap jtoObject (getInstance_1_overload2 this (javaCast a1 :: BasicArrayList.BasicArrayList))
 
 getInstance_1_overload1 :: (JavaObjectClass this_) => this_ -> String -> IO (GraphicsItemInterfaceFactoryInterface.GraphicsItemInterfaceFactoryInterface)
 getInstance_1_overload1 object_ a1 = jmethod object_ "getInstance_1_overload1" (\() -> (getInstance_1_overload1_impl (javaCast object_ :: GraphicItemFactory))) () a1

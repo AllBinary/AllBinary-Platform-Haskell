@@ -148,9 +148,7 @@ initComponents_impl this = do
         Control.Monad.void (JTextField.setText ((jget (this).totalRotationJTextField)) "360")
         Control.Monad.void (JLabel.setText ((jget (this).jLabel2)) "Total Angular Rotation:")
         Control.Monad.void (JButton.setText ((jget (this).jButton1)) "OK")
-        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).jButton1)) (jio (ActionListener.new_ >>= anonymousRotateJDialog0_ this)))
         jPanel1Layout <- (GroupLayout.new_1 (jget (this).jPanel1))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel1)) jPanel1Layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup jPanel1Layout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup jPanel1Layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.createSequentialGroup jPanel1Layout))) 62 62 62))) (jget this.jButton1)))) 62 (Prelude.maxBound :: Int16))))))
@@ -184,9 +182,39 @@ jButton1ActionPerformed_impl this evt = do
 
 main :: JavaArray (String) -> IO (())
 main args = do
-        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--}))
+        Control.Monad.void (invokeLater ((jget (java.awt).eventQueue)) (jio (ARunnable.new_ >>= anonymousRotateJDialog1_)))
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRotateJDialog0_ (this :: RotateJDialog) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRotateJDialog0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRotateJDialog0_actionPerformed (this :: RotateJDialog) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RotateJDialog.jButton1ActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousRotateJDialog1_ (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousRotateJDialog1_run anonymous_)
+    pure anonymous_
+
+anonymousRotateJDialog1_run (anonymous_ :: ARunnable.ARunnable) = ( do
+                dialog <- (new_2 (jio (JFrame.new_)) True)
+                Control.Monad.void (JDialog.addWindowListener dialog (jio (WindowAdapter.new_ >>= anonymousRotateJDialog2_)))
+                Control.Monad.void (JDialog.setVisible dialog True)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new WindowAdapter() {...}
+anonymousRotateJDialog2_ (anonymous_ :: WindowAdapter.WindowAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "windowClosing" (\() -> anonymousRotateJDialog2_windowClosing anonymous_)
+    pure anonymous_
+
+anonymousRotateJDialog2_windowClosing (anonymous_ :: WindowAdapter.WindowAdapter) (e :: WindowEvent.WindowEvent) = ( do
+                        Control.Monad.void (jsystemExit 0)
+                        pure ()
+ ) :: IO (())
 

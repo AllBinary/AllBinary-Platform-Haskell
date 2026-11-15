@@ -110,7 +110,7 @@ processScore_impl :: ArcedMultiBeamWeaponPart -> AllBinaryLayerManager.AllBinary
 processScore_impl this allbinaryLayerManager angle otherAngle weaponProperties scoreableInterface = do
         let increment = (Prelude.fromIntegral (((((jget (this).total) - 1)) `quot` (jget (this).tOTAL_ANGLE))))
         let minAngle = (Prelude.fromIntegral (((Prelude.fromIntegral angle) - (((((Prelude.fromIntegral increment) * (jget (this).total))) `Data.Bits.shiftR` 1)))))
-        next <- newIORef (0)
+        next <- newIORef (0 :: Int)
         weaponLayer <- newIORef (javaNull)
         forM_ [0 .. (jget (this).total) - 1] $ \index -> javaIteration (pure ()) $ do
             assignedValue <- (WeaponLayerCircularPool.getInstanceWeaponLayer ((jget (this).weaponLayerCircularStaticPool)) (jio (BasicWeaponPart.getOwnerLayerInterface this)) (jio (RelativeRelationship.getX ((jget (this).base.relativeRelationship)))) (jio (RelativeRelationship.getY ((jget (this).base.relativeRelationship)))) 0 ((((Prelude.fromIntegral minAngle) + (Prelude.fromIntegral increment)) :: Int)) (Prelude.fromIntegral otherAngle) weaponProperties scoreableInterface)

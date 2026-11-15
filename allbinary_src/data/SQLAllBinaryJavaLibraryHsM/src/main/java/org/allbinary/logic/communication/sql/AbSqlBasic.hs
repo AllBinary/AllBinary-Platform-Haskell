@@ -219,10 +219,10 @@ create_impl this databaseName = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).dATABASE_CREATION_FAILED_LABEL) ++ databaseName) this (jget (this).mETHOD_CREATE) e)
             pure (((jget (this).dATABASE_CREATION_FAILED_LABEL) ++ databaseName))
             ) $ do
-            Control.Monad.void (AbSqlBasic.executeSQLStatement this (javaToString (jget ((jget (this).sqlStrings)).cREATE_DATABASE) ++ databaseName))
+            Control.Monad.void (AbSqlBasic.executeSQLStatement this ((jget ((jget (this).sqlStrings)).cREATE_DATABASE) ++ databaseName))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget (this).dATABASE_CREATED_LABEL) ++ databaseName) this (jget (this).mETHOD_CREATE))
-            pure ((databaseName ++ javaToString (jget ((jget (this).sqlStrings)).cREATE_RETURN)))
+            pure ((databaseName ++ (jget ((jget (this).sqlStrings)).cREATE_RETURN)))
 
 
 createConnection :: (JavaObjectClass this_) => this_ -> IO (())

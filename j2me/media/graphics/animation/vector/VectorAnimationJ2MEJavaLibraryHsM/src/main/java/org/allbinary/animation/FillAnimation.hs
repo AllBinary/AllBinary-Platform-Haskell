@@ -97,7 +97,7 @@ setBasicColorP_super object_ a1 = (setBasicColorP_impl (javaCast object_ :: Fill
 
 setBasicColorP_impl :: FillAnimation -> BasicColor.BasicColor -> IO (())
 setBasicColorP_impl this basicColor = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when (((jio (IndexedAnimation.getBasicColorP this)) == javaNull) || ((jio (BasicColor.intValue ((jio (IndexedAnimation.getBasicColorP this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             jset changed (True)
         Control.Monad.void (IndexedAnimation.setBasicColorP_super this.base basicColor)
@@ -114,7 +114,7 @@ changeBasicColor_super object_ a1 = (changeBasicColor_impl (javaCast object_ :: 
 
 changeBasicColor_impl :: FillAnimation -> BasicColor.BasicColor -> IO (())
 changeBasicColor_impl this basicColor = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when (((jio (IndexedAnimation.getChangeBasicColor this)) == javaNull) || ((jio (BasicColor.intValue ((jio (IndexedAnimation.getChangeBasicColor this))))) /= (jio (BasicColor.intValue basicColor)))) $ do
             jset changed (True)
         Control.Monad.void (IndexedAnimation.changeBasicColor_super this.base basicColor)
@@ -131,7 +131,7 @@ setAlpha_super object_ a1 = (setAlpha_impl (javaCast object_ :: FillAnimation)) 
 
 setAlpha_impl :: FillAnimation -> Int -> IO (())
 setAlpha_impl this alpha = do
-        changed <- newIORef (False)
+        changed <- newIORef (False :: Bool)
         when ((jget (this).base.base.alphaP) /= alpha) $ do
             jset changed (True)
         Control.Monad.void (IndexedAnimation.setAlpha_super this.base alpha)

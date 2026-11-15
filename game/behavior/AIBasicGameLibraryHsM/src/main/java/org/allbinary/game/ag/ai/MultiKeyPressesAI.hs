@@ -128,12 +128,12 @@ update_impl this = do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let key = (jindex keys (index))
                 when (key /= (Prelude.negate 1)) $ do
-                    Control.Monad.void (GameInput.add gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) this key)))
+                    Control.Monad.void (GameInput.add gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) (javaCast this) key)))
         else do
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let key = (jindex keys (index))
                 when (key /= (Prelude.negate 1)) $ do
-                    Control.Monad.void (GameInput.addForRemoval gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) this key)))
+                    Control.Monad.void (GameInput.addForRemoval gameInput (jio (GameKeyEventFactory.getInstanceForKey ((jget (this).base.base.gameKeyEventFactory)) (javaCast this) key)))
         pure ()
 
 

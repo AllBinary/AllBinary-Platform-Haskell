@@ -170,7 +170,7 @@ getHashSet_impl this storeFront = do
         size <- (BasicArrayList.size subStoreVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             let subStore = (javaCast (jio (BasicArrayList.get subStoreVector index)) :: String)
-            substoreKeywords <- (InventoryColumnUtil.getColumnWhereLike inventoryColumnUtil (jget (this).inventory) (javaToString (jget ((jio (AbPathData.getInstance))).sEPARATOR) ++ subStore) (jget ((jget this.basicItemData)).cATEGORY))
+            substoreKeywords <- (InventoryColumnUtil.getColumnWhereLike inventoryColumnUtil (jget (this).inventory) ((jget ((jio (AbPathData.getInstance))).sEPARATOR) ++ subStore) (jget ((jget this.basicItemData)).cATEGORY))
             Control.Monad.void (BasicArrayList.addAllList keywords substoreKeywords)
         uniqueTokens <- (UniqueTokens.new_)
         keywordHashSet <- (UniqueTokens.getWhithoutDashesAndSkipNumberOnlyTokens uniqueTokens keywords)

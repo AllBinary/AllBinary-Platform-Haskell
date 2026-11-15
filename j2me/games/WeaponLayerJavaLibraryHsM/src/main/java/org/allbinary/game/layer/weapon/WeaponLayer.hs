@@ -271,7 +271,7 @@ processTick_impl this allBinaryLayerManager = do
                 else do
                     Control.Monad.void (WeaponLayer.setDestroyed this True)
         Control.Monad.void (Movement.process ((jget (this).movement)) (javaCast this))
-        assignedValue <- (Prelude.fromIntegral (WeaponProperties.getDissipation ((jget (this).weaponProperties))))
+        assignedValue <- (fmap Prelude.fromIntegral (WeaponProperties.getDissipation ((jget (this).weaponProperties))))
         jset (this).totalDamage (((jget (this).totalDamage) + assignedValue))
         pure ()
 

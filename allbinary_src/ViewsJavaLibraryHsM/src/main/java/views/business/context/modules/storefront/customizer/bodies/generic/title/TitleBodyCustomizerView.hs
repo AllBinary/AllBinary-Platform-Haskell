@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
 import qualified HttpComponentView -- same package or java.lang
 import qualified PageData -- org.allbinary.business.page.PageData

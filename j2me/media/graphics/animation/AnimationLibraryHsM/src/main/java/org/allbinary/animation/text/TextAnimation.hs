@@ -209,9 +209,9 @@ setText_impl :: TextAnimation -> String -> IO (())
 setText_impl this text = do
         list <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         when ((Prelude.length text) > 0) $ do
-            index <- newIORef (0)
-            startIndex <- newIORef (0)
-            endIndex <- newIORef (0)
+            index <- newIORef (0 :: Int)
+            startIndex <- newIORef (0 :: Int)
+            endIndex <- newIORef (0 :: Int)
             fix $ \loop -> when ((jget index) >= 0) $ javaIteration (loop) $ do
                 jset startIndex ((jget index))
                 jset index ((jstringIndexOf text '\n' (jget startIndex)))

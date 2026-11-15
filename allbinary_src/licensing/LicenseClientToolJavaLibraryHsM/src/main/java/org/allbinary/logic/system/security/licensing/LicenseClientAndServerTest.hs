@@ -98,11 +98,11 @@ new_1 options = do
 init_1 :: LicenseClientAndServerTest -> JavaArray (String) -> IO ()
 init_1 this options = do
         initFields_ this
-        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH + (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH ++ (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         forM_ [1 .. (jlength options) - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (BasicArrayList.add ((jget (this).vector)) (jindex options (index)))
         when ((jlength options) < 2) $ do
-            file <- (File.new_1 (javaToString PrintLicenseInitInfo.pATH ++ "testlicenseservers.txt"))
+            file <- (File.new_1 (PrintLicenseInitInfo.pATH ++ "testlicenseservers.txt"))
             reader <- (FileReader.new_1 file)
             lineNumberReader <- (LineNumberReader.new_1 reader)
             fix $ \loop -> when True $ javaIteration (loop) $ do

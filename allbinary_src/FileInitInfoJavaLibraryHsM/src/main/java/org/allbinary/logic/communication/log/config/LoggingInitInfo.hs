@@ -109,7 +109,7 @@ init_ this = do
 -- throws Exception
 getDoc :: IO (Document.Document)
 getDoc = do
-        let path = ((jio (URLGLOBALS.getWebappPath)) ++ javaToString LoggingInitInfo.pACKAGE)
+        let path = ((jio (URLGLOBALS.getWebappPath)) ++ LoggingInitInfo.pACKAGE)
         fILEABPATH <- (AbPath.new_2 path iNITFILENAME)
         file <- (AbFile.createAbFileFromAbPath fILEABPATH)
         document <- (DomDocumentHelper.create_1 (jio (AbFileLocalInputStream.new_1 file)))

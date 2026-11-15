@@ -138,29 +138,17 @@ initInputProcessorsForTestInput_impl :: TestingInputSingleton -> TestInputInterf
 initInputProcessorsForTestInput_impl this aTestInputInterface = do
         let testInputInterface = aTestInputInterface
         jset (this).testInputPaintable ((javaCast testInputInterface :: PaintableInterface.PaintableInterface))
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton0_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.uP) (assignedValue)
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton1_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.dOWN) (assignedValue)
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton2_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.lEFT) (assignedValue)
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton3_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.rIGHT) (assignedValue)
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton4_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.kEY_NUM7) (assignedValue)
-        assignedValue <- (GameInputProcessor.new_ {- Java anonymous class body: implement it as a record of functions
-            -- processEvent
--})
+        assignedValue <- (GameInputProcessor.new_ >>= anonymousTestingInputSingleton5_ this testInputInterface)
         jsetIndex ((jget (this).inputProcessorArray)) (Canvas.kEY_NUM9) (assignedValue)
         Control.Monad.void (GameInputProcessorUtil.init (jget (this).inputProcessorArray))
         pure ()
@@ -175,7 +163,7 @@ processInputList_super object_ a1 a2 = (processInputList_impl (javaCast object_ 
 
 processInputList_impl :: TestingInputSingleton -> AllBinaryLayerManager.AllBinaryLayerManager -> BasicArrayList.BasicArrayList -> IO (())
 processInputList_impl this allbinaryLayerManager list = do
-        key <- newIORef (0)
+        key <- newIORef (0 :: Int)
         gameKeyEvent <- newIORef (javaNull)
         size <- (BasicArrayList.size list)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -222,4 +210,64 @@ implmentsGameInputInterface_impl :: TestingInputSingleton -> IO (Bool)
 implmentsGameInputInterface_impl this = do
         pure (True)
 
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton0_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton0_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton0_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.up testInputInterface)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton1_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton1_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton1_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.down testInputInterface)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton2_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton2_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton2_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.left testInputInterface)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton3_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton3_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton3_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.right testInputInterface)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton4_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton4_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton4_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.strafeLeft testInputInterface)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new GameInputProcessor() {...}
+anonymousTestingInputSingleton5_ (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) = do
+    jregisterMethod (jheaderOf anonymous_) "processEvent" (\() -> anonymousTestingInputSingleton5_processEvent this testInputInterface anonymous_)
+    pure anonymous_
+
+anonymousTestingInputSingleton5_processEvent (this :: TestingInputSingleton) (testInputInterface :: TestInputInterface.TestInputInterface) (anonymous_ :: GameInputProcessor.GameInputProcessor) (allbinaryLayerManager :: AllBinaryLayerManager.AllBinaryLayerManager) (gameKeyEvent :: GameKeyEvent.GameKeyEvent) = ( do
+                Control.Monad.void (TestInputInterface.strafeRight testInputInterface)
+                pure ()
+ ) :: IO (())
 

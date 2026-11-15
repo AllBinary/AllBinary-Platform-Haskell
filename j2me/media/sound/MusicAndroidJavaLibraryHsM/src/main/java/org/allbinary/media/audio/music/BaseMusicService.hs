@@ -235,7 +235,7 @@ onStartCommandIntent_impl this intent = do
         musicStrings <- (MusicStrings.getInstance)
         if (intent /= javaNull) then do
             command <- (Intent.getIntExtra intent (jget ((jget (this).commonStateStrings)).oN_START_COMMAND) (Prelude.negate 1))
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).cOMMAND_LABEL) + command) this (jget ((jget (this).commonStateStrings)).oN_START_COMMAND))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).cOMMAND_LABEL) ++ javaToString command) this (jget ((jget (this).commonStateStrings)).oN_START_COMMAND))
             if (command == 1) then do
                 Control.Monad.void (BaseMusicService.pause this)
                 javaReturn (())

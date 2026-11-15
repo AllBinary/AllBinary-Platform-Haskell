@@ -59,15 +59,15 @@ cONFIG_PATH = unsafePerformIO (newIORef ("modules/configs/"))
 
 mODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE mODULE_RELATIVE_PATH #-}
-mODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString ((jget GenericConfigData.rELATIVE_PATH) + (jget GenericConfigData.cONFIG_PATH)) ++ "allbinary/input/automation/module/")))
+mODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((((jget GenericConfigData.rELATIVE_PATH) ++ (jget GenericConfigData.cONFIG_PATH)) ++ "allbinary/input/automation/module/")))
 
 gAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE gAME_MODULE_RELATIVE_PATH #-}
-gAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString (jget GenericConfigData.mODULE_RELATIVE_PATH) ++ "game/")))
+gAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef (((jget GenericConfigData.mODULE_RELATIVE_PATH) ++ "game/")))
 
 mMO_GAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE mMO_GAME_MODULE_RELATIVE_PATH #-}
-mMO_GAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef ((javaToString (jget GenericConfigData.gAME_MODULE_RELATIVE_PATH) ++ "mmog/")))
+mMO_GAME_MODULE_RELATIVE_PATH = unsafePerformIO (newIORef (((jget GenericConfigData.gAME_MODULE_RELATIVE_PATH) ++ "mmog/")))
 
 fREE_MMO_GAME_MODULE_RELATIVE_PATH :: IORef (String)
 {-# NOINLINE fREE_MMO_GAME_MODULE_RELATIVE_PATH #-}

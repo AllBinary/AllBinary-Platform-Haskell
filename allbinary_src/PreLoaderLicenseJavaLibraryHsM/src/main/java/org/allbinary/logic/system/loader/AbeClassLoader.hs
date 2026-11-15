@@ -101,7 +101,7 @@ initFields_ this = do
     jset this.logUtil =<< (LogUtil.getInstance)
     jset this.abCryptUtil =<< (AbCryptUtil.getInstance)
     jset this.lOAD_CLASS ("loadClass")
-    jset this.eNCRYPTED_EXTENSION ((javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP) ++ "abc"))
+    jset this.eNCRYPTED_EXTENSION (((jget ((jio (AbPathData.getInstance))).eXTENSION_SEP) ++ "abc"))
     jset this.key (javaNull)
     pure ()
 
@@ -200,7 +200,7 @@ loadClassBytesFromFile_impl this name = do
                 Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((("(Before LogBuffer Output) Failure loading Encrypted: " ++ name) ++ " File: ") ++ (jget cname)) "AbeClassLoader" "loadClassBytes" e)
             Control.Monad.void (StreamUtil.close ((jio (StreamUtil.getInstance))) (javaCast (jget in_)))
             ) $ do
-            jset cname (((javaToString (jget AbeClassLoader.pATH) ++ (jstringReplace name '.' (jget ((jio (AbPathData.getInstance))).sEPARATORCHAR))) ++ (jget (this).eNCRYPTED_EXTENSION)))
+            jset cname ((((jget AbeClassLoader.pATH) ++ (jstringReplace name '.' (jget ((jio (AbPathData.getInstance))).sEPARATORCHAR))) ++ (jget (this).eNCRYPTED_EXTENSION)))
             assignedValue <- (FileInputStream.new_1 (jget cname))
             jset in_ (assignedValue)
             decrypted <- (AbCryptUtil.decrypt ((jget (this).abCryptUtil)) (javaCast (jget in_)) (jget (this).key))

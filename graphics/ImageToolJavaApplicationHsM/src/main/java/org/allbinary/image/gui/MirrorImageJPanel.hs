@@ -168,9 +168,7 @@ process_super object_ = (process_impl (javaCast object_ :: MirrorImageJPanel))
 
 process_impl :: MirrorImageJPanel -> IO (())
 process_impl this = do
-        Control.Monad.void (Thread.start ((Thread.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (Thread.start ((jio (Thread.new_ >>= anonymousMirrorImageJPanel0_ this))))
         pure ()
 
 
@@ -186,9 +184,7 @@ initComponents_impl this = do
         jset this.jLayeredPane1 (assignedValue)
         assignedValue <- (ButtonGroup.new_)
         jset (this).buttonGroup (assignedValue)
-        assignedValue <- (JPanel.new_ {- Java anonymous class body: implement it as a record of functions
-            -- paint
--})
+        assignedValue <- (JPanel.new_ >>= anonymousMirrorImageJPanel1_ this)
         jset (this).jPanel1 (assignedValue)
         assignedValue <- (JPanel.new_)
         jset (this).jPanel2 (assignedValue)
@@ -216,13 +212,9 @@ initComponents_impl this = do
         Control.Monad.void (JCheckBox.setText ((jget (this).verticleJCheckBox)) "Verticle")
         Control.Monad.void (JCheckBox.setEnabled ((jget (this).verticleJCheckBox)) False)
         Control.Monad.void (JButton.setText ((jget (this).generateJButton)) "Generate")
-        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).generateJButton)) (jio (ActionListener.new_ >>= anonymousMirrorImageJPanel2_ this)))
         Control.Monad.void (JRadioButton.setText ((jget (this).renameJRadioButton)) "Save As filename_mirror")
-        Control.Monad.void (JRadioButton.addActionListener ((jget (this).renameJRadioButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JRadioButton.addActionListener ((jget (this).renameJRadioButton)) (jio (ActionListener.new_ >>= anonymousMirrorImageJPanel3_ this)))
         Control.Monad.void (JRadioButton.setText ((jget (this).writeOverOriginalJRadioButton)) "Write Over Original")
         jPanel2Layout <- (GroupLayout.new_1 (jget (this).jPanel2))
         Control.Monad.void (JPanel.setLayout ((jget (this).jPanel2)) jPanel2Layout)
@@ -285,4 +277,66 @@ setImageProcessorInput_impl this imageProcessorInput = do
         jset (this).imageProcessorInput (imageProcessorInput)
         pure ()
 
+
+-- Java anonymous class new Thread() {...}
+anonymousMirrorImageJPanel0_ (this :: MirrorImageJPanel) (anonymous_ :: Thread.Thread) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousMirrorImageJPanel0_run this anonymous_)
+    pure anonymous_
+
+anonymousMirrorImageJPanel0_run (this :: MirrorImageJPanel) (anonymous_ :: Thread.Thread) = ( do
+                logUtil <- (LogUtil.getInstance)
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (LogUtil.put logUtil (jget ((jget this.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.commonStrings)).rUN) e)
+                    ) $ do
+                    imageProcessorInput <- (MirrorImageJPanel.getImageProcessorInput this)
+                    bufferedImageArray <- (ImageProcessorInput.getBufferedImageArray imageProcessorInput)
+                    forM_ [0 .. (jlength bufferedImageArray) - 1] $ \index -> javaIteration (pure ()) $ do
+                        assignedValue <- (MirrorImageUtil.getImage ((jio (MirrorImageUtil.getInstance))) (jindex bufferedImageArray (index)) (jio (JCheckBox.isSelected ((jget (this).verticleJCheckBox)))) (jio (JCheckBox.isSelected ((jget (this).horizontalJCheckBox)))))
+                        jset (this).result (assignedValue)
+                        file <- newIORef ((jindex ((jio (ImageProcessorInput.getFiles imageProcessorInput))) (index)))
+                        if (jio (JRadioButton.isSelected ((jget (this).writeOverOriginalJRadioButton)))) then do
+                            pure ()
+                        else when (jio (JRadioButton.isSelected ((jget (this).renameJRadioButton)))) $ do
+                            filePath <- newIORef =<< (File.getAbsolutePath ((jget file)))
+                            let extensionIndex = (jstringIndexOf (jget filePath) (jget ((jget this.imageStrings)).pNG_EXTENSION) 0)
+                            jset filePath ((((Prelude.take ((extensionIndex) - (0)) (Prelude.drop (0) (jget filePath))) ++ "_mirror") ++ (jget ((jget this.imageStrings)).pNG_EXTENSION)))
+                            Control.Monad.void (LogUtil.putF logUtil ("Renamed File: " ++ (jget filePath)) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                            assignedValue <- (File.new_1 (jget filePath))
+                            jset file (assignedValue)
+                        isWritten <- (ImageIO.write (javaCast (jget (this).result) :: RenderedImage.RenderedImage) (jget ((jget this.imageStrings)).pNG) (jget file))
+                        Control.Monad.void (LogUtil.putF logUtil ((("File: " ++ jconcatObject File.toString (jget file)) ++ " Wrote: ") ++ javaToString isWritten) anonymous_ (jget ((jget this.commonStrings)).rUN))
+                        Control.Monad.void (JPanel.repaint ((jio (JPanel.getParent this))))
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new JPanel() {...}
+anonymousMirrorImageJPanel1_ (this :: MirrorImageJPanel) (anonymous_ :: JPanel.JPanel) = do
+    jregisterMethod (jheaderOf anonymous_) "paint" (\() -> anonymousMirrorImageJPanel1_paint this anonymous_)
+    pure anonymous_
+
+anonymousMirrorImageJPanel1_paint (this :: MirrorImageJPanel) (anonymous_ :: JPanel.JPanel) (graphics :: Graphics.Graphics) = ( do
+                when ((jget (this).result) /= javaNull) $ do
+                    Control.Monad.void (Graphics.drawImage graphics (jget (this).result) 0 0 (jio (BufferedImage.getWidth ((jget (this).result)) javaNull)) (jio (BufferedImage.getHeight ((jget (this).result)) javaNull)) javaNull)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMirrorImageJPanel2_ (this :: MirrorImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMirrorImageJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMirrorImageJPanel2_actionPerformed (this :: MirrorImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MirrorImageJPanel.generateJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousMirrorImageJPanel3_ (this :: MirrorImageJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousMirrorImageJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousMirrorImageJPanel3_actionPerformed (this :: MirrorImageJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (MirrorImageJPanel.renameJRadioButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

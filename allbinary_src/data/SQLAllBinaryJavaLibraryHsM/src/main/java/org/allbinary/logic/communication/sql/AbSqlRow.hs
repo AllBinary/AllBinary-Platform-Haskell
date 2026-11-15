@@ -33,8 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
-import qualified StdUtil -- same package or java.lang
 import qualified CommonSeps -- same package or java.lang
+import qualified StdUtil -- same package or java.lang
 import qualified SqlStrings -- same package or java.lang
 import qualified AbSqlTable -- same package or java.lang
 import qualified AbSqlBasic -- same package or java.lang
@@ -349,7 +349,7 @@ insert_impl this values = do
         Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).vALUES))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGINGERROR))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ (jio (StringMaker.toString stringBuffer))) this iNSERT e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).base.base.base.fAILED_SQL_STATEMENT) ++ (jio (StringMaker.toString stringBuffer))) this (jget this.base.base.base.iNSERT) e)
             ) $ do
             forM_ [0 .. ((jio (BasicArrayList.size values)) - 1) - 1] $ \i -> javaIteration (pure ()) $ do
                 value <- newIORef =<< (AbSqlRow.getValue this (javaCast (jio (BasicArrayList.get values i)) :: String))
@@ -402,11 +402,11 @@ getRow_impl this keysAndValues = do
                     Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).aND))
             sqlStatement <- (StringMaker.toString stringBuffer)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROW))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROW))
             rset <- (AbSqlColumn.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                assignedValue <- (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil))))
                 jset result (assignedValue)
                 columnCount <- (ResultSetMetaData.getColumnCount resultSetMetaData)
                 forM_ [1 .. columnCount] $ \index -> javaIteration (pure ()) $ do
@@ -463,13 +463,13 @@ getRows_2_impl this keysAndValues more = do
                 when (index < (size - 1)) $ do
                     Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).aND))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) + stringBuffer) this (jget (this).mETHOD_GET_ROWS))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ jconcatObject StringMaker.toString stringBuffer) this (jget (this).mETHOD_GET_ROWS))
             Control.Monad.void (StringMaker.append stringBuffer more)
             sqlStatement <- (StringMaker.toString stringBuffer)
             rset <- (AbSqlColumn.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                result <- (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil)))
+                result <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil))))
                 columnCount <- (ResultSetMetaData.getColumnCount resultSetMetaData)
                 forM_ [1 .. columnCount] $ \index -> javaIteration (pure ()) $ do
                     columnName <- (ResultSetMetaData.getColumnName resultSetMetaData index)
@@ -499,13 +499,13 @@ getAllRows_impl this = do
             pure (javaNull)
             ) $ do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) + stringBuffer) this (jget (this).mETHOD_GET_ALL_ROWS))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ jconcatObject StringMaker.toString stringBuffer) this (jget (this).mETHOD_GET_ALL_ROWS))
             rows <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
             sqlStatement <- (StringMaker.toString stringBuffer)
             rset <- (AbSqlColumn.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                result <- (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil)))
+                result <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil))))
                 columnCount <- (ResultSetMetaData.getColumnCount resultSetMetaData)
                 forM_ [1 .. columnCount] $ \index -> javaIteration (pure ()) $ do
                     columnName <- (ResultSetMetaData.getColumnName resultSetMetaData index)
@@ -559,16 +559,16 @@ getRowsWhereBetween_impl this whereKeyValuePairs betweenColumn smallest largest 
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).cLOSE_QUOTE))
             sqlStatement <- (StringMaker.toString stringBuffer)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROWS_WHERE_BETWEEN))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROWS_WHERE_BETWEEN))
             rset <- (AbSqlColumn.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             result <- newIORef (javaNull)
             columnNames <- newIORef (javaNull)
-            columnCount <- newIORef (0)
+            columnCount <- newIORef (0 :: Int)
             columnName <- newIORef ("")
             field <- newIORef ("")
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                assignedValue <- (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil))))
                 jset result (assignedValue)
                 assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
                 jset columnNames (assignedValue)
@@ -615,16 +615,16 @@ getRowsWhereBetween_3_impl this betweenColumn smallest largest = do
             Control.Monad.void (StringMaker.append stringBuffer (jget ((jget (this).base.base.base.sqlStrings)).cLOSE_QUOTE))
             sqlStatement <- (StringMaker.toString stringBuffer)
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (javaToString (jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROWS_WHERE_BETWEEN))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).base.base.base.sqlStrings)).sQL_STATEMENT_LABEL) ++ sqlStatement) this (jget (this).mETHOD_GET_ROWS_WHERE_BETWEEN))
             rset <- (AbSqlColumn.executeSQLStatement this sqlStatement)
             resultSetMetaData <- (ResultSet.getMetaData rset)
             columnName <- newIORef ("")
             field <- newIORef ("")
             result <- newIORef (javaNull)
             columnNames <- newIORef (javaNull)
-            columnCount <- newIORef (0)
+            columnCount <- newIORef (0 :: Int)
             fix $ \loop -> when (jio (ResultSet.next rset)) $ javaIteration (loop) $ do
-                assignedValue <- (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil)))
+                assignedValue <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jget (this).base.base.base.stdUtil))))
                 jset result (assignedValue)
                 assignedValue <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
                 jset columnNames (assignedValue)

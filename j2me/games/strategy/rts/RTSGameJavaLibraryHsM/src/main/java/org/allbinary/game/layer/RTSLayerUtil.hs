@@ -153,7 +153,7 @@ downgrade_impl this rtsLayer = do
         partInterfaceArray <- (RTSLayer.getPartInterfaceArray rtsLayer)
         let size = (jlength partInterfaceArray)
         partInterface <- newIORef (javaNull)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset partInterface ((javaCast (jindex partInterfaceArray ((jget index))) :: BasicWeaponPart.BasicWeaponPart))
             Control.Monad.void (BasicWeaponPart.setWeaponProperties ((jget partInterface)) (jio (RTSLayerUtil.createWeaponProperties this (jio (BasicWeaponPart.getWeaponProperties ((jget partInterface)))) (jio (RTSLayer.getLevel rtsLayer)) ((jio (RTSLayer.getLevel rtsLayer)) + 1))))
@@ -173,7 +173,7 @@ upgrade_impl this rtsLayer = do
         partInterfaceArray <- (RTSLayer.getPartInterfaceArray rtsLayer)
         let size = (jlength partInterfaceArray)
         partInterface <- newIORef (javaNull)
-        index <- newIORef (size)
+        index <- newIORef (size :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             jset partInterface ((javaCast (jindex partInterfaceArray ((jget index))) :: BasicWeaponPart.BasicWeaponPart))
             Control.Monad.void (BasicWeaponPart.setWeaponProperties ((jget partInterface)) (jio (RTSLayerUtil.createWeaponProperties this (jio (BasicWeaponPart.getWeaponProperties ((jget partInterface)))) (jio (RTSLayer.getLevel rtsLayer)) ((jio (RTSLayer.getLevel rtsLayer)) - 1))))
@@ -200,7 +200,7 @@ getWeaponPropertiesCost_super object_ a1 = (getWeaponPropertiesCost_impl (javaCa
 
 getWeaponPropertiesCost_impl :: RTSLayerUtil -> WeaponProperties.WeaponProperties -> IO (Int)
 getWeaponPropertiesCost_impl this weaponProperties = do
-        cost <- newIORef ((((Prelude.fromIntegral ((jio (WeaponProperties.getDamage weaponProperties)) + (jio (WeaponProperties.getRange weaponProperties)))) + (((((jget (this).mAX_RELOAD_TIME) `quot` (jio (WeaponProperties.getReloadTime weaponProperties)))) `Data.Bits.shiftR` 1)))))
+        cost <- newIORef ((((Prelude.fromIntegral ((jio (WeaponProperties.getDamage weaponProperties)) + (jio (WeaponProperties.getRange weaponProperties)))) + (((((jget (this).mAX_RELOAD_TIME) `quot` (jio (WeaponProperties.getReloadTime weaponProperties)))) `Data.Bits.shiftR` 1)))) :: Int64)
         assignedValue <- (RTSLayerUtil.getCostExponential this (jget cost))
         jset cost (assignedValue)
         pure ((Prelude.fromIntegral (jget cost)))
@@ -214,7 +214,7 @@ getCost_super object_ a1 = (getCost_impl (javaCast object_ :: RTSLayerUtil)) a1
 
 getCost_impl :: RTSLayerUtil -> RTSLayer.RTSLayer -> IO (Int)
 getCost_impl this rtsLayer = do
-        total <- newIORef (0)
+        total <- newIORef (0 :: Int)
         partInterfaceArray <- (RTSLayer.getPartInterfaceArray rtsLayer)
         let size = (jlength partInterfaceArray)
         partInterface <- newIORef (javaNull)
@@ -238,11 +238,11 @@ getDowngradeCost_impl :: RTSLayerUtil -> RTSLayer.RTSLayer -> IO (Int)
 getDowngradeCost_impl this rtsLayer = do
         partInterfaceArray <- (RTSLayer.getPartInterfaceArray rtsLayer)
         let size = (jlength partInterfaceArray)
-        downgradeCost <- newIORef (0)
+        downgradeCost <- newIORef (0 :: Int)
         partInterface <- newIORef (javaNull)
         weaponProperties <- newIORef (javaNull)
-        downgradeWeaponCost <- newIORef (0)
-        currentWeaponCost <- newIORef (0)
+        downgradeWeaponCost <- newIORef (0 :: Int)
+        currentWeaponCost <- newIORef (0 :: Int)
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset partInterface ((javaCast (jindex partInterfaceArray (index)) :: BasicWeaponPart.BasicWeaponPart))
             assignedValue <- (BasicWeaponPart.getWeaponProperties ((jget partInterface)))
@@ -265,13 +265,13 @@ getUpgradeCost_super object_ a1 = (getUpgradeCost_impl (javaCast object_ :: RTSL
 
 getUpgradeCost_impl :: RTSLayerUtil -> RTSLayer.RTSLayer -> IO (Int)
 getUpgradeCost_impl this rtsLayer = do
-        upgradeCost <- newIORef (0)
+        upgradeCost <- newIORef (0 :: Int)
         partInterfaceArray <- (RTSLayer.getPartInterfaceArray rtsLayer)
         let size = (jlength partInterfaceArray)
         partInterface <- newIORef (javaNull)
         weaponProperties <- newIORef (javaNull)
-        upgradedWeaponCost <- newIORef (0)
-        currentWeaponCost <- newIORef (0)
+        upgradedWeaponCost <- newIORef (0 :: Int)
+        currentWeaponCost <- newIORef (0 :: Int)
         forM_ [(size - 1), (size - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             jset partInterface ((javaCast (jindex partInterfaceArray (index)) :: BasicWeaponPart.BasicWeaponPart))
             assignedValue <- (BasicWeaponPart.getWeaponProperties ((jget partInterface)))
@@ -312,7 +312,7 @@ createFakeRTSLayerHashtable_impl :: RTSLayerUtil -> BaseRaceTrackGeographicMap.B
 createFakeRTSLayerHashtable_impl this baseRaceTrackGeographicMap = do
         hashtable <- (StdUtil.createHashtable ((jio (StdUtil.getInstance))))
         layerManager <- (FakeLayerManager.new_1 (GameInfo.nONE))
-        Control.Monad.void (FakeLayerManager.setGeographicMapInterface layerManager (jarrayFromList [baseRaceTrackGeographicMap]))
+        Control.Monad.void (FakeLayerManager.setGeographicMapInterface layerManager (jarrayFromList [(javaCast baseRaceTrackGeographicMap :: BasicGeographicMap.BasicGeographicMap)]))
         Control.Monad.void (ABHashtable.put hashtable (AllBinaryGameLayerManager.iD) layerManager)
         Control.Monad.void (ABHashtable.put hashtable (jget ((jio (DirectionFactory.getInstance))).nAME) (jget ((jio (DirectionFactory.getInstance))).lEFT))
         Control.Monad.void (ABHashtable.put hashtable (jget ((jget (this).groupCommonFactory)).iD) (jget ((jio (BasicGroupFactory.getInstance))).nONE_ARRAY))

@@ -81,10 +81,10 @@ dEFAULT_PROFILES_PATH :: String
 dEFAULT_PROFILES_PATH = "./modules/configs/profiles/"
 
 dEFAULT_PROFILE_ACTIONS_PATH :: String
-dEFAULT_PROFILE_ACTIONS_PATH = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
+dEFAULT_PROFILE_ACTIONS_PATH = (GenericProfiles.dEFAULT_PROFILES_PATH ++ "actions/")
 
 dEFAULT_FILE :: String
-dEFAULT_FILE = (javaToString GenericProfiles.dEFAULT_PROFILES_PATH ++ "profiles.xml")
+dEFAULT_FILE = (GenericProfiles.dEFAULT_PROFILES_PATH ++ "profiles.xml")
 
 toString :: (JavaObjectClass this_) => this_ -> IO (String)
 toString object_ = jmethod object_ "toString" (\() -> jobjectToString object_) ()
@@ -147,7 +147,7 @@ init_1 this fileName = do
             if (nodeList /= javaNull) then do
                 Control.Monad.void (GenericProfiles.initProfiles this (jio (NodeList.item nodeList 0)))
             else do
-                javaThrow ((JavaException "Exception" (javaToString (jget GenericProfileActionData.nAME) ++ " Name Node Node Children")))
+                javaThrow ((JavaException "Exception" ((jget GenericProfileActionData.nAME) ++ " Name Node Node Children")))
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (("Loaded: " ++ javaToString (jio (HashMap.size ((jget (this).hashMap))))) ++ " Configuration Profile Actions") this "Contructor")
         else do
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("No Generic Profile: " ++ fileName) this "Contructor")

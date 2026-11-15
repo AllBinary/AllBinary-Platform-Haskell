@@ -96,7 +96,7 @@ new_1 options = do
 init_1 :: SetLicenseInitInfo -> JavaArray (String) -> IO ()
 init_1 this options = do
         initFields_ this
-        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH + (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH ++ (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         forM_ [1 .. (jlength options) - 1] $ \index -> javaIteration (pure ()) $ do
             Control.Monad.void (BasicArrayList.add ((jget (this).vector)) (jindex options (index)))
         pure ()
@@ -136,7 +136,7 @@ createNewLicenseInitInfo_impl this licenceServerVector = do
             licenseInitInfo <- (SetLicenseInitInfo.getLicenseInitInfo this)
             Control.Monad.void (putStrLn (javaToString "License Serv Example: http://www.dartstatistics.com/LicServ/serverssl.php"))
             Control.Monad.void (LicenseInitInfo.clearServers licenseInitInfo)
-            file <- (File.new_1 (javaToString PrintLicenseInitInfo.pATH ++ "licenseservers.txt"))
+            file <- (File.new_1 (PrintLicenseInitInfo.pATH ++ "licenseservers.txt"))
             reader <- (FileReader.new_1 file)
             lineNumberReader <- (LineNumberReader.new_1 reader)
             fix $ \loop -> when True $ javaIteration (loop) $ do

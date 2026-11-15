@@ -267,7 +267,7 @@ delete_impl this = do
                     Control.Monad.void (LogUtil.put ((jget (this).logUtil)) (jget ((jget (this).base.commonStrings)).eXCEPTION) this "delete()" e)
                 pure (error)
             ) $ do
-            let success = ((("Successfully Removed " ++ javaToString (jget ((jio (CategoryData.getInstance))).nAME)) ++ "=") ++ jconcatObject AbPath.toString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
+            let success = ((("Successfully Removed " ++ (jget ((jio (CategoryData.getInstance))).nAME)) ++ "=") ++ jconcatObject AbPath.toString (jio (CategoryInterface.getPath ((jget (this).childCategoryInterface)))))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLTAGS))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Deleting" this "delete()")
             Control.Monad.void (CategoryLoaderInterface.delete ((jget (this).categoryLoaderInterface)) (jget (this).categoryInterface) (jget (this).childCategoryInterface))

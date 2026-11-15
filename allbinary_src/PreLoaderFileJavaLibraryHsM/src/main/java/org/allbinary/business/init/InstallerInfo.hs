@@ -133,7 +133,7 @@ write_super object_ = (write_impl (javaCast object_ :: InstallerInfo))
 
 write_impl :: InstallerInfo -> IO (())
 write_impl this = do
-        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pRELOADERERROR))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed" this "write")
@@ -159,7 +159,7 @@ read_super object_ = (read_impl (javaCast object_ :: InstallerInfo))
 
 read_impl :: InstallerInfo -> IO (())
 read_impl this = do
-        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
+        fILEABPATH <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ InstallerInfo.pACKAGE) (InstallerInfo.iNITFILENAME))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).pRELOADERERROR))) $ do
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Failed" this "read")

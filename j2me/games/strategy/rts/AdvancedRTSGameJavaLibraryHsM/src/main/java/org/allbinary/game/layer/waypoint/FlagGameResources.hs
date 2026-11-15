@@ -70,7 +70,7 @@ dESTROY :: String
 dESTROY = "_destroy"
 
 iCON_BUILD :: String
-iCON_BUILD = ("_icon" ++ javaToString FlagGameResources.bUILD)
+iCON_BUILD = ("_icon" ++ FlagGameResources.bUILD)
 
 newRecord_ :: IO FlagGameResources
 newRecord_ = do

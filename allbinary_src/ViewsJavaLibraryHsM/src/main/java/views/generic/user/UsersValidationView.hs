@@ -33,8 +33,8 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified BasicArrayList -- same package or java.lang
-import qualified UserEntity -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified UserEntity -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified UserEntityFactory -- org.allbinary.data.tables.user.UserEntityFactory
 import qualified LogUtil -- org.allbinary.logic.communication.log.LogUtil

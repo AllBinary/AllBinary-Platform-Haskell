@@ -190,30 +190,20 @@ initComponents_impl this = do
         Control.Monad.void (JDialog.setResizable ((jget (this).newProfileActionJDialog)) False)
         Control.Monad.void (JLabel.setText ((jget (this).newProfileActionJLabel)) "New Action Name")
         Control.Monad.void (JButton.setText ((jget (this).okNewProfileActionJButton)) "Ok")
-        Control.Monad.void (JButton.addActionListener ((jget (this).okNewProfileActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).okNewProfileActionJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionsJPanel0_ this)))
         newProfileActionJDialogLayout <- (GroupLayout.new_1 (jio (JDialog.getContentPane ((jget (this).newProfileActionJDialog)))))
         Control.Monad.void (JDialog.setLayout ((jio (JDialog.getContentPane ((jget (this).newProfileActionJDialog))))) newProfileActionJDialogLayout)
         Control.Monad.void (GroupLayout.setHorizontalGroup newProfileActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup newProfileActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addGroup ((jio (GroupLayout.createSequentialGroup newProfileActionJDialogLayout))) (jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup newProfileActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.createSequentialGroup newProfileActionJDialogLayout))) 93 93 93))) (jget this.okNewProfileActionJButton)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.createSequentialGroup newProfileActionJDialogLayout))) 75 75 75))) (jget this.newProfileActionJLabel)))))) (jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.createSequentialGroup newProfileActionJDialogLayout))) 29 29 29))) (jget this.newProfileActionJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) 178 (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))))))) 34 (Prelude.maxBound :: Int16))))))
         Control.Monad.void (GroupLayout.setVerticalGroup newProfileActionJDialogLayout (jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup newProfileActionJDialogLayout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).tRAILING) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addContainerGap ((jio (GroupLayout.createSequentialGroup newProfileActionJDialogLayout)))))) (jget this.newProfileActionJLabel)))) 21 21 21))) (jget this.newProfileActionJTextField) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) (jget ((jget (javax.swing).groupLayout)).pREFERRED_SIZE)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED) 20 (Prelude.maxBound :: Int16)))) (jget this.okNewProfileActionJButton)))))))))
         Control.Monad.void (JPanel.setPreferredSize ((jget (this).genericProfileActionsJPanel)) (jio (Dimension.new_2 10000 10000)))
-        Control.Monad.void (JList.addListSelectionListener ((jget (this).genericProfileActionsJList)) (ListSelectionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- valueChanged
--}))
+        Control.Monad.void (JList.addListSelectionListener ((jget (this).genericProfileActionsJList)) (jio (ListSelectionListener.new_ >>= anonymousGenericProfileActionsJPanel1_ this)))
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).genericProfileActionsJScrollPane)) (jget (this).genericProfileActionsJList))
         Control.Monad.void (JButton.setText ((jget (this).newActionJButton)) "New")
-        Control.Monad.void (JButton.addActionListener ((jget (this).newActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).newActionJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionsJPanel2_ this)))
         Control.Monad.void (JButton.setText ((jget (this).deleteActionJButton)) "Delete")
-        Control.Monad.void (JButton.addActionListener ((jget (this).deleteActionJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).deleteActionJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionsJPanel3_ this)))
         Control.Monad.void (JButton.setText ((jget (this).saveJButton)) "Save")
-        Control.Monad.void (JButton.addActionListener ((jget (this).saveJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).saveJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionsJPanel4_ this)))
         Control.Monad.void (JPanel.setMinimumSize ((jget (this).blankGenericProfileActionJPanel)) (jio (Dimension.new_2 500 300)))
         blankGenericProfileActionJPanelLayout <- (GroupLayout.new_1 (jget (this).blankGenericProfileActionJPanel))
         Control.Monad.void (JPanel.setLayout ((jget (this).blankGenericProfileActionJPanel)) blankGenericProfileActionJPanelLayout)
@@ -411,4 +401,54 @@ newActionJButtonActionPerformed_impl this evt = do
         Control.Monad.void (JDialog.setVisible ((jget (this).newProfileActionJDialog)) True)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionsJPanel0_ (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionsJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionsJPanel0_actionPerformed (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionsJPanel.okNewProfileActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ListSelectionListener() {...}
+anonymousGenericProfileActionsJPanel1_ (this :: GenericProfileActionsJPanel) (anonymous_ :: ListSelectionListener.ListSelectionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "valueChanged" (\() -> anonymousGenericProfileActionsJPanel1_valueChanged this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionsJPanel1_valueChanged (this :: GenericProfileActionsJPanel) (anonymous_ :: ListSelectionListener.ListSelectionListener) (evt :: ListSelectionEvent.ListSelectionEvent) = ( do
+                Control.Monad.void (GenericProfileActionsJPanel.genericProfileActionsJListValueChanged this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionsJPanel2_ (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionsJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionsJPanel2_actionPerformed (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionsJPanel.newActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionsJPanel3_ (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionsJPanel3_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionsJPanel3_actionPerformed (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionsJPanel.deleteActionJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionsJPanel4_ (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionsJPanel4_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionsJPanel4_actionPerformed (this :: GenericProfileActionsJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionsJPanel.saveJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

@@ -33,10 +33,10 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ABTextFieldItem -- same package or java.lang
-import qualified LogUtil -- same package or java.lang
-import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified GameInputStrings -- same package or java.lang
+import qualified LogUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified DisplayInfoSingleton -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font

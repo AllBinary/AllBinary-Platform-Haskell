@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified WeblisketSession -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified WeblisketSession -- same package or java.lang
 import qualified AbeClientInformationInterface -- same package or java.lang
 import qualified HttpComponentView -- same package or java.lang
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
@@ -137,7 +137,7 @@ toXmlNode_impl this document = do
             ) $ do
             shippingMethodsNode <- (Document.createElement document (ShippingMethodsData.sHIPPINGMETHODSORDERSUMMARIES))
             order <- (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this))))
-            basket <- (WeblisketSession.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
+            basket <- (OrderInterface.getBasket ((jio (WeblisketSession.getOrder ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             shippingAddressesEntityInterface <- (fmap (\value_ -> javaCast value_ :: StreetAddressesEntityInterface.StreetAddressesEntityInterface) (ShippingAddressesEntityFactory.getInstance_1 ((jio (ShippingAddressesEntityFactory.getInstance))) (jio (WeblisketSession.getUserName ((jio (HttpStoreComponentView.getWeblisketSession this)))))))
             streetAddress <- (StreetAddressesEntityInterface.getDefault shippingAddressesEntityInterface)
             shippingVector <- (ShippingMethods.get ((jget (this).shippingMethods)))

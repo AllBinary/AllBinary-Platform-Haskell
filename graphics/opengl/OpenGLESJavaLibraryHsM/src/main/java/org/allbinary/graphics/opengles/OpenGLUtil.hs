@@ -154,7 +154,7 @@ onSurfaceCreated_impl this gl = do
             ) $ do
             when (Prelude.not (jget (this).created)) $ do
                 jset (this).created (True)
-                Control.Monad.void (PreLogUtil.put (javaToString (jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ (jio (OpenGLCapabilities.toString ((jio (OpenGLCapabilities.getInstance)))))) this (jget ((jget (this).renderStrings)).oN_SURFACE_CREATED))
+                Control.Monad.void (PreLogUtil.put ((jget ((jio (CommonLabels.getInstance))).sTART_LABEL) ++ (jio (OpenGLCapabilities.toString ((jio (OpenGLCapabilities.getInstance)))))) this (jget ((jget (this).renderStrings)).oN_SURFACE_CREATED))
         pure ()
 
 

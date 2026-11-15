@@ -340,7 +340,7 @@ getCssStyleValidation_super object_ = (getCssStyleValidation_impl (javaCast obje
 getCssStyleValidation_impl :: ThemeValidation -> IO (CssStyleValidation.CssStyleValidation)
 getCssStyleValidation_impl this = do
         when ((jget (this).styleValidationInterface) == javaNull) $ do
-            cssStyleFileAbPath <- (AbPath.new_2 (jio (AbPath.toString ((jget (this).fileAbPath)))) (((jget (this).themeName) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
+            cssStyleFileAbPath <- (AbPath.new_2 (jio (AbPath.toString ((jget (this).fileAbPath)))) (((jget (this).themeName) ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION)))
             cryptFileReader <- (CryptFileReader.new_2 (jget ((jio (CategoryData.getInstance))).uNCRYPTED_EXTENSION) (jget ((jio (CategoryData.getInstance))).eNCRYPTED_EXTENSION))
             document <- (DomDocumentHelper.create_1 (jio (CryptFileReader.get cryptFileReader cssStyleFileAbPath)))
             assignedValue <- (fmap (\value_ -> javaCast value_ :: ValidationInterface.ValidationInterface) (CssStyleValidation.new_1 document))

@@ -33,11 +33,11 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified ItemInterface -- same package or java.lang
 import qualified HashMap -- same package or java.lang
 import qualified WeblisketSession -- same package or java.lang
 import qualified InventoryEntity -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified StoreFrontFactory -- org.allbinary.business.context.modules.storefront.StoreFrontFactory
 import qualified StoreFrontInterface -- org.allbinary.business.context.modules.storefront.StoreFrontInterface
@@ -89,7 +89,7 @@ aDDPRODUCT :: String
 aDDPRODUCT = "Add Product"
 
 nEXTSTEP :: String
-nEXTSTEP = (javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Step")
+nEXTSTEP = ((jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Step")
 
 newRecord_ :: IO AddFileValidationView
 newRecord_ = do

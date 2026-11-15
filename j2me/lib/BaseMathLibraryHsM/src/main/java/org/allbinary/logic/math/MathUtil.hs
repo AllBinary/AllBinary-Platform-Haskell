@@ -94,7 +94,7 @@ getTotalDigits_super object_ a1 = (getTotalDigits_impl (javaCast object_ :: Math
 getTotalDigits_impl :: MathUtil -> Int -> IO (Int)
 getTotalDigits_impl this digits = do
         digits <- newIORef digits
-        total <- newIORef (0)
+        total <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget digits) > 0) $ javaIteration (loop) $ do
             jset digits (((jget digits) `quot` 10))
             jset total ((jget total) + 1)
@@ -112,8 +112,8 @@ sqrt_impl this value = do
     javaCatchReturn $ do
         when (value <= 1) $ do
             javaReturn (value)
-        accumulated <- newIORef ((value `Data.Bits.shiftR` 1))
-        result <- newIORef (((((jget accumulated) + ((value `quot` (jget accumulated))))) `Data.Bits.shiftR` 1))
+        accumulated <- newIORef ((value `Data.Bits.shiftR` 1) :: Int)
+        result <- newIORef (((((jget accumulated) + ((value `quot` (jget accumulated))))) `Data.Bits.shiftR` 1) :: Int)
         fix $ \loop -> javaIteration (when ((jget accumulated) > (jget result)) loop) $ do
             jset accumulated ((jget result))
             jset result (((((jget accumulated) + ((value `quot` (jget accumulated))))) `Data.Bits.shiftR` 1))
@@ -133,7 +133,7 @@ sqrtd_impl this x = do
             javaReturn ((Prelude.realToFrac (0.0 :: Float)))
         when (x < 0) $ do
             javaReturn ((Prelude.realToFrac ((Prelude.negate 1.0) :: Float)))
-        result <- newIORef ((Prelude.fromIntegral x))
+        result <- newIORef ((Prelude.fromIntegral x) :: Double)
         forM_ [0 .. (jget (this).aCCURACY) - 1] $ \index -> javaIteration (pure ()) $ do
             jset result (((((jget result) + (((Prelude.fromIntegral x) / (jget result))))) / 2.0))
         pure ((jget result))

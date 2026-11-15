@@ -83,7 +83,7 @@ new_1 categoryInterface = do
 
 init_1 :: StoreThemeCategoryView -> StoreThemeCategoryInterface.StoreThemeCategoryInterface -> IO ()
 init_1 this categoryInterface = do
-        CategoryView.init_1 this.base (javaCast categoryInterface :: StoreThemeCategoryInterface.StoreThemeCategoryInterface)
+        CategoryView.init_1 this.base (javaCast (javaCast categoryInterface :: StoreThemeCategoryInterface.StoreThemeCategoryInterface))
         initFields_ this
         pure () -- super(...) is in the record above
         pure ()

@@ -132,7 +132,7 @@ getInsideSep_super object_ a1 = (getInsideSep_impl (javaCast object_ :: Tokenize
 getInsideSep_impl :: Tokenizer -> String -> IO (BasicArrayList.BasicArrayList)
 getInsideSep_impl this string = do
         tokenList <- (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         let size = (Prelude.length string)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             jset index ((jstringIndexOf string (jget (this).sep) (jget index)))
@@ -156,8 +156,8 @@ getTokensFromString_super object_ a1 a2 = (getTokensFromString_impl (javaCast ob
 
 getTokensFromString_impl :: Tokenizer -> String -> BasicArrayList.BasicArrayList -> IO (BasicArrayList.BasicArrayList)
 getTokensFromString_impl this string tokenVector = do
-        index <- newIORef (0)
-        end <- newIORef (0)
+        index <- newIORef (0 :: Int)
+        end <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < (Prelude.length string)) $ javaIteration (loop) $ do
             jset end ((jstringIndexOf string (jget (this).sep) (jget index)))
             if ((jget end) /= (Prelude.negate 1)) then do
@@ -179,7 +179,7 @@ getTokens_impl :: Tokenizer -> BasicArrayList.BasicArrayList -> IO (ABHashtable.
 getTokens_impl this stringVector = do
         tokenHashtable <- (StdUtil.createHashtable ((jio (StdUtil.getInstance))))
         string <- newIORef ((jget ((jio (StringUtil.getInstance))).eMPTY_STRING))
-        end <- newIORef (0)
+        end <- newIORef (0 :: Int)
         size <- (BasicArrayList.size stringVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
             jset string ((javaCast (jindex ((jget (stringVector).objectArray)) (index)) :: String))

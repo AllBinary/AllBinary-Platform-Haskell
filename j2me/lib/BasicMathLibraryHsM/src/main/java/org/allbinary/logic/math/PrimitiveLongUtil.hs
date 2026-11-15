@@ -140,9 +140,9 @@ getCharArray_impl this value = do
         when (value > (jget (this).maxValue)) $ do
             Control.Monad.void (PrimitiveLongUtil.setCurrentTotalDigits this 3)
             javaReturn ((jget ((jget (this).primitiveLongSingleton)).uNK))
-        index <- newIORef (0)
-        div <- newIORef ((jget (this).powerOfTen))
-        lastValue <- newIORef (0)
+        index <- newIORef (0 :: Int)
+        div <- newIORef ((jget (this).powerOfTen) :: Int)
+        lastValue <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget div) >= 1) $ javaIteration (loop) $ do
             let digit = (((value - (jget lastValue))) `quot` (jget div))
             when ((digit >= 0) && (digit < 10)) $ do

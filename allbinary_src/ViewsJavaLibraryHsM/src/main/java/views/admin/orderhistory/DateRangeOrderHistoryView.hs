@@ -32,9 +32,9 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
 import qualified PageContext -- same package or java.lang
 import qualified OrderHistoryEntity -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified Calendar -- java.util.Calendar
 import qualified BasicArrayList -- org.allbinary.util.BasicArrayList
 import qualified BasicArrayListD -- org.allbinary.util.BasicArrayListD

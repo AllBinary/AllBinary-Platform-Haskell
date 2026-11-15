@@ -220,7 +220,7 @@ ensureCapacity_impl :: StringMaker -> Int -> IO (())
 ensureCapacity_impl this minSize = do
         let oldCapacity = (jlength (jget (this).charArray))
         when (minSize > oldCapacity) $ do
-            newCapacity <- newIORef ((oldCapacity * 3))
+            newCapacity <- newIORef ((oldCapacity * 3) :: Int)
             when ((jget newCapacity) < minSize) $ do
                 jset newCapacity (minSize)
             let copy = (jnewArray ((jget newCapacity)) '\0')

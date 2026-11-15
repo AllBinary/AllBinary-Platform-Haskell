@@ -204,99 +204,67 @@ initComponents_impl this = do
         Control.Monad.void (JPanel.setLayout this (jio (GridLayout.new_2 17 1)))
         Control.Monad.void (JButton.setFont ((jget this.lineJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget this.lineJButton)) (jio (LinesGraphicItem.getStaticName)))
-        Control.Monad.void (JButton.addMouseListener ((jget this.lineJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mouseClicked
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget this.lineJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel0_ this)))
         Control.Monad.void (JPanel.add this (jget (this).lineJButton))
         Control.Monad.void (JButton.setFont ((jget (this).rectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).rectJButton)) "Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).rectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mouseClicked
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).rectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel1_ this)))
         Control.Monad.void (JPanel.add this (jget (this).rectJButton))
         Control.Monad.void (JButton.setFont ((jget (this).arcJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).arcJButton)) "Arc")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).arcJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).arcJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel2_ this)))
         Control.Monad.void (JPanel.add this (jget (this).arcJButton))
         Control.Monad.void (JButton.setFont ((jget (this).stringJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).stringJButton)) "String")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).stringJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).stringJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel3_ this)))
         Control.Monad.void (JPanel.add this (jget (this).stringJButton))
         Control.Monad.void (JButton.setFont ((jget (this).charJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).charJButton)) "Char")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).charJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).charJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel4_ this)))
         Control.Monad.void (JPanel.add this (jget (this).charJButton))
         Control.Monad.void (JButton.setFont ((jget (this).roundRectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).roundRectJButton)) "Round Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).roundRectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).roundRectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel5_ this)))
         Control.Monad.void (JPanel.add this (jget (this).roundRectJButton))
         Control.Monad.void (JButton.setFont ((jget (this).imageJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).imageJButton)) "Image")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).imageJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).imageJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel6_ this)))
         Control.Monad.void (JPanel.add this (jget (this).imageJButton))
         Control.Monad.void (JButton.setFont ((jget (this).fillArcJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).fillArcJButton)) "Fill Arc")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).fillArcJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).fillArcJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel7_ this)))
         Control.Monad.void (JPanel.add this (jget (this).fillArcJButton))
         Control.Monad.void (JButton.setFont ((jget (this).fillRectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).fillRectJButton)) "Fill Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).fillRectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).fillRectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel8_ this)))
         Control.Monad.void (JPanel.add this (jget (this).fillRectJButton))
         Control.Monad.void (JButton.setFont ((jget (this).fillRoundRectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).fillRoundRectJButton)) "Fill Rnd Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).fillRoundRectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).fillRoundRectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel9_ this)))
         Control.Monad.void (JPanel.add this (jget (this).fillRoundRectJButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedLineJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedLineJButton)) "Dot Line")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedLineJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedLineJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel10_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedLineJButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedRectButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedRectButton)) "Dot Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedRectButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedRectButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel11_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedRectButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedArcJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedArcJButton)) "Dot Arc")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedArcJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedArcJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel12_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedArcJButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedFillRectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedFillRectJButton)) "Dot Fill Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillRectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillRectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel13_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedFillRectJButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedFillArcJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedFillArcJButton)) "Dot Fill Arc")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillArcJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillArcJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel14_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedFillArcJButton))
         Control.Monad.void (JButton.setFont ((jget (this).dottedFillRountRectJButton)) (jio (Font.new_3 "Dialog" 0 10)))
         Control.Monad.void (JButton.setText ((jget (this).dottedFillRountRectJButton)) "Dot Fill Rnd Rect")
-        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillRountRectJButton)) (MouseAdapter.new_ {- Java anonymous class body: implement it as a record of functions
-            -- mousePressed
--}))
+        Control.Monad.void (JButton.addMouseListener ((jget (this).dottedFillRountRectJButton)) (jio (MouseAdapter.new_ >>= anonymousToolJPanel15_ this)))
         Control.Monad.void (JPanel.add this (jget (this).dottedFillRountRectJButton))
         Control.Monad.void (JPanel.setLayout ((jget (this).colorJPanel)) (jio (GridLayout.new_2 1 1)))
         Control.Monad.void (JPanel.add ((jget (this).colorJPanel)) (jget (this).colorJList))
@@ -495,4 +463,164 @@ lineJButtonMouseClicked_impl this evt = do
         Control.Monad.void (ToolFactory.setSelectedTool ((jio (ToolFactory.getInstance))) (jio (JButton.getText ((jget (this).lineJButton)))))
         pure ()
 
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel0_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mouseClicked" (\() -> anonymousToolJPanel0_mouseClicked this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel0_mouseClicked (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.lineJButtonMouseClicked this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel1_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mouseClicked" (\() -> anonymousToolJPanel1_mouseClicked this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel1_mouseClicked (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.rectJButtonMouseClicked this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel2_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel2_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel2_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.arcJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel3_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel3_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel3_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.stringJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel4_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel4_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel4_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.charJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel5_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel5_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel5_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.roundRectJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel6_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel6_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel6_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.imageJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel7_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel7_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel7_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.fillArcJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel8_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel8_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel8_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.fillRectJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel9_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel9_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel9_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.fillRoundRectJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel10_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel10_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel10_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedLineJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel11_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel11_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel11_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedRectButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel12_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel12_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel12_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedArcJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel13_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel13_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel13_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedFillRectJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel14_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel14_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel14_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedFillArcJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new MouseAdapter() {...}
+anonymousToolJPanel15_ (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) = do
+    jregisterMethod (jheaderOf anonymous_) "mousePressed" (\() -> anonymousToolJPanel15_mousePressed this anonymous_)
+    pure anonymous_
+
+anonymousToolJPanel15_mousePressed (this :: ToolJPanel) (anonymous_ :: MouseAdapter.MouseAdapter) (evt :: MouseEvent.MouseEvent) = ( do
+                Control.Monad.void (ToolJPanel.dottedFillRountRectJButtonMousePressed this evt)
+                pure ()
+ ) :: IO (())
 

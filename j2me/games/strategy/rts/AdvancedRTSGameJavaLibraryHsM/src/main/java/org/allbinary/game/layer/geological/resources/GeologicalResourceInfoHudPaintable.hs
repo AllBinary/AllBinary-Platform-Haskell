@@ -127,7 +127,7 @@ updateSelectionInfo_impl this = do
         Control.Monad.void (WaypointInfoHudPaintable.updateSelectionInfo_super this.base)
         let rtsLayer = (javaCast (jget (this).base.rtsLayerP) :: RTSLayer.RTSLayer)
         list <- (GeographicMapCellPositionAreaBase.getOccupyingGeographicMapCellPositionList ((jget (rtsLayer).geographicMapCellPositionAreaBase)))
-        total <- newIORef (0)
+        total <- newIORef (0 :: Int)
         index <- newIORef =<< (BasicArrayList.size list)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             let geographicMapCellPosition = (javaCast (jio (BasicArrayList.get list (jget index))) :: GeologicalGeographicMapCellPosition.GeologicalGeographicMapCellPosition)

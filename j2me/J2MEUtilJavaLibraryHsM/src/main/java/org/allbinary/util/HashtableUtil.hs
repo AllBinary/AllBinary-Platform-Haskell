@@ -131,7 +131,7 @@ getKeysAsArray_super object_ a1 = (getKeysAsArray_impl (javaCast object_ :: Hash
 getKeysAsArray_impl :: HashtableUtil -> ABHashtable.ABHashtable -> IO (JavaArray (Any.Any))
 getKeysAsArray_impl this hashtable = do
         let objectArray = (jnewArray ((jio (ABHashtable.size hashtable))) javaNull)
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         enumeration <- (ABHashtable.keys hashtable)
         fix $ \loop -> when (jio (EnumerationUtil.hasMoreElements ((jget (this).enumerationUtil)) enumeration)) $ javaIteration (loop) $ do
             assignedValue <- (fmap jtoObject (EnumerationUtil.nextElement ((jget (this).enumerationUtil)) enumeration))

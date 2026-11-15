@@ -40,11 +40,11 @@ import qualified GameRunnable -- same package or java.lang
 import qualified GameInputMappingCanvas -- same package or java.lang
 import qualified Any -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified PersistentInputMapping -- same package or java.lang
-import qualified GenericOperatingSystem -- same package or java.lang
-import qualified StdUtil -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified CanvasStrings -- same package or java.lang
+import qualified StdUtil -- same package or java.lang
+import qualified PersistentInputMapping -- same package or java.lang
+import qualified GenericOperatingSystem -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified Command -- javax.microedition.lcdui.Command
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
@@ -819,7 +819,7 @@ demoStateChange_super object_ = (demoStateChange_impl (javaCast object_ :: Start
 
 demoStateChange_impl :: StartCanvas -> IO (())
 demoStateChange_impl this = do
-        newState <- newIORef (((jget (this).state) + 1))
+        newState <- newIORef (((jget (this).state) + 1) :: Int)
         if ((jget newState) > 2) then do
             jset newState (0)
         else when ((jget newState) == 2) $ do

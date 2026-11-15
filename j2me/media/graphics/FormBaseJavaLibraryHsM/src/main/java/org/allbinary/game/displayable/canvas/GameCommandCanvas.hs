@@ -36,10 +36,10 @@ import qualified NoMenuInputProcessor -- same package or java.lang
 import qualified BasicMenuInputProcessor -- same package or java.lang
 import qualified ImmediateCommandFormInputProcessor -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified PersistentInputMapping -- same package or java.lang
 import qualified DownGameKeyEventHandlerBase -- same package or java.lang
 import qualified UpGameKeyEventHandlerBase -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
 import qualified Font -- javax.microedition.lcdui.Font
 import qualified Graphics -- javax.microedition.lcdui.Graphics

@@ -118,7 +118,7 @@ initFields_ this = do
     jset this.aLL_VISITED ("All Visited")
     jset this.aLREADY_THERE_SHORT ("Again?")
     jset this.aLREADY_THERE ("Already There")
-    jset this.nEXT_PATH_NODE ((javaToString (jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Path Node"))
+    jset this.nEXT_PATH_NODE (((jget ((jio (CommonLabels.getInstance))).nEXT) ++ " Path Node"))
     jset this._ALL_VISITED_SHORT (" Arrived")
     jset this._ALREADY_THERE_SHORT (" Again?")
     jset this.vISITED_MOST_OF_THE_PATH (" visited most of the path")

@@ -191,7 +191,7 @@ collideUnit_impl this ownerLayer unitLayer = do
             let diff = ((jio (CollidableCompositeLayer.getWidth ownerLayer)) + 1)
             Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) basicGeographicMap (javaCast ownerLayer) (Prelude.negate diff) 0 partialPositionList)
             when (Prelude.not (jio (DropCellPositionHistory.anyCellPositionWithDrop dropCellPositionHistory partialPositionList))) $ do
-                x <- newIORef (((jio (UnitLayer.getXP unitLayer)) - diff))
+                x <- newIORef (((jio (UnitLayer.getXP unitLayer)) - diff) :: Int)
                 y <- newIORef =<< (CollidableCompositeLayer.getYP ownerLayer)
                 assignedValue <- (TiledLayerUtil.keepOnMapX tiledLayerUtil tiledLayer (jget x) (jio (CollidableCompositeLayer.getWidth ownerLayer)))
                 jset x (assignedValue)
@@ -200,7 +200,7 @@ collideUnit_impl this ownerLayer unitLayer = do
                 Control.Monad.void (CollidableCompositeLayer.setPosition ownerLayer (jget x) (jget y) (jio (CollidableCompositeLayer.getZP ownerLayer)))
             Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) basicGeographicMap (javaCast unitLayer) diff 0 partialPositionList)
             when (Prelude.not (jio (DropCellPositionHistory.anyCellPositionWithDrop dropCellPositionHistory partialPositionList))) $ do
-                x <- newIORef (((jio (UnitLayer.getXP unitLayer)) + diff))
+                x <- newIORef (((jio (UnitLayer.getXP unitLayer)) + diff) :: Int)
                 y <- newIORef =<< (UnitLayer.getYP unitLayer)
                 assignedValue <- (TiledLayerUtil.keepOnMapX tiledLayerUtil tiledLayer (jget x) (jio (UnitLayer.getWidth unitLayer)))
                 jset x (assignedValue)
@@ -212,7 +212,7 @@ collideUnit_impl this ownerLayer unitLayer = do
             Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) basicGeographicMap (javaCast ownerLayer) 0 (Prelude.negate diff) partialPositionList)
             when (Prelude.not (jio (DropCellPositionHistory.anyCellPositionWithDrop dropCellPositionHistory partialPositionList))) $ do
                 x <- newIORef =<< (CollidableCompositeLayer.getXP ownerLayer)
-                y <- newIORef (((jio (UnitLayer.getYP unitLayer)) - diff))
+                y <- newIORef (((jio (UnitLayer.getYP unitLayer)) - diff) :: Int)
                 assignedValue <- (TiledLayerUtil.keepOnMapX tiledLayerUtil tiledLayer (jget x) (jio (CollidableCompositeLayer.getWidth ownerLayer)))
                 jset x (assignedValue)
                 assignedValue <- (TiledLayerUtil.keepOnMapY tiledLayerUtil tiledLayer (jget y) (jio (CollidableCompositeLayer.getHeight ownerLayer)))
@@ -221,7 +221,7 @@ collideUnit_impl this ownerLayer unitLayer = do
             Control.Monad.void (LayerPartialCellPositionsUtil.getAllDXY ((jget (this).layerPartialCellPositionsUtil)) basicGeographicMap (javaCast unitLayer) 0 diff partialPositionList)
             when (Prelude.not (jio (DropCellPositionHistory.anyCellPositionWithDrop dropCellPositionHistory partialPositionList))) $ do
                 x <- newIORef =<< (UnitLayer.getXP unitLayer)
-                y <- newIORef (((jio (UnitLayer.getYP unitLayer)) + diff))
+                y <- newIORef (((jio (UnitLayer.getYP unitLayer)) + diff) :: Int)
                 assignedValue <- (TiledLayerUtil.keepOnMapX tiledLayerUtil tiledLayer (jget x) (jio (UnitLayer.getWidth unitLayer)))
                 jset x (assignedValue)
                 assignedValue <- (TiledLayerUtil.keepOnMapY tiledLayerUtil tiledLayer (jget y) (jio (UnitLayer.getHeight unitLayer)))

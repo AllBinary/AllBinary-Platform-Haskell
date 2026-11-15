@@ -246,7 +246,7 @@ addDb_impl this db = do
             Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ((jget (this).uNABLE_TO_CREATE_DATABASE) ++ db) this (jget (this).mETHOD_ADD_DB) e)
             pure (False)
             ) $ do
-            let sqlStatement = (javaToString (jget ((jget (this).base.base.base.base.base.sqlStrings)).cREATE_DATABASE) ++ db)
+            let sqlStatement = ((jget ((jget (this).base.base.base.base.base.sqlStrings)).cREATE_DATABASE) ++ db)
             Control.Monad.void (StringMaker.append ((jget (this).sqlCommandLog)) sqlStatement)
             Control.Monad.void (StringMaker.append ((jget (this).sqlCommandLog)) (jget ((jget (this).base.base.base.base.base.commonSeps)).nEW_LINE))
             Control.Monad.void (AbSqlBean.executeSQLStatement_super this.base sqlStatement)

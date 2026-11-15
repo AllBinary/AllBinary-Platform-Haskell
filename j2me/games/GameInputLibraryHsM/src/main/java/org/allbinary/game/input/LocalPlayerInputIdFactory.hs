@@ -140,7 +140,7 @@ getPlayerForDevice_super object_ a1 = (getPlayerForDevice_impl (javaCast object_
 getPlayerForDevice_impl :: LocalPlayerInputIdFactory -> Int -> IO (Int)
 getPlayerForDevice_impl this deviceId = do
     javaCatchReturn $ do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         if (deviceId < (jget (this).mAX_FAST_DEVICEID)) then do
             let playerInputId = (jindex ((jget (this).deviceIdToplayerId)) (deviceId))
             when (playerInputId /= (Prelude.negate 1)) $ do
@@ -170,7 +170,7 @@ getTotalDevicesInPlay_super object_ = (getTotalDevicesInPlay_impl (javaCast obje
 
 getTotalDevicesInPlay_impl :: LocalPlayerInputIdFactory -> IO (Int)
 getTotalDevicesInPlay_impl this = do
-        total <- newIORef (0)
+        total <- newIORef (0 :: Int)
         forM_ [((jget (this).totalDevicesMapped) - 1), ((jget (this).totalDevicesMapped) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             when ((jindex ((jget (this).playersInPlay)) (index)) == True) $ do
                 jset total ((jget total) + 1)

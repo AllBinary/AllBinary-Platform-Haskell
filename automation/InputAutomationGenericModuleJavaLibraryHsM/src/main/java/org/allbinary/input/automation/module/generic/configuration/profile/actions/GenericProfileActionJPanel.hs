@@ -228,17 +228,11 @@ initComponents_impl this = do
         Control.Monad.void (JScrollPane.setViewportView ((jget (this).genericProfileActionScriptJScrollPane)) (jget (this).blankProfileActionScriptJPanel))
         Control.Monad.void (JLabel.setText ((jget (this).ifJLabel)) "Conditions:")
         Control.Monad.void (JButton.setText ((jget (this).newColorAtJButton)) "Color Range At")
-        Control.Monad.void (JButton.addActionListener ((jget (this).newColorAtJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).newColorAtJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionJPanel0_ this)))
         Control.Monad.void (JButton.setText ((jget (this).newTimeIntervalJButton)) "Time Interval")
-        Control.Monad.void (JButton.addActionListener ((jget (this).newTimeIntervalJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).newTimeIntervalJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionJPanel1_ this)))
         Control.Monad.void (JButton.setText ((jget (this).newAlwaysJButton)) "Always On/Off")
-        Control.Monad.void (JButton.addActionListener ((jget (this).newAlwaysJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).newAlwaysJButton)) (jio (ActionListener.new_ >>= anonymousGenericProfileActionJPanel2_ this)))
         layout <- (GroupLayout.new_1 this)
         Control.Monad.void (JPanel.setLayout this layout)
         Control.Monad.void (GroupLayout.setHorizontalGroup layout (jio (GroupLayout.addComponent ((jio (GroupLayout.addGroup ((jio (GroupLayout.createParallelGroup layout (jget ((jget ((jget (javax.swing).groupLayout)).alignment)).lEADING)))) (jio (GroupLayout.addContainerGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.addPreferredGap ((jio (GroupLayout.addComponent ((jio (GroupLayout.createSequentialGroup layout))) (jget this.ifJLabel)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.newColorAtJButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.newTimeIntervalJButton)))) (jget ((jget ((jget (javax.swing).layoutStyle)).componentPlacement)).rELATED)))) (jget this.newAlwaysJButton)))) 61 (Prelude.maxBound :: Int16)))))) (jget this.genericProfileActionScriptJScrollPane) (jget ((jget (javax.swing).groupLayout)).dEFAULT_SIZE) 440 (Prelude.maxBound :: Int16))))
@@ -255,7 +249,7 @@ newTimeIntervalJButtonActionPerformed_super object_ a1 = (newTimeIntervalJButton
 newTimeIntervalJButtonActionPerformed_impl :: GenericProfileActionJPanel -> ActionEvent.ActionEvent -> IO (())
 newTimeIntervalJButtonActionPerformed_impl this evt = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "New Time Interval Action Condition" this "newTimeIntervalJButtonActionPerformed")
-        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (jio (TimeIntervalActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface))
+        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (javaCast (jio (TimeIntervalActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface)))
         Control.Monad.void (GenericProfileActionJPanel.updateProfileActionUI this)
         pure ()
 
@@ -269,7 +263,7 @@ newAlwaysJButtonActionPerformed_super object_ a1 = (newAlwaysJButtonActionPerfor
 newAlwaysJButtonActionPerformed_impl :: GenericProfileActionJPanel -> ActionEvent.ActionEvent -> IO (())
 newAlwaysJButtonActionPerformed_impl this evt = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "New EveryTime Action Condition" this "newEveryTimeJButtonActionPerformed")
-        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (jio (AlwaysActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface))
+        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (javaCast (jio (AlwaysActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface)))
         Control.Monad.void (GenericProfileActionJPanel.updateProfileActionUI this)
         pure ()
 
@@ -283,8 +277,38 @@ newColorAtJButtonActionPerformed_super object_ a1 = (newColorAtJButtonActionPerf
 newColorAtJButtonActionPerformed_impl :: GenericProfileActionJPanel -> ActionEvent.ActionEvent -> IO (())
 newColorAtJButtonActionPerformed_impl this evt = do
         Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "New Color At Action Condition" this "newColorAtJButtonActionPerformed")
-        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (jio (ColorAtActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface))
+        Control.Monad.void (GenericProfileActionScript.addCondition ((jio (GenericProfileAction.getGenericProfileActionScript ((jio (GenericProfileActionJPanel.getGenericProfileAction this)))))) (javaCast (javaCast (jio (ColorAtActionScriptCondition.new_)) :: ProfileActionScriptConditionInterface.ProfileActionScriptConditionInterface)))
         Control.Monad.void (GenericProfileActionJPanel.updateProfileActionUI this)
         pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionJPanel0_ (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionJPanel0_actionPerformed (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionJPanel.newColorAtJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionJPanel1_ (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionJPanel1_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionJPanel1_actionPerformed (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionJPanel.newTimeIntervalJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ActionListener() {...}
+anonymousGenericProfileActionJPanel2_ (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousGenericProfileActionJPanel2_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousGenericProfileActionJPanel2_actionPerformed (this :: GenericProfileActionJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (GenericProfileActionJPanel.newAlwaysJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

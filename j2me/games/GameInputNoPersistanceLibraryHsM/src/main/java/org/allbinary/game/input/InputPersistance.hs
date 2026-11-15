@@ -115,7 +115,7 @@ loadAll_impl this abeClientInformation = do
         hashtable <- newIORef (javaNull)
         stringBuffer <- (StringMaker.new_)
         smallIntegerSingletonFactory <- (SmallIntegerSingletonFactory.getInstance)
-        id <- newIORef (0)
+        id <- newIORef (0 :: Int)
         fix $ \loop -> when (jio (RecordEnumeration.hasNextElement recordEnum)) $ javaIteration (loop) $ do
             assignedValue <- (RecordEnumeration.nextRecordId recordEnum)
             jset id (assignedValue)

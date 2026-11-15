@@ -172,9 +172,9 @@ loadFileAsListReturnLine_impl this inputStream max byteArray1 includeReturnLine 
         when ((jget byteArray) == javaNull) $ do
             javaReturn (stringList)
         let size = (jlength (jget byteArray))
-        index <- newIORef (0)
-        startIndex <- newIORef (0)
-        returnLine <- newIORef (0)
+        index <- newIORef (0 :: Int)
+        startIndex <- newIORef (0 :: Int)
+        returnLine <- newIORef (0 :: Int)
         fix $ \loop -> when ((jget index) < size) $ javaIteration (loop) $ do
             jset startIndex ((jget index))
             fix $ \loop -> when (((jget index) < (size - 1)) && ((jindex ((jget byteArray)) ((jget index))) /= (Prelude.fromIntegral (Prelude.fromEnum ('\n' :: Char))))) $ javaIteration (loop) $ do

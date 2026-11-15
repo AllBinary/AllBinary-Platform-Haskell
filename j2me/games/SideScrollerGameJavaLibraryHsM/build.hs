@@ -67,10 +67,20 @@ build ghc outputDir failOnError sourceDir dependencyDirs = do
 -- The sources of the project itself are checked the same way, so a stub project such as J2MEOnlyJavaLibrary gets the
 -- platform copy too: the MIDPUtil of J2MEOnly calls the J2ME overloads such as Image.createImage(int, int) that the
 -- MicroEmulator for polyglot of the Haskell builds does not have, and the Haskell platform copy is in the runtime.
+-- AbPathData of LogJ2MEJavaLibrary has only the separators, while the other Log platform copies such as LogJ2SE also have
+-- getNameFromPath that AbFilePath of BasePreloaderFileJavaLibrary uses, and LogJ2ME can be the nearer one.
 stubModules :: [(String, [[String]])]
 stubModules =
     [ ("TsUtil", [["J2MEOnlyJavaLibraryHsM", "NoneOnlyJavaLibraryHsM"], ["TempBaseJavaLibraryHsM"]])
     , ("MIDPUtil", [["J2MEOnlyJavaLibraryHsM"]])
+    , ("AbPathData", [["LogJ2MEJavaLibraryHsM"]])
+    -- TouchButton of NoTouchButtonJavaLibrary has new_6 and getRectangleP, while TouchButtonRecognizer, FullTouchButton,
+    -- and BasicNeededTouchButtonsBuilder of TouchButtonJavaLibrary use new_7 and getRectangle (GameJ2MELibrary has both)
+    , ("TouchButton", [["NoTouchButtonJavaLibraryHsM"]])
+    -- The cell positions and touch inputs such as SECOND_FROM_BOTTOM_LEFT that BasicNeededTouchButtonsBuilder uses. The
+    -- NoTouchButton BasicTouchButtonsBuilder and CancelTouchButtonInputFactory stay for the projects without touch buttons.
+    , ("BasicTouchButtonCellPositionFactory", [["NoTouchButtonJavaLibraryHsM"]])
+    , ("BasicTouchInputFactory", [["NoTouchButtonJavaLibraryHsM"]])
     ]
 
 -- 0 for a real copy, 1 for the first stub tier, ...

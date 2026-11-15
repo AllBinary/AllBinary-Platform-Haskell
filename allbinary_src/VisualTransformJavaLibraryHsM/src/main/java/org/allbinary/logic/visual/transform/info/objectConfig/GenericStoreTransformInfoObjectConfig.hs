@@ -174,9 +174,9 @@ createReplaceHashMap_impl this transformInfoHttpStoreInterface objectConfigDocum
         storeName <- (TransformInfoHttp.getStoreName transformInfoHttpStoreInterface)
         hashMap <- (GenericStoreTransformInfoObjectConfig.createHashMap this transformInfoHttpStoreInterface objectConfigDocumentString)
         transformInfoObjectConfigData <- (TransformInfoObjectConfigData.getInstance)
-        Control.Monad.void (HashMap.put hashMap ((jget (transformInfoObjectConfigData).vARKEY) + (jget ((jio (StoreFrontData.getInstance))).nAME)) storeName)
+        Control.Monad.void (HashMap.put hashMap ((jget (transformInfoObjectConfigData).vARKEY) ++ (jget ((jio (StoreFrontData.getInstance))).nAME)) storeName)
         pageName <- (TransformTemplateCustomizerUtil.getPageNameHack ((jio (TransformTemplateCustomizerUtil.getInstance))) (jio (TransformInfoInterface.getName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))) storeName)
-        Control.Monad.void (HashMap.put hashMap ((jget (transformInfoObjectConfigData).vARKEY) + (jget ((jio (TransformInfoData.getInstance))).pARTIAL)) pageName)
+        Control.Monad.void (HashMap.put hashMap ((jget (transformInfoObjectConfigData).vARKEY) ++ (jget ((jio (TransformInfoData.getInstance))).pARTIAL)) pageName)
         pure (hashMap)
 
 
@@ -200,7 +200,7 @@ createHashMap_impl this transformInfoHttpStoreInterface objectConfigDocumentStri
         Control.Monad.void (StringMaker.append templateNameStringBuffer templateNameOverride)
         Control.Monad.void (StringMaker.append templateNameStringBuffer (jget ((jio (CommonSeps.getInstance))).sPACE))
         Control.Monad.void (StringMaker.append templateNameStringBuffer (RootTransformInfoData.nAME))
-        let templateNameKey = ((jget ((jio (TransformInfoObjectConfigData.getInstance))).vARKEY) + (jget ((jio (TransformInfoData.getInstance))).oWNER))
+        let templateNameKey = ((jget ((jio (TransformInfoObjectConfigData.getInstance))).vARKEY) ++ (jget ((jio (TransformInfoData.getInstance))).oWNER))
         when ((jstringIndexOf objectConfigDocumentString templateNameKey 0) /= (Prelude.negate 1)) $ do
             templateInterface <- (fmap (\value_ -> javaCast value_ :: TransformTemplateInterface.TransformTemplateInterface) (TransformTemplateFactory.getInstance_4 ((jio (TransformTemplateFactory.getInstance))) (jget (this).abeClientInformation) (jio (StringMaker.toString templateNameStringBuffer)) (jio (TransformInfoHttp.getPropertiesHashMap transformInfoHttpStoreInterface)) (jio (TransformInfoHttp.getPageContext transformInfoHttpStoreInterface))))
             selectedTemplate <- (TransformTemplateInterface.getName templateInterface)

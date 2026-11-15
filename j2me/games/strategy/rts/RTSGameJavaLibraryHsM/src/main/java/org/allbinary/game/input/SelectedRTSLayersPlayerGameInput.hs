@@ -40,8 +40,8 @@ import qualified SelectedRTSLayersPlayerUpgradeGameInputProcessor -- same packag
 import qualified SelectedRTSLayersPlayerDowngradeGameInputProcessor -- same package or java.lang
 import qualified GameInputProcessorUtil -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified GameInputStrings -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified GameInputStrings -- same package or java.lang
 import qualified GameInput -- same package or java.lang
 import qualified Canvas -- javax.microedition.lcdui.Canvas
 import qualified RTSGameStrings -- org.allbinary.game.layer.RTSGameStrings
@@ -220,7 +220,7 @@ upgrade_super object_ = (upgrade_impl (javaCast object_ :: SelectedRTSLayersPlay
 
 upgrade_impl :: SelectedRTSLayersPlayerGameInput -> IO (())
 upgrade_impl this = do
-        anyChanged <- newIORef (False)
+        anyChanged <- newIORef (False :: Bool)
         forM_ [((jio (BasicArrayList.size ((jget (this).selectedRTSLayersList)))) - 1), ((jio (BasicArrayList.size ((jget (this).selectedRTSLayersList)))) - 1) + (-1) .. 0] $ \index -> javaIteration (pure ()) $ do
             let rtsLayer = (javaCast (jio (BasicArrayList.get ((jget (this).selectedRTSLayersList)) index)) :: RTSLayer.RTSLayer)
             when (jio (RTSLayer.isUpgradeable rtsLayer)) $ do
@@ -252,7 +252,7 @@ downgrade_super object_ = (downgrade_impl (javaCast object_ :: SelectedRTSLayers
 
 downgrade_impl :: SelectedRTSLayersPlayerGameInput -> IO (())
 downgrade_impl this = do
-        anyChanged <- newIORef (False)
+        anyChanged <- newIORef (False :: Bool)
         index <- newIORef =<< (BasicArrayList.size ((jget (this).selectedRTSLayersList)))
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             let rtsLayer = (javaCast (jio (BasicArrayList.get ((jget (this).selectedRTSLayersList)) (jget index))) :: RTSLayer.RTSLayer)
@@ -314,7 +314,7 @@ processInput_impl this layerManager = do
             Control.Monad.void (LogUtil.put ((jget (this).base.base.logUtil)) (jget ((jget (this).base.base.commonStrings)).eXCEPTION) this (jget ((jget (this).base.gameInputStrings)).pROCESS_INPUT) e)
             ) $ do
             size <- (BasicArrayList.size ((jget (this).list)))
-            key <- newIORef (0)
+            key <- newIORef (0 :: Int)
             forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
                 let gameKeyEvent = (javaCast (jio (BasicArrayList.get ((jget (this).list)) index)) :: GameKeyEvent.GameKeyEvent)
                 assignedValue <- (GameKeyEvent.getKey gameKeyEvent)

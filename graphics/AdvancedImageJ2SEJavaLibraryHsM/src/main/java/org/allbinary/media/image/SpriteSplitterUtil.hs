@@ -150,8 +150,8 @@ process_impl this imageProcessorInput totalFrames totalAnimations widthReduction
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((("Processing Individual Cells cellHeight: " ++ javaToString cellHeight) ++ " cellWidth: ") ++ javaToString cellWidth) this (jget ((jget (this).commonStrings)).rUN))
                 imageUtil <- (ImageUtil.getInstance)
                 nameEnding <- newIORef (javaNull)
-                x <- newIORef (0)
-                y <- newIORef (0)
+                x <- newIORef (0 :: Int)
+                y <- newIORef (0 :: Int)
                 forM_ [0 .. rows - 1] $ \index2 -> javaIteration (pure ()) $ do
                     jset y ((cellHeight * index2))
                     forM_ [0 .. columns - 1] $ \index3 -> javaIteration (pure ()) $ do
@@ -190,8 +190,8 @@ process_impl this imageProcessorInput totalFrames totalAnimations widthReduction
                 jset generatedBufferedImageArray ((jnewArray2 (rows) (columns) javaNull))
                 Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) "Processing Individual Cells for each Direction" this (jget ((jget (this).commonStrings)).rUN))
                 nameEnding <- newIORef (javaNull)
-                x <- newIORef (0)
-                y <- newIORef (0)
+                x <- newIORef (0 :: Int)
+                y <- newIORef (0 :: Int)
                 forM_ [0 .. rows - 1] $ \index2 -> javaIteration (pure ()) $ do
                     jset y ((cellHeight * index2))
                     forM_ [0 .. columns - 1] $ \index3 -> javaIteration (pure ()) $ do

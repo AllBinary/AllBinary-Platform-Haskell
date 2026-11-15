@@ -32,8 +32,8 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified HashMap -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified HashMap -- same package or java.lang
 import qualified ValidationTransformTag -- same package or java.lang
 import qualified TransformTag -- same package or java.lang
 import qualified TransformInfoTag -- same package or java.lang

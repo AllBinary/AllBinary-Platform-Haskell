@@ -119,7 +119,7 @@ removeXmlDefinitionFromDocumentString documentString = do
 remove :: String -> String -> String -> IO (String)
 remove documentString start end = do
     javaCatchReturn $ do
-        startIndex <- newIORef (0)
+        startIndex <- newIORef (0 :: Int)
         fix $ \loop -> when (((jassign startIndex ((jstringIndexOf documentString start 0)))) /= (Prelude.negate 1)) $ javaIteration (loop) $ do
             when ((jget startIndex) >= 0) $ do
                 let endIndex = (jstringIndexOf documentString end (jget startIndex))

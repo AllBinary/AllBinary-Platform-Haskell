@@ -158,7 +158,7 @@ paint_super object_ a1 = (paint_impl (javaCast object_ :: LivesHudWidget)) a1
 paint_impl :: LivesHudWidget -> Graphics.Graphics -> IO (())
 paint_impl this graphics = do
         Control.Monad.void (MyFontProcessor.process ((jget (this).base.myFontProcessor)) graphics)
-        index <- newIORef ((Prelude.fromIntegral (jio (Life.get ((jio (LivesHudWidget.getLifeInterface this)))))))
+        index <- newIORef ((Prelude.fromIntegral (jio (Life.get ((jio (LivesHudWidget.getLifeInterface this)))))) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (Animation.paintXY ((jget (this).animationInterface)) graphics (jindex ((jget (this).xArray)) ((jget index))) (jio (BasicHud.getY this)))
         pure ()

@@ -113,7 +113,7 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: LayerInterfa
 paintXY_impl :: LayerInterfaceFactoryImageItem -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics x y = do
         Control.Monad.void (ABCustomImageItem.paintXY_super this.base graphics x y)
-        index <- newIORef ((jlength (jget (this).animationArray)))
+        index <- newIORef ((jlength (jget (this).animationArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (Animation.paintXY ((jindex ((jget (this).animationArray)) ((jget index)))) graphics x y)
         pure ()

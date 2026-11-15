@@ -113,7 +113,7 @@ getInstance_overload1 document = do
 -- throws Exception
 getInstance_overload2 :: UserRole.UserRole -> IO (UserConfigurationInterface.UserConfigurationInterface)
 getInstance_overload2 userRole = do
-        abPath <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).uSERCONFIGURATIONPATH)) (((javaToString UserConfigurationInterfaceFactory.configurationName ++ (jio (UserRole.toString userRole))) ++ javaToString (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ javaToString UserConfigurationData.uNCRYPTED_EXTENSION))
+        abPath <- (AbPath.new_2 ((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).uSERCONFIGURATIONPATH)) (((UserConfigurationInterfaceFactory.configurationName ++ (jio (UserRole.toString userRole))) ++ (jget ((jio (AbPathData.getInstance))).eXTENSION_SEP)) ++ UserConfigurationData.uNCRYPTED_EXTENSION))
         documentString <- (CryptFileReader.get ((jio (CryptFileReader.new_2 (UserConfigurationData.uNCRYPTED_EXTENSION) (UserConfigurationData.eNCRYPTED_EXTENSION)))) abPath)
         document <- (DomDocumentHelper.create_1 documentString)
         (UserConfigurationInterfaceFactory.getInstance document)

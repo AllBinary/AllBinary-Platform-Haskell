@@ -339,7 +339,7 @@ isValid_super object_ = (isValid_impl (javaCast object_ :: Initializer))
 
 isValid_impl :: Initializer -> IO (Bool)
 isValid_impl this = do
-        isValid <- newIORef (True)
+        isValid <- newIORef (True :: Bool)
         when (Prelude.not (jio (Initializer.isJdbcDriverValid this (jget (this).userJdbcDriver)))) $ do
             jset isValid (False)
         stringValidationUtil <- (StringValidationUtil.getInstance)
@@ -428,7 +428,7 @@ getInvalidInfo_super object_ = (getInvalidInfo_impl (javaCast object_ :: Initial
 
 getInvalidInfo_impl :: Initializer -> IO (String)
 getInvalidInfo_impl this = do
-        isJdbcDriversValid <- newIORef (True)
+        isJdbcDriversValid <- newIORef (True :: Bool)
         stringBuffer <- (StringMaker.new_)
         when (Prelude.not (jio (Initializer.isJdbcDriverValid this (jget (this).userJdbcDriver)))) $ do
             jset isJdbcDriversValid (False)

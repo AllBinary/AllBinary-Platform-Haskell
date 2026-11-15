@@ -253,7 +253,7 @@ copy_super object_ a1 a2 a3 a4 = (copy_impl (javaCast object_ :: ImageModifierUt
 copy_impl :: ImageModifierUtil -> JavaArray (Image.Image) -> Int -> Image.Image -> CoreImage.CoreImage -> IO (())
 copy_impl this imageArray index image image3 = do
         handle (\(e :: JavaException) -> do
-            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) + (jget ((jget this.resourceCallbackStrings)).dONE)) this (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
+            Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jget (this).commonStrings)).eXCEPTION_LABEL) ++ javaToString (jget ((jget this.resourceCallbackStrings)).dONE)) this (jget ((jget this.resourceCallbackStrings)).hANDLE_IMAGE))
             ) $ do
             image2 <- (Image.createImageWH (Prelude.fromInteger (jnumericInteger (jio (CoreImage.width image3)))) (Prelude.fromInteger (jnumericInteger (jio (CoreImage.height image3)))))
             graphics <- (Image.getGraphics image2)

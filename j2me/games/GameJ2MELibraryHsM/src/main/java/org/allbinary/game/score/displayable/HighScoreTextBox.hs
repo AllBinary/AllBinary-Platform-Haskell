@@ -34,8 +34,9 @@ import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified HighScoreUtil -- same package or java.lang
 import qualified RepaintBehavior -- same package or java.lang
-import qualified ABTextFieldItem -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ItemPaintable -- same package or java.lang
+import qualified ABTextFieldItem -- same package or java.lang
 import qualified GameCommandCanvas -- same package or java.lang
 import qualified MyCanvas -- same package or java.lang
 import qualified CommandListener -- javax.microedition.lcdui.CommandListener
@@ -172,7 +173,7 @@ close_impl :: HighScoreTextBox -> IO (())
 close_impl this = do
         Control.Monad.void (VirtualKeyboardEventHandler.close ((jget (this).virtualKeyboardEventHandler)))
         jset (this).paintable ((jget (this).pleaseWait))
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.base.repaintBehavior)) (javaCast this))
         Control.Monad.void (CustomTextBox.close_super this.base)
         Control.Monad.void (CustomTextBox.removeCommand this (HighScoreUtil.sUBMIT_TEXTBOX_COMMAND))
         Control.Monad.void (HighScoreTextBox.update this)
@@ -182,7 +183,7 @@ close_impl this = do
             pure ()
         assignedValue <- (NullPaintable.getInstance)
         jset (this).paintable (assignedValue)
-        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.base.repaintBehavior)) this)
+        Control.Monad.void (RepaintBehavior.onChangeRepaint ((jget (this).base.base.repaintBehavior)) (javaCast this))
         pure ()
 
 

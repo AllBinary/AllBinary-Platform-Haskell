@@ -408,7 +408,7 @@ set_super object_ a1 = (set_impl (javaCast object_ :: AutoCompoundRotationAnimat
 
 set_impl :: AutoCompoundRotationAnimation -> GL.GL -> IO (())
 set_impl this gl = do
-        index <- newIORef ((jlength (jget (this).animationInterfaceArray)))
+        index <- newIORef ((jlength (jget (this).animationInterfaceArray)) :: Int)
         fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             Control.Monad.void (RotationAnimation.set ((jindex ((jget (this).animationInterfaceArray)) ((jget index)))) gl)
         pure ()

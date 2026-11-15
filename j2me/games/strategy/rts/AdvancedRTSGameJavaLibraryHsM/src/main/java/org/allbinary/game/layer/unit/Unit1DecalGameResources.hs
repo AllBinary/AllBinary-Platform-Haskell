@@ -80,7 +80,7 @@ getInstance = do
         when ((jget Unit1DecalGameResources.instance_) == (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)) $ do
             assignedValue <- (fmap jtoObject (new_))
             jset Unit1DecalGameResources.instance_ (assignedValue)
-        pure ((javaCast (jget Unit1DecalGameResources.instance_) :: Unit1DecalGameResources))
+        pure ((javaCast (javaCast (jget Unit1DecalGameResources.instance_) :: Unit1DecalGameResources) :: BasicGameResources.BasicGameResources))
 
 new_ :: IO Unit1DecalGameResources
 new_ = do

@@ -237,7 +237,7 @@ reverse_super object_ a1 = (reverse_impl (javaCast object_ :: ArrayUtil)) a1
 reverse_impl :: ArrayUtil -> JavaArray (Int) -> IO (())
 reverse_impl this intArray = do
         let length = ((jlength intArray) - 1)
-        temp <- newIORef (0)
+        temp <- newIORef (0 :: Int)
         let size = (length `quot` 2)
         forM_ [0 .. size] $ \index -> javaIteration (pure ()) $ do
             jset temp ((jindex intArray (index)))
@@ -255,9 +255,9 @@ flip_super object_ a1 a2 a3 = (flip_impl (javaCast object_ :: ArrayUtil)) a1 a2 
 flip_impl :: ArrayUtil -> JavaArray (Int) -> Int -> Int -> IO (())
 flip_impl this intArray width height = do
         let length = (height - 1)
-        temp <- newIORef (0)
-        index <- newIORef (0)
-        rowIndex <- newIORef (0)
+        temp <- newIORef (0 :: Int)
+        index <- newIORef (0 :: Int)
+        rowIndex <- newIORef (0 :: Int)
         forM_ [0 .. (length `quot` 2)] $ \y -> javaIteration (pure ()) $ do
             forM_ [0 .. width - 1] $ \x -> javaIteration (pure ()) $ do
                 jset rowIndex (((((length - y)) * width)))

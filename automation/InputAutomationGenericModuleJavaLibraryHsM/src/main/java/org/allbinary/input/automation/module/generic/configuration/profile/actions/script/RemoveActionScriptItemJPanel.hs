@@ -115,9 +115,7 @@ initComponents_impl this = do
         jset (this).removeJButton (assignedValue)
         Control.Monad.void (Panel.setLayout this (jio (GridLayout.new_)))
         Control.Monad.void (JButton.setText ((jget (this).removeJButton)) "Remove")
-        Control.Monad.void (JButton.addActionListener ((jget (this).removeJButton)) (ActionListener.new_ {- Java anonymous class body: implement it as a record of functions
-            -- actionPerformed
--}))
+        Control.Monad.void (JButton.addActionListener ((jget (this).removeJButton)) (jio (ActionListener.new_ >>= anonymousRemoveActionScriptItemJPanel0_ this)))
         Control.Monad.void (Panel.add this (jget (this).removeJButton))
         pure ()
 
@@ -139,4 +137,14 @@ removeJButtonActionPerformed_impl this evt = do
         Control.Monad.void (GenericProfileActionJPanel.updateProfileActionUI ((jget (this).genericProfileActionJPanel)))
     pure ()
 
+
+-- Java anonymous class new ActionListener() {...}
+anonymousRemoveActionScriptItemJPanel0_ (this :: RemoveActionScriptItemJPanel) (anonymous_ :: ActionListener.ActionListener) = do
+    jregisterMethod (jheaderOf anonymous_) "actionPerformed" (\() -> anonymousRemoveActionScriptItemJPanel0_actionPerformed this anonymous_)
+    pure anonymous_
+
+anonymousRemoveActionScriptItemJPanel0_actionPerformed (this :: RemoveActionScriptItemJPanel) (anonymous_ :: ActionListener.ActionListener) (evt :: ActionEvent.ActionEvent) = ( do
+                Control.Monad.void (RemoveActionScriptItemJPanel.removeJButtonActionPerformed this evt)
+                pure ()
+ ) :: IO (())
 

@@ -32,6 +32,7 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified ImageCopyUtil -- same package or java.lang
+import qualified OpenGLESImageProperties -- same package or java.lang
 import qualified Image -- javax.microedition.lcdui.Image
 import qualified Features -- org.allbinary.game.configuration.feature.Features
 import qualified BasicColor -- org.allbinary.graphics.color.BasicColor
@@ -149,10 +150,10 @@ setColor_impl this unusedOriginalImage image imageIndex basicColor = do
         height <- (Image.getHeight image)
         imageData <- (Image.getImageData ((jget newBufferedImage)))
         when ((jget (imageData).depth) == 24) $ do
-            rx <- newIORef (0)
-            gx <- newIORef (0)
-            bx <- newIORef (0)
-            index3 <- newIORef (0)
+            rx <- newIORef (0 :: Int)
+            gx <- newIORef (0 :: Int)
+            bx <- newIORef (0 :: Int)
+            index3 <- newIORef (0 :: Int)
             forM_ [0 .. width - 1] $ \index -> javaIteration (pure ()) $ do
                 forM_ [0 .. height - 1] $ \index2 -> javaIteration (pure ()) $ do
                     jset index3 ((((index2 * (jget (imageData).bytesPerLine))) + ((index * 4))))
@@ -198,9 +199,9 @@ changeColor_impl this unusedOriginalImage image imageIndex basicColor = do
         let r = (((Prelude.fromIntegral (jget (basicColor).red))) / mAX)
         let g = (((Prelude.fromIntegral (jget (basicColor).green))) / mAX)
         let b = (((Prelude.fromIntegral (jget (basicColor).blue))) / mAX)
-        rx <- newIORef (0)
-        gx <- newIORef (0)
-        bx <- newIORef (0)
+        rx <- newIORef (0 :: Int)
+        gx <- newIORef (0 :: Int)
+        bx <- newIORef (0 :: Int)
         imageData <- (Image.getImageData ((jget newBufferedImage)))
         when ((jget (imageData).depth) == 24) $ do
             let size = (jlength (jget (imageData).data_))

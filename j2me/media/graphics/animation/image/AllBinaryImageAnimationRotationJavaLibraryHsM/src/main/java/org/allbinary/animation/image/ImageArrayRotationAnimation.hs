@@ -16,7 +16,7 @@
 -- package org.allbinary.animation.image
 module ImageArrayRotationAnimation (module ImageArrayRotationAnimation, module ImageArrayBaseRotationAnimation) where
 
-import ImageArrayBaseRotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createAnimation, createAnimation_super, createAnimation_impl, init, init_super, init_impl, setImageArray, setImageArray_super, setImageArray_impl, expectedTotalFrames)
+import ImageArrayBaseRotationAnimation hiding (new_, init_, newRecord_, initFields_, header_, base, staticInit_, instanceInit_, registerInterface_, fromHeader_, instance_, new_1, new_2, new_3, new_4, new_5, new_6, new_7, new_8, new_9, init_1, init_2, init_3, init_4, init_5, init_6, init_7, init_8, init_9, createAnimation, createAnimation_super, createAnimation_impl, initImageArray, initImageArray_super, initImageArray_impl, setImageArray, setImageArray_super, setImageArray_impl, expectedTotalFrames)
 import AllBinaryJava
 import Data.IORef
 import Data.Bits
@@ -67,7 +67,7 @@ newRecord_ = do
     expectedTotalFrames <- newIORef 0
     let this = ImageArrayRotationAnimation header_ base expectedTotalFrames
     jregisterLevel header_ this
-    jregisterMethod header_ "init" (\() -> init_impl this)
+    jregisterMethod header_ "initImageArray" (\() -> initImageArray_impl this)
     jregisterMethod header_ "setImageArray" (\() -> setImageArray_impl this)
     pure this
 
@@ -95,19 +95,19 @@ init_4 this imageArray angleInfo totalAngle animationBehavior = do
         ImageArrayBaseRotationAnimation.init_3 this.base (imageArray) (angleInfo) (animationBehavior)
         initFields_ this
         pure () -- super(...) is in the record above
-        Control.Monad.void (ImageArrayRotationAnimation.init this imageArray angleInfo totalAngle)
+        Control.Monad.void (ImageArrayRotationAnimation.initImageArray this imageArray angleInfo totalAngle)
         pure ()
 
 
 -- throws Exception
-init :: (JavaObjectClass this_) => this_ -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
-init object_ a1 a2 a3 = jmethod object_ "init" (\() -> (init_impl (javaCast object_ :: ImageArrayRotationAnimation))) () a1 a2 a3
+initImageArray :: (JavaObjectClass this_) => this_ -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
+initImageArray object_ a1 a2 a3 = jmethod object_ "initImageArray" (\() -> (initImageArray_impl (javaCast object_ :: ImageArrayRotationAnimation))) () a1 a2 a3
 
-init_super :: (JavaObjectClass this_) => this_ -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
-init_super object_ a1 a2 a3 = (init_impl (javaCast object_ :: ImageArrayRotationAnimation)) a1 a2 a3
+initImageArray_super :: (JavaObjectClass this_) => this_ -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
+initImageArray_super object_ a1 a2 a3 = (initImageArray_impl (javaCast object_ :: ImageArrayRotationAnimation)) a1 a2 a3
 
-init_impl :: ImageArrayRotationAnimation -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
-init_impl this imageArray angleInfo totalAngle = do
+initImageArray_impl :: ImageArrayRotationAnimation -> JavaArray (Image.Image) -> AngleInfo.AngleInfo -> Int -> IO (())
+initImageArray_impl this imageArray angleInfo totalAngle = do
         jset (this).expectedTotalFrames ((totalAngle `quot` (Prelude.fromIntegral (jio (AngleIncrementInfo.getAngleIncrement ((jio (AngleInfo.getAngleIncrementInfo ((jget (this).base.base.angleInfo))))))))))
         Control.Monad.void (AngleInfo.adjustAngle ((jget (this).base.base.angleInfo)) 0)
         when ((jget (this).expectedTotalFrames) /= (jio (ImageArrayBaseRotationAnimation.getSize this))) $ do

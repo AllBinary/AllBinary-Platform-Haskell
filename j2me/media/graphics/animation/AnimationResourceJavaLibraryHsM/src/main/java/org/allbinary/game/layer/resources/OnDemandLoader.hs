@@ -137,7 +137,7 @@ initAll_super object_ a1 a2 = (initAll_impl (javaCast object_ :: OnDemandLoader)
 
 initAll_impl :: OnDemandLoader -> ImageCache.ImageCache -> String -> IO (())
 initAll_impl this imageCache loadingString = do
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         let portion = 120
         onDemandResources <- newIORef (javaNull)
         onDemandIndex <- newIORef =<< (OnDemandResourcesFactory.size ((jget (this).onDemandResourcesFactory)))
@@ -161,11 +161,11 @@ initLevel_impl :: OnDemandLoader -> LayerPlacementInterfaceBasicArrayListFactory
 initLevel_impl this layerPlacementInterfaceBasicArrayListFactoryInterface imageCache level loadingString = do
         commonStrings <- (CommonStrings.getInstance)
         let portion = 120
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         onDemandArray <- (LayerPlacementInterfaceBasicArrayListFactoryInterface.getOnDemandResources layerPlacementInterfaceBasicArrayListFactoryInterface)
         Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) (jget (commonStrings).sTART)))) (jlength onDemandArray)))))) this "initLevel")
         onDemandResources <- newIORef (javaNull)
-        onDemandIndex <- newIORef ((jlength onDemandArray))
+        onDemandIndex <- newIORef ((jlength onDemandArray) :: Int)
         fix $ \loop -> when ((jpreIncrement onDemandIndex (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
             assignedValue <- (OnDemandResourcesFactory.remove ((jget (this).onDemandResourcesFactory)) (jindex onDemandArray ((jget onDemandIndex))))
             jset onDemandResources (assignedValue)

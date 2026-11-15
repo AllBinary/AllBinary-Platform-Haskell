@@ -156,8 +156,8 @@ getAllSurroundingAt_impl this geographicMapInterface layerGeographicMapCellPosit
         Control.Monad.void (BasicArrayList.clear reusableSurroundingList)
         geographicMapCellPositionFactory <- (BasicGeographicMap.getGeographicMapCellPositionFactory geographicMapInterface)
         tiledLayer <- (BasicGeographicMap.getAllBinaryTiledLayer geographicMapInterface)
-        row <- newIORef (0)
-        column <- newIORef (0)
+        row <- newIORef (0 :: Int)
+        column <- newIORef (0 :: Int)
         forM_ [0 .. 8 - 1] $ \index -> javaIteration (pure ()) $ do
             jset column (((jio (GeographicMapCellPosition.getColumn layerGeographicMapCellPosition)) + (jindex ((jindex ((jget (this).surroundArray)) (index))) (0))))
             jset row (((jio (GeographicMapCellPosition.getRow layerGeographicMapCellPosition)) + (jindex ((jindex ((jget (this).surroundArray)) (index))) (1))))

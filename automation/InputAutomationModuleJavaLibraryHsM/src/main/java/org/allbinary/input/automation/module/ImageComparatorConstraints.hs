@@ -150,7 +150,7 @@ isCollisionWithAvoidRectangles_overload1_super object_ a1 = (isCollisionWithAvoi
 
 isCollisionWithAvoidRectangles_overload1_impl :: ImageComparatorConstraints -> Rectangle.Rectangle -> IO (Bool)
 isCollisionWithAvoidRectangles_overload1_impl this rectangle = do
-        isCollsionWithAvoidRectangles <- newIORef (False)
+        isCollsionWithAvoidRectangles <- newIORef (False :: Bool)
         avoidVector <- (ImageComparatorConstraints.getAvoidVector this)
         size <- (BasicArrayList.size avoidVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do
@@ -168,7 +168,7 @@ isCollisionWithAvoidRectangles_overload2_super object_ a1 = (isCollisionWithAvoi
 
 isCollisionWithAvoidRectangles_overload2_impl :: ImageComparatorConstraints -> GPoint.GPoint -> IO (Bool)
 isCollisionWithAvoidRectangles_overload2_impl this point = do
-        isCollsionWithAvoidRectangles <- newIORef (False)
+        isCollsionWithAvoidRectangles <- newIORef (False :: Bool)
         avoidVector <- (ImageComparatorConstraints.getAvoidVector this)
         size <- (BasicArrayList.size avoidVector)
         forM_ [0 .. size - 1] $ \index -> javaIteration (pure ()) $ do

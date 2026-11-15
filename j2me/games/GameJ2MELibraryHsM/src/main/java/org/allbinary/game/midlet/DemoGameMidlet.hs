@@ -36,8 +36,8 @@ import qualified Any -- same package or java.lang
 import qualified DemoRunnable -- same package or java.lang
 import qualified CreateGameRunnable -- same package or java.lang
 import qualified LogUtil -- same package or java.lang
-import qualified ThreadPool -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
+import qualified ThreadPool -- same package or java.lang
 import qualified ProgressMidlet -- same package or java.lang
 import qualified AllBinaryMidlet -- same package or java.lang
 import qualified GameCanvasRunnableInterface -- org.allbinary.game.displayable.canvas.GameCanvasRunnableInterface

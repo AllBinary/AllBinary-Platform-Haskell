@@ -32,10 +32,10 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
+import qualified CommonStrings -- same package or java.lang
 import qualified Order -- same package or java.lang
 import qualified OrderHistory -- same package or java.lang
 import qualified BasketReview -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified HttpStoreComponentView -- same package or java.lang
 import qualified OrderHistoryFactory -- org.allbinary.business.user.commerce.inventory.order.OrderHistoryFactory
 import qualified OrderItemsEntity -- org.allbinary.data.tables.user.commerce.inventory.order.OrderItemsEntity

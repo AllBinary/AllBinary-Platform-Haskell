@@ -20,7 +20,7 @@ import Numeric (showHex)
 import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
-import qualified Any -- same package or java.lang
+import qualified OpenGLBitmapConfig -- same package or java.lang
 import qualified OpenGLBitmap -- same package or java.lang
 import qualified IOException -- java.io.IOException
 import qualified InputStream -- java.io.InputStream
@@ -32,7 +32,7 @@ import qualified PlatformBitmapBaseFactory -- org.allbinary.platform.graphics.Pl
 data OpenGLBitmapFactory = OpenGLBitmapFactory
     { header_ :: JavaHeader
     , base :: PlatformBitmapBaseFactory.PlatformBitmapBaseFactory
-    , aRGB_8888 :: IORef (Config.Config)
+    , aRGB_8888 :: IORef (OpenGLBitmapConfig.OpenGLBitmapConfig)
     }
 
 instance JavaNull OpenGLBitmapFactory where
@@ -66,7 +66,7 @@ newRecord_ = do
 
 initFields_ :: OpenGLBitmapFactory -> IO ()
 initFields_ this = do
-    jset this.aRGB_8888 =<< (Config.new_1 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
+    jset this.aRGB_8888 =<< (OpenGLBitmapConfig.new_1 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
     pure ()
 
 new_ :: IO OpenGLBitmapFactory
@@ -86,13 +86,13 @@ getInstance = do
         pure (OpenGLBitmapFactory.instance_)
 
 
-createBitmap :: (JavaObjectClass this_) => this_ -> Int -> Int -> Config.Config -> IO (OpenGLBitmap.OpenGLBitmap)
+createBitmap :: (JavaObjectClass this_) => this_ -> Int -> Int -> OpenGLBitmapConfig.OpenGLBitmapConfig -> IO (OpenGLBitmap.OpenGLBitmap)
 createBitmap object_ a1 a2 a3 = jmethod object_ "createBitmap" (\() -> (createBitmap_impl (javaCast object_ :: OpenGLBitmapFactory))) () a1 a2 a3
 
-createBitmap_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> Config.Config -> IO (OpenGLBitmap.OpenGLBitmap)
+createBitmap_super :: (JavaObjectClass this_) => this_ -> Int -> Int -> OpenGLBitmapConfig.OpenGLBitmapConfig -> IO (OpenGLBitmap.OpenGLBitmap)
 createBitmap_super object_ a1 a2 a3 = (createBitmap_impl (javaCast object_ :: OpenGLBitmapFactory)) a1 a2 a3
 
-createBitmap_impl :: OpenGLBitmapFactory -> Int -> Int -> Config.Config -> IO (OpenGLBitmap.OpenGLBitmap)
+createBitmap_impl :: OpenGLBitmapFactory -> Int -> Int -> OpenGLBitmapConfig.OpenGLBitmapConfig -> IO (OpenGLBitmap.OpenGLBitmap)
 createBitmap_impl this width height config = do
         (OpenGLBitmap.new_1 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT))
 
@@ -119,5 +119,4 @@ createBitmap_1_impl :: OpenGLBitmapFactory -> Image.Image -> IO (PlatformBitmapB
 createBitmap_1_impl this image = do
         (fmap (\value_ -> javaCast value_ :: PlatformBitmapBase.PlatformBitmapBase) (OpenGLBitmap.new_1 (jget ((jio (NullUtil.getInstance))).nULL_OBJECT)))
 
--- Java nested class Config: move it to its own module Config
 

@@ -148,6 +148,6 @@ toString_impl this = do
         handle (\(e :: JavaException) -> do
             pure ("ContextUriResolver - Does not work without webapp path should be changed")
             ) $ do
-            pure ((((jio (URLGLOBALS.getMainPath)) ++ javaToString (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).iNSTALLPATH)) ++ javaToString (jget ((jget (this).uriResolverStrings)).iMPORT_URL)))
+            pure ((((jio (URLGLOBALS.getMainPath)) ++ (jget ((jio (FREEBLISKET_PATH_GLOBALS.getInstance))).iNSTALLPATH)) ++ (jget ((jget (this).uriResolverStrings)).iMPORT_URL)))
 
 

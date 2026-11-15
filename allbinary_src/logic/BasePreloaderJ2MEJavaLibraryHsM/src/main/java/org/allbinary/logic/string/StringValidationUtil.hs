@@ -127,7 +127,7 @@ isNumber_super object_ a1 = (isNumber_impl (javaCast object_ :: StringValidation
 isNumber_impl :: StringValidationUtil -> String -> IO (Bool)
 isNumber_impl this value = do
     javaCatchReturn $ do
-        numberOfDecimalPoints <- newIORef (0)
+        numberOfDecimalPoints <- newIORef (0 :: Int)
         forM_ [0 .. (Prelude.length value) - 1] $ \index -> javaIteration (pure ()) $ do
             let digit = (value Prelude.!! index)
             when ((Prelude.not (jio (StringValidationUtil.isNumberFromChar this digit))) && (digit /= '.')) $ do

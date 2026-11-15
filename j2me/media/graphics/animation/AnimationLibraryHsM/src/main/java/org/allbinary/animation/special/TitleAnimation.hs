@@ -310,11 +310,11 @@ paintXY_super object_ a1 a2 a3 = (paintXY_impl (javaCast object_ :: TitleAnimati
 
 paintXY_impl :: TitleAnimation -> Graphics.Graphics -> Int -> Int -> IO (())
 paintXY_impl this graphics ax ay = do
-        x <- newIORef (0)
+        x <- newIORef (0 :: Int)
         when ((jget (this).widthP) /= ((-2147483648) :: Int)) $ do
             jset x ((((((jio (DisplayInfoSingleton.getLastWidth ((jget (this).displayInfoSingleton)))) - (jget (this).widthP))) `quot` 2)))
-        deltaX <- newIORef (0)
-        deltaY <- newIORef (0)
+        deltaX <- newIORef (0 :: Int)
+        deltaY <- newIORef (0 :: Int)
         forM_ [0 .. (jget (this).sizeP) - 1] $ \index -> javaIteration (pure ()) $ do
             jset deltaX (((jindex ((jget (this).dxArray)) (index)) + (jget x)))
             jset deltaY (((jindex ((jget (this).dyArray)) (index)) + (jget (this).y)))

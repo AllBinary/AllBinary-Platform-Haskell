@@ -35,9 +35,9 @@ import qualified GHC.Float
 import qualified NullAudioFormat -- same package or java.lang
 import qualified NullClip -- same package or java.lang
 import qualified NullControl -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified BasicArrayList -- same package or java.lang
 import qualified ThreadPool -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified ARunnable -- org.allbinary.thread.ARunnable
 import qualified ByteArrayInputStream -- java.io.ByteArrayInputStream
 import qualified InputStream -- java.io.InputStream
@@ -148,9 +148,7 @@ close_super object_ = (close_impl (javaCast object_ :: PCClipWavPlayer))
 
 close_impl :: PCClipWavPlayer -> IO (())
 close_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (jio (ARunnable.new_ >>= anonymousPCClipWavPlayer0_ this))))
         pure ()
 
 
@@ -189,9 +187,7 @@ start_super object_ = (start_impl (javaCast object_ :: PCClipWavPlayer))
 
 start_impl :: PCClipWavPlayer -> IO (())
 start_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (jio (ARunnable.new_ >>= anonymousPCClipWavPlayer1_ this))))
         pure ()
 
 
@@ -235,9 +231,7 @@ stop_super object_ = (stop_impl (javaCast object_ :: PCClipWavPlayer))
 
 stop_impl :: PCClipWavPlayer -> IO (())
 stop_impl this = do
-        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (ARunnable.new_ {- Java anonymous class body: implement it as a record of functions
-            -- run
--})))
+        Control.Monad.void (ThreadPool.runTask ((jio (MusicThreadPool.getInstance))) (javaCast (jio (ARunnable.new_ >>= anonymousPCClipWavPlayer2_ this))))
         pure ()
 
 
@@ -342,4 +336,43 @@ update_impl this event = do
                 Control.Monad.void (PlayerListener.playerUpdate listener (javaCast this) (PlayerListener.eND_OF_MEDIA) javaNull)
         pure ()
 
+
+-- Java anonymous class new ARunnable() {...}
+anonymousPCClipWavPlayer0_ (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousPCClipWavPlayer0_run this anonymous_)
+    pure anonymous_
+
+anonymousPCClipWavPlayer0_run (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = ( do
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (PreLogUtil.putOE (jget ((jget this.base.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.base.commonStrings)).pROCESS) e)
+                    ) $ do
+                    Control.Monad.void (PCClipWavPlayer.close2 this)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousPCClipWavPlayer1_ (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousPCClipWavPlayer1_run this anonymous_)
+    pure anonymous_
+
+anonymousPCClipWavPlayer1_run (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = ( do
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (PreLogUtil.putOE (jget ((jget this.base.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.base.commonStrings)).pROCESS) e)
+                    ) $ do
+                    Control.Monad.void (PCClipWavPlayer.start2 this)
+                pure ()
+ ) :: IO (())
+
+-- Java anonymous class new ARunnable() {...}
+anonymousPCClipWavPlayer2_ (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = do
+    jregisterMethod (jheaderOf anonymous_) "run" (\() -> anonymousPCClipWavPlayer2_run this anonymous_)
+    pure anonymous_
+
+anonymousPCClipWavPlayer2_run (this :: PCClipWavPlayer) (anonymous_ :: ARunnable.ARunnable) = ( do
+                handle (\(e :: JavaException) -> do
+                    Control.Monad.void (PreLogUtil.putOE (jget ((jget this.base.commonStrings)).eXCEPTION) anonymous_ (jget ((jget this.base.commonStrings)).pROCESS) e)
+                    ) $ do
+                    Control.Monad.void (PCClipWavPlayer.stop2 this)
+                pure ()
+ ) :: IO (())
 

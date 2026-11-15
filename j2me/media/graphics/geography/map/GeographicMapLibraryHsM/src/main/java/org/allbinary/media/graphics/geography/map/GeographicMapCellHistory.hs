@@ -485,7 +485,7 @@ paintNotVisited_impl this graphics geographicMapInterface = do
             size <- (BasicArrayList.size localVisitedList)
             geographicMapCellPosition <- newIORef (javaNull)
             isCellVisitedBoolean <- newIORef (javaNull)
-            index <- newIORef (size)
+            index <- newIORef (size :: Int)
             fix $ \loop -> when ((jpreIncrement index (Prelude.subtract 1)) >= 0) $ javaIteration (do { loop }) $ do
                 jset geographicMapCellPosition ((javaCast (jio (BasicArrayList.get ((jget (this).list)) (jget index))) :: GeographicMapCellPosition.GeographicMapCellPosition))
                 jset isCellVisitedBoolean ((javaCast (jio (BasicArrayList.get localVisitedList (jget index))) :: Bool))

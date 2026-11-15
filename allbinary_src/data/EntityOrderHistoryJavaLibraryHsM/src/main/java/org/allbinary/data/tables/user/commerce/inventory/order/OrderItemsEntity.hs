@@ -33,9 +33,9 @@ import System.IO
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GHC.Float
 import qualified Any -- same package or java.lang
-import qualified Money -- same package or java.lang
 import qualified CommonStrings -- same package or java.lang
 import qualified SqlTypeStrings -- same package or java.lang
+import qualified Money -- same package or java.lang
 import qualified AbSqlRow -- same package or java.lang
 import qualified AbSqlColumn -- same package or java.lang
 import qualified AbSqlTable -- same package or java.lang
@@ -145,7 +145,7 @@ insert_impl this userName order = do
         vector <- newIORef =<< (fmap (\value_ -> javaCast value_ :: BasicArrayList.BasicArrayList) (BasicArrayListD.new_))
         handle (\(e :: JavaException) -> do
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ (jio (BasicArrayList.toString ((jget vector))))) this iNSERT e)
+                Control.Monad.void (LogUtil.put ((jget (this).logUtil)) ("Command Failed: " ++ (jio (BasicArrayList.toString ((jget vector))))) this (jget this.base.base.base.base.base.iNSERT) e)
             ) $ do
             basket <- (OrderInterface.getBasket order)
             items <- (BasketInterface.getIds basket)
@@ -204,7 +204,7 @@ insert_impl this userName order = do
                 Control.Monad.void (BasicArrayList.add ((jget vector)) zERO_STRING)
                 Control.Monad.void (OrderItemsEntity.insert_1 this (jget vector))
             when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).sQLLOGGING))) $ do
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Command Success Added: " ++ javaToString (jio (Set.size items))) this iNSERT)
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Command Success Added: " ++ javaToString (jio (Set.size items))) this (jget this.base.base.base.base.base.iNSERT))
         pure ()
 
 

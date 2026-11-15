@@ -194,7 +194,7 @@ run_impl this = do
                     Control.Monad.void (BasicEventHandler.fireEvent this (javaCast capturedImageEvent))
                 else do
                     Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ("Could Not Load File: " ++ filePath) this (jget ((jget (this).commonStrings)).rUN))
-                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) + (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
+                Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) ((jget ((jio (CommonLabels.getInstance))).eLAPSED) ++ javaToString (jio (TimeDelayHelper.getElapsedTNT timeHelper))) this (jget ((jget (this).commonStrings)).rUN))
                 Control.Monad.void (SavedCaptureImagesWorker.setRunning this False)
             Control.Monad.void (LogUtil.putF ((jget (this).logUtil)) (jget ((jget (this).commonStrings)).eND) this (jget ((jget (this).commonStrings)).rUN))
         pure ()

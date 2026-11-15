@@ -111,10 +111,10 @@ visit_super object_ a1 a2 = (visit_impl (javaCast object_ :: StupidTimer)) a1 a2
 
 visit_impl :: StupidTimer -> Visitor.Visitor -> TimeDelayHelper.TimeDelayHelper -> IO (())
 visit_impl this visitorInterface timeDelayHelper = do
-        tookTooLong <- newIORef (False)
+        tookTooLong <- newIORef (False :: Bool)
         let wAITING_FOR = "Waiting for: "
         Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.append ((jio (StringMaker.append ((jio (StringMaker.new_))) wAITING_FOR))) (jio (StringUtil.toString ((jio (StringUtil.getInstance))) visitorInterface))))))) this (jget ((jget (this).commonStrings)).vISIT))
-        index <- newIORef (0)
+        index <- newIORef (0 :: Int)
         fix $ \loop -> when (jio (StupidTimer.visitBool this visitorInterface)) $ javaIteration (loop) $ do
             when (((jget index) `rem` 10) == 0) $ do
                 Control.Monad.void (PreLogUtil.put (jio (StringMaker.toString ((jio (StringMaker.appendint ((jio (StringMaker.append ((jio (StringMaker.new_))) wAITING_FOR))) (jget index)))))) this (jget ((jget (this).commonStrings)).vISIT))

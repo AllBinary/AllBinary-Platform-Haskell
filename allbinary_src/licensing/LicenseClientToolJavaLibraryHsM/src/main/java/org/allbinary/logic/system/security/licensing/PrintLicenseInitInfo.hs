@@ -85,7 +85,7 @@ new_1 options = do
 init_1 :: PrintLicenseInitInfo -> JavaArray (String) -> IO ()
 init_1 this options = do
         initFields_ this
-        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH + (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
+        Control.Monad.void (LicenseInitInfoUtil.setFilePath ((jio (LicenseInitInfoUtil.getInstance))) (PrintLicenseInitInfo.pATH ++ (jget ((jio (PATH_GLOBALS.getInstance))).iNIT_PATH)))
         pure ()
 
 

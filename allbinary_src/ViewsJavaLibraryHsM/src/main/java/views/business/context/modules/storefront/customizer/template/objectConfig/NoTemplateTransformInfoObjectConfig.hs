@@ -138,10 +138,10 @@ generate_impl this objectConfigDocument = do
         viewName <- (TransformInfoInterface.getName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))
         hashMap <- (fmap (\value_ -> javaCast value_ :: HashMap.HashMap) (StdUtil.createHashMap ((jio (StdUtil.getInstance)))))
         let vARKEY = (jget ((jio (TransformInfoObjectConfigData.getInstance))).vARKEY)
-        Control.Monad.void (HashMap.put hashMap (vARKEY ++ javaToString (jget ((jio (StoreFrontData.getInstance))).nAME)) storeName)
-        Control.Monad.void (HashMap.put hashMap (vARKEY ++ javaToString (jget ((jio (TransformInfoData.getInstance))).oWNER)) viewName)
+        Control.Monad.void (HashMap.put hashMap (vARKEY ++ (jget ((jio (StoreFrontData.getInstance))).nAME)) storeName)
+        Control.Monad.void (HashMap.put hashMap (vARKEY ++ (jget ((jio (TransformInfoData.getInstance))).oWNER)) viewName)
         pageName <- (TransformTemplateCustomizerUtil.getPageNameHack ((jio (TransformTemplateCustomizerUtil.getInstance))) (jio (TransformInfoInterface.getName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))) (jio (TransformInfoInterface.getStoreName ((jio (TransformInfoObjectConfig.getTransformInfoInterface this))))))
-        Control.Monad.void (HashMap.put hashMap (vARKEY ++ javaToString (jget ((jio (TransformInfoData.getInstance))).pARTIAL)) pageName)
+        Control.Monad.void (HashMap.put hashMap (vARKEY ++ (jget ((jio (TransformInfoData.getInstance))).pARTIAL)) pageName)
         replace <- (Replace.new_1 hashMap)
         newObjectConfigDocument <- (DomDocumentHelper.create_1 (jio (Replace.all replace docString)))
         when (jio (contains ((jget ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypes)).lOGGING)) (jget ((jio (getInstance ((jget ((jget ((jget ((jget ((jget ((jget (org.allbinary).logic)).communication)).log)).config)).type_)).logConfigTypeFactory))))).vIEW))) $ do

@@ -36,9 +36,9 @@ import qualified Point -- same package or java.lang
 import qualified MouseActionScriptInputJPanel -- same package or java.lang
 import qualified MouseActionScriptInputData -- same package or java.lang
 import qualified MouseInputAutomationProcessor -- same package or java.lang
+import qualified CommonStrings -- same package or java.lang
 import qualified JDialog -- same package or java.lang
 import qualified InputRobotInterface -- same package or java.lang
-import qualified CommonStrings -- same package or java.lang
 import qualified BasicProfileActionScriptProcessor -- same package or java.lang
 import qualified ProfileActionScriptItem -- same package or java.lang
 import qualified InputEvent -- java.awt.event.InputEvent
