@@ -49,7 +49,7 @@
 
         <module>../../games/licensing/PartnerJ2MEJavaLibraryHsM</module>
         <module>../../games/licensing/PartnerHTMLJavaLibraryHsM</module>
-        <module>../../games/licensing/PartnerAndroidJavaLibraryHsM</module>
+<!--        <module>../../games/licensing/PartnerAndroidJavaLibraryHsM</module>-->
         <module>../../games/licensing/NoGameLicensingJavaLibraryHsM</module>
         <module>../../games/licensing/GameLicensingOnlyDemoJavaLibraryHsM</module>
         <module>../../games/licensing/GameLicensingOnlyNormalJavaLibraryHsM</module>
